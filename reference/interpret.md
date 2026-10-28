@@ -27,9 +27,9 @@ interpret(x, ...)
   a model from
   [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
   an `mv_model_selection` object from
-  [`select_model()`](https://okanbulut.github.io/mirtverse/reference/select_model.md),
+  [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md),
   or an `mv_rt` object from
-  [`fit_rt()`](https://okanbulut.github.io/mirtverse/reference/fit_rt.md).
+  [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md).
 
 - ...:
 

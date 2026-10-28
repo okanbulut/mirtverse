@@ -12,7 +12,7 @@ library(mirtverse)
 
 ## 1. Let mirtverse pick a model
 
-[`select_model()`](https://okanbulut.github.io/mirtverse/reference/select_model.md)
+[`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
 fits a set of candidate models and recommends one. For dichotomous items
 it compares the Rasch, 2PL and 3PL models; for polytomous items the
 partial credit, generalized partial credit and graded response models.
@@ -233,4 +233,4 @@ launch_workbench()
 ```
 
 See
-[`vignette("workbench")`](https://okanbulut.github.io/mirtverse/articles/workbench.md).
+[`vignette("workbench")`](https://www.okanbulut.com/mirtverse/articles/workbench.md).

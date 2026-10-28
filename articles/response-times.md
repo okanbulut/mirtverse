@@ -18,7 +18,7 @@ library(mirtverse)
 
 ## Simulated example
 
-[`sim_rt()`](https://okanbulut.github.io/mirtverse/reference/sim_rt.md)
+[`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md)
 generates responses and response times; here 8% of examinees rapid-guess
 on some items.
 

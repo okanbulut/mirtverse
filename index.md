@@ -10,14 +10,14 @@ everything, with or without writing R code.
 
 | Feature | Functions |
 |----|----|
-| Point-and-click workbench with R code export | [`launch_workbench()`](https://okanbulut.github.io/mirtverse/reference/launch_workbench.md) |
-| Model selection assistant | [`select_model()`](https://okanbulut.github.io/mirtverse/reference/select_model.md) |
-| Plain-language interpretation | [`interpret()`](https://okanbulut.github.io/mirtverse/reference/interpret.md), [`interpret_prompt()`](https://okanbulut.github.io/mirtverse/reference/interpret_prompt.md) |
-| Tidy outputs | [`tidy()`](https://generics.r-lib.org/reference/tidy.html), [`glance()`](https://generics.r-lib.org/reference/glance.html), [`augment()`](https://generics.r-lib.org/reference/augment.html), [`item_table()`](https://okanbulut.github.io/mirtverse/reference/item_table.md) |
-| ggplot2 graphics, including Wright maps | [`gg_trace()`](https://okanbulut.github.io/mirtverse/reference/gg_trace.md), [`gg_info()`](https://okanbulut.github.io/mirtverse/reference/gg_info.md), [`gg_wright()`](https://okanbulut.github.io/mirtverse/reference/gg_wright.md), [`gg_itemfit()`](https://okanbulut.github.io/mirtverse/reference/gg_itemfit.md), [`gg_q3()`](https://okanbulut.github.io/mirtverse/reference/gg_q3.md), [`gg_scores()`](https://okanbulut.github.io/mirtverse/reference/gg_scores.md), [`gg_empirical()`](https://okanbulut.github.io/mirtverse/reference/gg_empirical.md), [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html) |
-| Item health cards | [`item_card()`](https://okanbulut.github.io/mirtverse/reference/item_card.md), [`item_cards()`](https://okanbulut.github.io/mirtverse/reference/item_cards.md) |
-| One-call HTML report | [`mv_report()`](https://okanbulut.github.io/mirtverse/reference/mv_report.md) |
-| Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://okanbulut.github.io/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://okanbulut.github.io/mirtverse/reference/sim_rt.md) |
+| Point-and-click workbench with R code export | [`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md) |
+| Model selection assistant | [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md) |
+| Plain-language interpretation | [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md), [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md) |
+| Tidy outputs | [`tidy()`](https://generics.r-lib.org/reference/tidy.html), [`glance()`](https://generics.r-lib.org/reference/glance.html), [`augment()`](https://generics.r-lib.org/reference/augment.html), [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md) |
+| ggplot2 graphics, including Wright maps | [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md), [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md), [`gg_wright()`](https://www.okanbulut.com/mirtverse/reference/gg_wright.md), [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md), [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md), [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md), [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md), [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html) |
+| Item health cards | [`item_card()`](https://www.okanbulut.com/mirtverse/reference/item_card.md), [`item_cards()`](https://www.okanbulut.com/mirtverse/reference/item_cards.md) |
+| One-call HTML report | [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) |
+| Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
 
 ## Installation
 
@@ -49,7 +49,7 @@ mv_report(sel, file = "report.html")   # everything in one HTML file
 ```
 
 Prefer clicking? Run
-[`launch_workbench()`](https://okanbulut.github.io/mirtverse/reference/launch_workbench.md).
+[`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md).
 
 ## Relationship to mirt
 

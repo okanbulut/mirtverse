@@ -28,7 +28,7 @@ mv_report(
   a unidimensional model from
   [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
   or an `mv_model_selection` object from
-  [`select_model()`](https://okanbulut.github.io/mirtverse/reference/select_model.md)
+  [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
   (the report then adds the model comparison and describes the
   recommended model).
 

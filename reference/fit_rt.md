@@ -72,7 +72,7 @@ correlation), `persons` (joint ability and speed estimates, RTE and
 [`augment()`](https://generics.r-lib.org/reference/augment.html),
 [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
 and
-[`interpret()`](https://okanbulut.github.io/mirtverse/reference/interpret.md)
+[`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
 on it.
 
 ## Details

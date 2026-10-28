@@ -28,7 +28,7 @@ item_card(x, item, alpha = 0.01, tab = NULL)
 - tab:
 
   optional precomputed
-  [`item_table()`](https://okanbulut.github.io/mirtverse/reference/item_table.md)
+  [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md)
   (saves time when making many cards).
 
 ## Value
@@ -39,7 +39,7 @@ A patchwork object.
 
 Status rules: **red** for misfit, low discrimination (a \< 0.5) or an
 item-total correlation below .10; **amber** for any other flag (see
-[`item_table()`](https://okanbulut.github.io/mirtverse/reference/item_table.md));
+[`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md));
 **green** otherwise.
 
 ## Examples

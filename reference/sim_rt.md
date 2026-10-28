@@ -3,7 +3,7 @@
 Generates data from a 2PL model for responses and the lognormal model
 for response times, with correlated ability and speed. Useful for
 teaching and for checking
-[`fit_rt()`](https://okanbulut.github.io/mirtverse/reference/fit_rt.md).
+[`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md).
 
 ## Usage
 
