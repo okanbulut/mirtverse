@@ -25,6 +25,8 @@ and a joint model for responses and response times
 
 Useful links:
 
+- <https://okanbulut.github.io/mirtverse/>
+
 - <https://github.com/okanbulut/mirtverse>
 
 - Report bugs at <https://github.com/okanbulut/mirtverse/issues>
