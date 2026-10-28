@@ -16,3 +16,15 @@ test_that("item status follows the documented rules", {
   expect_equal(mirtverse:::item_status(data.frame(flag = "extreme location", item_total_r = 0.3)), "amber")
   expect_equal(mirtverse:::item_status(data.frame(flag = "misfit", item_total_r = 0.3)), "red")
 })
+
+test_that("plot images fall back to another PNG device when one fails", {
+  p <- gg_info(mod_2pl)
+  f <- tempfile(fileext = ".png")
+  expect_true(mirtverse:::render_png(p, f, 4, 3, 72))
+  testthat::local_mocked_bindings(agg_png = function(...) stop("no ragg"), .package = "ragg")
+  f2 <- tempfile(fileext = ".png")
+  n_dev <- length(grDevices::dev.list())
+  expect_true(mirtverse:::render_png(p, f2, 4, 3, 72))
+  expect_gt(file.size(f2), 0)
+  expect_equal(length(grDevices::dev.list()), n_dev)
+})

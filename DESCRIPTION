@@ -28,7 +28,8 @@ Imports:
     methods,
     grDevices,
     tools,
-    base64enc
+    base64enc,
+    ragg
 Suggests:
     testthat (>= 3.0.0),
     knitr,

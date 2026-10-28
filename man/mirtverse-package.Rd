@@ -17,6 +17,7 @@ joint model for responses and response times (\code{\link[=fit_rt]{fit_rt()}}).
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://okanbulut.github.io/mirtverse/}
   \item \url{https://github.com/okanbulut/mirtverse}
   \item Report bugs at \url{https://github.com/okanbulut/mirtverse/issues}
 }

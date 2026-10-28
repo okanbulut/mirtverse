@@ -181,12 +181,42 @@ html_table <- function(df, status_col = NULL, header = TRUE) {
 plot_img <- function(p, width = 7, height = 4, dpi = 110) {
   f <- tempfile(fileext = ".png")
   on.exit(unlink(f))
-  grDevices::png(f, width = width, height = height, units = "in", res = dpi)
-  print(p)
-  grDevices::dev.off()
-  if (!file.exists(f)) stop("Could not render a plot to PNG on this system.", call. = FALSE)
+  if (!render_png(p, f, width, height, dpi))
+    stop("Could not save a plot as PNG on this system. Reinstalling the 'ragg' ",
+         "package usually fixes this: install.packages(\"ragg\")", call. = FALSE)
   htmltools::tags$img(src = paste0("data:image/png;base64,", base64enc::base64encode(f)),
                       style = "max-width:100%;height:auto;", alt = "")
+}
+
+# Try PNG devices in turn until one writes the file. ragg is tried first
+# because it needs no system libraries; the base png() types differ by platform (quartz on macOS, cairo
+# or Xlib elsewhere), and some, such as cairo on macOS without XQuartz, fail.
+render_png <- function(p, f, width, height, dpi) {
+  devices <- list()
+  devices$ragg <- function() ragg::agg_png(f, width = width, height = height,
+                                             units = "in", res = dpi)
+  devices$default <- function() grDevices::png(f, width = width, height = height,
+                                               units = "in", res = dpi)
+  for (type in c("quartz", "cairo", "Xlib"))
+    devices[[type]] <- local({
+      tp <- type
+      function() grDevices::png(f, width = width, height = height, units = "in",
+                                res = dpi, type = tp)
+    })
+  for (open_dev in devices) {
+    unlink(f)
+    ok <- tryCatch({
+      before <- grDevices::dev.list()
+      suppressWarnings(open_dev())
+      dev <- setdiff(grDevices::dev.list(), before)
+      if (!length(dev)) stop("no device opened")
+      dev <- dev[1]
+      tryCatch(print(p), finally = grDevices::dev.off(dev))
+      file.exists(f) && file.size(f) > 0
+    }, error = function(e) FALSE)
+    if (isTRUE(ok)) return(TRUE)
+  }
+  FALSE
 }
 
 report_css <- "
