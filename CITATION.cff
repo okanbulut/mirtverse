@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use mirtverse, please cite it as below, together with the mirt package."
+title: "mirtverse: A Friendly Workflow and Reporting Layer for 'mirt'"
+type: software
+authors:
+  - family-names: Bulut
+    given-names: Okan
+    email: bulut@ualberta.ca
+    affiliation: University of Alberta
+version: 0.1.0
+doi: 10.5281/zenodo.23719385
+date-released: 2026-10-28
+license: GPL-3.0-or-later
+repository-code: "https://github.com/okanbulut/mirtverse"
+url: "https://okanbulut.github.io/mirtverse/"
+keywords:
+  - item response theory
+  - psychometrics
+  - R
+  - mirt
+  - shiny
+references:
+  - type: article
+    title: "mirt: A Multidimensional Item Response Theory Package for the R Environment"
+    authors:
+      - family-names: Chalmers
+        given-names: R. Philip
+    journal: "Journal of Statistical Software"
+    year: 2012
+    volume: 48
+    issue: 6
+    start: 1
+    end: 29
+    doi: 10.18637/jss.v048.i06

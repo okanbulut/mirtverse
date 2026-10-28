@@ -1,6 +1,8 @@
 # mirtverse <img src="man/figures/logo.png" align="right" height="139" alt="mirtverse hex logo" />
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23719385.svg)](https://doi.org/10.5281/zenodo.23719385)
+[![R-CMD-check](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 **mirtverse** is a friendly workflow and reporting layer for the
@@ -68,3 +70,9 @@ mirtverse.
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the
 R environment. *Journal of Statistical Software, 48*(6), 1-29. <https://doi.org/10.18637/jss.v048.i06>
+
+## Citation
+
+If you use mirtverse, please cite it together with mirt. Run `citation("mirtverse")` in R, or use:
+
+Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.1.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719385
