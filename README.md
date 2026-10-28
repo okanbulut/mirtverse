@@ -67,4 +67,4 @@ two packages at any point. Please cite mirt (Chalmers, 2012) whenever you use
 mirtverse.
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the
-R environment. *Journal of Statistical Software, 48*(6), 1-29.
+R environment. *Journal of Statistical Software, 48*(6), 1-29. <https://doi.org/10.18637/jss.v048.i06>
