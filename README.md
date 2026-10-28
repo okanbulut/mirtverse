@@ -10,6 +10,34 @@
 theory (IRT) models; mirtverse helps you choose a model, understand the results,
 make publication-ready figures, and share everything, with or without writing R code.
 
+## About mirt
+
+[mirt](https://philchalmers.github.io/mirt/), developed and maintained by
+R. Philip Chalmers, is one of the most comprehensive open-source packages for item
+response theory. It was introduced in the *Journal of Statistical Software*
+([Chalmers, 2012](https://doi.org/10.18637/jss.v048.i06)) and has been developed continuously since, with version 1.48
+released on CRAN in October 2026. It is widely used in research on educational
+and psychological measurement.
+
+mirt can:
+
+- **Estimate a wide range of models:** unidimensional and multidimensional,
+  exploratory and confirmatory, bifactor and two-tier, with more than 30 item types
+  (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal,
+  ideal-point, nonparametric spline items and more), plus user-defined items.
+- **Handle complex designs:** multiple-group analysis and measurement invariance,
+  mixed-effects and explanatory IRT (`mixedmirt()`), and latent class and
+  diagnostic classification models (`mdirt()`).
+- **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
+  quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for
+  high-dimensional models, with several standard-error methods.
+- **Check and use the models:** item and person fit, limited-information fit (M2),
+  local dependence, DIF and differential test functioning, and ability estimation
+  (EAP, MAP, ML, WLE, plausible values).
+
+mirtverse leaves all of this untouched and adds the workflow, interpretation and
+reporting tools around it.
+
 ## What it adds
 
 | Feature | Functions |
