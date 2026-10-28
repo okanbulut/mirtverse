@@ -28,3 +28,10 @@ test_that("plot images fall back to another PNG device when one fails", {
   expect_gt(file.size(f2), 0)
   expect_equal(length(grDevices::dev.list()), n_dev)
 })
+
+test_that("reproducible code is not indented inside the report", {
+  r <- tempfile(fileext = ".html")
+  mv_report(mod_2pl, file = r, open = FALSE, cards = FALSE)
+  html <- paste(readLines(r, warn = FALSE), collapse = "\n")
+  expect_match(html, "<pre><code>library(mirtverse)", fixed = TRUE)
+})

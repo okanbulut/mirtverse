@@ -113,9 +113,9 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
     sprintf("mv_report(mod, file = \"%s\")", basename(file))) else code
   sections <- c(sections, list(section("Reproducibility",
     h$p("Run this code to reproduce the analysis:"),
-    h$pre(h$code(paste(code, collapse = "\n"))),
+    pre_block(code, code = TRUE),
     h$details(h$summary("Session information"),
-              h$pre(paste(utils::capture.output(print(utils::sessionInfo())), collapse = "\n"))))))
+              pre_block(utils::capture.output(print(utils::sessionInfo())))))))
 
   save_page(htmltools::tagList(sections), file, title = title)
   if (open) utils::browseURL(file)
@@ -141,6 +141,14 @@ wide_pars <- function(x) {
 }
 
 anchor <- function(s) gsub("[^a-z0-9]+", "-", tolower(s))
+
+# Written as raw HTML: htmltools indents nested tags when it prints them, and
+# inside <pre> that indentation would show up as leading spaces.
+pre_block <- function(lines, code = FALSE) {
+  txt <- htmltools::htmlEscape(paste(lines, collapse = "\n"))
+  htmltools::HTML(if (code) paste0("<pre><code>", txt, "</code></pre>")
+                  else paste0("<pre>", txt, "</pre>"))
+}
 
 section <- function(title, ...) {
   htmltools::tags$section(id = anchor(title), htmltools::tags$h2(title), ...)
