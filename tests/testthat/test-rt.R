@@ -37,3 +37,14 @@ test_that("fit_rt handles missing times and checks input", {
   rt[1, 1] <- -1
   expect_error(fit_rt(mod, rt), "positive")
 })
+
+test_that("fit_rt keeps persons with no item responses", {
+  sim <- sim_rt(N = 300, J = 10, seed = 4)
+  resp <- sim$responses; resp[c(5, 120), ] <- NA
+  mod <- suppressWarnings(mirt(resp, 1, verbose = FALSE))
+  fit <- fit_rt(mod, sim$rt)
+  expect_equal(nrow(fit$persons), 300)
+  expect_true(all(is.finite(fit$persons$tau)))
+  expect_true(all(is.na(fit$persons$theta_responses_only[c(5, 120)])))
+  expect_gt(cor(fit$persons$tau, sim$tau), 0.8)
+})

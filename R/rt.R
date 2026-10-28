@@ -68,7 +68,7 @@ fit_rt <- function(x, rt, flag_method = c("residual", "nt10"), z_crit = 1.96,
                    quadpts = c(41, 21), tol = 1e-4, maxit = 500, verbose = FALSE) {
   check_single(x); check_unidim(x, "fit_rt()")
   flag_method <- match.arg(flag_method)
-  dat <- mirt::extract.mirt(x, "data")
+  dat <- full_response_data(x)
   rt <- as.matrix(rt)
   if (!all(dim(rt) == dim(dat)))
     stop("`rt` must have the same number of rows and columns as the response data.", call. = FALSE)
@@ -171,6 +171,18 @@ fit_rt <- function(x, rt, flag_method = c("residual", "nt10"), z_crit = 1.96,
     logLik = post$loglik, iterations = iter, converged = converged,
     flag_method = flag_method, z_crit = z_crit, model = x),
     class = "mv_rt")
+}
+
+# mirt drops persons with no responses from the fitted data; put them back as
+# all-NA rows so the data line up with `rt` (their times still inform speed)
+full_response_data <- function(x) {
+  dat <- mirt::extract.mirt(x, "data")
+  miss <- mirt::extract.mirt(x, "completely_missing")
+  if (!length(miss)) return(dat)
+  out <- matrix(NA_real_, nrow(dat) + length(miss), ncol(dat),
+                dimnames = list(NULL, colnames(dat)))
+  out[-miss, ] <- dat
+  out
 }
 
 alpha_mat <- function(alpha, N) matrix(alpha, N, length(alpha), byrow = TRUE)
