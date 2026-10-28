@@ -73,6 +73,15 @@ Chalmers, R. P. (2012). mirt: A multidimensional item response theory
 package for the R environment. *Journal of Statistical Software, 48*(6),
 1-29. <https://doi.org/10.18637/jss.v048.i06>
 
+## Citation
+
+If you use mirtverse, please cite it together with mirt. Run
+`citation("mirtverse")` in R, or use:
+
+Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
+for ‘mirt’* (Version 0.1.0) \[R package\]. Zenodo.
+<https://doi.org/10.5281/zenodo.23719385>
+
 # Package index
 
 ## Workbench
