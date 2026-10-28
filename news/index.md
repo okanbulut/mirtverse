@@ -1,5 +1,13 @@
 # Changelog
 
+## mirtverse (development version)
+
+- [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
+  no longer fails when some persons have no item responses. mirt drops
+  those rows from the fitted data;
+  [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
+  now keeps them, and their response times still inform speed.
+
 ## mirtverse 0.1.0
 
 First release.
