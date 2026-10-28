@@ -61,7 +61,7 @@ interpret(fit)               # speed-ability relation, rapid guessing, effort
 
 ## Relationship to mirt
 
-mirtverse depends on mirt and never changes how models are estimated. Every
+mirtverse depends on mirt and **never** changes how models are estimated. Every
 function accepts a model created with `mirt::mirt()`, so you can move between the
 two packages at any point. Please cite mirt (Chalmers, 2012) whenever you use
 mirtverse.
