@@ -181,10 +181,10 @@ html_table <- function(df, status_col = NULL, header = TRUE) {
 plot_img <- function(p, width = 7, height = 4, dpi = 110) {
   f <- tempfile(fileext = ".png")
   on.exit(unlink(f))
-  grDevices::png(f, width = width, height = height, units = "in", res = dpi,
-                 type = if (capabilities("cairo")) "cairo" else NULL)
+  grDevices::png(f, width = width, height = height, units = "in", res = dpi)
   print(p)
   grDevices::dev.off()
+  if (!file.exists(f)) stop("Could not render a plot to PNG on this system.", call. = FALSE)
   htmltools::tags$img(src = paste0("data:image/png;base64,", base64enc::base64encode(f)),
                       style = "max-width:100%;height:auto;", alt = "")
 }
