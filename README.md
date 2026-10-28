@@ -1,4 +1,4 @@
-# mirtverse
+# mirtverse <img src="man/figures/logo.png" align="right" height="139" alt="mirtverse hex logo" />
 
 <!-- badges: start -->
 <!-- badges: end -->
