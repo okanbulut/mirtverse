@@ -52,14 +52,6 @@ mv_report(sel, file = "report.html")   # everything in one HTML file
 
 Prefer clicking? Run `launch_workbench()`.
 
-## Response times
-
-```r
-sim <- sim_rt(N = 1500, J = 20, rapid = 0.08, seed = 1)
-mod <- mirt(sim$responses, 1)
-fit <- fit_rt(mod, sim$rt)   # van der Linden (2007) hierarchical model
-interpret(fit)               # speed-ability relation, rapid guessing, effort
-```
 
 ## Relationship to mirt
 
