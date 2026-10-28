@@ -1,0 +1,54 @@
+url: https://okanbulut.github.io/mirtverse/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#2C5F8A"
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+
+articles:
+- title: Guides
+  navbar: ~
+  contents:
+  - mirtverse
+  - workbench
+  - response-times
+
+reference:
+- title: Workbench
+  desc: Point-and-click analysis with reproducible code.
+  contents:
+  - launch_workbench
+- title: Choosing and understanding a model
+  contents:
+  - select_model
+  - interpret
+  - interpret_prompt
+- title: Tidy outputs
+  contents:
+  - tidy_mirt
+  - glance_mirt
+  - augment_mirt
+  - item_table
+- title: Graphics
+  contents:
+  - starts_with("gg_")
+  - autoplot.SingleGroupClass
+  - theme_mirtverse
+- title: Item health cards and reports
+  contents:
+  - item_card
+  - item_cards
+  - mv_report
+- title: Response times
+  contents:
+  - fit_rt
+  - sim_rt
+- title: Package
+  contents:
+  - mirtverse-package
+  - reexports

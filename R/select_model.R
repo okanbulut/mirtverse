@@ -194,7 +194,7 @@ autoplot.mv_model_selection <- function(object, ...) {
     ggplot2::geom_vline(xintercept = c(2, 10), linetype = 2, colour = "grey60") +
     ggplot2::scale_fill_manual(values = c(`TRUE` = mv_colours[["good"]],
                                           `FALSE` = mv_colours[["grey"]]), guide = "none") +
-    ggplot2::labs(x = sprintf("Δ %s (0 = best)", object$criterion), y = NULL,
+    ggplot2::labs(x = bquote(Delta * .(object$criterion) ~ "(0 = best)"), y = NULL,
                   title = "Model comparison",
                   subtitle = "Dashed lines at 2 and 10: weak vs. very strong evidence") +
     theme_mirtverse()

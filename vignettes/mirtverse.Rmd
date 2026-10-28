@@ -1,0 +1,113 @@
+---
+title: "Getting started with mirtverse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with mirtverse}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 4.2,
+                      dpi = 96, out.width = "100%")
+```
+
+mirtverse sits on top of [mirt](https://philchalmers.github.io/mirt/). mirt does the
+estimation; mirtverse helps you choose a model, read the results, make figures and
+share them. Every mirtverse function takes an ordinary mirt model, so you can mix the
+two packages freely.
+
+```{r setup, message = FALSE}
+library(mirtverse)
+```
+
+## 1. Let mirtverse pick a model
+
+`select_model()` fits a set of candidate models and recommends one. For dichotomous
+items it compares the Rasch, 2PL and 3PL models; for polytomous items the partial
+credit, generalized partial credit and graded response models.
+
+```{r}
+data <- expand.table(LSAT7)
+sel <- select_model(data, verbose = FALSE)
+sel
+```
+
+```{r, fig.height = 2.6}
+autoplot(sel)
+```
+
+The recommended model is an ordinary mirt object:
+
+```{r}
+mod <- sel$best
+```
+
+## 2. Read the results in plain language
+
+```{r}
+interpret(mod)
+```
+
+`interpret_prompt(mod)` packs the same results into a prompt you can paste into an
+AI assistant to draft a longer narrative. Nothing is sent anywhere.
+
+## 3. Tidy outputs
+
+`tidy()`, `glance()` and `augment()` return data frames that work with dplyr,
+gt, flextable or any other table package.
+
+```{r}
+tidy(mod)
+glance(mod)
+head(augment(mod))
+item_table(mod)
+```
+
+## 4. Graphics
+
+All graphics are ggplot2 objects, so you can change themes, labels and colours as
+usual.
+
+```{r}
+gg_trace(mod)
+gg_info(mod)
+```
+
+```{r}
+science <- mirt(Science, 1, verbose = FALSE)
+gg_wright(science)
+gg_q3(science)
+```
+
+`autoplot(mod, type)` gives you every plot from one function:
+`"trace"`, `"expected"`, `"info"`, `"iteminfo"`, `"se"`, `"wright"`, `"itemfit"`,
+`"q3"` and `"scores"`.
+
+## 5. Item health cards
+
+A one-page summary per item for review meetings, with a traffic-light status.
+
+```{r, fig.width = 11, fig.height = 6.5}
+item_card(science, "Work")
+```
+
+`item_cards(mod, file = "cards.html")` writes cards for every item into one page.
+
+## 6. One-call report
+
+```{r, eval = FALSE}
+mv_report(sel, file = "lsat7-report.html")
+```
+
+The report is a single HTML file with the model comparison, the interpretation,
+tables, graphics, a sum-score conversion table, item health cards, and the R code to
+reproduce everything.
+
+## 7. Prefer clicking?
+
+```{r, eval = FALSE}
+launch_workbench()
+```
+
+See `vignette("workbench")`.

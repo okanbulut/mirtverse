@@ -1,0 +1,30 @@
+test_that("select_model ranks candidates and explains the choice", {
+  sel <- select_model(lsat, verbose = FALSE)
+  expect_s3_class(sel, "mv_model_selection")
+  expect_equal(sel$table$model, c("Rasch", "2PL", "3PL"))
+  expect_equal(sel$table$delta[1], 0)
+  expect_equal(sum(sel$table$weight), 1)
+  expect_s4_class(sel$best, "SingleGroupClass")
+  expect_match(paste(sel$explanation, collapse = " "), "Rasch model is recommended")
+  expect_true(nrow(sel$lrt) >= 2)
+  expect_output(print(sel), "model selection")
+  sp <- select_model(Science, verbose = FALSE)
+  expect_setequal(sp$table$model, c("PCM (Rasch)", "GPCM", "GRM"))
+})
+
+test_that("interpret produces sections with numbers", {
+  it <- interpret(mod_2pl)
+  expect_s3_class(it, "mv_interpretation")
+  expect_true(all(c("Overview", "Model fit", "Reliability", "Targeting", "Items") %in% names(it)))
+  expect_match(paste(it$Items, collapse = " "), "Item.2")
+  expect_output(print(it), "Reliability")
+  expect_match(format(it, "markdown"), "### Model fit")
+  expect_type(interpret_prompt(mod_2pl), "character")
+})
+
+test_that("interpret flags a bad item", {
+  set.seed(1)
+  d <- simdata(a = c(rep(1.5, 9), 0.1), d = rnorm(10), N = 1000, itemtype = "2PL")
+  m <- mirt(d, 1, verbose = FALSE)
+  expect_match(paste(interpret(m)$Items, collapse = " "), "Low discrimination: Item_10")
+})

@@ -48,7 +48,7 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
              h$p(class = "meta", paste(c(author, format(Sys.time(), "%B %d, %Y"),
                                          paste("mirt", utils::packageVersion("mirt")),
                                          paste("mirtverse", utils::packageVersion("mirtverse"))),
-                                       collapse = " · "))),
+                                       collapse = " | "))),
     h$nav(class = "toc", h$strong("Contents"),
           h$ol(lapply(c(if (!is.null(sel)) "Model selection", "Summary", "Model",
                         "Items", if (unidim) "Graphics", if (unidim) "Scores",
@@ -217,14 +217,14 @@ details summary{cursor:pointer;color:var(--muted)}
 "
 
 save_page <- function(body, file, title) {
-  page <- htmltools::tags$html(
-    lang = "en",
-    htmltools::tags$head(
-      htmltools::tags$meta(charset = "utf-8"),
-      htmltools::tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
-      htmltools::tags$title(title),
-      htmltools::tags$style(htmltools::HTML(report_css))),
-    htmltools::tags$body(htmltools::tags$main(body)))
-  writeLines(c("<!DOCTYPE html>", as.character(page)), file, useBytes = TRUE)
+  html <- c("<!DOCTYPE html>", "<html lang=\"en\">", "<head>",
+            "<meta charset=\"utf-8\">",
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+            paste0("<title>", htmltools::htmlEscape(title), "</title>"),
+            "<style>", report_css, "</style>", "</head>", "<body>", "<main>",
+            enc2utf8(as.character(body)), "</main>", "</body>", "</html>")
+  con <- file(file, open = "w", encoding = "UTF-8")
+  on.exit(close(con))
+  writeLines(html, con)
   invisible(file)
 }

@@ -1,0 +1,92 @@
+---
+title: "Response times and rapid guessing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Response times and rapid guessing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 4.2,
+                      dpi = 96, out.width = "100%")
+```
+
+Computer-based tests record how long each response took. mirtverse uses those times
+together with a fitted mirt model, following van der Linden's (2007) hierarchical
+framework:
+
+* **Time intensity** ($\beta_j$): how long item *j* takes on average (log scale).
+* **Time discrimination** ($\alpha_j$): how consistently the item's times reflect a
+  person's speed.
+* **Speed** ($\tau_i$): how fast person *i* works, correlated with ability $\theta_i$.
+
+```{r setup, message = FALSE}
+library(mirtverse)
+```
+
+## Simulated example
+
+`sim_rt()` generates responses and response times; here 8% of examinees rapid-guess
+on some items.
+
+```{r}
+sim <- sim_rt(N = 1500, J = 20, rho = -0.3, rapid = 0.08, seed = 2026)
+mod <- mirt(sim$responses, 1, verbose = FALSE)
+fit <- fit_rt(mod, sim$rt)
+fit
+```
+
+```{r}
+interpret(fit)
+```
+
+## Rapid guessing
+
+Two rules are available. The default `"residual"` rule flags a response that is much
+faster than expected for that person on that item. The `"nt10"` rule flags responses
+faster than 10% of the item's mean time (Wise & Ma, 2012).
+
+```{r}
+mean(fit$flags[sim$rapid])   # share of simulated rapid guesses detected
+mean(fit$flags[!sim$rapid])  # false alarms
+```
+
+```{r}
+autoplot(fit, "rapid")
+autoplot(fit, "rte")
+```
+
+Response time effort (RTE) is each examinee's share of non-rapid responses
+(Wise & Kong, 2005). Examinees below .90 are often excluded before reporting
+group results (motivation filtering).
+
+```{r}
+persons <- augment(fit)
+head(persons)
+```
+
+## Item parameters and the ability-speed relation
+
+```{r}
+tidy(fit)
+autoplot(fit, "items")
+autoplot(fit, "persons")
+```
+
+## Notes
+
+The item response parameters are taken from the mirt model and held fixed; the
+response-time parameters, speed variance and ability-speed correlation are estimated
+by marginal maximum likelihood. Because times act as collateral information, the
+joint ability estimates (`theta`) can be slightly more precise than the
+response-only estimates (`theta_responses_only`) when ability and speed are strongly
+correlated.
+
+## References
+
+van der Linden, W. J. (2007). A hierarchical framework for modeling speed and accuracy
+on test items. *Psychometrika, 72*, 287-308.
+
+Wise, S. L., & Kong, X. (2005). Response time effort: A new measure of examinee
+motivation in computer-based tests. *Applied Measurement in Education, 18*, 163-183.

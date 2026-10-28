@@ -27,6 +27,7 @@ Imports:
     utils,
     methods,
     grDevices,
+    tools,
     base64enc
 Suggests:
     testthat (>= 3.0.0),
@@ -36,6 +37,6 @@ Suggests:
     haven
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/okanbulut/mirtverse
+URL: https://okanbulut.github.io/mirtverse/, https://github.com/okanbulut/mirtverse
 BugReports: https://github.com/okanbulut/mirtverse/issues
 Config/roxygen2/version: 8.1.0
