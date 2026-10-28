@@ -63,12 +63,12 @@ interpret(fit)               # speed-ability relation, rapid guessing, effort
 
 ## Relationship to mirt
 
-mirtverse depends on mirt and never changes how models are estimated.
-Every function accepts a model created with
+**mirtverse depends on mirt and never changes how models are
+estimated**. Every function accepts a model created with
 [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
 so you can move between the two packages at any point. Please cite mirt
 (Chalmers, 2012) whenever you use mirtverse.
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory
 package for the R environment. *Journal of Statistical Software, 48*(6),
-1-29.
+1-29. <https://doi.org/10.18637/jss.v048.i06>
