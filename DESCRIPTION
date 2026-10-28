@@ -1,0 +1,41 @@
+Package: mirtverse
+Title: A Friendly Workflow and Reporting Layer for 'mirt'
+Version: 0.1.0
+Authors@R: c(
+    person("Okan", "Bulut", email = "bulut@ualberta.ca", role = c("aut", "cre")))
+Description: Extends the 'mirt' package for item response theory with tidy
+    outputs, 'ggplot2' graphics (trace lines, information, Wright maps, fit
+    and local dependence plots), an automatic model selection assistant,
+    plain-language interpretation of results, item health cards, one-call
+    HTML reports, a point-and-click 'shiny' workbench that exports
+    reproducible code, and a joint hierarchical model for responses and
+    response times (van der Linden, 2007) with rapid-guessing flags.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.1.0), mirt (>= 1.47)
+Imports:
+    generics,
+    ggplot2 (>= 3.4.0),
+    patchwork,
+    tibble,
+    htmltools,
+    shiny,
+    bslib,
+    DT,
+    stats,
+    utils,
+    methods,
+    grDevices,
+    base64enc
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    readxl,
+    haven
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://github.com/okanbulut/mirtverse
+BugReports: https://github.com/okanbulut/mirtverse/issues
+Config/roxygen2/version: 8.1.0
