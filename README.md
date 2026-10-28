@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23719385.svg)](https://doi.org/10.5281/zenodo.23719385)
 [![R-CMD-check](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml)
+[![r-universe downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fokanbulut.r-universe.dev%2Fapi%2Fpackages%2Fmirtverse&query=%24._downloads.count&label=downloads&color=blue)](https://okanbulut.r-universe.dev/mirtverse)
 <!-- badges: end -->
 
 **mirtverse** is a friendly workflow and reporting layer for the
@@ -52,6 +53,14 @@ reporting tools around it.
 | Response-time modelling and rapid-guessing detection | `fit_rt()`, `sim_rt()` |
 
 ## Installation
+
+Install a prebuilt version from r-universe (no Rtools or GitHub token needed):
+
+```r
+install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+Or install the development version from GitHub:
 
 ```r
 # install.packages("remotes")
