@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/okanbulut/mirtverse/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/okanbulut/mirtverse/blob/v0.1.0/DESCRIPTION)
 
 Bulut O (2026). *mirtverse: A Friendly Workflow and Reporting Layer for
 'mirt'*. R package version 0.1.0,
