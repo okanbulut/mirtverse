@@ -64,6 +64,23 @@
 
 <p><strong>mirtverse</strong> is a friendly workflow and reporting layer for the <a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a> package. mirt estimates item response theory (IRT) models; mirtverse helps you choose a model, understand the results, make publication-ready figures, and share everything, with or without writing R code.</p>
 <div class="section level2">
+<h2 id="about-mirt">About mirt<a class="anchor" aria-label="anchor" href="#about-mirt"></a>
+</h2>
+<p><a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a>, developed and maintained by R. Philip Chalmers, is one of the most comprehensive open-source packages for item response theory. It was introduced in the <em>Journal of Statistical Software</em> (<a href="https://doi.org/10.18637/jss.v048.i06" class="external-link">Chalmers, 2012</a>) and has been developed continuously since, with version 1.48 released on CRAN in October 2026. It is widely used in research on educational and psychological measurement.</p>
+<p>mirt can:</p>
+<ul>
+<li>
+<strong>Estimate a wide range of models:</strong> unidimensional and multidimensional, exploratory and confirmatory, bifactor and two-tier, with more than 30 item types (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal, ideal-point, nonparametric spline items and more), plus user-defined items.</li>
+<li>
+<strong>Handle complex designs:</strong> multiple-group analysis and measurement invariance, mixed-effects and explanatory IRT (<code><a href="https://philchalmers.github.io/mirt/reference/mixedmirt.html" class="external-link">mixedmirt()</a></code>), and latent class and diagnostic classification models (<code><a href="https://philchalmers.github.io/mirt/reference/mdirt.html" class="external-link">mdirt()</a></code>).</li>
+<li>
+<strong>Use several estimation engines:</strong> EM with fixed or quasi-Monte Carlo quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for high-dimensional models, with several standard-error methods.</li>
+<li>
+<strong>Check and use the models:</strong> item and person fit, limited-information fit (M2), local dependence, DIF and differential test functioning, and ability estimation (EAP, MAP, ML, WLE, plausible values).</li>
+</ul>
+<p>mirtverse leaves all of this untouched and adds the workflow, interpretation and reporting tools around it.</p>
+</div>
+<div class="section level2">
 <h2 id="what-it-adds">What it adds<a class="anchor" aria-label="anchor" href="#what-it-adds"></a>
 </h2>
 <table class="table">
