@@ -38,7 +38,7 @@ mirt can:
 mirtverse leaves all of this untouched and adds the workflow, interpretation and
 reporting tools around it.
 
-## What it adds
+## What mirtverse adds
 
 | Feature | Functions |
 |---|---|
