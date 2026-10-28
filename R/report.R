@@ -14,6 +14,8 @@
 #' @param cards logical; include an item health card for every item. Defaults
 #'   to `TRUE` for tests of up to 40 items.
 #' @param alpha significance level for item misfit.
+#' @param dif optional `mv_dif` object from [dif()]; adds a section on
+#'   differential item functioning.
 #' @param code optional character vector of R code to show in the
 #'   reproducibility section (the workbench fills this in automatically).
 #' @param open logical; open the report in a browser afterwards.
@@ -25,7 +27,7 @@
 #' }
 #' @export
 mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis report",
-                      author = NULL, cards = NULL, alpha = 0.01, code = NULL,
+                      author = NULL, cards = NULL, alpha = 0.01, dif = NULL, code = NULL,
                       open = interactive()) {
   sel <- NULL
   if (inherits(x, "mv_model_selection")) {
@@ -33,6 +35,8 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
     x <- sel$best
   }
   check_single(x)
+  if (!is.null(dif) && !inherits(dif, "mv_dif"))
+    stop("`dif` must be the result of dif().", call. = FALSE)
   unidim <- mirt::extract.mirt(x, "nfact") == 1L
   nitems <- mirt::extract.mirt(x, "nitems")
   if (is.null(cards)) cards <- unidim && nitems <= 40
@@ -51,7 +55,7 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
                                        collapse = " | "))),
     h$nav(class = "toc", h$strong("Contents"),
           h$ol(lapply(c(if (!is.null(sel)) "Model selection", "Summary", "Model",
-                        "Items", if (unidim) "Graphics", if (unidim) "Scores",
+                        "Items", if (!is.null(dif)) "DIF", if (unidim) "Graphics", if (unidim) "Scores",
                         if (cards) "Item health cards", "Reproducibility"),
                       function(s) h$li(h$a(href = paste0("#", anchor(s)), s))))))
 
@@ -77,6 +81,19 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
             h$h3("Item parameters"),
             h$p(sprintf("Parameterization: %s.", attr(pars, "parameterization"))),
             html_table(pars))))
+
+  if (!is.null(dif)) {
+    dt <- as.data.frame(dif$table)
+    dt$flag <- ifelse(dt$flag, "DIF", "")
+    two <- length(dif$groups) == 2L
+    sections <- c(sections, list(section("DIF",
+      interp_html(interpret(dif)),
+      html_table(dt[, c("item", "flag", "X2", "df", "p.value", "p.adjusted",
+                        if (two) c("esd", "uesd"))]),
+      if (two) plot_img(gg_dif(dif), 7, max(3, 0.28 * nrow(dt) + 1.5)),
+      if (any(dif$table$flag)) plot_img(gg_dif(dif, type = "curves"), 8,
+                                        max(3, 2.4 * ceiling(sum(dif$table$flag) / 3))))))
+  }
 
   if (unidim) {
     sections <- c(sections, list(section("Graphics",

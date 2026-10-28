@@ -11,6 +11,7 @@ mv_report(
   author = NULL,
   cards = NULL,
   alpha = 0.01,
+  dif = NULL,
   code = NULL,
   open = interactive()
 )
@@ -30,6 +31,9 @@ the model comparison and describes the recommended model).}
 to \code{TRUE} for tests of up to 40 items.}
 
 \item{alpha}{significance level for item misfit.}
+
+\item{dif}{optional \code{mv_dif} object from \code{\link[=dif]{dif()}}; adds a section on
+differential item functioning.}
 
 \item{code}{optional character vector of R code to show in the
 reproducibility section (the workbench fills this in automatically).}
