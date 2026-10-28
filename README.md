@@ -13,7 +13,7 @@ make publication-ready figures, and share everything, with or without writing R 
 ## About mirt
 
 [mirt](https://philchalmers.github.io/mirt/), developed and maintained by
-R. Philip Chalmers, is one of the most comprehensive open-source packages for item
+[Dr. R. Philip Chalmers](https://chalmers.info.yorku.ca/), is one of the most comprehensive open-source packages for item
 response theory. It was introduced in the *Journal of Statistical Software*
 ([Chalmers, 2012](https://doi.org/10.18637/jss.v048.i06)) and has been developed continuously since, with version 1.48
 released on CRAN in October 2026. It is widely used in research on educational
