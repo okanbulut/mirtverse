@@ -150,15 +150,6 @@
 <p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>.</p>
 </div>
 <div class="section level2">
-<h2 id="response-times">Response times<a class="anchor" aria-label="anchor" href="#response-times"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sim_rt.html">sim_rt</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">1500</span>, J <span class="op">=</span> <span class="fl">20</span>, rapid <span class="op">=</span> <span class="fl">0.08</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">responses</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_rt.html">fit_rt</a></span><span class="op">(</span><span class="va">mod</span>, <span class="va">sim</span><span class="op">$</span><span class="va">rt</span><span class="op">)</span>   <span class="co"># van der Linden (2007) hierarchical model</span></span>
-<span><span class="fu"><a href="reference/interpret.html">interpret</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>               <span class="co"># speed-ability relation, rapid guessing, effort</span></span></code></pre></div>
-</div>
-<div class="section level2">
 <h2 id="relationship-to-mirt">Relationship to mirt<a class="anchor" aria-label="anchor" href="#relationship-to-mirt"></a>
 </h2>
 <p><strong>mirtverse depends on mirt and never changes how models are estimated</strong>. Every function accepts a model created with <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt::mirt()</a></code>, so you can move between the two packages at any point. Please cite mirt (Chalmers, 2012) whenever you use mirtverse.</p>
