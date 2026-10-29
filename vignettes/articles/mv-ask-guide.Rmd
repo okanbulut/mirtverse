@@ -178,7 +178,7 @@ variable, the missing-value codes, the items and the analysis steps.
 
 ```{r, echo = FALSE}
 bench <- data.frame(
-  Parser = c("Claude (claude-opus-5-5)", "OpenAI GPT",
+  Parser = c("Claude (claude-opus-5-5)", "OpenAI GPT (gpt-5.6-terra)",
              "Ollama: Qwen 3.8 27B", "Ollama: Qwen 3 8B",
              "Built-in keyword parser*"),
   `Fully correct` = c(95, 90, NA, NA, 98),
