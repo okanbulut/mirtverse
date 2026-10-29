@@ -161,12 +161,28 @@ unidimensional model. For other models they are left out with a
 message.</p>
 </div>
 <div class="section level2">
-<h2 id="share-it">Share it<a class="anchor" aria-label="anchor" href="#share-it"></a>
+<h2 id="share-it-as-one-html-file">Share it as one HTML file<a class="anchor" aria-label="anchor" href="#share-it-as-one-html-file"></a>
+</h2>
+<p>The easiest way to share a dashboard is a single HTML file. It needs
+no server, no R and no internet connection, so you can email it, put it
+on a shared drive or a course page, and anyone can open it in a
+browser:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/export_dashboard.html">export_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"sat12-dashboard.html"</span>, format <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>                 title <span class="op">=</span> <span class="st">"SAT12 results"</span><span class="op">)</span></span></code></pre></div>
+<p>It has the same panels as the app. The item table (sort, search,
+select an item to see its health card), the item curves with the ability
+slider, the item information curves and the person lookup all still
+work; the other plots are pictures. A file with item health cards for a
+long test can run to a few megabytes.</p>
+</div>
+<div class="section level2">
+<h2 id="share-it-as-an-app">Share it as an app<a class="anchor" aria-label="anchor" href="#share-it-as-an-app"></a>
 </h2>
 <p>A ‘shiny’ app needs a server to run on.
 <code><a href="../reference/export_dashboard.html">export_dashboard()</a></code> writes a folder that is ready to
 deploy:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/export_dashboard.html">export_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"sat12-dashboard"</span>, title <span class="op">=</span> <span class="st">"SAT12 results"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>          <span class="co"># try it locally</span></span>
@@ -188,7 +204,7 @@ the item responses.</p>
 <code>"persons"</code> panel, and <code><a href="../reference/export_dashboard.html">export_dashboard()</a></code>
 reminds you to check that you may share them. Use <code>ids</code> to
 show your own identifiers instead of row numbers:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"persons"</span><span class="op">)</span>, ids <span class="op">=</span> <span class="va">students</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

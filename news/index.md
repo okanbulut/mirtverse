@@ -23,6 +23,11 @@
   The saved dashboard holds summaries only, never the item responses,
   and holds individual scores only when you add the `"persons"` panel.
 
+- `export_dashboard(format = "html")` saves the dashboard as one
+  self-contained HTML file that needs no server, no R and no internet
+  connection. The item table, item curves with the ability slider, item
+  information and person lookup stay interactive.
+
 - New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
   writes a complete, commented analysis script from a plain-language

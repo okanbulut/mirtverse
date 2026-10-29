@@ -91,7 +91,7 @@ Interactive results dashboards to share with people who do not use R.
 - [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
   : Results dashboard for sharing
 - [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md)
-  : Save a results dashboard as a deployable app
+  : Save a results dashboard to share
 
 ## Response times
 

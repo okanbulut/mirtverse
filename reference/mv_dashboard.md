@@ -5,7 +5,7 @@ who do not use R: teachers, clients, committees or students. Where the
 [workbench](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md)
 is for doing an analysis, the dashboard is for showing one. Pick the
 panels you want, give it a title, and run it, or save it as a
-ready-to-deploy app with
+ready-to-deploy app or a single offline HTML file with
 [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md).
 
 ## Usage
