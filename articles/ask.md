@@ -45,7 +45,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-29 21:58
+#> # 2026-10-29 22:20
 #> # Request: Fit a 2PL, check DIF by gender and make a report
 #> # Assumptions:
 #> #  - Used the 12 columns that look like item responses as items.
@@ -210,7 +210,7 @@ mv_ask(data = mydata, plan = pl)
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-29 21:58
+#> # 2026-10-29 22:20
 #> library(mirtverse)
 #> 
 #> # Data
