@@ -14,6 +14,10 @@
   saves it as an `app.R` folder ready for shinyapps.io or Posit Connect. The
   saved dashboard holds summaries only, never the item responses, and holds
   individual scores only when you add the `"persons"` panel.
+* `export_dashboard(format = "html")` saves the dashboard as one
+  self-contained HTML file that needs no server, no R and no internet
+  connection. The item table, item curves with the ability slider, item
+  information and person lookup stay interactive.
 
 * New `mv_ask()` writes a complete, commented analysis script from a
   plain-language request such as "fit a 2PL, check DIF by gender and make a
