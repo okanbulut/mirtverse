@@ -5,9 +5,6 @@
 - [Getting started with
   mirtverse](https://www.okanbulut.com/mirtverse/articles/mirtverse.md):
 
-- [Describe your analysis in
-  words](https://www.okanbulut.com/mirtverse/articles/ask.md):
-
 - [mv_ask(): from a sentence to a tested R
   script](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md):
 

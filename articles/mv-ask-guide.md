@@ -12,9 +12,7 @@ then run or save it.
 This article explains how
 [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
 works, walks through examples, and reports how accurately it understands
-requests with each of the supported language models. For a shorter
-introduction, see
-[`vignette("ask", package = "mirtverse")`](https://www.okanbulut.com/mirtverse/articles/ask.md).
+requests with each of the supported language models.
 
 ``` r
 
@@ -112,7 +110,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-29 22:20
+#> # 2026-10-29 22:24
 #> # Request: Fit a 2PL, check DIF by gender and make a report
 #> # Assumptions:
 #> #  - Used the 12 columns that look like item responses as items.
@@ -186,7 +184,7 @@ mv_ask("Which IRT model fits my data best? Explain the results in plain language
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-29 22:20
+#> # 2026-10-29 22:24
 #> # Request: Which IRT model fits my data best? Explain the results in
 #> #   plain language.
 #> # Assumptions:
@@ -303,7 +301,7 @@ mv_ask(data = mydata, plan = pl)
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-29 22:20
+#> # 2026-10-29 22:24
 #> library(mirtverse)
 #> 
 #> # Data
