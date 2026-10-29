@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23719385.svg)](https://doi.org/10.5281/zenodo.23719385)
 [![R-CMD-check](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml)
-[![r-universe downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fokanbulut.r-universe.dev%2Fapi%2Fpackages%2Fmirtverse&query=%24._downloads.count&label=downloads&color=blue)](https://okanbulut.r-universe.dev/mirtverse)
+[![r-universe](https://okanbulut.r-universe.dev/badges/mirtverse)](https://okanbulut.r-universe.dev/mirtverse)
 <!-- badges: end -->
 
 **mirtverse** is a friendly workflow and reporting layer for the
