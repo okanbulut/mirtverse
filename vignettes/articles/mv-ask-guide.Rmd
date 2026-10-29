@@ -181,14 +181,14 @@ bench <- data.frame(
   Parser = c("Claude (claude-opus-5-5)", "OpenAI GPT (gpt-5.6-terra)",
              "Ollama: Qwen 3.8 27B", "Ollama: Qwen 3 8B",
              "Built-in keyword parser*"),
-  `Fully correct` = c(95, 90, NA, NA, 98),
-  Question = c(96, 98, NA, NA, 100),
-  Model = c(99, 97, NA, NA, 100),
-  Dimensions = c(100, 100, NA, NA, 100),
-  Group = c(99, 99, NA, NA, 100),
-  Missing = c(100, 100, NA, NA, 100),
-  Items = c(100, 100, NA, NA, 100),
-  Steps = c(98, 94, NA, NA, 98),
+  `Fully correct` = c(95, 90, NA, 35, 98),
+  Question = c(96, 98, NA, 83, 100),
+  Model = c(99, 97, NA, 91, 100),
+  Dimensions = c(100, 100, NA, 100, 100),
+  Group = c(99, 99, NA, 99, 100),
+  Missing = c(100, 100, NA, 100, 100),
+  Items = c(100, 100, NA, 100, 100),
+  Steps = c(98, 94, NA, 46, 98),
   check.names = FALSE)
 knitr::kable(bench, align = "lrrrrrrrr",
              caption = "Percentage of the 100 benchmark requests understood correctly.")
@@ -207,8 +207,11 @@ What the results show:
   added or left out outputs, such as a report or plots, more often than
   Claude.
 * **Local models (Ollama)** keep everything on your computer and cost
-  nothing per request. The two Qwen sizes show how much accuracy depends on
-  model size.
+  nothing per request, but small models struggle. Qwen 3 8B got the model,
+  items, group and missing codes right almost always, yet chose the right
+  set of analysis steps only 46% of the time, so only 35% of its plans were
+  fully correct. Always read the printed plan before running a script
+  written with a small local model.
 * **Every field except steps and questions is at least 97% for all parsers.**
   Choosing the model, the items, the group and the missing codes is easy.
   The harder part is reading how much the user wants done.
