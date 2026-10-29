@@ -1,34 +1,66 @@
-#' Write an analysis script from a plan or a plain-language request
+#' Write an analysis script from a plain-language request
 #'
-#' `mv_ask()` writes a complete, commented R script for an IRT analysis. The
-#' script is built from tested templates, so it only uses mirt and mirtverse
-#' functions with checked arguments. Nothing is run until you call
-#' [run_script()].
+#' Describe the analysis in your own words, for example "fit a 2PL, check DIF
+#' by gender and make a report", and `mv_ask()` writes a complete, commented R
+#' script for it. The request is turned into an analysis plan (see
+#' [mv_plan()]), checked against your data, and the script is built from
+#' tested templates, so it only uses mirt and mirtverse functions with checked
+#' arguments. Nothing is run until you call [run_script()].
 #'
-#' @param request a plain-language description of the analysis, or an existing
-#'   `mv_script` to refine.
+#' Requests are understood by an AI model set up with [mv_ask_setup()]
+#' (Claude, OpenAI GPT or a local Ollama model), or, when none is set up, by a
+#' built-in keyword parser that works offline and asks follow-up questions in
+#' the console when something is unclear. The AI model only sees your request
+#' and a summary of the columns ([profile_data()]); never individual
+#' responses. Use `dry_run = TRUE` to see exactly what would be sent.
+#'
+#' @param request a plain-language description of the analysis. To change an
+#'   earlier script, pass it first: `mv_ask(scr, "use a 3PL instead")`.
 #' @param data the data: a data frame, or the path of a `.csv`, `.xlsx`,
 #'   `.sav`, `.dta`, `.sas7bdat` or `.rds` file. The script refers to a data
 #'   frame by the name you pass, so pass a named object (e.g. `data = mydata`).
 #' @param plan an [mv_plan()] to use instead of a request.
+#' @param provider `"claude"`, `"openai"`, `"ollama"` or `"none"` (keyword
+#'   parser). Defaults to the provider chosen with [mv_ask_setup()], then to
+#'   whichever API key is available, then to `"none"`.
+#' @param model the AI model name; see [mv_ask_setup()].
+#' @param anonymize logical; replace column names with V1, V2, ... (and drop
+#'   category labels) before anything is sent to the AI model. The names are
+#'   restored locally.
+#' @param dry_run logical; print exactly what would be sent to the AI model and
+#'   return it, without sending anything or writing a script.
+#' @param ask logical; ask follow-up questions in the console when the keyword
+#'   parser needs more information. If `FALSE` the questions are reported as an
+#'   error instead.
+#' @param ... unused; there to catch a mistyped argument such as `plan`.
 #' @return An object of class `mv_script` with elements `script` (the code as
-#'   a character vector), `plan`, `profile` (see [profile_data()]), `request`
-#'   and `data_name`. Printing it shows the plan, any assumptions and the code.
-#' @seealso [run_script()], [save_script()], [mv_plan()].
+#'   a character vector), `plan`, `profile` (see [profile_data()]),
+#'   `request`, `data_name` and `parser` (what understood the request).
+#'   Printing it shows the plan, any assumptions and the code. With
+#'   `dry_run = TRUE`, the text that would be sent, invisibly.
+#' @seealso [run_script()], [save_script()], [mv_plan()], [mv_ask_setup()].
 #' @examples
-#' scr <- mv_ask(data = Science,
-#'               plan = mv_plan(model = "graded", steps = c("fitcheck", "plots")))
+#' scr <- mv_ask("fit a graded response model, plot the curves and summarise",
+#'               data = Science, provider = "none")
 #' scr
+#' scr <- mv_ask(scr, "also make a report")
+#' mv_ask("check DIF by gender", data = Science, dry_run = TRUE)
 #' \donttest{
 #' res <- run_script(scr, echo = FALSE)
 #' res$mod
 #' }
 #' @export
-mv_ask <- function(request = NULL, data = NULL, plan = NULL) {
+mv_ask <- function(request = NULL, data = NULL, plan = NULL, provider = NULL, model = NULL,
+                   anonymize = FALSE, dry_run = FALSE, ask = interactive(), ...) {
+  if (...length()) stop("Unknown argument(s) passed to mv_ask().", call. = FALSE)
   prev <- NULL
   if (inherits(request, "mv_script")) {
     prev <- request
-    request <- NULL
+    request <- if (inherits(data, "character") && !is_file_path(data) && length(data) == 1L) {
+      r <- data
+      data <- NULL
+      r
+    } else NULL
   }
   if (is.null(data) && !is.null(prev)) {
     data_name <- prev$data_name
@@ -40,22 +72,56 @@ mv_ask <- function(request = NULL, data = NULL, plan = NULL) {
   }
   df <- load_data(data)
   profile <- profile_data(df)
+  parser <- if (!is.null(prev)) prev$parser else "a hand-written plan"
+  questions <- character()
 
   if (is.null(plan)) {
-    if (!is.null(prev)) plan <- prev$plan
-    if (!is.null(request) || is.null(plan))
-      stop("Plain-language requests are not available yet; describe the analysis with ",
-           "`plan = mv_plan(...)`.", call. = FALSE)
+    if (is.null(request)) {
+      if (is.null(prev)) stop("Describe the analysis in `request`, or give a `plan`.", call. = FALSE)
+      plan <- prev$plan
+    } else {
+      prov <- ask_provider(provider)
+      if (dry_run) {
+        payload <- ask_payload(request, profile, prev$plan, anonymize)
+        cat(if (prov == "rules") "No AI model is set up, so nothing would be sent; an AI model would receive:\n\n"
+            else sprintf("This would be sent to %s:\n\n", provider_label(prov, ask_model(prov, model))))
+        cat(payload, "\n")
+        return(invisible(as.character(payload)))
+      }
+      plan <- NULL
+      if (prov != "rules") {
+        mdl <- ask_model(prov, model)
+        plan <- tryCatch(llm_plan(request, profile, prov, mdl, prev$plan, anonymize),
+                         error = function(e) {
+                           message(sprintf("%s could not be reached (%s); using the built-in keyword parser.",
+                                           provider_label(prov, mdl), conditionMessage(e)))
+                           NULL
+                         })
+        if (!is.null(plan)) {
+          parser <- provider_label(prov, mdl)
+          questions <- attr(plan, "questions")
+        }
+      }
+      if (is.null(plan)) {
+        parsed <- resolve_questions(parse_request_rules(request, profile, prev$plan), ask)
+        plan <- plan_from_fields(parsed, prev$plan)
+        parser <- provider_label("rules")
+      }
+    }
   }
   if (!inherits(plan, "mv_plan")) stop("`plan` must be made with mv_plan().", call. = FALSE)
   plan$data <- data_name
   plan <- check_plan(plan, profile)
   if (length(plan$errors))
-    stop("The plan cannot be run:\n", paste("*", plan$errors, collapse = "\n"), call. = FALSE)
-  request <- if (!is.null(prev$request)) prev$request else request
+    stop("The plan cannot be run:\n", paste("*", c(plan$errors, questions), collapse = "\n"),
+         call. = FALSE)
+  if (length(questions))
+    plan$notes <- c(plan$notes, paste("The AI model was unsure about:", questions))
+  request <- if (!is.null(prev$request) && !is.null(request)) paste(prev$request, "Then:", request) else
+    request %||% prev$request
 
   structure(list(script = render_script(plan, request), plan = plan, profile = profile,
-                 request = request, data_name = data_name,
+                 request = request, data_name = data_name, parser = parser,
                  data = if (is.data.frame(data) || is.matrix(data)) df else data),
             class = "mv_script")
 }
@@ -73,7 +139,9 @@ load_data <- function(data) {
 #' @method print mv_script
 #' @export
 print.mv_script <- function(x, ...) {
-  if (!is.null(x$request)) cat("Request:", x$request, "\n\n")
+  if (!is.null(x$request))
+    cat(paste(strwrap(paste("Request:", x$request), 78), collapse = "\n"),
+        sprintf("\nUnderstood by %s\n\n", x$parser))
   print(x$plan)
   if (length(x$plan$notes)) {
     cat("Notes\n")

@@ -100,7 +100,6 @@ test_that("scripts read data files and refine earlier scripts", {
   expect_s4_class(res$mod, "SingleGroupClass")
   scr2 <- mv_ask(scr, plan = update_plan(scr$plan, model = "2PL"))
   expect_match(scr2$script, "itemtype = \"2PL\"", all = FALSE, fixed = TRUE)
-  expect_error(mv_ask("fit a 2PL", data = ask_dat), "not available yet")
   expect_error(mv_ask(data = ask_dat, plan = mv_plan(model = "2PL", items = "nothing")),
                "cannot be run")
 })

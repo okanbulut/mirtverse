@@ -2,40 +2,83 @@
 % Please edit documentation in R/ask.R
 \name{mv_ask}
 \alias{mv_ask}
-\title{Write an analysis script from a plan or a plain-language request}
+\title{Write an analysis script from a plain-language request}
 \usage{
-mv_ask(request = NULL, data = NULL, plan = NULL)
+mv_ask(
+  request = NULL,
+  data = NULL,
+  plan = NULL,
+  provider = NULL,
+  model = NULL,
+  anonymize = FALSE,
+  dry_run = FALSE,
+  ask = interactive(),
+  ...
+)
 }
 \arguments{
-\item{request}{a plain-language description of the analysis, or an existing
-\code{mv_script} to refine.}
+\item{request}{a plain-language description of the analysis. To change an
+earlier script, pass it first: \code{mv_ask(scr, "use a 3PL instead")}.}
 
 \item{data}{the data: a data frame, or the path of a \code{.csv}, \code{.xlsx},
 \code{.sav}, \code{.dta}, \code{.sas7bdat} or \code{.rds} file. The script refers to a data
 frame by the name you pass, so pass a named object (e.g. \code{data = mydata}).}
 
 \item{plan}{an \code{\link[=mv_plan]{mv_plan()}} to use instead of a request.}
+
+\item{provider}{\code{"claude"}, \code{"openai"}, \code{"ollama"} or \code{"none"} (keyword
+parser). Defaults to the provider chosen with \code{\link[=mv_ask_setup]{mv_ask_setup()}}, then to
+whichever API key is available, then to \code{"none"}.}
+
+\item{model}{the AI model name; see \code{\link[=mv_ask_setup]{mv_ask_setup()}}.}
+
+\item{anonymize}{logical; replace column names with V1, V2, ... (and drop
+category labels) before anything is sent to the AI model. The names are
+restored locally.}
+
+\item{dry_run}{logical; print exactly what would be sent to the AI model and
+return it, without sending anything or writing a script.}
+
+\item{ask}{logical; ask follow-up questions in the console when the keyword
+parser needs more information. If \code{FALSE} the questions are reported as an
+error instead.}
+
+\item{...}{unused; there to catch a mistyped argument such as \code{plan}.}
 }
 \value{
 An object of class \code{mv_script} with elements \code{script} (the code as
-a character vector), \code{plan}, \code{profile} (see \code{\link[=profile_data]{profile_data()}}), \code{request}
-and \code{data_name}. Printing it shows the plan, any assumptions and the code.
+a character vector), \code{plan}, \code{profile} (see \code{\link[=profile_data]{profile_data()}}),
+\code{request}, \code{data_name} and \code{parser} (what understood the request).
+Printing it shows the plan, any assumptions and the code. With
+\code{dry_run = TRUE}, the text that would be sent, invisibly.
 }
 \description{
-\code{mv_ask()} writes a complete, commented R script for an IRT analysis. The
-script is built from tested templates, so it only uses mirt and mirtverse
-functions with checked arguments. Nothing is run until you call
-\code{\link[=run_script]{run_script()}}.
+Describe the analysis in your own words, for example "fit a 2PL, check DIF
+by gender and make a report", and \code{mv_ask()} writes a complete, commented R
+script for it. The request is turned into an analysis plan (see
+\code{\link[=mv_plan]{mv_plan()}}), checked against your data, and the script is built from
+tested templates, so it only uses mirt and mirtverse functions with checked
+arguments. Nothing is run until you call \code{\link[=run_script]{run_script()}}.
+}
+\details{
+Requests are understood by an AI model set up with \code{\link[=mv_ask_setup]{mv_ask_setup()}}
+(Claude, OpenAI GPT or a local Ollama model), or, when none is set up, by a
+built-in keyword parser that works offline and asks follow-up questions in
+the console when something is unclear. The AI model only sees your request
+and a summary of the columns (\code{\link[=profile_data]{profile_data()}}); never individual
+responses. Use \code{dry_run = TRUE} to see exactly what would be sent.
 }
 \examples{
-scr <- mv_ask(data = Science,
-              plan = mv_plan(model = "graded", steps = c("fitcheck", "plots")))
+scr <- mv_ask("fit a graded response model, plot the curves and summarise",
+              data = Science, provider = "none")
 scr
+scr <- mv_ask(scr, "also make a report")
+mv_ask("check DIF by gender", data = Science, dry_run = TRUE)
 \donttest{
 res <- run_script(scr, echo = FALSE)
 res$mod
 }
 }
 \seealso{
-\code{\link[=run_script]{run_script()}}, \code{\link[=save_script]{save_script()}}, \code{\link[=mv_plan]{mv_plan()}}.
+\code{\link[=run_script]{run_script()}}, \code{\link[=save_script]{save_script()}}, \code{\link[=mv_plan]{mv_plan()}}, \code{\link[=mv_ask_setup]{mv_ask_setup()}}.
 }
