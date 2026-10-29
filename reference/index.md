@@ -8,6 +8,21 @@ Point-and-click analysis with reproducible code.
   [`workbench_app()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md)
   : Launch the mirtverse workbench
 
+## Scripts from a plan
+
+Describe an analysis and get a complete, tested R script.
+
+- [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+  : Write an analysis script from a plan or a plain-language request
+- [`mv_plan()`](https://www.okanbulut.com/mirtverse/reference/mv_plan.md)
+  [`update_plan()`](https://www.okanbulut.com/mirtverse/reference/mv_plan.md)
+  : An analysis plan for mv_ask()
+- [`run_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md)
+  [`save_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md)
+  : Run or save a script written by mv_ask()
+- [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
+  : Summarise a data set without revealing its values
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)

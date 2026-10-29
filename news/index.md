@@ -2,6 +2,20 @@
 
 ## mirtverse (development version)
 
+- New
+  [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+  writes a complete, commented analysis script from an analysis plan
+  ([`mv_plan()`](https://www.okanbulut.com/mirtverse/reference/mv_plan.md)):
+  data preparation, model fitting or selection, fit checks, DIF, scores,
+  graphics, item cards, reports and response times.
+  [`run_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md)
+  runs it, optionally after a dry run on simulated data with the same
+  structure, and
+  [`save_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md)
+  writes it to a file.
+  [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
+  shows the column summary that is the only information shared with an
+  AI model. The workbench now writes its code with the same templates.
 - New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
   tests every item for differential item functioning between groups in
   one call, with likelihood-ratio tests, adjusted p-values and
