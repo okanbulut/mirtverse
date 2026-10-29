@@ -154,3 +154,12 @@ test_that("the benchmark counts provider failures as wrong instead of erroring",
   expect_true(any(grepl("HTTP 401", out)))
   expect_false(any(res$correct[nzchar(res$fallback)]))
 })
+
+test_that("an AI plan whose only step is dropped still works", {
+  skip_if_not_installed("ellmer")
+  withr::local_envvar(OPENAI_API_KEY = "sk-test")
+  local_mocked_bindings(llm_call = function(provider, model, payload)
+    list(model = "2PL", nfact = 1L, steps = list("dif")))
+  expect_no_message(scr <- mv_ask("fit a 2PL", data = parse_dat, provider = "openai", ask = FALSE))
+  expect_equal(scr$plan$model, "2PL")
+})

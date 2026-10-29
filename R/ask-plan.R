@@ -34,7 +34,7 @@ mv_plan <- function(items = NULL, model = "auto", nfact = 1, group = NULL, missi
                     steps = c("describe", "fitcheck", "interpret"),
                     options = list(), assumptions = character()) {
   model <- normalise_model(model)
-  steps <- unique(match.arg(steps, plan_steps, several.ok = TRUE))
+  steps <- if (length(steps)) unique(match.arg(steps, plan_steps, several.ok = TRUE)) else character()
   if (!is.null(group) && !"dif" %in% steps) steps <- c(steps, "dif")
   if (length(rt) && !"rt" %in% steps) steps <- c(steps, "rt")
   nfact <- as.integer(nfact)

@@ -112,3 +112,11 @@ test_that("the dry-run simulator keeps the data structure", {
   for (j in names(Science))
     expect_true(all(sim[[j]] %in% unique(Science[[j]])))
 })
+
+test_that("a plan with no extra steps still fits a model", {
+  p <- mv_plan(model = "2PL", steps = character())
+  expect_identical(p$steps, character())
+  lsat <- expand.table(LSAT7)
+  scr <- mv_ask(data = lsat, plan = mv_plan(model = "2PL", steps = NULL))
+  expect_true(any(grepl("^mod <- mirt\\(", scr$script)))
+})
