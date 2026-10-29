@@ -13,7 +13,7 @@ mv_report(
   alpha = 0.01,
   dif = NULL,
   code = NULL,
-  open = interactive()
+  open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))
 )
 }
 \arguments{

@@ -35,6 +35,8 @@ Suggests:
     knitr,
     rmarkdown,
     readxl,
+    rstudioapi,
+    withr,
     haven
 Config/testthat/edition: 3
 VignetteBuilder: knitr
