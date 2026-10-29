@@ -37,6 +37,12 @@ gg_trace <- function(x, which.items = NULL, type = c("prob", "expected"),
   type <- match.arg(type)
   df <- trace_data(x, which.items, theta_lim)
   dich <- all(mirt::extract.mirt(x, "K")[resolve_items(x, which.items)] == 2L)
+  plot_trace(df, dich, type, facet)
+}
+
+# Draws trace curves from trace_data(); shared with the dashboard, which keeps
+# only the precomputed curves and not the model
+plot_trace <- function(df, dich, type = "prob", facet = TRUE) {
   if (type == "expected") {
     df <- df[df$first, ]
     p <- ggplot2::ggplot(df, ggplot2::aes(theta, expected))
@@ -91,7 +97,10 @@ gg_info <- function(x, type = c("test", "items", "se"), which.items = NULL,
   }
   Theta <- matrix(theta_grid(theta_lim))
   ti <- mirt::testinfo(x, Theta)
-  df <- data.frame(theta = Theta[, 1], info = ti, se = 1 / sqrt(ti))
+  plot_test_info(data.frame(theta = Theta[, 1], info = ti, se = 1 / sqrt(ti)), type)
+}
+
+plot_test_info <- function(df, type = "test") {
   if (type == "se") {
     return(ggplot2::ggplot(df, ggplot2::aes(theta, se)) +
       ggplot2::geom_line(colour = mv_colours[["accent"]], linewidth = 1) +
@@ -133,11 +142,22 @@ gg_wright <- function(x, method = "EAP", thresholds = TRUE, bins = 30) {
   check_single(x); check_unidim(x, "gg_wright()")
   th <- as.numeric(mirt::fscores(x, method = method, verbose = FALSE)[, 1])
   th <- th[is.finite(th)]
-  items <- wright_items(x, thresholds)
-  lim <- range(c(th, items$difficulty), na.rm = TRUE) + c(-0.25, 0.25)
-  p1 <- ggplot2::ggplot(data.frame(theta = th), ggplot2::aes(y = theta)) +
-    ggplot2::geom_histogram(bins = bins, fill = mv_colours[["primary"]],
-                            colour = "white") +
+  plot_wright(wright_bins(th, bins), wright_items(x, thresholds))
+}
+
+# Person histogram as bin counts, so the dashboard can store it without
+# keeping individual scores
+wright_bins <- function(th, bins = 30) {
+  br <- seq(min(th), max(th), length.out = bins + 1L)
+  h <- graphics::hist(th, breaks = br, plot = FALSE)
+  data.frame(lo = utils::head(h$breaks, -1), hi = h$breaks[-1], count = h$counts)
+}
+
+plot_wright <- function(persons, items) {
+  lim <- range(c(persons$lo, persons$hi, items$difficulty), na.rm = TRUE) + c(-0.25, 0.25)
+  p1 <- ggplot2::ggplot(persons) +
+    ggplot2::geom_rect(ggplot2::aes(xmin = 0, xmax = count, ymin = lo, ymax = hi),
+                       fill = mv_colours[["primary"]], colour = "white") +
     ggplot2::scale_x_reverse() +
     ggplot2::coord_cartesian(ylim = lim) +
     ggplot2::labs(x = "Persons", y = expression(theta)) +
