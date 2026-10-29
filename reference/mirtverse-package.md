@@ -16,6 +16,8 @@ item health cards
 ([`item_card()`](https://www.okanbulut.com/mirtverse/reference/item_card.md)),
 one-call HTML reports
 ([`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)),
+results dashboards to share
+([`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)),
 a point-and-click workbench
 ([`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md))
 and a joint model for responses and response times

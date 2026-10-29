@@ -3,6 +3,18 @@
 ## mirtverse (development version)
 
 - New
+  [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
+  builds a read-only ‘shiny’ dashboard of your results for people who do
+  not use R. Choose the panels (summary, items with health cards, item
+  curves with an ability slider, information, Wright map, score
+  distribution and conversion table, and optionally person scores, DIF
+  and response times), add a title and logo, and run it.
+  [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md)
+  saves it as an `app.R` folder ready for shinyapps.io or Posit Connect.
+  The saved dashboard holds summaries only, never the item responses,
+  and holds individual scores only when you add the `"persons"` panel.
+
+- New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
   writes a complete, commented analysis script from a plain-language
   request such as “fit a 2PL, check DIF by gender and make a report”.
@@ -25,6 +37,7 @@
   [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
   shows the column summary that is the only information shared with an
   AI model. The workbench now writes its code with the same templates.
+
 - New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
   tests every item for differential item functioning between groups in
   one call, with likelihood-ratio tests, adjusted p-values and
@@ -34,6 +47,7 @@
   [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
   describes the results, and `mv_report(dif = )` adds a DIF section to
   the report.
+
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   no longer fails when some persons have no item responses. mirt drops
   those rows from the fitted data;

@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://www.okanbulut.com/mirtverse/404.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/LICENSE-text.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/dashboards.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/index.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html</loc></url>
@@ -12,6 +13,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/augment_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/autoplot.SingleGroupClass.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/dif.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/export_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fit_rt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_dif.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_empirical.html</loc></url>
@@ -33,6 +35,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtverse-report.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_plan.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_report.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/profile_data.html</loc></url>

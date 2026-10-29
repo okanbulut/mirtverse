@@ -39,6 +39,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
+    <li><a class="dropdown-item" href="articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
   </ul>
 </li>
@@ -143,6 +144,12 @@
 <td><code><a href="reference/mv_report.html">mv_report()</a></code></td>
 </tr>
 <tr>
+<td>Results dashboard to share with non-R users</td>
+<td>
+<code><a href="reference/mv_dashboard.html">mv_dashboard()</a></code>, <code><a href="reference/export_dashboard.html">export_dashboard()</a></code>
+</td>
+</tr>
+<tr>
 <td>Response-time modelling and rapid-guessing detection</td>
 <td>
 <code><a href="reference/fit_rt.html">fit_rt()</a></code>, <code><a href="reference/sim_rt.html">sim_rt()</a></code>
@@ -180,7 +187,8 @@
 <span><span class="fu"><a href="reference/gg_wright.html">gg_wright</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>              <span class="co"># person-item map</span></span>
 <span><span class="fu"><a href="reference/item_card.html">item_card</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"Item.2"</span><span class="op">)</span>    <span class="co"># one-page item review</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span>
+<span><span class="fu"><a href="reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, title <span class="op">=</span> <span class="st">"LSAT results"</span><span class="op">)</span>   <span class="co"># interactive dashboard to share</span></span></code></pre></div>
 <p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>. Prefer describing the analysis in words? <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes the whole script for you.</p>
 </div>
 <div class="section level2">

@@ -52,6 +52,7 @@ interpretation and reporting tools around it.
 | ggplot2 graphics, including Wright maps | [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md), [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md), [`gg_wright()`](https://www.okanbulut.com/mirtverse/reference/gg_wright.md), [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md), [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md), [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md), [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md), [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html) |
 | Item health cards | [`item_card()`](https://www.okanbulut.com/mirtverse/reference/item_card.md), [`item_cards()`](https://www.okanbulut.com/mirtverse/reference/item_cards.md) |
 | One-call HTML report | [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) |
+| Results dashboard to share with non-R users | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
 | Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
 
 ## Installation
@@ -91,6 +92,7 @@ gg_wright(mod)              # person-item map
 item_card(mod, "Item.2")    # one-page item review
 
 mv_report(sel, file = "report.html")   # everything in one HTML file
+mv_dashboard(mod, title = "LSAT results")   # interactive dashboard to share
 ```
 
 Prefer clicking? Run

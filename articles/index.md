@@ -15,5 +15,8 @@
 - [The mirtverse
   workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md):
 
+- [Sharing results with a
+  dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md):
+
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):

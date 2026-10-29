@@ -84,6 +84,15 @@ Describe an analysis in words and get a complete, tested R script.
 - [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)
   : One-call HTML report
 
+## Dashboards
+
+Interactive results dashboards to share with people who do not use R.
+
+- [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
+  : Results dashboard for sharing
+- [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md)
+  : Save a results dashboard as a deployable app
+
 ## Response times
 
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
