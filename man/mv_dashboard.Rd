@@ -57,7 +57,8 @@ Builds a small, read-only 'shiny' dashboard of a fitted model for people
 who do not use R: teachers, clients, committees or students. Where the
 \link[=launch_workbench]{workbench} is for doing an analysis, the dashboard is for
 showing one. Pick the panels you want, give it a title, and run it, or save
-it as a ready-to-deploy app with \code{\link[=export_dashboard]{export_dashboard()}}.
+it as a ready-to-deploy app or a single offline HTML file with
+\code{\link[=export_dashboard]{export_dashboard()}}.
 }
 \details{
 Everything the dashboard shows is computed once when it is built and kept

@@ -54,7 +54,24 @@ mv_dashboard(mod, panels = c("summary", "items", "dif"), dif = res,
 The curves, information, Wright map, scores and persons panels need a
 unidimensional model. For other models they are left out with a message.
 
-## Share it
+## Share it as one HTML file
+
+The easiest way to share a dashboard is a single HTML file. It needs no
+server, no R and no internet connection, so you can email it, put it on a
+shared drive or a course page, and anyone can open it in a browser:
+
+```{r}
+export_dashboard(mod, "sat12-dashboard.html", format = "html",
+                 title = "SAT12 results")
+```
+
+It has the same panels as the app. The item table (sort, search, select an
+item to see its health card), the item curves with the ability slider, the
+item information curves and the person lookup all still work; the other plots
+are pictures. A file with item health cards for a long test can run to a few
+megabytes.
+
+## Share it as an app
 
 A 'shiny' app needs a server to run on. `export_dashboard()` writes a folder
 that is ready to deploy:

@@ -2,35 +2,60 @@
 % Please edit documentation in R/dashboard.R
 \name{export_dashboard}
 \alias{export_dashboard}
-\title{Save a results dashboard as a deployable app}
+\title{Save a results dashboard to share}
 \usage{
-export_dashboard(x, dir = "mirtverse-dashboard", ..., overwrite = FALSE)
+export_dashboard(
+  x,
+  path = NULL,
+  ...,
+  format = c("shiny", "html"),
+  overwrite = FALSE,
+  open = interactive()
+)
 }
 \arguments{
 \item{x}{a model, \code{mv_model_selection} object, or the app returned by
 \code{\link[=mv_dashboard]{mv_dashboard()}}.}
 
-\item{dir}{folder to write. Created if needed.}
+\item{path}{for \code{format = "shiny"}, the folder to write (created if
+needed); for \code{format = "html"}, the file to write (\code{.html} is added if
+missing). Defaults to \code{"mirtverse-dashboard"} or
+\code{"mirtverse-dashboard.html"}.}
 
 \item{...}{arguments passed to \code{\link[=mv_dashboard]{mv_dashboard()}} when \code{x} is a model, such
 as \code{panels}, \code{title} or \code{dif}.}
 
-\item{overwrite}{logical; replace an existing \code{app.R} or \code{dashboard.rds}.}
+\item{format}{\code{"shiny"} for a deployable app folder or \code{"html"} for a
+single file that works offline.}
+
+\item{overwrite}{logical; replace an existing dashboard at \code{path}.}
+
+\item{open}{logical; for \code{format = "html"}, open the file in a browser
+afterwards.}
 }
 \value{
-The folder path, invisibly.
+The folder or file path, invisibly.
 }
 \description{
-Writes a folder with an \code{app.R} file and the dashboard summary
-(\code{dashboard.rds}). Run it locally with \code{shiny::runApp(dir)}, or publish the
-folder to \href{https://www.shinyapps.io}{shinyapps.io} or Posit Connect with
-\code{rsconnect::deployApp(dir)}. The server installs mirtverse the way you
-installed it, so install it from GitHub or r-universe (not from a local
-folder) before you deploy.
+Saves a dashboard in one of two forms:
 }
 \details{
-The folder holds no item responses. It holds individual scores only if the
-dashboard has the \code{"persons"} panel.
+\itemize{
+\item \code{format = "shiny"} writes a folder with an \code{app.R} file and the dashboard
+summary (\code{dashboard.rds}). Run it locally with \code{shiny::runApp(path)}, or
+publish the folder to \href{https://www.shinyapps.io}{shinyapps.io} or Posit
+Connect with \code{rsconnect::deployApp(path)}. The server installs mirtverse
+the way you installed it, so install it from GitHub or r-universe (not
+from a local folder) before you deploy.
+\item \code{format = "html"} writes a single self-contained \code{.html} file that needs
+no server, no R and no internet connection: email it, put it on a shared
+drive or a course page, and it opens in any browser. It has the same
+panels, with the item table, item curves, ability slider and person
+lookup still interactive.
+}
+
+Neither form holds item responses. Individual scores are included only if
+the dashboard has the \code{"persons"} panel.
 }
 \examples{
 \donttest{
@@ -39,5 +64,8 @@ dir <- export_dashboard(mod, file.path(tempdir(), "science-dashboard"),
                         title = "Science attitudes survey")
 list.files(dir)
 if (interactive()) shiny::runApp(dir)
+
+f <- export_dashboard(mod, file.path(tempdir(), "science.html"), format = "html",
+                      title = "Science attitudes survey")
 }
 }

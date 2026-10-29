@@ -54,3 +54,27 @@ test_that("export_dashboard writes a deployable folder", {
   expect_s3_class(mv_dashboard(d), "shiny.appobj")
   expect_message(export_dashboard(mv_dashboard(d), dir, overwrite = TRUE), "person scores")
 })
+
+test_that("export_dashboard writes a self-contained HTML dashboard", {
+  f <- file.path(tempdir(), "dash-test")
+  on.exit(unlink(paste0(f, ".html")))
+  out <- export_dashboard(mod_grm, f, format = "html", title = "Science <survey>",
+                          panels = c("summary", "items", "curves", "information", "wright",
+                                     "scores", "persons"), open = FALSE)
+  expect_equal(out, paste0(f, ".html"))
+  html <- paste(readLines(out, encoding = "UTF-8"), collapse = "\n")
+  expect_match(html, "<title>Science &lt;survey&gt;</title>", fixed = TRUE)
+  expect_match(html, "id=\"mv-data\"", fixed = TRUE)
+  expect_false(grepl("<script src=|<link ", html))
+  json <- sub(".*<script type=\"application/json\" id=\"mv-data\">(.*?)</script>.*", "\\1", html)
+  dat <- jsonlite::fromJSON(gsub("<\\/", "</", json, fixed = TRUE), simplifyVector = FALSE)
+  expect_length(dat$items$item, 4)
+  expect_length(dat$trace$items, 4)
+  expect_length(dat$persons$ID, nrow(mirt::extract.mirt(mod_grm, "data")))
+  expect_error(export_dashboard(mod_grm, f, format = "html", open = FALSE), "overwrite")
+})
+
+test_that("one-row tables stay arrays in the HTML data", {
+  expect_equal(as.character(jsonlite::toJSON(mirtverse:::json_cols(data.frame(a = 1, b = "x")),
+                                             auto_unbox = TRUE)), "{\"a\":[1],\"b\":[\"x\"]}")
+})

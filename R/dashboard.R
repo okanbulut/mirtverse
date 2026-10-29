@@ -4,7 +4,8 @@
 #' who do not use R: teachers, clients, committees or students. Where the
 #' [workbench][launch_workbench] is for doing an analysis, the dashboard is for
 #' showing one. Pick the panels you want, give it a title, and run it, or save
-#' it as a ready-to-deploy app with [export_dashboard()].
+#' it as a ready-to-deploy app or a single offline HTML file with
+#' [export_dashboard()].
 #'
 #' Everything the dashboard shows is computed once when it is built and kept
 #' in a summary object; the app never refits or rescores anything. That
@@ -75,25 +76,39 @@ mv_dashboard <- function(x, panels = NULL, title = "Assessment results", subtitl
   app
 }
 
-#' Save a results dashboard as a deployable app
+#' Save a results dashboard to share
 #'
-#' Writes a folder with an `app.R` file and the dashboard summary
-#' (`dashboard.rds`). Run it locally with `shiny::runApp(dir)`, or publish the
-#' folder to [shinyapps.io](https://www.shinyapps.io) or Posit Connect with
-#' `rsconnect::deployApp(dir)`. The server installs mirtverse the way you
-#' installed it, so install it from GitHub or r-universe (not from a local
-#' folder) before you deploy.
+#' Saves a dashboard in one of two forms:
 #'
-#' The folder holds no item responses. It holds individual scores only if the
-#' dashboard has the `"persons"` panel.
+#' * `format = "shiny"` writes a folder with an `app.R` file and the dashboard
+#'   summary (`dashboard.rds`). Run it locally with `shiny::runApp(path)`, or
+#'   publish the folder to [shinyapps.io](https://www.shinyapps.io) or Posit
+#'   Connect with `rsconnect::deployApp(path)`. The server installs mirtverse
+#'   the way you installed it, so install it from GitHub or r-universe (not
+#'   from a local folder) before you deploy.
+#' * `format = "html"` writes a single self-contained `.html` file that needs
+#'   no server, no R and no internet connection: email it, put it on a shared
+#'   drive or a course page, and it opens in any browser. It has the same
+#'   panels, with the item table, item curves, ability slider and person
+#'   lookup still interactive.
+#'
+#' Neither form holds item responses. Individual scores are included only if
+#' the dashboard has the `"persons"` panel.
 #'
 #' @param x a model, `mv_model_selection` object, or the app returned by
 #'   [mv_dashboard()].
-#' @param dir folder to write. Created if needed.
+#' @param path for `format = "shiny"`, the folder to write (created if
+#'   needed); for `format = "html"`, the file to write (`.html` is added if
+#'   missing). Defaults to `"mirtverse-dashboard"` or
+#'   `"mirtverse-dashboard.html"`.
 #' @param ... arguments passed to [mv_dashboard()] when `x` is a model, such
 #'   as `panels`, `title` or `dif`.
-#' @param overwrite logical; replace an existing `app.R` or `dashboard.rds`.
-#' @return The folder path, invisibly.
+#' @param format `"shiny"` for a deployable app folder or `"html"` for a
+#'   single file that works offline.
+#' @param overwrite logical; replace an existing dashboard at `path`.
+#' @param open logical; for `format = "html"`, open the file in a browser
+#'   afterwards.
+#' @return The folder or file path, invisibly.
 #' @examples
 #' \donttest{
 #' mod <- mirt(Science, 1, verbose = FALSE)
@@ -101,29 +116,44 @@ mv_dashboard <- function(x, panels = NULL, title = "Assessment results", subtitl
 #'                         title = "Science attitudes survey")
 #' list.files(dir)
 #' if (interactive()) shiny::runApp(dir)
+#'
+#' f <- export_dashboard(mod, file.path(tempdir(), "science.html"), format = "html",
+#'                       title = "Science attitudes survey")
 #' }
 #' @export
-export_dashboard <- function(x, dir = "mirtverse-dashboard", ..., overwrite = FALSE) {
-  files <- file.path(dir, c("app.R", "dashboard.rds"))
+export_dashboard <- function(x, path = NULL, ..., format = c("shiny", "html"),
+                             overwrite = FALSE, open = interactive()) {
+  format <- match.arg(format)
+  if (is.null(path)) path <- if (format == "html") "mirtverse-dashboard.html"
+                             else "mirtverse-dashboard"
+  if (format == "html" && !grepl("\\.html?$", path, ignore.case = TRUE))
+    path <- paste0(path, ".html")
+  files <- if (format == "html") path else file.path(path, c("app.R", "dashboard.rds"))
   if (!overwrite && any(file.exists(files)))
-    stop("`", dir, "` already contains a dashboard. Use `overwrite = TRUE` to replace it.",
+    stop("`", path, "` already contains a dashboard. Use `overwrite = TRUE` to replace it.",
          call. = FALSE)
   d <- if (inherits(x, "shiny.appobj") && !is.null(attr(x, "mv_dashboard")))
          attr(x, "mv_dashboard")
        else if (inherits(x, "mv_dashboard")) x
        else attr(mv_dashboard(x, ...), "mv_dashboard")
-  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-  saveRDS(d, files[2])
-  writeLines(c(
-    sprintf("# mirtverse results dashboard: %s", d$meta$title),
-    sprintf("# Created %s with mirtverse %s.", d$meta$created, d$meta$version),
-    "# Run locally with shiny::runApp() or deploy with rsconnect::deployApp().",
-    "library(shiny)",
-    "library(mirtverse)",
-    "mv_dashboard(readRDS(\"dashboard.rds\"))"), files[1])
+  if (format == "html") {
+    dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+    dashboard_html(d, path)
+  } else {
+    dir.create(path, recursive = TRUE, showWarnings = FALSE)
+    saveRDS(d, files[2])
+    writeLines(c(
+      sprintf("# mirtverse results dashboard: %s", d$meta$title),
+      sprintf("# Created %s with mirtverse %s.", d$meta$created, d$meta$version),
+      "# Run locally with shiny::runApp() or deploy with rsconnect::deployApp().",
+      "library(shiny)",
+      "library(mirtverse)",
+      "mv_dashboard(readRDS(\"dashboard.rds\"))"), files[1])
+  }
   if ("persons" %in% d$panels)
-    message("This dashboard includes individual person scores. Check that you may share them before deploying it.")
-  invisible(dir)
+    message("This dashboard includes individual person scores. Check that you may share them before you share it.")
+  if (format == "html" && open) utils::browseURL(path)
+  invisible(path)
 }
 
 dashboard_panels <- c(summary = "Summary", items = "Items", curves = "Item curves",
@@ -337,38 +367,16 @@ dashboard_ui <- function(d) {
 }
 
 summary_boxes <- function(d) {
-  rel <- d$glance$reliability
-  st <- table(factor(d$items$status, levels = c("green", "amber", "red")))
-  box <- function(title, value, sub = NULL, theme = "primary")
-    bslib::value_box(title = title, value = value, if (!is.null(sub)) shiny::tags$p(sub),
-                     theme = theme)
-  list(
-    box("Respondents", format(d$meta$nobs, big.mark = ",")),
-    box("Items", d$meta$nitems, d$meta$itemtype),
-    if (!is.null(rel) && !is.na(rel))
-      box("Reliability", formatC(rel, format = "f", digits = 2), "marginal reliability"),
-    box("Items to review", st[["red"]] + st[["amber"]],
-        sprintf("%d red, %d amber", st[["red"]], st[["amber"]]),
-        theme = if (st[["red"]] > 0) "danger" else if (st[["amber"]] > 0) "warning" else "success"))
+  lapply(summary_box_data(d), function(b)
+    bslib::value_box(title = b$title, value = b$value,
+                     if (!is.null(b$sub)) shiny::tags$p(b$sub), theme = b$theme))
 }
 
 dashboard_server <- function(d) {
   function(input, output, session) {
-    output$dash_glance <- shiny::renderTable({
-      g <- d$glance
-      keep <- intersect(c("nobs", "nitems", "itemtype", "logLik", "AIC", "BIC", "M2", "df", "p.value",
-                          "RMSEA", "CFI", "TLI", "SRMSR", "reliability", "converged"), names(g))
-      labs <- c(nobs = "Respondents", nitems = "Items", itemtype = "Item type",
-                logLik = "Log-likelihood", M2 = "M2 (limited-information fit)", df = "M2 df",
-                p.value = "M2 p-value", reliability = "Reliability",
-                converged = "Converged")
-      data.frame(Statistic = ifelse(keep %in% names(labs), labs[keep], keep),
-                 Value = vapply(keep, function(nm) format_cell(g[[nm]][[1]]), ""))
-    })
+    output$dash_glance <- shiny::renderTable(dash_glance_table(d$glance))
 
-    items_view <- d$items[, intersect(c("item", "status", "itemtype", "mean", "item_total_r",
-                                        "discrimination", "location", "RMSEA", "p.value",
-                                        "flag"), names(d$items))]
+    items_view <- dash_items_view(d$items)
     output$dash_items <- DT::renderDT({
       df <- items_view
       num <- vapply(df, is.numeric, logical(1))
@@ -434,13 +442,7 @@ dashboard_server <- function(d) {
 
     output$dash_wright <- shiny::renderPlot(plot_wright(d$wright$persons, d$wright$items), res = 96)
 
-    output$dash_scores <- shiny::renderPlot({
-      ggplot2::ggplot(d$score_bins) +
-        ggplot2::geom_rect(ggplot2::aes(xmin = lo, xmax = hi, ymin = 0, ymax = count),
-                           fill = mv_colours[["primary"]], colour = "white") +
-        ggplot2::labs(x = sprintf("%s estimate of ability", d$meta$method), y = "Respondents") +
-        theme_mirtverse()
-    }, res = 96)
+    output$dash_scores <- shiny::renderPlot(plot_score_bins(d$score_bins, d$meta$method), res = 96)
     output$dash_score_summary <- shiny::renderTable({
       s <- d$score_summary
       data.frame(Mean = s[["mean"]], SD = s[["sd"]], Median = s[["median"]])
