@@ -150,7 +150,9 @@ workbench_ui <- function() {
                          accept = c(".csv", ".tsv", ".txt", ".xlsx", ".xls", ".sav", ".dta", ".rds")),
         shiny::radioButtons("rt_flag", "Rapid-guessing rule",
                             c("Residual (person-specific)" = "residual",
-                              "10% of mean item time (NT10)" = "nt10")),
+                              "10% of mean item time (NT10)" = "nt10",
+                              "15% of mean item time (NT15)" = "nt15",
+                              "20% of mean item time (NT20)" = "nt20")),
         shiny::actionButton("fit_rt", "Fit response-time model", class = "btn-primary w-100")),
       shiny::uiOutput("rt_msg"),
       bslib::layout_columns(col_widths = c(6, 6),
@@ -372,7 +374,7 @@ workbench_server <- function(init_data = NULL) {
       rv$rt_code <- c(if (!is.null(input$rt_file)) sub("^data <-", "rt <-", read_code(input$rt_file$name))
                       else "rt <- sim$rt",
                       sprintf("rt_fit <- fit_rt(mod, rt[, extract.mirt(mod, \"itemnames\")]%s)",
-                              if (input$rt_flag != "residual") ", flag_method = \"nt10\"" else ""),
+                              if (input$rt_flag != "residual") sprintf(", flag_method = \"%s\"", input$rt_flag) else ""),
                       "interpret(rt_fit)")
     })
     rt_fit <- shiny::reactive({

@@ -28,6 +28,35 @@ test_that("fit_rt flags simulated rapid guessing", {
     expect_s3_class(ggplot2::autoplot(fit, ty), "ggplot")
 })
 
+test_that("normative threshold rules NT10, NT15 and NT20 use capped item thresholds", {
+  sim <- sim_rt(N = 500, J = 10, rapid = 0.1, seed = 11)
+  mod <- mirt(sim$responses, 1, verbose = FALSE)
+  rt <- as.matrix(sim$rt)
+  rt[, 1] <- rt[, 1] * 20                     # item 1 slow enough to hit the cap
+  m <- colMeans(rt)
+  fits <- lapply(c(nt10 = "nt10", nt15 = "nt15", nt20 = "nt20"),
+                 function(r) fit_rt(mod, rt, flag_method = r))
+  for (r in names(fits)) {
+    pct <- c(nt10 = .10, nt15 = .15, nt20 = .20)[[r]]
+    thr <- pmin(pct * m, 10)
+    expect_equal(fits[[r]]$flag_method, r)
+    expect_equal(unname(fits[[r]]$thresholds), unname(thr))
+    expect_equal(fits[[r]]$flags, rt < matrix(thr, nrow(rt), ncol(rt), byrow = TRUE),
+                 ignore_attr = TRUE)
+  }
+  expect_equal(unname(fits$nt20$thresholds[1]), 10)
+  # higher percentages flag at least as many responses
+  n_flag <- vapply(fits, function(f) sum(f$flags), numeric(1))
+  expect_true(all(diff(n_flag) >= 0))
+  # the cap is configurable and can be removed
+  nocap <- fit_rt(mod, rt, flag_method = "nt20", nt_max = Inf)
+  expect_equal(unname(nocap$thresholds), unname(0.20 * m))
+  expect_gt(nocap$thresholds[1], 10)
+  expect_null(fit_rt(mod, rt)$thresholds)
+  expect_error(fit_rt(mod, rt, flag_method = "nt20", nt_max = 0), "nt_max")
+  expect_error(fit_rt(mod, rt, flag_method = "nt25"))
+})
+
 test_that("fit_rt handles missing times and checks input", {
   sim <- sim_rt(N = 300, J = 10, seed = 3)
   mod <- mirt(sim$responses, 1, verbose = FALSE)

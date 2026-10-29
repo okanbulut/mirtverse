@@ -1,5 +1,11 @@
 # mirtverse (development version)
 
+* `fit_rt()` gains the normative threshold rules `flag_method = "nt15"` and
+  `"nt20"` for rapid guessing (15% and 20% of each item's mean response time),
+  next to `"nt10"`, and the workbench offers all three. Following Wise and Ma
+  (2012), the item thresholds of all three rules are now capped at 10 seconds;
+  change the cap with the new `nt_max` argument (`nt_max = Inf` removes it).
+  The thresholds used are returned in `$thresholds`.
 * New `mv_ask()` writes a complete, commented analysis script from a
   plain-language request such as "fit a 2PL, check DIF by gender and make a
   report". Requests are understood by Claude, OpenAI GPT or a local Ollama

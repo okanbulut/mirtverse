@@ -15,10 +15,13 @@
 #' Standard errors come from the cross-product of the individual score
 #' contributions.
 #'
-#' Rapid responses are flagged in two ways: `"residual"` marks responses that
-#' are much faster than expected for that person on that item (standardized
-#' log-time residual below `-z_crit`); `"nt10"` uses the normative threshold of
-#' 10% of the item's mean time (Wise & Ma, 2012). Response time effort (RTE;
+#' Rapid responses are flagged in one of two ways. `"residual"` marks responses
+#' that are much faster than expected for that person on that item
+#' (standardized log-time residual below `-z_crit`). The normative threshold
+#' rules `"nt10"`, `"nt15"` and `"nt20"` (Wise & Ma, 2012) flag responses
+#' faster than 10%, 15% or 20% of the item's mean response time, with each
+#' item's threshold capped at `nt_max` (10 seconds by default, as in the
+#' literature). Higher percentages flag more responses. Response time effort (RTE;
 #' Wise & Kong, 2005) is the proportion of a person's responses that are not
 #' flagged. The \eqn{l_t} person-fit statistic (van der Linden & Guo, 2008)
 #' flags aberrant overall timing.
@@ -28,8 +31,12 @@
 #' @param rt a matrix or data frame of response times (in seconds, or any
 #'   positive unit) with the same rows and columns as the response data.
 #'   Missing values are allowed.
-#' @param flag_method `"residual"` or `"nt10"`; see Details.
+#' @param flag_method `"residual"`, `"nt10"`, `"nt15"` or `"nt20"`; see
+#'   Details.
 #' @param z_crit critical value for the residual method.
+#' @param nt_max largest threshold allowed by the normative threshold rules,
+#'   in the units of `rt` (10 seconds by default). Use `Inf` for no cap, for
+#'   example when times are not in seconds.
 #' @param quadpts number of quadrature points per dimension.
 #' @param tol convergence tolerance (largest parameter change).
 #' @param maxit maximum number of EM iterations.
@@ -38,7 +45,9 @@
 #' @return An object of class `mv_rt` with elements `items` (time intensity
 #'   and discrimination with SEs), `population` (speed SD and ability-speed
 #'   correlation), `persons` (joint ability and speed estimates, RTE and
-#'   \eqn{l_t}), `flags` (logical matrix of rapid responses), `logLik`,
+#'   \eqn{l_t}), `flags` (logical matrix of rapid responses), `thresholds`
+#'   (each item's rapid-guessing threshold for the normative threshold rules,
+#'   `NULL` for the residual rule), `logLik`,
 #'   `iterations` and `converged`. Use [tidy()], [glance()], [augment()],
 #'   [autoplot()] and [interpret()] on it.
 #' @references
@@ -64,10 +73,12 @@
 #' tidy(fit)
 #' }
 #' @export
-fit_rt <- function(x, rt, flag_method = c("residual", "nt10"), z_crit = 1.96,
-                   quadpts = c(41, 21), tol = 1e-4, maxit = 500, verbose = FALSE) {
+fit_rt <- function(x, rt, flag_method = c("residual", "nt10", "nt15", "nt20"),
+                   z_crit = 1.96, nt_max = 10, quadpts = c(41, 21), tol = 1e-4, maxit = 500, verbose = FALSE) {
   check_single(x); check_unidim(x, "fit_rt()")
   flag_method <- match.arg(flag_method)
+  if (!is.numeric(nt_max) || length(nt_max) != 1L || is.na(nt_max) || nt_max <= 0)
+    stop("`nt_max` must be a single positive number (or Inf).", call. = FALSE)
   dat <- full_response_data(x)
   rt <- as.matrix(rt)
   if (!all(dim(rt) == dim(dat)))
@@ -149,8 +160,9 @@ fit_rt <- function(x, rt, flag_method = c("residual", "nt10"), z_crit = 1.96,
   zres <- alpha_mat(alpha, N) * (L - (matrix(beta, N, J, byrow = TRUE) - tau_hat))
   lt <- rowSums(zres^2, na.rm = TRUE)
   lt_p <- stats::pchisq(lt, df = pmax(ni, 1), lower.tail = FALSE)
-  flags <- if (flag_method == "residual") zres < -z_crit else
-    rt < matrix(0.10 * colMeans(rt, na.rm = TRUE), N, J, byrow = TRUE)
+  thresholds <- nt_thresholds(rt, flag_method, nt_max)
+  flags <- if (is.null(thresholds)) zres < -z_crit else
+    rt < matrix(thresholds, N, J, byrow = TRUE)
   flags[is.na(flags)] <- FALSE
   rte <- ifelse(ni > 0, 1 - rowSums(flags) / pmax(ni, 1), NA_real_)
 
@@ -167,10 +179,18 @@ fit_rt <- function(x, rt, flag_method = c("residual", "nt10"), z_crit = 1.96,
     items = items,
     population = tibble::tibble(term = c("sd_speed", "cor_ability_speed"),
                                 estimate = c(sig_tau, rho), std.error = se_pop),
-    persons = persons, flags = flags, residuals = zres,
+    persons = persons, flags = flags, thresholds = thresholds, residuals = zres,
     logLik = post$loglik, iterations = iter, converged = converged,
-    flag_method = flag_method, z_crit = z_crit, model = x),
+    flag_method = flag_method, z_crit = z_crit, nt_max = nt_max, model = x),
     class = "mv_rt")
+}
+
+# normative threshold (NTxx) rules: a percentage of each item's mean time,
+# capped at `nt_max`; NULL for the residual rule
+nt_thresholds <- function(rt, flag_method, nt_max = 10) {
+  pct <- c(nt10 = 0.10, nt15 = 0.15, nt20 = 0.20)[flag_method]
+  if (is.na(pct)) return(NULL)
+  stats::setNames(pmin(pct * colMeans(rt, na.rm = TRUE), nt_max), colnames(rt))
 }
 
 # mirt drops persons with no responses from the fitted data; put them back as
