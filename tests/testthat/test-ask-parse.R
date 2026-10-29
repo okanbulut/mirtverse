@@ -142,3 +142,15 @@ test_that("the keyword parser keeps its accuracy on the request benchmark", {
   expect_gte(mean(res$correct), 0.9)
   expect_true(all(attr(res, "accuracy") >= 0.9))
 })
+
+test_that("the benchmark counts provider failures as wrong instead of erroring", {
+  skip_if_not_installed("ellmer")
+  withr::local_envvar(OPENAI_API_KEY = "sk-test")
+  local_mocked_bindings(llm_call = function(provider, model, payload) stop("HTTP 401"))
+  reqs <- utils::read.csv(system.file("benchmark", "ask-requests.csv", package = "mirtverse"),
+                          stringsAsFactors = FALSE, na.strings = character())[1:3, ]
+  out <- capture.output(res <- mirtverse:::ask_benchmark("openai", requests = reqs))
+  expect_true(any(grepl("fell back to the keyword parser", out)))
+  expect_true(any(grepl("HTTP 401", out)))
+  expect_false(any(res$correct[nzchar(res$fallback)]))
+})
