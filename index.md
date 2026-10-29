@@ -56,6 +56,16 @@ interpretation and reporting tools around it.
 
 ## Installation
 
+Install a prebuilt version from r-universe (no Rtools or GitHub token
+needed):
+
+``` r
+
+install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+Or install the development version from GitHub:
+
 ``` r
 
 # install.packages("remotes")

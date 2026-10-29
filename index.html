@@ -154,14 +154,18 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p>Install a prebuilt version from r-universe (no Rtools or GitHub token needed):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mirtverse"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://okanbulut.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"okanbulut/mirtverse"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-five-minute-tour">A five-minute tour<a class="anchor" aria-label="anchor" href="#a-five-minute-tour"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://philchalmers.github.io/mirt/reference/expand.table.html" class="external-link">expand.table</a></span><span class="op">(</span><span class="va">LSAT7</span><span class="op">)</span></span>
@@ -227,6 +231,7 @@
 <ul class="list-unstyled">
 <li><a href="https://doi.org/10.5281/zenodo.23719385" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.23719385.svg" alt="DOI"></a></li>
 <li><a href="https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://okanbulut.r-universe.dev/mirtverse" class="external-link"><img src="https://okanbulut.r-universe.dev/badges/mirtverse" alt="r-universe"></a></li>
 </ul>
 </div>
 
