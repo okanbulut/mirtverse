@@ -1,5 +1,12 @@
 # mirtverse (development version)
 
+* New `mv_ask()` writes a complete, commented analysis script from an
+  analysis plan (`mv_plan()`): data preparation, model fitting or selection,
+  fit checks, DIF, scores, graphics, item cards, reports and response times.
+  `run_script()` runs it, optionally after a dry run on simulated data with the
+  same structure, and `save_script()` writes it to a file. `profile_data()`
+  shows the column summary that is the only information shared with an AI
+  model. The workbench now writes its code with the same templates.
 * New `dif()` tests every item for differential item functioning between
   groups in one call, with likelihood-ratio tests, adjusted p-values and
   expected-score effect sizes. `gg_dif()` plots the effects or the item curves

@@ -67,17 +67,7 @@ read_any <- function(path, name) {
          stop("Unsupported file type: ", ext))
 }
 
-read_code <- function(name) {
-  ext <- tolower(tools::file_ext(name))
-  switch(ext,
-         csv = sprintf("data <- read.csv(\"%s\", check.names = FALSE)", name),
-         tsv = , txt = sprintf("data <- read.delim(\"%s\", check.names = FALSE)", name),
-         xlsx = , xls = sprintf("data <- as.data.frame(readxl::read_excel(\"%s\"))", name),
-         sav = sprintf("data <- as.data.frame(haven::zap_labels(haven::read_sav(\"%s\")))", name),
-         dta = sprintf("data <- as.data.frame(haven::zap_labels(haven::read_dta(\"%s\")))", name),
-         sas7bdat = sprintf("data <- as.data.frame(haven::zap_labels(haven::read_sas(\"%s\")))", name),
-         rds = sprintf("data <- as.data.frame(readRDS(\"%s\"))", name))
-}
+read_code <- function(name) code_read(name, "data")
 
 wb_table <- function(df, digits = 3, page = 10) {
   df <- as.data.frame(df)
@@ -234,15 +224,14 @@ workbench_server <- function(init_data = NULL) {
       miss <- parse_num_list(input$missing)
       if (length(miss)) {
         x[] <- lapply(x, function(v) replace(v, v %in% miss, NA))
-        code <- c(code, sprintf("data[data == %s] <- NA", miss))
+        code <- c(code, code_missing("data", miss))
       }
       key <- parse_num_list(input$key)
       if (length(key)) {
         shiny::validate(shiny::need(length(key) == ncol(x),
           sprintf("The key has %d entries but %d items are selected.", length(key), ncol(x))))
         x <- as.data.frame(mirt::key2binary(x, key))
-        code <- c(code, sprintf("data <- as.data.frame(key2binary(data, key = c(%s)))",
-                                paste(key, collapse = ", ")))
+        code <- c(code, code_key("data", key))
       }
       bad <- vapply(x, function(v) length(unique(stats::na.omit(v))) < 2, logical(1))
       if (any(bad)) {
@@ -290,14 +279,11 @@ workbench_server <- function(init_data = NULL) {
             dims <- if (isTRUE(input$try2)) 1:2 else 1
             sel <- select_model(d, dims = dims, criterion = input$criterion, verbose = FALSE)
             rv$sel <- sel; rv$model <- sel$best
-            rv$fit_code <- c(sprintf("sel <- select_model(data%s%s)",
-                                     if (isTRUE(input$try2)) ", dims = 1:2" else "",
-                                     if (input$criterion != "BIC") sprintf(", criterion = \"%s\"", input$criterion) else ""),
-                             "sel", "mod <- sel$best")
+            rv$fit_code <- code_select_model("data", dims, input$criterion)
           } else {
             mod <- mirt::mirt(d, input$nfact, itemtype = input$itemtype, verbose = FALSE)
             rv$sel <- NULL; rv$model <- mod
-            rv$fit_code <- sprintf("mod <- mirt(data, %d, itemtype = \"%s\")", input$nfact, input$itemtype)
+            rv$fit_code <- code_mirt("data", input$nfact, input$itemtype)
           }
           TRUE
         }, error = function(e) conditionMessage(e))

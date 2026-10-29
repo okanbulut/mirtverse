@@ -28,7 +28,7 @@
 #' @export
 mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis report",
                       author = NULL, cards = NULL, alpha = 0.01, dif = NULL, code = NULL,
-                      open = interactive()) {
+                      open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))) {
   sel <- NULL
   if (inherits(x, "mv_model_selection")) {
     sel <- x
