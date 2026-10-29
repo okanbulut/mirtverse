@@ -7,8 +7,9 @@
 fit_rt(
   x,
   rt,
-  flag_method = c("residual", "nt10"),
+  flag_method = c("residual", "nt10", "nt15", "nt20"),
   z_crit = 1.96,
+  nt_max = 10,
   quadpts = c(41, 21),
   tol = 1e-04,
   maxit = 500,
@@ -23,9 +24,14 @@ responses.}
 positive unit) with the same rows and columns as the response data.
 Missing values are allowed.}
 
-\item{flag_method}{\code{"residual"} or \code{"nt10"}; see Details.}
+\item{flag_method}{\code{"residual"}, \code{"nt10"}, \code{"nt15"} or \code{"nt20"}; see
+Details.}
 
 \item{z_crit}{critical value for the residual method.}
+
+\item{nt_max}{largest threshold allowed by the normative threshold rules,
+in the units of \code{rt} (10 seconds by default). Use \code{Inf} for no cap, for
+example when times are not in seconds.}
 
 \item{quadpts}{number of quadrature points per dimension.}
 
@@ -39,7 +45,9 @@ Missing values are allowed.}
 An object of class \code{mv_rt} with elements \code{items} (time intensity
 and discrimination with SEs), \code{population} (speed SD and ability-speed
 correlation), \code{persons} (joint ability and speed estimates, RTE and
-\eqn{l_t}), \code{flags} (logical matrix of rapid responses), \code{logLik},
+\eqn{l_t}), \code{flags} (logical matrix of rapid responses), \code{thresholds}
+(each item's rapid-guessing threshold for the normative threshold rules,
+\code{NULL} for the residual rule), \code{logLik},
 \code{iterations} and \code{converged}. Use \code{\link[=tidy]{tidy()}}, \code{\link[=glance]{glance()}}, \code{\link[=augment]{augment()}},
 \code{\link[=autoplot]{autoplot()}} and \code{\link[=interpret]{interpret()}} on it.
 }
@@ -60,10 +68,13 @@ jointly, so response times act as collateral information for ability.
 Standard errors come from the cross-product of the individual score
 contributions.
 
-Rapid responses are flagged in two ways: \code{"residual"} marks responses that
-are much faster than expected for that person on that item (standardized
-log-time residual below \code{-z_crit}); \code{"nt10"} uses the normative threshold of
-10\% of the item's mean time (Wise & Ma, 2012). Response time effort (RTE;
+Rapid responses are flagged in one of two ways. \code{"residual"} marks responses
+that are much faster than expected for that person on that item
+(standardized log-time residual below \code{-z_crit}). The normative threshold
+rules \code{"nt10"}, \code{"nt15"} and \code{"nt20"} (Wise & Ma, 2012) flag responses
+faster than 10\%, 15\% or 20\% of the item's mean response time, with each
+item's threshold capped at \code{nt_max} (10 seconds by default, as in the
+literature). Higher percentages flag more responses. Response time effort (RTE;
 Wise & Kong, 2005) is the proportion of a person's responses that are not
 flagged. The \eqn{l_t} person-fit statistic (van der Linden & Guo, 2008)
 flags aberrant overall timing.
