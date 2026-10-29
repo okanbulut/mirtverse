@@ -6,6 +6,15 @@
   (2012), the item thresholds of all three rules are now capped at 10 seconds;
   change the cap with the new `nt_max` argument (`nt_max = Inf` removes it).
   The thresholds used are returned in `$thresholds`.
+* New `mv_dashboard()` builds a read-only 'shiny' dashboard of your results for
+  people who do not use R. Choose the panels (summary, items with health
+  cards, item curves with an ability slider, information, Wright map, score
+  distribution and conversion table, and optionally person scores, DIF and
+  response times), add a title and logo, and run it. `export_dashboard()`
+  saves it as an `app.R` folder ready for shinyapps.io or Posit Connect. The
+  saved dashboard holds summaries only, never the item responses, and holds
+  individual scores only when you add the `"persons"` panel.
+
 * New `mv_ask()` writes a complete, commented analysis script from a
   plain-language request such as "fit a 2PL, check DIF by gender and make a
   report". Requests are understood by Claude, OpenAI GPT or a local Ollama

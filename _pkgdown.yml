@@ -17,6 +17,7 @@ articles:
   - mirtverse
   - articles/mv-ask-guide
   - workbench
+  - articles/dashboards
   - response-times
 
 reference:
@@ -56,6 +57,11 @@ reference:
   - item_card
   - item_cards
   - mv_report
+- title: Dashboards
+  desc: Interactive results dashboards to share with people who do not use R.
+  contents:
+  - mv_dashboard
+  - export_dashboard
 - title: Response times
   contents:
   - fit_rt
