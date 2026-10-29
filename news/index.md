@@ -4,7 +4,16 @@
 
 - New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
-  writes a complete, commented analysis script from an analysis plan
+  writes a complete, commented analysis script from a plain-language
+  request such as “fit a 2PL, check DIF by gender and make a report”.
+  Requests are understood by Claude, OpenAI GPT or a local Ollama model
+  (set up once with
+  [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md)),
+  or offline by a built-in keyword parser that asks follow-up questions.
+  Only a column summary is ever sent; `anonymize = TRUE` hides column
+  names and `dry_run = TRUE` shows exactly what would be sent. Scripts
+  can be refined (`mv_ask(scr, "use a 3PL instead")`) and are built from
+  an analysis plan
   ([`mv_plan()`](https://www.okanbulut.com/mirtverse/reference/mv_plan.md)):
   data preparation, model fitting or selection, fit checks, DIF, scores,
   graphics, item cards, reports and response times.
