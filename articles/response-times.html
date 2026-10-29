@@ -159,10 +159,14 @@ of examinees rapid-guess on some items.</p>
 <div class="section level2">
 <h2 id="rapid-guessing">Rapid guessing<a class="anchor" aria-label="anchor" href="#rapid-guessing"></a>
 </h2>
-<p>Two rules are available. The default <code>"residual"</code> rule
+<p>Several rules are available. The default <code>"residual"</code> rule
 flags a response that is much faster than expected for that person on
-that item. The <code>"nt10"</code> rule flags responses faster than 10%
-of the item’s mean time (Wise &amp; Ma, 2012).</p>
+that item. The normative threshold rules <code>"nt10"</code>,
+<code>"nt15"</code> and <code>"nt20"</code> flag responses faster than
+10%, 15% or 20% of the item’s mean time, with each threshold capped at
+10 seconds (Wise &amp; Ma, 2012). Change the cap with
+<code>nt_max</code>, or set <code>nt_max = Inf</code> to drop it. The
+item thresholds are stored in <code>fit$thresholds</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">flags</span><span class="op">[</span><span class="va">sim</span><span class="op">$</span><span class="va">rapid</span><span class="op">]</span><span class="op">)</span>   <span class="co"># share of simulated rapid guesses detected</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>

@@ -13,8 +13,9 @@ normal with correlation \\\rho\\.
 fit_rt(
   x,
   rt,
-  flag_method = c("residual", "nt10"),
+  flag_method = c("residual", "nt10", "nt15", "nt20"),
   z_crit = 1.96,
+  nt_max = 10,
   quadpts = c(41, 21),
   tol = 1e-04,
   maxit = 500,
@@ -38,11 +39,17 @@ fit_rt(
 
 - flag_method:
 
-  `"residual"` or `"nt10"`; see Details.
+  `"residual"`, `"nt10"`, `"nt15"` or `"nt20"`; see Details.
 
 - z_crit:
 
   critical value for the residual method.
+
+- nt_max:
+
+  largest threshold allowed by the normative threshold rules, in the
+  units of `rt` (10 seconds by default). Use `Inf` for no cap, for
+  example when times are not in seconds.
 
 - quadpts:
 
@@ -65,9 +72,10 @@ fit_rt(
 An object of class `mv_rt` with elements `items` (time intensity and
 discrimination with SEs), `population` (speed SD and ability-speed
 correlation), `persons` (joint ability and speed estimates, RTE and
-\\l_t\\), `flags` (logical matrix of rapid responses), `logLik`,
-`iterations` and `converged`. Use
-[`tidy()`](https://generics.r-lib.org/reference/tidy.html),
+\\l_t\\), `flags` (logical matrix of rapid responses), `thresholds`
+(each item's rapid-guessing threshold for the normative threshold rules,
+`NULL` for the residual rule), `logLik`, `iterations` and `converged`.
+Use [`tidy()`](https://generics.r-lib.org/reference/tidy.html),
 [`glance()`](https://generics.r-lib.org/reference/glance.html),
 [`augment()`](https://generics.r-lib.org/reference/augment.html),
 [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
@@ -85,13 +93,16 @@ jointly, so response times act as collateral information for ability.
 Standard errors come from the cross-product of the individual score
 contributions.
 
-Rapid responses are flagged in two ways: `"residual"` marks responses
-that are much faster than expected for that person on that item
-(standardized log-time residual below `-z_crit`); `"nt10"` uses the
-normative threshold of 10% of the item's mean time (Wise & Ma, 2012).
-Response time effort (RTE; Wise & Kong, 2005) is the proportion of a
-person's responses that are not flagged. The \\l_t\\ person-fit
-statistic (van der Linden & Guo, 2008) flags aberrant overall timing.
+Rapid responses are flagged in one of two ways. `"residual"` marks
+responses that are much faster than expected for that person on that
+item (standardized log-time residual below `-z_crit`). The normative
+threshold rules `"nt10"`, `"nt15"` and `"nt20"` (Wise & Ma, 2012) flag
+responses faster than 10%, 15% or 20% of the item's mean response time,
+with each item's threshold capped at `nt_max` (10 seconds by default, as
+in the literature). Higher percentages flag more responses. Response
+time effort (RTE; Wise & Kong, 2005) is the proportion of a person's
+responses that are not flagged. The \\l_t\\ person-fit statistic (van
+der Linden & Guo, 2008) flags aberrant overall timing.
 
 ## References
 

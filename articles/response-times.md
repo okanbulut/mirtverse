@@ -92,10 +92,13 @@ interpret(fit)
 
 ## Rapid guessing
 
-Two rules are available. The default `"residual"` rule flags a response
-that is much faster than expected for that person on that item. The
-`"nt10"` rule flags responses faster than 10% of the item’s mean time
-(Wise & Ma, 2012).
+Several rules are available. The default `"residual"` rule flags a
+response that is much faster than expected for that person on that item.
+The normative threshold rules `"nt10"`, `"nt15"` and `"nt20"` flag
+responses faster than 10%, 15% or 20% of the item’s mean time, with each
+threshold capped at 10 seconds (Wise & Ma, 2012). Change the cap with
+`nt_max`, or set `nt_max = Inf` to drop it. The item thresholds are
+stored in `fit$thresholds`.
 
 ``` r
 

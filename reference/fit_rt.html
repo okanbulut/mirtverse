@@ -64,8 +64,9 @@ are bivariate normal with correlation \(\rho\).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_rt</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">rt</span>,</span>
-<span>  flag_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"residual"</span>, <span class="st">"nt10"</span><span class="op">)</span>,</span>
+<span>  flag_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"residual"</span>, <span class="st">"nt10"</span>, <span class="st">"nt15"</span>, <span class="st">"nt20"</span><span class="op">)</span>,</span>
 <span>  z_crit <span class="op">=</span> <span class="fl">1.96</span>,</span>
+<span>  nt_max <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  quadpts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">41</span>, <span class="fl">21</span><span class="op">)</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">1e-04</span>,</span>
 <span>  maxit <span class="op">=</span> <span class="fl">500</span>,</span>
@@ -89,11 +90,18 @@ Missing values are allowed.</p></dd>
 
 
 <dt id="arg-flag-method">flag_method<a class="anchor" aria-label="anchor" href="#arg-flag-method"></a></dt>
-<dd><p><code>"residual"</code> or <code>"nt10"</code>; see Details.</p></dd>
+<dd><p><code>"residual"</code>, <code>"nt10"</code>, <code>"nt15"</code> or <code>"nt20"</code>; see
+Details.</p></dd>
 
 
 <dt id="arg-z-crit">z_crit<a class="anchor" aria-label="anchor" href="#arg-z-crit"></a></dt>
 <dd><p>critical value for the residual method.</p></dd>
+
+
+<dt id="arg-nt-max">nt_max<a class="anchor" aria-label="anchor" href="#arg-nt-max"></a></dt>
+<dd><p>largest threshold allowed by the normative threshold rules,
+in the units of <code>rt</code> (10 seconds by default). Use <code>Inf</code> for no cap, for
+example when times are not in seconds.</p></dd>
 
 
 <dt id="arg-quadpts">quadpts<a class="anchor" aria-label="anchor" href="#arg-quadpts"></a></dt>
@@ -117,7 +125,9 @@ Missing values are allowed.</p></dd>
     <p>An object of class <code>mv_rt</code> with elements <code>items</code> (time intensity
 and discrimination with SEs), <code>population</code> (speed SD and ability-speed
 correlation), <code>persons</code> (joint ability and speed estimates, RTE and
-\(l_t\)), <code>flags</code> (logical matrix of rapid responses), <code>logLik</code>,
+\(l_t\)), <code>flags</code> (logical matrix of rapid responses), <code>thresholds</code>
+(each item's rapid-guessing threshold for the normative threshold rules,
+<code>NULL</code> for the residual rule), <code>logLik</code>,
 <code>iterations</code> and <code>converged</code>. Use <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>, <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>,
 <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> and <code><a href="interpret.html">interpret()</a></code> on it.</p>
     </div>
@@ -130,10 +140,13 @@ algorithm on a two-dimensional quadrature grid. Persons are then scored
 jointly, so response times act as collateral information for ability.
 Standard errors come from the cross-product of the individual score
 contributions.</p>
-<p>Rapid responses are flagged in two ways: <code>"residual"</code> marks responses that
-are much faster than expected for that person on that item (standardized
-log-time residual below <code>-z_crit</code>); <code>"nt10"</code> uses the normative threshold of
-10% of the item's mean time (Wise &amp; Ma, 2012). Response time effort (RTE;
+<p>Rapid responses are flagged in one of two ways. <code>"residual"</code> marks responses
+that are much faster than expected for that person on that item
+(standardized log-time residual below <code>-z_crit</code>). The normative threshold
+rules <code>"nt10"</code>, <code>"nt15"</code> and <code>"nt20"</code> (Wise &amp; Ma, 2012) flag responses
+faster than 10%, 15% or 20% of the item's mean response time, with each
+item's threshold capped at <code>nt_max</code> (10 seconds by default, as in the
+literature). Higher percentages flag more responses. Response time effort (RTE;
 Wise &amp; Kong, 2005) is the proportion of a person's responses that are not
 flagged. The \(l_t\) person-fit statistic (van der Linden &amp; Guo, 2008)
 flags aberrant overall timing.</p>

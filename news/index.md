@@ -2,6 +2,15 @@
 
 ## mirtverse (development version)
 
+- [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
+  gains the normative threshold rules `flag_method = "nt15"` and
+  `"nt20"` for rapid guessing (15% and 20% of each item’s mean response
+  time), next to `"nt10"`, and the workbench offers all three. Following
+  Wise and Ma (2012), the item thresholds of all three rules are now
+  capped at 10 seconds; change the cap with the new `nt_max` argument
+  (`nt_max = Inf` removes it). The thresholds used are returned in
+  `$thresholds`.
+
 - New
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
   builds a read-only ‘shiny’ dashboard of your results for people who do
