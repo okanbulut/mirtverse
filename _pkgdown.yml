@@ -39,6 +39,9 @@ reference:
   - starts_with("gg_")
   - autoplot.SingleGroupClass
   - theme_mirtverse
+- title: Differential item functioning
+  contents:
+  - dif
 - title: Item health cards and reports
   contents:
   - item_card

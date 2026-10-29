@@ -1,5 +1,10 @@
 # mirtverse (development version)
 
+* New `dif()` tests every item for differential item functioning between
+  groups in one call, with likelihood-ratio tests, adjusted p-values and
+  expected-score effect sizes. `gg_dif()` plots the effects or the item curves
+  by group, `interpret()` describes the results, and `mv_report(dif = )` adds a
+  DIF section to the report.
 * `fit_rt()` no longer fails when some persons have no item responses. mirt
   drops those rows from the fitted data; `fit_rt()` now keeps them, and their
   response times still inform speed.

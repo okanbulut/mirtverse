@@ -35,5 +35,6 @@ utils::globalVariables(c(
   "item1", "item2", "Q3", "model", "BIC", "score", "level", "observed",
   "expected", "lower", "upper", "label", "n", "tau", "rt", "rapid", "beta",
   "alpha", "log_rt", "density", "series", "lo", "hi", "RMSEA.S_X2",
-  "status", "best", "delta", "top", "first", "prop", "component", "speed", "residual", "flagged", "criterion", "prop_rapid", "rte"
+  "status", "best", "delta", "top", "first", "prop", "component", "speed", "residual", "flagged", "criterion", "prop_rapid", "rte",
+  "esd", "group"
 ))

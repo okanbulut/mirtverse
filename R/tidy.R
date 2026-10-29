@@ -221,7 +221,8 @@ item_table <- function(x, fit_stats = "S_X2", p_adjust = "none", alpha = 0.01) {
   if (!is.null(ist)) {
     out$N <- ist$N
     out$mean <- ist$mean
-    out$item_total_r <- ist$cor_if_rm
+    # corrected item-total correlation; renamed in mirt 1.48
+    out$item_total_r <- if (!is.null(ist$cor_if_rm)) ist$cor_if_rm else ist$total.r_if_rm
   }
   out$discrimination <- as.numeric(item_slopes(x))
   out$location <- if (mirt::extract.mirt(x, "nfact") == 1L)
