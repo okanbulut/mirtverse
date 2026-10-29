@@ -32,6 +32,8 @@ Point-and-click analysis with reproducible code.
 
 ## Graphics
 
+- [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md)
+  : DIF effect sizes plot
 - [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md)
   : Empirical versus model-implied item curve
 - [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md)
@@ -50,6 +52,11 @@ Point-and-click analysis with reproducible code.
   : Plot a mirt model with ggplot2
 - [`theme_mirtverse()`](https://www.okanbulut.com/mirtverse/reference/theme_mirtverse.md)
   : A clean ggplot2 theme for psychometric graphics
+
+## Differential item functioning
+
+- [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md) :
+  Differential item functioning (DIF) in one call
 
 ## Item health cards and reports
 

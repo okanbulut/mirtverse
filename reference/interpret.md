@@ -8,6 +8,9 @@ straight into a report. The rules used are documented in the Details.
 ## Usage
 
 ``` r
+# S3 method for class 'mv_dif'
+interpret(x, ...)
+
 interpret(x, ...)
 
 # S3 method for class 'SingleGroupClass'

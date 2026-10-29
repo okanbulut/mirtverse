@@ -60,6 +60,7 @@ optional item health cards and the R code needed to reproduce the analysis.</p>
 <span>  author <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cards <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  dif <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  code <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  open <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -94,6 +95,11 @@ to <code>TRUE</code> for tests of up to 40 items.</p></dd>
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>significance level for item misfit.</p></dd>
+
+
+<dt id="arg-dif">dif<a class="anchor" aria-label="anchor" href="#arg-dif"></a></dt>
+<dd><p>optional <code>mv_dif</code> object from <code><a href="dif.html">dif()</a></code>; adds a section on
+differential item functioning.</p></dd>
 
 
 <dt id="arg-code">code<a class="anchor" aria-label="anchor" href="#arg-code"></a></dt>

@@ -16,6 +16,7 @@ mv_report(
   author = NULL,
   cards = NULL,
   alpha = 0.01,
+  dif = NULL,
   code = NULL,
   open = interactive()
 )
@@ -52,6 +53,12 @@ mv_report(
 - alpha:
 
   significance level for item misfit.
+
+- dif:
+
+  optional `mv_dif` object from
+  [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); adds
+  a section on differential item functioning.
 
 - code:
 

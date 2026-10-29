@@ -2,6 +2,15 @@
 
 ## mirtverse (development version)
 
+- New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
+  tests every item for differential item functioning between groups in
+  one call, with likelihood-ratio tests, adjusted p-values and
+  expected-score effect sizes.
+  [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md)
+  plots the effects or the item curves by group,
+  [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
+  describes the results, and `mv_report(dif = )` adds a DIF section to
+  the report.
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   no longer fails when some persons have no item responses. mirt drops
   those rows from the fitted data;
