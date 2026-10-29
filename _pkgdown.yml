@@ -23,10 +23,11 @@ reference:
   desc: Point-and-click analysis with reproducible code.
   contents:
   - launch_workbench
-- title: Scripts from a plan
-  desc: Describe an analysis and get a complete, tested R script.
+- title: Scripts from plain language
+  desc: Describe an analysis in words and get a complete, tested R script.
   contents:
   - mv_ask
+  - mv_ask_setup
   - mv_plan
   - run_script
   - profile_data

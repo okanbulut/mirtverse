@@ -32,6 +32,8 @@ Imports:
     ragg
 Suggests:
     testthat (>= 3.0.0),
+    ellmer (>= 0.3.0),
+    keyring,
     knitr,
     rmarkdown,
     readxl,

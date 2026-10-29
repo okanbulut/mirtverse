@@ -1,7 +1,13 @@
 # mirtverse (development version)
 
-* New `mv_ask()` writes a complete, commented analysis script from an
-  analysis plan (`mv_plan()`): data preparation, model fitting or selection,
+* New `mv_ask()` writes a complete, commented analysis script from a
+  plain-language request such as "fit a 2PL, check DIF by gender and make a
+  report". Requests are understood by Claude, OpenAI GPT or a local Ollama
+  model (set up once with `mv_ask_setup()`), or offline by a built-in keyword
+  parser that asks follow-up questions. Only a column summary is ever sent;
+  `anonymize = TRUE` hides column names and `dry_run = TRUE` shows exactly
+  what would be sent. Scripts can be refined (`mv_ask(scr, "use a 3PL
+  instead")`) and are built from an analysis plan (`mv_plan()`): data preparation, model fitting or selection,
   fit checks, DIF, scores, graphics, item cards, reports and response times.
   `run_script()` runs it, optionally after a dry run on simulated data with the
   same structure, and `save_script()` writes it to a file. `profile_data()`
