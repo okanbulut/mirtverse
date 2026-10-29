@@ -179,16 +179,16 @@ variable, the missing-value codes, the items and the analysis steps.
 ```{r, echo = FALSE}
 bench <- data.frame(
   Parser = c("Claude (claude-opus-5-5)", "OpenAI GPT (gpt-5.6-terra)",
-             "Ollama: Qwen 3.8 27B", "Ollama: Qwen 3 8B",
+             "Ollama: Qwen 3 8B",
              "Built-in keyword parser*"),
-  `Fully correct` = c(95, 90, NA, 35, 98),
-  Question = c(96, 98, NA, 83, 100),
-  Model = c(99, 97, NA, 91, 100),
-  Dimensions = c(100, 100, NA, 100, 100),
-  Group = c(99, 99, NA, 99, 100),
-  Missing = c(100, 100, NA, 100, 100),
-  Items = c(100, 100, NA, 100, 100),
-  Steps = c(98, 94, NA, 46, 98),
+  `Fully correct` = c(95, 90, 35, 98),
+  Question = c(96, 98, 83, 100),
+  Model = c(99, 97, 91, 100),
+  Dimensions = c(100, 100, 100, 100),
+  Group = c(99, 99, 99, 100),
+  Missing = c(100, 100, 100, 100),
+  Items = c(100, 100, 100, 100),
+  Steps = c(98, 94, 46, 98),
   check.names = FALSE)
 knitr::kable(bench, align = "lrrrrrrrr",
              caption = "Percentage of the 100 benchmark requests understood correctly.")
