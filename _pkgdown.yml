@@ -15,7 +15,6 @@ articles:
   navbar: ~
   contents:
   - mirtverse
-  - ask
   - articles/mv-ask-guide
   - workbench
   - response-times
