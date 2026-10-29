@@ -19,8 +19,7 @@ the script, change it if you like, and then run or save it.
 
 This article explains how `mv_ask()` works, walks through examples, and reports
 how accurately it understands requests with each of the supported language
-models. For a shorter introduction, see
-`vignette("ask", package = "mirtverse")`.
+models.
 
 ```{r setup}
 library(mirtverse)
