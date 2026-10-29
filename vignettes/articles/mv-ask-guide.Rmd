@@ -28,8 +28,14 @@ library(mirtverse)
 
 ## How it works
 
-```{r, echo = FALSE, out.width = "100%", fig.alt = "Workflow of mv_ask(): your request and a summary of your data are turned into an analysis plan by the keyword parser or an optional AI model; the plan is checked against the data and tested templates write the R script, which you run or save."}
-knitr::include_graphics("figures/mv-ask-workflow.svg")
+```{r, echo = FALSE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(
+  src = knitr::image_uri("figures/mv-ask-workflow.svg"), width = "100%",
+  alt = paste("Workflow of mv_ask(): your request and a summary of your data are",
+              "turned into an analysis plan by the keyword parser or an optional AI",
+              "model; the plan is checked against the data and tested templates",
+              "write the R script, which you run or save."))
 ```
 
 `mv_ask()` follows a **hybrid design**: a language model (or a built-in
