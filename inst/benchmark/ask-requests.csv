@@ -1,0 +1,101 @@
+id,request,model,nfact,group,missing,items,steps,question
+1,"Fit a 2PL to my data, check DIF by gender, and make a report",2PL,1,gender,,,dif;report,0
+2,Run a Rasch analysis,Rasch,1,,,,,0
+3,fit the rasch model and give me person scores,Rasch,1,,,,scores,0
+4,1PL please,Rasch,1,,,,,0
+5,Can you fit a one-parameter logistic model and plot the item curves?,Rasch,1,,,,plots,0
+6,two-parameter logistic model with item fit statistics,2PL,1,,,,fitcheck,0
+7,"3PL model, items Q1 to Q10 only",3PL,1,,,Q1:Q10,,0
+8,Fit a three-parameter model because the items are multiple choice and students may guess,3PL,1,,,,,0
+9,Which IRT model fits my data best?,auto,1,,,,,0
+10,"compare the Rasch, 2PL and 3PL models and pick the best one",auto,1,,,,,0
+11,Choose the best model and write an HTML report,auto,1,,,,report,0
+12,I just want a quick summary of my test,auto,1,,,,interpret,0
+13,analyse my test,auto,1,,,,,0
+14,"Describe the items: difficulty, discrimination, item-total correlations",auto,1,,,,describe,0
+15,classical item statistics only,auto,1,,,,describe,0
+16,Check whether the 2PL fits and look for local dependence,2PL,1,,,,fitcheck,0
+17,Is there local dependence between items?,auto,1,,,,fitcheck,0
+18,Fit a 2PL and test for differential item functioning between boys and girls in the gender column,2PL,1,gender,,,dif,0
+19,DIF by language,auto,1,language,,,dif,0
+20,Check item bias across language groups,auto,1,language,,,dif,0
+21,measurement invariance across grades,auto,1,grade,,,dif,0
+22,Test DIF between grade levels using a Rasch model,Rasch,1,grade,,,dif,0
+23,Are any items unfair to one gender?,auto,1,gender,,,dif,0
+24,check DIF,auto,1,,,,dif,1
+25,Is there any item bias?,auto,1,,,,dif,1
+26,"Fit a 2PL, DIF by gender, EAP scores saved to scores.csv and a report",2PL,1,gender,,,dif;scores;report,0
+27,Score the students with EAP,auto,1,,,,scores,0
+28,"I need ability estimates for each student, saved as abilities.csv",auto,1,,,,scores,0
+29,Give me theta estimates using WLE,auto,1,,,,scores,0
+30,Estimate MAP scores under a 2PL,2PL,1,,,,scores,0
+31,plot test information and a Wright map,auto,1,,,,plots,0
+32,Make graphs of the item characteristic curves for a 2PL,2PL,1,,,,plots,0
+33,item health cards for every item,auto,1,,,,cards,0
+34,Fit a Rasch model and make item cards and a report,Rasch,1,,,,cards;report,0
+35,Explain the results in plain language,auto,1,,,,interpret,0
+36,Interpret a 2PL for a technical report,2PL,1,,,,interpret;report,0
+37,Two-factor 2PL model,2PL,2,,,,,0
+38,fit a two-dimensional model and check fit,auto,2,,,,fitcheck,0
+39,"Three dimensions, compare models",auto,3,,,,,0
+40,multidimensional 2PL with 2 factors,2PL,2,,,,,0
+41,Is the test unidimensional? Fit a one-factor 2PL and check model fit,2PL,1,,,,fitcheck,0
+42,Missing values are coded 9. Fit a 2PL.,2PL,1,,9,,,0
+43,"treat 9 and 99 as missing, then run a Rasch model",Rasch,1,,9;99,,,0
+44,missing responses = -1; fit the best model,auto,1,,-1,,,0
+45,"2PL with 999 meaning missing, DIF by gender",2PL,1,gender,999,,dif,0
+46,Analyse response times along with the responses,auto,1,,,,rt,0
+47,Fit a 2PL and a response-time model to flag rapid guessing,2PL,1,,,,rt,0
+48,Which students were rapid guessing?,auto,1,,,,rt,0
+49,speededness and response time effort,auto,1,,,,rt,0
+50,Rasch model for items Q1-Q6,Rasch,1,,,Q1:Q6,,0
+51,"Use only Q3 through Q12, 2PL",2PL,1,,,Q3:Q12,,0
+52,Run a 3PL on Q1 to Q12 with DIF by language and a report,3PL,1,language,,Q1:Q12,dif;report,0
+53,"Full analysis: item stats, best model, fit, scores, plots, summary, report",auto,1,,,,describe;fitcheck;scores;plots;interpret;report,0
+54,Everything for a technical report on this test,auto,1,,,,report,0
+55,"Item fit for a 2PL, nothing else",2PL,1,,,,fitcheck,0
+56,"2PL model, item fit, Q3 heatmap",2PL,1,,,,fitcheck,0
+57,Make a report but no item cards,auto,1,,,,report,0
+58,DIF by gender without a report,auto,1,gender,,,dif,0
+59,fit GRM,graded,1,,,,,0
+60,graded response model,graded,1,,,,,0
+61,Samejima's graded model with a report,graded,1,,,,report,0
+62,generalized partial credit model,gpcm,1,,,,,0
+63,GPCM and person scores,gpcm,1,,,,scores,0
+64,partial credit model for my rating scale,gpcm,1,,,,,0
+65,Run IRT on my data,auto,1,,,,,0
+66,I'm new to IRT. What does my test look like?,auto,1,,,,interpret,0
+67,Fit 2PL. DIF: gender. Report: yes.,2PL,1,gender,,,dif;report,0
+68,2pl + dif(gender) + report,2PL,1,gender,,,dif;report,0
+69,please do rasch with fit and scores,Rasch,1,,,,fitcheck;scores,0
+70,Can you check if the questions work the same way for both language groups?,auto,1,language,,,dif,0
+71,Compare item functioning across grade,auto,1,grade,,,dif,0
+72,Run a 2PL and save the report as results.html,2PL,1,,,,report,0
+73,Wright map please,auto,1,,,,plots,0
+74,test information function for a Rasch model,Rasch,1,,,,plots,0
+75,Fit a 2PL model to Q1:Q12 and summarise it,2PL,1,,,Q1:Q12,interpret,0
+76,"descriptives, then 2PL, then a summary",2PL,1,,,,describe;interpret,0
+77,item statistics and reliability,auto,1,,,,describe,0
+78,check model fit with M2 and item fit with S-X2,auto,1,,,,fitcheck,0
+79,Find misfitting items under the Rasch model,Rasch,1,,,,fitcheck,0
+80,flag bad items and make item cards,auto,1,,,,cards,0
+81,I want EAP scores and a plot of their distribution,auto,1,,,,scores,0
+82,Estimate abilities with maximum likelihood,auto,1,,,,scores,0
+83,DIF across languages with a 3PL,3PL,1,language,,,dif,0
+84,Check DIF for gender and make item cards,auto,1,gender,,,dif;cards,0
+85,Two factor model with DIF by gender,auto,2,gender,,,dif,0
+86,A 2PL with response times and a report,2PL,1,,,,rt;report,0
+87,"Run a Rasch model, missing coded 9, scores to scores.csv",Rasch,1,,9,,scores,0
+88,"fit a 3pl, show the item curves, explain the results",3PL,1,,,,plots;interpret,0
+89,Model comparison then report,auto,1,,,,report,0
+90,Which model should I use? Then give me scores.,auto,1,,,,scores,0
+91,Fit a 2PL and check whether items behave differently by gender and by language,2PL,1,gender,,,dif,0
+92,Item analysis for my survey (5-point Likert items) with a graded model,graded,1,,,,,0
+93,Rasch analysis with Wright map and item fit,Rasch,1,,,,plots;fitcheck,0
+94,2PL item parameters and test information,2PL,1,,,,plots,0
+95,check differential item functioning by grade using a 2PL and produce an HTML report,2PL,1,grade,,,dif;report,0
+96,"Please run the analysis and email-ready report, Rasch model",Rasch,1,,,,report,0
+97,"Fit a 2PL model; no plots, no report; just a summary",2PL,1,,,,interpret,0
+98,detect DIF and rapid guessing,auto,1,,,,dif;rt,1
+99,I have response times in time_Q1 to time_Q12; fit a joint model,auto,1,,,,rt,0
+100,unidimensional Rasch model with person fit,Rasch,1,,,,,0

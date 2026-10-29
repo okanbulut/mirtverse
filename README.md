@@ -43,7 +43,9 @@ reporting tools around it.
 | Feature | Functions |
 |---|---|
 | Point-and-click workbench with R code export | `launch_workbench()` |
+| Analysis scripts written from a plain-language request | `mv_ask()`, `mv_ask_setup()`, `run_script()` |
 | Model selection assistant | `select_model()` |
+| Differential item functioning in one call | `dif()`, `gg_dif()` |
 | Plain-language interpretation | `interpret()`, `interpret_prompt()` |
 | Tidy outputs | `tidy()`, `glance()`, `augment()`, `item_table()` |
 | ggplot2 graphics, including Wright maps | `gg_trace()`, `gg_info()`, `gg_wright()`, `gg_itemfit()`, `gg_q3()`, `gg_scores()`, `gg_empirical()`, `autoplot()` |
@@ -78,7 +80,9 @@ item_card(mod, "Item.2")    # one-page item review
 mv_report(sel, file = "report.html")   # everything in one HTML file
 ```
 
-Prefer clicking? Run `launch_workbench()`.
+Prefer clicking? Run `launch_workbench()`. Prefer describing the analysis in
+words? `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
+writes the whole script for you.
 
 
 ## Relationship to mirt

@@ -53,6 +53,8 @@ test_that("mv_ask() works offline from a plain-language request and refines it",
   expect_false("report" %in% scr2$plan$steps)
   expect_equal(scr2$plan$group, "gender")
   expect_match(scr2$request, "Then: use a 3PL")
+  scr3 <- mv_ask(scr2, "save the scores to scores.csv")
+  expect_equal(scr3$plan$options$scores$file, "scores.csv")
   vague <- mv_ask("analyse my test", data = parse_dat, provider = "none", ask = FALSE)
   expect_equal(vague$plan$steps, c("describe", "fitcheck", "interpret"))
   expect_equal(vague$plan$model, "auto")
@@ -132,4 +134,11 @@ test_that("the structured-output type and Ollama probe work without a network", 
   expect_true(inherits(ty, "ellmer::TypeObject") || methods::is(ty, "TypeObject"))
   expect_null(mirtverse:::ollama_models("http://127.0.0.1:9"))
   expect_error(mv_ask_setup("ollama", test = FALSE, save = "none"), "Ollama is not running")
+})
+
+test_that("the keyword parser keeps its accuracy on the request benchmark", {
+  res <- mirtverse:::ask_benchmark("none", verbose = FALSE)
+  expect_equal(nrow(res), 100)
+  expect_gte(mean(res$correct), 0.9)
+  expect_true(all(attr(res, "accuracy") >= 0.9))
 })
