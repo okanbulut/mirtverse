@@ -27,15 +27,23 @@ ask_benchmark <- function(provider = "none", model = NULL, anonymize = FALSE,
   all_items <- prof$column[prof$role == "item"]
   rows <- lapply(seq_len(nrow(requests)), function(i) {
     r <- requests[i, ]
-    res <- tryCatch(mv_ask(r$request, data = data, provider = provider, model = model,
-                           anonymize = anonymize, ask = FALSE),
-                    error = function(e) e, message = function(m) invokeRestart("muffleMessage"))
+    msgs <- character()
+    res <- tryCatch(withCallingHandlers(
+                      mv_ask(r$request, data = data, provider = provider, model = model,
+                             anonymize = anonymize, ask = FALSE),
+                      message = function(m) {
+                        msgs <<- c(msgs, conditionMessage(m))
+                        invokeRestart("muffleMessage")
+                      }),
+                    error = function(e) e)
+    fallback <- grep("could not be reached", msgs, value = TRUE)[1]
     asked <- inherits(res, "error") && grepl("needs more information|unsure|cannot be run",
                                               conditionMessage(res))
     if (!inherits(res, "error") && any(grepl("unsure", res$plan$notes))) asked <- TRUE
     out <- data.frame(id = r$id, request = r$request, question = asked == as.logical(r$question),
                       model = NA, nfact = NA, group = NA, missing = NA, items = NA, steps = NA,
                       error = if (inherits(res, "error")) conditionMessage(res) else "",
+                      fallback = if (is.na(fallback)) "" else trimws(fallback),
                       stringsAsFactors = FALSE)
     if (as.logical(r$question) || inherits(res, "error")) return(out)
     p <- res$plan
@@ -53,12 +61,16 @@ ask_benchmark <- function(provider = "none", model = NULL, anonymize = FALSE,
   })
   tab <- do.call(rbind, rows)
   fields <- c("question", "model", "nfact", "group", "missing", "items", "steps")
-  tab$correct <- apply(tab[, fields], 1, function(v) all(as.logical(v), na.rm = TRUE))
+  tab$correct <- apply(tab[, fields], 1, function(v) all(as.logical(v), na.rm = TRUE)) &
+    !nzchar(tab$fallback)
   acc <- vapply(fields, function(f) mean(as.logical(tab[[f]]), na.rm = TRUE), numeric(1))
   if (verbose) {
     cat(sprintf("Parser: %s; %d requests\n", provider_label(ask_provider(provider), model), nrow(tab)))
     cat(sprintf("Fully correct plans: %.0f%%\n", 100 * mean(tab$correct)))
     print(round(100 * acc))
+    nfb <- sum(nzchar(tab$fallback))
+    if (nfb) cat(sprintf("\n%d request%s fell back to the keyword parser and count as wrong. First reason:\n%s\n",
+                         nfb, if (nfb > 1) "s" else "", tab$fallback[nzchar(tab$fallback)][1]))
   }
   invisible(structure(tab, accuracy = acc))
 }
