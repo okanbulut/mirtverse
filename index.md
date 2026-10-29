@@ -44,7 +44,9 @@ interpretation and reporting tools around it.
 | Feature | Functions |
 |----|----|
 | Point-and-click workbench with R code export | [`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md) |
+| Analysis scripts written from a plain-language request | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md), [`run_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md) |
 | Model selection assistant | [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md) |
+| Differential item functioning in one call | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md), [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md) |
 | Plain-language interpretation | [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md), [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md) |
 | Tidy outputs | [`tidy()`](https://generics.r-lib.org/reference/tidy.html), [`glance()`](https://generics.r-lib.org/reference/glance.html), [`augment()`](https://generics.r-lib.org/reference/augment.html), [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md) |
 | ggplot2 graphics, including Wright maps | [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md), [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md), [`gg_wright()`](https://www.okanbulut.com/mirtverse/reference/gg_wright.md), [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md), [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md), [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md), [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md), [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html) |
@@ -83,6 +85,9 @@ mv_report(sel, file = "report.html")   # everything in one HTML file
 
 Prefer clicking? Run
 [`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md).
+Prefer describing the analysis in words?
+`mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
+writes the whole script for you.
 
 ## Relationship to mirt
 

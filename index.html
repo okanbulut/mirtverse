@@ -37,7 +37,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
+<li><a class="dropdown-item" href="articles/ask.html">Describe your analysis in words</a></li>
+    <li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
   </ul>
 </li>
@@ -98,8 +99,20 @@
 <td><code><a href="reference/launch_workbench.html">launch_workbench()</a></code></td>
 </tr>
 <tr>
+<td>Analysis scripts written from a plain-language request</td>
+<td>
+<code><a href="reference/mv_ask.html">mv_ask()</a></code>, <code><a href="reference/mv_ask_setup.html">mv_ask_setup()</a></code>, <code><a href="reference/run_script.html">run_script()</a></code>
+</td>
+</tr>
+<tr>
 <td>Model selection assistant</td>
 <td><code><a href="reference/select_model.html">select_model()</a></code></td>
+</tr>
+<tr>
+<td>Differential item functioning in one call</td>
+<td>
+<code><a href="reference/dif.html">dif()</a></code>, <code><a href="reference/gg_dif.html">gg_dif()</a></code>
+</td>
 </tr>
 <tr>
 <td>Plain-language interpretation</td>
@@ -164,7 +177,7 @@
 <span><span class="fu"><a href="reference/item_card.html">item_card</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"Item.2"</span><span class="op">)</span>    <span class="co"># one-page item review</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span></code></pre></div>
-<p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>.</p>
+<p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>. Prefer describing the analysis in words? <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes the whole script for you.</p>
 </div>
 <div class="section level2">
 <h2 id="relationship-to-mirt">Relationship to mirt<a class="anchor" aria-label="anchor" href="#relationship-to-mirt"></a>
