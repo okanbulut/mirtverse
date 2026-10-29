@@ -120,3 +120,11 @@ test_that("a plan with no extra steps still fits a model", {
   scr <- mv_ask(data = lsat, plan = mv_plan(model = "2PL", steps = NULL))
   expect_true(any(grepl("^mod <- mirt\\(", scr$script)))
 })
+
+test_that("a long request is wrapped into comment lines", {
+  req <- paste(rep("fit a model and explain the results in plain language", 3), collapse = " ")
+  scr <- mv_ask(req, data = Science, provider = "none")
+  lines <- grep("^# (Request|  )", scr$script, value = TRUE)
+  expect_equal(sum(grepl("^# Request:", lines)), 1)
+  expect_true(all(nchar(lines) <= 74))
+})

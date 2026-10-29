@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 570" width="760" height="570" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">How mv_ask() turns a request into an R script</title>
+  <desc id="d">Your request and a summary of your data go to the built-in keyword parser or, optionally, an AI model, which fills in an analysis plan. The plan is checked against the data, and tested templates turn it into an R script that you review, run or save. Individual responses never leave your computer.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6770"/>
+    </marker>
+    <style>
+      .box{fill:#ffffff;stroke:#2C5F8A;stroke-width:1.5}
+      .key{fill:#2C5F8A}
+      .ai{fill:#fff7e6;stroke:#c98a1b;stroke-width:1.5;stroke-dasharray:5 4}
+      .h{font-size:15px;font-weight:700;fill:#1f2a33}
+      .hk{font-size:15px;font-weight:700;fill:#ffffff}
+      .s{font-size:12.5px;fill:#46525c}
+      .sk{font-size:12.5px;fill:#dbe7f1}
+      .c{font-family:Menlo, Consolas, monospace;font-size:12.5px;fill:#2C5F8A}
+      .ck{font-family:Menlo, Consolas, monospace;font-size:12.5px;fill:#ffffff}
+      .lane{fill:#f3f6f9}
+      .lane2{fill:#fbf6ec}
+      .lanet{font-size:11.5px;font-weight:700;fill:#7a8791;letter-spacing:.06em}
+      .ln{stroke:#5b6770;stroke-width:1.6;fill:none}
+      .lab{font-size:11.5px;fill:#8a5a00;font-style:italic}
+    </style>
+  </defs>
+
+  <rect class="lane" x="10" y="10" width="510" height="550" rx="10"/>
+  <text class="lanet" x="28" y="33">ON YOUR COMPUTER</text>
+  <rect class="lane2" x="535" y="10" width="215" height="550" rx="10"/>
+  <text class="lanet" x="551" y="33">OPTIONAL AI MODEL</text>
+
+  <!-- 1 inputs -->
+  <rect class="box" x="30" y="48" width="220" height="64" rx="8"/>
+  <text class="h" x="46" y="73">Your request</text>
+  <text class="s" x="46" y="95">"Fit a 2PL, DIF by gender"</text>
+  <rect class="box" x="280" y="48" width="220" height="64" rx="8"/>
+  <text class="h" x="296" y="73">Your data</text>
+  <text class="s" x="296" y="95">Never leaves your computer</text>
+
+  <!-- 2 summary -->
+  <rect class="box" x="30" y="148" width="470" height="60" rx="8"/>
+  <text class="h" x="46" y="173">1. Summarise the data</text>
+  <text class="c" x="46" y="195">profile_data()</text>
+  <text class="s" x="160" y="195">column types, ranges, likely roles; no responses</text>
+  <line class="ln" x1="140" y1="112" x2="140" y2="144" marker-end="url(#arr)"/>
+  <line class="ln" x1="390" y1="112" x2="390" y2="144" marker-end="url(#arr)"/>
+
+  <!-- 3 understand -->
+  <rect class="box" x="30" y="244" width="470" height="64" rx="8"/>
+  <text class="h" x="46" y="269">2. Understand the request</text>
+  <text class="s" x="46" y="291">Keyword parser (built in, offline) or an AI model</text>
+  <line class="ln" x1="265" y1="208" x2="265" y2="240" marker-end="url(#arr)"/>
+
+  <rect class="ai" x="552" y="148" width="182" height="178" rx="8"/>
+  <text class="h" x="566" y="173">Claude or GPT</text>
+  <text class="s" x="566" y="193">with your own key,</text>
+  <text class="h" x="566" y="219">or Ollama</text>
+  <text class="s" x="566" y="239">running locally</text>
+  <text class="s" x="566" y="267">Sees the request and the</text>
+  <text class="s" x="566" y="285">summary; returns a plan,</text>
+  <path class="ln" d="M500,276 L526,276 L526,200 L548,200" marker-end="url(#arr)"/>
+  <text class="s" x="566" y="303">never code</text>
+  <path class="ln" d="M643,326 L643,387 L504,387" marker-end="url(#arr)"/>
+  <text class="lab" x="560" y="404">the plan</text>
+
+  <!-- 4 plan -->
+  <rect class="key" x="30" y="350" width="470" height="70" rx="8"/>
+  <text class="hk" x="46" y="377">3. Analysis plan</text>
+  <text class="ck" x="182" y="377">mv_plan()</text>
+  <text class="sk" x="46" y="401">Checked against your data before any code is written</text>
+  <line class="ln" x1="265" y1="308" x2="265" y2="346" marker-end="url(#arr)"/>
+
+  <!-- 5 script / run -->
+  <rect class="box" x="30" y="458" width="220" height="86" rx="8"/>
+  <text class="h" x="46" y="483">4. R script</text>
+  <text class="s" x="46" y="505">From tested templates.</text>
+  <text class="s" x="46" y="523">Refine: mv_ask(scr, "...")</text>
+  <rect class="box" x="280" y="458" width="220" height="86" rx="8"/>
+  <text class="h" x="296" y="483">5. Run or save</text>
+  <text class="c" x="296" y="505">run_script(scr,</text>
+  <text class="c" x="296" y="521">  check = TRUE)</text>
+  <text class="c" x="296" y="537">save_script(scr)</text>
+  <line class="ln" x1="140" y1="420" x2="140" y2="454" marker-end="url(#arr)"/>
+  <line class="ln" x1="250" y1="501" x2="276" y2="501" marker-end="url(#arr)"/>
+</svg>

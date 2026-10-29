@@ -33,6 +33,7 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     ellmer (>= 0.3.0),
+    jsonlite,
     keyring,
     knitr,
     rmarkdown,

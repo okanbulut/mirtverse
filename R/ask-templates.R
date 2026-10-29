@@ -51,7 +51,7 @@ render_script <- function(plan, request = NULL) {
   src <- plan$data
   out <- c("# Analysis script written by mirtverse::mv_ask()",
            sprintf("# %s", format(Sys.time(), "%Y-%m-%d %H:%M")),
-           if (!is.null(request)) paste("# Request:", strwrap(request, 70, exdent = 2, prefix = "")),
+           if (!is.null(request)) paste0("# ", strwrap(paste("Request:", request), 72, exdent = 2)),
            if (length(plan$assumptions))
              c("# Assumptions:", paste("#  -", plan$assumptions)),
            "library(mirtverse)")
