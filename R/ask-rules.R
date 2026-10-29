@@ -11,13 +11,14 @@ parse_request_rules <- function(request, profile, prev = NULL) {
   notes <- character()
 
   # model
-  model <- if (has("\\brasch\\b", "\\b1[- ]?pl\\b", "one[- ]parameter")) "Rasch" else
+  model <- if (has("best model", "compare (the )?(\\w+,? )*models", "which (irt )?model", "select (a |the )?model",
+                    "model selection", "model comparison", "choose (a |the )?model",
+                    "compare (the )?(rasch|[123]pl)")) "auto" else
+    if (has("\\brasch\\b", "\\b1[- ]?pl\\b", "one[- ]parameter")) "Rasch" else
     if (has("\\b2[- ]?pl\\b", "two[- ]parameter")) "2PL" else
-    if (has("\\b3[- ]?pl\\b", "three[- ]parameter", "guessing")) "3PL" else
+    if (has("\\b3[- ]?pl\\b", "three[- ]parameter", "(?<!rapid )guessing\\b(?! behaviou?r)")) "3PL" else
     if (has("\\bgrm\\b", "graded", "samejima")) "graded" else
-    if (has("gpcm", "partial credit")) "gpcm" else
-    if (has("best model", "compare (the )?models", "which model", "select (a |the )?model",
-            "model selection", "choose (a |the )?model")) "auto" else NULL
+    if (has("gpcm", "partial credit")) "gpcm" else NULL
   if (!is.null(model)) fields$model <- model
 
   num <- c(one = 1, two = 2, three = 3, `1` = 1, `2` = 2, `3` = 3)
@@ -36,7 +37,7 @@ parse_request_rules <- function(request, profile, prev = NULL) {
     ends <- trimws(strsplit(r, "\\s*(-|:|to|through)\\s*", perl = TRUE)[[1]])
     if (length(ends) == 2 && !grepl("[A-Za-z]", ends[2]))
       ends[2] <- paste0(sub("[0-9]+$", "", ends[1]), ends[2])
-    if (all(ends %in% cols)) {
+    if (all(ends %in% cols) && !any(profile$role[match(ends, cols)] %in% c("rt", "group", "id"))) {
       fields$items <- c(fields$items, paste(ends, collapse = ":"))
     }
   }
@@ -47,7 +48,7 @@ parse_request_rules <- function(request, profile, prev = NULL) {
             "missing(?:\\s+(?:values?|codes?|responses?|data))?\\s*(?:(?:are|is|=|:|coded|as|by)\\s*)*",
             codes_re), txt, perl = TRUE)),
           regmatches(txt, regexpr(paste0("(?<![A-Za-z0-9])", codes_re,
-                                         "\\s+(?:as|=|means?|is|are)\\s+missing"), txt, perl = TRUE)))
+                                         "\\s+(?:as|=|means?|meaning|is|are|for)\\s+missing"), txt, perl = TRUE)))
   if (length(mm)) {
     codes <- as.numeric(regmatches(mm[1], gregexpr("-?[0-9]+", mm[1]))[[1]])
     if (length(codes)) fields$missing <- codes
@@ -59,12 +60,14 @@ parse_request_rules <- function(request, profile, prev = NULL) {
     steps <- c(steps, "describe")
   if (has("\\bfit (check|stat|index|indices)", "item fit", "misfit", "model fit",
           "check (the |model |item )?fit", "how well", "\\bm2\\b",
+          "\\bfit\\s*(,|;|\\.|$|and\\b|statistics)", "with fit\\b",
           "local dependence", "\\bq3\\b"))
     steps <- c(steps, "fitcheck")
-  dif_wanted <- has("\\bdif\\b", "differential item", "item bias", "\\bbias", "fairness",
-                    "measurement invariance", "invariance")
+  dif_wanted <- has("\\bdif\\b", "differential item", "item functioning", "\\bbias", "fairness",
+                    "unfair", "invariance", "(behave|function|work)s? (differently|the same)",
+                    "same way for")
   if (dif_wanted) steps <- c(steps, "dif")
-  if (has("scores?\\b(?! table)", "theta", "ability estimates", "person estimates", "\\beap\\b",
+  if (has("scores?\\b(?! table)", "theta", "abilit(y|ies)", "person estimates", "\\beap\\b",
           "(?<!wright )\\bmap\\b", "\\bwle\\b"))
     steps <- c(steps, "scores")
   if (has("plot", "graph", "chart", "curve", "\\bicc", "information", "wright", "visuali"))
@@ -95,7 +98,7 @@ parse_request_rules <- function(request, profile, prev = NULL) {
     word <- switch(s, describe = "descri|item stat", fitcheck = "fit", dif = "dif", scores = "score",
                    plots = "plot|graph", interpret = "interpret|summar", cards = "card",
                    report = "report", rt = "response time")
-    if (grepl(sprintf("(no|without|drop|remove|skip|don'?t (need|want|include))\\s+(the |a |any )?(%s)", word),
+    if (grepl(sprintf("(\\bno|without|drop|remove|skip|don'?t (need|want|include))\\s+(\\w+\\s+){0,2}?(%s)", word),
               txt, perl = TRUE))
       removed <- c(removed, s)
   }
@@ -104,7 +107,7 @@ parse_request_rules <- function(request, profile, prev = NULL) {
   # group for DIF
   if (dif_wanted) {
     mentioned <- cols[vapply(cols, function(cl)
-      grepl(sprintf("(^|[^a-z0-9_])%s([^a-z0-9_]|$)", tolower(gsub("([.])", "\\\\.", cl))), txt), logical(1))]
+      grepl(sprintf("(^|[^a-z0-9_])%s(e?s)?([^a-z0-9_]|$)", tolower(gsub("([.])", "\\\\.", cl))), txt), logical(1))]
     mentioned <- setdiff(mentioned, unlist(lapply(fields$items, expand_ranges, cols = cols)))
     cand <- mentioned[profile$role[match(mentioned, cols)] %in% c("group", "item", "other")]
     if (length(cand)) {

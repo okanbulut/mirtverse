@@ -56,7 +56,7 @@ mv_ask <- function(request = NULL, data = NULL, plan = NULL, provider = NULL, mo
   prev <- NULL
   if (inherits(request, "mv_script")) {
     prev <- request
-    request <- if (inherits(data, "character") && !is_file_path(data) && length(data) == 1L) {
+    request <- if (is.character(data) && length(data) == 1L && !file.exists(data)) {
       r <- data
       data <- NULL
       r
