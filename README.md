@@ -52,6 +52,7 @@ reporting tools around it.
 | ggplot2 graphics, including Wright maps | `gg_trace()`, `gg_info()`, `gg_wright()`, `gg_itemfit()`, `gg_q3()`, `gg_scores()`, `gg_empirical()`, `autoplot()` |
 | Item health cards | `item_card()`, `item_cards()` |
 | One-call HTML report | `mv_report()` |
+| Results dashboard to share with non-R users | `mv_dashboard()`, `export_dashboard()` |
 | Response-time modelling and rapid-guessing detection | `fit_rt()`, `sim_rt()` |
 
 ## Installation
@@ -87,6 +88,7 @@ gg_wright(mod)              # person-item map
 item_card(mod, "Item.2")    # one-page item review
 
 mv_report(sel, file = "report.html")   # everything in one HTML file
+mv_dashboard(mod, title = "LSAT results")   # interactive dashboard to share
 ```
 
 Prefer clicking? Run `launch_workbench()`. Prefer describing the analysis in

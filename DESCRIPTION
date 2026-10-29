@@ -27,6 +27,7 @@ Imports:
     utils,
     methods,
     grDevices,
+    graphics,
     tools,
     base64enc,
     ragg
