@@ -281,7 +281,33 @@ plan_type <- function() {
 
 llm_call <- function(provider, model, payload) {
   chat <- make_chat(provider, model, ask_system_prompt())
-  chat$chat_structured(payload, type = plan_type(), echo = "none")
+  tryCatch(chat$chat_structured(payload, type = plan_type(), echo = "none"),
+           error = function(e) {
+             # Some local models put text such as "Plan" before the JSON; ask
+             # again in plain text and pull the JSON object out of the answer
+             if (!grepl("json", conditionMessage(e), ignore.case = TRUE)) stop(e)
+             chat <- make_chat(provider, model, ask_system_prompt())
+             parse_plan_json(chat$chat(paste0(payload, "\n\n", plan_json_hint()), echo = "none"))
+           })
+}
+
+plan_json_hint <- function()
+  paste0("Reply with only a JSON object with these fields: ",
+         "items (array of column names), model (one of ", paste(plan_models, collapse = ", "),
+         "), nfact (integer), group (string), missing (array of numbers), ",
+         "rt (array of column names), steps (array; any of ", paste(plan_steps, collapse = ", "),
+         "), score_method (EAP, MAP, ML or WLE), scores_file, report_file, ",
+         "assumptions (array of strings), questions (array of strings).")
+
+parse_plan_json <- function(text) {
+  text <- paste(as.character(text), collapse = "\n")
+  start <- regexpr("{", text, fixed = TRUE)
+  ends <- gregexpr("}", text, fixed = TRUE)[[1]]
+  if (start < 0 || max(ends) < start) stop("The model did not return a plan.", call. = FALSE)
+  out <- jsonlite::fromJSON(substr(text, start, max(ends)), simplifyVector = TRUE)
+  if (!is.list(out) || is.null(out$model))
+    stop("The model did not return a plan.", call. = FALSE)
+  out
 }
 
 # Ask the model for a plan and turn its answer into an mv_plan

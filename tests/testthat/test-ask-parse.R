@@ -163,3 +163,19 @@ test_that("an AI plan whose only step is dropped still works", {
   expect_no_message(scr <- mv_ask("fit a 2PL", data = parse_dat, provider = "openai", ask = FALSE))
   expect_equal(scr$plan$model, "2PL")
 })
+
+test_that("a plan with text before the JSON is still read", {
+  skip_if_not_installed("jsonlite")
+  fake_chat <- function(provider, model, system_prompt) list(
+    chat_structured = function(...) stop("lexical error: invalid char in json text."),
+    chat = function(...) 'Plan{ "items": [], "model": "2PL", "nfact": 1, "group": "gender", "steps": ["dif"] }')
+  local_mocked_bindings(make_chat = fake_chat)
+  res <- mirtverse:::llm_call("ollama", "qwen", "payload")
+  expect_equal(res$model, "2PL")
+  expect_equal(res$steps, "dif")
+  expect_error(mirtverse:::parse_plan_json("no plan here"), "did not return a plan")
+
+  local_mocked_bindings(make_chat = function(...) list(
+    chat_structured = function(...) stop("HTTP 500")))
+  expect_error(mirtverse:::llm_call("ollama", "qwen", "payload"), "HTTP 500")
+})
