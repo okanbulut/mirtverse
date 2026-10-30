@@ -54,7 +54,8 @@
 #' @return A 'shiny' app object. Printing it (or calling the function at the
 #'   console) opens the dashboard; [shiny::runApp()] accepts it too. The
 #'   summary object is stored in its `"mv_dashboard"` attribute.
-#' @seealso [export_dashboard()] to save a dashboard for deployment,
+#' @seealso [export_dashboard()] to save a dashboard as a Shiny app folder or a
+#'   single offline HTML file,
 #'   [mv_report()] for a static HTML report.
 #' @examples
 #' \donttest{

@@ -98,6 +98,7 @@ if (interactive()) app
 }
 }
 \seealso{
-\code{\link[=export_dashboard]{export_dashboard()}} to save a dashboard for deployment,
+\code{\link[=export_dashboard]{export_dashboard()}} to save a dashboard as a Shiny app folder or a
+single offline HTML file,
 \code{\link[=mv_report]{mv_report()}} for a static HTML report.
 }

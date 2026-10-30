@@ -18,7 +18,6 @@
   self-contained HTML file that needs no server, no R and no internet
   connection. The item table, item curves with the ability slider, item
   information and person lookup stay interactive.
-
 * New `mv_ask()` writes a complete, commented analysis script from a
   plain-language request such as "fit a 2PL, check DIF by gender and make a
   report". Requests are understood by Claude, OpenAI GPT or a local Ollama
