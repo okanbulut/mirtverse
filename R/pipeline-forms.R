@@ -127,6 +127,7 @@ assemble_forms <- function(p, length, n_forms = 1, theta = c(-1, 0, 1), content 
                  if (is.null(forms)) "no feasible forms" else
                    sprintf("%d fixed form%s of %d items (ATA)", n_forms,
                            if (n_forms > 1) "s" else "", length))
+  if (!is.null(p$cuts$form)) p <- stage_rerun(p, "cuts")
   p <- stage_rerun(p, "reporting")
   p <- log_event(p, "assemble forms", p$stages$summary[p$stages$stage == "forms"])
   p <- add_code(p, cl)
@@ -244,6 +245,7 @@ simulate_cat <- function(p, n = 1000, min_sem = NULL, max_items = 30, min_items 
   p <- set_stage(p, "forms", "done",
                  sprintf("CAT simulated: %d simulees, %.1f items on average, mean SE %.2f",
                          n, summ$mean_items, summ$mean_se))
+  if (!is.null(p$cuts$form)) p <- stage_rerun(p, "cuts")
   p <- stage_rerun(p, "reporting")
   p <- log_event(p, "simulate CAT", p$stages$summary[p$stages$stage == "forms"])
   p <- add_code(p, cl)
@@ -387,6 +389,7 @@ assemble_mst <- function(p, router_length = 10, module_length = 10, n_modules = 
   p <- set_stage(p, "forms", "done",
                  sprintf("MST: router of %d items, %d modules of %d; %.0f%% misrouted",
                          router_length, n_modules, module_length, 100 * summ$misrouted))
+  if (!is.null(p$cuts$form)) p <- stage_rerun(p, "cuts")
   p <- stage_rerun(p, "reporting")
   p <- log_event(p, "assemble MST", p$stages$summary[p$stages$stage == "forms"])
   p <- add_code(p, cl)
