@@ -163,7 +163,7 @@ test_that("pipeline_report() writes the report with the decisions section", {
   groups <- regmatches(html, regexpr("<section id=\"groups\">.*?</section>", html))
   expect_match(groups, "English")
   expect_false(grepl("Other", groups))
-  expect_equal(p$stages$status[3], "done")
+  expect_equal(p$stages$status[p$stages$stage == "reporting"], "done")
   expect_error(pipeline_report(mv_pipeline()), "calibrate")
 })
 

@@ -1,5 +1,15 @@
 # mirtverse (development version)
 
+* Item banks and linking for the assessment pipeline (stage 6). `mv_bank()`
+  starts an item bank from a calibrated model or pipeline, `link_to_bank()`
+  puts a new calibration on the bank's scale through anchor items
+  (Stocking-Lord, Haebara, mean-sigma, mean-mean or fixed-anchor calibration)
+  and flags drifting anchors, too few anchors and unusual linking constants,
+  and `bank_items()` adds the new items to the bank. The pipeline report gains
+  a linking section, and `mv_rules()` gains `min_anchors`,
+  `min_anchor_share`, `anchor_displacement`, `link_slope_min` and
+  `link_slope_max`.
+
 * New assessment pipeline (first phase). `mv_pipeline()` starts a pipeline
   that takes a test from response data to a technical report in stages, with
   a gate of checks after each stage: `add_responses()` scores and screens the

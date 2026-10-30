@@ -46,6 +46,10 @@ name.
    \code{dif_poly_b}, \code{dif_poly_c} \tab 0.17, 0.25 \tab absolute SMD/SD for categories B and C (polytomous items) \cr
    \code{reliability} \tab 0.80 \tab minimum marginal reliability \cr
    \code{person_misfit} \tab -1.96 \tab Zh (lz) person-fit value below which a respondent misfits \cr
+   \code{min_anchors} \tab 5 \tab fewest anchor items for linking to a bank \cr
+   \code{min_anchor_share} \tab 0.20 \tab smallest share of the test that should be anchors \cr
+   \code{anchor_displacement} \tab 0.3 \tab largest change in an anchor's location (logits) after linking \cr
+   \code{link_slope_min}, \code{link_slope_max} \tab 0.8, 1.2 \tab acceptable range of the linking slope A \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

@@ -36,7 +36,7 @@ and \code{\link[=tidy]{tidy()}} to get all of them as a tibble.
 An assessment pipeline takes a test from response data to a score report in
 stages. Each stage does its work, then runs a set of checks (a \emph{gate}) and
 records what it finds as \emph{flags} that the user should consider before the
-next stage. This first version covers three stages:
+next stage. The stages available so far:
 }
 \details{
 \enumerate{
@@ -45,6 +45,9 @@ missing data, miskeyed items, straight-lining, rapid guessing, sparse
 categories).
 \item \code{\link[=calibrate]{calibrate()}}: model fitting with mirt (convergence, model fit, local
 dependence, item fit, parameter ranges, DIF, reliability, person fit).
+\item \code{\link[=link_to_bank]{link_to_bank()}} and \code{\link[=bank_items]{bank_items()}} (optional): put the calibration on
+the scale of an item bank through anchor items and add the new items to
+the bank (anchor drift, linking constants).
 \item \code{\link[=pipeline_report]{pipeline_report()}}: an HTML technical report that also lists every
 flag and every decision made about it.
 }

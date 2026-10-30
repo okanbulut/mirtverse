@@ -29,6 +29,10 @@
 #' | `dif_poly_b`, `dif_poly_c` | 0.17, 0.25 | absolute SMD/SD for categories B and C (polytomous items) |
 #' | `reliability` | 0.80 | minimum marginal reliability |
 #' | `person_misfit` | -1.96 | Zh (lz) person-fit value below which a respondent misfits |
+#' | `min_anchors` | 5 | fewest anchor items for linking to a bank |
+#' | `min_anchor_share` | 0.20 | smallest share of the test that should be anchors |
+#' | `anchor_displacement` | 0.3 | largest change in an anchor's location (logits) after linking |
+#' | `link_slope_min`, `link_slope_max` | 0.8, 1.2 | acceptable range of the linking slope A |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -81,7 +85,8 @@ default_rules <- list(
   rmsea = 0.06, cfi = 0.95, q3 = 0.20, fit_alpha = 0.01, fit_adjust = "BH",
   a_min = 0.3, a_max = 4, b_max = 4, c_max = 0.35,
   dif_alpha = 0.05, dif_b = 1, dif_c = 1.5, dif_poly_b = 0.17, dif_poly_c = 0.25,
-  reliability = 0.80, person_misfit = -1.96, min_group_n = 10)
+  reliability = 0.80, person_misfit = -1.96, min_anchors = 5, min_anchor_share = 0.20,
+  anchor_displacement = 0.3, link_slope_min = 0.8, link_slope_max = 1.2, min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

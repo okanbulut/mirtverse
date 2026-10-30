@@ -15,7 +15,7 @@ of \code{"acknowledged"}, \code{"overridden"} and \code{"fixed"}.}
 \item{level}{optional levels to keep (\code{"info"}, \code{"review"}, \code{"block"}).}
 
 \item{stage}{optional stages to keep (\code{"intake"}, \code{"calibration"},
-\code{"reporting"}).}
+\code{"linking"}, \code{"reporting"}).}
 }
 \value{
 A tibble with one row per flag: \code{id}, \code{stage}, \code{check}, \code{target}
