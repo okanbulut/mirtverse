@@ -24,12 +24,6 @@
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):
 
-- [Learn IRT by doing: the mirtverse
-  labs](https://www.okanbulut.com/mirtverse/articles/labs.md):
-
-  A short introduction to the interactive teaching labs: what they are,
-  how to start one, and what students do in each.
-
 - [Teaching labs for measurement
   courses](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md):
 

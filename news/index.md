@@ -59,9 +59,8 @@
   lists the labs. The new `certexam` data (with `certexam_key`) are
   simulated with known problems planted for the labs;
   [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
-  reveals them for instructors. The new “Learn IRT by doing” article
-  introduces the labs, and the “Teaching labs” article is an instructor
-  guide with an answer key.
+  reveals them for instructors. The “Teaching labs” article introduces
+  the labs for students and has an instructor guide with an answer key.
 
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   gains the normative threshold rules `flag_method = "nt15"` and

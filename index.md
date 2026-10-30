@@ -9,8 +9,8 @@ everything, with or without writing R code.
 > **New: interactive teaching labs.** Two browser-based labs let
 > students fit live mirt models and make real testing decisions, from
 > choosing a model to advising a certification board. Start one with
-> `run_lab("model-choice")`, or read [Learn IRT by
-> doing](https://www.okanbulut.com/mirtverse/articles/labs.html).
+> `run_lab("model-choice")`, or read [Teaching
+> labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html).
 
 ## About mirt
 
@@ -111,8 +111,8 @@ writes the whole script for you.
 
 Teaching a measurement course? `run_lab("model-choice")` opens an
 interactive lab in which students work through a realistic testing
-scenario with live models (see [Learn IRT by
-doing](https://www.okanbulut.com/mirtverse/articles/labs.html)).
+scenario with live models (see [Teaching
+labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 
 ## Coming from ltm, eRm, TAM or irtQ?
 

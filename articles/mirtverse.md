@@ -265,5 +265,5 @@ run_lab("model-choice")
 mirtverse includes interactive labs for measurement courses. Students
 fit live models and make real testing decisions, from choosing a model
 to advising a certification board, with feedback on every choice. See
-[Learn IRT by
-doing](https://www.okanbulut.com/mirtverse/articles/labs.md).
+[Teaching labs for measurement
+courses](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md).
