@@ -60,6 +60,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   extra <- list()
   if (!is.null(groups)) extra[["Groups"]] <- groups_html(groups, p)
   if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
+  if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -138,4 +139,45 @@ linking_html <- function(p) {
                 p$rules$anchor_displacement)),
     html_table(tab[, c("item", "bank_b", "new_b", "linked_b", "displacement", "drift")]),
     if (!is.null(p$bank)) h$p(sprintf("The bank now holds %d items.", nrow(p$bank$items))))
+}
+
+forms_html <- function(p) {
+  h <- htmltools::tags
+  fm <- p$forms
+  if (fm$method == "ata") {
+    per <- stats::aggregate(item ~ form, data = as.data.frame(fm$items),
+                            FUN = function(x) paste(x, collapse = ", "))
+    names(per) <- c("form", "items")
+    return(htmltools::tagList(
+      h$p(sprintf(paste("%d fixed form(s) were assembled by automated test assembly to be",
+                        "most informative at ability %s."), length(unique(fm$items$form)),
+                  paste(fm$theta, collapse = ", "))),
+      html_table(per),
+      h$h3("Information and precision"),
+      html_table(as.data.frame(fm$info))))
+  }
+  s <- fm$summary
+  if (fm$method == "cat") {
+    ex <- as.data.frame(fm$exposure)
+    ex <- utils::head(ex[order(-ex$exposure), , drop = FALSE], 10L)
+    return(htmltools::tagList(
+      h$p(sprintf(paste("A computerized adaptive test was simulated for %d simulees (stop at SE",
+                        "%s or %d items). On average a test had %.1f items; the mean standard",
+                        "error was %.2f, the bias %+.3f and the RMSE %.3f. %.0f%% of the bank",
+                        "was never used."), s$n, fm$design$min_SEM, fm$design$max_items,
+                  s$mean_items, s$mean_se, s$bias, s$rmse, 100 * s$unused)),
+      h$h3("Most exposed items"), html_table(ex)))
+  }
+  per <- stats::aggregate(item ~ module, data = as.data.frame(fm$modules),
+                          FUN = function(x) paste(x, collapse = ", "))
+  htmltools::tagList(
+    h$p(sprintf(paste("A two-stage multistage test was assembled: a routing module and %d",
+                      "second-stage modules targeted at ability %s, with routing cuts at %s. In",
+                      "a simulation of %d simulees, %.0f%% were routed to a different module",
+                      "than their true ability calls for; the mean standard error was %.2f and",
+                      "the bias %+.3f."),
+                length(fm$targets), paste(round(fm$targets, 2), collapse = ", "),
+                paste(round(fm$cuts, 2), collapse = ", "), s$n, 100 * s$misrouted,
+                s$mean_se, s$bias)),
+    html_table(per))
 }
