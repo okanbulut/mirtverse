@@ -114,6 +114,33 @@ interactive lab in which students work through a realistic testing
 scenario with live models (see [Learn IRT by
 doing](https://www.okanbulut.com/mirtverse/articles/labs.html)).
 
+## Coming from ltm, eRm, TAM or irtQ?
+
+[`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
+rewrites code written for these packages as mirt code, without running
+the original, and adds a comment wherever the packages differ (for
+example, conditional versus marginal likelihood in eRm, or the scaling
+constant `D = 1.702` in irtQ):
+
+``` r
+
+mirtify({
+  library(eRm)
+  fit <- RM(raschdat1)
+  pp <- person.parameter(fit)
+  itemfit(pp)
+  LRtest(fit)
+})
+```
+
+It translates the model calls and the usual next steps (scores, item and
+person fit, plots, Andersen’s LR test), and `run = TRUE` also runs the
+result. In the package tests, most translated models reproduce the
+original estimates to within about 0.006.
+[`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
+lists every supported function. See [Moving from ltm, eRm, TAM or irtQ
+to mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.html).
+
 ## Relationship to mirt
 
 **mirtverse depends on mirt and never changes how models are
