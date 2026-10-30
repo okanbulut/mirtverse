@@ -57,6 +57,8 @@ reference:
   - assemble_forms
   - simulate_cat
   - assemble_mst
+  - set_cuts
+  - item_map
   - pipeline_report
   - flags
   - acknowledge

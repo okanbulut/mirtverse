@@ -40,6 +40,10 @@
 #' | `unused_share` | 0.20 | largest share of the bank a CAT may leave unused |
 #' | `bank_depth` | 10 | bank size, in multiples of the CAT length, below which the bank is shallow |
 #' | `mst_routing` | 0.15 | largest share of MST simulees routed to the wrong module |
+#' | `cut_accuracy` | 0.85 | smallest acceptable classification accuracy |
+#' | `cut_consistency` | 0.80 | smallest acceptable classification consistency |
+#' | `cut_sem` | 0.35 | largest acceptable standard error of measurement at a cut score |
+#' | `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -95,7 +99,8 @@ default_rules <- list(
   reliability = 0.80, person_misfit = -1.96, min_anchors = 5, min_anchor_share = 0.20,
   anchor_displacement = 0.3, link_slope_min = 0.8, link_slope_max = 1.2,
   parallel_tol = 0.10, cat_sem = 0.35, cat_bias = 0.1, max_exposure = 0.25,
-  unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, min_group_n = 10)
+  unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, cut_accuracy = 0.85,
+  cut_consistency = 0.80, cut_sem = 0.35, panel_sd = 0.5, min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

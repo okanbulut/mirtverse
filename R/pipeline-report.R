@@ -61,6 +61,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   if (!is.null(groups)) extra[["Groups"]] <- groups_html(groups, p)
   if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
   if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
+  if (!is.null(p$cuts)) extra[["Cut scores"]] <- cuts_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -180,4 +181,23 @@ forms_html <- function(p) {
                 paste(round(fm$cuts, 2), collapse = ", "), s$n, 100 * s$misrouted,
                 s$mean_se, s$bias)),
     html_table(per))
+}
+
+cuts_html <- function(p) {
+  h <- htmltools::tags
+  cu <- p$cuts
+  s <- cu$summary
+  tab <- as.data.frame(cu$table)
+  if (!is.null(cu$panel_sd)) tab$panel_sd <- cu$panel_sd
+  htmltools::tagList(
+    h$p(sprintf(paste("%d cut score(s) on the %s scale divide test takers into %s. Decision",
+                      "quality was estimated by the method of %s for %s, over %s abilities:",
+                      "classification accuracy %.3f, consistency %.3f (kappa %.2f)."),
+                nrow(tab), if (cu$scale == "raw") "summed-score" else "ability",
+                paste(cu$labels, collapse = ", "), cu$method,
+                if (is.null(cu$form)) "the calibrated test" else paste("form", cu$form),
+                format(cu$n_theta, big.mark = ","), s$accuracy, s$consistency, s$kappa)),
+    h$h3("Cuts"), html_table(tab),
+    h$h3("Decision quality by cut"), html_table(as.data.frame(cu$by_cut)),
+    h$h3("Expected share in each category"), html_table(as.data.frame(cu$categories)))
 }

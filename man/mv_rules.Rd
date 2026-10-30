@@ -57,6 +57,10 @@ name.
    \code{unused_share} \tab 0.20 \tab largest share of the bank a CAT may leave unused \cr
    \code{bank_depth} \tab 10 \tab bank size, in multiples of the CAT length, below which the bank is shallow \cr
    \code{mst_routing} \tab 0.15 \tab largest share of MST simulees routed to the wrong module \cr
+   \code{cut_accuracy} \tab 0.85 \tab smallest acceptable classification accuracy \cr
+   \code{cut_consistency} \tab 0.80 \tab smallest acceptable classification consistency \cr
+   \code{cut_sem} \tab 0.35 \tab largest acceptable standard error of measurement at a cut score \cr
+   \code{panel_sd} \tab 0.5 \tab largest standard deviation of standard-setting panelists' cuts (ability units) \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 
