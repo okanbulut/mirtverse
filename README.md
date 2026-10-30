@@ -60,6 +60,7 @@ reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | `mv_dashboard()`, `export_dashboard()` |
 | Response-time modelling and rapid-guessing detection | `fit_rt()`, `sim_rt()` |
 | Interactive teaching labs for measurement courses (learnr) | `run_lab()`, `list_labs()` |
+| Translate ltm, eRm, TAM and irtQ code into mirt code | `mirtify()`, `mirtify_crosswalk()` |
 
 ## Installation
 

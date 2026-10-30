@@ -7,7 +7,8 @@
 #' ([interpret()]), item health cards ([item_card()]), one-call HTML reports
 #' ([mv_report()]), results dashboards to share ([mv_dashboard()]), a
 #' point-and-click workbench ([launch_workbench()]) and a
-#' joint model for responses and response times ([fit_rt()]).
+#' joint model for responses and response times ([fit_rt()]), and a translator
+#' from ltm, eRm, TAM and irtQ code to mirt code ([mirtify()]).
 #'
 #' @keywords internal
 #' @import mirt

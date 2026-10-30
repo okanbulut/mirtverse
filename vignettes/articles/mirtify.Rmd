@@ -1,0 +1,175 @@
+---
+title: "Moving from ltm, eRm, TAM or irtQ to mirt"
+description: >
+  Translate existing IRT code into mirt with mirtify(), see what changes and
+  why, and look up any function in the crosswalk.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+Many people learn item response theory with one package and later want to
+move to another. If your scripts were written for **ltm**, **eRm**, **TAM** or
+**irtQ**, `mirtify()` rewrites them as **mirt** code. It reads the code
+without running it, so the original package does not even need to be
+installed, and it explains every place where the two packages differ.
+
+```{r}
+library(mirtverse)
+LSAT <- expand.table(LSAT6)   # the LSAT data used in the ltm examples
+```
+
+## A first translation
+
+Give `mirtify()` your code as a string, as the path to an `.R` file, or
+unquoted inside `{ }`:
+
+```{r}
+mirtify({
+  library(ltm)
+  fit <- rasch(LSAT)
+  summary(fit)
+  factor.scores(fit)
+  item.fit(fit)
+})
+```
+
+Three things happen:
+
+- **Model calls become `mirt()` calls with the same model.** `ltm::rasch()`
+  estimates one common discrimination for all items, so the translation adds
+  a `CONSTRAIN` line rather than using mirt's `itemtype = "Rasch"` (which fixes
+  the slopes at 1 and frees the latent variance instead).
+- **Follow-up calls on the fitted object are translated too.** `mirtify()`
+  remembers that `fit` came from `rasch()`, so `factor.scores(fit)` becomes
+  `fscores()` with the matching method (ltm's empirical Bayes scores are
+  posterior modes, which mirt calls MAP).
+- **Each difference gets a note**, written as a comment above the line. Turn
+  them off with `notes = FALSE`.
+
+Code that does not involve these packages is left as it is. Calls that have
+no mirt equivalent are kept as comments, with a note on what to use instead.
+
+## Running the translation
+
+`run = TRUE` also runs the translated code and keeps what it creates in
+`$env`, so you can check the results straight away:
+
+```{r}
+res <- mirtify("fit <- ltm::rasch(LSAT)", run = TRUE)
+coef(res$env$fit, IRTpars = TRUE, simplify = TRUE)$items
+```
+
+Use `file = "analysis-mirt.R"` to save the script, or `as.character()` to get
+it as a string.
+
+## eRm: conditional and marginal likelihood
+
+eRm estimates Rasch models by conditional maximum likelihood (CML), while
+mirt uses marginal maximum likelihood (MML) with a normal latent trait. For
+the Rasch family the two give very similar item estimates. eRm reports item
+*easiness* (minus the difficulty) centred to sum to zero, so translated
+`coef()` and `summary()` calls convert mirt's difficulties to the same form.
+
+```{r}
+mirtify({
+  library(eRm)
+  fit <- RM(raschdat1)
+  coef(fit)
+  pp <- person.parameter(fit)
+  itemfit(pp)
+  LRtest(fit)
+  plotPImap(fit)
+})
+```
+
+Andersen's likelihood-ratio test (`LRtest()`) becomes the same comparison in
+mirt: a model with equal item parameters in the low and high score groups
+against one with separate parameters. On `raschdat1` eRm gives
+LR = 32.5 with 29 df (p = .30) and the translation gives 32.8 with 29 df
+(p = .29).
+
+## TAM: Q matrices, groups and latent regression
+
+`tam.mml()` and `tam.mml.2pl()` translate with their most used arguments: a
+Q matrix becomes a `mirt.model()` with correlated dimensions, `group` becomes
+`multipleGroup()` with equal item parameters and free group means and
+variances, `Y` becomes mirt's latent regression (`covdata` and `formula`),
+and `pweights` becomes `survey.weights`.
+
+```{r}
+mirtify("library(TAM)
+         mod <- tam.mml(resp, Q = Q)
+         mod2 <- tam.mml.2pl(resp, group = school)
+         wle <- tam.wle(mod)
+         wle$WLE.rel
+         tam.modelfit(mod)
+         IRT.compareModels(mod, mod2)")
+```
+
+## irtQ: the scaling constant D and priors
+
+irtQ often uses `D = 1.702`, which multiplies every slope. mirt has no `D`,
+so its slopes equal irtQ's times 1.702. The translated `summary()` and
+`coef()` calls divide them back. The translation also keeps irtQ's defaults
+that mirt does not share: 49 quadrature points from -6 to 6, one shared slope
+for `1PLM` items, and a Beta(5, 16) prior on the guessing parameters.
+
+```{r}
+mirtify("library(irtQ)
+         mod <- est_irt(data = resp, D = 1.702,
+                        model = c('1PLM', '1PLM', '3PLM', '3PLM', 'GRM'),
+                        cats = c(2, 2, 2, 2, 4))
+         summary(mod)
+         est_score(mod, method = 'WL')
+         sx2_fit(mod)")
+```
+
+## How close are the results?
+
+The package tests fit each model with the original package and with the
+translated mirt code, then compare the estimates. These are the largest
+absolute differences:
+
+| Original call | Compared | Largest difference |
+|---|---|---|
+| `ltm::rasch(LSAT)` | difficulties, common slope | 0.001 |
+| `ltm::ltm(LSAT ~ z1)` | difficulties, slopes | 0.001 |
+| `ltm::grm(Science)` | thresholds, slopes | 0.006 |
+| `ltm::gpcm(Science, constraint = "rasch")` | thresholds | 0.001 |
+| `eRm::RM(raschdat1)` | item easiness (CML vs MML) | 0.005 |
+| `TAM::tam.mml(data.sim.rasch)` | difficulties, variance | 0.001 |
+| `TAM::tam.mml.2pl(data.sim.rasch)` | slopes, intercepts | 0.003 |
+| `TAM::tam.mml(Science)` (partial credit) | log-likelihood | identical |
+| `irtQ::est_irt(model = "1PLM"/"2PLM")` | slopes, difficulties | 0.006 |
+
+The small differences come from the number of quadrature points (ltm uses 21
+and TAM 21, mirt 61) and from convergence tolerances. Two cases differ more,
+and the notes say so:
+
+- **Polytomous Rasch models in eRm** (`PCM()`): eRm centres the item
+  parameters and mirt centres the persons, so compare thresholds after
+  subtracting their mean.
+- **3PL models with a guessing prior in irtQ**: the likelihood can have more
+  than one peak, so the two packages may stop at slightly different
+  estimates. Compare the log-likelihoods if the estimates differ.
+
+## What is not translated
+
+A few functions have no direct mirt counterpart. `mirtify()` keeps them as
+comments and says what to use instead: eRm's repeated-measures models
+(`LRSM()`, `LPCM()`) and nonparametric tests (`NPtest()`), irtQ's
+fixed-ability calibration (`est_item()`) and its list-based multiple-group
+function (`est_mg()`), and ltm's modified parallel analysis (`unidimTest()`,
+translated to `M2()` as a fit check). Arguments such as TAM's design matrices
+(`A`, `B`, `xsi.fixed`) are flagged in the notes and the statement is marked
+as translated with caveats.
+
+## The crosswalk
+
+`mirtify_crosswalk()` lists every function `mirtify()` knows:
+
+```{r}
+knitr::kable(mirtify_crosswalk())
+```
