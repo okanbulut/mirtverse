@@ -1,0 +1,491 @@
+---
+title: "Lab 1: Choosing a model the board can defend"
+description: >
+  You are the new psychometrician for a certification board. Score a 32-item
+  exam, screen the items, check dimensionality, compare the Rasch, 2PL and 3PL
+  models, check fit and local dependence, and commit to a model you can
+  defend. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+responses <- certexam[, -(1:2)]
+```
+
+```{r setup-scored, include = FALSE}
+responses <- certexam[, -(1:2)]
+key_fixed <- certexam_key
+key_fixed["Q14"] <- "A"
+scored <- key2binary(responses, key_fixed)
+```
+
+```{r setup-model, include = FALSE}
+responses <- certexam[, -(1:2)]
+key_fixed <- certexam_key
+key_fixed["Q14"] <- "A"
+scored <- key2binary(responses, key_fixed)
+m2pl <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
+```
+
+## The brief
+
+### Welcome to the Northfield Certification Board
+
+You have just joined the **Northfield Certification Board** as its
+psychometrician. Last spring, **1,200 candidates** sat the board's
+**32-item multiple-choice exam** (five options per item, A to E). Candidates
+could take the exam in **English or French**.
+
+Until now the board has scored the exam by counting correct answers. It now
+wants to move to IRT scoring, and the chair has asked you one question:
+
+> *Which IRT model should we use, and can you defend that choice if a
+> candidate appeals?*
+
+In this lab you will answer it the way a working psychometrician would: look
+at the data, screen the items, check the assumptions, compare models, and
+commit to one. Along the way you will make decisions. Some have a clear right
+answer; others are judgment calls where the feedback explains the trade-off.
+
+In **Lab 2** (`run_lab("decisions")`) you will use the model to set scores,
+check precision at the pass mark and look for unfair items.
+
+### Meet the data
+
+The responses are in `certexam`. Each row is a candidate. The first two
+columns are the candidate ID and the language of the exam; `Q01` to `Q32`
+hold the option each candidate chose. The published answer key is in
+`certexam_key`.
+
+Run the code to look at the first few rows and the key.
+
+```{r look, exercise = TRUE}
+head(certexam[, 1:8])
+certexam_key
+```
+
+```{r look-check}
+"The data are raw option letters, not 0/1 scores. That is the next step."
+```
+
+## Score the responses
+
+### From letters to 0/1
+
+IRT models for multiple-choice items such as the Rasch, 2PL and 3PL work on
+**scored** responses: 1 if the candidate chose the keyed option, 0 otherwise.
+mirt's `key2binary()` does this. It takes the response columns and the key.
+
+Score the 32 item columns of `certexam` with `certexam_key` and save the
+result as `scored`. The item columns are everything except the first two.
+
+```{r score, exercise = TRUE}
+responses <- certexam[, -(1:2)]
+scored <-
+```
+
+```{r score-hint}
+# key2binary(fulldata, key)
+scored <- key2binary(responses, ___)
+```
+
+```{r score-solution}
+responses <- certexam[, -(1:2)]
+scored <- key2binary(responses, certexam_key)
+```
+
+```{r score-check}
+lab_need(exists("scored"), "Save the scored data as `scored`.")
+lab_need(identical(dim(scored), c(1200L, 32L)),
+         "`scored` should have 1,200 rows and 32 columns. Did you leave out the id and language columns?")
+lab_need(all(scored %in% c(0, 1)), "`scored` should contain only 0s and 1s.")
+"Scored. Each row is now a pattern of 0s and 1s."
+```
+
+```{r q-score}
+question_radio("Why do we score the responses before fitting the 2PL or 3PL model?",
+  answer("Because these models describe the probability of a *correct* answer, so they need to know which answers are correct.",
+         correct = TRUE,
+         message = "Right. The 2PL and 3PL model correct versus incorrect. A model for the chosen option itself (for example the nominal response model) exists, but it answers a different question."),
+  answer("Because mirt cannot read letters.",
+         message = "mirt can fit models to unscored options (the nominal model), so this is not the reason. The reason is what the 2PL and 3PL model: the probability of a correct answer."),
+  answer("To make the data smaller.",
+         message = "Size has nothing to do with it. These models describe the probability of a correct answer, so they need to know which answers are correct."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Screen the items
+
+### Classical item statistics first
+
+Before fitting any IRT model, a careful analyst runs **classical item
+statistics**. They are fast, model-free, and catch data problems that would
+otherwise contaminate every model you fit.
+
+`itemstats()` reports, for each item, the proportion correct (`mean`) and the
+corrected item-total correlation (`total.r`), which is the point-biserial
+between the item and the total of the other items. Run it and look at the
+`total.r` column, sorted from lowest to highest.
+
+```{r classical, exercise = TRUE, exercise.setup = "setup-scored"}
+scored <- key2binary(responses, certexam_key)   # the published key
+stats <- itemstats(scored)$itemstats
+round(stats[order(stats$total.r), c("mean", "total.r")], 2)
+```
+
+```{r q-miskey}
+question_radio("One item has a **negative** item-total correlation. What should you do first?",
+  answer("Check the answer key for that item before doing anything else.",
+         correct = TRUE,
+         message = "Yes. A negative item-total correlation means high scorers tend to get the item *wrong*. The most common cause by far is a key error, and it costs nothing to check. Never drop or rescore an item before ruling that out."),
+  answer("Drop the item; it is clearly bad.",
+         message = "Too fast. A negative discrimination often means the *key* is wrong, not the item. Dropping a good item because of a clerical error throws away information and is hard to explain if a candidate appeals."),
+  answer("Keep it; the IRT model will give it a low discrimination and handle it.",
+         message = "The model would give it a negative slope, and every candidate’s score would be pulled in the wrong direction by this item. Something is wrong with this item, and you need to find out what."),
+  answer("Reverse-score it so the correlation becomes positive.",
+         message = "Reverse-scoring makes sense for negatively worded survey items, not for multiple-choice items. Flipping the scores would give credit for every wrong option. Find out why the correlation is negative first."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Distractor analysis
+
+To check a key, look at which option the **strongest candidates** chose. If
+the key is right, most of them should have picked the keyed option.
+
+The code below takes the top 20% of candidates on the *other* 31 items and
+tabulates the options they chose on Q14. Compare the result with the
+published key for Q14.
+
+```{r distractor, exercise = TRUE, exercise.setup = "setup-scored"}
+scored <- key2binary(responses, certexam_key)
+rest <- rowSums(scored[, -14])
+top <- rest >= quantile(rest, 0.8)
+round(prop.table(table(responses$Q14[top])), 2)
+certexam_key["Q14"]
+```
+
+```{r q-key-letter}
+question_radio("Which option is most likely the correct answer to Q14?",
+  answer("A", correct = TRUE,
+         message = "Right. Almost 90% of the strongest candidates chose A, while the key says C. In practice you would confirm with the item writer; here the board’s content team confirms that **A** is correct and the published key was a typo."),
+  answer("B", message = "Look at the proportions for the top group: one option stands out."),
+  answer("C", message = "C is the *published* key, but very few strong candidates chose it. That is the red flag."),
+  answer("D", message = "Look at the proportions for the top group: one option stands out."),
+  answer("E", message = "Look at the proportions for the top group: one option stands out."),
+  allow_retry = TRUE
+)
+```
+
+### Fix the key and rescore
+
+Make a corrected copy of the key called `key_fixed`, with Q14 set to the
+right answer, and rescore the data into `scored`.
+
+```{r rescore, exercise = TRUE}
+key_fixed <- certexam_key
+key_fixed["Q14"] <-
+scored <-
+```
+
+```{r rescore-hint}
+key_fixed["Q14"] <- "?"   # the option the strongest candidates chose
+scored <- key2binary(responses, key_fixed)
+```
+
+```{r rescore-solution}
+key_fixed <- certexam_key
+key_fixed["Q14"] <- "A"
+scored <- key2binary(responses, key_fixed)
+itemstats(scored)$itemstats["Q14", c("mean", "total.r")]
+```
+
+```{r rescore-check}
+lab_need(exists("key_fixed"), "Create the corrected key as `key_fixed`.")
+lab_need(identical(unname(key_fixed[["Q14"]]), "A"),
+         "Q14 in `key_fixed` should be the option most strong candidates chose.")
+lab_need(sum(key_fixed != certexam_key) == 1L, "Change only Q14; the rest of the key is fine.")
+lab_need(exists("scored") && identical(dim(scored), c(1200L, 32L)),
+         "Rescore the data with `key2binary(responses, key_fixed)` and save it as `scored`.")
+lab_need(abs(mean(scored[, "Q14"]) - mean(responses$Q14 == "A")) < 1e-8,
+         "`scored` still looks like it was made with the old key. Rescore with `key_fixed`.")
+"Fixed. With the right key, the item-total correlation of Q14 jumps from -0.16 to 0.46, the sixth highest on the exam. From here on, every exercise uses the corrected data."
+```
+
+## How many dimensions?
+
+### Is one trait enough?
+
+The Rasch, 2PL and 3PL models in their usual form assume the exam measures
+**one** trait. If it really measures two (say, knowledge and reading speed),
+a one-dimensional model will blur them together.
+
+Fit a one-factor and a two-factor 2PL and compare them. The two-factor model
+uses fewer quadrature points and a looser tolerance so it runs in a few
+seconds; in a real analysis you would let it run longer.
+
+```{r dims, exercise = TRUE, exercise.setup = "setup-scored", exercise.timelimit = 180}
+m1 <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
+m2 <- mirt(scored, 2, itemtype = "2PL", verbose = FALSE, quadpts = 21, TOL = 1e-3)
+anova(m1, m2)
+```
+
+The likelihood-ratio test is significant and AIC prefers two factors, while
+BIC prefers one. When the criteria disagree, look at **what the second factor
+is**. Here are the rotated loadings; small loadings are hidden.
+
+```{r loadings, exercise = TRUE, exercise.setup = "setup-scored", exercise.timelimit = 180}
+m2 <- mirt(scored, 2, itemtype = "2PL", verbose = FALSE, quadpts = 21, TOL = 1e-3)
+summary(m2, rotate = "oblimin", suppress = 0.25)
+```
+
+```{r q-dims}
+question_radio("What do you conclude about dimensionality?",
+  answer("One dimension is defensible. The second factor is just Q21 and Q22, which points to a local problem between two items, not a second trait.",
+         correct = TRUE,
+         message = "Exactly. Every other item loads on the first factor; the second factor is made of two items only. A two-item factor is the classic signature of **local dependence** (for example, two items sharing a passage) rather than a second skill. Keep one dimension and investigate Q21 and Q22 in the local dependence step."),
+  answer("Two dimensions: the likelihood-ratio test is significant.",
+         message = "With 1,200 candidates the likelihood-ratio test will detect even trivial departures. Statistical significance is not the same as a substantive second trait. Look at which items load on factor 2."),
+  answer("Two dimensions: AIC is lower.",
+         message = "AIC penalises extra parameters lightly and BIC disagrees. When criteria disagree, the loadings are the tie-breaker: a factor defined by two items is not a second trait."),
+  answer("One dimension, because BIC says so; nothing else to check.",
+         message = "The conclusion is reasonable, but the reasoning is incomplete. The loadings show *why* the second factor appeared (Q21 and Q22), and that is a problem you still need to deal with."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Compare the models
+
+### Rasch, 2PL or 3PL?
+
+The three standard candidates differ in what they let vary across items:
+
+| Model | Discrimination | Difficulty | Lower asymptote (guessing) |
+|---|---|---|---|
+| Rasch | equal for all items | free | 0 |
+| 2PL | free | free | 0 |
+| 3PL | free | free | free |
+
+`select_model()` fits all three to the same data and compares them on
+information criteria, likelihood-ratio tests and the M2 limited-information
+fit statistic. It takes about ten seconds.
+
+```{r compare, exercise = TRUE, exercise.setup = "setup-scored", exercise.timelimit = 180}
+sel <- select_model(scored, verbose = FALSE)
+sel
+```
+
+```{r compare-solution}
+sel <- select_model(scored, verbose = FALSE)
+sel
+sel$table[, c("model", "npar", "AIC", "BIC", "converged", "RMSEA")]
+```
+
+Look at the table carefully, including the `converged` column, before you
+decide.
+
+```{r q-model}
+question_radio("Which model would you recommend to the board?",
+  answer("2PL",
+         correct = TRUE,
+         message = "Defensible. The 2PL has the lowest BIC, fits well (low RMSEA from M2), converges cleanly and is easy to explain: items differ in difficulty and in how sharply they separate candidates. The cost: it ignores guessing on a five-option exam, so it may slightly overstate what low scorers know."),
+  answer("3PL",
+         correct = TRUE,
+         message = "Also defensible, but you must handle the warning signs. The 3PL has the lowest AIC and guessing is plausible on a multiple-choice exam. But the default estimation did **not converge**, and BIC prefers the 2PL. With 1,200 candidates the guessing parameters are poorly determined, so in practice you would add priors on them, for example `PRIOR = (1-32, g, expbeta, 2, 17)` in `mirt.model()`, and explain them to the board."),
+  answer("Rasch",
+         message = "The Rasch model has the worst AIC and BIC and the poorest M2 fit here; the items clearly differ in discrimination. Rasch has real advantages (the sum score is sufficient and it is simple to explain), but you cannot defend it when the data reject equal discriminations this clearly."),
+  answer("Whichever has the lowest AIC, automatically.",
+         message = "Information criteria are evidence, not a verdict. AIC and BIC disagree here, and the AIC winner did not converge. A defensible choice weighs fit, convergence, sample size and how you will explain the model to the board."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Why the criteria disagree
+
+AIC and BIC both reward fit and penalise parameters, but BIC's penalty grows
+with sample size: it charges log(1,200), about 7.1 points, for each extra
+parameter, while AIC charges 2. The 3PL adds 32 guessing parameters, which
+AIC finds worth it and BIC does not.
+
+Neither is "right". BIC tends to pick the model that generalises best when
+the sample is moderate; AIC tends to pick the model closest to the truth when
+the sample is large. Your job is to make a choice you can explain.
+
+For the rest of this lab we continue with the **2PL**, the model the board
+adopts in Lab 2.
+
+## Check the chosen model
+
+### Item fit
+
+A model can fit well overall and still misfit particular items.
+`gg_itemfit()` plots the S-X2 item-fit statistic for each item and marks
+items with p < .01.
+
+```{r itemfit, exercise = TRUE, exercise.setup = "setup-model"}
+gg_itemfit(m2pl)
+```
+
+```{r q-itemfit}
+question_radio("A couple of items have p < .01. How worried should you be?",
+  answer("Not very, yet. With 32 tests some small p-values are expected by chance; adjust for multiple testing and look at the size of the misfit before acting.",
+         correct = TRUE,
+         message = "Right. Try `gg_itemfit(m2pl, p_adjust = \"BH\")`: after a false-discovery-rate correction at most one item stays flagged, and its RMSEA is small (about 0.03). Note it, look at its empirical plot with `gg_empirical(m2pl, \"Q12\")`, and move on."),
+  answer("Very: drop every flagged item.",
+         message = "Thirty-two significance tests at alpha = .01 will flag items by chance. Dropping items on that basis alone shortens the exam and changes what it measures. Adjust for multiple testing and look at effect sizes first."),
+  answer("Not at all: overall fit is good, so item fit does not matter.",
+         message = "Overall fit can hide problems with individual items. Item fit is worth checking, but with multiple-testing adjustments and an eye on effect size."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+Try the adjusted version yourself:
+
+```{r itemfit2, exercise = TRUE, exercise.setup = "setup-model"}
+gg_itemfit(m2pl, p_adjust = "BH")
+```
+
+### Local dependence
+
+IRT assumes that, once you know a candidate's ability, their answers to
+different items are independent. Yen's Q3 statistic is the correlation
+between items' residuals. A pair whose Q3 is more than about 0.2 above the
+average Q3 suggests the two items are connected by something other than the
+trait. `gg_q3()` shows all pairs and labels the ones that stand out.
+
+```{r q3, exercise = TRUE, exercise.setup = "setup-model", fig.height = 6.5}
+gg_q3(m2pl)
+```
+
+The board's item bank notes say: *"Q21 and Q22 are based on the same case
+description (Passage 4)."*
+
+```{r q-dependence}
+question_radio("What should the board do about Q21 and Q22?",
+  answer("Treat them as a testlet: combine them into one 0 to 2 item (or model the passage), or keep only one of them. At minimum, report the dependence.",
+         correct = TRUE,
+         message = "Yes. Two items about one passage behave partly like one item, so the model overstates how much information they give and overstates precision. Common fixes: sum them into one polytomous item, fit a testlet (bifactor) model, or drop one. Whatever you choose, document it."),
+  answer("Nothing. Q3 of about 0.27 is small.",
+         message = "Q3 above 0.2 is a common flag, and this pair is more than twice as large as any other pair. It also produced the second factor earlier. It needs action, or at least a note in the technical report."),
+  answer("Drop both items.",
+         message = "That throws away two otherwise good items. Combining them into one testlet score keeps their information without the double counting."),
+  answer("Switch to a two-dimensional model for the whole exam.",
+         message = "The dependence is specific to one passage, not a second trait running through the exam. A local fix (testlet score or bifactor model for the passage) is more targeted and easier to explain."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Commit to a model
+
+### Fit the final model
+
+Fit the model you would recommend to the board and save it as `final`. Use
+the corrected data `scored`. If you want to act on the Q21/Q22 dependence,
+one option is to replace the two items with their sum before fitting (then
+use `itemtype = "graded"` or `"gpcm"` for that item).
+
+```{r final, exercise = TRUE, exercise.setup = "setup-scored", exercise.timelimit = 180}
+final <-
+```
+
+```{r final-hint}
+final <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
+```
+
+```{r final-solution}
+final <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
+interpret(final)
+```
+
+```{r final-check}
+lab_need(exists("final"), "Save your model as `final`.")
+lab_need(methods::is(final, "SingleGroupClass"),
+         "`final` should be a model fitted with `mirt()`.")
+lab_need(mirt::extract.mirt(final, "nfact") == 1L,
+         "Earlier you concluded that one dimension is defensible, so fit a one-factor model.")
+lab_need(isTRUE(mirt::extract.mirt(final, "converged")),
+         "Your model did not converge. For the 3PL, raise the number of cycles with `technical = list(NCYCLES = 3000)` or add priors on the guessing parameters.")
+lab_need(abs(mean(mirt::extract.mirt(final, "data")[, "Q14"], na.rm = TRUE) -
+               mean(responses$Q14 == "A")) < 1e-8 ||
+           !"Q14" %in% colnames(mirt::extract.mirt(final, "data")),
+         "Your model seems to use the old key for Q14. Fit it to the corrected `scored` data.")
+types <- unique(mirt::extract.mirt(final, "itemtype"))
+sprintf("Model saved: %s, one factor, converged. Run interpret(final) for a plain-language summary.",
+        paste(types, collapse = " + "))
+```
+
+### Justify it
+
+Write three or four sentences to the board's chair explaining which model
+you chose and why. Imagine a candidate's lawyer will read it.
+
+```{r q-justify}
+question_text(
+  "Your justification:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 80)
+      return(incorrect("Write a bit more: name the model, the evidence and at least one limitation."))
+    correct(paste(
+      "Thanks. Compare your answer with this model answer:",
+      "\"We recommend scoring the exam with a unidimensional 2PL model.",
+      "After correcting a key error on Q14, one dimension accounts for the data;",
+      "the only secondary structure is a pair of items sharing a passage (Q21-Q22), which we will score as one testlet.",
+      "The 2PL had the lowest BIC, fit well (M2 RMSEA < .02) and converged cleanly, while the 3PL’s guessing parameters could not be estimated reliably with 1,200 candidates.",
+      "The main limitation is that the 2PL ignores guessing, which mostly affects precision for the lowest scorers, far from the pass mark.\""))
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 6,
+  placeholder = "We recommend ... because ..."
+)
+```
+
+## Your decisions
+
+### What you decided
+
+Here are the decisions you made in this lab. Questions you have not answered
+yet are marked as such; you can go back and answer them.
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-score" = "Why score first",
+    "q-miskey" = "Negative item-total correlation",
+    "q-key-letter" = "Correct answer to Q14",
+    "q-dims" = "Dimensionality",
+    "q-model" = "Model recommendation",
+    "q-itemfit" = "Flagged item fit",
+    "q-dependence" = "Q21 and Q22",
+    "q-justify" = "Written justification"
+  ))
+})
+```
+
+### Where to next
+
+You found a key error, showed that one dimension is defensible, chose
+between models whose evidence disagreed, and found a dependent pair of
+items. That is a full model-selection workflow.
+
+In **Lab 2** the board adopts the 2PL and asks the next questions: how
+precise is the exam at the pass mark, which scores should go on candidates'
+reports, how many candidates might be misclassified, and are any items unfair
+to French-language candidates? At the end you will see the truth behind the
+data and how close your decisions came.
+
+```{r next, eval = FALSE, echo = TRUE}
+run_lab("decisions")
+```

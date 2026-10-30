@@ -1,0 +1,184 @@
+---
+title: "Teaching labs for measurement courses"
+description: >
+  Interactive learnr labs in which students fit live mirt models and make the
+  decisions a psychometrician makes, from scoring and model choice to
+  interpretation. Includes an instructor guide and answer key.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+mirtverse ships interactive labs for university measurement courses. They are
+[learnr](https://rstudio.github.io/learnr/) tutorials: students read a short
+brief, run real R code against live mirt models, and answer decision questions
+that explain why each choice holds up or doesn't. The goal is not only to learn
+the mirt syntax but to practise the judgment calls of a working analyst.
+
+```{r}
+install.packages("learnr")   # once
+library(mirtverse)
+list_labs()
+run_lab("model-choice")   # Lab 1
+run_lab("decisions")      # Lab 2
+```
+
+The labs also appear in RStudio's **Tutorial** pane once mirtverse and learnr
+are installed. Students' progress is saved on their computer, so they can stop
+and pick up where they left off.
+
+## The storyline
+
+Both labs follow one scenario. Students are the new psychometrician for the
+fictional **Northfield Certification Board**. The board's 32-item,
+five-option exam was taken by 1,200 candidates in English or French, and the
+board wants to move from number-correct to IRT scoring.
+
+The data, `certexam`, are simulated from item parameters based on a 3PL
+calibration of mirt's `SAT12` data, so the items behave like real ones. Because
+the data were generated, the truth is known, and a few problems were planted
+on purpose:
+
+| Planted problem | Where students meet it | What a good analyst does |
+|---|---|---|
+| Q14 is miskeyed in `certexam_key` | Lab 1, item screening | Spots the negative item-total correlation, checks the key with a distractor analysis, fixes it and rescores |
+| Q21 and Q22 share a reading passage | Lab 1, dimensionality and local dependence | Recognises a two-item "factor" as local dependence, not a second trait; treats the pair as a testlet |
+| Guessing on harder items (the true model is the 3PL) | Lab 1, model comparison | Weighs AIC against BIC, convergence and sample size; 2PL and 3PL are both defensible, Rasch is not |
+| Q09 (uniform) and Q27 (non-uniform) show DIF against French candidates | Lab 2, fairness | Flags both for content review |
+| French candidates score 0.35 SD lower on average | Lab 2, fairness | Separates a real group difference (impact) from DIF |
+
+`lab_truth()` returns the generating values for instructors.
+
+## Lab 1: Choosing a model the board can defend
+
+`run_lab("model-choice")`, about 75 minutes.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the board and the raw data | |
+| Score the responses | `key2binary()` | Why score before fitting? |
+| Screen the items | `itemstats()`, a distractor analysis, fix the key | What to do with a negative item-total correlation; which option is the real key |
+| How many dimensions? | One- vs two-factor 2PL, `anova()`, rotated loadings | Is one dimension defensible? |
+| Compare the models | `select_model()` on Rasch, 2PL, 3PL | Which model to recommend |
+| Check the chosen model | `gg_itemfit()`, `gg_q3()` | How to treat flagged item fit; what to do about Q21 and Q22 |
+| Commit to a model | Fit `final`, write a justification | Free-text justification, then a model answer |
+| Your decisions | A table of every answer the student gave | |
+
+Every decision question explains why each option holds up or doesn't, so a
+wrong answer becomes a teaching moment:
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-screening.png"), width = "100%",
+               alt = "Screening the items in Lab 1: the miskeyed item stands out, and choosing to drop it gets an explanation.")
+```
+
+At the end, students see every choice they made:
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-decisions.png"), width = "100%",
+               alt = "The decision table at the end of Lab 1.")
+```
+
+### Answer key
+
+* **Why score first:** the 2PL and 3PL model the probability of a correct
+  answer.
+* **Negative item-total correlation:** check the key before anything else.
+* **Real key for Q14:** A. About 90% of the top 20% of candidates chose it;
+  the published key says C.
+* **Dimensions:** one. The likelihood-ratio test and AIC favour two factors,
+  BIC favours one, and the second factor is made only of Q21 and Q22.
+* **Model:** the 2PL (lowest BIC, converges, M2 RMSEA about 0.015) or the 3PL
+  (lowest AIC, but it does not converge with default settings and its guessing
+  parameters are poorly determined at N = 1,200). Both are accepted; the
+  feedback names the trade-off. Rasch is rejected by every criterion.
+* **Item fit:** a couple of items have p < .01, but after a
+  false-discovery-rate correction none is flagged at that level, and the
+  misfit is small (RMSEA about 0.03).
+* **Q21 and Q22:** Q3 of about 0.27, more than twice any other pair. Combine
+  them into a testlet score, model the passage, or keep one item; at minimum,
+  report it.
+
+### Discussion prompts
+
+* The likelihood-ratio test rejected one dimension. Why is that not enough to
+  conclude the exam measures two traits?
+* The true model is the 3PL, yet BIC prefers the 2PL. Is BIC "wrong"? What is
+  model selection trying to find?
+* A candidate who failed by one point appeals. Which parts of your analysis
+  would you want to show the appeal panel?
+
+## Lab 2: From parameters to decisions
+
+`run_lab("decisions")`, about 75 minutes. The board's 2PL model is fitted in
+the lab's setup, so students can start Lab 2 without finishing Lab 1.
+
+| Section | Students do | Decision |
+|---|---|---|
+| Read the items | `coef(IRTpars = TRUE)`, `gg_trace()` | Which item is hardest and what its low slope means; reading a trace line |
+| Precision at the pass mark | Map the raw cut of 18 to theta with the EAP sum-score table; `gg_info()`, `testinfo()` | Is the exam precise enough at the cut, and what items would help? |
+| Choose a scoring method | Compare EAP, ML and sum-score scale scores | What goes on candidates' score reports |
+| Classification accuracy | Misclassification probabilities from each candidate's score and SE | How to respond to measurement error near the cut |
+| Fairness across languages | Raw means by group, `dif()`, `gg_dif()` | Impact versus DIF; what to do with the flagged items |
+| The memo | Free-text memo, then `interpret()` and `item_card()` | |
+| The reveal | `lab_truth()`, true versus estimated difficulties | Where the 2PL departs from the true 3PL |
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-dif.png"), width = "100%",
+               alt = "DIF item curves by group in Lab 2: Q09 is uniformly harder for French candidates, Q27's curves cross.")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-reveal.png"), width = "100%",
+               alt = "The reveal: estimated 2PL difficulties against the true 3PL values. The hardest items, where guessing matters, depart most.")
+```
+
+### Answer key
+
+* **Hardest item:** Q32 (b about 3), with Q12 close behind. Both have low
+  slopes (about 0.45), the 2PL's way of absorbing guessing.
+* **Trace line:** at theta = 0, Q32's probability is about 0.2.
+* **Pass mark:** raw 18 corresponds to theta of about 0.05. Information there
+  is about 6 (SE about 0.41), close to the exam's peak at theta of about -0.5.
+  Medium-difficulty, highly discriminating items would help most.
+* **Scoring:** scale scores from the sum-score table (every candidate with the
+  same raw score gets the same score) are the most defensible for
+  certification; pattern EAP is accepted with the caveat about explaining it.
+  ML is undefined for perfect and zero scores.
+* **Classification:** about 145 of 1,200 candidates (12%) are expected to be
+  misclassified, and about 364 (30%) are within one SE of the cut. Report it,
+  and consider a retest policy or more items near the cut; don't move the cut.
+* **Impact:** French candidates are estimated 0.38 SD lower (true value
+  0.35). That is a group difference, not item bias.
+* **DIF:** only Q09 (uniform; about 15 percentage points harder for French
+  candidates at the same ability) and Q27 (non-uniform; the curves cross) are
+  flagged. Send both to bilingual content review.
+* **Truth:** the 2PL departs most from the true difficulties for the hardest
+  items, where guessing matters.
+
+### Discussion prompts
+
+* Two candidates both answered 18 items correctly. Under pattern scoring one
+  passes and one fails. How would you explain that to them? Would you?
+* Q27's average (signed) DIF effect is small. Why is that misleading?
+* The board's 2PL was "wrong", yet most of the decisions it supported were
+  right. When does using a simpler model than the truth matter?
+
+## Tips for instructors
+
+* **Before class:** ask students to install mirtverse and learnr and run
+  `list_labs()`. Fitting the models needs no internet connection.
+* **Speed:** every exercise runs in under about 15 seconds on a laptop; the
+  two-factor model uses fewer quadrature points so it stays quick.
+* **Hosting:** to run a lab in the browser without any installation, deploy
+  the tutorial folder (`system.file("tutorials", "model-choice", package =
+  "mirtverse")`) to shinyapps.io or Posit Connect. learnr's event recorder
+  (`options(tutorial.event_recorder = ...)`) can log students' answers there.
+* **Assessment:** the free-text justification at the end of each lab makes a
+  good short assignment. Ask students to paste it, together with their
+  decision table, into your course site.

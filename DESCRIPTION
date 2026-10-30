@@ -12,6 +12,7 @@ Description: Extends the 'mirt' package for item response theory with tidy
     response times (van der Linden, 2007) with rapid-guessing flags.
 License: GPL (>= 3)
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.1.0), mirt (>= 1.47)
 Imports:
@@ -37,6 +38,7 @@ Suggests:
     ellmer (>= 0.3.0),
     keyring,
     knitr,
+    learnr (>= 0.11.0),
     rmarkdown,
     readxl,
     rstudioapi,
