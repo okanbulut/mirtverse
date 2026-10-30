@@ -2,6 +2,21 @@
 
 ## mirtverse (development version)
 
+- Cut scores for the assessment pipeline (stage 8).
+  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
+  records cut scores on the ability or summed-score scale (or from a
+  standard-setting panel’s ratings) and estimates classification
+  accuracy and consistency, overall and by cut, with kappa and false
+  positive and negative rates: by Lee’s (2010) method for summed-score
+  cuts and Rudner’s (2001) method for ability cuts, for the calibrated
+  test or a fixed form. It flags low accuracy or consistency, imprecise
+  cuts and panel disagreement, and the pipeline report gains a cut score
+  section.
+  [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
+  gives the ordered item booklet for Bookmark standard setting.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `cut_accuracy`, `cut_consistency`, `cut_sem` and `panel_sd`.
+
 - Test forms for the assessment pipeline (stage 7).
   [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
   builds one or more fixed forms by automated test assembly (eatATA),

@@ -64,6 +64,10 @@ A list of class `mv_rules`.
 | `unused_share` | 0.20 | largest share of the bank a CAT may leave unused |
 | `bank_depth` | 10 | bank size, in multiples of the CAT length, below which the bank is shallow |
 | `mst_routing` | 0.15 | largest share of MST simulees routed to the wrong module |
+| `cut_accuracy` | 0.85 | smallest acceptable classification accuracy |
+| `cut_consistency` | 0.80 | smallest acceptable classification consistency |
+| `cut_sem` | 0.35 | largest acceptable standard error of measurement at a cut score |
+| `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
 | `min_group_n` | 10 | smallest group summarized in a report |
 
 `preset = "lenient"` relaxes the rules for pilot studies and small
@@ -112,6 +116,10 @@ mv_rules()
 #>   unused_share        0.2
 #>   bank_depth          10
 #>   mst_routing         0.15
+#>   cut_accuracy        0.85
+#>   cut_consistency     0.8
+#>   cut_sem             0.35
+#>   panel_sd            0.5
 #>   min_group_n         10
 mv_rules(q3 = 0.25, reliability = 0.85)
 #> <mv_rules> preset: standards; changed: q3, reliability
@@ -151,6 +159,10 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   unused_share        0.2
 #>   bank_depth          10
 #>   mst_routing         0.15
+#>   cut_accuracy        0.85
+#>   cut_consistency     0.8
+#>   cut_sem             0.35
+#>   panel_sd            0.5
 #>   min_group_n         10
 mv_rules(preset = "lenient")
 #> <mv_rules> preset: lenient
@@ -190,5 +202,9 @@ mv_rules(preset = "lenient")
 #>   unused_share        0.2
 #>   bank_depth          10
 #>   mst_routing         0.15
+#>   cut_accuracy        0.85
+#>   cut_consistency     0.8
+#>   cut_sem             0.35
+#>   panel_sd            0.5
 #>   min_group_n         10
 ```

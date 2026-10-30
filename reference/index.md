@@ -59,6 +59,10 @@ checks and flags to consider before each next stage.
   : Pipeline stage: simulate a computerized adaptive test
 - [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
   : Pipeline stage: assemble and simulate a multistage test
+- [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
+  : Pipeline stage: cut scores and decision quality
+- [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
+  : Item map for Bookmark standard setting
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
