@@ -57,6 +57,13 @@ A list of class `mv_rules`.
 | `min_anchor_share` | 0.20 | smallest share of the test that should be anchors |
 | `anchor_displacement` | 0.3 | largest change in an anchor's location (logits) after linking |
 | `link_slope_min`, `link_slope_max` | 0.8, 1.2 | acceptable range of the linking slope A |
+| `parallel_tol` | 0.10 | largest relative difference in information between parallel forms |
+| `cat_sem` | 0.35 | largest acceptable standard error of a form, CAT or MST (and the CAT stopping rule) |
+| `cat_bias` | 0.1 | largest acceptable average bias of simulated CAT or MST scores |
+| `max_exposure` | 0.25 | largest share of CAT simulees who should see an item |
+| `unused_share` | 0.20 | largest share of the bank a CAT may leave unused |
+| `bank_depth` | 10 | bank size, in multiples of the CAT length, below which the bank is shallow |
+| `mst_routing` | 0.15 | largest share of MST simulees routed to the wrong module |
 | `min_group_n` | 10 | smallest group summarized in a report |
 
 `preset = "lenient"` relaxes the rules for pilot studies and small
@@ -98,6 +105,13 @@ mv_rules()
 #>   anchor_displacement 0.3
 #>   link_slope_min      0.8
 #>   link_slope_max      1.2
+#>   parallel_tol        0.1
+#>   cat_sem             0.35
+#>   cat_bias            0.1
+#>   max_exposure        0.25
+#>   unused_share        0.2
+#>   bank_depth          10
+#>   mst_routing         0.15
 #>   min_group_n         10
 mv_rules(q3 = 0.25, reliability = 0.85)
 #> <mv_rules> preset: standards; changed: q3, reliability
@@ -130,6 +144,13 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   anchor_displacement 0.3
 #>   link_slope_min      0.8
 #>   link_slope_max      1.2
+#>   parallel_tol        0.1
+#>   cat_sem             0.35
+#>   cat_bias            0.1
+#>   max_exposure        0.25
+#>   unused_share        0.2
+#>   bank_depth          10
+#>   mst_routing         0.15
 #>   min_group_n         10
 mv_rules(preset = "lenient")
 #> <mv_rules> preset: lenient
@@ -162,5 +183,12 @@ mv_rules(preset = "lenient")
 #>   anchor_displacement 0.3
 #>   link_slope_min      0.8
 #>   link_slope_max      1.2
+#>   parallel_tol        0.1
+#>   cat_sem             0.35
+#>   cat_bias            0.1
+#>   max_exposure        0.25
+#>   unused_share        0.2
+#>   bank_depth          10
+#>   mst_routing         0.15
 #>   min_group_n         10
 ```

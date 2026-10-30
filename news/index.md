@@ -2,6 +2,23 @@
 
 ## mirtverse (development version)
 
+- Test forms for the assessment pipeline (stage 7).
+  [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
+  builds one or more fixed forms by automated test assembly (eatATA),
+  with a content blueprint, enemy items and parallel forms;
+  [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
+  simulates a computerized adaptive test with mirtCAT; and
+  [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
+  assembles a two-stage multistage test and simulates its routing. The
+  checks flag unbuildable forms, blueprint and enemy violations,
+  non-parallel forms, imprecise forms or CATs, over-exposed and unused
+  items, shallow banks and misrouting. The pipeline report gains a forms
+  section, and
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `parallel_tol`, `cat_sem`, `cat_bias`, `max_exposure`,
+  `unused_share`, `bank_depth`, `mst_routing` and `min_group_n`. eatATA
+  and mirtCAT are suggested packages.
+
 - Item banks and linking for the assessment pipeline (stage 6).
   [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   starts an item bank from a calibrated model or pipeline,

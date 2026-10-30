@@ -217,6 +217,12 @@ checks and flags to consider before each next stage.
 - [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   [`tidy(`*`<mv_bank>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   : An item bank
+- [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
+  : Pipeline stage: assemble fixed test forms
+- [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
+  : Pipeline stage: simulate a computerized adaptive test
+- [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
+  : Pipeline stage: assemble and simulate a multistage test
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
