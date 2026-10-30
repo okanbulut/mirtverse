@@ -4,3 +4,4 @@
 docs/
 *.html
 !inst/**/*.html
+!pkgdown/assets/**/*.html
