@@ -131,7 +131,7 @@ models.
 ## See also
 
 [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md)
-to save a dashboard for deployment,
+to save a dashboard as a Shiny app folder or a single offline HTML file,
 [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)
 for a static HTML report.
 

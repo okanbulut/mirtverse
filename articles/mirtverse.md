@@ -225,12 +225,32 @@ The report is a single HTML file with the model comparison, the
 interpretation, tables, graphics, a sum-score conversion table, item
 health cards, and the R code to reproduce everything.
 
-## 7. Prefer clicking?
+## 7. Share the results with a dashboard
+
+``` r
+
+mv_dashboard(mod, title = "LSAT7 results")
+export_dashboard(mod, "lsat7-dashboard.html", format = "html")
+```
+
+A dashboard lets people who do not use R explore the results: the
+summary, the item table with health cards, item curves with an ability
+slider and more. Save it as one HTML file to email, or as a Shiny app to
+host. See [Sharing results with a
+dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md).
+
+## 8. Prefer clicking, or describing the analysis in words?
 
 ``` r
 
 launch_workbench()
+mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)
 ```
 
-See
-[`vignette("workbench")`](https://www.okanbulut.com/mirtverse/articles/workbench.md).
+The workbench is a point-and-click app that writes the R code for you
+(see
+[`vignette("workbench")`](https://www.okanbulut.com/mirtverse/articles/workbench.md)).
+[`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+turns a plain-language request into a complete, tested script (see the
+[mv_ask()
+guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md)).

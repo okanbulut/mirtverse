@@ -18,5 +18,8 @@
 - [Sharing results with a
   dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md):
 
+  Turn a fitted model into an interactive dashboard for people who do
+  not use R, and share it as a single HTML file or a Shiny app.
+
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):

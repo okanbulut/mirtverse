@@ -10,7 +10,6 @@
   capped at 10 seconds; change the cap with the new `nt_max` argument
   (`nt_max = Inf` removes it). The thresholds used are returned in
   `$thresholds`.
-
 - New
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
   builds a read-only ‘shiny’ dashboard of your results for people who do
@@ -22,12 +21,10 @@
   saves it as an `app.R` folder ready for shinyapps.io or Posit Connect.
   The saved dashboard holds summaries only, never the item responses,
   and holds individual scores only when you add the `"persons"` panel.
-
 - `export_dashboard(format = "html")` saves the dashboard as one
   self-contained HTML file that needs no server, no R and no internet
   connection. The item table, item curves with the ability slider, item
   information and person lookup stay interactive.
-
 - New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
   writes a complete, commented analysis script from a plain-language
@@ -51,7 +48,6 @@
   [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
   shows the column summary that is the only information shared with an
   AI model. The workbench now writes its code with the same templates.
-
 - New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
   tests every item for differential item functioning between groups in
   one call, with likelihood-ratio tests, adjusted p-values and
@@ -61,7 +57,6 @@
   [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
   describes the results, and `mv_report(dif = )` adds a DIF section to
   the report.
-
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   no longer fails when some persons have no item responses. mirt drops
   those rows from the fitted data;

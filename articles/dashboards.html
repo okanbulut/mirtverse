@@ -11,6 +11,9 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sharing results with a dashboard">
+<meta name="description" content="Turn a fitted model into an interactive dashboard for people who do not use R, and share it as a single HTML file or a Shiny app.">
+<meta property="og:description" content="Turn a fitted model into an interactive dashboard for people who do not use R, and share it as a single HTML file or a Shiny app.">
+<meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -68,16 +71,54 @@
 
     
     
-<p>The <a href="workbench.html">workbench</a> is for doing an analysis,
-and <code><a href="../reference/mv_report.html">mv_report()</a></code> writes a static record of it.
-<code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code> fills the gap in between: a small, read-only
-app you can hand to people who do not use R, such as teachers, clients,
-committees or students, so they can explore the results themselves.</p>
+<p>Most people who need IRT results never open R: teachers who want to
+know which questions worked, a client who commissioned a survey, a
+committee reviewing a test form, or students in a measurement course. A
+results dashboard gives them the findings in a form they can explore on
+their own.</p>
+<p>mirtverse has three ways to look at an analysis, each for a different
+reader:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Tool</th>
+<th>What it is for</th>
+<th>Who uses it</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<a href="../articles/workbench.html">Workbench</a>
+(<code><a href="../reference/launch_workbench.html">launch_workbench()</a></code>)</td>
+<td>Doing an analysis: load data, fit and compare models, score
+people</td>
+<td>You, the analyst</td>
+</tr>
+<tr class="even">
+<td>Report (<code><a href="../reference/mv_report.html">mv_report()</a></code>)</td>
+<td>A complete, static record of the analysis</td>
+<td>Reviewers, appendices, archives</td>
+</tr>
+<tr class="odd">
+<td>
+<strong>Dashboard</strong> (<code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>)</td>
+<td>Exploring finished results: click items, move a slider, look someone
+up</td>
+<td>People who do not use R</td>
+</tr>
+</tbody>
+</table>
+<p><strong><a href="../dashboard/sat12-demo.html">Open a live example
+dashboard</a></strong>. It is a single HTML file built from the code
+below, so it runs in your browser with nothing installed.</p>
 <div class="section level2">
-<h2 id="build-a-dashboard">Build a dashboard<a class="anchor" aria-label="anchor" href="#build-a-dashboard"></a>
+<h2 id="build-a-dashboard-in-one-line">Build a dashboard in one line<a class="anchor" aria-label="anchor" href="#build-a-dashboard-in-one-line"></a>
 </h2>
-<p>Fit a model as usual, then pass it to
-<code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>:</p>
+<p>Fit a model as usual and pass it to <code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -86,14 +127,27 @@ committees or students, so they can explore the results themselves.</p>
 <span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt</a></span><span class="op">(</span><span class="va">data</span>, <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, title <span class="op">=</span> <span class="st">"SAT12 results"</span>,</span>
-<span>             subtitle <span class="op">=</span> <span class="st">"Science test, 32 items, scored 0/1"</span><span class="op">)</span></span></code></pre></div>
-<p>The dashboard opens in your browser. Assign it
-(<code>app &lt;- mv_dashboard(...)</code>) if you want to keep it
-without opening it.</p>
+<span>             subtitle <span class="op">=</span> <span class="st">"A 32-item science test, scored 0/1 (N = 600)"</span><span class="op">)</span></span></code></pre></div>
+<p>The dashboard opens in your browser. The model can be any
+unidimensional <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt()</a></code> model, or the result of
+<code><a href="../reference/select_model.html">select_model()</a></code>, in which case the recommended model is
+shown. Assign the result (<code>app &lt;- mv_dashboard(...)</code>) to
+keep it without opening it.</p>
+<div class="float">
+<img src="../dashboard/summary.png" alt="The summary panel: headline numbers and the plain-language interpretation."><div class="figcaption">The summary panel: headline numbers and the
+plain-language interpretation.</div>
+</div>
+<p>The summary panel puts the numbers people ask for first at the top:
+respondents, items, reliability and how many items need review. The text
+below them is the same plain-language summary you get from
+<code><a href="../reference/interpret.html">interpret()</a></code>, so a reader does not need to know what an M2
+statistic is to understand the results.</p>
 </div>
 <div class="section level2">
-<h2 id="choose-the-panels">Choose the panels<a class="anchor" aria-label="anchor" href="#choose-the-panels"></a>
+<h2 id="the-panels">The panels<a class="anchor" aria-label="anchor" href="#the-panels"></a>
 </h2>
+<p>Choose the panels you need with <code>panels</code>, in the order you
+want them:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -107,18 +161,17 @@ without opening it.</p>
 <tr class="odd">
 <td><code>"summary"</code></td>
 <td>Respondents, items, reliability and items to review, with the
-plain-language interpretation from <code><a href="../reference/interpret.html">interpret()</a></code>
-</td>
+plain-language interpretation and model details</td>
 </tr>
 <tr class="even">
 <td><code>"items"</code></td>
-<td>The item table with a traffic-light status; select a row to see its
-item health card</td>
+<td>The item table with a traffic-light status; select a row to see that
+item’s health card</td>
 </tr>
 <tr class="odd">
 <td><code>"curves"</code></td>
-<td>Trace curves for chosen items and a slider that reads off the
-probabilities at any ability level</td>
+<td>Trace curves for chosen items, with an ability slider that reads off
+the response probabilities</td>
 </tr>
 <tr class="even">
 <td><code>"information"</code></td>
@@ -127,7 +180,7 @@ curves</td>
 </tr>
 <tr class="odd">
 <td><code>"wright"</code></td>
-<td>The Wright map</td>
+<td>The Wright map of people and items on one scale</td>
 </tr>
 <tr class="even">
 <td><code>"scores"</code></td>
@@ -136,12 +189,12 @@ table</td>
 </tr>
 <tr class="odd">
 <td><code>"persons"</code></td>
-<td>A searchable table of every person’s score, SE and percentile (off
-by default)</td>
+<td>A searchable table of each person’s score, standard error and
+percentile (off by default)</td>
 </tr>
 <tr class="even">
 <td><code>"dif"</code></td>
-<td>DIF results from <code><a href="../reference/dif.html">dif()</a></code>
+<td>Differential item functioning results from <code><a href="../reference/dif.html">dif()</a></code>
 </td>
 </tr>
 <tr class="odd">
@@ -151,61 +204,161 @@ by default)</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dif.html">dif</a></span><span class="op">(</span><span class="va">data</span>, group <span class="op">=</span> <span class="va">gender</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"items"</span>, <span class="st">"dif"</span><span class="op">)</span>, dif <span class="op">=</span> <span class="va">res</span>,</span>
-<span>             title <span class="op">=</span> <span class="st">"Fairness review"</span>, logo <span class="op">=</span> <span class="st">"logo.png"</span><span class="op">)</span></span></code></pre></div>
+<p>By default you get summary, items, curves, information, Wright map
+and scores, plus DIF and response times when you pass those results
+in.</p>
+<p>The <strong>items</strong> panel is usually the one item writers
+spend most time on. They can sort and search the table, and selecting an
+item shows its <a href="../reference/item_card.html">item health
+card</a>, with the trace curve, the response distribution, information
+and observed against expected scores:</p>
+<div class="float">
+<img src="../dashboard/items.png" alt="The items panel with the health card of a flagged item."><div class="figcaption">The items panel with the health card of a
+flagged item.</div>
+</div>
+<p>The <strong>curves</strong> panel makes the model concrete. Readers
+tick the items they want and move the slider to an ability level. A
+dashed line marks that level on every curve, and a table lists the
+expected score and the probability of each response category there:</p>
+<div class="float">
+<img src="../dashboard/curves.png" alt="Item curves for a polytomous survey, read at an ability of 1."><div class="figcaption">Item curves for a polytomous survey, read at an
+ability of 1.</div>
+</div>
 <p>The curves, information, Wright map, scores and persons panels need a
-unidimensional model. For other models they are left out with a
+unidimensional model; for other models they are left out with a
 message.</p>
 </div>
 <div class="section level2">
-<h2 id="share-it-as-one-html-file">Share it as one HTML file<a class="anchor" aria-label="anchor" href="#share-it-as-one-html-file"></a>
+<h2 id="add-your-own-title-logo-dif-and-response-times">Add your own title, logo, DIF and response times<a class="anchor" aria-label="anchor" href="#add-your-own-title-logo-dif-and-response-times"></a>
 </h2>
-<p>The easiest way to share a dashboard is a single HTML file. It needs
-no server, no R and no internet connection, so you can email it, put it
-on a shared drive or a course page, and anyone can open it in a
-browser:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dif.html">dif</a></span><span class="op">(</span><span class="va">data</span>, group <span class="op">=</span> <span class="va">gender</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>,</span>
+<span>             panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"items"</span>, <span class="st">"curves"</span>, <span class="st">"dif"</span><span class="op">)</span>,</span>
+<span>             dif <span class="op">=</span> <span class="va">res</span>,</span>
+<span>             title <span class="op">=</span> <span class="st">"Grade 8 science: fairness review"</span>,</span>
+<span>             subtitle <span class="op">=</span> <span class="st">"Spring 2026 field test"</span>,</span>
+<span>             logo <span class="op">=</span> <span class="st">"school-logo.png"</span><span class="op">)</span></span></code></pre></div>
+<p>The logo can be a PNG, JPEG or SVG file. The DIF panel shows the
+plain-language DIF summary, the test table, the effect sizes and the
+item curves by group for flagged items. The response-time panel
+(<code>rt = fit_rt(...)</code>) shows the interpretation, item
+parameters and rapid-guessing plots.</p>
+</div>
+<div class="section level2">
+<h2 id="share-it">Share it<a class="anchor" aria-label="anchor" href="#share-it"></a>
+</h2>
+<p><code><a href="../reference/export_dashboard.html">export_dashboard()</a></code> saves a dashboard in one of two
+forms. Pass it the model and the same arguments you gave
+<code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>, or the app itself.</p>
+<div class="section level3">
+<h3 id="as-one-html-file-no-server-needed">As one HTML file (no server needed)<a class="anchor" aria-label="anchor" href="#as-one-html-file-no-server-needed"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/export_dashboard.html">export_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"sat12-dashboard.html"</span>, format <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>                 title <span class="op">=</span> <span class="st">"SAT12 results"</span><span class="op">)</span></span></code></pre></div>
-<p>It has the same panels as the app. The item table (sort, search,
-select an item to see its health card), the item curves with the ability
-slider, the item information curves and the person lookup all still
-work; the other plots are pictures. A file with item health cards for a
-long test can run to a few megabytes.</p>
+<p>This writes one self-contained file. It needs no server, no R and no
+internet connection, so you can email it, put it on a shared drive, a
+course page or a learning management system, and anyone can open it in a
+browser. The tabs, item table, item health cards, item curves with the
+slider, item information and person lookup all still work; the other
+plots are pictures. With item health cards for a long test the file can
+run to a few megabytes.</p>
+<p>This is the easiest option for most people, and it is what the <a href="../dashboard/sat12-demo.html">live example</a> on this site
+is.</p>
 </div>
-<div class="section level2">
-<h2 id="share-it-as-an-app">Share it as an app<a class="anchor" aria-label="anchor" href="#share-it-as-an-app"></a>
-</h2>
-<p>A ‘shiny’ app needs a server to run on.
-<code><a href="../reference/export_dashboard.html">export_dashboard()</a></code> writes a folder that is ready to
-deploy:</p>
+<div class="section level3">
+<h3 id="as-a-shiny-app">As a Shiny app<a class="anchor" aria-label="anchor" href="#as-a-shiny-app"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/export_dashboard.html">export_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"sat12-dashboard"</span>, title <span class="op">=</span> <span class="st">"SAT12 results"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>          <span class="co"># try it locally</span></span>
 <span><span class="fu">rsconnect</span><span class="fu">::</span><span class="fu">deployApp</span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>   <span class="co"># publish to shinyapps.io or Posit Connect</span></span></code></pre></div>
-<p>The folder holds <code>app.R</code> and <code>dashboard.rds</code>.
-The server installs mirtverse the same way you installed it, so install
-it from r-universe or GitHub, not from a local copy, before you
-deploy.</p>
+<p>This writes a folder with <code>app.R</code> and
+<code>dashboard.rds</code>, ready to publish to <a href="https://www.shinyapps.io" class="external-link">shinyapps.io</a> or Posit Connect. A
+hosted app suits an organization that already runs a Shiny server, or a
+dashboard you want to update in place at a fixed address. The server
+installs mirtverse the same way you installed it, so install it from
+r-universe or GitHub, not from a local copy, before you deploy.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th>HTML file</th>
+<th>Shiny app</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Needs a server</td>
+<td>No</td>
+<td>Yes (shinyapps.io, Posit Connect, Shiny Server)</td>
+</tr>
+<tr class="even">
+<td>Works offline</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Share by</td>
+<td>Email, shared drive, course page</td>
+<td>A web address</td>
+</tr>
+<tr class="even">
+<td>Interactive</td>
+<td>Tables, item cards, curves and slider, item information, person
+lookup</td>
+<td>Everything</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section level2">
-<h2 id="what-the-dashboard-contains">What the dashboard contains<a class="anchor" aria-label="anchor" href="#what-the-dashboard-contains"></a>
+<h2 id="what-a-dashboard-contains-and-privacy">What a dashboard contains, and privacy<a class="anchor" aria-label="anchor" href="#what-a-dashboard-contains-and-privacy"></a>
 </h2>
-<p>Everything is computed once, when you build the dashboard; the app
-never refits or rescores anything, so it starts quickly. The saved
-dashboard holds only summaries: item statistics, parameters, curves, the
-binned score distribution and pictures of the item cards. It never holds
-the item responses.</p>
+<p>Everything a dashboard shows is computed once, when you build it. The
+app never refits or rescores anything, so it opens quickly, and the
+saved dashboard holds only summaries: item statistics and parameters,
+curves, the binned score distribution and pictures of the item cards.
+<strong>It never contains the item responses</strong>, in either
+format.</p>
 <p>Individual scores are included only when you add the
-<code>"persons"</code> panel, and <code><a href="../reference/export_dashboard.html">export_dashboard()</a></code>
+<code>"persons"</code> panel, and <code><a href="../reference/export_dashboard.html">export_dashboard()</a></code> then
 reminds you to check that you may share them. Use <code>ids</code> to
 show your own identifiers instead of row numbers:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"persons"</span><span class="op">)</span>, ids <span class="op">=</span> <span class="va">students</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"scores"</span>, <span class="st">"persons"</span><span class="op">)</span>, ids <span class="op">=</span> <span class="va">students</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
+<p>Leave the persons panel out of anything you post publicly: the scores
+panel already shows the score distribution and the sum-score conversion
+table without identifying anyone.</p>
+</div>
+<div class="section level2">
+<h2 id="tips">Tips<a class="anchor" aria-label="anchor" href="#tips"></a>
+</h2>
+<ul>
+<li>
+<strong>Keep it short.</strong> Three or four panels are easier to
+read than nine. For an item review meeting,
+<code>c("summary", "items", "curves")</code> is often enough.</li>
+<li>
+<strong>Write a subtitle.</strong> Say what the test is, who took it
+and when; the reader of a dashboard has not seen your data.</li>
+<li>
+<strong>Long tests.</strong> Item health cards are drawn for tests
+of up to 40 items. Use <code>cards = TRUE</code> to draw them for longer
+tests (it takes a little longer and makes HTML files larger) or
+<code>cards = FALSE</code> to skip them; without cards, selecting an
+item shows its trace curve instead.</li>
+<li>
+<strong>Scores.</strong> <code>method</code> sets the scoring method
+(<code>"EAP"</code> by default) for the scores and persons panels.</li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
