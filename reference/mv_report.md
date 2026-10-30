@@ -18,6 +18,7 @@ mv_report(
   alpha = 0.01,
   dif = NULL,
   code = NULL,
+  extra = NULL,
   open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))
 )
 ```
@@ -64,6 +65,14 @@ mv_report(
 
   optional character vector of R code to show in the reproducibility
   section (the workbench fills this in automatically).
+
+- extra:
+
+  optional named list of extra sections, each a piece of HTML built with
+  htmltools, placed before the reproducibility section; the names are
+  the section titles.
+  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
+  uses this for its decisions section.
 
 - open:
 

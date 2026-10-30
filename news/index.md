@@ -2,6 +2,34 @@
 
 ## mirtverse (development version)
 
+- New assessment pipeline (first phase).
+  [`mv_pipeline()`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
+  starts a pipeline that takes a test from response data to a technical
+  report in stages, with a gate of checks after each stage:
+  [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
+  scores and screens the data (miskeyed items, missing data,
+  straight-lining, rapid guessing, sparse categories),
+  [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
+  fits the model and checks convergence, model fit, local dependence,
+  item fit, parameter ranges, DIF (Mantel-Haenszel and standardized mean
+  difference with the ETS A/B/C rules) and reliability, and
+  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
+  writes the HTML report with a section listing every flag and decision.
+  Flags are `info`, `review` or `block`; they warn by default, and with
+  `strict = TRUE` open review and block flags stop the next stage until
+  a decision is recorded with
+  [`acknowledge()`](https://www.okanbulut.com/mirtverse/reference/acknowledge.md)
+  or
+  [`override()`](https://www.okanbulut.com/mirtverse/reference/acknowledge.md),
+  or the item is removed with
+  [`drop_items()`](https://www.okanbulut.com/mirtverse/reference/drop_items.md).
+  [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md)
+  lists them, and
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  holds every threshold, which users can change by name.
+  [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)
+  gains an `extra` argument for additional sections.
+
 - New
   [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
   translates code written for ltm, eRm, TAM and irtQ into mirt code,
@@ -15,6 +43,7 @@
   lists every supported function, and the new article “Moving from ltm,
   eRm, TAM or irtQ to mirt” walks through examples and shows how closely
   the translated models match the originals.
+
 - New interactive teaching labs for measurement courses, built with
   learnr. `run_lab("model-choice")` opens Lab 1, “Choosing a model the
   board can defend”: students score a certification exam, find a
@@ -33,6 +62,7 @@
   reveals them for instructors. The new “Learn IRT by doing” article
   introduces the labs, and the “Teaching labs” article is an instructor
   guide with an answer key.
+
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   gains the normative threshold rules `flag_method = "nt15"` and
   `"nt20"` for rapid guessing (15% and 20% of each item’s mean response
@@ -41,6 +71,7 @@
   capped at 10 seconds; change the cap with the new `nt_max` argument
   (`nt_max = Inf` removes it). The thresholds used are returned in
   `$thresholds`.
+
 - New
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
   builds a read-only ‘shiny’ dashboard of your results for people who do
@@ -52,10 +83,12 @@
   saves it as an `app.R` folder ready for shinyapps.io or Posit Connect.
   The saved dashboard holds summaries only, never the item responses,
   and holds individual scores only when you add the `"persons"` panel.
+
 - `export_dashboard(format = "html")` saves the dashboard as one
   self-contained HTML file that needs no server, no R and no internet
   connection. The item table, item curves with the ability slider, item
   information and person lookup stay interactive.
+
 - New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
   writes a complete, commented analysis script from a plain-language
@@ -79,6 +112,7 @@
   [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
   shows the column summary that is the only information shared with an
   AI model. The workbench now writes its code with the same templates.
+
 - New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
   tests every item for differential item functioning between groups in
   one call, with likelihood-ratio tests, adjusted p-values and
@@ -88,6 +122,7 @@
   [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
   describes the results, and `mv_report(dif = )` adds a DIF section to
   the report.
+
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   no longer fails when some persons have no item responses. mirt drops
   those rows from the fitted data;

@@ -68,6 +68,7 @@ optional item health cards and the R code needed to reproduce the analysis.</p>
 <span>  alpha <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  dif <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  code <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  open <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mirtverse.dry_run"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -111,6 +112,13 @@ differential item functioning.</p></dd>
 <dt id="arg-code">code<a class="anchor" aria-label="anchor" href="#arg-code"></a></dt>
 <dd><p>optional character vector of R code to show in the
 reproducibility section (the workbench fills this in automatically).</p></dd>
+
+
+<dt id="arg-extra">extra<a class="anchor" aria-label="anchor" href="#arg-extra"></a></dt>
+<dd><p>optional named list of extra sections, each a piece of HTML
+built with htmltools, placed before the reproducibility section; the
+names are the section titles. <code><a href="pipeline_report.html">pipeline_report()</a></code> uses this for its
+decisions section.</p></dd>
 
 
 <dt id="arg-open">open<a class="anchor" aria-label="anchor" href="#arg-open"></a></dt>

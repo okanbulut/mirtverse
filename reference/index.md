@@ -34,6 +34,30 @@ Translate ltm, eRm, TAM and irtQ code into mirt code.
 - [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
   : The ltm, eRm, TAM and irtQ to mirt crosswalk
 
+## Assessment pipeline
+
+Take a test from response data to a technical report in stages, with
+checks and flags to consider before each next stage.
+
+- [`mv_pipeline()`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
+  [`tidy(`*`<mv_pipeline>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
+  : Start an assessment pipeline
+- [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
+  : Pipeline stage: data intake and cleaning
+- [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
+  : Pipeline stage: calibration
+- [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
+  : Pipeline stage: technical report
+- [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
+  List the flags raised by a pipeline
+- [`acknowledge()`](https://www.okanbulut.com/mirtverse/reference/acknowledge.md)
+  [`override()`](https://www.okanbulut.com/mirtverse/reference/acknowledge.md)
+  : Record a decision about a flag
+- [`drop_items()`](https://www.okanbulut.com/mirtverse/reference/drop_items.md)
+  : Remove items from a pipeline
+- [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  : Thresholds for the pipeline checks
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
