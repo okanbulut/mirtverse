@@ -10,34 +10,115 @@ description: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
 ```
 
-mirtverse ships interactive labs for university measurement courses. They are
-[learnr](https://rstudio.github.io/learnr/) tutorials: students read a short
-brief, run real R code against live mirt models, and answer decision questions
-that explain why each choice holds up or doesn't. The goal is not only to learn
-the mirt syntax but to practise the judgment calls of a working analyst. For a
-short introduction to share with students, see
-[Learn IRT by doing](labs.html).
+Reading about item response theory is one thing; deciding what to do with a
+real test is another. The mirtverse labs put students in the analyst's chair.
+Each lab is an interactive [learnr](https://rstudio.github.io/learnr/)
+tutorial that runs in the browser. Students write and run live mirt code, look
+at the results, and make the calls a working psychometrician makes. Every
+decision gets immediate feedback that explains why the choice holds up or
+doesn't.
+
+The first part of this page is for students. Instructors will find a guide
+and, at the very end, the [answer key](#answer-key).
+
+## Start a lab in three steps
 
 ```{r}
-install.packages("learnr")   # once
-library(mirtverse)
-list_labs()
-run_lab("model-choice")   # Lab 1
-run_lab("decisions")      # Lab 2
+install.packages("learnr")   # 1. once, if you don't have it
+library(mirtverse)           # 2. load mirtverse
+run_lab("model-choice")      # 3. open Lab 1 in your browser
 ```
 
-The labs also appear in RStudio's **Tutorial** pane once mirtverse and learnr
-are installed. Students' progress is saved on their computer, so they can stop
-and pick up where they left off.
+`list_labs()` shows every lab with a short description. In RStudio, the labs
+also appear in the **Tutorial** pane. Your progress is saved on your computer,
+so you can close the lab and pick up where you left off.
 
-## The storyline
+## The story
 
-Both labs follow one scenario. Students are the new psychometrician for the
-fictional **Northfield Certification Board**. The board's 32-item,
-five-option exam was taken by 1,200 candidates in English or French, and the
-board wants to move from number-correct to IRT scoring.
+You are the new psychometrician for the fictional **Northfield Certification
+Board**. Its 32-item, five-option exam was taken by 1,200 candidates in
+English or French, and the board wants to move from number-correct to IRT
+scoring. The data (`certexam`) were simulated, so the truth is known, and a
+few realistic problems are hidden in them for you to find.
 
-The data, `certexam`, are simulated from item parameters based on a 3PL
+| Lab | Run it with | You will |
+|---|---|---|
+| **1. Choosing a model the board can defend** (about 75 minutes) | `run_lab("model-choice")` | Score the responses, find a miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL models, check fit and local dependence, and justify your choice |
+| **2. From parameters to decisions** (about 75 minutes) | `run_lab("decisions")` | Read the item parameters, check precision at the pass mark, choose a scoring method, estimate how many candidates are misclassified, test for DIF between languages, write a memo to the board, and see the truth behind the data |
+
+Lab 2 fits its own model at the start, so it can be done on its own.
+
+## What it looks like
+
+Each section mixes short explanations, code exercises with hints and
+solutions, and decision questions. A wrong answer becomes a teaching moment:
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-screening.png"), width = "100%",
+               alt = "Screening the items in Lab 1: the miskeyed item stands out, and choosing to drop it gets an explanation.")
+```
+
+At the end of each lab, you get a table of every decision you made, which you
+can hand in as an assignment.
+
+## For instructors
+
+The two labs follow one storyline, but Lab 2 also works on its own. The tables
+below list what students do in each section and the decisions they make. The
+answers are in the [answer key](#answer-key) at the end of the page.
+
+### Lab 1: Choosing a model the board can defend
+
+`run_lab("model-choice")`, about 75 minutes.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the board and the raw data | |
+| Score the responses | `key2binary()` | Why score before fitting? |
+| Screen the items | Proportion correct, corrected item-total correlations and a distractor analysis | What to do with a suspicious item |
+| How many dimensions? | One- vs two-factor 2PL, `anova()`, rotated loadings | Is one dimension defensible? |
+| Compare the models | `select_model()` on Rasch, 2PL, 3PL | Which model to recommend |
+| Check the chosen model | `gg_itemfit()`, `gg_q3()` | How to treat flagged item fit and local dependence |
+| Commit to a model | Fit `final`, write a justification | Free-text justification, then a model answer |
+| Your decisions | A table of every answer the student gave | |
+
+### Lab 2: From parameters to decisions
+
+`run_lab("decisions")`, about 75 minutes. The board's 2PL model is fitted in
+the lab's setup, so students can start Lab 2 without finishing Lab 1.
+
+| Section | Students do | Decision |
+|---|---|---|
+| Read the items | `coef(IRTpars = TRUE)`, `gg_trace()` | Which item is hardest and what its low slope means; reading a trace line |
+| Precision at the pass mark | Map the raw cut of 18 to theta with the EAP sum-score table; `gg_info()`, `testinfo()` | Is the exam precise enough at the cut, and what items would help? |
+| Choose a scoring method | Compare EAP, ML and sum-score scale scores | What goes on candidates' score reports |
+| Classification accuracy | Misclassification probabilities from each candidate's score and SE | How to respond to measurement error near the cut |
+| Fairness across languages | Raw means by group, `dif()`, `gg_dif()` | Impact versus DIF; what to do with the flagged items |
+| The memo | Free-text memo, then `interpret()` and `item_card()` | |
+| The reveal | `lab_truth()`, true versus estimated difficulties | Where the 2PL departs from the true 3PL |
+
+### Tips for running the labs
+
+* **Before class:** ask students to install mirtverse and learnr and run
+  `list_labs()`. Fitting the models needs no internet connection.
+* **Speed:** every exercise runs in under about 15 seconds on a laptop; the
+  two-factor model uses fewer quadrature points so it stays quick.
+* **Hosting:** to run a lab in the browser without any installation, deploy
+  the tutorial folder (`system.file("tutorials", "model-choice", package =
+  "mirtverse")`) to shinyapps.io or Posit Connect. learnr's event recorder
+  (`options(tutorial.event_recorder = ...)`) can log students' answers there.
+* **Assessment:** the free-text justification at the end of each lab makes a
+  good short assignment. Ask students to paste it, together with their
+  decision table, into your course site.
+
+## Answer key
+
+This section gives the answers away.
+
+### The planted problems
+
+`certexam` is simulated from item parameters based on a 3PL
 calibration of mirt's `SAT12` data, so the items behave like real ones. Because
 the data were generated, the truth is known, and a few problems were planted
 on purpose:
@@ -52,39 +133,7 @@ on purpose:
 
 `lab_truth()` returns the generating values for instructors.
 
-## Lab 1: Choosing a model the board can defend
-
-`run_lab("model-choice")`, about 75 minutes.
-
-| Section | Students do | Decision |
-|---|---|---|
-| The brief | Meet the board and the raw data | |
-| Score the responses | `key2binary()` | Why score before fitting? |
-| Screen the items | Proportion correct and corrected item-total correlations, a distractor analysis, fix the key | What to do with a negative item-total correlation; which option is the real key |
-| How many dimensions? | One- vs two-factor 2PL, `anova()`, rotated loadings | Is one dimension defensible? |
-| Compare the models | `select_model()` on Rasch, 2PL, 3PL | Which model to recommend |
-| Check the chosen model | `gg_itemfit()`, `gg_q3()` | How to treat flagged item fit; what to do about Q21 and Q22 |
-| Commit to a model | Fit `final`, write a justification | Free-text justification, then a model answer |
-| Your decisions | A table of every answer the student gave | |
-
-Every decision question explains why each option holds up or doesn't, so a
-wrong answer becomes a teaching moment:
-
-```{r, echo = FALSE, eval = TRUE}
-# Embedded as a data URI so the figure travels with the page
-htmltools::img(src = knitr::image_uri("figures/lab-screening.png"), width = "100%",
-               alt = "Screening the items in Lab 1: the miskeyed item stands out, and choosing to drop it gets an explanation.")
-```
-
-At the end, students see every choice they made:
-
-```{r, echo = FALSE, eval = TRUE}
-# Embedded as a data URI so the figure travels with the page
-htmltools::img(src = knitr::image_uri("figures/lab-decisions.png"), width = "100%",
-               alt = "The decision table at the end of Lab 1.")
-```
-
-### Answer key
+### Lab 1
 
 * **Why score first:** the 2PL and 3PL model the probability of a correct
   answer.
@@ -104,7 +153,7 @@ htmltools::img(src = knitr::image_uri("figures/lab-decisions.png"), width = "100
   them into a testlet score, model the passage, or keep one item; at minimum,
   report it.
 
-### Discussion prompts
+#### Discussion prompts
 
 * The likelihood-ratio test rejected one dimension. Why is that not enough to
   conclude the exam measures two traits?
@@ -113,34 +162,15 @@ htmltools::img(src = knitr::image_uri("figures/lab-decisions.png"), width = "100
 * A candidate who failed by one point appeals. Which parts of your analysis
   would you want to show the appeal panel?
 
-## Lab 2: From parameters to decisions
-
-`run_lab("decisions")`, about 75 minutes. The board's 2PL model is fitted in
-the lab's setup, so students can start Lab 2 without finishing Lab 1.
-
-| Section | Students do | Decision |
-|---|---|---|
-| Read the items | `coef(IRTpars = TRUE)`, `gg_trace()` | Which item is hardest and what its low slope means; reading a trace line |
-| Precision at the pass mark | Map the raw cut of 18 to theta with the EAP sum-score table; `gg_info()`, `testinfo()` | Is the exam precise enough at the cut, and what items would help? |
-| Choose a scoring method | Compare EAP, ML and sum-score scale scores | What goes on candidates' score reports |
-| Classification accuracy | Misclassification probabilities from each candidate's score and SE | How to respond to measurement error near the cut |
-| Fairness across languages | Raw means by group, `dif()`, `gg_dif()` | Impact versus DIF; what to do with the flagged items |
-| The memo | Free-text memo, then `interpret()` and `item_card()` | |
-| The reveal | `lab_truth()`, true versus estimated difficulties | Where the 2PL departs from the true 3PL |
+The decision table at the end of Lab 1, for a student who made these choices:
 
 ```{r, echo = FALSE, eval = TRUE}
 # Embedded as a data URI so the figure travels with the page
-htmltools::img(src = knitr::image_uri("figures/lab-dif.png"), width = "100%",
-               alt = "DIF item curves by group in Lab 2: Q09 is uniformly harder for French candidates, Q27's curves cross.")
+htmltools::img(src = knitr::image_uri("figures/lab-decisions.png"), width = "100%",
+               alt = "The decision table at the end of Lab 1.")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
-# Embedded as a data URI so the figure travels with the page
-htmltools::img(src = knitr::image_uri("figures/lab-reveal.png"), width = "100%",
-               alt = "The reveal: estimated 2PL difficulties against the true 3PL values. The hardest items, where guessing matters, depart most.")
-```
-
-### Answer key
+### Lab 2
 
 * **Hardest item:** Q32 (b about 3), with Q12 close behind. Both have low
   slopes (about 0.45), the 2PL's way of absorbing guessing.
@@ -163,24 +193,22 @@ htmltools::img(src = knitr::image_uri("figures/lab-reveal.png"), width = "100%",
 * **Truth:** the 2PL departs most from the true difficulties for the hardest
   items, where guessing matters.
 
-### Discussion prompts
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-dif.png"), width = "100%",
+               alt = "DIF item curves by group in Lab 2: Q09 is uniformly harder for French candidates, Q27's curves cross.")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-reveal.png"), width = "100%",
+               alt = "The reveal: estimated 2PL difficulties against the true 3PL values. The hardest items, where guessing matters, depart most.")
+```
+
+#### Discussion prompts
 
 * Two candidates both answered 18 items correctly. Under pattern scoring one
   passes and one fails. How would you explain that to them? Would you?
 * Q27's average (signed) DIF effect is small. Why is that misleading?
 * The board's 2PL was "wrong", yet most of the decisions it supported were
   right. When does using a simpler model than the truth matter?
-
-## Tips for instructors
-
-* **Before class:** ask students to install mirtverse and learnr and run
-  `list_labs()`. Fitting the models needs no internet connection.
-* **Speed:** every exercise runs in under about 15 seconds on a laptop; the
-  two-factor model uses fewer quadrature points so it stays quick.
-* **Hosting:** to run a lab in the browser without any installation, deploy
-  the tutorial folder (`system.file("tutorials", "model-choice", package =
-  "mirtverse")`) to shinyapps.io or Posit Connect. learnr's event recorder
-  (`options(tutorial.event_recorder = ...)`) can log students' answers there.
-* **Assessment:** the free-text justification at the end of each lab makes a
-  good short assignment. Ask students to paste it, together with their
-  decision table, into your course site.
