@@ -9,7 +9,8 @@ Description: Extends the 'mirt' package for item response theory with tidy
     plain-language interpretation of results, item health cards, one-call
     HTML reports, a point-and-click 'shiny' workbench that exports
     reproducible code, and a joint hierarchical model for responses and
-    response times (van der Linden, 2007) with rapid-guessing flags.
+    response times (van der Linden, 2007) with rapid-guessing flags, and a
+    translator that turns 'ltm', 'eRm', 'TAM' and 'irtQ' code into 'mirt' code.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -35,6 +36,10 @@ Imports:
     ragg
 Suggests:
     testthat (>= 3.0.0),
+    eRm,
+    irtQ,
+    ltm,
+    TAM,
     ellmer (>= 0.3.0),
     keyring,
     knitr,

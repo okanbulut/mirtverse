@@ -1,5 +1,14 @@
 # mirtverse (development version)
 
+* New `mirtify()` translates code written for ltm, eRm, TAM and irtQ into
+  mirt code, with a note on every difference between the packages (for
+  example CML versus MML in eRm, the scaling constant `D` in irtQ, and the
+  number of quadrature points). It covers the model functions and their
+  follow-ups: person scores, item and person fit, information, plots and
+  Andersen's likelihood-ratio test. `run = TRUE` also runs the translated
+  code. `mirtify_crosswalk()` lists every supported function, and the new
+  article "Moving from ltm, eRm, TAM or irtQ to mirt" walks through examples
+  and shows how closely the translated models match the originals.
 * New interactive teaching labs for measurement courses, built with learnr.
   `run_lab("model-choice")` opens Lab 1, "Choosing a model the board can
   defend": students score a certification exam, find a miskeyed item, check

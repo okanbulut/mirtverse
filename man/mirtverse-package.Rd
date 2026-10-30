@@ -13,7 +13,8 @@ assistant (\code{\link[=select_model]{select_model()}}), plain-language interpre
 (\code{\link[=interpret]{interpret()}}), item health cards (\code{\link[=item_card]{item_card()}}), one-call HTML reports
 (\code{\link[=mv_report]{mv_report()}}), results dashboards to share (\code{\link[=mv_dashboard]{mv_dashboard()}}), a
 point-and-click workbench (\code{\link[=launch_workbench]{launch_workbench()}}) and a
-joint model for responses and response times (\code{\link[=fit_rt]{fit_rt()}}).
+joint model for responses and response times (\code{\link[=fit_rt]{fit_rt()}}), and a translator
+from ltm, eRm, TAM and irtQ code to mirt code (\code{\link[=mirtify]{mirtify()}}).
 }
 \seealso{
 Useful links:
