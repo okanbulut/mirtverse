@@ -13,6 +13,7 @@ mv_report(
   alpha = 0.01,
   dif = NULL,
   code = NULL,
+  extra = NULL,
   open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))
 )
 }
@@ -37,6 +38,11 @@ differential item functioning.}
 
 \item{code}{optional character vector of R code to show in the
 reproducibility section (the workbench fills this in automatically).}
+
+\item{extra}{optional named list of extra sections, each a piece of HTML
+built with htmltools, placed before the reproducibility section; the
+names are the section titles. \code{\link[=pipeline_report]{pipeline_report()}} uses this for its
+decisions section.}
 
 \item{open}{logical; open the report in a browser afterwards.}
 }

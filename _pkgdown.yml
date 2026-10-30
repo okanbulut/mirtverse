@@ -45,6 +45,19 @@ reference:
   contents:
   - mirtify
   - mirtify_crosswalk
+- title: Assessment pipeline
+  desc: >
+    Take a test from response data to a technical report in stages, with
+    checks and flags to consider before each next stage.
+  contents:
+  - mv_pipeline
+  - add_responses
+  - calibrate
+  - pipeline_report
+  - flags
+  - acknowledge
+  - drop_items
+  - mv_rules
 - title: Choosing and understanding a model
   contents:
   - select_model
