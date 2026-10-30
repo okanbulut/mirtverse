@@ -210,6 +210,13 @@ checks and flags to consider before each next stage.
   : Pipeline stage: data intake and cleaning
 - [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
   : Pipeline stage: calibration
+- [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
+  : Pipeline stage: link a calibration to an item bank
+- [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
+  : Pipeline stage: add items to a bank
+- [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
+  [`tidy(`*`<mv_bank>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
+  : An item bank
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :

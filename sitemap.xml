@@ -17,6 +17,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/add_responses.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/augment_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/autoplot.SingleGroupClass.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/bank_items.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/calibrate.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/certexam.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/dif.html</loc></url>
@@ -43,12 +44,14 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/lab_decisions.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/lab_truth.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/launch_workbench.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/link_to_bank.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtify.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtverse-package.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtverse-report.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_bank.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_pipeline.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_plan.html</loc></url>

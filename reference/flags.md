@@ -26,7 +26,8 @@ flags(p, status = "open", level = NULL, stage = NULL)
 
 - stage:
 
-  optional stages to keep (`"intake"`, `"calibration"`, `"reporting"`).
+  optional stages to keep (`"intake"`, `"calibration"`, `"linking"`,
+  `"reporting"`).
 
 ## Value
 

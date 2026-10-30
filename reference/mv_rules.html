@@ -83,7 +83,7 @@ name.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
-<table class="table table"><tr><td>Rule</td><td>Default</td><td>Check</td></tr><tr><td><code>miskey_p</code></td><td>0.10</td><td>proportion correct below this suggests a miskeyed item</td></tr><tr><td><code>miskey_r</code></td><td>0</td><td>corrected item-total correlation below this suggests a miskey</td></tr><tr><td><code>missing_item</code></td><td>0.20</td><td>share of missing responses on an item</td></tr><tr><td><code>missing_person</code></td><td>0.50</td><td>share of items a respondent skipped</td></tr><tr><td><code>straight_min_items</code></td><td>5</td><td>minimum test length for straight-lining checks</td></tr><tr><td><code>rapid_rt</code></td><td>0.10</td><td>response time below this share of the item's median is a rapid guess</td></tr><tr><td><code>rapid_person</code></td><td>0.10</td><td>share of rapid guesses that flags a respondent</td></tr><tr><td><code>min_category_n</code></td><td>10</td><td>responses needed in each score category</td></tr><tr><td><code>rmsea</code></td><td>0.06</td><td>maximum M2-based RMSEA</td></tr><tr><td><code>cfi</code></td><td>0.95</td><td>minimum M2-based CFI</td></tr><tr><td><code>q3</code></td><td>0.20</td><td>maximum absolute Q3 residual correlation between two items</td></tr><tr><td><code>fit_alpha</code></td><td>0.01</td><td>significance level for S-X2 item misfit</td></tr><tr><td><code>fit_adjust</code></td><td><code>"BH"</code></td><td>p-value adjustment for item misfit (<code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code>)</td></tr><tr><td><code>a_min</code>, <code>a_max</code></td><td>0.3, 4</td><td>acceptable range of discrimination (slope)</td></tr><tr><td><code>b_max</code></td><td>4</td><td>largest acceptable absolute difficulty (location)</td></tr><tr><td><code>c_max</code></td><td>0.35</td><td>largest acceptable lower asymptote (guessing)</td></tr><tr><td><code>dif_alpha</code></td><td>0.05</td><td>significance level of the Mantel-Haenszel test</td></tr><tr><td><code>dif_b</code>, <code>dif_c</code></td><td>1, 1.5</td><td>absolute MH D-DIF for ETS categories B and C (0/1 items)</td></tr><tr><td><code>dif_poly_b</code>, <code>dif_poly_c</code></td><td>0.17, 0.25</td><td>absolute SMD/SD for categories B and C (polytomous items)</td></tr><tr><td><code>reliability</code></td><td>0.80</td><td>minimum marginal reliability</td></tr><tr><td><code>person_misfit</code></td><td>-1.96</td><td>Zh (lz) person-fit value below which a respondent misfits</td></tr><tr><td><code>min_group_n</code></td><td>10</td><td>smallest group summarized in a report</td></tr></table><p><code>preset = "lenient"</code> relaxes the rules for pilot studies and small samples
+<table class="table table"><tr><td>Rule</td><td>Default</td><td>Check</td></tr><tr><td><code>miskey_p</code></td><td>0.10</td><td>proportion correct below this suggests a miskeyed item</td></tr><tr><td><code>miskey_r</code></td><td>0</td><td>corrected item-total correlation below this suggests a miskey</td></tr><tr><td><code>missing_item</code></td><td>0.20</td><td>share of missing responses on an item</td></tr><tr><td><code>missing_person</code></td><td>0.50</td><td>share of items a respondent skipped</td></tr><tr><td><code>straight_min_items</code></td><td>5</td><td>minimum test length for straight-lining checks</td></tr><tr><td><code>rapid_rt</code></td><td>0.10</td><td>response time below this share of the item's median is a rapid guess</td></tr><tr><td><code>rapid_person</code></td><td>0.10</td><td>share of rapid guesses that flags a respondent</td></tr><tr><td><code>min_category_n</code></td><td>10</td><td>responses needed in each score category</td></tr><tr><td><code>rmsea</code></td><td>0.06</td><td>maximum M2-based RMSEA</td></tr><tr><td><code>cfi</code></td><td>0.95</td><td>minimum M2-based CFI</td></tr><tr><td><code>q3</code></td><td>0.20</td><td>maximum absolute Q3 residual correlation between two items</td></tr><tr><td><code>fit_alpha</code></td><td>0.01</td><td>significance level for S-X2 item misfit</td></tr><tr><td><code>fit_adjust</code></td><td><code>"BH"</code></td><td>p-value adjustment for item misfit (<code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code>)</td></tr><tr><td><code>a_min</code>, <code>a_max</code></td><td>0.3, 4</td><td>acceptable range of discrimination (slope)</td></tr><tr><td><code>b_max</code></td><td>4</td><td>largest acceptable absolute difficulty (location)</td></tr><tr><td><code>c_max</code></td><td>0.35</td><td>largest acceptable lower asymptote (guessing)</td></tr><tr><td><code>dif_alpha</code></td><td>0.05</td><td>significance level of the Mantel-Haenszel test</td></tr><tr><td><code>dif_b</code>, <code>dif_c</code></td><td>1, 1.5</td><td>absolute MH D-DIF for ETS categories B and C (0/1 items)</td></tr><tr><td><code>dif_poly_b</code>, <code>dif_poly_c</code></td><td>0.17, 0.25</td><td>absolute SMD/SD for categories B and C (polytomous items)</td></tr><tr><td><code>reliability</code></td><td>0.80</td><td>minimum marginal reliability</td></tr><tr><td><code>person_misfit</code></td><td>-1.96</td><td>Zh (lz) person-fit value below which a respondent misfits</td></tr><tr><td><code>min_anchors</code></td><td>5</td><td>fewest anchor items for linking to a bank</td></tr><tr><td><code>min_anchor_share</code></td><td>0.20</td><td>smallest share of the test that should be anchors</td></tr><tr><td><code>anchor_displacement</code></td><td>0.3</td><td>largest change in an anchor's location (logits) after linking</td></tr><tr><td><code>link_slope_min</code>, <code>link_slope_max</code></td><td>0.8, 1.2</td><td>acceptable range of the linking slope A</td></tr><tr><td><code>min_group_n</code></td><td>10</td><td>smallest group summarized in a report</td></tr></table><p><code>preset = "lenient"</code> relaxes the rules for pilot studies and small samples
 (<code>rmsea = 0.08</code>, <code>cfi = 0.90</code>, <code>q3 = 0.30</code>, <code>a_min = 0.2</code>,
 <code>reliability = 0.70</code>, <code>missing_item = 0.30</code>); values given by name are
 applied on top of the preset.</p>
@@ -93,85 +93,100 @@ applied on top of the preset.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">mv_rules</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;mv_rules&gt; preset: standards</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item       0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person     0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person       0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea              0.06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                 0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha          0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust         BH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min              0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max              0.35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha          0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c              1.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b         0.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c         0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability        0.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit      -1.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n        10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r            0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item        0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person      0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person        0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea               0.06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                 0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                  0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha           0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust          BH</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min               0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max               0.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha           0.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c               1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b          0.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c          0.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability         0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit       -1.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchors         5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchor_share    0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   anchor_displacement 0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_min      0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_max      1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n         10</span>
 <span class="r-in"><span><span class="fu">mv_rules</span><span class="op">(</span>q3 <span class="op">=</span> <span class="fl">0.25</span>, reliability <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;mv_rules&gt; preset: standards; changed: q3, reliability</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item       0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person     0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person       0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea              0.06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                 0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha          0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust         BH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min              0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max              0.35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha          0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c              1.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b         0.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c         0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability        0.85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit      -1.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n        10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r            0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item        0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person      0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person        0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea               0.06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                 0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                  0.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha           0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust          BH</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min               0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max               0.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha           0.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c               1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b          0.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c          0.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability         0.85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit       -1.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchors         5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchor_share    0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   anchor_displacement 0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_min      0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_max      1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n         10</span>
 <span class="r-in"><span><span class="fu">mv_rules</span><span class="op">(</span>preset <span class="op">=</span> <span class="st">"lenient"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;mv_rules&gt; preset: lenient</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item       0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person     0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt           0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person       0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea              0.08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                 0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha          0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust         BH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min              0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max              0.35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha          0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c              1.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b         0.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c         0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability        0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit      -1.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n        10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_p            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   miskey_r            0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_item        0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   missing_person      0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   straight_min_items  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_rt            0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rapid_person        0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_category_n      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rmsea               0.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cfi                 0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   q3                  0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_alpha           0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fit_adjust          BH</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_min               0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   b_max               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   c_max               0.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_alpha           0.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_b               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_c               1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_b          0.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dif_poly_c          0.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   reliability         0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   person_misfit       -1.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchors         5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_anchor_share    0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   anchor_displacement 0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_min      0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   link_slope_max      1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   min_group_n         10</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -3,7 +3,7 @@
 An assessment pipeline takes a test from response data to a score report
 in stages. Each stage does its work, then runs a set of checks (a
 *gate*) and records what it finds as *flags* that the user should
-consider before the next stage. This first version covers three stages:
+consider before the next stage. The stages available so far:
 
 ## Usage
 
@@ -65,7 +65,14 @@ them as a tibble.
     model fitting with mirt (convergence, model fit, local dependence,
     item fit, parameter ranges, DIF, reliability, person fit).
 
-3.  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
+3.  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
+    and
+    [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
+    (optional): put the calibration on the scale of an item bank through
+    anchor items and add the new items to the bank (anchor drift,
+    linking constants).
+
+4.  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
     an HTML technical report that also lists every flag and every
     decision made about it.
 
@@ -112,9 +119,10 @@ p
 #> <mv_pipeline> Certification exam
 #> flags warn (strict = FALSE); rules: standards
 #> 
-#> [x] 4  Data intake  1,200 respondents, 32 items, scored with key
-#> [x] 5  Calibration  3PL, NOT converged, reliability 0.83  | open: 2 block, 4 review, 1 info
-#> [ ] 11 Reporting    not run
+#> [x] 4  Data intake      1,200 respondents, 32 items, scored with key
+#> [x] 5  Calibration      3PL, NOT converged, reliability 0.83  | open: 2 block, 4 review, 1 info
+#> [ ] 6  Linking and bank not run
+#> [ ] 11 Reporting        not run
 #> 
 #> Open flags: 2 block, 4 review, 1 info. See flags(p). 1 decision(s) recorded.
 f <- pipeline_report(p, file = tempfile(fileext = ".html"))
