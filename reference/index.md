@@ -100,6 +100,19 @@ Interactive results dashboards to share with people who do not use R.
 - [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md)
   : Simulate responses and response times
 
+## Teaching labs
+
+Interactive tutorials for measurement courses.
+
+- [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md)
+  [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md)
+  : Interactive IRT teaching labs
+- [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
+  : Answer key and true values for the lab dataset
+- [`certexam`](https://www.okanbulut.com/mirtverse/reference/certexam.md)
+  [`certexam_key`](https://www.okanbulut.com/mirtverse/reference/certexam.md)
+  : Certification exam data for the teaching labs
+
 ## Package
 
 - [`mirtverse`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)

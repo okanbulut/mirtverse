@@ -41,8 +41,11 @@
     <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
+    <li><a class="dropdown-item" href="../articles/labs.html">Learn IRT by doing: the mirtverse labs</a></li>
+    <li><a class="dropdown-item" href="../articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../articles/labs.html">Teaching labs</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -275,7 +278,7 @@ is.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/export_dashboard.html">export_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"sat12-dashboard"</span>, title <span class="op">=</span> <span class="st">"SAT12 results"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>          <span class="co"># try it locally</span></span>
-<span><span class="fu">rsconnect</span><span class="fu">::</span><span class="fu">deployApp</span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>   <span class="co"># publish to shinyapps.io or Posit Connect</span></span></code></pre></div>
+<span><span class="fu">rsconnect</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/rsconnect/reference/deployApp.html" class="external-link">deployApp</a></span><span class="op">(</span><span class="st">"sat12-dashboard"</span><span class="op">)</span>   <span class="co"># publish to shinyapps.io or Posit Connect</span></span></code></pre></div>
 <p>This writes a folder with <code>app.R</code> and
 <code>dashboard.rds</code>, ready to publish to <a href="https://www.shinyapps.io" class="external-link">shinyapps.io</a> or Posit Connect. A
 hosted app suits an organization that already runs a Shiny server, or a

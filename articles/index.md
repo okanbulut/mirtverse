@@ -23,3 +23,16 @@
 
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):
+
+- [Learn IRT by doing: the mirtverse
+  labs](https://www.okanbulut.com/mirtverse/articles/labs.md):
+
+  A short introduction to the interactive teaching labs: what they are,
+  how to start one, and what students do in each.
+
+- [Teaching labs for measurement
+  courses](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md):
+
+  Interactive learnr labs in which students fit live mirt models and
+  make the decisions a psychometrician makes, from scoring and model
+  choice to interpretation. Includes an instructor guide and answer key.

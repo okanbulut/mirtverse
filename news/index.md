@@ -2,6 +2,24 @@
 
 ## mirtverse (development version)
 
+- New interactive teaching labs for measurement courses, built with
+  learnr. `run_lab("model-choice")` opens Lab 1, “Choosing a model the
+  board can defend”: students score a certification exam, find a
+  miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL
+  models, check item fit and local dependence, and justify a model, with
+  feedback on every decision and a summary of their choices at the end.
+  `run_lab("decisions")` opens Lab 2, “From parameters to decisions”:
+  reading item parameters, precision at the pass mark, choosing a
+  scoring method, classification accuracy, DIF between English and
+  French candidates, a memo to the board, and a reveal of the truth
+  behind the data.
+  [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md)
+  lists the labs. The new `certexam` data (with `certexam_key`) are
+  simulated with known problems planted for the labs;
+  [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
+  reveals them for instructors. The new “Learn IRT by doing” article
+  introduces the labs, and the “Teaching labs” article is an instructor
+  guide with an answer key.
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   gains the normative threshold rules `flag_method = "nt15"` and
   `"nt20"` for rapid guessing (15% and 20% of each item’s mean response

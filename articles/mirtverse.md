@@ -254,3 +254,16 @@ The workbench is a point-and-click app that writes the R code for you
 turns a plain-language request into a complete, tested script (see the
 [mv_ask()
 guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md)).
+
+## 9. Teaching IRT?
+
+``` r
+
+run_lab("model-choice")
+```
+
+mirtverse includes interactive labs for measurement courses. Students
+fit live models and make real testing decisions, from choosing a model
+to advising a certification board, with feedback on every choice. See
+[Learn IRT by
+doing](https://www.okanbulut.com/mirtverse/articles/labs.md).

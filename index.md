@@ -6,6 +6,12 @@ item response theory (IRT) models; mirtverse helps you choose a model,
 understand the results, make publication-ready figures, and share
 everything, with or without writing R code.
 
+> **New: interactive teaching labs.** Two browser-based labs let
+> students fit live mirt models and make real testing decisions, from
+> choosing a model to advising a certification board. Start one with
+> `run_lab("model-choice")`, or read [Learn IRT by
+> doing](https://www.okanbulut.com/mirtverse/articles/labs.html).
+
 ## About mirt
 
 [mirt](https://philchalmers.github.io/mirt/), developed and maintained
@@ -54,6 +60,7 @@ interpretation and reporting tools around it.
 | One-call HTML report | [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) |
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
 | Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
+| Interactive teaching labs for measurement courses (learnr) | [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md), [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md) |
 
 ## Installation
 
@@ -100,6 +107,11 @@ Prefer clicking? Run
 Prefer describing the analysis in words?
 `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
 writes the whole script for you.
+
+Teaching a measurement course? `run_lab("model-choice")` opens an
+interactive lab in which students work through a realistic testing
+scenario with live models (see [Learn IRT by
+doing](https://www.okanbulut.com/mirtverse/articles/labs.html)).
 
 ## Relationship to mirt
 

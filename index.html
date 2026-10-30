@@ -41,8 +41,11 @@
     <li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
+    <li><a class="dropdown-item" href="articles/labs.html">Learn IRT by doing: the mirtverse labs</a></li>
+    <li><a class="dropdown-item" href="articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="articles/labs.html">Teaching labs</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -65,6 +68,9 @@
 <!-- badges: start -->
 
 <p><strong>mirtverse</strong> is a friendly workflow and reporting layer for the <a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a> package. mirt estimates item response theory (IRT) models; mirtverse helps you choose a model, understand the results, make publication-ready figures, and share everything, with or without writing R code.</p>
+<blockquote>
+<p><strong>New: interactive teaching labs.</strong> Two browser-based labs let students fit live mirt models and make real testing decisions, from choosing a model to advising a certification board. Start one with <code>run_lab("model-choice")</code>, or read <a href="https://www.okanbulut.com/mirtverse/articles/labs.html">Learn IRT by doing</a>.</p>
+</blockquote>
 <div class="section level2">
 <h2 id="about-mirt">About mirt<a class="anchor" aria-label="anchor" href="#about-mirt"></a>
 </h2>
@@ -155,6 +161,12 @@
 <code><a href="reference/fit_rt.html">fit_rt()</a></code>, <code><a href="reference/sim_rt.html">sim_rt()</a></code>
 </td>
 </tr>
+<tr>
+<td>Interactive teaching labs for measurement courses (learnr)</td>
+<td>
+<code><a href="reference/run_lab.html">run_lab()</a></code>, <code><a href="reference/run_lab.html">list_labs()</a></code>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -190,6 +202,7 @@
 <span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span>
 <span><span class="fu"><a href="reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, title <span class="op">=</span> <span class="st">"LSAT results"</span><span class="op">)</span>   <span class="co"># interactive dashboard to share</span></span></code></pre></div>
 <p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>. Prefer describing the analysis in words? <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes the whole script for you.</p>
+<p>Teaching a measurement course? <code>run_lab("model-choice")</code> opens an interactive lab in which students work through a realistic testing scenario with live models (see <a href="https://www.okanbulut.com/mirtverse/articles/labs.html">Learn IRT by doing</a>).</p>
 </div>
 <div class="section level2">
 <h2 id="relationship-to-mirt">Relationship to mirt<a class="anchor" aria-label="anchor" href="#relationship-to-mirt"></a>

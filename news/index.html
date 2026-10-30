@@ -23,7 +23,10 @@
     <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
+    <li><a class="dropdown-item" href="../articles/labs.html">Learn IRT by doing: the mirtverse labs</a></li>
+    <li><a class="dropdown-item" href="../articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
   </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/labs.html">Teaching labs</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -41,7 +44,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mirtverse-development-version">mirtverse (development version)<a class="anchor" aria-label="anchor" href="#mirtverse-development-version"></a></h2>
-<ul><li>
+<ul><li>New interactive teaching labs for measurement courses, built with learnr. <code>run_lab("model-choice")</code> opens Lab 1, “Choosing a model the board can defend”: students score a certification exam, find a miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and local dependence, and justify a model, with feedback on every decision and a summary of their choices at the end. <code>run_lab("decisions")</code> opens Lab 2, “From parameters to decisions”: reading item parameters, precision at the pass mark, choosing a scoring method, classification accuracy, DIF between English and French candidates, a memo to the board, and a reveal of the truth behind the data. <code><a href="../reference/run_lab.html">list_labs()</a></code> lists the labs. The new <code>certexam</code> data (with <code>certexam_key</code>) are simulated with known problems planted for the labs; <code><a href="../reference/lab_truth.html">lab_truth()</a></code> reveals them for instructors. The new “Learn IRT by doing” article introduces the labs, and the “Teaching labs” article is an instructor guide with an answer key.</li>
+<li>
 <code><a href="../reference/fit_rt.html">fit_rt()</a></code> gains the normative threshold rules <code>flag_method = "nt15"</code> and <code>"nt20"</code> for rapid guessing (15% and 20% of each item’s mean response time), next to <code>"nt10"</code>, and the workbench offers all three. Following Wise and Ma (2012), the item thresholds of all three rules are now capped at 10 seconds; change the cap with the new <code>nt_max</code> argument (<code>nt_max = Inf</code> removes it). The thresholds used are returned in <code>$thresholds</code>.</li>
 <li>New <code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code> builds a read-only ‘shiny’ dashboard of your results for people who do not use R. Choose the panels (summary, items with health cards, item curves with an ability slider, information, Wright map, score distribution and conversion table, and optionally person scores, DIF and response times), add a title and logo, and run it. <code><a href="../reference/export_dashboard.html">export_dashboard()</a></code> saves it as an <code>app.R</code> folder ready for shinyapps.io or Posit Connect. The saved dashboard holds summaries only, never the item responses, and holds individual scores only when you add the <code>"persons"</code> panel.</li>
 <li>

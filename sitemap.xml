@@ -3,9 +3,11 @@
 <url><loc>https://www.okanbulut.com/mirtverse/LICENSE-text.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/dashboards.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/index.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/labs.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/response-times.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/teaching-labs.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/workbench.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/authors.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html</loc></url>
@@ -13,6 +15,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/news/index.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/augment_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/autoplot.SingleGroupClass.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/certexam.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/dif.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/export_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fit_rt.html</loc></url>
@@ -31,6 +34,9 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_card.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_cards.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_table.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/lab_checker.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/lab_decisions.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/lab_truth.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/launch_workbench.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtverse-package.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mirtverse-report.html</loc></url>
@@ -41,6 +47,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_report.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/profile_data.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/reexports.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/run_lab.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/run_script.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/select_model.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/sim_rt.html</loc></url>
