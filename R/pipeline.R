@@ -9,6 +9,11 @@
 #' 0. [set_blueprint()]: the construct, content cells and score use.
 #' 1. [generate_items()] or [add_items()]: item writing with a language model
 #'    or by people (keys, distractors, rubrics, duplicates, coverage).
+#' 2. [review_packet()] and [read_reviews()]: human content and sensitivity
+#'    review, with an optional AI screen (reviewers, alignment, bias,
+#'    agreement).
+#' 3. [design_field_test()]: forms, anchors and sample sizes for the field
+#'    test, with simulated parameter recovery.
 #' 4. [add_responses()]: data intake and cleaning (scoring with a key,
 #'    missing data, miskeyed items, straight-lining, rapid guessing, sparse
 #'    categories).
@@ -76,10 +81,11 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 }
 
 pipeline_stages <- data.frame(
-  stage = c("blueprint", "generation", "intake", "calibration", "linking", "forms", "cuts",
-            "reporting"),
-  number = c(0L, 1L, 4L, 5L, 6L, 7L, 8L, 11L),
-  label = c("Blueprint", "Item generation", "Data intake", "Calibration", "Linking and bank", "Forms", "Cut scores", "Reporting"),
+  stage = c("blueprint", "generation", "review", "field_test", "intake", "calibration",
+            "linking", "forms", "cuts", "reporting"),
+  number = c(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 11L),
+  label = c("Blueprint", "Item generation", "Item review", "Field-test design", "Data intake",
+            "Calibration", "Linking and bank", "Forms", "Cut scores", "Reporting"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -201,7 +207,7 @@ flag_counts <- function(f) {
 #'   of `"acknowledged"`, `"overridden"` and `"fixed"`.
 #' @param level optional levels to keep (`"info"`, `"review"`, `"block"`).
 #' @param stage optional stages to keep (`"blueprint"`, `"generation"`,
-#'   `"intake"`, `"calibration"`, `"linking"`, `"forms"`, `"cuts"`,
+#'   `"review"`, `"field_test"`, `"intake"`, `"calibration"`, `"linking"`, `"forms"`, `"cuts"`,
 #'   `"reporting"`).
 #' @return A tibble with one row per flag: `id`, `stage`, `check`, `target`
 #'   (an item, a pair of items, a group, or the whole test), `value` (the
@@ -376,7 +382,7 @@ print.mv_pipeline <- function(x, ...) {
     s <- x$stages[i, ]
     f <- x$flags[x$flags$stage == s$stage & x$flags$status == "open", , drop = FALSE]
     mark <- switch(s$status, done = "[x]", "needs rerun" = "[!]", "[ ]")
-    cat(sprintf("%s %-2d %-16s %s%s\n", mark, pipeline_stages$number[i], pipeline_stages$label[i],
+    cat(sprintf("%s %-2d %-17s %s%s\n", mark, pipeline_stages$number[i], pipeline_stages$label[i],
                 if (nzchar(s$summary)) s$summary else s$status,
                 if (nrow(f)) paste0("  | open: ", flag_counts(f)) else ""))
   }

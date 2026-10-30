@@ -60,6 +60,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   extra <- list()
   if (!is.null(p$blueprint)) extra[["Blueprint"]] <- blueprint_html(p)
   if (!is.null(p$items)) extra[["Item development"]] <- items_html(p)
+  if (!is.null(p$field_test)) extra[["Field-test design"]] <- field_test_html(p)
   if (!is.null(groups)) extra[["Groups"]] <- groups_html(groups, p)
   if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
   if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
@@ -229,5 +230,33 @@ items_html <- function(p) {
                       "independent answer for %d items; %d disagreed with the key."),
                 nrow(it), sum(!is.na(it$key_check)),
                 sum(it$key_check == "disagree", na.rm = TRUE))),
-    html_table(tab), h$h3("Item sources"), html_table(src))
+    html_table(tab), h$h3("Item sources"), html_table(src),
+    if (!is.null(p$reviews)) {
+      ag <- p$review_agreement
+      list(h$h3("Review"),
+           h$p(sprintf(paste("%d reviews from %d reviewers. On the %d items with two or more",
+                             "reviews, the reviewers' decisions agreed %s of the time (Fleiss'",
+                             "kappa %s)."),
+                       nrow(p$reviews), length(unique(p$reviews$reviewer)), ag$items,
+                       if (is.na(ag$agreement)) "n/a" else sprintf("%.0f%%", 100 * ag$agreement),
+                       if (is.na(ag$kappa)) "n/a" else sprintf("%.2f", ag$kappa))))
+    })
+}
+
+field_test_html <- function(p) {
+  h <- htmltools::tags
+  ft <- p$field_test
+  rec <- ft$recovery
+  htmltools::tagList(
+    h$p(sprintf(paste("The field test uses %d form(s) of %s items, each taken by %s test takers,",
+                      "with %d anchor items on every form, for calibration with the %s model."),
+                ft$n_forms, paste(unique(ft$form_length), collapse = "/"),
+                format(ft$n_per_form, big.mark = ","), length(ft$anchors), ft$model)),
+    if (!is.null(rec))
+      h$p(sprintf(paste("In %d simulated field tests the slopes were recovered with an RMSE of",
+                        "%s and the intercepts with an RMSE of %.2f."), rec$reps,
+                  if (is.na(rec$rmse_a)) "n/a (Rasch)" else sprintf("%.2f", rec$rmse_a),
+                  rec$rmse_d)),
+    html_table(as.data.frame(stats::aggregate(item ~ form + role, data = as.data.frame(ft$forms),
+                                              FUN = length))))
 }

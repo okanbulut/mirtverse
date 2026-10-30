@@ -44,6 +44,11 @@ plan; start at any of them):
 \item \code{\link[=set_blueprint]{set_blueprint()}}: the construct, content cells and score use.
 \item \code{\link[=generate_items]{generate_items()}} or \code{\link[=add_items]{add_items()}}: item writing with a language model
 or by people (keys, distractors, rubrics, duplicates, coverage).
+\item \code{\link[=review_packet]{review_packet()}} and \code{\link[=read_reviews]{read_reviews()}}: human content and sensitivity
+review, with an optional AI screen (reviewers, alignment, bias,
+agreement).
+\item \code{\link[=design_field_test]{design_field_test()}}: forms, anchors and sample sizes for the field
+test, with simulated parameter recovery.
 \item \code{\link[=add_responses]{add_responses()}}: data intake and cleaning (scoring with a key,
 missing data, miskeyed items, straight-lining, rapid guessing, sparse
 categories).

@@ -15,7 +15,7 @@ of \code{"acknowledged"}, \code{"overridden"} and \code{"fixed"}.}
 \item{level}{optional levels to keep (\code{"info"}, \code{"review"}, \code{"block"}).}
 
 \item{stage}{optional stages to keep (\code{"blueprint"}, \code{"generation"},
-\code{"intake"}, \code{"calibration"}, \code{"linking"}, \code{"forms"}, \code{"cuts"},
+\code{"review"}, \code{"field_test"}, \code{"intake"}, \code{"calibration"}, \code{"linking"}, \code{"forms"}, \code{"cuts"},
 \code{"reporting"}).}
 }
 \value{
