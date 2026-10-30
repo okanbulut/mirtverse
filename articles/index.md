@@ -36,3 +36,9 @@
   Interactive learnr labs in which students fit live mirt models and
   make the decisions a psychometrician makes, from scoring and model
   choice to interpretation. Includes an instructor guide and answer key.
+
+- [Moving from ltm, eRm, TAM or irtQ to
+  mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.md):
+
+  Translate existing IRT code into mirt with mirtify(), see what changes
+  and why, and look up any function in the crosswalk.

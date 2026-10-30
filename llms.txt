@@ -61,6 +61,7 @@ interpretation and reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
 | Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
 | Interactive teaching labs for measurement courses (learnr) | [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md), [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md) |
+| Translate ltm, eRm, TAM and irtQ code into mirt code | [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md), [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md) |
 
 ## Installation
 
@@ -160,6 +161,15 @@ Describe an analysis in words and get a complete, tested R script.
   : Run or save a script written by mv_ask()
 - [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
   : Summarise a data set without revealing its values
+
+## Coming from other IRT packages
+
+Translate ltm, eRm, TAM and irtQ code into mirt code.
+
+- [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
+  : Translate ltm, eRm, TAM and irtQ code into mirt code
+- [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
+  : The ltm, eRm, TAM and irtQ to mirt crosswalk
 
 ## Choosing and understanding a model
 
@@ -299,3 +309,9 @@ Interactive tutorials for measurement courses.
   Interactive learnr labs in which students fit live mirt models and
   make the decisions a psychometrician makes, from scoring and model
   choice to interpretation. Includes an instructor guide and answer key.
+
+- [Moving from ltm, eRm, TAM or irtQ to
+  mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.md):
+
+  Translate existing IRT code into mirt with mirtify(), see what changes
+  and why, and look up any function in the crosswalk.

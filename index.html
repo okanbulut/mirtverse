@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="A Friendly Workflow and Reporting Layer for mirt">
-<meta name="description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags.">
-<meta property="og:description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags.">
+<meta name="description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags, and a translator that turns ltm, eRm, TAM and irtQ code into mirt code.">
+<meta property="og:description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags, and a translator that turns ltm, eRm, TAM and irtQ code into mirt code.">
 <meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg">
 </head>
 <body>
@@ -43,6 +43,7 @@
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="articles/labs.html">Learn IRT by doing: the mirtverse labs</a></li>
     <li><a class="dropdown-item" href="articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
+    <li><a class="dropdown-item" href="articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="articles/labs.html">Teaching labs</a></li>
@@ -165,6 +166,12 @@
 <td>Interactive teaching labs for measurement courses (learnr)</td>
 <td>
 <code><a href="reference/run_lab.html">run_lab()</a></code>, <code><a href="reference/run_lab.html">list_labs()</a></code>
+</td>
+</tr>
+<tr>
+<td>Translate ltm, eRm, TAM and irtQ code into mirt code</td>
+<td>
+<code><a href="reference/mirtify.html">mirtify()</a></code>, <code><a href="reference/mirtify_crosswalk.html">mirtify_crosswalk()</a></code>
 </td>
 </tr>
 </tbody>

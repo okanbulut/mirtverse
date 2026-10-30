@@ -21,7 +21,9 @@ results dashboards to share
 a point-and-click workbench
 ([`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md))
 and a joint model for responses and response times
-([`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)).
+([`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)),
+and a translator from ltm, eRm, TAM and irtQ code to mirt code
+([`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)).
 
 ## See also
 

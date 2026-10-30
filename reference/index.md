@@ -25,6 +25,15 @@ Describe an analysis in words and get a complete, tested R script.
 - [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
   : Summarise a data set without revealing its values
 
+## Coming from other IRT packages
+
+Translate ltm, eRm, TAM and irtQ code into mirt code.
+
+- [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
+  : Translate ltm, eRm, TAM and irtQ code into mirt code
+- [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
+  : The ltm, eRm, TAM and irtQ to mirt crosswalk
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
