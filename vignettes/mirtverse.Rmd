@@ -126,3 +126,14 @@ mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)
 The workbench is a point-and-click app that writes the R code for you (see
 `vignette("workbench")`). `mv_ask()` turns a plain-language request into a
 complete, tested script (see the [mv_ask() guide](mv-ask-guide.html)).
+
+## 9. Teaching IRT?
+
+```{r, eval = FALSE}
+run_lab("model-choice")
+```
+
+mirtverse includes interactive labs for measurement courses. Students fit live
+models and make real testing decisions, from choosing a model to advising a
+certification board, with feedback on every choice. See
+[Learn IRT by doing](labs.html).

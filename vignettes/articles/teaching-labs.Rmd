@@ -14,7 +14,9 @@ mirtverse ships interactive labs for university measurement courses. They are
 [learnr](https://rstudio.github.io/learnr/) tutorials: students read a short
 brief, run real R code against live mirt models, and answer decision questions
 that explain why each choice holds up or doesn't. The goal is not only to learn
-the mirt syntax but to practise the judgment calls of a working analyst.
+the mirt syntax but to practise the judgment calls of a working analyst. For a
+short introduction to share with students, see
+[Learn IRT by doing](labs.html).
 
 ```{r}
 install.packages("learnr")   # once
