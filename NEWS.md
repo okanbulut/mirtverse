@@ -35,9 +35,9 @@
   English and French candidates, a memo to the board, and a reveal of the
   truth behind the data. `list_labs()` lists the labs. The new
   `certexam` data (with `certexam_key`) are simulated with known problems
-  planted for the labs; `lab_truth()` reveals them for instructors. The new
-  "Learn IRT by doing" article introduces the labs, and the "Teaching labs"
-  article is an instructor guide with an answer key.
+  planted for the labs; `lab_truth()` reveals them for instructors. The "Teaching labs"
+  article introduces the labs for students and has an instructor guide with
+  an answer key.
 * `fit_rt()` gains the normative threshold rules `flag_method = "nt15"` and
   `"nt20"` for rapid guessing (15% and 20% of each item's mean response time),
   next to `"nt10"`, and the workbench offers all three. Following Wise and Ma

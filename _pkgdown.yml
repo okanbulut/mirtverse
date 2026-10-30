@@ -5,6 +5,9 @@ template:
   bslib:
     primary: "#2C5F8A"
 
+redirects:
+  - ["articles/labs.html", "articles/teaching-labs.html"]
+
 navbar:
   structure:
     left: [intro, reference, articles, news]
@@ -19,7 +22,6 @@ articles:
   - workbench
   - articles/dashboards
   - response-times
-  - articles/labs
   - articles/teaching-labs
   - articles/mirtify
 
