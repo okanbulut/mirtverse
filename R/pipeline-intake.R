@@ -112,12 +112,12 @@ add_responses <- function(p, data, items = NULL, key = NULL, group = NULL, id = 
   p$data <- list(responses = resp, raw = raw, key = key, group = group,
                  id = as.character(id), rt = rt)
   if (!is.null(p$model)) {
-    p$model <- NULL; p$selection <- NULL; p$dif <- NULL
+    p$model <- NULL; p$selection <- NULL; p$dif <- NULL; p$link <- NULL
   }
   checks <- intake_checks(p$data, p$rules)
   p$persons <- checks$persons
   p <- set_stage_flags(p, "intake", checks$flags)
-  for (s in c("calibration", "reporting"))
+  for (s in c("calibration", "linking", "reporting"))
     if (p$stages$status[p$stages$stage == s] != "not run")
       p <- set_stage(p, s, "needs rerun", "data changed since this stage ran")
   p <- set_stage(p, "intake", "done",

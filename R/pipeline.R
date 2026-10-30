@@ -3,14 +3,17 @@
 #' An assessment pipeline takes a test from response data to a score report in
 #' stages. Each stage does its work, then runs a set of checks (a *gate*) and
 #' records what it finds as *flags* that the user should consider before the
-#' next stage. This first version covers three stages:
+#' next stage. The stages available so far:
 #'
 #' 1. [add_responses()]: data intake and cleaning (scoring with a key,
 #'    missing data, miskeyed items, straight-lining, rapid guessing, sparse
 #'    categories).
 #' 2. [calibrate()]: model fitting with mirt (convergence, model fit, local
 #'    dependence, item fit, parameter ranges, DIF, reliability, person fit).
-#' 3. [pipeline_report()]: an HTML technical report that also lists every
+#' 3. [link_to_bank()] and [bank_items()] (optional): put the calibration on
+#'    the scale of an item bank through anchor items and add the new items to
+#'    the bank (anchor drift, linking constants).
+#' 4. [pipeline_report()]: an HTML technical report that also lists every
 #'    flag and every decision made about it.
 #'
 #' Flags have three levels. `info` flags are shown for awareness. `review`
@@ -65,9 +68,9 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 }
 
 pipeline_stages <- data.frame(
-  stage = c("intake", "calibration", "reporting"),
-  number = c(4L, 5L, 11L),
-  label = c("Data intake", "Calibration", "Reporting"),
+  stage = c("intake", "calibration", "linking", "reporting"),
+  number = c(4L, 5L, 6L, 11L),
+  label = c("Data intake", "Calibration", "Linking and bank", "Reporting"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -189,7 +192,7 @@ flag_counts <- function(f) {
 #'   of `"acknowledged"`, `"overridden"` and `"fixed"`.
 #' @param level optional levels to keep (`"info"`, `"review"`, `"block"`).
 #' @param stage optional stages to keep (`"intake"`, `"calibration"`,
-#'   `"reporting"`).
+#'   `"linking"`, `"reporting"`).
 #' @return A tibble with one row per flag: `id`, `stage`, `check`, `target`
 #'   (an item, a pair of items, a group, or the whole test), `value` (the
 #'   statistic), `rule` (the threshold that fired), `level`, `advice` (what to
@@ -342,8 +345,8 @@ drop_items <- function(p, items, note = "") {
   p <- log_event(p, "drop items", paste0(paste(items, collapse = ", "),
                                          if (nzchar(note)) paste0(": ", note) else ""))
   if (!is.null(p$model)) {
-    p$model <- NULL; p$selection <- NULL; p$dif <- NULL
-    for (s in c("calibration", "reporting"))
+    p$model <- NULL; p$selection <- NULL; p$dif <- NULL; p$link <- NULL
+    for (s in c("calibration", "linking", "reporting"))
       if (p$stages$status[p$stages$stage == s] != "not run")
         p <- set_stage(p, s, "needs rerun", "items changed since this stage ran")
   }
@@ -362,7 +365,7 @@ print.mv_pipeline <- function(x, ...) {
     s <- x$stages[i, ]
     f <- x$flags[x$flags$stage == s$stage & x$flags$status == "open", , drop = FALSE]
     mark <- switch(s$status, done = "[x]", "needs rerun" = "[!]", "[ ]")
-    cat(sprintf("%s %-2d %-12s %s%s\n", mark, pipeline_stages$number[i], pipeline_stages$label[i],
+    cat(sprintf("%s %-2d %-16s %s%s\n", mark, pipeline_stages$number[i], pipeline_stages$label[i],
                 if (nzchar(s$summary)) s$summary else s$status,
                 if (nrow(f)) paste0("  | open: ", flag_counts(f)) else ""))
   }

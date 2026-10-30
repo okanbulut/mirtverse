@@ -78,8 +78,10 @@ calibrate <- function(p, model = "auto", dif = NULL, reference = NULL, ...) {
                  sprintf("%s, %s%s", how,
                          if (isTRUE(mirt::extract.mirt(mod, "converged"))) "converged" else "NOT converged",
                          if (!is.na(rxx)) sprintf(", reliability %.2f", rxx) else ""))
-  if (p$stages$status[p$stages$stage == "reporting"] != "not run")
-    p <- set_stage(p, "reporting", "needs rerun", "model changed since the report was written")
+  p$link <- NULL
+  for (s in c("linking", "reporting"))
+    if (p$stages$status[p$stages$stage == s] != "not run")
+      p <- set_stage(p, s, "needs rerun", "model changed since this stage ran")
   p <- log_event(p, "calibrate", how)
   p <- add_code(p, cl)
   report_stage_flags(p, "calibration")

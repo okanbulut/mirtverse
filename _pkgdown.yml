@@ -51,6 +51,9 @@ reference:
   - mv_pipeline
   - add_responses
   - calibrate
+  - link_to_bank
+  - bank_items
+  - mv_bank
   - pipeline_report
   - flags
   - acknowledge

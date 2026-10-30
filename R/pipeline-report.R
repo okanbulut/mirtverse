@@ -59,6 +59,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
 
   extra <- list()
   if (!is.null(groups)) extra[["Groups"]] <- groups_html(groups, p)
+  if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -121,4 +122,20 @@ decisions_html <- function(p) {
     h$p(sprintf("Preset: %s; %d rule(s) changed by the user.", attr(p$rules, "preset"),
                 sum(rt$changed == "changed"))),
     h$details(h$summary("Show all rules"), html_table(rt)))
+}
+
+linking_html <- function(p) {
+  h <- htmltools::tags
+  l <- p$link
+  tab <- as.data.frame(l$anchors)
+  tab$drift <- ifelse(abs(tab$displacement) > p$rules$anchor_displacement, "drift", "")
+  htmltools::tagList(
+    h$p(sprintf(paste("The calibration was put on the scale of the item bank \"%s\" by the %s",
+                      "method through %d anchor items. Ability on the bank scale = %.3f x ability",
+                      "+ %.3f."), l$bank, l$method, nrow(tab), l$A, l$B)),
+    h$p(sprintf(paste("Displacement is the anchor's location after linking minus its bank",
+                      "location; values beyond %s logits are marked as drift."),
+                p$rules$anchor_displacement)),
+    html_table(tab[, c("item", "bank_b", "new_b", "linked_b", "displacement", "drift")]),
+    if (!is.null(p$bank)) h$p(sprintf("The bank now holds %d items.", nrow(p$bank$items))))
 }
