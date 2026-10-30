@@ -58,6 +58,8 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   p <- add_code(p, cl)
 
   extra <- list()
+  if (!is.null(p$blueprint)) extra[["Blueprint"]] <- blueprint_html(p)
+  if (!is.null(p$items)) extra[["Item development"]] <- items_html(p)
   if (!is.null(groups)) extra[["Groups"]] <- groups_html(groups, p)
   if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
   if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
@@ -200,4 +202,32 @@ cuts_html <- function(p) {
     h$h3("Cuts"), html_table(tab),
     h$h3("Decision quality by cut"), html_table(as.data.frame(cu$by_cut)),
     h$h3("Expected share in each category"), html_table(as.data.frame(cu$categories)))
+}
+
+blueprint_html <- function(p) {
+  h <- htmltools::tags
+  b <- p$blueprint
+  htmltools::tagList(
+    h$p(sprintf("Construct: %s. Test takers: %s. Score use: %s. Forms have %d items (%s); target reliability %s%s.",
+                b$construct %||% "not stated", b$population %||% "not stated",
+                b$use %||% "not stated", b$length,
+                paste(c(mc = "multiple choice", open = "open-ended")[b$item_types], collapse = " and "),
+                b$reliability,
+                if (!is.null(b$grade_level)) sprintf(", reading grade %s", b$grade_level) else "")),
+    html_table(as.data.frame(b$cells)[, c("content", "cognitive", "n")]))
+}
+
+items_html <- function(p) {
+  h <- htmltools::tags
+  it <- p$items
+  tab <- as.data.frame(table(cell = it$cell, type = it$type, status = it$status),
+                       responseName = "items")
+  tab <- tab[tab$items > 0, , drop = FALSE]
+  src <- as.data.frame(table(source = it$source), responseName = "items")
+  htmltools::tagList(
+    h$p(sprintf(paste("The item pool holds %d items. Multiple-choice keys were checked by an",
+                      "independent answer for %d items; %d disagreed with the key."),
+                nrow(it), sum(!is.na(it$key_check)),
+                sum(it$key_check == "disagree", na.rm = TRUE))),
+    html_table(tab), h$h3("Item sources"), html_table(src))
 }

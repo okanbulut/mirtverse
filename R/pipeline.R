@@ -3,17 +3,25 @@
 #' An assessment pipeline takes a test from response data to a score report in
 #' stages. Each stage does its work, then runs a set of checks (a *gate*) and
 #' records what it finds as *flags* that the user should consider before the
-#' next stage. The stages available so far:
+#' next stage. The stages available so far (numbered as in the pipeline
+#' plan; start at any of them):
 #'
-#' 1. [add_responses()]: data intake and cleaning (scoring with a key,
+#' 0. [set_blueprint()]: the construct, content cells and score use.
+#' 1. [generate_items()] or [add_items()]: item writing with a language model
+#'    or by people (keys, distractors, rubrics, duplicates, coverage).
+#' 4. [add_responses()]: data intake and cleaning (scoring with a key,
 #'    missing data, miskeyed items, straight-lining, rapid guessing, sparse
 #'    categories).
-#' 2. [calibrate()]: model fitting with mirt (convergence, model fit, local
+#' 5. [calibrate()]: model fitting with mirt (convergence, model fit, local
 #'    dependence, item fit, parameter ranges, DIF, reliability, person fit).
-#' 3. [link_to_bank()] and [bank_items()] (optional): put the calibration on
+#' 6. [link_to_bank()] and [bank_items()] (optional): put the calibration on
 #'    the scale of an item bank through anchor items and add the new items to
 #'    the bank (anchor drift, linking constants).
-#' 4. [pipeline_report()]: an HTML technical report that also lists every
+#' 7. [assemble_forms()], [simulate_cat()] or [assemble_mst()]: fixed forms,
+#'    adaptive or multistage tests (blueprint, parallelism, precision,
+#'    exposure, routing).
+#' 8. [set_cuts()]: cut scores and classification accuracy and consistency.
+#' 11. [pipeline_report()]: an HTML technical report that also lists every
 #'    flag and every decision made about it.
 #'
 #' Flags have three levels. `info` flags are shown for awareness. `review`
@@ -68,9 +76,10 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 }
 
 pipeline_stages <- data.frame(
-  stage = c("intake", "calibration", "linking", "forms", "cuts", "reporting"),
-  number = c(4L, 5L, 6L, 7L, 8L, 11L),
-  label = c("Data intake", "Calibration", "Linking and bank", "Forms", "Cut scores", "Reporting"),
+  stage = c("blueprint", "generation", "intake", "calibration", "linking", "forms", "cuts",
+            "reporting"),
+  number = c(0L, 1L, 4L, 5L, 6L, 7L, 8L, 11L),
+  label = c("Blueprint", "Item generation", "Data intake", "Calibration", "Linking and bank", "Forms", "Cut scores", "Reporting"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -191,8 +200,9 @@ flag_counts <- function(f) {
 #' @param status which flags to show: `"open"` (the default), `"all"`, or any
 #'   of `"acknowledged"`, `"overridden"` and `"fixed"`.
 #' @param level optional levels to keep (`"info"`, `"review"`, `"block"`).
-#' @param stage optional stages to keep (`"intake"`, `"calibration"`,
-#'   `"linking"`, `"reporting"`).
+#' @param stage optional stages to keep (`"blueprint"`, `"generation"`,
+#'   `"intake"`, `"calibration"`, `"linking"`, `"forms"`, `"cuts"`,
+#'   `"reporting"`).
 #' @return A tibble with one row per flag: `id`, `stage`, `check`, `target`
 #'   (an item, a pair of items, a group, or the whole test), `value` (the
 #'   statistic), `rule` (the threshold that fired), `level`, `advice` (what to

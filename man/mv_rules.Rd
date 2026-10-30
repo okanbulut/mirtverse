@@ -61,6 +61,8 @@ name.
    \code{cut_consistency} \tab 0.80 \tab smallest acceptable classification consistency \cr
    \code{cut_sem} \tab 0.35 \tab largest acceptable standard error of measurement at a cut score \cr
    \code{panel_sd} \tab 0.5 \tab largest standard deviation of standard-setting panelists' cuts (ability units) \cr
+   \code{duplicate_sim} \tab 0.90 \tab largest word overlap (Jaccard) between two items before they are near-duplicates \cr
+   \code{coverage_ratio} \tab 3 \tab items to write per blueprint target (items are lost in review and field testing) \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

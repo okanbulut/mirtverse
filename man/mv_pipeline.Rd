@@ -36,10 +36,14 @@ and \code{\link[=tidy]{tidy()}} to get all of them as a tibble.
 An assessment pipeline takes a test from response data to a score report in
 stages. Each stage does its work, then runs a set of checks (a \emph{gate}) and
 records what it finds as \emph{flags} that the user should consider before the
-next stage. The stages available so far:
+next stage. The stages available so far (numbered as in the pipeline
+plan; start at any of them):
 }
 \details{
 \enumerate{
+\item \code{\link[=set_blueprint]{set_blueprint()}}: the construct, content cells and score use.
+\item \code{\link[=generate_items]{generate_items()}} or \code{\link[=add_items]{add_items()}}: item writing with a language model
+or by people (keys, distractors, rubrics, duplicates, coverage).
 \item \code{\link[=add_responses]{add_responses()}}: data intake and cleaning (scoring with a key,
 missing data, miskeyed items, straight-lining, rapid guessing, sparse
 categories).
@@ -48,6 +52,10 @@ dependence, item fit, parameter ranges, DIF, reliability, person fit).
 \item \code{\link[=link_to_bank]{link_to_bank()}} and \code{\link[=bank_items]{bank_items()}} (optional): put the calibration on
 the scale of an item bank through anchor items and add the new items to
 the bank (anchor drift, linking constants).
+\item \code{\link[=assemble_forms]{assemble_forms()}}, \code{\link[=simulate_cat]{simulate_cat()}} or \code{\link[=assemble_mst]{assemble_mst()}}: fixed forms,
+adaptive or multistage tests (blueprint, parallelism, precision,
+exposure, routing).
+\item \code{\link[=set_cuts]{set_cuts()}}: cut scores and classification accuracy and consistency.
 \item \code{\link[=pipeline_report]{pipeline_report()}}: an HTML technical report that also lists every
 flag and every decision made about it.
 }
