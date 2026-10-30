@@ -110,7 +110,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-30 03:44
+#> # 2026-10-30 03:49
 #> # Request: Fit a 2PL, check DIF by gender and make a report
 #> # Assumptions:
 #> #  - Used the 12 columns that look like item responses as items.
@@ -184,7 +184,7 @@ mv_ask("Which IRT model fits my data best? Explain the results in plain language
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-30 03:44
+#> # 2026-10-30 03:49
 #> # Request: Which IRT model fits my data best? Explain the results in
 #> #   plain language.
 #> # Assumptions:
@@ -251,6 +251,11 @@ mv_ask("I want to know whether boys and girls with the same ability answer
        data = mydata)
 ```
 
+Claude and GPT usually answer within a few seconds. A model running
+locally through Ollama may take noticeably longer to return a plan, from
+several seconds to a minute or more, depending on the model’s size and
+your computer.
+
 ### Seeing exactly what is sent
 
 `dry_run = TRUE` prints what would be sent to the model without sending
@@ -301,7 +306,7 @@ mv_ask(data = mydata, plan = pl)
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-10-30 03:44
+#> # 2026-10-30 03:49
 #> library(mirtverse)
 #> 
 #> # Data
@@ -346,6 +351,7 @@ variable, the missing-value codes, the items and the analysis steps.
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Claude (claude-opus-5-5) | 95 | 96 | 99 | 100 | 99 | 100 | 100 | 98 |
 | OpenAI GPT (gpt-5.6-terra) | 90 | 98 | 97 | 100 | 99 | 100 | 100 | 94 |
+| Ollama: Qwen 3.8 27B | 84 | 94 | 98 | 100 | 100 | 99 | 100 | 92 |
 | Ollama: Qwen 3 8B | 35 | 83 | 91 | 100 | 99 | 100 | 100 | 46 |
 | Built-in keyword parser\* | 98 | 100 | 100 | 100 | 100 | 100 | 100 | 98 |
 
@@ -365,15 +371,24 @@ What the results show:
   it added or left out outputs, such as a report or plots, more often
   than Claude.
 - **Local models (Ollama)** keep everything on your computer and cost
-  nothing per request, but small models struggle. Qwen 3 8B got the
+  nothing per request, and model size matters a great deal. Qwen 3.8 27B
+  reached 84%, not far behind GPT, with its misses spread over the steps
+  (92%) and when to ask a question (94%). The smaller Qwen 3 8B got the
   model, items, group and missing codes right almost always, yet chose
   the right set of analysis steps only 46% of the time, so only 35% of
-  its plans were fully correct. Always read the printed plan before
-  running a script written with a small local model.
-- **Every field except steps and questions is at least 97% for all
-  parsers.** Choosing the model, the items, the group and the missing
-  codes is easy. The harder part is reading how much the user wants
-  done.
+  its plans were fully correct. If you use a local model, pick the
+  largest one your computer runs comfortably, and always read the
+  printed plan before running the script.
+- **Local models are slower.** Claude and GPT usually return a plan
+  within a few seconds. A model running through Ollama on your own
+  computer can take much longer, from several seconds to a minute or
+  more per request, depending on the model’s size and your hardware.
+  Models that “think” before answering, such as the Qwen 3 family, are
+  slower still.
+- **Choosing the model, the items, the group and the missing codes is
+  easy for every parser.** The harder part is reading how much the user
+  wants done (the steps) and noticing when a request is too vague to act
+  on.
 
 To run the benchmark yourself, for example to try another Ollama model:
 
@@ -381,13 +396,13 @@ To run the benchmark yourself, for example to try another Ollama model:
 
 mirtverse:::ask_benchmark("claude")
 mirtverse:::ask_benchmark("openai")
-mirtverse:::ask_benchmark("ollama", model = "qwen3:8b")
+mirtverse:::ask_benchmark("ollama", model = "qwen3.8:27b")
 ```
 
 Each run sends the 100 requests with the column summary of a simulated
 data set. With Claude or GPT this costs roughly one or two US dollars. A
-local model costs nothing but takes longer: from about ten minutes to an
-hour, depending on the model and your computer.
+local model costs nothing but takes much longer: on a recent Mac, Qwen
+3.8 27B needed more than an hour for the 100 requests.
 
 ## Privacy in brief
 
