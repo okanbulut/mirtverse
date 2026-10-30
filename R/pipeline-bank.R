@@ -216,6 +216,7 @@ bank_items <- function(p, bank = NULL, name = "Item bank", update_anchors = FALS
       stringsAsFactors = FALSE))
   }
   p$bank <- bank
+  p <- stage_rerun(p, "forms")
   p <- log_event(p, "bank items", sprintf("%d items added to %s", added, bank$name))
   p <- set_stage(p, "linking", "done",
                  paste(c(if (!is.null(p$link)) link_summary(p$link),
@@ -361,8 +362,8 @@ link_to_bank <- function(p, bank, method = c("stocking-lord", "haebara", "mean-s
                  bank = bank$name)
   p <- set_stage_flags(p, "linking", if (length(out)) do.call(rbind, out) else empty_flags())
   p <- set_stage(p, "linking", "done", link_summary(p$link))
-  if (p$stages$status[p$stages$stage == "reporting"] != "not run")
-    p <- set_stage(p, "reporting", "needs rerun", "linked since the report was written")
+  p <- stage_rerun(p, "forms")
+  p <- stage_rerun(p, "reporting")
   p <- log_event(p, "link", link_summary(p$link))
   p <- add_code(p, cl)
   report_stage_flags(p, "linking")

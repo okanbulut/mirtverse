@@ -117,7 +117,8 @@ add_responses <- function(p, data, items = NULL, key = NULL, group = NULL, id = 
   checks <- intake_checks(p$data, p$rules)
   p$persons <- checks$persons
   p <- set_stage_flags(p, "intake", checks$flags)
-  for (s in c("calibration", "linking", "reporting"))
+  p$forms <- NULL
+  for (s in c("calibration", "linking", "forms", "reporting"))
     if (p$stages$status[p$stages$stage == s] != "not run")
       p <- set_stage(p, s, "needs rerun", "data changed since this stage ran")
   p <- set_stage(p, "intake", "done",

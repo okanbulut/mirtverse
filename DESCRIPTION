@@ -36,6 +36,7 @@ Imports:
     ragg
 Suggests:
     testthat (>= 3.0.0),
+    eatATA,
     eRm,
     irtQ,
     ltm,
@@ -44,6 +45,7 @@ Suggests:
     keyring,
     knitr,
     learnr (>= 0.11.0),
+    mirtCAT,
     rmarkdown,
     readxl,
     rstudioapi,

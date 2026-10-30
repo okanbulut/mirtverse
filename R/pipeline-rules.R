@@ -33,6 +33,13 @@
 #' | `min_anchor_share` | 0.20 | smallest share of the test that should be anchors |
 #' | `anchor_displacement` | 0.3 | largest change in an anchor's location (logits) after linking |
 #' | `link_slope_min`, `link_slope_max` | 0.8, 1.2 | acceptable range of the linking slope A |
+#' | `parallel_tol` | 0.10 | largest relative difference in information between parallel forms |
+#' | `cat_sem` | 0.35 | largest acceptable standard error of a form, CAT or MST (and the CAT stopping rule) |
+#' | `cat_bias` | 0.1 | largest acceptable average bias of simulated CAT or MST scores |
+#' | `max_exposure` | 0.25 | largest share of CAT simulees who should see an item |
+#' | `unused_share` | 0.20 | largest share of the bank a CAT may leave unused |
+#' | `bank_depth` | 10 | bank size, in multiples of the CAT length, below which the bank is shallow |
+#' | `mst_routing` | 0.15 | largest share of MST simulees routed to the wrong module |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -86,7 +93,9 @@ default_rules <- list(
   a_min = 0.3, a_max = 4, b_max = 4, c_max = 0.35,
   dif_alpha = 0.05, dif_b = 1, dif_c = 1.5, dif_poly_b = 0.17, dif_poly_c = 0.25,
   reliability = 0.80, person_misfit = -1.96, min_anchors = 5, min_anchor_share = 0.20,
-  anchor_displacement = 0.3, link_slope_min = 0.8, link_slope_max = 1.2, min_group_n = 10)
+  anchor_displacement = 0.3, link_slope_min = 0.8, link_slope_max = 1.2,
+  parallel_tol = 0.10, cat_sem = 0.35, cat_bias = 0.1, max_exposure = 0.25,
+  unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

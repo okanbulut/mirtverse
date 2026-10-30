@@ -50,6 +50,13 @@ name.
    \code{min_anchor_share} \tab 0.20 \tab smallest share of the test that should be anchors \cr
    \code{anchor_displacement} \tab 0.3 \tab largest change in an anchor's location (logits) after linking \cr
    \code{link_slope_min}, \code{link_slope_max} \tab 0.8, 1.2 \tab acceptable range of the linking slope A \cr
+   \code{parallel_tol} \tab 0.10 \tab largest relative difference in information between parallel forms \cr
+   \code{cat_sem} \tab 0.35 \tab largest acceptable standard error of a form, CAT or MST (and the CAT stopping rule) \cr
+   \code{cat_bias} \tab 0.1 \tab largest acceptable average bias of simulated CAT or MST scores \cr
+   \code{max_exposure} \tab 0.25 \tab largest share of CAT simulees who should see an item \cr
+   \code{unused_share} \tab 0.20 \tab largest share of the bank a CAT may leave unused \cr
+   \code{bank_depth} \tab 10 \tab bank size, in multiples of the CAT length, below which the bank is shallow \cr
+   \code{mst_routing} \tab 0.15 \tab largest share of MST simulees routed to the wrong module \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

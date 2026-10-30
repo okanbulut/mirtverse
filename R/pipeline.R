@@ -68,9 +68,9 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 }
 
 pipeline_stages <- data.frame(
-  stage = c("intake", "calibration", "linking", "reporting"),
-  number = c(4L, 5L, 6L, 11L),
-  label = c("Data intake", "Calibration", "Linking and bank", "Reporting"),
+  stage = c("intake", "calibration", "linking", "forms", "reporting"),
+  number = c(4L, 5L, 6L, 7L, 11L),
+  label = c("Data intake", "Calibration", "Linking and bank", "Forms", "Reporting"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -346,7 +346,8 @@ drop_items <- function(p, items, note = "") {
                                          if (nzchar(note)) paste0(": ", note) else ""))
   if (!is.null(p$model)) {
     p$model <- NULL; p$selection <- NULL; p$dif <- NULL; p$link <- NULL
-    for (s in c("calibration", "linking", "reporting"))
+    p$forms <- NULL
+    for (s in c("calibration", "linking", "forms", "reporting"))
       if (p$stages$status[p$stages$stage == s] != "not run")
         p <- set_stage(p, s, "needs rerun", "items changed since this stage ran")
   }

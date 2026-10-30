@@ -54,6 +54,9 @@ reference:
   - link_to_bank
   - bank_items
   - mv_bank
+  - assemble_forms
+  - simulate_cat
+  - assemble_mst
   - pipeline_report
   - flags
   - acknowledge
