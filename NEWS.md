@@ -1,5 +1,20 @@
 # mirtverse (development version)
 
+* New assessment pipeline (first phase). `mv_pipeline()` starts a pipeline
+  that takes a test from response data to a technical report in stages, with
+  a gate of checks after each stage: `add_responses()` scores and screens the
+  data (miskeyed items, missing data, straight-lining, rapid guessing, sparse
+  categories), `calibrate()` fits the model and checks convergence, model fit,
+  local dependence, item fit, parameter ranges, DIF (Mantel-Haenszel and
+  standardized mean difference with the ETS A/B/C rules) and reliability, and
+  `pipeline_report()` writes the HTML report with a section listing every
+  flag and decision. Flags are `info`, `review` or `block`; they warn by
+  default, and with `strict = TRUE` open review and block flags stop the next
+  stage until a decision is recorded with `acknowledge()` or `override()`, or
+  the item is removed with `drop_items()`. `flags()` lists them, and
+  `mv_rules()` holds every threshold, which users can change by name.
+  `mv_report()` gains an `extra` argument for additional sections.
+
 * New `mirtify()` translates code written for ltm, eRm, TAM and irtQ into
   mirt code, with a note on every difference between the packages (for
   example CML versus MML in eRm, the scaling constant `D` in irtQ, and the

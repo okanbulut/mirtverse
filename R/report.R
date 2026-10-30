@@ -18,6 +18,10 @@
 #'   differential item functioning.
 #' @param code optional character vector of R code to show in the
 #'   reproducibility section (the workbench fills this in automatically).
+#' @param extra optional named list of extra sections, each a piece of HTML
+#'   built with htmltools, placed before the reproducibility section; the
+#'   names are the section titles. [pipeline_report()] uses this for its
+#'   decisions section.
 #' @param open logical; open the report in a browser afterwards.
 #' @return The path to the report, invisibly.
 #' @examples
@@ -28,7 +32,7 @@
 #' @export
 mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis report",
                       author = NULL, cards = NULL, alpha = 0.01, dif = NULL, code = NULL,
-                      open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))) {
+                      extra = NULL, open = interactive() && !isTRUE(getOption("mirtverse.dry_run"))) {
   sel <- NULL
   if (inherits(x, "mv_model_selection")) {
     sel <- x
@@ -56,7 +60,7 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
     h$nav(class = "toc", h$strong("Contents"),
           h$ol(lapply(c(if (!is.null(sel)) "Model selection", "Summary", "Model",
                         "Items", if (!is.null(dif)) "DIF", if (unidim) "Graphics", if (unidim) "Scores",
-                        if (cards) "Item health cards", "Reproducibility"),
+                        if (cards) "Item health cards", names(extra), "Reproducibility"),
                       function(s) h$li(h$a(href = paste0("#", anchor(s)), s))))))
 
   if (!is.null(sel)) {
@@ -118,6 +122,8 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
       lapply(seq_len(nitems), function(j)
         htmltools::div(class = "card", plot_img(item_card(x, j, alpha = alpha, tab = it), 11, 6.5))))))
   }
+
+  for (nm in names(extra)) sections <- c(sections, list(section(nm, extra[[nm]])))
 
   call_txt <- paste(deparse(mirt::extract.mirt(x, "model")), collapse = "\n")
   code <- if (is.null(code)) c(
@@ -265,6 +271,7 @@ th{background:var(--soft);font-weight:600}
 td.num{text-align:right;font-variant-numeric:tabular-nums}
 .pill{display:inline-block;padding:1px 9px;border-radius:10px;color:#fff;font-size:12px;font-weight:600;text-transform:uppercase}
 .pill.green{background:#2E8B57}.pill.amber{background:#C9861F}.pill.red{background:#C23B4E}
+.pill.info{background:#5B6876}.pill.review{background:#C9861F}.pill.block{background:#C23B4E}
 .interp ul{margin:4px 0 10px;padding-left:20px}
 .card{border:1px solid var(--line);border-radius:10px;padding:10px;margin:14px 0}
 pre{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;font-size:13px}
