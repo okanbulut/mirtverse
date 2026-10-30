@@ -132,15 +132,17 @@ Before fitting any IRT model, a careful analyst runs **classical item
 statistics**. They are fast, model-free, and catch data problems that would
 otherwise contaminate every model you fit.
 
-`itemstats()` reports, for each item, the proportion correct (`mean`) and the
-corrected item-total correlation (`total.r`), which is the point-biserial
-between the item and the total of the other items. Run it and look at the
-`total.r` column, sorted from lowest to highest.
+The two classics are each item's proportion correct (`p`) and its
+**corrected item-total correlation** (`r`): the point-biserial correlation
+between the item and the total score on the *other* items. The code below
+computes both (mirt's `itemstats()` reports them too) and sorts the items by
+`r`, from lowest to highest.
 
 ```{r classical, exercise = TRUE, exercise.setup = "setup-scored"}
 scored <- key2binary(responses, certexam_key)   # the published key
-stats <- itemstats(scored)$itemstats
-round(stats[order(stats$total.r), c("mean", "total.r")], 2)
+rest_r <- function(j) cor(scored[, j], rowSums(scored[, -j]))
+screen <- data.frame(p = colMeans(scored), r = sapply(seq_len(ncol(scored)), rest_r))
+round(screen[order(screen$r), ], 2)
 ```
 
 ```{r q-miskey}
@@ -207,7 +209,7 @@ scored <- key2binary(responses, key_fixed)
 key_fixed <- certexam_key
 key_fixed["Q14"] <- "A"
 scored <- key2binary(responses, key_fixed)
-itemstats(scored)$itemstats["Q14", c("mean", "total.r")]
+cor(scored[, "Q14"], rowSums(scored[, -14]))
 ```
 
 ```{r rescore-check}
@@ -219,7 +221,7 @@ lab_need(exists("scored") && identical(dim(scored), c(1200L, 32L)),
          "Rescore the data with `key2binary(responses, key_fixed)` and save it as `scored`.")
 lab_need(abs(mean(scored[, "Q14"]) - mean(responses$Q14 == "A")) < 1e-8,
          "`scored` still looks like it was made with the old key. Rescore with `key_fixed`.")
-"Fixed. With the right key, the item-total correlation of Q14 jumps from -0.16 to 0.46, the sixth highest on the exam. From here on, every exercise uses the corrected data."
+"Fixed. With the right key, the item-total correlation of Q14 jumps from -0.23 to 0.39, the sixth highest on the exam. From here on, every exercise uses the corrected data."
 ```
 
 ## How many dimensions?
@@ -232,7 +234,9 @@ a one-dimensional model will blur them together.
 
 Fit a one-factor and a two-factor 2PL and compare them. The two-factor model
 uses fewer quadrature points and a looser tolerance so it runs in a few
-seconds; in a real analysis you would let it run longer.
+seconds; in a real analysis you would let it run longer. (If mirt warns that
+the log-likelihood may still be increasing, that is the looser tolerance at
+work, and the comparison is still informative.)
 
 ```{r dims, exercise = TRUE, exercise.setup = "setup-scored", exercise.timelimit = 180}
 m1 <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)

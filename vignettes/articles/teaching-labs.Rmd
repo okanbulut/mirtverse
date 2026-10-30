@@ -58,7 +58,7 @@ on purpose:
 |---|---|---|
 | The brief | Meet the board and the raw data | |
 | Score the responses | `key2binary()` | Why score before fitting? |
-| Screen the items | `itemstats()`, a distractor analysis, fix the key | What to do with a negative item-total correlation; which option is the real key |
+| Screen the items | Proportion correct and corrected item-total correlations, a distractor analysis, fix the key | What to do with a negative item-total correlation; which option is the real key |
 | How many dimensions? | One- vs two-factor 2PL, `anova()`, rotated loadings | Is one dimension defensible? |
 | Compare the models | `select_model()` on Rasch, 2PL, 3PL | Which model to recommend |
 | Check the chosen model | `gg_itemfit()`, `gg_q3()` | How to treat flagged item fit; what to do about Q21 and Q22 |

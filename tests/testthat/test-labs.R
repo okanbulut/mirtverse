@@ -74,9 +74,10 @@ test_that("certexam has the problems the labs rely on", {
   expect_equal(names(certexam_key), sprintf("Q%02d", 1:32))
   expect_equal(names(which(certexam_key != truth$key)), "Q14")
   expect_equal(truth$key[["Q14"]], "A")  # hard-coded in the labs
-  bad <- itemstats(key2binary(certexam[, -(1:2)], certexam_key))$itemstats
-  expect_equal(rownames(bad)[which.min(bad$total.r)], "Q14")
-  expect_lt(min(bad$total.r), 0)
+  bad <- key2binary(certexam[, -(1:2)], certexam_key)
+  rest_r <- vapply(seq_len(ncol(bad)), function(j) cor(bad[, j], rowSums(bad[, -j])), numeric(1))
+  expect_equal(colnames(bad)[which.min(rest_r)], "Q14")
+  expect_lt(min(rest_r), 0)
   scored <- key2binary(certexam[, -(1:2)], truth$key)
   m <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
   q3 <- residuals(m, type = "Q3", verbose = FALSE)
