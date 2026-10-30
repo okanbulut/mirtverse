@@ -8,3 +8,4 @@
 ^LICENSE$
 ^CITATION\.cff$
 ^vignettes/articles$
+^data-raw$

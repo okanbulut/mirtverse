@@ -19,6 +19,7 @@ articles:
   - workbench
   - articles/dashboards
   - response-times
+  - articles/teaching-labs
 
 reference:
 - title: Workbench
@@ -66,6 +67,12 @@ reference:
   contents:
   - fit_rt
   - sim_rt
+- title: Teaching labs
+  desc: Interactive tutorials for measurement courses.
+  contents:
+  - run_lab
+  - lab_truth
+  - certexam
 - title: Package
   contents:
   - mirtverse-package

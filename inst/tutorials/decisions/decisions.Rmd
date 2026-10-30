@@ -1,0 +1,463 @@
+---
+title: "Lab 2: From parameters to decisions"
+description: >
+  The certification board has adopted a 2PL model. Read the item parameters,
+  check precision at the pass mark, choose a scoring method, estimate how many
+  candidates may be misclassified, test for unfair items between English and
+  French candidates, write a memo to the board, and finally see the truth
+  behind the data. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+key_fixed <- certexam_key
+key_fixed["Q14"] <- "A"
+scored <- key2binary(certexam[, -(1:2)], key_fixed)
+language <- certexam$language
+board_model <- mirt(scored, 1, itemtype = "2PL", verbose = FALSE)
+```
+
+```{r setup-cut, include = FALSE}
+score_table <- fscores(board_model, method = "EAPsum", full.scores = FALSE, verbose = FALSE)
+cut_theta <- score_table$F1[score_table$Sum.Scores == 18]
+```
+
+```{r setup-scores, include = FALSE}
+score_table <- fscores(board_model, method = "EAPsum", full.scores = FALSE, verbose = FALSE)
+cut_theta <- score_table$F1[score_table$Sum.Scores == 18]
+eap <- fscores(board_model, method = "EAP", full.scores.SE = TRUE, verbose = FALSE)
+```
+
+## Where we are
+
+### The board's decision
+
+Welcome back to the **Northfield Certification Board**. After Lab 1 the board
+adopted a **unidimensional 2PL model**, fitted to the data with the corrected
+key for Q14. The board went with the 2PL rather than the 3PL because it had
+the lowest BIC, converged cleanly and is easier to explain to candidates. For
+now, it is keeping Q21 and Q22 as separate items and noting their dependence
+in the technical report.
+
+The model is already fitted and saved as `board_model`; the scored responses
+are in `scored` and each candidate's exam language in `language`. (If you
+skipped Lab 1, everything you need is here.)
+
+The board now has four questions:
+
+1. What do the item parameters tell us about the exam?
+2. Is the exam precise enough at the **pass mark**?
+3. What should go on candidates' score reports, and how many candidates
+   might be on the wrong side of the pass mark?
+4. Is the exam **fair** to candidates who took it in French?
+
+At the end you will write a memo to the board and then see the truth behind
+the data.
+
+## Read the items
+
+### Parameters in the IRT metric
+
+`coef(..., IRTpars = TRUE)` reports each item's discrimination `a` and
+difficulty `b` on the ability scale. A `b` of 0 means a candidate of average
+ability has a 50% chance of answering correctly; a larger `a` means the item
+separates candidates just below and just above `b` more sharply.
+
+Get the parameters and sort them by difficulty.
+
+```{r pars, exercise = TRUE}
+pars <- coef(board_model, IRTpars = TRUE, simplify = TRUE)$items
+pars <- as.data.frame(round(pars[, c("a", "b")], 2))
+pars[order(pars$b), ]
+```
+
+```{r q-hardest}
+question_radio("Which item is the hardest, and what is unusual about it?",
+  answer("Q32: it has the highest b, and also one of the lowest discriminations.",
+         correct = TRUE,
+         message = "Yes. Q32 (b of about 3) and Q12 are the two hardest items, and both have low discriminations (about 0.45). On a five-option exam that pattern is a classic sign of **guessing**: weak candidates get these items right more often than the 2PL expects, which flattens the curve. The 2PL absorbs guessing into a lower slope; the 3PL would have modelled it with a lower asymptote."),
+  answer("Q31: it has the highest discrimination.",
+         message = "Q31 is the most discriminating item, not the hardest. Look at the `b` column."),
+  answer("Q11: it has the lowest b.",
+         message = "A low b means an easy item. Look for the largest b."),
+  allow_retry = TRUE
+)
+```
+
+### Trace lines
+
+`gg_trace()` draws the item characteristic curves. Compare the hardest
+items with the most discriminating ones.
+
+```{r trace, exercise = TRUE, fig.height = 4}
+gg_trace(board_model, which.items = c("Q31", "Q20", "Q12", "Q32"))
+```
+
+```{r q-trace}
+question_radio("A candidate’s ability is exactly 0. Roughly what is their chance of answering Q32 correctly according to the 2PL?",
+  answer("About 20%, the same as guessing on five options", message = "Look again at the curve at theta = 0. The 2PL has no guessing floor, so the curve keeps falling as ability decreases."),
+  answer("Around 20% or a bit less", correct = TRUE,
+         message = "Right: Q32’s curve is still low at theta = 0 (about 0.2). Notice that the 2PL curve keeps falling toward 0 for weaker candidates, even though on a five-option item they could guess right 20% of the time. That is the price of not modelling guessing, and it matters mostly for weak candidates, far below the pass mark."),
+  answer("About 50%", message = "50% is the chance at theta = b. Q32’s b is about 3, far above 0."),
+  answer("About 90%", message = "That would be an easy item. Q32 is the hardest item on the exam."),
+  allow_retry = TRUE
+)
+```
+
+## Precision at the pass mark
+
+### Where is the pass mark on the theta scale?
+
+The board's pass mark is a raw score of **18 out of 32**. To talk about
+precision at the pass mark we need it on the ability scale. The EAP-for-sum-scores
+table (`method = "EAPsum"`) gives the ability estimate for each raw score.
+
+Find the theta that corresponds to a raw score of 18 and save it as
+`cut_theta`.
+
+```{r cut, exercise = TRUE}
+score_table <- fscores(board_model, method = "EAPsum", full.scores = FALSE, verbose = FALSE)
+head(score_table)
+cut_theta <-
+```
+
+```{r cut-hint}
+cut_theta <- score_table$F1[score_table$Sum.Scores == ___]
+```
+
+```{r cut-solution}
+score_table <- fscores(board_model, method = "EAPsum", full.scores = FALSE, verbose = FALSE)
+cut_theta <- score_table$F1[score_table$Sum.Scores == 18]
+cut_theta
+```
+
+```{r cut-check}
+lab_need(exists("cut_theta"), "Save the pass mark on the theta scale as `cut_theta`.")
+lab_need(is.numeric(cut_theta) && length(cut_theta) == 1L,
+         "`cut_theta` should be a single number.")
+lab_need(abs(cut_theta - score_table$F1[score_table$Sum.Scores == 18]) < 1e-6,
+         "Pick the row of `score_table` where `Sum.Scores` is 18 and take its `F1` value.")
+sprintf("The pass mark is at theta = %.2f, close to the average candidate.", cut_theta)
+```
+
+### Information and standard error at the cut
+
+Test information tells you how precisely the exam measures at each ability
+level; the standard error of measurement is `1 / sqrt(information)`. Plot the
+test information with `gg_info()` and compute the information and SE at the
+pass mark.
+
+```{r info, exercise = TRUE, exercise.setup = "setup-cut"}
+gg_info(board_model)
+info_cut <- testinfo(board_model, matrix(cut_theta))
+c(theta = cut_theta, information = info_cut, SE = 1 / sqrt(info_cut))
+```
+
+```{r q-precision}
+question_radio("What do you tell the board about precision at the pass mark?",
+  answer("The exam is most informative close to the pass mark (SE about 0.41), but that still leaves real uncertainty for candidates near the cut. Adding items of medium difficulty would help most.",
+         correct = TRUE,
+         message = "Good. Information peaks at theta of about -0.5 and is still near its peak at the cut (about 6, SE about 0.41, roughly a reliability of 0.84 there). That is decent, but an SE of 0.41 is wide relative to the gap between passing and failing. Items with b between 0 and 0.5 and high discrimination would tighten it."),
+  answer("The exam is precise everywhere; there is nothing to worry about.",
+         message = "Precision varies with ability. The SE at the cut is about 0.41, and it is much larger at the extremes. A single reliability coefficient hides this."),
+  answer("The exam is imprecise at the pass mark; the board should not use it.",
+         message = "Too strong. Information at the cut is close to the exam’s maximum. The question is what to do about the remaining uncertainty, not whether to abandon the exam."),
+  answer("Add more very hard items like Q32.",
+         message = "Hard, weakly discriminating items add little information anywhere, and almost none at the cut. Items near the pass mark (b around 0 to 0.5) with good discrimination help most."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Choose a scoring method
+
+### EAP, ML or a score table?
+
+mirt offers several ways to turn responses into an ability estimate. Compare
+EAP (the mean of the posterior), ML (maximum likelihood) and the EAP-for-sum-scores
+table, which gives every candidate with the same raw score the same scale score.
+
+```{r scoring, exercise = TRUE}
+eap <- fscores(board_model, method = "EAP", verbose = FALSE)[, 1]
+ml <- suppressWarnings(fscores(board_model, method = "ML", verbose = FALSE)[, 1])
+raw <- rowSums(scored)
+summary(eap)
+summary(ml)
+table(is.finite(ml))
+# Two candidates with the same raw score of 18 can get different EAP scores:
+head(data.frame(raw, eap = round(eap, 2))[raw == 18, ], 5)
+```
+
+```{r q-scoring}
+question_radio("What should the board put on candidates' score reports?",
+  answer("A scale score from the sum-score table (EAPsum), so every candidate with the same raw score gets the same scale score.",
+         correct = TRUE,
+         message = "This is the most defensible choice for a certification exam. With pattern scoring (EAP or ML), two candidates with 18 correct can get different scale scores depending on *which* items they answered, and one might pass while the other fails. That is very hard to explain in an appeal. A sum-score table keeps the IRT scale and the simplicity of raw scores."),
+  answer("Pattern-based EAP scores: they use all the information in the responses.",
+         correct = TRUE,
+         message = "Defensible on statistical grounds: EAP uses which items were answered correctly, not just how many. But be ready to explain to a candidate why someone else with the same number correct got a different score, and possibly a different pass/fail result. Many certification programs avoid this by reporting sum-score-based scale scores."),
+  answer("ML scores.",
+         message = "ML scores are undefined (infinite) for perfect and zero scores, and they are noisier than EAP for short tests. They are rarely reported directly."),
+  answer("Raw scores; IRT is not needed for reporting.",
+         message = "Raw scores are a valid choice, but then the IRT model is only used behind the scenes. The scale score from the sum-score table gives the same ordering with the benefits of the IRT scale (for example, comparability with future forms after linking)."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Classification accuracy
+
+### Who might be on the wrong side of the cut?
+
+Each candidate's ability is estimated with error. If a candidate's estimate is
+close to the pass mark relative to its standard error, their true ability
+could easily be on the other side.
+
+A simple approximation: the probability that a candidate is misclassified is
+`pnorm(-abs(theta - cut_theta) / SE)`. Compute it for every candidate, then
+compute `expected_wrong` (the sum of those probabilities, the expected number
+of misclassified candidates) and `near_cut` (how many candidates are within
+one SE of the cut).
+
+```{r classify, exercise = TRUE, exercise.setup = "setup-scores"}
+theta <- eap[, 1]
+se <- eap[, 2]
+p_wrong <- pnorm(-abs(theta - cut_theta) / se)
+expected_wrong <-
+near_cut <-
+c(expected_wrong = expected_wrong, near_cut = near_cut)
+```
+
+```{r classify-hint}
+expected_wrong <- sum(p_wrong)
+near_cut <- sum(abs(theta - cut_theta) < ___)
+```
+
+```{r classify-solution}
+theta <- eap[, 1]
+se <- eap[, 2]
+p_wrong <- pnorm(-abs(theta - cut_theta) / se)
+expected_wrong <- sum(p_wrong)
+near_cut <- sum(abs(theta - cut_theta) < se)
+c(expected_wrong = expected_wrong, near_cut = near_cut)
+```
+
+```{r classify-check}
+ref_p <- pnorm(-abs(eap[, 1] - cut_theta) / eap[, 2])
+lab_need(exists("expected_wrong") && is.numeric(expected_wrong),
+         "Compute `expected_wrong`, the sum of `p_wrong`.")
+lab_need(abs(expected_wrong - sum(ref_p)) < 0.5,
+         "`expected_wrong` should be the sum of the misclassification probabilities, `sum(p_wrong)`.")
+lab_need(exists("near_cut") && abs(near_cut - sum(abs(eap[, 1] - cut_theta) < eap[, 2])) < 0.5,
+         "`near_cut` counts candidates whose estimate is less than one SE from `cut_theta`.")
+sprintf("About %d of 1,200 candidates (%.0f%%) are expected to be misclassified, and %d are within one SE of the cut.",
+        round(expected_wrong), 100 * expected_wrong / 1200, near_cut)
+```
+
+```{r q-classify}
+question_radio("About 12% of candidates are expected to be misclassified and about 30% are within one SE of the cut. What do you recommend?",
+  answer("Report the classification accuracy in the technical report, and consider a retest policy or extra items targeted near the cut, rather than changing the pass mark.",
+         correct = TRUE,
+         message = "Sensible. Misclassification near a cut is unavoidable with any test; the responsible response is to quantify it, tell candidates and the board, and reduce it where it matters (more items near the cut, or a retest option for candidates just below). Moving the pass mark only moves the problem."),
+  answer("Lower the pass mark so that fewer candidates fail by mistake.",
+         message = "That trades false failures for false passes; it doesn’t reduce misclassification, and the pass mark should be set by a standard-setting study, not by measurement error."),
+  answer("Nothing; 12% is small.",
+         message = "For a certification decision, 12% of candidates on the wrong side is worth reporting and acting on, especially for the candidates who fail."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Fairness across languages
+
+### Do French candidates score lower?
+
+Start with the raw scores by language.
+
+```{r impact, exercise = TRUE}
+tapply(rowSums(scored), language, mean)
+```
+
+French-language candidates score about 2 points lower on average. That
+alone tells you **nothing** about whether the exam is unfair: the groups may
+genuinely differ in the trait (for example, through different training
+routes). Differential item functioning (DIF) asks a sharper question: *do
+candidates of the same ability have different chances of answering an item
+correctly depending on their group?*
+
+### Test every item for DIF
+
+`dif()` fits a two-group model with the item parameters held equal across
+groups and the French group's mean and SD free, then frees each item in turn
+and tests whether it fits better. It takes about half a minute.
+
+```{r dif, exercise = TRUE, exercise.timelimit = 240}
+dif_res <- dif(scored, group = language)
+dif_res
+```
+
+```{r dif-solution}
+dif_res <- dif(scored, group = language)
+dif_res
+gg_dif(dif_res)
+gg_dif(dif_res, type = "curves", which.items = c("Q09", "Q27"))
+```
+
+```{r q-impact}
+question_radio("The DIF model estimates the French group’s mean ability at about 0.38 SD below the English group’s. What does that mean?",
+  answer("French candidates are, on average, lower on the trait itself; this is impact, not item bias.",
+         correct = TRUE,
+         message = "Right. The model separates a real difference in ability (impact) from item-level DIF. Impact is a question for the board about training and access, not a flaw in the exam."),
+  answer("The exam is biased against French candidates.",
+         message = "A mean difference is not bias. The DIF test asks whether individual items behave differently for candidates of the same ability. Only the flagged items show that."),
+  answer("The translation is poor overall.",
+         message = "If the translation were poor across the board, many items would show DIF. Only two do."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Look at the flagged items
+
+Plot the item curves for each group for the flagged items.
+
+```{r dif-curves, exercise = TRUE, exercise.timelimit = 240}
+dif_res <- dif(scored, group = language, items = c("Q09", "Q27", "Q01", "Q02"))
+gg_dif(dif_res, type = "curves", which.items = c("Q09", "Q27"))
+```
+
+```{r q-dif}
+question_radio("Q09 and Q27 are flagged. What should the board do?",
+  answer("Send both to bilingual content experts for review, and decide based on their judgment; meanwhile consider scoring without them.",
+         correct = TRUE,
+         message = "Yes. Statistical DIF tells you *where* to look, not *why*. For Q09 the French curve is shifted right (harder at the same ability: uniform DIF). For Q27 the curves cross: the item discriminates poorly in French (non-uniform DIF), which often points to an ambiguous translation. Content experts decide whether the item measures something other than the intended skill for one group."),
+  answer("Delete both items immediately.",
+         message = "Removing items on statistics alone can remove good content and change what the exam measures. Review first; removal is one possible outcome."),
+  answer("Keep both; the effects are small.",
+         message = "Q09 gives French candidates about a 15 percentage-point lower chance of answering correctly at the same ability. For a certification exam, that is large enough to review."),
+  answer("Only Q09: Q27’s average difference is small.",
+         message = "Q27’s *signed* difference is small because its curves cross: it favours one group at some abilities and the other group elsewhere. The *unsigned* difference (uesd) is as large as Q09’s."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the board
+
+Write a short memo (four to six sentences) to the board covering precision at
+the pass mark, the scoring method, classification accuracy and fairness.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: cover precision, scoring, classification and fairness."))
+    correct("Submitted. Now compare it with what mirtverse’s interpret() writes in the next exercise.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the Board: ..."
+)
+```
+
+### Compare with interpret()
+
+`interpret()` writes a plain-language summary of a model or a DIF analysis,
+and `item_card()` gives a one-page health check of an item. Compare them with
+your memo. What did they mention that you didn't, and what did you know that
+they couldn't?
+
+```{r interpret, exercise = TRUE}
+interpret(board_model)
+```
+
+```{r card, exercise = TRUE}
+item_card(board_model, "Q09")
+```
+
+## The reveal
+
+### The truth behind the data
+
+The `certexam` data were simulated, so we know exactly how they were
+generated. `lab_truth()` returns it.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth()
+truth$model
+truth$miskeyed
+truth$testlet
+truth$dif
+truth$impact
+```
+
+| What was planted | What the analysis found |
+|---|---|
+| Q14 miskeyed (correct answer A) | Negative item-total correlation and the distractor analysis (Lab 1) |
+| Q21 and Q22 share a passage | A two-item second factor and Q3 of about 0.27 (Lab 1) |
+| True model: 3PL, guessing 0.12 to 0.25 | BIC chose the 2PL; AIC chose the 3PL, which did not converge (Lab 1) |
+| Q09 uniform DIF, Q27 non-uniform DIF | Both flagged by `dif()`, and no other items (Lab 2) |
+| French mean 0.35 SD lower | Estimated at 0.38 SD lower (Lab 2) |
+
+### How good were the board's estimates?
+
+The board used a 2PL while the truth was a 3PL. Compare the estimated
+difficulties with the true ones.
+
+```{r compare-truth, exercise = TRUE, fig.height = 4.5}
+truth <- lab_truth()$pars
+est <- coef(board_model, IRTpars = TRUE, simplify = TRUE)$items
+df <- data.frame(item = truth$item, true_b = truth$b, est_b = est[truth$item, "b"],
+                 guessing = truth$g)
+ggplot2::ggplot(df, ggplot2::aes(true_b, est_b, label = item)) +
+  ggplot2::geom_abline(linetype = 2, colour = "grey50") +
+  ggplot2::geom_text(size = 3) +
+  ggplot2::labs(x = "True difficulty (3PL)", y = "Estimated difficulty (2PL)") +
+  theme_mirtverse()
+```
+
+```{r q-truth}
+question_radio("Where does the 2PL’s difficulty estimate differ most from the truth?",
+  answer("For the hardest items, where guessing matters most.",
+         correct = TRUE,
+         message = "Yes. For hard items, weak candidates still answer correctly by guessing, and the 2PL explains that by flattening the curve and shifting it. For medium and easy items the estimates track the truth closely. This is the price of choosing the simpler model, and it is mostly paid far from the pass mark, which is why the 2PL was still a defensible choice."),
+  answer("For the easiest items.",
+         message = "Look at the right end of the plot: the hardest items are furthest from the dashed line."),
+  answer("Everywhere equally.",
+         message = "Most items sit close to the dashed line. The big departures are at one end."),
+  allow_retry = TRUE
+)
+```
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-hardest" = "Hardest item",
+    "q-trace" = "Reading a trace line",
+    "q-precision" = "Precision at the pass mark",
+    "q-scoring" = "Scoring method",
+    "q-classify" = "Classification accuracy",
+    "q-impact" = "Group mean difference",
+    "q-dif" = "Flagged DIF items",
+    "q-memo" = "Memo to the board",
+    "q-truth" = "2PL versus the truth"
+  ))
+})
+```
+
+You have taken an exam from raw responses to defensible decisions: a
+corrected key, a justified model, a scoring method you can explain,
+quantified classification error and a fairness review. The same workflow
+applies to any exam you will analyse.
