@@ -11,6 +11,11 @@
 theory (IRT) models; mirtverse helps you choose a model, understand the results,
 make publication-ready figures, and share everything, with or without writing R code.
 
+> **New: interactive teaching labs.** Two browser-based labs let students fit
+> live mirt models and make real testing decisions, from choosing a model to
+> advising a certification board. Start one with `run_lab("model-choice")`, or
+> read [Learn IRT by doing](https://www.okanbulut.com/mirtverse/articles/labs.html).
+
 ## About mirt
 
 [mirt](https://philchalmers.github.io/mirt/), developed and maintained by
@@ -95,6 +100,10 @@ mv_dashboard(mod, title = "LSAT results")   # interactive dashboard to share
 Prefer clicking? Run `launch_workbench()`. Prefer describing the analysis in
 words? `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
 writes the whole script for you.
+
+Teaching a measurement course? `run_lab("model-choice")` opens an interactive
+lab in which students work through a realistic testing scenario with live
+models (see [Learn IRT by doing](https://www.okanbulut.com/mirtverse/articles/labs.html)).
 
 
 ## Relationship to mirt

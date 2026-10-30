@@ -44,6 +44,7 @@ Suggests:
     rstudioapi,
     withr,
     haven
+Config/Needs/website: rsconnect
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://www.okanbulut.com/mirtverse/, https://github.com/okanbulut/mirtverse

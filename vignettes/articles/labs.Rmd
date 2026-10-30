@@ -1,0 +1,63 @@
+---
+title: "Learn IRT by doing: the mirtverse labs"
+description: >
+  A short introduction to the interactive teaching labs: what they are, how to
+  start one, and what students do in each.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+Reading about item response theory is one thing; deciding what to do with a
+real test is another. The mirtverse labs put students in the analyst's chair.
+Each lab is an interactive tutorial that runs in the browser. Students write
+and run live mirt code, look at the results, and make the calls a working
+psychometrician makes. Every decision gets immediate feedback that explains
+why the choice holds up or doesn't.
+
+## Start a lab in three steps
+
+```{r}
+install.packages("learnr")   # 1. once, if you don't have it
+library(mirtverse)           # 2. load mirtverse
+run_lab("model-choice")      # 3. open Lab 1 in your browser
+```
+
+`list_labs()` shows every lab with a short description. In RStudio, the labs
+also appear in the **Tutorial** pane. Your progress is saved on your computer,
+so you can close the lab and pick up where you left off.
+
+## The story
+
+You are the new psychometrician for the fictional Northfield Certification
+Board. Its 32-item exam was taken by 1,200 candidates in English or French,
+and the board wants to move to IRT scoring. The data (`certexam`) were
+simulated, so the truth is known, and a few realistic problems are hidden in
+them for you to find.
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **1. Choosing a model the board can defend** (about 75 minutes) | `run_lab("model-choice")` | Score the responses, find a miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL models, check fit and local dependence, and justify your choice |
+| **2. From parameters to decisions** (about 75 minutes) | `run_lab("decisions")` | Read the item parameters, check precision at the pass mark, choose a scoring method, estimate how many candidates are misclassified, test for DIF between languages, write a memo to the board, and see the truth behind the data |
+
+Lab 2 fits its own model at the start, so it can be done on its own.
+
+## What it looks like
+
+Each section mixes short explanations, code exercises with hints and
+solutions, and decision questions. At the end of each lab, you get a table of
+every decision you made, which you can hand in as an assignment.
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-screening.png"), width = "100%",
+               alt = "A decision question in Lab 1, with feedback on the answer chosen.")
+```
+
+## For instructors
+
+The [instructor guide](teaching-labs.html) has the planted problems, the
+answer key for every decision, discussion prompts, and tips on hosting the
+labs online so students need nothing installed. `lab_truth()` returns the
+values used to simulate the data.

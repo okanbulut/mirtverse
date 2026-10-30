@@ -7,8 +7,12 @@ template:
 
 navbar:
   structure:
-    left: [intro, reference, articles, news]
+    left: [intro, reference, articles, labs, news]
     right: [search, github]
+  components:
+    labs:
+      text: Teaching labs
+      href: articles/labs.html
 
 articles:
 - title: Guides
@@ -19,6 +23,7 @@ articles:
   - workbench
   - articles/dashboards
   - response-times
+  - articles/labs
   - articles/teaching-labs
 
 reference:
