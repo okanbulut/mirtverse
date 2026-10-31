@@ -33,6 +33,9 @@
 #'    copying, aberrant timing, site anomalies and score gains.
 #' 11. [pipeline_report()]: an HTML technical report that also lists every
 #'    flag and every decision made about it.
+#' 12. [monitor_bank()] and [retire_items()]: after each administration, the
+#'    bank's health over time (over-exposed items, content cells running
+#'    short, reliability trend, unused items).
 #'
 #' Flags have three levels. `info` flags are shown for awareness. `review`
 #' flags point at something a psychometrician should look at. `block` flags
@@ -87,11 +90,11 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 
 pipeline_stages <- data.frame(
   stage = c("blueprint", "generation", "review", "field_test", "intake", "calibration",
-            "linking", "forms", "cuts", "scoring", "security", "reporting"),
-  number = c(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L),
+            "linking", "forms", "cuts", "scoring", "security", "reporting", "monitoring"),
+  number = c(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L),
   label = c("Blueprint", "Item generation", "Item review", "Field-test design", "Data intake",
             "Calibration", "Linking and bank", "Forms", "Cut scores", "Scoring",
-            "Test security", "Reporting"),
+            "Test security", "Reporting", "Bank monitoring"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -214,7 +217,7 @@ flag_counts <- function(f) {
 #' @param level optional levels to keep (`"info"`, `"review"`, `"block"`).
 #' @param stage optional stages to keep (`"blueprint"`, `"generation"`,
 #'   `"review"`, `"field_test"`, `"intake"`, `"calibration"`, `"linking"`, `"forms"`, `"cuts"`,
-#'   `"scoring"`, `"security"`, `"reporting"`).
+#'   `"scoring"`, `"security"`, `"reporting"`, `"monitoring"`).
 #' @return A tibble with one row per flag: `id`, `stage`, `check`, `target`
 #'   (an item, a pair of items, a group, or the whole test), `value` (the
 #'   statistic), `rule` (the threshold that fired), `level`, `advice` (what to

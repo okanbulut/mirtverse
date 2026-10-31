@@ -67,6 +67,8 @@ reference:
   - score_persons
   - check_security
   - pipeline_report
+  - monitor_bank
+  - retire_items
   - flags
   - acknowledge
   - drop_items
