@@ -62,9 +62,10 @@ Both make good bridges to writing code by hand later in the term.
 | 11 | Item banks, test assembly and adaptive testing | Lab 5, `run_lab("cat-design")` | `catbank`, `certexam` bank |
 | 12 | Cut scores, reporting and communicating results | Final project | students' own data |
 
-The [glossary](#planned-resources) (coming soon) defines each term used
-below, and the [cheat sheet](#planned-resources) (coming soon) lists the main
-functions by task; both work well as handouts from week 1.
+The [glossary](glossary.html) defines each term used below, and each week
+links to its key terms there. The [cheat
+sheet](../cheatsheet/mirtverse-cheatsheet.pdf) lists the main functions on
+two printable pages; both work well as handouts from week 1.
 
 ## Week by week
 
@@ -74,6 +75,9 @@ functions by task; both work well as handouts from week 1.
 against a key, compute proportion correct and item-total correlations, and
 read a distractor analysis.
 
+* **Key terms:** [classical test theory](glossary.html#classical-test-theory),
+  [sum score](glossary.html#sum-score), [p-value](glossary.html#p-value),
+  [item-total correlation](glossary.html#item-total-correlation).
 * **Read:** [Getting started](mirtverse.html); "The story" and "Start a lab"
   in [Teaching labs](teaching-labs.html).
 * **Run:** `key2binary()`, `itemstats()` (mirt), `profile_data()`.
@@ -88,6 +92,14 @@ read a distractor analysis.
 **By the end of the week, students can** explain the Rasch, 2PL and 3PL
 models, fit them with `mirt()`, and read an item characteristic curve.
 
+* **Key terms:** [item response theory](glossary.html#item-response-theory),
+  [latent trait](glossary.html#latent-trait), [Rasch
+  model](glossary.html#rasch-model), [2PL](glossary.html#two-pl),
+  [3PL](glossary.html#three-pl), [item characteristic
+  curve](glossary.html#item-characteristic-curve),
+  [difficulty](glossary.html#difficulty),
+  [discrimination](glossary.html#discrimination),
+  [guessing](glossary.html#guessing).
 * **Read:** sections 1 to 4 of [Getting started](mirtverse.html).
 * **Run:** `mirt()`, `coef(mod, IRTpars = TRUE)`, `gg_trace()`,
   `item_table()`, `interpret()`.
@@ -102,6 +114,12 @@ models, fit them with `mirt()`, and read an item characteristic curve.
 in words, recognise a model that has not converged, and compare nested models
 with likelihood-ratio tests and information criteria.
 
+* **Key terms:** [calibration](glossary.html#calibration), [marginal maximum
+  likelihood](glossary.html#marginal-maximum-likelihood),
+  [convergence](glossary.html#convergence), [likelihood-ratio
+  test](glossary.html#likelihood-ratio-test), [information
+  criteria](glossary.html#information-criteria), [M2](glossary.html#m2),
+  [RMSEA](glossary.html#rmsea).
 * **Read:** "Let mirtverse pick a model" in [Getting started](mirtverse.html).
 * **Run:** `select_model()`, `anova()`, `M2()`, `glance_mirt()`,
   `tidy_mirt()`.
@@ -115,6 +133,9 @@ with likelihood-ratio tests and information criteria.
 enough, read standardized residuals and the Q3 statistic, and tell local
 dependence from a second trait.
 
+* **Key terms:** [dimensionality](glossary.html#dimensionality), [local
+  independence](glossary.html#local-independence), [local
+  dependence](glossary.html#local-dependence), [Q3](glossary.html#q3).
 * **Run:** a one- vs two-factor model with `anova()`, `summary()` for rotated
   loadings, `residuals(mod, type = "Q3")` and `gg_q3()`.
 * **Lab:** all of Lab 1 (`run_lab("model-choice")`, about 75 minutes). It
@@ -128,6 +149,10 @@ dependence from a second trait.
 **By the end of the week, students can** read S-X² item fit, compare an
 empirical and a model-implied curve, and flag aberrant response patterns.
 
+* **Key terms:** [item fit](glossary.html#item-fit),
+  [S-X²](glossary.html#s-x2), [empirical item
+  curve](glossary.html#empirical-item-curve), [person
+  fit](glossary.html#person-fit), [Zh](glossary.html#zh).
 * **Run:** `itemfit()` and `gg_itemfit()`, `gg_empirical()`, `personfit()`
   (mirt), `item_card()` and `item_cards()`.
 * **Data:** `SAT12`.
@@ -140,6 +165,11 @@ empirical and a model-implied curve, and flag aberrant response patterns.
 curves, convert information to a standard error, and explain why reliability
 depends on where on the scale you look.
 
+* **Key terms:** [item information](glossary.html#item-information), [test
+  information](glossary.html#test-information), [standard error of
+  measurement](glossary.html#standard-error-of-measurement), [marginal
+  reliability](glossary.html#marginal-reliability),
+  [targeting](glossary.html#targeting).
 * **Run:** `gg_info()`, `testinfo()`, `marginal_rxx()` and `empirical_rxx()`
   (mirt).
 * **Lab:** the "Precision at the pass mark" section of Lab 2 previews next
@@ -151,6 +181,10 @@ depends on where on the scale you look.
 **By the end of the week, students can** compare EAP, MAP, ML and WLE
 scores, explain why ML fails for perfect scores, and read a Wright map.
 
+* **Key terms:** [EAP](glossary.html#eap), [MAP](glossary.html#map),
+  [ML](glossary.html#ml-scoring), [WLE](glossary.html#wle), [Wright
+  map](glossary.html#wright-map), [classification
+  accuracy](glossary.html#classification-accuracy).
 * **Run:** `fscores()` (mirt), `gg_scores()`, `gg_wright()`,
   `augment_mirt()`.
 * **Lab:** all of Lab 2 (`run_lab("decisions")`, about 75 minutes). Students
@@ -166,6 +200,10 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
 partial credit and graded response models, read category curves, and say
 when categories should be collapsed.
 
+* **Key terms:** [polytomous item](glossary.html#polytomous-item), [graded
+  response model](glossary.html#graded-response-model),
+  [GPCM](glossary.html#gpcm), [category response
+  curve](glossary.html#category-response-curve), [QWK](glossary.html#qwk).
 * **Read:** [Assessment pipeline](assessment-pipeline.html), section "9.
   Scoring", for scoring open-ended responses with `score_open()`.
 * **Run:** `select_model()` on polytomous data, `gg_trace()`, `gg_info()`.
@@ -184,6 +222,11 @@ when categories should be collapsed.
 **By the end of the week, students can** tell impact from DIF, run a DIF
 analysis with anchor items, and explain uniform and non-uniform DIF.
 
+* **Key terms:** [DIF](glossary.html#dif), [reference and focal
+  groups](glossary.html#reference-focal-group), [uniform and non-uniform
+  DIF](glossary.html#uniform-nonuniform-dif), [DIF effect
+  size](glossary.html#dif-effect-size), [anchor
+  items](glossary.html#anchor-items).
 * **Run:** `dif()`, `gg_dif()`, `interpret()` on the result; `multipleGroup()`
   and `DIF()` (mirt) for the model behind it.
 * **Lab:** the "Fairness across languages" section of Lab 2 for a short
@@ -200,6 +243,11 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
 scale, describe anchor-item and common-person designs, and link a new
 calibration to an existing one.
 
+* **Key terms:** [linking](glossary.html#linking), [anchor
+  items](glossary.html#anchor-items), [moment
+  linking](glossary.html#moment-linking), [characteristic curve
+  linking](glossary.html#characteristic-curve-linking), [parameter
+  drift](glossary.html#parameter-drift).
 * **Read:** [Assessment pipeline](assessment-pipeline.html), sections "3.
   Field-test design" and "6. The item bank".
 * **Run:** `design_field_test()`, `link_to_bank()`; `multipleGroup()` with
@@ -217,6 +265,10 @@ calibration to an existing one.
 form to a target information curve, and explain how a computerized adaptive
 test picks items and when it stops.
 
+* **Key terms:** [item bank](glossary.html#item-bank), [automated test
+  assembly](glossary.html#automated-test-assembly), [computerized adaptive
+  test](glossary.html#computerized-adaptive-test), [multistage
+  test](glossary.html#multistage-test), [exposure](glossary.html#exposure).
 * **Read:** [Assessment pipeline](assessment-pipeline.html), sections "6. The
   item bank" and "7. Forms, adaptive and multistage tests".
 * **Run:** `mv_bank()`, `assemble_forms()`, `simulate_cat()`,
@@ -233,6 +285,11 @@ test picks items and when it stops.
 setting, estimate classification accuracy at a cut score, and explain IRT
 results to someone who does not use R.
 
+* **Key terms:** [cut score](glossary.html#cut-score), [standard
+  setting](glossary.html#standard-setting), [response
+  probability](glossary.html#response-probability), [classification
+  accuracy](glossary.html#classification-accuracy), [classification
+  consistency](glossary.html#classification-consistency).
 * **Read:** [Assessment pipeline](assessment-pipeline.html), sections "8. Cut
   scores" and "11. The report"; [Sharing results with a
   dashboard](dashboards.html).
@@ -273,8 +330,8 @@ they are released.
 
 | Resource | Used in | Status |
 |---|---|---|
-| Glossary of IRT terms on this site | All weeks | Coming soon |
-| Two-page cheat sheet of the main functions | All weeks | Coming soon |
+| Glossary of IRT terms on this site | All weeks | Available: [glossary](glossary.html) |
+| Two-page cheat sheet of the main functions | All weeks | Available: [PDF](../cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
