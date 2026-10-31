@@ -3,8 +3,9 @@
 #' mirtverse ships interactive [learnr](https://rstudio.github.io/learnr/)
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
-#' would make, getting feedback on each one. The labs share one storyline: a
-#' certification board's 32-item exam ([certexam]).
+#' would make, getting feedback on each one. Labs 1 and 2 share one
+#' storyline, a certification board's 32-item exam ([certexam]); Lab 3 has its
+#' own, a provincial numeracy test ([numeracy]).
 #'
 #' * `"model-choice"` (Lab 1): score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -13,6 +14,10 @@
 #'   pass mark, choose a scoring method, estimate classification accuracy,
 #'   test for DIF between English and French candidates, write a memo, and
 #'   compare the results with the truth behind the data.
+#' * `"fairness"` (Lab 3): is a numeracy test biased against English language
+#'   learners? Separate impact from DIF, run Mantel-Haenszel and IRT
+#'   likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
+#'   matters for students' scores and plan a content review.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -150,20 +155,28 @@ lab_decisions <- function(state, labels) {
   out
 }
 
-#' Answer key and true values for the lab dataset
+#' Answer key and true values for the lab datasets
 #'
-#' Instructor helper: returns how [certexam] was generated, so you can check
-#' students' conclusions. Students meet the same information in the reveal at
-#' the end of the labs.
+#' Instructor helper: returns how a lab dataset was generated, so you can
+#' check students' conclusions. Students meet the same information in the
+#' reveal at the end of the labs.
 #'
-#' @return A list with the true `model`, the correct `key`, the `miskeyed`
-#'   item, the `testlet` items, the `dif` items and their type, the group
-#'   `impact` (mean ability difference in SD units), the generating item
-#'   parameters `pars` and the pass mark `cut_raw`.
+#' @param data the dataset: `"certexam"` (Labs 1 and 2) or `"numeracy"`
+#'   (Lab 3).
+#' @return For `"certexam"`, a list with the true `model`, the correct `key`,
+#'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
+#'   the group `impact` (mean ability difference in SD units), the generating
+#'   item parameters `pars` and the pass mark `cut_raw`. For `"numeracy"`, a
+#'   list with the true `model`, the `dif` items and their type, the `impact`,
+#'   the generating item parameters `pars` (with separate values for ELL
+#'   students) and `no_dif_long`, long word problems without DIF.
 #' @examples
 #' lab_truth()$dif
+#' lab_truth("numeracy")$dif
 #' @export
-lab_truth <- function() certexam_truth
+lab_truth <- function(data = c("certexam", "numeracy")) {
+  switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth)
+}
 
 #' Certification exam data for the teaching labs
 #'
@@ -187,3 +200,27 @@ lab_truth <- function() certexam_truth
 
 #' @rdname certexam
 "certexam_key"
+
+#' Numeracy test data for the DIF and fairness lab
+#'
+#' Simulated right/wrong responses of 2,000 Grade 6 students, 500 of them
+#' English language learners (ELL), to a fictional 30-item provincial
+#' numeracy test. Some items are word problems, some are bare calculations.
+#' DIF was planted on purpose for the [fairness lab][run_lab];
+#' `lab_truth("numeracy")` lists it.
+#'
+#' @format `numeracy` is a data frame with 2,000 rows and 33 columns: `id`
+#'   (student ID), `ell` (factor, `Fluent` or `ELL`), `gender` (factor, `Girl`
+#'   or `Boy`) and `N01` to `N30` (1 = right, 0 = wrong). `numeracy_items`
+#'   describes the items: `item`, curriculum `strand`, `format` (`Symbolic`
+#'   or `Word problem`) and `words` (word count).
+#' @source Simulated; the script is `data-raw/numeracy.R` in the package's
+#'   GitHub repository.
+#' @examples
+#' head(numeracy[, 1:6])
+#' tapply(rowSums(numeracy[, -(1:3)]), numeracy$ell, mean)
+#' @name numeracy
+"numeracy"
+
+#' @rdname numeracy
+"numeracy_items"

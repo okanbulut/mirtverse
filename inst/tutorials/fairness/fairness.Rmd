@@ -1,0 +1,617 @@
+---
+title: "Lab 3: Is the test fair? Detecting DIF"
+description: >
+  An advocacy group says a provincial numeracy test is biased against English
+  language learners. Separate impact from bias, run Mantel-Haenszel and IRT
+  likelihood-ratio DIF tests, choose clean anchor items, judge how much the
+  flagged items matter for students' scores, plan a content review, and see
+  the truth behind the data. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+scored <- numeracy[, -(1:3)]
+ell <- numeracy$ell
+```
+
+```{r setup-total, include = FALSE}
+scored <- numeracy[, -(1:3)]
+ell <- numeracy$ell
+total <- rowSums(scored)
+level <- cut(total, unique(quantile(total, 0:10 / 10)), include.lowest = TRUE)
+```
+
+```{r setup-anchor, include = FALSE}
+scored <- numeracy[, -(1:3)]
+ell <- numeracy$ell
+first_flags <- c("N02", "N05", "N07", "N15", "N16", "N18", "N20", "N21", "N25", "N30")
+```
+
+```{r setup-final, include = FALSE}
+scored <- numeracy[, -(1:3)]
+ell <- numeracy$ell
+dif_items <- c("N02", "N07", "N18", "N20", "N21", "N25", "N30")
+final <- multipleGroup(scored, 1, group = ell, itemtype = "2PL",
+                       invariance = c(setdiff(names(scored), dif_items), "free_means", "free_var"),
+                       verbose = FALSE)
+```
+
+## The brief
+
+### A complaint reaches the ministry
+
+You work in the assessment branch of the fictional **Westvale Ministry of
+Education**. Every spring, Grade 6 students write a **30-item numeracy
+test**. The items are short-answer questions scored right or wrong. Some are
+bare calculations ("symbolic" items); others are **word problems** set in an
+everyday story.
+
+This year **2,000 students** wrote the test, **500 of them English language
+learners (ELL)**. A parent advocacy group has written to the minister:
+
+> *ELL students scored three and a half points lower than their classmates.
+> The test is biased against them. Fix it.*
+
+The deputy minister has asked you three questions:
+
+1. Is the test biased against ELL students, or do the groups simply differ in
+   numeracy?
+2. If some items are unfair, which ones, and how much do they matter?
+3. What should the ministry do about it?
+
+The tool for this job is **differential item functioning (DIF)** analysis. In
+this lab you will run two DIF methods, find out why the choice of anchor items
+matters, judge the size of the problem, and plan a content review. At the end
+you will see the truth behind the data.
+
+### Meet the data
+
+The scored responses are in `numeracy`: a student ID, ELL status (`ell`:
+`Fluent` or `ELL`), `gender`, and the items `N01` to `N30` (1 = right,
+0 = wrong). `numeracy_items` describes each item: its curriculum strand, its
+format and its word count.
+
+For convenience, the item columns are already saved as `scored` and the ELL
+status as `ell`. Run the code to look around.
+
+```{r look, exercise = TRUE}
+head(numeracy[, 1:8])
+table(ell)
+tapply(rowSums(scored), ell, mean)
+head(numeracy_items)
+```
+
+```{r look-check}
+"Fluent students average about 14.7 out of 30 and ELL students about 11.3. That is the gap the advocacy group is pointing at."
+```
+
+## Impact or bias?
+
+### Compare the items, group by group
+
+The obvious first step is to compare how often each group answers each item
+correctly. Compute `gap`, the proportion correct among ELL students minus the
+proportion correct among fluent students, for every item, and sort it.
+
+```{r pgap, exercise = TRUE}
+p_ell <- colMeans(scored[ell == "ELL", ])
+p_fluent <- colMeans(scored[ell == "Fluent", ])
+gap <-
+round(sort(gap), 2)
+```
+
+```{r pgap-hint}
+gap <- p_ell - p_fluent
+```
+
+```{r pgap-solution}
+p_ell <- colMeans(scored[ell == "ELL", ])
+p_fluent <- colMeans(scored[ell == "Fluent", ])
+gap <- p_ell - p_fluent
+round(sort(gap), 2)
+```
+
+```{r pgap-check}
+ref <- colMeans(scored[ell == "ELL", ]) - colMeans(scored[ell == "Fluent", ])
+lab_need(exists("gap") && is.numeric(gap) && length(gap) == 30L,
+         "Save the 30 differences as `gap`.")
+lab_need(max(abs(gap[names(ref)] - ref)) < 1e-8,
+         "`gap` should be the ELL proportion correct minus the fluent proportion correct: `p_ell - p_fluent`.")
+"ELL students do worse on 29 of the 30 items, by up to 35 percentage points on N30. Only N21 goes the other way."
+```
+
+```{r q-impact}
+question_radio("ELL students do worse on 29 of the 30 items. What can you conclude?",
+  answer("Nothing yet about bias: the groups may differ in numeracy itself, so we must compare students of the same ability.",
+         correct = TRUE,
+         message = "Exactly. A difference in proportion correct mixes two things: a real difference in the trait (**impact**) and items that behave differently for students of equal ability (**DIF**). ELL students may have had less schooling in English or recently changed school systems, and a fair test would still show that. DIF methods remove impact by **matching** students on ability before comparing the groups."),
+  answer("The test is biased: almost every item disadvantages ELL students.",
+         message = "If ELL students are, on average, lower in numeracy, a perfectly fair test shows lower proportions correct on every item. A gap in proportion correct is not evidence of bias by itself."),
+  answer("N30 is the most biased item, because its gap is the largest.",
+         message = "N30 may well be a problem, but the raw gap cannot tell you. The raw gap is largest for items that separate low and high scorers most sharply, even when they are perfectly fair."),
+  answer("N21 is biased against fluent students.",
+         message = "Maybe, but the raw gap cannot tell you. You need to compare students of the same ability."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Match on the total score
+
+### The Mantel-Haenszel method
+
+The classic DIF method, used by testing programs for decades, is the
+**Mantel-Haenszel** (MH) procedure. It matches students on their **total
+score**: within each score level, it compares the odds of a correct answer for
+fluent and ELL students, and then pools those odds ratios across levels into
+one common odds ratio, $\alpha_{MH}$.
+
+ETS reports it on the "delta" scale, $D = -2.35 \ln(\alpha_{MH})$. **Negative
+values mean the item is harder for the focal group** (here ELL students) than
+for reference students with the same total score.
+
+With 2,000 students, many score levels have only a handful of students, so
+we group the total score into ten levels (deciles). They are saved as
+`level`. Compute the MH statistic for N07 and save its D value as `D_N07`.
+
+```{r mh-one, exercise = TRUE, exercise.setup = "setup-total"}
+tab <- table(group = ell, correct = factor(scored$N07, levels = 1:0), level = level)
+mh <- mantelhaen.test(tab, exact = FALSE)
+mh
+D_N07 <-
+D_N07
+```
+
+```{r mh-one-hint}
+# mh$estimate is the common odds ratio
+D_N07 <- -2.35 * log(___)
+```
+
+```{r mh-one-solution}
+tab <- table(group = ell, correct = factor(scored$N07, levels = 1:0), level = level)
+mh <- mantelhaen.test(tab, exact = FALSE)
+mh
+D_N07 <- -2.35 * log(unname(mh$estimate))
+D_N07
+```
+
+```{r mh-one-check}
+ref <- mantelhaen.test(table(ell, factor(scored$N07, levels = 1:0), level), exact = FALSE)
+lab_need(exists("D_N07") && is.numeric(D_N07) && length(D_N07) == 1L,
+         "Save the delta value as `D_N07`, a single number.")
+lab_need(abs(D_N07 - (-2.35 * log(ref$estimate))) < 1e-6,
+         "D is -2.35 times the natural log of the common odds ratio, `mh$estimate`.")
+sprintf("D = %.2f for N07: at the same total score, ELL students have much lower odds of answering it correctly.", D_N07)
+```
+
+### Classify every item
+
+ETS sorts items into three categories by the size of D:
+
+| Category | Rule (simplified) | Meaning |
+|---|---|---|
+| A | \|D\| < 1 | Negligible DIF |
+| B | 1 ≤ \|D\| < 1.5 | Moderate DIF |
+| C | \|D\| ≥ 1.5 | Large DIF |
+
+(The full rules also require the statistic to be significant.) The code
+below computes D for every item. Add a column `ets` with the category, A, B
+or C.
+
+```{r mh-all, exercise = TRUE, exercise.setup = "setup-total", exercise.lines = 10}
+mh_D <- function(item) {
+  tab <- table(ell, factor(item, levels = 1:0), level)
+  -2.35 * log(unname(mantelhaen.test(tab, exact = FALSE)$estimate))
+}
+mh_res <- data.frame(item = names(scored), D = sapply(scored, mh_D))
+mh_res$ets <-
+mh_res[order(mh_res$D), ]
+```
+
+```{r mh-all-hint}
+mh_res$ets <- ifelse(abs(mh_res$D) >= 1.5, "C", ifelse(abs(mh_res$D) >= ___, "B", "A"))
+```
+
+```{r mh-all-solution}
+mh_D <- function(item) {
+  tab <- table(ell, factor(item, levels = 1:0), level)
+  -2.35 * log(unname(mantelhaen.test(tab, exact = FALSE)$estimate))
+}
+mh_res <- data.frame(item = names(scored), D = sapply(scored, mh_D))
+mh_res$ets <- ifelse(abs(mh_res$D) >= 1.5, "C", ifelse(abs(mh_res$D) >= 1, "B", "A"))
+mh_res[order(mh_res$D), ]
+```
+
+```{r mh-all-check}
+lab_need(exists("mh_res") && is.data.frame(mh_res) && "ets" %in% names(mh_res),
+         "Add a column `ets` to `mh_res`.")
+want <- ifelse(abs(mh_res$D) >= 1.5, "C", ifelse(abs(mh_res$D) >= 1, "B", "A"))
+lab_need(identical(as.character(mh_res$ets), want),
+         "Use |D| of 1.5 or more for C, 1 to 1.5 for B and less than 1 for A. abs() gives the absolute value.")
+sprintf("C items: %s. B items: %s.",
+        paste(mh_res$item[want == "C"], collapse = ", "), paste(mh_res$item[want == "B"], collapse = ", "))
+```
+
+```{r q-mh}
+question_radio("Five items are in category C. Four of them (N07, N20, N25, N30) have negative D. What about N21, whose D is about +2.6?",
+  answer("N21 also shows large DIF, but it favours ELL students: at the same total score they are more likely to answer it correctly.",
+         correct = TRUE,
+         message = "Right. DIF can go either way. An item that favours the focal group is still an item that measures something besides numeracy for one group, and it needs review just like the others. Notice that N21 was also the only item where ELL students did better *without* matching."),
+  answer("N21 is fine; only negative D values are a problem.",
+         message = "DIF in either direction means the item does not work the same way for both groups. An item that favours ELL students is not a fix for items that disadvantage them."),
+  answer("N21’s positive D means the item is easier for everyone.",
+         message = "D compares the two groups at the same total score. A positive D means the item is easier for the focal group (ELL) than for reference students with the same score."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The IRT approach
+
+### Likelihood-ratio tests with dif()
+
+MH matches on the observed total score. The IRT approach matches on the
+**latent trait** instead. `dif()` fits a two-group 2PL model in which every
+item's parameters are equal across groups while the ELL group's mean and SD
+are free (that is what absorbs impact). It then frees each item in turn and
+tests with a likelihood-ratio test whether the item fits better with its own
+parameters in each group.
+
+Run it. It fits 31 models, so it takes about a minute. Save the result as
+`dif_res`.
+
+```{r dif, exercise = TRUE, exercise.timelimit = 300}
+dif_res <- dif(scored, group = ell)
+dif_res
+```
+
+```{r dif-check}
+lab_need(exists("dif_res") && inherits(dif_res, "mv_dif"), "Save the result of `dif()` as `dif_res`.")
+flagged <- dif_res$table$item[dif_res$table$flag]
+lab_need(setequal(flagged, c("N02", "N05", "N07", "N15", "N16", "N18", "N20", "N21", "N25", "N30")),
+         "Use dif(scored, group = ell) with the default settings.")
+"Ten items are flagged. Look at the uesd column: five word problems, N02 and N21 have large effects, while N05, N15 and N16 are flagged with small ones."
+```
+
+```{r q-n02}
+question_radio("dif() flags N02 (p < .001) even though Mantel-Haenszel put it in category A. Its esd is almost 0 but its uesd is about 0.15. What is going on?",
+  answer("N02’s curves cross: it favours one group at some ability levels and the other group elsewhere. MH, which pools one odds ratio across levels, cannot see that.",
+         correct = TRUE,
+         message = "Yes. This is **non-uniform DIF**. The signed difference (esd) averages positive and negative differences, which cancel; the unsigned difference (uesd) does not. MH is built to detect uniform DIF, which is a known blind spot. The IRT test frees the slope too, so it catches it. You will see the curves next."),
+  answer("dif() is too sensitive with 2,000 students; N02 is fine.",
+         message = "An effect that MH misses is not the same as no effect. Compare esd with uesd: a large unsigned difference with a near-zero signed difference is the signature of something specific."),
+  answer("MH is right and dif() is wrong.",
+         message = "Neither is simply right. They look for different things. Compare esd with uesd for N02."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Look at the curves
+
+Plot the item curves by group for three of the flagged items: a word problem
+with uniform DIF, the item that favours ELL students, and N02. Testing just
+these three items is much faster.
+
+```{r curves, exercise = TRUE, exercise.timelimit = 180}
+dif3 <- dif(scored, group = ell, items = c("N07", "N21", "N02"))
+gg_dif(dif3, type = "curves")
+```
+
+## Choose clean anchors
+
+### Who is holding the scale still?
+
+`dif()` tests each item by comparing it with **all the other items**, which
+are held equal across groups. Those other items are the **anchor**: they
+define what "the same ability" means for the two groups. The method works
+well when nearly all of them are DIF-free.
+
+Here, several items disadvantage ELL students. While they sit in the anchor,
+they drag the ELL group's estimated ability down. Two things follow: the
+**impact** is overestimated, and some clean items then look as if they
+**favour** ELL students. Look again at N05, N15 and N16 in `dif_res`: they are
+flagged, but with small positive effects.
+
+The usual fix is **purification**: use the items that were *not* flagged as
+the anchor, then test the flagged items against that clean anchor.
+
+The ten items flagged in the first pass are saved as `first_flags`. Fit a
+model in which only the other 20 items are held equal (`anchors`), with the
+ELL mean and variance free. Save it as `m_anchor` and look at the ELL group's
+mean.
+
+```{r anchor, exercise = TRUE, exercise.setup = "setup-anchor", exercise.timelimit = 180}
+anchors <- setdiff(names(scored), first_flags)
+m_anchor <- multipleGroup(scored, 1, group = ell, itemtype = "2PL",
+                          invariance = c(___, "free_means", "free_var"),
+                          verbose = FALSE)
+coef(m_anchor)$ELL$GroupPars
+```
+
+```{r anchor-hint}
+invariance = c(anchors, "free_means", "free_var")
+```
+
+```{r anchor-solution}
+anchors <- setdiff(names(scored), first_flags)
+m_anchor <- multipleGroup(scored, 1, group = ell, itemtype = "2PL",
+                          invariance = c(anchors, "free_means", "free_var"),
+                          verbose = FALSE)
+coef(m_anchor)$ELL$GroupPars
+```
+
+```{r anchor-check}
+lab_need(exists("m_anchor") && methods::is(m_anchor, "MultipleGroupClass"),
+         "Save the multiple-group model as `m_anchor`.")
+gp <- coef(m_anchor)$ELL$GroupPars
+lab_need(abs(gp[1, "MEAN_1"] - (-0.55)) < 0.05,
+         "Hold only the anchors equal: invariance = c(anchors, \"free_means\", \"free_var\").")
+sprintf("With the clean anchor, the ELL mean is %.2f SD. The first pass, with every item in the anchor, put it at about -0.68.", gp[1, "MEAN_1"])
+```
+
+```{r q-impact-est}
+question_radio("The first pass estimated the ELL mean at -0.68 SD; the clean anchor gives -0.55. Which do you report as the real difference in numeracy, and why?",
+  answer("-0.55, because the first pass let the DIF items, which mostly disadvantage ELL students, pull the ELL mean down.",
+         correct = TRUE,
+         message = "Right. When biased items sit in the anchor, part of their bias is mistaken for a real group difference. The clean-anchor estimate is the better estimate of impact. It is still a large difference, which is the main reason for the 3.5-point gap: most of the gap is impact, not bias."),
+  answer("-0.68, because it uses all 30 items and so has more information.",
+         message = "More items only help if they measure the same thing in both groups. Several of them don’t, and they pull the estimate in one direction."),
+  answer("It doesn’t matter: the two numbers are close.",
+         message = "A 0.13 SD shift in the estimated group difference is substantial, and it also changes which items look biased, as you will see next."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Test the flagged items against the clean anchor
+
+mirt's `DIF()` with `scheme = "add"` starts from a model like `m_anchor`, in
+which the tested items are free, and constrains each one in turn to be equal
+across groups. A significant result means the constraint hurts the fit: the
+item functions differently. Run it for the ten first-pass items.
+
+```{r purified, exercise = TRUE, exercise.setup = "setup-anchor", exercise.timelimit = 180}
+anchors <- setdiff(names(scored), first_flags)
+m_anchor <- multipleGroup(scored, 1, group = ell, itemtype = "2PL",
+                          invariance = c(anchors, "free_means", "free_var"),
+                          verbose = FALSE)
+purified <- DIF(m_anchor, which.par = c("a1", "d"), scheme = "add",
+                items2test = first_flags, verbose = FALSE)
+purified[, c("X2", "df", "p", "adj_p")]
+```
+
+```{r q-purify}
+question_checkbox("Which items are **no longer** flagged (adjusted p above .05) against the clean anchor? Select all that apply.",
+  answer("N05", correct = TRUE),
+  answer("N15", correct = TRUE),
+  answer("N16", correct = TRUE),
+  answer("N02"),
+  answer("N21"),
+  answer("N30"),
+  correct = "Right: N05, N15 and N16 drop out. They were artefacts of a contaminated anchor. Seven items remain: five word problems that disadvantage ELL students (N07, N18, N20, N25, N30), N02 with crossing curves, and N21, which favours ELL students. When the first and second passes disagree, trust the one with the cleaner anchor, and report both.",
+  incorrect = "Not quite. Look at the adj_p column: which of the ten items now have adjusted p-values well above .05?",
+  allow_retry = TRUE
+)
+```
+
+## How much does it matter?
+
+### From items to students’ scores
+
+Statistical significance is not the same as importance: with 2,000 students,
+even small effects can be significant. So ask how much the DIF matters for
+students' **scores**.
+
+The model `final` holds the 23 clean items equal across groups and lets the
+seven DIF items (`dif_items`) differ. For a fluent and an ELL student **with
+the same ability**, the difference in expected total score is the
+**differential test functioning** (DTF). The code below draws it across the
+ability range. Complete `dtf`, the average difference over the ELL students'
+ability distribution (use the weights `w`).
+
+```{r dtf, exercise = TRUE, exercise.setup = "setup-final", exercise.timelimit = 180, exercise.lines = 14}
+Theta <- matrix(seq(-3, 3, by = 0.05))
+tcc <- sapply(c("Fluent", "ELL"), function(g) expected.test(extract.group(final, g), Theta))
+gap <- tcc[, "ELL"] - tcc[, "Fluent"]
+gp <- coef(final)$ELL$GroupPars
+w <- dnorm(Theta[, 1], gp[1, "MEAN_1"], sqrt(gp[1, "COV_11"]))
+dtf <-
+dtf
+plot(Theta[, 1], gap, type = "l", xlab = "Ability (theta)",
+     ylab = "Expected score difference (ELL minus fluent)")
+abline(h = 0, lty = 2)
+```
+
+```{r dtf-hint}
+dtf <- sum(w * gap) / sum(___)
+```
+
+```{r dtf-solution}
+Theta <- matrix(seq(-3, 3, by = 0.05))
+tcc <- sapply(c("Fluent", "ELL"), function(g) expected.test(extract.group(final, g), Theta))
+gap <- tcc[, "ELL"] - tcc[, "Fluent"]
+gp <- coef(final)$ELL$GroupPars
+w <- dnorm(Theta[, 1], gp[1, "MEAN_1"], sqrt(gp[1, "COV_11"]))
+dtf <- sum(w * gap) / sum(w)
+dtf
+plot(Theta[, 1], gap, type = "l", xlab = "Ability (theta)",
+     ylab = "Expected score difference (ELL minus fluent)")
+abline(h = 0, lty = 2)
+```
+
+```{r dtf-check}
+lab_need(exists("dtf") && is.numeric(dtf) && length(dtf) == 1L, "Save the weighted average as `dtf`.")
+lab_need(abs(dtf - sum(w * gap) / sum(w)) < 1e-6,
+         "`dtf` is the weighted mean of `gap`: sum(w * gap) / sum(w).")
+sprintf("On average, an ELL student loses about %.1f points out of 30 to DIF compared with a fluent student of the same ability.", abs(dtf))
+```
+
+Now split that total into the seven items' contributions.
+
+```{r contrib, exercise = TRUE, exercise.setup = "setup-final", exercise.timelimit = 180}
+Theta <- matrix(seq(-3, 3, by = 0.05))
+gp <- coef(final)$ELL$GroupPars
+w <- dnorm(Theta[, 1], gp[1, "MEAN_1"], sqrt(gp[1, "COV_11"]))
+w <- w / sum(w)
+item_gap <- function(item) {
+  e <- sapply(c("Fluent", "ELL"), function(g)
+    expected.item(extract.item(extract.group(final, g), item), Theta))
+  sum(w * (e[, "ELL"] - e[, "Fluent"]))
+}
+round(sort(sapply(dif_items, item_gap)), 3)
+```
+
+```{r q-dtf}
+question_radio("The DIF costs ELL students about 0.7 of a point overall. The five word problems cost more than that, but N21 gives some of it back. What do you tell the deputy minister?",
+  answer("Most of the 3.5-point gap is a real difference in numeracy, but about two-thirds of a point is caused by the items. The five word problems and N02 should be reviewed, and so should N21: items that cancel out by chance do not make a test fair.",
+         correct = TRUE,
+         message = "That is the defensible answer. It takes the complaint seriously without overstating it. Cancellation at the test level is an accident of which items happen to be on this form; a different form could lose it. Each flagged item is a separate question for content review."),
+  answer("Less than one point out of 30 is negligible; no action is needed.",
+         message = "For an individual student near a reporting cut, two-thirds of a point can change a performance level. And each item that measures something other than numeracy for ELL students is a validity problem in itself."),
+  answer("The whole 3.5-point gap is caused by biased items.",
+         message = "The DIF accounts for less than one point. Most of the gap comes from a real difference in the ELL group’s estimated numeracy (about half an SD), which the DIF analysis separates out."),
+  answer("Keep N21 on the test, because it offsets the bias in the word problems.",
+         message = "Tempting, but N21 measures something other than numeracy too, just in the other direction. Two wrongs balancing at the total-score level do not make either item valid."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Content review
+
+### Why might these items behave differently?
+
+Statistics tell you **where** to look; content experts tell you **why**.
+Join the DIF results to the item descriptions.
+
+```{r review, exercise = TRUE}
+dif_items <- c("N02", "N07", "N18", "N20", "N21", "N25", "N30")
+numeracy_items$dif <- numeracy_items$item %in% dif_items
+numeracy_items[order(-numeracy_items$words), ]
+```
+
+```{r q-review}
+question_radio("Most items that disadvantage ELL students are long word problems. But N10, N12 and N28 are just as long and show no DIF. What do you recommend?",
+  answer("Send the seven items to a review panel that includes ELL and numeracy specialists. Reading load is a likely cause, but since equally long items work fine, the panel should look for specific wording, idioms or contexts, and revise those items in plain language.",
+         correct = TRUE,
+         message = "Good. Length is a plausible lead but not the whole story: the review panel looks at each item’s wording and context. Plain-language revision keeps the mathematics while removing construct-irrelevant reading demands. The revised items are field-tested and checked for DIF again before they count."),
+  answer("Shorten every word problem to under 30 words.",
+         message = "That would also change items that work well (N10, N12, N28) and may remove legitimate problem-solving content from the curriculum. Fix the items that the evidence points to, for the reasons the panel finds."),
+  answer("Replace all word problems with symbolic items.",
+         message = "Solving problems set in context is part of the numeracy curriculum. Removing them would make the test fairer only by making it measure less of what it should."),
+  answer("Delete the seven flagged items and rescore everyone.",
+         message = "Dropping items on statistics alone can remove good content. Review first. Removing an item from scoring this year can be one outcome of the review."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the deputy minister
+
+Write a short memo (four to six sentences) that answers the deputy minister's
+three questions: is the test biased, which items and how much, and what the
+ministry should do.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: cover impact versus bias, the flagged items and their size, and your recommendation."))
+    correct("Submitted. Compare it with what interpret() says about the first-pass DIF analysis in the next exercise. What does it miss that you now know?")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the Deputy Minister: ..."
+)
+```
+
+### Compare with interpret()
+
+`interpret()` describes a `dif()` result in plain language. This exercise
+reruns the first pass, so it takes about a minute.
+
+```{r interpret, exercise = TRUE, exercise.timelimit = 300}
+interpret(dif(scored, group = ell))
+```
+
+## The reveal
+
+### The truth behind the data
+
+The `numeracy` data were simulated, so we know exactly how they were
+generated. `lab_truth("numeracy")` returns it.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("numeracy")
+truth$dif
+truth$impact
+truth$no_dif_long
+```
+
+| What was planted | What the analysis found |
+|---|---|
+| ELL mean 0.5 SD lower (impact) | -0.68 SD with every item in the anchor, -0.55 with a clean anchor |
+| N07, N18, N20, N25, N30: uniform DIF against ELL students | MH category B or C, and flagged by both IRT passes |
+| N02: non-uniform DIF (flat curve for ELL students) | Missed by MH, flagged by the IRT tests |
+| N21: uniform DIF favouring ELL students | MH category C with positive D, flagged by both IRT passes |
+| N03: a tiny shift | Not flagged: too small to matter |
+| No DIF in N05, N15, N16 | Flagged in the first pass, cleared by purification |
+| No DIF by gender | Try it below |
+
+### Your turn: gender
+
+The ministry also asks about gender. Run the analysis (about a minute) and
+see what you find.
+
+```{r gender, exercise = TRUE, exercise.timelimit = 300}
+dif_gender <- dif(scored, group = numeracy$gender)
+dif_gender
+tapply(rowSums(scored), numeracy$gender, mean)
+```
+
+```{r q-gender}
+question_radio("No item is flagged for gender and the means are almost equal. What do you report?",
+  answer("No evidence of gender DIF in this sample, with the size of the sample and the method stated.",
+         correct = TRUE,
+         message = "Right. “No evidence of DIF” is not proof of no DIF, but with 1,000 students per group the analysis had good power to detect effects of the size that mattered for ELL students."),
+  answer("The test is proven to be free of gender bias.",
+         message = "A non-significant result is not a proof. Report what was tested, with what sample size, and what was found."),
+  answer("Nothing; there is nothing to report.",
+         message = "A null result is worth reporting: the ministry needs to know that gender was checked, how, and what was found."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-impact" = "Raw group differences",
+    "q-mh" = "An item favouring ELL students",
+    "q-n02" = "MH versus IRT for N02",
+    "q-impact-est" = "Which impact estimate to report",
+    "q-purify" = "Items cleared by purification",
+    "q-dtf" = "How much the DIF matters",
+    "q-review" = "Content review",
+    "q-memo" = "Memo to the deputy minister",
+    "q-gender" = "Reporting a null result"
+  ))
+})
+```
+
+You have taken a fairness complaint from a raw score gap to a defensible
+answer: you separated impact from DIF, compared two methods and their blind
+spots, protected the analysis from a contaminated anchor, judged the size of
+the problem and planned a review that can fix it. The same steps apply to
+any group comparison you will be asked to make.

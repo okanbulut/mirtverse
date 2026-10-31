@@ -37,6 +37,9 @@ test_that("dif() accepts a grouping vector, a model and a subset of items", {
   items <- dif_dat[, 1:10]
   r1 <- dif(items, group = dif_dat$gender, items = c("Item_1", "Item_5"))
   expect_equal(tidy(r1)$item, c("Item_1", "Item_5"))
+  r_fac <- dif(items, group = factor(dif_dat$gender, levels = c("M", "F")), items = "Item_1")
+  expect_equal(r_fac$reference, "M")
+  expect_gt(tidy(r_fac)$esd, 0.1)
   r2 <- dif(dif_res$baseline, items = 1:3)
   expect_equal(nrow(tidy(r2)), 3)
   expect_error(dif(items), "group")

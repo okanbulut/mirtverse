@@ -2,21 +2,29 @@
 % Please edit documentation in R/labs.R
 \name{lab_truth}
 \alias{lab_truth}
-\title{Answer key and true values for the lab dataset}
+\title{Answer key and true values for the lab datasets}
 \usage{
-lab_truth()
+lab_truth(data = c("certexam", "numeracy"))
+}
+\arguments{
+\item{data}{the dataset: \code{"certexam"} (Labs 1 and 2) or \code{"numeracy"}
+(Lab 3).}
 }
 \value{
-A list with the true \code{model}, the correct \code{key}, the \code{miskeyed}
-item, the \code{testlet} items, the \code{dif} items and their type, the group
-\code{impact} (mean ability difference in SD units), the generating item
-parameters \code{pars} and the pass mark \code{cut_raw}.
+For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
+the \code{miskeyed} item, the \code{testlet} items, the \code{dif} items and their type,
+the group \code{impact} (mean ability difference in SD units), the generating
+item parameters \code{pars} and the pass mark \code{cut_raw}. For \code{"numeracy"}, a
+list with the true \code{model}, the \code{dif} items and their type, the \code{impact},
+the generating item parameters \code{pars} (with separate values for ELL
+students) and \code{no_dif_long}, long word problems without DIF.
 }
 \description{
-Instructor helper: returns how \link{certexam} was generated, so you can check
-students' conclusions. Students meet the same information in the reveal at
-the end of the labs.
+Instructor helper: returns how a lab dataset was generated, so you can
+check students' conclusions. Students meet the same information in the
+reveal at the end of the labs.
 }
 \examples{
 lab_truth()$dif
+lab_truth("numeracy")$dif
 }

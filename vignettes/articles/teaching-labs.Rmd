@@ -3,7 +3,7 @@ title: "Teaching labs for measurement courses"
 description: >
   Interactive learnr labs in which students fit live mirt models and make the
   decisions a psychometrician makes, from scoring and model choice to
-  interpretation. Includes an instructor guide and answer key.
+  interpretation and fairness. Includes an instructor guide and answer key.
 ---
 
 ```{r, include = FALSE}
@@ -33,7 +33,9 @@ run_lab("model-choice")      # 3. open Lab 1 in your browser
 also appear in the **Tutorial** pane. Your progress is saved on your computer,
 so you can close the lab and pick up where you left off.
 
-## The story
+## The labs
+
+### Labs 1 and 2: the certification exam
 
 You are the new psychometrician for the fictional **Northfield Certification
 Board**. Its 32-item, five-option exam was taken by 1,200 candidates in
@@ -47,6 +49,20 @@ few realistic problems are hidden in them for you to find.
 | **2. From parameters to decisions** (about 75 minutes) | `run_lab("decisions")` | Read the item parameters, check precision at the pass mark, choose a scoring method, estimate how many candidates are misclassified, test for DIF between languages, write a memo to the board, and see the truth behind the data |
 
 Lab 2 fits its own model at the start, so it can be done on its own.
+
+### Lab 3: is the test fair?
+
+You work for the fictional **Westvale Ministry of Education**. A parent group
+says the Grade 6 numeracy test is biased against English language learners
+(ELL), who scored three and a half points lower than their classmates. The
+data (`numeracy`) cover 2,000 students, 500 of them ELL, on 30 items, and
+`numeracy_items` describes each item.
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **3. Is the test fair? Detecting DIF** (about 75 minutes) | `run_lab("fairness")` | Separate a real group difference from item bias, run Mantel-Haenszel and IRT likelihood-ratio DIF tests, choose clean anchor items, judge how much the DIF matters for students' scores, plan a content review, and see the truth behind the data |
+
+Lab 3 has its own storyline, so it can be done before or after Labs 1 and 2.
 
 ## What it looks like
 
@@ -64,8 +80,8 @@ can hand in as an assignment.
 
 ## For instructors
 
-The two labs follow one storyline, but Lab 2 also works on its own. The tables
-below list what students do in each section and the decisions they make. The
+Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Lab 3
+stands alone. The tables below list what students do in each section and the decisions they make. The
 answers are in the [answer key](#answer-key) at the end of the page.
 For where the labs fit in a full term, see the
 [course map](course-map.html), a suggested 12-week syllabus.
@@ -100,12 +116,33 @@ the lab's setup, so students can start Lab 2 without finishing Lab 1.
 | The memo | Free-text memo, then `interpret()` and `item_card()` | |
 | The reveal | `lab_truth()`, true versus estimated difficulties | Where the 2PL departs from the true 3PL |
 
+### Lab 3: Is the test fair? Detecting DIF
+
+`run_lab("fairness")`, about 75 minutes. Three exercises fit 31 models each
+and take about a minute; the lab warns students before each one.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the complaint, `numeracy` and `numeracy_items` | |
+| Impact or bias? | Proportion correct by group for every item | What a raw group difference shows |
+| Match on the total score | Mantel-Haenszel by hand for one item, then ETS A/B/C categories for all | What DIF that favours the focal group means |
+| The IRT approach | `dif()`, `gg_dif(type = "curves")` | Why IRT flags an item that Mantel-Haenszel misses |
+| Choose clean anchors | A multiple-group model with only unflagged items as anchors; `DIF(scheme = "add")` | Which impact estimate to report; which flags were artefacts |
+| How much does it matter? | Differential test functioning from the expected test score curves, and each item's share | What to tell the deputy minister |
+| Content review | Join the flagged items to the item descriptions | What the review panel should do |
+| The memo | Free-text memo, then `interpret()` | |
+| The reveal | `lab_truth("numeracy")`, then a gender DIF analysis | Reporting a null result |
+
 ### Tips for running the labs
 
 * **Before class:** ask students to install mirtverse and learnr and run
   `list_labs()`. Fitting the models needs no internet connection.
-* **Speed:** every exercise runs in under about 15 seconds on a laptop; the
-  two-factor model uses fewer quadrature points so it stays quick.
+* **Order:** Labs 1 and 2 belong together. Lab 3 works on its own and fits a
+  unit on fairness or validity; Lab 2's short DIF section is a good warm-up
+  for it.
+* **Speed:** most exercises run in under about 15 seconds on a laptop; the
+  two-factor model uses fewer quadrature points so it stays quick. The full
+  DIF analyses in Labs 2 and 3 take up to a minute.
 * **Hosting:** to run a lab in the browser without any installation, deploy
   the tutorial folder (`system.file("tutorials", "model-choice", package =
   "mirtverse")`) to shinyapps.io or Posit Connect. learnr's event recorder
@@ -214,3 +251,59 @@ htmltools::img(src = knitr::image_uri("figures/lab-reveal.png"), width = "100%",
 * Q27's average (signed) DIF effect is small. Why is that misleading?
 * The board's 2PL was "wrong", yet most of the decisions it supported were
   right. When does using a simpler model than the truth matter?
+
+### Lab 3
+
+The planted problems in `numeracy` (`lab_truth("numeracy")` returns them):
+
+| Planted problem | What a good analyst does |
+|---|---|
+| ELL students are 0.5 SD lower on average | Treats it as impact, not bias: the clean-anchor model estimates it at 0.55 SD |
+| N07, N18, N20, N25 and N30, long word problems, are harder for ELL students at the same ability (uniform DIF) | Flags them with both methods and sends them to content review |
+| N02, a word problem with an idiom, discriminates poorly for ELL students (non-uniform DIF) | Notices that Mantel-Haenszel misses it and the IRT test catches it |
+| N21, a symbolic item, is easier for ELL students | Flags it for review too, rather than keeping it to offset the others |
+| N03 has a tiny shift | Leaves it alone |
+| N10, N12 and N28 are just as long as the DIF items but show no DIF | Concludes that length alone does not explain the DIF |
+| No gender DIF and no gender impact | Reports the null result with the sample size |
+
+* **Raw gaps:** ELL students do worse on 29 of 30 items (by up to 35
+  percentage points on N30); only N21 goes the other way. That says nothing
+  about bias yet.
+* **Mantel-Haenszel:** D for N07 is about -2.2. Category C: N07, N20, N25 and
+  N30 (negative) and N21 (positive, about +2.6). Category B: N18 and N15. N02
+  is in category A, because its curves cross.
+* **N21:** large DIF that favours ELL students. It needs review like the
+  others.
+* **First IRT pass (`dif()`):** ten items flagged: the seven planted ones plus
+  N05, N15 and N16, which have small positive effects. N02's esd is near 0
+  but its uesd is about 0.15: non-uniform DIF.
+* **Clean anchor:** with the 20 unflagged items as anchors, the ELL mean moves
+  from -0.68 to -0.55 SD (true value -0.5), and N05, N15 and N16 are no
+  longer flagged. They were artefacts of a contaminated anchor.
+* **How much it matters:** for an ELL and a fluent student of the same
+  ability, the DIF costs the ELL student about 0.7 of a point out of 30. The
+  five word problems cost about 0.8; N21 gives back about 0.2. Most of the
+  3.5-point gap is impact. Cancellation does not make the items fair.
+* **Content review:** send all seven items to a panel with ELL and numeracy
+  specialists, and revise wording in plain language. Length alone is not the
+  explanation, since N10, N12 and N28 are just as long. Field-test the
+  revised items and check them for DIF again.
+* **Gender:** no item is flagged and the means are almost equal. Report "no
+  evidence of gender DIF" with the sample size; it is not proof of none.
+
+```{r, echo = FALSE, eval = TRUE}
+# Embedded as a data URI so the figure travels with the page
+htmltools::img(src = knitr::image_uri("figures/lab-fairness-curves.png"), width = "100%",
+               alt = "Item curves by group in Lab 3: N07 is uniformly harder for ELL students, N21 is easier for them, and N02's curves cross.")
+```
+
+#### Discussion prompts
+
+* Mantel-Haenszel and the IRT test disagreed about N02. When would you
+  prefer each method?
+* The first pass flagged three clean items. What would have happened if the
+  ministry had removed every flagged item without a second pass?
+* N21 favours ELL students and partly cancels the other DIF. Why is "it all
+  balances out" not a good defence of a test?
+* A plain-language revision of N07 is field-tested and still shows DIF. What
+  would you look at next?

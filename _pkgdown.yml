@@ -119,6 +119,7 @@ reference:
   - run_lab
   - lab_truth
   - certexam
+  - numeracy
 - title: Package
   contents:
   - mirtverse-package
