@@ -22,15 +22,18 @@ articles:
   navbar: ~
   contents:
   - mirtverse
-  - articles/mv-ask-guide
   - workbench
-  - articles/assessment-pipeline
-  - articles/dashboards
   - response-times
-  - articles/teaching-labs
-  - articles/glossary
-  - articles/course-map
+  - articles/mv-ask-guide
+  - articles/dashboards
   - articles/mirtify
+  - articles/assessment-pipeline
+- title: Teaching and learning
+  navbar: Teaching and learning
+  contents:
+  - articles/teaching-labs
+  - articles/course-map
+  - articles/glossary
 
 reference:
 - title: Workbench
