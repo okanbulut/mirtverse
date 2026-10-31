@@ -1,0 +1,267 @@
+---
+title: "A course map for instructors"
+description: >
+  A suggested 12-week syllabus for a university course in item response
+  theory, linking each week to mirtverse articles, labs, functions and
+  datasets.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+<!--
+Maintainers: resources that are planned but not yet in the package are marked
+"(coming soon)". When one is merged, search this file for "coming soon",
+replace the marker with a link, and update the "Planned resources" table at
+the end of the page.
+-->
+
+This page is a suggested 12-week syllabus for an introductory course in item
+response theory (IRT), for graduate students in education, psychology or the
+health sciences. Each week lists what students should be able to do by the
+end of it, what to read on this site, what to run in R, and which lab and
+dataset to use. Take it as a starting point: drop weeks, merge them, or swap
+in your own readings.
+
+Everything here runs on a laptop with mirt and mirtverse installed. No
+internet connection is needed once the packages are installed, and none of
+the examples take more than a few seconds to run.
+
+## Before the first class
+
+Ask students to install the packages and check that a lab opens:
+
+```{r}
+install.packages(c("mirt", "learnr"))
+# install mirtverse as shown on the home page, then:
+library(mirtverse)
+list_labs()
+```
+
+Students who are new to R can do much of the course without writing code.
+The [workbench](workbench.html) (`launch_workbench()`) runs a full analysis by
+pointing and clicking and shows the R code for every step, and
+[`mv_ask()`](mv-ask-guide.html) writes a script from a plain-language request.
+Both make good bridges to writing code by hand later in the term.
+
+## The 12 weeks at a glance
+
+| Week | Topic | Lab | Main data |
+|---|---|---|---|
+| 1 | Measurement, scoring and classical item analysis | Lab 1, first two sections | `certexam` |
+| 2 | From classical test theory to IRT: the Rasch, 2PL and 3PL models | | `LSAT7` |
+| 3 | Estimation and comparing models | | `LSAT7`, `SAT12` |
+| 4 | Dimensionality and local independence | [Lab 1](teaching-labs.html) in class | `certexam` |
+| 5 | Item fit, person fit and item quality | | `SAT12` |
+| 6 | Information, precision and reliability | | `certexam` |
+| 7 | Scoring people | [Lab 2](teaching-labs.html) in class | `certexam` |
+| 8 | Polytomous items and open-ended responses | Open-ended scoring lab (coming soon) | `Science` |
+| 9 | Differential item functioning and fairness | DIF lab (coming soon) | `certexam` |
+| 10 | Linking and equating | Linking lab (coming soon) | `certexam` |
+| 11 | Item banks, test assembly and adaptive testing | CAT lab (coming soon) | `certexam` bank |
+| 12 | Cut scores, reporting and communicating results | Final project | students' own data |
+
+The [glossary](#planned-resources) (coming soon) defines each term used
+below, and the [cheat sheet](#planned-resources) (coming soon) lists the main
+functions by task; both work well as handouts from week 1.
+
+## Week by week
+
+### Week 1. Measurement, scoring and classical item analysis
+
+**By the end of the week, students can** score multiple-choice responses
+against a key, compute proportion correct and item-total correlations, and
+read a distractor analysis.
+
+* **Read:** [Getting started](mirtverse.html); "The story" and "Start a lab"
+  in [Teaching labs](teaching-labs.html).
+* **Run:** `key2binary()`, `itemstats()` (mirt), `profile_data()`.
+* **Lab:** the first two sections of Lab 1 (`run_lab("model-choice")`),
+  "Score the responses" and "Screen the items". Students meet a miskeyed
+  item without being told it is there.
+* **Data:** `certexam`, `certexam_key`.
+* **Discuss:** what a number-correct score can and cannot tell us.
+
+### Week 2. From classical test theory to IRT
+
+**By the end of the week, students can** explain the Rasch, 2PL and 3PL
+models, fit them with `mirt()`, and read an item characteristic curve.
+
+* **Read:** sections 1 to 4 of [Getting started](mirtverse.html).
+* **Run:** `mirt()`, `coef(mod, IRTpars = TRUE)`, `gg_trace()`,
+  `item_table()`, `interpret()`.
+* **Data:** `LSAT7` (expand it with `expand.table()`).
+* **Activity:** ask students to sketch trace lines for items they invent
+  (an easy item, a hard item, a flat item) and then find the closest real
+  item in the data.
+
+### Week 3. Estimation and comparing models
+
+**By the end of the week, students can** describe marginal maximum likelihood
+in words, recognise a model that has not converged, and compare nested models
+with likelihood-ratio tests and information criteria.
+
+* **Read:** "Let mirtverse pick a model" in [Getting started](mirtverse.html).
+* **Run:** `select_model()`, `anova()`, `M2()`, `glance_mirt()`,
+  `tidy_mirt()`.
+* **Data:** `LSAT7` and `SAT12` (scored with `key2binary()`).
+* **Discuss:** why AIC and BIC can disagree, and what sample size has to do
+  with fitting a 3PL.
+
+### Week 4. Dimensionality and local independence
+
+**By the end of the week, students can** check whether one dimension is
+enough, read standardized residuals and the Q3 statistic, and tell local
+dependence from a second trait.
+
+* **Run:** a one- vs two-factor model with `anova()`, `summary()` for rotated
+  loadings, `residuals(mod, type = "Q3")` and `gg_q3()`.
+* **Lab:** all of Lab 1 (`run_lab("model-choice")`, about 75 minutes). It
+  ends with a model choice the student has to justify in writing.
+* **Data:** `certexam` (the passage pair Q21 and Q22).
+* **Assignment:** hand in the decision table and justification from the end
+  of Lab 1.
+
+### Week 5. Item fit, person fit and item quality
+
+**By the end of the week, students can** read S-X² item fit, compare an
+empirical and a model-implied curve, and flag aberrant response patterns.
+
+* **Run:** `itemfit()` and `gg_itemfit()`, `gg_empirical()`, `personfit()`
+  (mirt), `item_card()` and `item_cards()`.
+* **Data:** `SAT12`.
+* **Activity:** students pick the three weakest items from the item cards and
+  write one sentence each on what an item writer should change.
+
+### Week 6. Information, precision and reliability
+
+**By the end of the week, students can** read item and test information
+curves, convert information to a standard error, and explain why reliability
+depends on where on the scale you look.
+
+* **Run:** `gg_info()`, `testinfo()`, `marginal_rxx()` and `empirical_rxx()`
+  (mirt).
+* **Lab:** the "Precision at the pass mark" section of Lab 2 previews next
+  week.
+* **Data:** `certexam`.
+
+### Week 7. Scoring people
+
+**By the end of the week, students can** compare EAP, MAP, ML and WLE
+scores, explain why ML fails for perfect scores, and read a Wright map.
+
+* **Run:** `fscores()` (mirt), `gg_scores()`, `gg_wright()`,
+  `augment_mirt()`.
+* **Lab:** all of Lab 2 (`run_lab("decisions")`, about 75 minutes). Students
+  choose a scoring method, estimate classification accuracy, look for DIF
+  and write a memo to the board. Lab 2 fits its own model, so students who
+  missed Lab 1 can still do it.
+* **Data:** `certexam`.
+* **Assignment:** the memo from the end of Lab 2.
+
+### Week 8. Polytomous items and open-ended responses
+
+**By the end of the week, students can** fit the partial credit, generalized
+partial credit and graded response models, read category curves, and say
+when categories should be collapsed.
+
+* **Read:** [Assessment pipeline](assessment-pipeline.html), section "9.
+  Scoring", for scoring open-ended responses with `score_open()`.
+* **Run:** `select_model()` on polytomous data, `gg_trace()`, `gg_info()`.
+* **Lab:** open-ended scoring lab (coming soon).
+* **Data:** `Science` (four Likert-type items).
+* **Students coming from ltm, eRm or TAM:** `mirtify()` translates their old
+  code ([Coming from other IRT packages](mirtify.html)).
+
+### Week 9. Differential item functioning and fairness
+
+**By the end of the week, students can** tell impact from DIF, run a DIF
+analysis with anchor items, and explain uniform and non-uniform DIF.
+
+* **Run:** `dif()`, `gg_dif()`, `interpret()` on the result; `multipleGroup()`
+  and `DIF()` (mirt) for the model behind it.
+* **Lab:** the "Fairness across languages" section of Lab 2 for a short
+  version; the DIF lab (coming soon) for a full session.
+* **Data:** `certexam` (English and French candidates).
+* **Discuss:** what a content review panel should do with a flagged item.
+
+### Week 10. Linking and equating
+
+**By the end of the week, students can** explain why two forms need a common
+scale, describe anchor-item and common-person designs, and link a new
+calibration to an existing one.
+
+* **Read:** [Assessment pipeline](assessment-pipeline.html), sections "3.
+  Field-test design" and "6. The item bank".
+* **Run:** `design_field_test()`, `link_to_bank()`; `multipleGroup()` with
+  anchors and `fixedCalib()` (mirt).
+* **Lab:** linking lab (coming soon).
+* **Data:** `certexam`, split into two field-test forms by
+  `design_field_test()`.
+
+### Week 11. Item banks, test assembly and adaptive testing
+
+**By the end of the week, students can** describe an item bank, assemble a
+form to a target information curve, and explain how a computerized adaptive
+test picks items and when it stops.
+
+* **Read:** [Assessment pipeline](assessment-pipeline.html), sections "6. The
+  item bank" and "7. Forms, adaptive and multistage tests".
+* **Run:** `mv_bank()`, `assemble_forms()`, `simulate_cat()`,
+  `assemble_mst()`.
+* **Lab:** CAT lab (coming soon).
+* **Data:** the `certexam` bank built in the pipeline article.
+
+### Week 12. Cut scores, reporting and communicating results
+
+**By the end of the week, students can** describe a Bookmark standard
+setting, estimate classification accuracy at a cut score, and explain IRT
+results to someone who does not use R.
+
+* **Read:** [Assessment pipeline](assessment-pipeline.html), sections "8. Cut
+  scores" and "11. The report"; [Sharing results with a
+  dashboard](dashboards.html).
+* **Run:** `item_map()`, `set_cuts()`, `mv_report()`, `mv_dashboard()`.
+* **Final project:** see below.
+
+## Assessment ideas
+
+| Weight | Task | When |
+|---|---|---|
+| 20% | Lab 1 decision table and model justification | Week 4 |
+| 20% | Lab 2 memo to the board | Week 7 |
+| 20% | Two short problem sets (one on fit and precision, one on DIF or linking) | Weeks 6 and 10 |
+| 40% | Final project: a full analysis of a dataset of the student's choice, handed in as an `mv_report()` or a dashboard plus a two-page memo | Week 12 |
+
+For the final project, students can follow the [assessment
+pipeline](assessment-pipeline.html) from calibration to the report. Its flags
+point out what to check before each next step, which works well as a
+checklist for the write-up.
+
+## Adapting the course
+
+* **A shorter course (8 weeks):** combine weeks 2 and 3, and weeks 5 and 6;
+  drop week 10 and treat week 11 as a lecture without a lab.
+* **An undergraduate course:** spend two weeks on week 1, use the
+  [workbench](workbench.html) instead of code until week 4, and end at
+  week 9.
+* **A second course:** add multidimensional and bifactor models (`mirt()`
+  with more factors, `bfactor()`), [response-time models](response-times.html)
+  (`fit_rt()`, `sim_rt()`), and the remaining stages of the [assessment
+  pipeline](assessment-pipeline.html), such as test security and bank
+  monitoring.
+
+## Planned resources
+
+These resources are being built and will be linked from the weeks above when
+they are released.
+
+| Resource | Used in | Status |
+|---|---|---|
+| Glossary of IRT terms on this site | All weeks | Coming soon |
+| Two-page cheat sheet of the main functions | All weeks | Coming soon |
+| DIF and fairness lab | Week 9 | Coming soon |
+| Linking two forms lab | Week 10 | Coming soon |
+| CAT design lab | Week 11 | Coming soon |
+| Open-ended scoring lab | Week 8 | Coming soon |

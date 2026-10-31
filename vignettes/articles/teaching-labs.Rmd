@@ -83,6 +83,8 @@ can hand in as an assignment.
 Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Lab 3
 stands alone. The tables below list what students do in each section and the decisions they make. The
 answers are in the [answer key](#answer-key) at the end of the page.
+For where the labs fit in a full term, see the
+[course map](course-map.html), a suggested 12-week syllabus.
 
 ### Lab 1: Choosing a model the board can defend
 

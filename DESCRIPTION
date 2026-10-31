@@ -1,6 +1,6 @@
 Package: mirtverse
 Title: A Friendly Workflow and Reporting Layer for 'mirt'
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Okan", "Bulut", email = "bulut@ualberta.ca", role = c("aut", "cre")))
 Description: Extends the 'mirt' package for item response theory with tidy
