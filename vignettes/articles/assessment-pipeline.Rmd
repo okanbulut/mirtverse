@@ -104,7 +104,8 @@ the 0.2 target. The usual answer is more candidates per form. Here we accept
 the plan and record why:
 
 ```{r}
-p <- acknowledge(p, check = "recovery", note = "Sample fixed by the testing window")
+p <- acknowledge(p, check = "recovery",
+                 note = "Sample fixed by the testing window")
 ```
 
 ## 4. Data intake
@@ -149,7 +150,8 @@ blueprint. Each needs a decision:
 ```{r}
 p <- acknowledge(p, check = "local_dependence",
                  note = "Q21 and Q22 share a case; keep them apart on forms")
-p <- override(p, check = "dif_large", note = "Translation reviewed; French version revised")
+p <- override(p, check = "dif_large",
+              note = "Translation reviewed; French version revised")
 p <- acknowledge(p, check = "dif_moderate", note = "Sent to the bias panel")
 p <- acknowledge(p, check = "low_reliability",
                  note = "Operational forms will be longer than the field test")
