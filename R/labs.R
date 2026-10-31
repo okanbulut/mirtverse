@@ -4,9 +4,10 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]); Labs 3 and 4
-#' each have their own, a provincial numeracy test ([numeracy]) and a
-#' licensure exam with two forms ([linking]).
+#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 5
+#' each have their own: a provincial numeracy test ([numeracy]), a licensure
+#' exam with two forms ([linking]) and a placement test's item bank
+#' ([catbank]).
 #'
 #' * `"model-choice"` (Lab 1): score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -23,6 +24,10 @@
 #'   Calibrate both forms, link them through common items, catch a drifted
 #'   anchor, compare separate and concurrent calibration, and carry the pass
 #'   mark over with IRT true-score equating.
+#' * `"cat-design"` (Lab 5): could a computerized adaptive test replace a
+#'   40-item placement test? Inspect the item bank, run a CAT by hand,
+#'   simulate students, and choose a stopping rule, exposure control and
+#'   content balancing.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -167,7 +172,7 @@ lab_decisions <- function(state, labels) {
 #' reveal at the end of the labs.
 #'
 #' @param data the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"`
-#'   (Lab 3) or `"linking"` (Lab 4).
+#'   (Lab 3), `"linking"` (Lab 4) or `"catbank"` (Lab 5).
 #' @return For `"certexam"`, a list with the true `model`, the correct `key`,
 #'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
 #'   the group `impact` (mean ability difference in SD units), the generating
@@ -178,14 +183,16 @@ lab_decisions <- function(state, labels) {
 #'   `"linking"`, a list with the true `model`, the `anchors`, the `drift` of
 #'   the drifted anchor, each form's group `ability` mean and SD on the
 #'   Form A scale, the generating item parameters `pars` (with `b_formB` for
-#'   the anchors' Form B difficulties) and the Form A pass mark `cut_A`.
+#'   the anchors' Form B difficulties) and the Form A pass mark `cut_A`. For
+#'   `"catbank"`, a list with the five over-used `stars`, the number of items
+#'   harder than b = 1.5 (`thin_top`), the student `population` and `notes`.
 #' @examples
 #' lab_truth()$dif
 #' lab_truth("numeracy")$dif
 #' @export
-lab_truth <- function(data = c("certexam", "numeracy", "linking")) {
+lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank")) {
   switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth,
-         linking = linking_truth)
+         linking = linking_truth, catbank = catbank_truth)
 }
 
 #' Certification exam data for the teaching labs
@@ -255,3 +262,22 @@ lab_truth <- function(data = c("certexam", "numeracy", "linking")) {
 #' form_a <- linking[linking$form == "A", c(sprintf("A%02d", 1:28), sprintf("C%02d", 1:12))]
 #' summary(rowSums(form_a))
 "linking"
+
+#' Math placement item bank for the CAT design lab
+#'
+#' A fictional calibrated 2PL item bank of 180 items for a college math
+#' placement test, 45 in each of four content areas. 40 items make up the
+#' college's current fixed-length test. The bank has weaknesses built in on
+#' purpose for the [CAT design lab][run_lab]; `lab_truth("catbank")` lists
+#' them.
+#'
+#' @format A data frame with 180 rows and 5 columns: `item` (item ID),
+#'   `area` (factor: Algebra, Functions, Geometry or Statistics), `a`
+#'   (discrimination), `b` (difficulty) and `fixed` (logical, `TRUE` for the
+#'   items on the current fixed test).
+#' @source Simulated; the script is `data-raw/catbank.R` in the package's
+#'   GitHub repository.
+#' @examples
+#' table(catbank$area, catbank$fixed)
+#' tapply(catbank$a, catbank$area, mean)
+"catbank"

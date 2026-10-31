@@ -33,7 +33,7 @@ run_solution <- function(chunks, label) {
 
 test_that("list_labs() finds the installed labs and run_lab() rejects unknown names", {
   labs <- list_labs()
-  expect_setequal(labs$name, c("decisions", "fairness", "linking", "model-choice"))
+  expect_setequal(labs$name, c("cat-design", "decisions", "fairness", "linking", "model-choice"))
   expect_match(labs$title[labs$name == "model-choice"], "Choosing a model")
   expect_true(nchar(labs$description[labs$name == "model-choice"]) > 50)
   expect_error(run_lab("nope"), "Unknown lab")
@@ -112,7 +112,18 @@ test_that("linking has the NEAT design and drift the linking lab relies on", {
   expect_equal(truth$cut_A, 22L)  # hard-coded in the lab
 })
 
-for (lab in c("model-choice", "decisions", "fairness", "linking")) {
+test_that("catbank has the weaknesses the CAT lab relies on", {
+  truth <- lab_truth("catbank")
+  expect_equal(dim(catbank), c(180L, 5L))
+  expect_equal(sum(catbank$fixed), 40L)
+  expect_equal(as.vector(table(catbank$area)), rep(45L, 4))
+  expect_lte(sum(catbank$b > 1.5), 2L)
+  info0 <- catbank$a^2 * plogis(-catbank$a * catbank$b) * (1 - plogis(-catbank$a * catbank$b))
+  expect_equal(catbank$item[which.max(info0)], "M012")  # hard-coded in the lab
+  expect_true(all(truth$stars %in% catbank$item[catbank$area == "Algebra"]))
+})
+
+for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design")) {
   test_that(paste("every", lab, "solution passes its own check"), {
     skip_on_cran()
     chunks <- lab_chunks(lab)

@@ -1,5 +1,13 @@
 # mirtverse (development version)
 
+* New teaching lab, "Designing an adaptive test": `run_lab("cat-design")`. A
+  college wants to replace its 40-item placement test with a CAT. Students
+  look at where the item bank is informative, run one CAT by hand, simulate
+  500 students, and weigh test length and precision against item exposure
+  (randomesque selection), content balancing and the stopping rule. The new
+  `catbank` data (a 180-item calibrated bank) come with
+  `lab_truth("catbank")`.
+
 * New teaching lab, "Linking two forms": `run_lab("linking")`. A licensure
   exam's pass rate jumps on a new form, and students find out why: they
   calibrate both forms, link them through common items with the mean-sigma
