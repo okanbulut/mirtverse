@@ -14,6 +14,23 @@ certification exam taken by 1,200 candidates in English or French)
 through every stage. The data have problems planted in them, and the
 gates find them.
 
+The map below shows the whole flow. Click a stage, or play the tour, to
+see its functions, what its gate checks and what the gate found in this
+example.
+
+ran, no decision needed review flag block flag skipped here
+
+◀ Prev
+
+▶ Play the tour
+
+Next ▶
+
+The pipeline runs blueprint, item generation, item review, field-test
+design, data intake, calibration, item bank and linking, forms, cut
+scores, scoring, test security, the report and bank monitoring, with a
+gate of checks after each stage.
+
 ``` r
 
 library(mirtverse)
@@ -100,17 +117,18 @@ Items written by people come in with
 and pass the same checks.
 
 [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-writes a spreadsheet for content and sensitivity reviewers, optionally
-with an AI screen.
+writes a CSV review form (it opens in Excel) for content and sensitivity
+reviewers, optionally with an AI screen.
 [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
 reads their decisions back and flags items without enough reviewers,
 items judged misaligned or biased, and low agreement between reviewers.
 
 ``` r
 
-p <- generate_items(p, n = 3)            # needs an API key for the model provider
-p <- review_packet(p, "review.xlsx", reviewers = c("Ana", "Ben", "Chen"))
-p <- read_reviews(p, "review-returned.xlsx")
+# generate_items() needs an API key for the model provider
+p <- generate_items(p, n = 3)
+p <- review_packet(p, "review.csv", reviewers = c("Ana", "Ben", "Chen"))
+p <- read_reviews(p, "review-returned.csv")
 ```
 
 The certexam items already exist, so we skip these steps here.
@@ -145,7 +163,8 @@ we accept the plan and record why:
 
 ``` r
 
-p <- acknowledge(p, check = "recovery", note = "Sample fixed by the testing window")
+p <- acknowledge(p, check = "recovery",
+                 note = "Sample fixed by the testing window")
 ```
 
 ## 4. Data intake
@@ -207,7 +226,8 @@ blueprint. Each needs a decision:
 
 p <- acknowledge(p, check = "local_dependence",
                  note = "Q21 and Q22 share a case; keep them apart on forms")
-p <- override(p, check = "dif_large", note = "Translation reviewed; French version revised")
+p <- override(p, check = "dif_large",
+              note = "Translation reviewed; French version revised")
 p <- acknowledge(p, check = "dif_moderate", note = "Sent to the bias panel")
 p <- acknowledge(p, check = "low_reliability",
                  note = "Operational forms will be longer than the field test")

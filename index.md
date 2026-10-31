@@ -173,4 +173,7 @@ If you use mirtverse, please cite it together with mirt. Run
 
 Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
 for ‘mirt’* (Version 0.2.0) \[R package\]. Zenodo.
-<https://doi.org/10.5281/zenodo.23719385>
+<https://doi.org/10.5281/zenodo.23836292>
+
+To cite all versions, use <https://doi.org/10.5281/zenodo.23719384>,
+which always resolves to the latest release.
