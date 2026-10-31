@@ -68,6 +68,8 @@ A list of class `mv_rules`.
 | `cut_consistency` | 0.80 | smallest acceptable classification consistency |
 | `cut_sem` | 0.35 | largest acceptable standard error of measurement at a cut score |
 | `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
+| `duplicate_sim` | 0.90 | largest word overlap (Jaccard) between two items before they are near-duplicates |
+| `coverage_ratio` | 3 | items to write per blueprint target (items are lost in review and field testing) |
 | `min_group_n` | 10 | smallest group summarized in a report |
 
 `preset = "lenient"` relaxes the rules for pilot studies and small
@@ -120,6 +122,8 @@ mv_rules()
 #>   cut_consistency     0.8
 #>   cut_sem             0.35
 #>   panel_sd            0.5
+#>   duplicate_sim       0.9
+#>   coverage_ratio      3
 #>   min_group_n         10
 mv_rules(q3 = 0.25, reliability = 0.85)
 #> <mv_rules> preset: standards; changed: q3, reliability
@@ -163,6 +167,8 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   cut_consistency     0.8
 #>   cut_sem             0.35
 #>   panel_sd            0.5
+#>   duplicate_sim       0.9
+#>   coverage_ratio      3
 #>   min_group_n         10
 mv_rules(preset = "lenient")
 #> <mv_rules> preset: lenient
@@ -206,5 +212,7 @@ mv_rules(preset = "lenient")
 #>   cut_consistency     0.8
 #>   cut_sem             0.35
 #>   panel_sd            0.5
+#>   duplicate_sim       0.9
+#>   coverage_ratio      3
 #>   min_group_n         10
 ```

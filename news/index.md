@@ -2,6 +2,28 @@
 
 ## mirtverse (development version)
 
+- Blueprint and item generation for the assessment pipeline (stages 0
+  and 1).
+  [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
+  records the construct, content cells with target counts, item types,
+  score use and target reliability, and flags empty cells and a missing
+  score use.
+  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  writes multiple-choice items (with keys and option rationales) and
+  open-ended items (with rubrics and anchor responses) for each cell
+  through ellmer, using the provider set up with
+  [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md),
+  and
+  [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  has an independent model call answer each item without the key.
+  [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  adds items written by people. The checks flag invalid or disputed
+  keys, weak distractors, incomplete rubrics, near-duplicates, thin
+  blueprint coverage and hard reading levels, and the pipeline report
+  gains blueprint and item development sections.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `duplicate_sim` and `coverage_ratio`.
+
 - Cut scores for the assessment pipeline (stage 8).
   [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
   records cut scores on the ability or summed-score scale (or from a

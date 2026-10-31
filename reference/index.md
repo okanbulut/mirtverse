@@ -42,6 +42,12 @@ checks and flags to consider before each next stage.
 - [`mv_pipeline()`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
   [`tidy(`*`<mv_pipeline>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
   : Start an assessment pipeline
+- [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
+  : Pipeline stage: test blueprint and construct definition
+- [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  : Pipeline stage: item generation
 - [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
   : Pipeline stage: data intake and cleaning
 - [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)

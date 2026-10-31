@@ -3,7 +3,8 @@
 An assessment pipeline takes a test from response data to a score report
 in stages. Each stage does its work, then runs a set of checks (a
 *gate*) and records what it finds as *flags* that the user should
-consider before the next stage. The stages available so far:
+consider before the next stage. The stages available so far (numbered as
+in the pipeline plan; start at any of them):
 
 ## Usage
 
@@ -57,22 +58,41 @@ them as a tibble.
 
 ## Details
 
-1.  [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md):
+1.  [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md):
+    the construct, content cells and score use.
+
+2.  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+    or
+    [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md):
+    item writing with a language model or by people (keys, distractors,
+    rubrics, duplicates, coverage).
+
+3.  [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md):
     data intake and cleaning (scoring with a key, missing data, miskeyed
     items, straight-lining, rapid guessing, sparse categories).
 
-2.  [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md):
+4.  [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md):
     model fitting with mirt (convergence, model fit, local dependence,
     item fit, parameter ranges, DIF, reliability, person fit).
 
-3.  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
+5.  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
     and
     [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
     (optional): put the calibration on the scale of an item bank through
     anchor items and add the new items to the bank (anchor drift,
     linking constants).
 
-4.  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
+6.  [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md),
+    [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
+    or
+    [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md):
+    fixed forms, adaptive or multistage tests (blueprint, parallelism,
+    precision, exposure, routing).
+
+7.  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md):
+    cut scores and classification accuracy and consistency.
+
+8.  [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
     an HTML technical report that also lists every flag and every
     decision made about it.
 
@@ -119,6 +139,8 @@ p
 #> <mv_pipeline> Certification exam
 #> flags warn (strict = FALSE); rules: standards
 #> 
+#> [ ] 0  Blueprint        not run
+#> [ ] 1  Item generation  not run
 #> [x] 4  Data intake      1,200 respondents, 32 items, scored with key
 #> [x] 5  Calibration      3PL, NOT converged, reliability 0.83  | open: 2 block, 4 review, 1 info
 #> [ ] 6  Linking and bank not run
