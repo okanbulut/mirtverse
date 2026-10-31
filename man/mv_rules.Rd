@@ -74,6 +74,13 @@ name.
    \code{subgroup_smd} \tab 0.10 \tab largest machine-human standardized mean difference within a group \cr
    \code{min_confidence}, \code{min_words} \tab 0.5, 3 \tab machine scores below this confidence, or responses shorter than this, go to human scoring \cr
    \code{max_se} \tab 1 \tab standard error above which a test taker's score is flagged as imprecise \cr
+   \code{preknowledge_alpha} \tab 0.001 \tab significance level of the preknowledge likelihood ratio test \cr
+   \code{leak_p}, \code{leak_rt} \tab 0.15, 0.25 \tab rise in proportion correct and relative fall in median time that suggest a leaked item \cr
+   \code{drift_a}, \code{drift_b} \tab 0.3, 0.3 \tab largest change in an item's slope and difficulty from its bank value \cr
+   \code{copy_alpha} \tab 0.001 \tab family-wise significance level of the identical-incorrect-answers index \cr
+   \code{rt_resid}, \code{rt_share} \tab -3, 0.20 \tab log-time residual, and share of items below it, that flag aberrant timing \cr
+   \code{site_alpha} \tab 0.001 \tab significance level for a site with too many flagged test takers \cr
+   \code{gain_sem} \tab 3 \tab score gain, in standard errors of the difference, that is unusual \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

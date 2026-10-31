@@ -66,6 +66,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
   if (!is.null(p$cuts)) extra[["Cut scores"]] <- cuts_html(p)
   if (!is.null(p$open_scores) || !is.null(p$scores)) extra[["Scoring"]] <- scoring_html(p)
+  if (!is.null(p$security)) extra[["Test security"]] <- security_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -279,5 +280,25 @@ scoring_html <- function(p) {
                              "median standard error %.2f."), p$score_method,
                        mean(s$theta[is.finite(s$theta)]), stats::sd(s$theta[is.finite(s$theta)]),
                        stats::median(s$se[is.finite(s$se)]))))
+    })
+}
+
+security_html <- function(p) {
+  h <- htmltools::tags
+  sec <- p$security
+  pers <- sec$persons
+  counts <- if (nrow(pers)) as.data.frame(table(check = pers$check), responseName = "test_takers")
+  htmltools::tagList(
+    h$p(sprintf(paste("Security checks run: %s. Security flags are evidence for an",
+                      "investigation, not proof of misconduct; individual test takers are not",
+                      "named in this report."),
+                paste(gsub("_", " ", sec$checks), collapse = ", "))),
+    if (!is.null(counts)) html_table(counts) else h$p("No test taker showed evidence."),
+    if (!is.null(sec$drift)) list(h$h3("Parameter drift"),
+                                  html_table(as.data.frame(sec$drift))),
+    if (!is.null(sec$leakage)) {
+      lk <- as.data.frame(sec$leakage)
+      lk <- lk[order(-lk$p_change), , drop = FALSE]
+      list(h$h3("Change in the latest window"), html_table(utils::head(lk, 10L)))
     })
 }

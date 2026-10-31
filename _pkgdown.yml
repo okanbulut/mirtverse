@@ -65,6 +65,7 @@ reference:
   - item_map
   - score_open
   - score_persons
+  - check_security
   - pipeline_report
   - flags
   - acknowledge

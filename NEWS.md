@@ -1,5 +1,16 @@
 # mirtverse (development version)
 
+* Test security for the assessment pipeline (stage 10). `check_security()`
+  looks for item preknowledge (a likelihood ratio test of leaked against
+  secure items), item leakage across administration windows (proportion
+  correct up, response times down), parameter drift from the bank, answer
+  copying (identical incorrect answers against their expected number),
+  aberrant response times (lognormal residuals), sites with too many flagged
+  test takers and unusual score gains. Respondent-level evidence stays in
+  `p$security$persons`; flags and the report give counts only. `mv_rules()`
+  gains `preknowledge_alpha`, `leak_p`, `leak_rt`, `drift_a`, `drift_b`,
+  `copy_alpha`, `rt_resid`, `rt_share`, `site_alpha` and `gain_sem`.
+
 * Scoring for the assessment pipeline (stage 9). `score_open()` scores
   open-ended responses against their rubrics with a language model through
   ellmer, or with any trained model that has a `predict()` method, and
