@@ -1,0 +1,324 @@
+---
+title: "An assessment pipeline from blueprint to bank monitoring"
+description: >
+  Take a certification exam through every stage of the mirtverse assessment
+  pipeline, with the checks and decisions at each step.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE)
+```
+
+A test passes through many hands before a score reaches a test taker: a
+blueprint, item writing, review, a field test, calibration, form assembly,
+standard setting, scoring, security checks, a report and, after each
+administration, a look at the health of the item bank. The **assessment
+pipeline** in mirtverse puts these steps in one object. Each stage does its
+work, then runs a *gate*: a set of checks that records what it finds as
+**flags** for you to consider before the next stage.
+
+This article takes the `certexam` data (a simulated 32-item certification exam
+taken by 1,200 candidates in English or French) through every stage. The data
+have problems planted in them, and the gates find them.
+
+```{r}
+library(mirtverse)
+```
+
+## The pipeline object and its rules
+
+```{r}
+p <- mv_pipeline("Certification exam")
+p
+```
+
+Every check compares a statistic with a threshold from `mv_rules()`. The
+defaults follow common operational practice and every one can be changed by
+name, for example `mv_rules(q3 = 0.25)`, or relaxed for a pilot study with
+`mv_rules(preset = "lenient")`.
+
+Flags have three levels:
+
+- **info**: for awareness.
+- **review**: something a psychometrician should look at.
+- **block**: a problem that makes later stages unsafe.
+
+By default flags only warn, so every stage still runs. With
+`mv_pipeline(strict = TRUE)`, a stage refuses to start while an earlier stage
+has open review or block flags.
+
+## 0. Blueprint
+
+The blueprint is the contract that later stages check against: what the test
+measures, how scores will be used, and how many items each content area
+needs on a form.
+
+```{r}
+p <- set_blueprint(p, c(Ethics = 4, Practice = 5, Law = 3),
+                   construct = "Professional knowledge for certification",
+                   use = "pass/fail certification", reliability = 0.85)
+p$blueprint$cells
+```
+
+Because the score supports a pass/fail decision, we asked for a reliability
+of at least 0.85. That target replaces the default `reliability` rule, so the
+calibration gate will hold the test to it.
+
+## 1–2. Item writing and review
+
+`generate_items()` drafts multiple-choice and open-ended items for each
+blueprint cell with a language model through the ellmer package. It checks
+the drafts (a second model call verifies each key) and flags disputed keys,
+weak distractors, near-duplicate items and readability above the grade level.
+Items written by people come in with `add_items()` and pass the same checks.
+
+`review_packet()` writes a spreadsheet for content and sensitivity
+reviewers, optionally with an AI screen. `read_reviews()` reads their
+decisions back and flags items without enough reviewers, items judged
+misaligned or biased, and low agreement between reviewers.
+
+```{r, eval = FALSE}
+p <- generate_items(p, n = 3)            # needs an API key for the model provider
+p <- review_packet(p, "review.xlsx", reviewers = c("Ana", "Ben", "Chen"))
+p <- read_reviews(p, "review-returned.xlsx")
+```
+
+The certexam items already exist, so we skip these steps here.
+
+## 3. Field-test design
+
+Before calibration data exist, `design_field_test()` plans the field test:
+how many forms, which anchor items they share, and how many candidates each
+form needs. It then simulates parameter recovery under that plan.
+
+```{r}
+p <- design_field_test(p, n_forms = 2, n_per_form = 600, items = 32,
+                       reps = 2, seed = 1)
+p$field_test$recovery
+flags(p, stage = "field_test")
+```
+
+Two forms of 600 candidates recover the slopes with an RMSE a little above
+the 0.2 target. The usual answer is more candidates per form. Here we accept
+the plan and record why:
+
+```{r}
+p <- acknowledge(p, check = "recovery", note = "Sample fixed by the testing window")
+```
+
+## 4. Data intake
+
+`add_responses()` scores the raw answers with the key, then checks for
+missing data, possible miskeys, straight-lining, rapid guessing and sparse
+score categories.
+
+```{r}
+p <- add_responses(p, certexam, items = 3:34, key = certexam_key,
+                   id = "id", group = "language")
+flags(p, stage = "intake")
+```
+
+Q14 is answered correctly by almost nobody and has a negative item-total
+correlation, which is the signature of a miskey. That is a block flag. Once
+the item writer confirms the key was wrong, we drop the item, which marks its
+flag as fixed:
+
+```{r}
+p <- drop_items(p, "Q14", note = "Key confirmed wrong by the item writer")
+```
+
+## 5. Calibration
+
+```{r}
+p <- calibrate(p, model = "2PL")
+flags(p, stage = "calibration")
+```
+
+The calibration gate checks convergence, model fit, local dependence, item
+fit, parameter ranges, DIF between the language groups, reliability and
+person fit. It finds three planted problems:
+
+- Q21 and Q22 are locally dependent.
+- Q09 has large DIF (block).
+- Q27 has moderate DIF.
+
+It also reports that reliability falls short of the 0.85 target from the
+blueprint. Each needs a decision:
+
+```{r}
+p <- acknowledge(p, check = "local_dependence",
+                 note = "Q21 and Q22 share a case; keep them apart on forms")
+p <- override(p, check = "dif_large", note = "Translation reviewed; French version revised")
+p <- acknowledge(p, check = "dif_moderate", note = "Sent to the bias panel")
+p <- acknowledge(p, check = "low_reliability",
+                 note = "Operational forms will be longer than the field test")
+```
+
+`override()` needs a written reason; `acknowledge()` takes an optional note.
+Every decision is logged and printed in the report. Run `flags(p, status =
+"all")` to see decided flags too.
+
+## 6. The item bank
+
+`bank_items()` stores the calibrated items in an item bank. In a later
+administration, `link_to_bank()` puts a new calibration on the bank's scale
+through anchor items and checks the anchors for drift.
+
+```{r}
+p <- bank_items(p, name = "Certification bank")
+p$bank
+```
+
+## 7. Forms, adaptive and multistage tests
+
+`assemble_forms()` builds parallel fixed forms with automated test assembly
+(through eatATA), meeting a content blueprint and keeping enemy items apart.
+`simulate_cat()` and `assemble_mst()` simulate adaptive and multistage tests
+with mirtCAT.
+
+```{r, eval = requireNamespace("eatATA", quietly = TRUE)}
+content <- setNames(rep(c("Ethics", "Practice", "Law"), c(10, 12, 10)),
+                    sprintf("Q%02d", 1:32))
+p <- assemble_forms(p, length = 12, n_forms = 2, theta = c(-1, 0, 1),
+                    content = content[names(content) != "Q14"],
+                    blueprint = c(Ethics = 4, Practice = 5, Law = 3),
+                    enemies = list(c("Q21", "Q22")))
+p$forms$info
+```
+
+The two forms meet the blueprint, keep Q21 and Q22 apart and are parallel:
+their information differs by less than 10% at each ability level. The forms
+gate also checks measurement precision:
+
+```{r, eval = requireNamespace("eatATA", quietly = TRUE)}
+flags(p, stage = "forms")[, c("check", "target", "value", "rule")]
+```
+
+Twelve items cannot reach a standard error of 0.35. For a pass/fail decision,
+precision matters most near the cut score, which the next stage checks.
+
+## 8. Cut scores
+
+`set_cuts()` takes cut scores on the ability or raw-score scale (or a
+standard-setting panel's ratings) and estimates classification accuracy and
+consistency.
+
+```{r}
+p <- set_cuts(p, cuts = 18, scale = "raw", labels = c("Fail", "Pass"))
+p$cuts$summary
+flags(p, stage = "cuts")[, c("check", "target", "value", "rule")]
+```
+
+Accuracy (0.86) and consistency (0.81) meet the defaults of 0.85 and 0.80,
+but the standard error at the cut is above 0.35. More items near the cut
+would help, which is the same message the reliability flag gave.
+
+## 9. Scoring
+
+`score_persons()` estimates each candidate's ability and flags imprecise and
+extreme scores. Open-ended responses are scored first with `score_open()`,
+either by a language model against the item rubrics or by a trained model you
+supply. The scores are checked against human scores (quadratic weighted
+kappa, standardized mean differences overall and by group).
+
+```{r}
+p <- score_persons(p)
+head(p$scores)
+```
+
+## 10. Test security
+
+`check_security()` looks for evidence that a score may not reflect the
+candidate's own ability:
+
+- preknowledge of items suspected to have leaked;
+- items leaking across administration windows;
+- parameter drift from the bank;
+- answer copying;
+- aberrant response times;
+- sites with too many flagged candidates;
+- unusual score gains.
+
+```{r}
+p <- check_security(p, leaked = c("Q01", "Q02", "Q03", "Q04", "Q05"))
+flags(p, stage = "security")
+```
+
+Here no candidate shows evidence of preknowledge of those five items.
+Security flags are evidence for an investigation, not proof of misconduct.
+The candidates involved are kept in `p$security$persons` for investigators.
+Flags and reports give counts only.
+
+## 11. The report
+
+`pipeline_report()` writes an HTML technical report that covers:
+
+- the model and the item statistics;
+- a section for each stage that ran;
+- every flag and every decision recorded about it;
+- the R code that reproduces the pipeline.
+
+```{r, eval = FALSE}
+pipeline_report(p, file = "certification-report.html")
+```
+
+The code is also in `p$code`:
+
+```{r}
+cat(p$code, sep = "\n")
+```
+
+## 12. Bank monitoring
+
+After each administration, `monitor_bank()` records it in the bank under a
+window name, then checks the bank's history:
+
+- items over-exposed in consecutive windows;
+- content cells with too few active items;
+- reliability falling from its first value;
+- items unused for a year.
+
+```{r}
+p <- monitor_bank(p, window = "2026 spring", date = "2026-04-15",
+                  content = content)
+p$monitoring$windows
+p$monitoring$cells
+```
+
+The cell minimums come from the blueprint: by default the bank should hold at
+least `cell_depth` (2) times each cell's count on a form. Items that a check
+flags can be retired or sent back to review with `retire_items()`; they stay
+in the bank with their history but are no longer used for forms or linking.
+
+```{r}
+p <- retire_items(p, c("Q01", "Q02", "Q03", "Q04", "Q05"),
+                  note = "Posted on a study forum; retired as a precaution")
+p <- monitor_bank(p, record = FALSE)
+flags(p, stage = "monitoring")
+```
+
+Retiring five Ethics items leaves that cell with fewer active items than the
+blueprint needs, so the next round of item writing should start there.
+Retiring items also marks the forms as needing a rerun.
+Save the bank with `saveRDS(p$bank, "bank.rds")` to keep its history for the
+next administration.
+
+## Where everything stands
+
+Printing the pipeline shows each stage, its summary and its open flags:
+
+```{r}
+p
+```
+
+## Strict mode and the workbench
+
+For operational work, start the pipeline with `strict = TRUE`. Then a stage
+will not run while an earlier stage has open review or block flags, so no
+problem can be passed over without a recorded decision.
+
+The **Pipeline** tab of `launch_workbench()` runs uploaded data through the
+intake and calibration gates, or loads a pipeline saved with `saveRDS()`. It
+shows the stage tracker and the flags. Select flags there to acknowledge,
+override or drop items, then recalibrate. The tab shows the R code for every
+step as you go.

@@ -4,7 +4,9 @@
 #' score data, explore items, let mirtverse pick a model or choose one
 #' yourself, read the plain-language interpretation, inspect item health
 #' cards and graphics, score examinees, analyse response times, and download
-#' an HTML report. Every step is written into an R script you can download,
+#' an HTML report. The Pipeline tab runs the data through the assessment
+#' pipeline's intake and calibration checks (or loads a pipeline saved from
+#' R), shows the stage tracker, and lets you record decisions about flags. Every step is written into an R script you can download,
 #' so the analysis is reproducible and a good way to learn the R code.
 #'
 #' @param data optional data frame of item responses to start with.
@@ -34,7 +36,7 @@ example_datasets <- function() {
     "Science (4 polytomous items, N = 392)" = list(
       data = function() mirt::Science, code = "data <- Science"),
     "SAT12 (32 multiple-choice items, scored)" = list(
-      data = function() mirt::key2binary(mirt::SAT12, key = sat12_key()),
+      data = function() as.data.frame(mirt::key2binary(mirt::SAT12, key = sat12_key())),
       code = sprintf("data <- key2binary(SAT12, key = c(%s))", paste(sat12_key(), collapse = ","))),
     "Simulated with response times (20 items, N = 1000)" = list(
       data = function() sim_rt(N = 1000, J = 20, rapid = 0.08, seed = 2026)$responses,
@@ -173,6 +175,31 @@ workbench_ui <- function() {
              shiny::tags$hr(),
              shiny::downloadButton("dl_code", "Download R script")),
         card("Reproducible R code", shiny::verbatimTextOutput("code")))),
+    bslib::nav_panel("8. Pipeline", bslib::layout_sidebar(
+      sidebar = bslib::sidebar(width = 330,
+        shiny::helpText("Run the data from the Data tab through the assessment pipeline's intake and calibration checks, or load a pipeline saved from R with saveRDS()."),
+        shiny::textInput("pipe_title", "Pipeline title", "Assessment pipeline"),
+        shiny::selectInput("pipe_model", "Item type", c("auto", "Rasch", "2PL", "3PL", "graded", "gpcm")),
+        shiny::checkboxInput("pipe_strict", "Strict: open flags stop the next stage", FALSE),
+        shiny::actionButton("pipe_run", "Run intake and calibration", class = "btn-primary w-100"),
+        shiny::tags$hr(),
+        shiny::fileInput("pipe_file", "Load a saved pipeline (.rds)", accept = ".rds"),
+        shiny::tags$hr(),
+        shiny::downloadButton("dl_pipe", "Download pipeline (.rds)"),
+        shiny::downloadButton("dl_pipe_report", "Download pipeline report")),
+      shiny::uiOutput("pipe_msg"),
+      card("Stages", shiny::uiOutput("pipe_stages")),
+      card("Flags",
+           shiny::checkboxInput("pipe_all", "Show decided flags too", FALSE),
+           DT::DTOutput("pipe_flags"),
+           shiny::helpText("Select flags in the table, write a note, then record a decision. Block flags need Override with a reason; Drop items removes the flagged items, then press Recalibrate."),
+           shiny::textInput("pipe_note", "Note", width = "100%"),
+           shiny::div(class = "d-flex gap-2 flex-wrap",
+             shiny::actionButton("pipe_ack", "Acknowledge"),
+             shiny::actionButton("pipe_override", "Override"),
+             shiny::actionButton("pipe_drop", "Drop items"),
+             shiny::actionButton("pipe_recal", "Recalibrate", class = "btn-primary"))),
+      card("Pipeline code", shiny::verbatimTextOutput("pipe_code")))),
     bslib::nav_spacer(),
     bslib::nav_item(shiny::tags$a("mirt docs", href = "https://philchalmers.github.io/mirt/",
                                   target = "_blank"))
@@ -182,7 +209,8 @@ workbench_ui <- function() {
 workbench_server <- function(init_data = NULL) {
   function(input, output, session) {
     rv <- shiny::reactiveValues(model = NULL, sel = NULL, rt = NULL, rt_data = NULL,
-                                fit_code = NULL, rt_code = NULL, error = NULL)
+                                fit_code = NULL, rt_code = NULL, error = NULL,
+                                pipe = NULL, pipe_msg = NULL, pipe_data_code = NULL)
 
     raw <- shiny::reactive({
       if (!is.null(init_data) && input$source == "example") {
@@ -389,6 +417,101 @@ workbench_server <- function(init_data = NULL) {
     output$rt_plot <- shiny::renderPlot(autoplot(rt_fit(), input$rt_plot_type))
     output$rt_items <- DT::renderDT(wb_table(rt_fit()$items))
 
+    # Pipeline tab: every step runs through pipe_step() so warnings and
+    # errors are shown in the app and the pipeline keeps its own code.
+    pipe_step <- function(expr, data = NULL) {
+      res <- wb_pipe_eval(expr, list(p = rv$pipe, data = data))
+      if (inherits(res$value, "mv_pipeline")) rv$pipe <- res$value
+      rv$pipe_msg <- list(error = res$error, warnings = res$warnings)
+      is.null(res$error)
+    }
+    shiny::observeEvent(input$pipe_run, {
+      r <- resp()
+      rv$pipe <- NULL
+      rv$pipe_data_code <- r$code
+      shiny::withProgress(message = "Running the pipeline...", value = 0.4, {
+        ok <- pipe_step(bquote(mv_pipeline(.(input$pipe_title), strict = .(isTRUE(input$pipe_strict)),
+                                           verbose = FALSE)))
+        ok <- ok && pipe_step(quote(add_responses(p, data)), r$data)
+        if (ok) pipe_step(bquote(calibrate(p, model = .(input$pipe_model))))
+      })
+    })
+    shiny::observeEvent(input$pipe_file, {
+      p <- tryCatch(readRDS(input$pipe_file$datapath), error = function(e) NULL)
+      if (!inherits(p, "mv_pipeline")) {
+        rv$pipe_msg <- list(error = "The file does not hold a pipeline from mv_pipeline().")
+        return()
+      }
+      rv$pipe <- p
+      rv$pipe_data_code <- NULL
+      rv$pipe_msg <- list(info = sprintf("Loaded \"%s\".", p$title))
+    })
+    pipe <- shiny::reactive({
+      shiny::validate(shiny::need(rv$pipe, "Run intake and calibration, or load a saved pipeline."))
+      rv$pipe
+    })
+    pipe_tab <- shiny::reactive({
+      f <- flags(pipe(), status = if (isTRUE(input$pipe_all)) "all" else "open")
+      as.data.frame(f[, c("id", "stage", "check", "target", "value", "level", "status", "note")])
+    })
+    selected_flags <- function() {
+      ids <- pipe_tab()$id[input$pipe_flags_rows_selected]
+      if (!length(ids)) rv$pipe_msg <- list(error = "Select one or more flags in the table first.")
+      ids
+    }
+    shiny::observeEvent(input$pipe_ack, {
+      ids <- selected_flags()
+      if (length(ids)) pipe_step(bquote(acknowledge(p, id = .(ids), note = .(input$pipe_note))))
+    })
+    shiny::observeEvent(input$pipe_override, {
+      ids <- selected_flags()
+      if (length(ids)) pipe_step(bquote(override(p, id = .(ids), note = .(input$pipe_note))))
+    })
+    shiny::observeEvent(input$pipe_drop, {
+      ids <- selected_flags()
+      if (!length(ids)) return()
+      p <- pipe()
+      items <- intersect(p$flags$target[p$flags$id %in% ids], names(p$data$responses))
+      if (!length(items)) {
+        rv$pipe_msg <- list(error = "None of the selected flags is about a single item.")
+        return()
+      }
+      pipe_step(bquote(drop_items(p, .(items), note = .(input$pipe_note))))
+    })
+    shiny::observeEvent(input$pipe_recal, {
+      shiny::req(pipe())
+      shiny::withProgress(message = "Calibrating...", value = 0.4,
+                          pipe_step(bquote(calibrate(p, model = .(input$pipe_model)))))
+    })
+    output$pipe_msg <- shiny::renderUI({
+      m <- rv$pipe_msg
+      if (is.null(m)) return(NULL)
+      shiny::tagList(
+        if (!is.null(m$error)) shiny::div(class = "alert alert-danger", m$error),
+        if (length(m$warnings)) shiny::div(class = "alert alert-warning",
+                                           shiny::tags$pre(paste(m$warnings, collapse = "\n"))),
+        if (!is.null(m$info)) shiny::div(class = "alert alert-info", m$info))
+    })
+    output$pipe_stages <- shiny::renderUI(wb_stage_table(pipe()))
+    output$pipe_flags <- DT::renderDT({
+      DT::datatable(pipe_tab(), rownames = FALSE, selection = "multiple",
+                    options = list(pageLength = 10, scrollX = TRUE, dom = "tip"))
+    })
+    pipe_code <- shiny::reactive({
+      code <- pipe()$code
+      c(code[1], rv$pipe_data_code, code[-1])
+    })
+    output$pipe_code <- shiny::renderText(paste(pipe_code(), collapse = "\n"))
+    output$dl_pipe <- shiny::downloadHandler(
+      filename = function() "mirtverse-pipeline.rds",
+      content = function(file) saveRDS(pipe(), file))
+    output$dl_pipe_report <- shiny::downloadHandler(
+      filename = function() "mirtverse-pipeline-report.html",
+      content = function(file) {
+        shiny::withProgress(message = "Building report...", value = 0.5,
+                            suppressWarnings(pipeline_report(pipe(), file = file, open = FALSE)))
+      })
+
     script <- shiny::reactive({
       c("# Analysis generated by the mirtverse workbench",
         sprintf("# %s", format(Sys.time(), "%Y-%m-%d %H:%M")),
@@ -426,4 +549,37 @@ parse_num_list <- function(txt) {
   if (is.null(txt) || !nzchar(trimws(txt))) return(numeric())
   v <- suppressWarnings(as.numeric(strsplit(gsub("\\s", "", txt), "[,;]")[[1]]))
   v[!is.na(v)]
+}
+
+# Evaluate a pipeline step, keeping its warnings and error message.
+wb_pipe_eval <- function(expr, vars) {
+  env <- list2env(vars, parent = asNamespace("mirtverse"))
+  warns <- character(0)
+  value <- withCallingHandlers(
+    tryCatch(eval(expr, env), error = function(e) e),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  err <- if (inherits(value, "error")) conditionMessage(value)
+  list(value = if (is.null(err)) value, error = err, warnings = warns)
+}
+
+# The stage tracker: one row per stage with its status and open flags.
+wb_stage_table <- function(p) {
+  h <- htmltools::tags
+  rows <- lapply(seq_len(nrow(p$stages)), function(i) {
+    s <- p$stages[i, ]
+    f <- p$flags[p$flags$stage == s$stage & p$flags$status == "open", , drop = FALSE]
+    badge <- switch(s$status, done = "bg-success", "needs rerun" = "bg-warning text-dark",
+                    "bg-light text-muted")
+    h$tr(h$td(pipeline_stages$number[i]), h$td(pipeline_stages$label[i]),
+         h$td(h$span(class = paste("badge", badge), s$status)),
+         h$td(if (nzchar(s$summary) && s$summary != s$status) s$summary),
+         h$td(if (nrow(f)) flag_counts(f)))
+  })
+  h$table(class = "table table-sm align-middle",
+          h$thead(h$tr(h$th("#"), h$th("Stage"), h$th("Status"), h$th("Summary"),
+                       h$th("Open flags"))),
+          h$tbody(rows))
 }
