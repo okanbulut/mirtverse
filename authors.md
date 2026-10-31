@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/v0.2.0/inst/CITATION)
 
 Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for
 'mirt' (Version 0.2.0) \[R package\]. Zenodo.
