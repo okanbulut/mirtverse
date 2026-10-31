@@ -238,6 +238,10 @@ checks and flags to consider before each next stage.
   : Pipeline stage: cut scores and decision quality
 - [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
   : Item map for Bookmark standard setting
+- [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+  : Pipeline stage: scoring open-ended responses
+- [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
+  : Pipeline stage: score test takers
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :

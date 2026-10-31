@@ -102,7 +102,13 @@ them as a tibble.
 9.  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md):
     cut scores and classification accuracy and consistency.
 
-10. [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
+10. [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+    and
+    [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md):
+    open-ended scoring by a language model or a trained model, checked
+    against human scores, and ability estimates.
+
+11. [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
     an HTML technical report that also lists every flag and every
     decision made about it.
 
@@ -158,6 +164,7 @@ p
 #> [ ] 6  Linking and bank  not run
 #> [ ] 7  Forms             not run
 #> [ ] 8  Cut scores        not run
+#> [ ] 9  Scoring           not run
 #> [ ] 11 Reporting         not run
 #> 
 #> Open flags: 2 block, 4 review, 1 info. See flags(p). 1 decision(s) recorded.
