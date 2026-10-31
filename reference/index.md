@@ -186,6 +186,8 @@ Interactive tutorials for measurement courses.
 - [`numeracy`](https://www.okanbulut.com/mirtverse/reference/numeracy.md)
   [`numeracy_items`](https://www.okanbulut.com/mirtverse/reference/numeracy.md)
   : Numeracy test data for the DIF and fairness lab
+- [`linking`](https://www.okanbulut.com/mirtverse/reference/linking.md)
+  : Two-form licensure exam data for the linking lab
 
 ## Package
 

@@ -45,8 +45,8 @@ writing code by hand later in the term.
 | 6 | Information, precision and reliability |  | `certexam` |
 | 7 | Scoring people | [Lab 2](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) in class | `certexam` |
 | 8 | Polytomous items and open-ended responses | Open-ended scoring lab (coming soon) | `Science` |
-| 9 | Differential item functioning and fairness | DIF lab (coming soon) | `certexam` |
-| 10 | Linking and equating | Linking lab (coming soon) | `certexam` |
+| 9 | Differential item functioning and fairness | Lab 3, `run_lab("fairness")` | `numeracy`, `certexam` |
+| 10 | Linking and equating | Lab 4, `run_lab("linking")` | `linking`, `certexam` |
 | 11 | Item banks, test assembly and adaptive testing | CAT lab (coming soon) | `certexam` bank |
 | 12 | Cut scores, reporting and communicating results | Final project | students’ own data |
 
@@ -227,8 +227,11 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
   and [`DIF()`](https://philchalmers.github.io/mirt/reference/DIF.html)
   (mirt) for the model behind it.
 - **Lab:** the “Fairness across languages” section of Lab 2 for a short
-  version; the DIF lab (coming soon) for a full session.
-- **Data:** `certexam` (English and French candidates).
+  version; Lab 3 (`run_lab("fairness")`, about 75 minutes) for a full
+  session, with Mantel-Haenszel, anchor purification and differential
+  test functioning.
+- **Data:** `numeracy` (English language learners and fluent students)
+  in Lab 3; `certexam` (English and French candidates) in Lab 2.
 - **Discuss:** what a content review panel should do with a flagged
   item.
 
@@ -248,9 +251,13 @@ new calibration to an existing one.
   with anchors and
   [`fixedCalib()`](https://philchalmers.github.io/mirt/reference/fixedCalib.html)
   (mirt).
-- **Lab:** linking lab (coming soon).
-- **Data:** `certexam`, split into two field-test forms by
-  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md).
+- **Lab:** Lab 4 (`run_lab("linking")`, about 75 minutes): separate and
+  concurrent calibration, mean-sigma linking, anchor drift and IRT
+  true-score equating of a pass mark.
+- **Data:** `linking` (two forms with common items) in Lab 4;
+  `certexam`, split into two field-test forms by
+  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md),
+  for the pipeline functions.
 
 ### Week 11. Item banks, test assembly and adaptive testing
 
@@ -325,11 +332,11 @@ each next step, which works well as a checklist for the write-up.
 These resources are being built and will be linked from the weeks above
 when they are released.
 
-| Resource                                   | Used in   | Status      |
-|--------------------------------------------|-----------|-------------|
-| Glossary of IRT terms on this site         | All weeks | Coming soon |
+| Resource | Used in | Status |
+|----|----|----|
+| Glossary of IRT terms on this site | All weeks | Coming soon |
 | Two-page cheat sheet of the main functions | All weeks | Coming soon |
-| DIF and fairness lab                       | Week 9    | Coming soon |
-| Linking two forms lab                      | Week 10   | Coming soon |
-| CAT design lab                             | Week 11   | Coming soon |
-| Open-ended scoring lab                     | Week 8    | Coming soon |
+| DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
+| Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
+| CAT design lab | Week 11 | Coming soon |
+| Open-ended scoring lab | Week 8 | Coming soon |

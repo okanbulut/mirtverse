@@ -58,6 +58,20 @@ on 30 items, and `numeracy_items` describes each item.
 Lab 3 has its own storyline, so it can be done before or after Labs 1
 and 2.
 
+### Lab 4: linking two forms
+
+You are the psychometrician for the fictional **Prairie Nursing
+Council**. Its licensure exam has a new form, and the pass rate jumped
+from 50% to 72%. Are this year’s candidates better, or is the new form
+easier? The data (`linking`) cover 1,000 candidates on each of two
+40-item forms that share 12 anchor items.
+
+| Lab | Run it with | You will |
+|----|----|----|
+| **4. Linking two forms** (about 75 minutes) | `run_lab("linking")` | Calibrate both forms, link them through the common items, catch an anchor item that drifted, compare separate and concurrent calibration, and carry the pass mark over to the new form |
+
+Lab 4 also stands on its own.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -73,9 +87,9 @@ which you can hand in as an assignment.
 
 ## For instructors
 
-Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Lab
-3 stands alone. The tables below list what students do in each section
-and the decisions they make. The answers are in the [answer
+Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Labs
+3 and 4 stand alone. The tables below list what students do in each
+section and the decisions they make. The answers are in the [answer
 key](#answer-key) at the end of the page. For where the labs fit in a
 full term, see the [course
 map](https://www.okanbulut.com/mirtverse/articles/course-map.md), a
@@ -129,6 +143,21 @@ each and take about a minute; the lab warns students before each one.
 | The memo | Free-text memo, then [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md) |  |
 | The reveal | `lab_truth("numeracy")`, then a gender DIF analysis | Reporting a null result |
 
+### Lab 4: Linking two forms
+
+`run_lab("linking")`, about 75 minutes.
+
+| Section | Students do | Decision |
+|----|----|----|
+| The brief | Meet the registrar’s question and the NEAT data |  |
+| Raw scores | Raw means and pass rates by form, and the anchor score | Form, group, or both? |
+| Separate calibration | A 2PL for each form; anchor difficulties side by side | Why the anchors shift; which anchor drifted |
+| Link the scales | Mean-sigma constants with and without the drifted anchor; displacement | What the constants mean; what to do with the drifted anchor |
+| Concurrent calibration | One [`multipleGroup()`](https://philchalmers.github.io/mirt/reference/multipleGroup.html) model with the clean anchors | Separate or concurrent calibration |
+| Carry the pass mark over | IRT true-score equating with the test characteristic curves | The Form B pass mark; what the drifted anchor would have cost |
+| The memo | Free-text memo to the registrar |  |
+| The reveal | `lab_truth("linking")` |  |
+
 ### Tips for running the labs
 
 - **Before class:** ask students to install mirtverse and learnr and run
@@ -136,7 +165,7 @@ each and take about a minute; the lab warns students before each one.
   Fitting the models needs no internet connection.
 - **Order:** Labs 1 and 2 belong together. Lab 3 works on its own and
   fits a unit on fairness or validity; Lab 2’s short DIF section is a
-  good warm-up for it.
+  good warm-up for it. Lab 4 fits a unit on linking and equating.
 - **Speed:** most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
@@ -309,3 +338,44 @@ cross.](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAAK8CAIAAAA4ceSBAAAABm
   all balances out” not a good defence of a test?
 - A plain-language revision of N07 is field-tested and still shows DIF.
   What would you look at next?
+
+### Lab 4
+
+The planted problems in `linking` (`lab_truth("linking")` returns them):
+
+| Planted problem | What a good analyst does |
+|----|----|
+| The 2026 candidates are more able: mean 0.3, SD 1.1 on the Form A scale | Recovers it from the anchors: about 0.36 and 1.12 (mean-sigma) or 0.37 and 1.15 (concurrent) |
+| Form B’s unique items are easier | Finds Form B about 4 points easier at the pass mark |
+| Anchor C07 leaked and is 1.3 easier on Form B | Spots it in the plot of anchor difficulties and by its displacement, and links without it |
+
+- **Raw scores:** Form B candidates score 5.9 points higher on the form
+  but only 1.1 higher on the 12 anchors, so both the group and the form
+  differ.
+- **Why the anchors shift:** each separate calibration puts its own
+  group’s mean at 0, and the 2026 group is more able.
+- **Drift:** C07 is about 1.5 easier on the Form B scale; the other
+  anchors shift by 0.6 or less. After linking, C07’s displacement is
+  about -1.2 and every other anchor is within ±0.4.
+- **Mean-sigma:** with the 11 clean anchors, A is about 1.12 and B about
+  0.36. With C07, B rises to about 0.45, making the 2026 group look more
+  able than it is.
+- **Concurrent calibration:** Form B group mean 0.37 and SD 1.15, close
+  to the mean-sigma result. Either method is defensible; agreement is
+  evidence for the link.
+- **Pass mark:** 22 on Form A is theta of about 0.10, which corresponds
+  to 26.1 on Form B, so the Form B pass mark is 26 (60% pass, compared
+  with 72% at 22). The remaining rise from 50% is real.
+- **The cost of drift:** with C07 in the anchor, the equated pass mark
+  is 25.0, and 38 more candidates would pass.
+
+#### Discussion prompts
+
+- Why can’t the council just keep the pass rate at 50% every year?
+- An anchor can drift because it leaked, because the curriculum changed,
+  or because it moved position in the test. How would you tell these
+  apart?
+- How many anchors would you want for a 40-item test, and where should
+  they sit in difficulty?
+- What would change if the two groups had been randomly equivalent (for
+  example, forms spiralled within one administration)?

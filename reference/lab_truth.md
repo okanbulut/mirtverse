@@ -7,14 +7,15 @@ reveal at the end of the labs.
 ## Usage
 
 ``` r
-lab_truth(data = c("certexam", "numeracy"))
+lab_truth(data = c("certexam", "numeracy", "linking"))
 ```
 
 ## Arguments
 
 - data:
 
-  the dataset: `"certexam"` (Labs 1 and 2) or `"numeracy"` (Lab 3).
+  the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3) or
+  `"linking"` (Lab 4).
 
 ## Value
 
@@ -24,7 +25,11 @@ the group `impact` (mean ability difference in SD units), the generating
 item parameters `pars` and the pass mark `cut_raw`. For `"numeracy"`, a
 list with the true `model`, the `dif` items and their type, the
 `impact`, the generating item parameters `pars` (with separate values
-for ELL students) and `no_dif_long`, long word problems without DIF.
+for ELL students) and `no_dif_long`, long word problems without DIF. For
+`"linking"`, a list with the true `model`, the `anchors`, the `drift` of
+the drifted anchor, each form's group `ability` mean and SD on the Form
+A scale, the generating item parameters `pars` (with `b_formB` for the
+anchors' Form B difficulties) and the Form A pass mark `cut_A`.
 
 ## Examples
 

@@ -183,6 +183,36 @@ see the truth behind the data</td>
 <p>Lab 3 has its own storyline, so it can be done before or after Labs 1
 and 2.</p>
 </div>
+<div class="section level3">
+<h3 id="lab-4-linking-two-forms">Lab 4: linking two forms<a class="anchor" aria-label="anchor" href="#lab-4-linking-two-forms"></a>
+</h3>
+<p>You are the psychometrician for the fictional <strong>Prairie Nursing
+Council</strong>. Its licensure exam has a new form, and the pass rate
+jumped from 50% to 72%. Are this year’s candidates better, or is the new
+form easier? The data (<code>linking</code>) cover 1,000 candidates on
+each of two 40-item forms that share 12 anchor items.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>4. Linking two forms</strong> (about 75 minutes)</td>
+<td><code>run_lab("linking")</code></td>
+<td>Calibrate both forms, link them through the common items, catch an
+anchor item that drifted, compare separate and concurrent calibration,
+and carry the pass mark over to the new form</td>
+</tr></tbody>
+</table>
+<p>Lab 4 also stands on its own.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="what-it-looks-like">What it looks like<a class="anchor" aria-label="anchor" href="#what-it-looks-like"></a>
@@ -197,7 +227,7 @@ which you can hand in as an assignment.</p>
 <h2 id="for-instructors">For instructors<a class="anchor" aria-label="anchor" href="#for-instructors"></a>
 </h2>
 <p>Labs 1 and 2 follow one storyline, but Lab 2 also works on its own;
-Lab 3 stands alone. The tables below list what students do in each
+Labs 3 and 4 stand alone. The tables below list what students do in each
 section and the decisions they make. The answers are in the <a href="#answer-key">answer key</a> at the end of the page. For where the
 labs fit in a full term, see the <a href="course-map.html">course
 map</a>, a suggested 12-week syllabus.</p>
@@ -408,6 +438,66 @@ and each item’s share</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-4-linking-two-forms-1">Lab 4: Linking two forms<a class="anchor" aria-label="anchor" href="#lab-4-linking-two-forms-1"></a>
+</h3>
+<p><code>run_lab("linking")</code>, about 75 minutes.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the registrar’s question and the NEAT data</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Raw scores</td>
+<td>Raw means and pass rates by form, and the anchor score</td>
+<td>Form, group, or both?</td>
+</tr>
+<tr class="odd">
+<td>Separate calibration</td>
+<td>A 2PL for each form; anchor difficulties side by side</td>
+<td>Why the anchors shift; which anchor drifted</td>
+</tr>
+<tr class="even">
+<td>Link the scales</td>
+<td>Mean-sigma constants with and without the drifted anchor;
+displacement</td>
+<td>What the constants mean; what to do with the drifted anchor</td>
+</tr>
+<tr class="odd">
+<td>Concurrent calibration</td>
+<td>One <code><a href="https://philchalmers.github.io/mirt/reference/multipleGroup.html" class="external-link">multipleGroup()</a></code> model with the clean anchors</td>
+<td>Separate or concurrent calibration</td>
+</tr>
+<tr class="even">
+<td>Carry the pass mark over</td>
+<td>IRT true-score equating with the test characteristic curves</td>
+<td>The Form B pass mark; what the drifted anchor would have cost</td>
+</tr>
+<tr class="odd">
+<td>The memo</td>
+<td>Free-text memo to the registrar</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td><code>lab_truth("linking")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -418,7 +508,8 @@ internet connection.</li>
 <li>
 <strong>Order:</strong> Labs 1 and 2 belong together. Lab 3 works on
 its own and fits a unit on fairness or validity; Lab 2’s short DIF
-section is a good warm-up for it.</li>
+section is a good warm-up for it. Lab 4 fits a unit on linking and
+equating.</li>
 <li>
 <strong>Speed:</strong> most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -700,6 +791,83 @@ pass?</li>
 “it all balances out” not a good defence of a test?</li>
 <li>A plain-language revision of N07 is field-tested and still shows
 DIF. What would you look at next?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-4">Lab 4<a class="anchor" aria-label="anchor" href="#lab-4"></a>
+</h3>
+<p>The planted problems in <code>linking</code>
+(<code>lab_truth("linking")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The 2026 candidates are more able: mean 0.3, SD 1.1 on the Form A
+scale</td>
+<td>Recovers it from the anchors: about 0.36 and 1.12 (mean-sigma) or
+0.37 and 1.15 (concurrent)</td>
+</tr>
+<tr class="even">
+<td>Form B’s unique items are easier</td>
+<td>Finds Form B about 4 points easier at the pass mark</td>
+</tr>
+<tr class="odd">
+<td>Anchor C07 leaked and is 1.3 easier on Form B</td>
+<td>Spots it in the plot of anchor difficulties and by its displacement,
+and links without it</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Raw scores:</strong> Form B candidates score 5.9 points
+higher on the form but only 1.1 higher on the 12 anchors, so both the
+group and the form differ.</li>
+<li>
+<strong>Why the anchors shift:</strong> each separate calibration
+puts its own group’s mean at 0, and the 2026 group is more able.</li>
+<li>
+<strong>Drift:</strong> C07 is about 1.5 easier on the Form B scale;
+the other anchors shift by 0.6 or less. After linking, C07’s
+displacement is about -1.2 and every other anchor is within ±0.4.</li>
+<li>
+<strong>Mean-sigma:</strong> with the 11 clean anchors, A is about
+1.12 and B about 0.36. With C07, B rises to about 0.45, making the 2026
+group look more able than it is.</li>
+<li>
+<strong>Concurrent calibration:</strong> Form B group mean 0.37 and
+SD 1.15, close to the mean-sigma result. Either method is defensible;
+agreement is evidence for the link.</li>
+<li>
+<strong>Pass mark:</strong> 22 on Form A is theta of about 0.10,
+which corresponds to 26.1 on Form B, so the Form B pass mark is 26 (60%
+pass, compared with 72% at 22). The remaining rise from 50% is
+real.</li>
+<li>
+<strong>The cost of drift:</strong> with C07 in the anchor, the
+equated pass mark is 25.0, and 38 more candidates would pass.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-3">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-3"></a>
+</h4>
+<ul>
+<li>Why can’t the council just keep the pass rate at 50% every
+year?</li>
+<li>An anchor can drift because it leaked, because the curriculum
+changed, or because it moved position in the test. How would you tell
+these apart?</li>
+<li>How many anchors would you want for a 40-item test, and where should
+they sit in difficulty?</li>
+<li>What would change if the two groups had been randomly equivalent
+(for example, forms spiralled within one administration)?</li>
 </ul>
 </div>
 </div>

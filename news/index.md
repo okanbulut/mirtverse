@@ -1,5 +1,16 @@
 # Changelog
 
+## mirtverse (development version)
+
+- New teaching lab, “Linking two forms”: `run_lab("linking")`. A
+  licensure exam’s pass rate jumps on a new form, and students find out
+  why: they calibrate both forms, link them through common items with
+  the mean-sigma method, catch an anchor item that drifted, compare
+  separate and concurrent calibration, and carry the pass mark over to
+  the new form with IRT true-score equating. The new `linking` data (two
+  forms in a common-item nonequivalent groups design) come with
+  `lab_truth("linking")`.
+
 ## mirtverse 0.2.0
 
 ### Assessment pipeline

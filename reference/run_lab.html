@@ -3,13 +3,15 @@
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam); Lab 3 has its
-own, a provincial numeracy test (numeracy)."><meta property="og:description" content="mirtverse ships interactive learnr
+storyline, a certification board's 32-item exam (certexam); Labs 3 and 4
+each have their own, a provincial numeracy test (numeracy) and a
+licensure exam with two forms (linking)."><meta property="og:description" content="mirtverse ships interactive learnr
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam); Lab 3 has its
-own, a provincial numeracy test (numeracy)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg"></head><body>
+storyline, a certification board's 32-item exam (certexam); Labs 3 and 4
+each have their own, a provincial numeracy test (numeracy) and a
+licensure exam with two forms (linking)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -63,8 +65,9 @@ own, a provincial numeracy test (numeracy)."><meta property="og:image" content="
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>); Lab 3 has its
-own, a provincial numeracy test (<a href="numeracy.html">numeracy</a>).</p>
+storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>); Labs 3 and 4
+each have their own, a provincial numeracy test (<a href="numeracy.html">numeracy</a>) and a
+licensure exam with two forms (<a href="linking.html">linking</a>).</p>
     </div>
 
     <div class="section level2">
@@ -107,6 +110,10 @@ compare the results with the truth behind the data.</p></li>
 learners? Separate impact from DIF, run Mantel-Haenszel and IRT
 likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
 matters for students' scores and plan a content review.</p></li>
+<li><p><code>"linking"</code> (Lab 4): a licensure exam's pass rate jumped on a new form.
+Calibrate both forms, link them through common items, catch a drifted
+anchor, compare separate and concurrent calibration, and carry the pass
+mark over with IRT true-score equating.</p></li>
 </ul><p><code>run_lab()</code> opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and come
@@ -116,12 +123,13 @@ back later.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">list_labs</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name         title                                        description         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> decisions    Lab 2: From parameters to decisions          The certification b…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> model-choice Lab 1: Choosing a model the board can defend You are the new psy…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> linking      Lab 4: Linking two forms                     A licensure exam ha…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> model-choice Lab 1: Choosing a model the board can defend You are the new psy…</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">run_lab</span><span class="op">(</span><span class="st">"model-choice"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
