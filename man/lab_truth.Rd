@@ -4,11 +4,12 @@
 \alias{lab_truth}
 \title{Answer key and true values for the lab datasets}
 \usage{
-lab_truth(data = c("certexam", "numeracy", "linking", "catbank"))
+lab_truth(data = c("certexam", "numeracy", "linking", "catbank", "openended"))
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
-(Lab 3), \code{"linking"} (Lab 4) or \code{"catbank"} (Lab 5).}
+(Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5) or \code{"openended"}
+(Lab 6).}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -24,6 +25,11 @@ Form A scale, the generating item parameters \code{pars} (with \code{b_formB} fo
 the anchors' Form B difficulties) and the Form A pass mark \code{cut_A}. For
 \code{"catbank"}, a list with the five over-used \code{stars}, the number of items
 harder than b = 1.5 (\code{thin_top}), the student \code{population} and \code{notes}.
+For \code{"openended"}, a list with the true \code{model}, the \code{severe_rater} and
+its severity, the \code{inconsistent_rater}, the task with a \code{vague_rubric},
+the categories to \code{collapse}, the scoring engine's bias against ELL
+students (\code{engine_bias}), the group \code{impact} and the generating task
+parameters \code{pars}.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

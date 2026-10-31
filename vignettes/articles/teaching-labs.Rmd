@@ -92,6 +92,20 @@ items? Students simulate it and find out what else a CAT needs.
 Lab 5 stands on its own and needs no extra packages: the CAT is a short
 function written out in the lab.
 
+### Lab 6: scoring open-ended responses
+
+You are the psychometrician for the fictional **Northfield Grade 9 Science
+Assessment**. Six open-ended tasks were each scored 0 to 4 by two human
+raters, with an expert third read when they disagreed by two or more
+points, and by an automated scoring engine (`openended`). Can the scores be
+trusted, and could the engine replace the second human reader?
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **6. Scoring open-ended responses** (about 75 minutes) | `run_lab("open-ended")` | Measure rater agreement, find a severe and an inconsistent rater, resolve final scores, compare the PCM, GPCM and GRM, collapse rubric categories that do not work, and check the engine overall and for English language learners |
+
+Lab 6 stands on its own.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -109,7 +123,7 @@ can hand in as an assignment.
 ## For instructors
 
 Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Labs 3
-to 5 stand alone. The tables below list what students do in each section and the decisions they make. The
+to 6 stand alone. The tables below list what students do in each section and the decisions they make. The
 answers are in the [answer key](#answer-key) at the end of the page.
 For where the labs fit in a full term, see the
 [course map](course-map.html), a suggested 12-week syllabus.
@@ -193,14 +207,31 @@ takes a few seconds.
 | The memo | Free-text memo to the dean | |
 | The reveal | `lab_truth("catbank")` | |
 
+### Lab 6: Scoring open-ended responses
+
+`run_lab("open-ended")`, about 75 minutes. Each polytomous model takes a few
+seconds; `select_model()` fits three.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the director's question and `openended` | |
+| Do the raters agree? | Exact and adjacent agreement and QWK by task | What to do about T6 |
+| Rater by rater | Each rater's mean and difference from their partner, and exact agreement | Raters R5 and R8 |
+| The final scores | Resolve two reads with the third-read rule; build the student-by-task table | |
+| A polytomous IRT model | PCM, GPCM and GRM with `select_model()`; step difficulties and category curves; collapse T4's categories | Which model; what to do about T4 |
+| Can the engine replace a reader? | Engine-human QWK and SMD by task, then SMD for ELL and fluent students | Is the engine ready? |
+| The memo | Free-text memo to the director | |
+| The reveal | `lab_truth("openended")` | |
+
 ### Tips for running the labs
 
 * **Before class:** ask students to install mirtverse and learnr and run
   `list_labs()`. Fitting the models needs no internet connection.
 * **Order:** Labs 1 and 2 belong together. Lab 3 works on its own and fits a
   unit on fairness or validity; Lab 2's short DIF section is a good warm-up
-  for it. Lab 4 fits a unit on linking and equating, and Lab 5 a unit on
-  item banks and adaptive testing.
+  for it. Lab 4 fits a unit on linking and equating, Lab 5 a unit on
+  item banks and adaptive testing, and Lab 6 a unit on polytomous models or
+  performance assessment.
 * **Speed:** most exercises run in under about 15 seconds on a laptop; the
   two-factor model uses fewer quadrature points so it stays quick. The full
   DIF analyses in Labs 2 and 3 take up to a minute.
@@ -448,3 +479,45 @@ The planted problems in `catbank` (`lab_truth("catbank")` returns them):
   difficulty?
 * A student complains that their test was 30 items long and their friend's
   only 12. How would you explain it?
+
+### Lab 6
+
+The planted problems in `openended` (`lab_truth("openended")` returns them):
+
+| Planted problem | What a good analyst does |
+|---|---|
+| Rater R5 scores 0.6 points too low | Compares each rater with their partner on the same responses, finds R5 about 0.5 below, and recommends recalibration (or a many-facet Rasch adjustment) |
+| Rater R8 is much noisier than the others | Sees R8's low exact agreement despite an average mean, and recommends retraining or removal, since noise cannot be adjusted away |
+| T6 has a vague rubric | Sees low agreement on one task for every rater and asks for a clearer rubric with anchor papers |
+| T4's rubric levels 1 and 2 are hard to tell apart | Reads the disordered steps and category curves, collapses 1 and 2, and asks for new descriptors |
+| The engine scores ELL students 0.4 points too low | Looks past the overall statistics to the subgroup SMD and keeps human second reads |
+| ELL students are 0.3 SD lower in ability | Separates this real difference (impact) from the engine's bias |
+
+* **Agreement:** QWK is 0.82 to 0.87 on T1 to T5 and 0.68 on T6, with 43%
+  exact agreement on T6 against about 60% elsewhere. Adjacent agreement is
+  at least 96% except on T6 (86%). T6's rubric is the problem, not a rater.
+* **Raters:** R5's mean score is about 1.47 against about 2.0 for the
+  others, and R5 is 0.53 below their partners on the same responses. R8's
+  mean is normal but their exact agreement is 46% against about 61%.
+* **Final scores:** about 5% of responses needed a third read.
+* **Model:** the GPCM has the lowest BIC (20454), then the GRM (20487) and
+  the PCM (20496); the likelihood-ratio test also prefers the GPCM over the
+  PCM. Discriminations range from about 0.7 (T2) to 1.5 (T3).
+* **T4:** b1 = -0.11 is above b2 = -1.00, so a score of 1 is never the most
+  likely. After collapsing 1 and 2 the steps are -0.95, 0.43 and 1.34.
+* **Engine:** engine-human QWK is 0.81 to 0.89 and the SMD -0.08 to -0.14,
+  so it passes the overall checks. Within ELL students the SMD is about
+  -0.33 (fluent students about -0.04), well beyond ±0.10. It is not ready to
+  replace a human reader.
+
+#### Discussion prompts
+
+* The engine's QWK is higher than the human-human QWK. Why is that
+  comparison unfair to the humans?
+* R5's severity partly cancels out because every response had a second
+  reader. When would it matter more?
+* Should students whose responses were read by R8 be rescored? How would
+  you decide?
+* Collapsing categories changes the score scale for T4. What has to happen
+  before next year's administration, and how would you explain the change
+  to teachers?

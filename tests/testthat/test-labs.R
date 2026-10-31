@@ -33,7 +33,7 @@ run_solution <- function(chunks, label) {
 
 test_that("list_labs() finds the installed labs and run_lab() rejects unknown names", {
   labs <- list_labs()
-  expect_setequal(labs$name, c("cat-design", "decisions", "fairness", "linking", "model-choice"))
+  expect_setequal(labs$name, c("cat-design", "decisions", "fairness", "linking", "model-choice", "open-ended"))
   expect_match(labs$title[labs$name == "model-choice"], "Choosing a model")
   expect_true(nchar(labs$description[labs$name == "model-choice"]) > 50)
   expect_error(run_lab("nope"), "Unknown lab")
@@ -123,7 +123,24 @@ test_that("catbank has the weaknesses the CAT lab relies on", {
   expect_true(all(truth$stars %in% catbank$item[catbank$area == "Algebra"]))
 })
 
-for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design")) {
+test_that("openended has the rater and engine problems the scoring lab relies on", {
+  truth <- lab_truth("openended")
+  d <- openended
+  expect_equal(dim(d), c(7200L, 9L))
+  expect_true(all(c(d$score1, d$score2, d$machine) %in% 0:4))
+  expect_true(all(d$rater1 != d$rater2))
+  expect_identical(!is.na(d$score3), abs(d$score1 - d$score2) >= 2)
+  reads <- rbind(data.frame(r = d$rater1, s = d$score1, o = d$score2),
+                 data.frame(r = d$rater2, s = d$score2, o = d$score1))
+  shift <- tapply(reads$s - reads$o, reads$r, mean)
+  expect_equal(names(which.min(shift)), names(truth$severe_rater))
+  exact <- tapply(reads$s == reads$o, reads$r, mean)
+  expect_equal(names(which.min(exact[names(exact) != "R5"])), truth$inconsistent_rater)
+  agree <- tapply(d$score1 == d$score2, d$task, mean)
+  expect_equal(names(which.min(agree)), truth$vague_rubric)
+})
+
+for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design", "open-ended")) {
   test_that(paste("every", lab, "solution passes its own check"), {
     skip_on_cran()
     chunks <- lab_chunks(lab)
