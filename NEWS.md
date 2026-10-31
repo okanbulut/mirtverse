@@ -180,8 +180,8 @@
   `anonymize = TRUE` hides column names and `dry_run = TRUE` shows exactly
   what would be sent. Scripts can be refined (`mv_ask(scr, "use a 3PL
   instead")`) and are built from an analysis plan (`mv_plan()`): data
-  preparation, model fitting or selection, fit checks, DIF, scores, graphics, item cards, reports and response times.
-  `run_script()` runs it, optionally after a dry run on simulated data with the
+  preparation, model fitting or selection, fit checks, DIF, scores,
+  graphics, item cards, reports and response times. `run_script()` runs it, optionally after a dry run on simulated data with the
   same structure, and `save_script()` writes it to a file. `profile_data()`
   shows the column summary that is the only information shared with an AI
   model. The workbench now writes its code with the same templates.
