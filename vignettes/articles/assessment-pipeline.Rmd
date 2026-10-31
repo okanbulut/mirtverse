@@ -21,6 +21,168 @@ This article takes the `certexam` data (a simulated 32-item certification exam
 taken by 1,200 candidates in English or French) through every stage. The data
 have problems planted in them, and the gates find them.
 
+The map below shows the whole flow. Click a stage, or play the tour, to see
+its functions, what its gate checks and what the gate found in this example.
+
+```{=html}
+<div class="mvp" id="mvp">
+<style>
+.mvp{--mvp-blue:#2C5F8A;--mvp-ink:#1f2a33;--mvp-sub:#55626c;--mvp-line:#c9d3db;--mvp-card:#fff;--mvp-bg:#f4f7fa;
+  --mvp-ok:#2e7d4f;--mvp-review:#b7791f;--mvp-block:#c0392b;--mvp-skip:#8a96a0;
+  margin:1.5rem 0 2rem;font-size:.95rem;color:var(--mvp-ink)}
+.mvp *{box-sizing:border-box}
+.mvp-bar{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.mvp-legend{display:flex;flex-wrap:wrap;gap:.35rem 1rem;font-size:.8rem;color:var(--mvp-sub)}
+.mvp-legend span{display:inline-flex;align-items:center;gap:.35rem}
+.mvp-dot{width:.7rem;height:.7rem;border-radius:50%;display:inline-block;flex:none}
+.mvp-dot.ok{background:var(--mvp-ok)}.mvp-dot.review{background:var(--mvp-review)}
+.mvp-dot.block{background:var(--mvp-block)}.mvp-dot.skip{background:transparent;border:2px dashed var(--mvp-skip)}
+.mvp-ctrl{display:flex;gap:.4rem}
+.mvp-ctrl button{font:inherit;font-size:.82rem;padding:.3rem .7rem;border-radius:.4rem;border:1px solid var(--mvp-blue);
+  background:var(--mvp-card);color:var(--mvp-blue);cursor:pointer}
+.mvp-ctrl button:hover,.mvp-ctrl button:focus-visible{background:var(--mvp-blue);color:#fff}
+.mvp-ctrl button.on{background:var(--mvp-blue);color:#fff}
+.mvp-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;background:var(--mvp-bg);border-radius:.6rem;padding:1rem}
+.mvp-phase{position:relative;display:flex;flex-direction:column}
+.mvp-phase:not(.mvp-last)::after{content:"";position:absolute;right:-1.05rem;top:50%;width:.7rem;height:.7rem;
+  border-top:2px solid var(--mvp-blue);border-right:2px solid var(--mvp-blue);transform:translateY(-50%) rotate(45deg)}
+.mvp-ph{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mvp-blue);margin:0 0 .5rem}
+.mvp-st{display:block;width:100%;text-align:left;font:inherit;border:1.5px solid var(--mvp-line);background:var(--mvp-card);
+  border-radius:.45rem;padding:.45rem .6rem;cursor:pointer;color:var(--mvp-ink);transition:transform .15s,border-color .15s,box-shadow .15s}
+.mvp-st:hover{border-color:var(--mvp-blue);transform:translateY(-1px)}
+.mvp-st:focus-visible{outline:3px solid #9cc0de;outline-offset:2px}
+.mvp-st[aria-pressed="true"]{border-color:var(--mvp-blue);background:var(--mvp-blue);color:#fff;box-shadow:0 3px 10px rgba(44,95,138,.3)}
+.mvp-st.skip{border-style:dashed}
+.mvp-n{display:inline-block;min-width:1.4rem;font-weight:700;opacity:.7}
+.mvp-t{font-weight:600;font-size:.88rem}
+.mvp-gate{display:flex;align-items:center;gap:.4rem;margin:.18rem 0 .18rem .7rem;font-size:.68rem;color:var(--mvp-sub);height:1.1rem}
+.mvp-gate::before{content:"";width:1px;height:100%;background:var(--mvp-line);margin-right:.25rem}
+.mvp-gate .mvp-dot{width:.55rem;height:.55rem;transform:rotate(45deg);border-radius:1px}
+.mvp-loop{grid-column:1/-1;border:1.5px dashed var(--mvp-blue);border-radius:.45rem;padding:.4rem .7rem;font-size:.8rem;
+  color:var(--mvp-blue);text-align:center;background:var(--mvp-card)}
+.mvp-panel{margin-top:.9rem;border:1.5px solid var(--mvp-blue);border-radius:.6rem;padding:1rem 1.1rem;background:var(--mvp-card);min-height:11rem}
+.mvp-panel h4{margin:0 0 .3rem;font-size:1.1rem;color:var(--mvp-blue)}
+.mvp-panel p{margin:.2rem 0 .6rem;color:var(--mvp-ink)}
+.mvp-lbl{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mvp-sub);margin:.5rem 0 .25rem}
+.mvp-chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.mvp-chip{font-size:.8rem;padding:.12rem .5rem;border-radius:1rem;background:var(--mvp-bg);border:1px solid var(--mvp-line)}
+.mvp-fn{font-family:SFMono-Regular,Menlo,Consolas,monospace;font-size:.8rem;padding:.12rem .45rem;border-radius:.3rem;background:#e8f0f7;color:var(--mvp-blue)}
+.mvp-out{display:flex;gap:.5rem;align-items:flex-start;margin-top:.3rem}
+.mvp-out .mvp-dot{margin-top:.35rem}
+.mvp-go{display:inline-block;margin-top:.6rem;font-size:.85rem}
+@media (max-width:767px){
+ .mvp-flow{grid-template-columns:1fr;gap:1.6rem}
+ .mvp-phase::after{content:"";position:absolute;width:.7rem;height:.7rem;border-top:2px solid var(--mvp-blue);border-right:2px solid var(--mvp-blue);right:auto;left:50%;top:auto;bottom:-1.1rem;transform:translateX(-50%) rotate(135deg)}
+}
+@media (prefers-reduced-motion:reduce){.mvp-st{transition:none}.mvp-st:hover{transform:none}}
+</style>
+<div class="mvp-bar">
+  <div class="mvp-legend" aria-label="What the gate found in this article">
+    <span><i class="mvp-dot ok"></i>ran, no decision needed</span>
+    <span><i class="mvp-dot review"></i>review flag</span>
+    <span><i class="mvp-dot block"></i>block flag</span>
+    <span><i class="mvp-dot skip"></i>skipped here</span>
+  </div>
+  <div class="mvp-ctrl">
+    <button type="button" data-act="prev" aria-label="Previous stage">&#9664; Prev</button>
+    <button type="button" data-act="play">&#9654; Play the tour</button>
+    <button type="button" data-act="next" aria-label="Next stage">Next &#9654;</button>
+  </div>
+</div>
+<div class="mvp-flow" role="group" aria-label="The thirteen pipeline stages"></div>
+<div class="mvp-panel" aria-live="polite"></div>
+<noscript><p>The pipeline runs blueprint, item generation, item review, field-test design, data intake, calibration, item bank and linking, forms, cut scores, scoring, test security, the report and bank monitoring, with a gate of checks after each stage.</p></noscript>
+<script>
+(function(){
+  var root=document.getElementById("mvp"); if(!root) return;
+  var S=[
+   {n:"0",t:"Blueprint",ph:0,a:"stage-0",fn:["set_blueprint()"],
+    d:"Records what the test measures, how scores will be used, the content cells with their item counts and the target reliability.",
+    g:["empty content cells","missing score use"],s:"ok",o:"Three content cells and a reliability target of 0.85 for a pass/fail decision."},
+   {n:"1",t:"Item generation",ph:0,a:"stage-1-2",fn:["generate_items()","verify_items()","add_items()"],
+    d:"Drafts multiple-choice and open-ended items for each cell with a language model, has a second model check each key, and takes items written by people.",
+    g:["disputed keys","weak distractors","near-duplicates","reading level","blueprint coverage"],s:"skip",o:"Skipped: the certexam items already exist."},
+   {n:"2",t:"Item review",ph:0,a:"stage-1-2",fn:["review_packet()","read_reviews()"],
+    d:"Writes a CSV review form for content and sensitivity reviewers and reads their decisions back.",
+    g:["too few reviewers","misaligned items","sensitivity concerns","low reviewer agreement","missing provenance"],s:"skip",o:"Skipped: the certexam items already exist."},
+   {n:"3",t:"Field-test design",ph:0,a:"stage-3",fn:["design_field_test()"],
+    d:"Spreads items over forms with shared anchors and simulates how well the parameters will be recovered.",
+    g:["sample per item","too few anchors","cells without an anchor","parameter recovery"],s:"review",o:"Slope recovery RMSE a little above 0.2. Acknowledged: the sample is fixed by the testing window."},
+   {n:"4",t:"Data intake",ph:1,a:"stage-4",fn:["add_responses()"],
+    d:"Scores the raw answers with the key and screens the data before any model is fitted.",
+    g:["missing data","miskeys","straight-lining","rapid guessing","sparse categories"],s:"block",o:"Q14 looks miskeyed (block). The key was confirmed wrong, so the item was dropped."},
+   {n:"5",t:"Calibration",ph:1,a:"stage-5",fn:["calibrate()"],
+    d:"Fits the IRT model and checks it from convergence to person fit.",
+    g:["convergence","model fit","local dependence","item fit","parameter ranges","DIF","reliability","person fit"],s:"block",o:"Large DIF on Q09 (block); local dependence for Q21 and Q22, moderate DIF on Q27 and reliability below 0.85 (review). Each got a recorded decision."},
+   {n:"6",t:"Item bank and linking",ph:1,a:"stage-6",fn:["bank_items()","link_to_bank()"],
+    d:"Stores calibrated items in a bank and puts later calibrations on the bank's scale through anchor items.",
+    g:["anchor drift","too few anchors","unusual linking constants"],s:"ok",o:"The calibrated items are stored in the certification bank."},
+   {n:"7",t:"Forms, CAT and MST",ph:2,a:"stage-7",fn:["assemble_forms()","simulate_cat()","assemble_mst()"],
+    d:"Builds parallel fixed forms by automated test assembly, or simulates adaptive and multistage tests.",
+    g:["blueprint and enemy violations","parallel forms","precision","item exposure","bank depth","MST routing"],s:"review",o:"Two parallel 12-item forms meet the blueprint and keep Q21 and Q22 apart, but cannot reach a standard error of 0.35."},
+   {n:"8",t:"Cut scores",ph:2,a:"stage-8",fn:["set_cuts()","item_map()"],
+    d:"Sets cut scores and estimates classification accuracy and consistency.",
+    g:["classification accuracy","classification consistency","precision at the cut","panel agreement"],s:"review",o:"Accuracy 0.86 and consistency 0.81 pass, but the standard error at the cut is above 0.35."},
+   {n:"9",t:"Scoring",ph:2,a:"stage-9",fn:["score_open()","score_persons()"],
+    d:"Scores open-ended responses against rubrics, checks machine scores against human scores, and estimates each candidate's ability.",
+    g:["human-machine agreement","score shifts","subgroup differences","imprecise scores","extreme scores"],s:"ok",o:"Abilities estimated for every candidate."},
+   {n:"10",t:"Test security",ph:3,a:"stage-10",fn:["check_security()"],
+    d:"Looks for evidence that a score may not reflect the candidate's own ability. Flags give counts only.",
+    g:["preknowledge","item leakage","parameter drift","answer copying","aberrant response times","flagged sites","score gains"],s:"ok",o:"No candidate shows preknowledge of the five items suspected to have leaked."},
+   {n:"11",t:"The report",ph:3,a:"stage-11",fn:["pipeline_report()"],
+    d:"Writes the HTML technical report: item statistics, a section per stage, every flag and decision, and the code that reproduces it all.",
+    g:["lists every flag and decision"],s:"ok",o:"The reproducible code is also kept in p$code."},
+   {n:"12",t:"Bank monitoring",ph:3,a:"stage-12",fn:["monitor_bank()","retire_items()"],
+    d:"Records each administration in the bank and watches the bank's health over time.",
+    g:["over-exposure","thin content cells","falling reliability","unused items"],s:"review",o:"After five leaked Ethics items are retired, the Ethics cell has too few active items. The next round of item writing starts there."}
+  ];
+  var P=["Plan and write","Calibrate","Build and decide","Operate"];
+  var SL={ok:"ran, no decision needed",review:"review flag",block:"block flag",skip:"skipped here"};
+  var flow=root.querySelector(".mvp-flow"),panel=root.querySelector(".mvp-panel");
+  var btns=[],cur=0,timer=null,playBtn=root.querySelector('[data-act="play"]');
+  P.forEach(function(name,pi){
+    var col=document.createElement("div");col.className="mvp-phase"+(pi===P.length-1?" mvp-last":"");
+    var h=document.createElement("div");h.className="mvp-ph";h.textContent=name;col.appendChild(h);
+    S.forEach(function(s,i){
+      if(s.ph!==pi) return;
+      var b=document.createElement("button");b.type="button";b.className="mvp-st"+(s.s==="skip"?" skip":"");
+      b.setAttribute("aria-pressed","false");
+      b.innerHTML='<span class="mvp-n">'+s.n+'</span><span class="mvp-t">'+s.t+'</span>';
+      b.addEventListener("click",function(){stop();show(i);if(window.innerWidth<768)panel.scrollIntoView({block:"nearest",behavior:"smooth"});});
+      col.appendChild(b);btns[i]=b;
+      var g=document.createElement("div");g.className="mvp-gate";
+      g.innerHTML='<i class="mvp-dot '+s.s+'"></i>'+(s.s==="skip"?"gate not run":"gate");
+      col.appendChild(g);
+    });
+    flow.appendChild(col);
+  });
+  var loop=document.createElement("div");loop.className="mvp-loop";
+  loop.innerHTML="&#8635; Bank monitoring shows where the bank is thin, which starts the next round of blueprint-driven item writing.";
+  flow.appendChild(loop);
+  function show(i){
+    cur=(i+S.length)%S.length;var s=S[cur];
+    btns.forEach(function(b,j){b.setAttribute("aria-pressed",j===cur?"true":"false");});
+    panel.innerHTML='<h4>Stage '+s.n+': '+s.t+'</h4><p>'+s.d+'</p>'+
+      '<div class="mvp-lbl">Functions</div><div class="mvp-chips">'+s.fn.map(function(f){return '<code class="mvp-fn">'+f+'</code>';}).join("")+'</div>'+
+      '<div class="mvp-lbl">The gate checks</div><div class="mvp-chips">'+s.g.map(function(x){return '<span class="mvp-chip">'+x+'</span>';}).join("")+'</div>'+
+      '<div class="mvp-lbl">In this article</div><div class="mvp-out"><i class="mvp-dot '+s.s+'" title="'+SL[s.s]+'"></i><span>'+s.o+'</span></div>'+
+      '<a class="mvp-go" href="#'+s.a+'">Read this stage &#8595;</a>';
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;playBtn.classList.remove("on");playBtn.innerHTML="&#9654; Play the tour";}}
+  root.querySelector('[data-act="prev"]').addEventListener("click",function(){stop();show(cur-1);});
+  root.querySelector('[data-act="next"]').addEventListener("click",function(){stop();show(cur+1);});
+  playBtn.addEventListener("click",function(){
+    if(timer){stop();return;}
+    playBtn.classList.add("on");playBtn.innerHTML="&#10074;&#10074; Pause";
+    if(cur===S.length-1) show(0);
+    timer=setInterval(function(){if(cur===S.length-1){stop();return;}show(cur+1);},2600);
+  });
+  show(0);
+})();
+</script>
+</div>
+```
+
 ```{r}
 library(mirtverse)
 ```
@@ -47,7 +209,7 @@ By default flags only warn, so every stage still runs. With
 `mv_pipeline(strict = TRUE)`, a stage refuses to start while an earlier stage
 has open review or block flags.
 
-## 0. Blueprint
+## 0. Blueprint {#stage-0}
 
 The blueprint is the contract that later stages check against: what the test
 measures, how scores will be used, and how many items each content area
@@ -64,7 +226,7 @@ Because the score supports a pass/fail decision, we asked for a reliability
 of at least 0.85. That target replaces the default `reliability` rule, so the
 calibration gate will hold the test to it.
 
-## 1–2. Item writing and review
+## 1–2. Item writing and review {#stage-1-2}
 
 `generate_items()` drafts multiple-choice and open-ended items for each
 blueprint cell with a language model through the ellmer package. It checks
@@ -72,20 +234,21 @@ the drafts (a second model call verifies each key) and flags disputed keys,
 weak distractors, near-duplicate items and readability above the grade level.
 Items written by people come in with `add_items()` and pass the same checks.
 
-`review_packet()` writes a spreadsheet for content and sensitivity
-reviewers, optionally with an AI screen. `read_reviews()` reads their
+`review_packet()` writes a CSV review form (it opens in Excel) for content
+and sensitivity reviewers, optionally with an AI screen. `read_reviews()` reads their
 decisions back and flags items without enough reviewers, items judged
 misaligned or biased, and low agreement between reviewers.
 
 ```{r, eval = FALSE}
-p <- generate_items(p, n = 3)            # needs an API key for the model provider
-p <- review_packet(p, "review.xlsx", reviewers = c("Ana", "Ben", "Chen"))
-p <- read_reviews(p, "review-returned.xlsx")
+# generate_items() needs an API key for the model provider
+p <- generate_items(p, n = 3)
+p <- review_packet(p, "review.csv", reviewers = c("Ana", "Ben", "Chen"))
+p <- read_reviews(p, "review-returned.csv")
 ```
 
 The certexam items already exist, so we skip these steps here.
 
-## 3. Field-test design
+## 3. Field-test design {#stage-3}
 
 Before calibration data exist, `design_field_test()` plans the field test:
 how many forms, which anchor items they share, and how many candidates each
@@ -103,10 +266,11 @@ the 0.2 target. The usual answer is more candidates per form. Here we accept
 the plan and record why:
 
 ```{r}
-p <- acknowledge(p, check = "recovery", note = "Sample fixed by the testing window")
+p <- acknowledge(p, check = "recovery",
+                 note = "Sample fixed by the testing window")
 ```
 
-## 4. Data intake
+## 4. Data intake {#stage-4}
 
 `add_responses()` scores the raw answers with the key, then checks for
 missing data, possible miskeys, straight-lining, rapid guessing and sparse
@@ -127,7 +291,7 @@ flag as fixed:
 p <- drop_items(p, "Q14", note = "Key confirmed wrong by the item writer")
 ```
 
-## 5. Calibration
+## 5. Calibration {#stage-5}
 
 ```{r}
 p <- calibrate(p, model = "2PL")
@@ -148,7 +312,8 @@ blueprint. Each needs a decision:
 ```{r}
 p <- acknowledge(p, check = "local_dependence",
                  note = "Q21 and Q22 share a case; keep them apart on forms")
-p <- override(p, check = "dif_large", note = "Translation reviewed; French version revised")
+p <- override(p, check = "dif_large",
+              note = "Translation reviewed; French version revised")
 p <- acknowledge(p, check = "dif_moderate", note = "Sent to the bias panel")
 p <- acknowledge(p, check = "low_reliability",
                  note = "Operational forms will be longer than the field test")
@@ -158,7 +323,7 @@ p <- acknowledge(p, check = "low_reliability",
 Every decision is logged and printed in the report. Run `flags(p, status =
 "all")` to see decided flags too.
 
-## 6. The item bank
+## 6. The item bank {#stage-6}
 
 `bank_items()` stores the calibrated items in an item bank. In a later
 administration, `link_to_bank()` puts a new calibration on the bank's scale
@@ -169,7 +334,7 @@ p <- bank_items(p, name = "Certification bank")
 p$bank
 ```
 
-## 7. Forms, adaptive and multistage tests
+## 7. Forms, adaptive and multistage tests {#stage-7}
 
 `assemble_forms()` builds parallel fixed forms with automated test assembly
 (through eatATA), meeting a content blueprint and keeping enemy items apart.
@@ -197,7 +362,7 @@ flags(p, stage = "forms")[, c("check", "target", "value", "rule")]
 Twelve items cannot reach a standard error of 0.35. For a pass/fail decision,
 precision matters most near the cut score, which the next stage checks.
 
-## 8. Cut scores
+## 8. Cut scores {#stage-8}
 
 `set_cuts()` takes cut scores on the ability or raw-score scale (or a
 standard-setting panel's ratings) and estimates classification accuracy and
@@ -213,7 +378,7 @@ Accuracy (0.86) and consistency (0.81) meet the defaults of 0.85 and 0.80,
 but the standard error at the cut is above 0.35. More items near the cut
 would help, which is the same message the reliability flag gave.
 
-## 9. Scoring
+## 9. Scoring {#stage-9}
 
 `score_persons()` estimates each candidate's ability and flags imprecise and
 extreme scores. Open-ended responses are scored first with `score_open()`,
@@ -226,7 +391,7 @@ p <- score_persons(p)
 head(p$scores)
 ```
 
-## 10. Test security
+## 10. Test security {#stage-10}
 
 `check_security()` looks for evidence that a score may not reflect the
 candidate's own ability:
@@ -249,7 +414,7 @@ Security flags are evidence for an investigation, not proof of misconduct.
 The candidates involved are kept in `p$security$persons` for investigators.
 Flags and reports give counts only.
 
-## 11. The report
+## 11. The report {#stage-11}
 
 `pipeline_report()` writes an HTML technical report that covers:
 
@@ -268,7 +433,7 @@ The code is also in `p$code`:
 cat(p$code, sep = "\n")
 ```
 
-## 12. Bank monitoring
+## 12. Bank monitoring {#stage-12}
 
 After each administration, `monitor_bank()` records it in the bank under a
 window name, then checks the bank's history:
