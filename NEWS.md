@@ -1,5 +1,18 @@
 # mirtverse (development version)
 
+* Scoring for the assessment pipeline (stage 9). `score_open()` scores
+  open-ended responses against their rubrics with a language model through
+  ellmer, or with any trained model that has a `predict()` method, and
+  checks the machine scores against human scores (Williamson, Xi and Breyer,
+  2012): too few double-scored responses, low human-human or machine-human
+  quadratic weighted kappa, shifted score distributions and subgroup
+  differences. Short, off-topic and low-confidence responses are routed to
+  human scoring, and the final scores can join the response data for a
+  mixed-format calibration. `score_persons()` estimates abilities and flags
+  low reliability and extreme scores. `mv_rules()` gains `n_validation`,
+  `qwk_min`, `qwk_drop`, `score_smd`, `subgroup_smd`, `min_confidence`,
+  `min_words` and `max_se`.
+
 * Item review and field-test design for the assessment pipeline (stages 2
   and 3). `review_packet()` writes a review form with one row per item and
   reviewer (optionally after an AI bias and accessibility screen), and

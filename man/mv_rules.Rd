@@ -67,6 +67,13 @@ name.
    \code{review_kappa} \tab 0.40 \tab smallest acceptable Fleiss' kappa between reviewers' decisions \cr
    \code{n_rasch}, \code{n_2pl}, \code{n_3pl} \tab 200, 500, 1000 \tab respondents needed per item in a field test (Rasch; 2PL; 3PL or polytomous models) \cr
    \code{recovery_rmse} \tab 0.2 \tab largest acceptable RMSE of simulated slope recovery in a field-test design \cr
+   \code{n_validation} \tab 200 \tab double-scored responses needed per open-ended item to validate machine scores \cr
+   \code{qwk_min} \tab 0.70 \tab smallest acceptable quadratic weighted kappa (human-human and machine-human) \cr
+   \code{qwk_drop} \tab 0.10 \tab largest acceptable drop from human-human to machine-human QWK \cr
+   \code{score_smd} \tab 0.15 \tab largest standardized mean difference between machine and human scores \cr
+   \code{subgroup_smd} \tab 0.10 \tab largest machine-human standardized mean difference within a group \cr
+   \code{min_confidence}, \code{min_words} \tab 0.5, 3 \tab machine scores below this confidence, or responses shorter than this, go to human scoring \cr
+   \code{max_se} \tab 1 \tab standard error above which a test taker's score is flagged as imprecise \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

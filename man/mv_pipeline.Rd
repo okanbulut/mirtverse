@@ -61,6 +61,9 @@ the bank (anchor drift, linking constants).
 adaptive or multistage tests (blueprint, parallelism, precision,
 exposure, routing).
 \item \code{\link[=set_cuts]{set_cuts()}}: cut scores and classification accuracy and consistency.
+\item \code{\link[=score_open]{score_open()}} and \code{\link[=score_persons]{score_persons()}}: open-ended scoring by a language
+model or a trained model, checked against human scores, and ability
+estimates.
 \item \code{\link[=pipeline_report]{pipeline_report()}}: an HTML technical report that also lists every
 flag and every decision made about it.
 }

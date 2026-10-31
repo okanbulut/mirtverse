@@ -50,6 +50,13 @@
 #' | `review_kappa` | 0.40 | smallest acceptable Fleiss' kappa between reviewers' decisions |
 #' | `n_rasch`, `n_2pl`, `n_3pl` | 200, 500, 1000 | respondents needed per item in a field test (Rasch; 2PL; 3PL or polytomous models) |
 #' | `recovery_rmse` | 0.2 | largest acceptable RMSE of simulated slope recovery in a field-test design |
+#' | `n_validation` | 200 | double-scored responses needed per open-ended item to validate machine scores |
+#' | `qwk_min` | 0.70 | smallest acceptable quadratic weighted kappa (human-human and machine-human) |
+#' | `qwk_drop` | 0.10 | largest acceptable drop from human-human to machine-human QWK |
+#' | `score_smd` | 0.15 | largest standardized mean difference between machine and human scores |
+#' | `subgroup_smd` | 0.10 | largest machine-human standardized mean difference within a group |
+#' | `min_confidence`, `min_words` | 0.5, 3 | machine scores below this confidence, or responses shorter than this, go to human scoring |
+#' | `max_se` | 1 | standard error above which a test taker's score is flagged as imprecise |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -108,7 +115,9 @@ default_rules <- list(
   unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, cut_accuracy = 0.85,
   cut_consistency = 0.80, cut_sem = 0.35, panel_sd = 0.5, duplicate_sim = 0.90,
   coverage_ratio = 3, min_reviewers = 2, review_kappa = 0.40, n_rasch = 200, n_2pl = 500,
-  n_3pl = 1000, recovery_rmse = 0.2, min_group_n = 10)
+  n_3pl = 1000, recovery_rmse = 0.2, n_validation = 200, qwk_min = 0.70, qwk_drop = 0.10,
+  score_smd = 0.15, subgroup_smd = 0.10, min_confidence = 0.5, min_words = 3, max_se = 1,
+  min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

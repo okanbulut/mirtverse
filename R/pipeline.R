@@ -26,6 +26,9 @@
 #'    adaptive or multistage tests (blueprint, parallelism, precision,
 #'    exposure, routing).
 #' 8. [set_cuts()]: cut scores and classification accuracy and consistency.
+#' 9. [score_open()] and [score_persons()]: open-ended scoring by a language
+#'    model or a trained model, checked against human scores, and ability
+#'    estimates.
 #' 11. [pipeline_report()]: an HTML technical report that also lists every
 #'    flag and every decision made about it.
 #'
@@ -82,10 +85,10 @@ mv_pipeline <- function(title = "Assessment pipeline", rules = mv_rules(), stric
 
 pipeline_stages <- data.frame(
   stage = c("blueprint", "generation", "review", "field_test", "intake", "calibration",
-            "linking", "forms", "cuts", "reporting"),
-  number = c(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 11L),
+            "linking", "forms", "cuts", "scoring", "reporting"),
+  number = c(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 11L),
   label = c("Blueprint", "Item generation", "Item review", "Field-test design", "Data intake",
-            "Calibration", "Linking and bank", "Forms", "Cut scores", "Reporting"),
+            "Calibration", "Linking and bank", "Forms", "Cut scores", "Scoring", "Reporting"),
   stringsAsFactors = FALSE)
 
 stage_label <- function(stage) pipeline_stages$label[match(stage, pipeline_stages$stage)]
@@ -208,7 +211,7 @@ flag_counts <- function(f) {
 #' @param level optional levels to keep (`"info"`, `"review"`, `"block"`).
 #' @param stage optional stages to keep (`"blueprint"`, `"generation"`,
 #'   `"review"`, `"field_test"`, `"intake"`, `"calibration"`, `"linking"`, `"forms"`, `"cuts"`,
-#'   `"reporting"`).
+#'   `"scoring"`, `"reporting"`).
 #' @return A tibble with one row per flag: `id`, `stage`, `check`, `target`
 #'   (an item, a pair of items, a group, or the whole test), `value` (the
 #'   statistic), `rule` (the threshold that fired), `level`, `advice` (what to
@@ -363,7 +366,8 @@ drop_items <- function(p, items, note = "") {
   if (!is.null(p$model)) {
     p$model <- NULL; p$selection <- NULL; p$dif <- NULL; p$link <- NULL
     p$forms <- NULL; p$cuts <- NULL
-    for (s in c("calibration", "linking", "forms", "cuts", "reporting"))
+    p$scores <- NULL
+    for (s in c("calibration", "linking", "forms", "cuts", "scoring", "reporting"))
       if (p$stages$status[p$stages$stage == s] != "not run")
         p <- set_stage(p, s, "needs rerun", "items changed since this stage ran")
   }
