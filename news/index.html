@@ -46,10 +46,6 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="mirtverse-development-version">mirtverse (development version)<a class="anchor" aria-label="anchor" href="#mirtverse-development-version"></a></h2>
-<ul><li>New article, “Glossary of IRT terms”: 87 terms in plain language, grouped from the basic ideas to test design, each with the mirtverse or mirt function that computes it and a figure where one helps. Every term has a stable anchor (for example <code>glossary.html#discrimination</code>) for linking from course materials.</li>
-</ul></div>
-    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="mirtverse-020">mirtverse 0.2.0<a class="anchor" aria-label="anchor" href="#mirtverse-020"></a></h2>
 <div class="section level3">
 <h3 id="assessment-pipeline-0-2-0">Assessment pipeline<a class="anchor" aria-label="anchor" href="#assessment-pipeline-0-2-0"></a></h3>
@@ -71,9 +67,12 @@
 <li><p>The homepage has a <code><a href="../reference/mirtify.html">mirtify()</a></code> section with a short example.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="teaching-labs-0-2-0">Teaching labs<a class="anchor" aria-label="anchor" href="#teaching-labs-0-2-0"></a></h3>
+<h3 id="teaching-and-learning-0-2-0">Teaching and learning<a class="anchor" aria-label="anchor" href="#teaching-and-learning-0-2-0"></a></h3>
 <ul><li><p>New interactive teaching labs for measurement courses, built with learnr. <code>run_lab("model-choice")</code> opens Lab 1, “Choosing a model the board can defend”: students score a certification exam, find a miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and local dependence, and justify a model, with feedback on every decision and a summary of their choices at the end. <code>run_lab("decisions")</code> opens Lab 2, “From parameters to decisions”: reading item parameters, precision at the pass mark, choosing a scoring method, classification accuracy, DIF between English and French candidates, a memo to the board, and a reveal of the truth behind the data. <code><a href="../reference/run_lab.html">list_labs()</a></code> lists the labs. The new <code>certexam</code> data (with <code>certexam_key</code>) are simulated with known problems planted for the labs; <code><a href="../reference/lab_truth.html">lab_truth()</a></code> reveals them for instructors. The article “Teaching labs for measurement courses” introduces the labs for students, followed by an instructor guide and an answer key.</p></li>
 <li><p>New article, “A course map for instructors”: a suggested 12-week IRT syllabus that links each week to articles, labs, functions and datasets.</p></li>
+<li><p>New teaching lab, “Is the test fair? Detecting DIF”: <code>run_lab("fairness")</code>. Students investigate a complaint that a provincial numeracy test is biased against English language learners: they separate impact from DIF, run Mantel-Haenszel and IRT likelihood-ratio DIF tests, purify the anchor, judge how much the DIF matters for students’ scores with differential test functioning, and plan a content review. The new <code>numeracy</code> data (with <code>numeracy_items</code>) have DIF planted on purpose, and <code>lab_truth("numeracy")</code> reveals it. The “Teaching labs” article covers the new lab, with its answers in the answer key at the end.</p></li>
+<li><p>New article, “Glossary of IRT terms”: 87 terms in plain language, grouped from the basic ideas to test design, each with the mirtverse or mirt function that computes it and a figure where one helps. Every term has a stable anchor (for example <code>glossary.html#discrimination</code>) for linking from course materials.</p></li>
+<li><p>A printable two-page cheat sheet (PDF), linked from the navbar and the README: page 1 covers analysis and sharing by task, page 2 the assessment pipeline stages, gates and flags.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="sharing-results-0-2-0">Sharing results<a class="anchor" aria-label="anchor" href="#sharing-results-0-2-0"></a></h3>
@@ -90,7 +89,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="differential-item-functioning-0-2-0">Differential item functioning<a class="anchor" aria-label="anchor" href="#differential-item-functioning-0-2-0"></a></h3>
-<ul><li>New <code><a href="../reference/dif.html">dif()</a></code> tests every item for differential item functioning between groups in one call, with likelihood-ratio tests, adjusted p-values and expected-score effect sizes. <code><a href="../reference/gg_dif.html">gg_dif()</a></code> plots the effects or the item curves by group, <code><a href="../reference/interpret.html">interpret()</a></code> describes the results, and <code>mv_report(dif = )</code> adds a DIF section to the report.</li>
+<ul><li><p>New <code><a href="../reference/dif.html">dif()</a></code> tests every item for differential item functioning between groups in one call, with likelihood-ratio tests, adjusted p-values and expected-score effect sizes. <code><a href="../reference/gg_dif.html">gg_dif()</a></code> plots the effects or the item curves by group, <code><a href="../reference/interpret.html">interpret()</a></code> describes the results, and <code>mv_report(dif = )</code> adds a DIF section to the report.</p></li>
+<li><p><code><a href="../reference/dif.html">dif()</a></code> keeps the order of a factor’s levels, so the first level is the reference group (earlier development versions sorted the groups alphabetically).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="response-times-0-2-0">Response times<a class="anchor" aria-label="anchor" href="#response-times-0-2-0"></a></h3>

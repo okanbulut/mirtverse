@@ -93,7 +93,9 @@ equal across groups (the baseline model).</p></dd>
 <dt id="arg-group">group<a class="anchor" aria-label="anchor" href="#arg-group"></a></dt>
 <dd><p>the grouping variable: a vector with one value per respondent,
 or the name of a column of <code>x</code> (that column is then not treated as an
-item). Ignored when <code>x</code> is a model.</p></dd>
+item). The first group is the reference group: the first level of a
+factor, otherwise the first value in sorted order. Ignored when <code>x</code> is a
+model.</p></dd>
 
 
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>

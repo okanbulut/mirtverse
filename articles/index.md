@@ -35,7 +35,8 @@
 
   Interactive learnr labs in which students fit live mirt models and
   make the decisions a psychometrician makes, from scoring and model
-  choice to interpretation. Includes an instructor guide and answer key.
+  choice to interpretation and fairness. Includes an instructor guide
+  and answer key.
 
 - [Glossary of IRT
   terms](https://www.okanbulut.com/mirtverse/articles/glossary.md):

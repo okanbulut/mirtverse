@@ -1,13 +1,5 @@
 # Changelog
 
-## mirtverse (development version)
-
-- New article, “Glossary of IRT terms”: 87 terms in plain language,
-  grouped from the basic ideas to test design, each with the mirtverse
-  or mirt function that computes it and a figure where one helps. Every
-  term has a stable anchor (for example `glossary.html#discrimination`)
-  for linking from course materials.
-
 ## mirtverse 0.2.0
 
 ### Assessment pipeline
@@ -201,7 +193,7 @@
   [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
   section with a short example.
 
-### Teaching labs
+### Teaching and learning
 
 - New interactive teaching labs for measurement courses, built with
   learnr. `run_lab("model-choice")` opens Lab 1, “Choosing a model the
@@ -225,6 +217,27 @@
 - New article, “A course map for instructors”: a suggested 12-week IRT
   syllabus that links each week to articles, labs, functions and
   datasets.
+
+- New teaching lab, “Is the test fair? Detecting DIF”:
+  `run_lab("fairness")`. Students investigate a complaint that a
+  provincial numeracy test is biased against English language learners:
+  they separate impact from DIF, run Mantel-Haenszel and IRT
+  likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
+  matters for students’ scores with differential test functioning, and
+  plan a content review. The new `numeracy` data (with `numeracy_items`)
+  have DIF planted on purpose, and `lab_truth("numeracy")` reveals it.
+  The “Teaching labs” article covers the new lab, with its answers in
+  the answer key at the end.
+
+- New article, “Glossary of IRT terms”: 87 terms in plain language,
+  grouped from the basic ideas to test design, each with the mirtverse
+  or mirt function that computes it and a figure where one helps. Every
+  term has a stable anchor (for example `glossary.html#discrimination`)
+  for linking from course materials.
+
+- A printable two-page cheat sheet (PDF), linked from the navbar and the
+  README: page 1 covers analysis and sharing by task, page 2 the
+  assessment pipeline stages, gates and flags.
 
 ### Sharing results
 
@@ -301,6 +314,10 @@
   [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
   describes the results, and `mv_report(dif = )` adds a DIF section to
   the report.
+
+- [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md) keeps
+  the order of a factor’s levels, so the first level is the reference
+  group (earlier development versions sorted the groups alphabetically).
 
 ### Response times
 

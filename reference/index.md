@@ -179,10 +179,13 @@ Interactive tutorials for measurement courses.
   [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md)
   : Interactive IRT teaching labs
 - [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
-  : Answer key and true values for the lab dataset
+  : Answer key and true values for the lab datasets
 - [`certexam`](https://www.okanbulut.com/mirtverse/reference/certexam.md)
   [`certexam_key`](https://www.okanbulut.com/mirtverse/reference/certexam.md)
   : Certification exam data for the teaching labs
+- [`numeracy`](https://www.okanbulut.com/mirtverse/reference/numeracy.md)
+  [`numeracy_items`](https://www.okanbulut.com/mirtverse/reference/numeracy.md)
+  : Numeracy test data for the DIF and fairness lab
 
 ## Package
 

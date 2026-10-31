@@ -38,7 +38,9 @@ dif(
 
   the grouping variable: a vector with one value per respondent, or the
   name of a column of `x` (that column is then not treated as an item).
-  Ignored when `x` is a model.
+  The first group is the reference group: the first level of a factor,
+  otherwise the first value in sorted order. Ignored when `x` is a
+  model.
 
 - model:
 
