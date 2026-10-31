@@ -1,3 +1,13 @@
+# mirtverse (development version)
+
+* New teaching lab, "Linking two forms": `run_lab("linking")`. A licensure
+  exam's pass rate jumps on a new form, and students find out why: they
+  calibrate both forms, link them through common items with the mean-sigma
+  method, catch an anchor item that drifted, compare separate and concurrent
+  calibration, and carry the pass mark over to the new form with IRT
+  true-score equating. The new `linking` data (two forms in a common-item
+  nonequivalent groups design) come with `lab_truth("linking")`.
+
 # mirtverse 0.2.0
 
 ## Assessment pipeline
@@ -161,14 +171,6 @@
   `numeracy_items`) have DIF planted on purpose, and `lab_truth("numeracy")`
   reveals it. The "Teaching labs" article covers the new lab, with its answers
   in the answer key at the end.
-
-* New teaching lab, "Linking two forms": `run_lab("linking")`. A licensure
-  exam's pass rate jumps on a new form, and students find out why: they
-  calibrate both forms, link them through common items with the mean-sigma
-  method, catch an anchor item that drifted, compare separate and concurrent
-  calibration, and carry the pass mark over to the new form with IRT
-  true-score equating. The new `linking` data (two forms in a common-item
-  nonequivalent groups design) come with `lab_truth("linking")`.
 
 * New article, "Glossary of IRT terms": 87 terms in plain language,
   grouped from the basic ideas to test design, each with the mirtverse or
