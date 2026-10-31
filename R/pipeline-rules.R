@@ -36,8 +36,8 @@
 #' | `parallel_tol` | 0.10 | largest relative difference in information between parallel forms |
 #' | `cat_sem` | 0.35 | largest acceptable standard error of a form, CAT or MST (and the CAT stopping rule) |
 #' | `cat_bias` | 0.1 | largest acceptable average bias of simulated CAT or MST scores |
-#' | `max_exposure` | 0.25 | largest share of CAT simulees who should see an item |
-#' | `unused_share` | 0.20 | largest share of the bank a CAT may leave unused |
+#' | `max_exposure` | 0.25 | largest share of CAT simulees (or of a window's test takers, in monitoring) who should see an item |
+#' | `unused_share` | 0.20 | largest share of the bank a CAT may leave unused (and of a monitored bank unused for `unused_days`) |
 #' | `bank_depth` | 10 | bank size, in multiples of the CAT length, below which the bank is shallow |
 #' | `mst_routing` | 0.15 | largest share of MST simulees routed to the wrong module |
 #' | `cut_accuracy` | 0.85 | smallest acceptable classification accuracy |
@@ -65,6 +65,10 @@
 #' | `site_alpha` | 0.001 | significance level for a site with too many flagged test takers |
 #' | `gain_sem` | 3 | score gain, in standard errors of the difference, that is unusual |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
+#' | `exposure_windows` | 2 | consecutive windows above `max_exposure` that flag an over-exposed bank item |
+#' | `cell_depth` | 2 | active bank items per content cell, in multiples of the cell's blueprint count |
+#' | `reliability_drop` | 0.05 | largest drop in marginal reliability from the first monitored window |
+#' | `unused_days` | 365 | days without use after which a bank item counts as unused |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
 #' (`rmsea = 0.08`, `cfi = 0.90`, `q3 = 0.30`, `a_min = 0.2`,
@@ -126,7 +130,8 @@ default_rules <- list(
   score_smd = 0.15, subgroup_smd = 0.10, min_confidence = 0.5, min_words = 3, max_se = 1,
   preknowledge_alpha = 0.001, leak_p = 0.15, leak_rt = 0.25, drift_a = 0.3, drift_b = 0.3,
   copy_alpha = 0.001, rt_resid = -3, rt_share = 0.20, site_alpha = 0.001, gain_sem = 3,
-  min_group_n = 10)
+  min_group_n = 10, exposure_windows = 2, cell_depth = 2, reliability_drop = 0.05,
+  unused_days = 365)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

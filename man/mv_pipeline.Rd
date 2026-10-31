@@ -68,6 +68,9 @@ estimates.
 copying, aberrant timing, site anomalies and score gains.
 \item \code{\link[=pipeline_report]{pipeline_report()}}: an HTML technical report that also lists every
 flag and every decision made about it.
+\item \code{\link[=monitor_bank]{monitor_bank()}} and \code{\link[=retire_items]{retire_items()}}: after each administration, the
+bank's health over time (over-exposed items, content cells running
+short, reliability trend, unused items).
 }
 
 Flags have three levels. \code{info} flags are shown for awareness. \code{review}

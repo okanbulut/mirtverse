@@ -1,5 +1,14 @@
 # mirtverse (development version)
 
+* Bank monitoring for the assessment pipeline (stage 12). `monitor_bank()`
+  records each administration in the item bank (item exposure and marginal
+  reliability by window) and checks the bank over time: items over-exposed
+  in consecutive windows, content cells with too few active items,
+  reliability falling from its first value, and items unused for a year.
+  `retire_items()` retires bank items or sends them back to review.
+  `mv_rules()` gains `exposure_windows`, `cell_depth`, `reliability_drop`
+  and `unused_days`.
+
 * Test security for the assessment pipeline (stage 10). `check_security()`
   looks for item preknowledge (a likelihood ratio test of leaked against
   secure items), item leakage across administration windows (proportion

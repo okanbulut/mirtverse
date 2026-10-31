@@ -16,7 +16,7 @@ of \code{"acknowledged"}, \code{"overridden"} and \code{"fixed"}.}
 
 \item{stage}{optional stages to keep (\code{"blueprint"}, \code{"generation"},
 \code{"review"}, \code{"field_test"}, \code{"intake"}, \code{"calibration"}, \code{"linking"}, \code{"forms"}, \code{"cuts"},
-\code{"scoring"}, \code{"security"}, \code{"reporting"}).}
+\code{"scoring"}, \code{"security"}, \code{"reporting"}, \code{"monitoring"}).}
 }
 \value{
 A tibble with one row per flag: \code{id}, \code{stage}, \code{check}, \code{target}

@@ -67,6 +67,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   if (!is.null(p$cuts)) extra[["Cut scores"]] <- cuts_html(p)
   if (!is.null(p$open_scores) || !is.null(p$scores)) extra[["Scoring"]] <- scoring_html(p)
   if (!is.null(p$security)) extra[["Test security"]] <- security_html(p)
+  if (!is.null(p$monitoring)) extra[["Bank monitoring"]] <- monitoring_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -301,4 +302,26 @@ security_html <- function(p) {
       lk <- lk[order(-lk$p_change), , drop = FALSE]
       list(h$h3("Change in the latest window"), html_table(utils::head(lk, 10L)))
     })
+}
+
+monitoring_html <- function(p) {
+  h <- htmltools::tags
+  m <- p$monitoring
+  it <- m$items
+  wins <- as.data.frame(m$windows)
+  wins$date <- format(wins$date)
+  wins$reliability <- round(wins$reliability, 3)
+  st <- table(factor(it$status, levels = c("active", "review", "retired")))
+  top <- it[it$status == "active" & !is.na(it$latest_exposure), , drop = FALSE]
+  top <- utils::head(top[order(-top$latest_exposure), c("item", "content", "windows_used",
+                                                         "latest_exposure")], 10L)
+  top$latest_exposure <- round(top$latest_exposure, 3)
+  htmltools::tagList(
+    h$p(sprintf("%s: %d items (%d active, %d in review, %d retired).", p$bank$name, nrow(it),
+                st[["active"]], st[["review"]], st[["retired"]])),
+    if (nrow(wins)) list(h$h3("Administrations"), html_table(wins)),
+    if (!is.null(m$cells)) list(h$h3("Active items per content cell"),
+                                html_table(as.data.frame(m$cells))),
+    if (nrow(top)) list(h$h3("Most exposed items in the latest window"),
+                        html_table(as.data.frame(top))))
 }

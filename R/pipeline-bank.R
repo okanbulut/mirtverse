@@ -154,6 +154,13 @@ print.mv_bank <- function(x, ...) {
                 min(it$b[act]), max(it$b[act]), stats::median(it$a[act])))
   srcs <- unique(it$source)
   cat("Sources:", paste(srcs, collapse = ", "), "\n")
+  if (any(!act)) {
+    off <- table(it$status[!act])
+    cat("Out of use:", paste(sprintf("%d %s", as.integer(off), names(off)), collapse = ", "), "\n")
+  }
+  if (!is.null(x$windows) && nrow(x$windows))
+    cat(sprintf("Monitored: %d window(s), latest %s\n", nrow(x$windows),
+                x$windows$window[which.max(x$windows$date)]))
   invisible(x)
 }
 

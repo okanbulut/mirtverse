@@ -53,8 +53,8 @@ name.
    \code{parallel_tol} \tab 0.10 \tab largest relative difference in information between parallel forms \cr
    \code{cat_sem} \tab 0.35 \tab largest acceptable standard error of a form, CAT or MST (and the CAT stopping rule) \cr
    \code{cat_bias} \tab 0.1 \tab largest acceptable average bias of simulated CAT or MST scores \cr
-   \code{max_exposure} \tab 0.25 \tab largest share of CAT simulees who should see an item \cr
-   \code{unused_share} \tab 0.20 \tab largest share of the bank a CAT may leave unused \cr
+   \code{max_exposure} \tab 0.25 \tab largest share of CAT simulees (or of a window's test takers, in monitoring) who should see an item \cr
+   \code{unused_share} \tab 0.20 \tab largest share of the bank a CAT may leave unused (and of a monitored bank unused for \code{unused_days}) \cr
    \code{bank_depth} \tab 10 \tab bank size, in multiples of the CAT length, below which the bank is shallow \cr
    \code{mst_routing} \tab 0.15 \tab largest share of MST simulees routed to the wrong module \cr
    \code{cut_accuracy} \tab 0.85 \tab smallest acceptable classification accuracy \cr
@@ -82,6 +82,10 @@ name.
    \code{site_alpha} \tab 0.001 \tab significance level for a site with too many flagged test takers \cr
    \code{gain_sem} \tab 3 \tab score gain, in standard errors of the difference, that is unusual \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
+   \code{exposure_windows} \tab 2 \tab consecutive windows above \code{max_exposure} that flag an over-exposed bank item \cr
+   \code{cell_depth} \tab 2 \tab active bank items per content cell, in multiples of the cell's blueprint count \cr
+   \code{reliability_drop} \tab 0.05 \tab largest drop in marginal reliability from the first monitored window \cr
+   \code{unused_days} \tab 365 \tab days without use after which a bank item counts as unused \cr
 }
 
 
