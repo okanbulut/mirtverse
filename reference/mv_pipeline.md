@@ -108,7 +108,11 @@ them as a tibble.
     open-ended scoring by a language model or a trained model, checked
     against human scores, and ability estimates.
 
-11. [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
+11. [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md):
+    preknowledge, leakage, parameter drift, answer copying, aberrant
+    timing, site anomalies and score gains.
+
+12. [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
     an HTML technical report that also lists every flag and every
     decision made about it.
 
@@ -165,6 +169,7 @@ p
 #> [ ] 7  Forms             not run
 #> [ ] 8  Cut scores        not run
 #> [ ] 9  Scoring           not run
+#> [ ] 10 Test security     not run
 #> [ ] 11 Reporting         not run
 #> 
 #> Open flags: 2 block, 4 review, 1 info. See flags(p). 1 decision(s) recorded.

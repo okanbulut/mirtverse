@@ -78,6 +78,8 @@ checks and flags to consider before each next stage.
   : Pipeline stage: scoring open-ended responses
 - [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
   : Pipeline stage: score test takers
+- [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md)
+  : Pipeline stage: test security
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :

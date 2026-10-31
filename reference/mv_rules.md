@@ -81,6 +81,13 @@ A list of class `mv_rules`.
 | `subgroup_smd` | 0.10 | largest machine-human standardized mean difference within a group |
 | `min_confidence`, `min_words` | 0.5, 3 | machine scores below this confidence, or responses shorter than this, go to human scoring |
 | `max_se` | 1 | standard error above which a test taker's score is flagged as imprecise |
+| `preknowledge_alpha` | 0.001 | significance level of the preknowledge likelihood ratio test |
+| `leak_p`, `leak_rt` | 0.15, 0.25 | rise in proportion correct and relative fall in median time that suggest a leaked item |
+| `drift_a`, `drift_b` | 0.3, 0.3 | largest change in an item's slope and difficulty from its bank value |
+| `copy_alpha` | 0.001 | family-wise significance level of the identical-incorrect-answers index |
+| `rt_resid`, `rt_share` | -3, 0.20 | log-time residual, and share of items below it, that flag aberrant timing |
+| `site_alpha` | 0.001 | significance level for a site with too many flagged test takers |
+| `gain_sem` | 3 | score gain, in standard errors of the difference, that is unusual |
 | `min_group_n` | 10 | smallest group summarized in a report |
 
 `preset = "lenient"` relaxes the rules for pilot studies and small
@@ -149,6 +156,16 @@ mv_rules()
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1
+#>   preknowledge_alpha  0.001
+#>   leak_p              0.15
+#>   leak_rt             0.25
+#>   drift_a             0.3
+#>   drift_b             0.3
+#>   copy_alpha          0.001
+#>   rt_resid            -3
+#>   rt_share            0.2
+#>   site_alpha          0.001
+#>   gain_sem            3
 #>   min_group_n         10
 mv_rules(q3 = 0.25, reliability = 0.85)
 #> <mv_rules> preset: standards; changed: q3, reliability
@@ -208,6 +225,16 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1
+#>   preknowledge_alpha  0.001
+#>   leak_p              0.15
+#>   leak_rt             0.25
+#>   drift_a             0.3
+#>   drift_b             0.3
+#>   copy_alpha          0.001
+#>   rt_resid            -3
+#>   rt_share            0.2
+#>   site_alpha          0.001
+#>   gain_sem            3
 #>   min_group_n         10
 mv_rules(preset = "lenient")
 #> <mv_rules> preset: lenient
@@ -267,5 +294,15 @@ mv_rules(preset = "lenient")
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1
+#>   preknowledge_alpha  0.001
+#>   leak_p              0.15
+#>   leak_rt             0.25
+#>   drift_a             0.3
+#>   drift_b             0.3
+#>   copy_alpha          0.001
+#>   rt_resid            -3
+#>   rt_share            0.2
+#>   site_alpha          0.001
+#>   gain_sem            3
 #>   min_group_n         10
 ```
