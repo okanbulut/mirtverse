@@ -5,13 +5,14 @@ articles:
   articles/assessment-pipeline: assessment-pipeline.html
   articles/course-map: course-map.html
   articles/dashboards: dashboards.html
+  articles/glossary: glossary.html
   articles/mirtify: mirtify.html
   mirtverse: mirtverse.html
   articles/mv-ask-guide: mv-ask-guide.html
   response-times: response-times.html
   articles/teaching-labs: teaching-labs.html
   workbench: workbench.html
-last_built: 2026-10-31T11:40Z
+last_built: 2026-10-31T11:56Z
 urls:
   reference: https://www.okanbulut.com/mirtverse/reference
   article: https://www.okanbulut.com/mirtverse/articles

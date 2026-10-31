@@ -1,5 +1,13 @@
 # Changelog
 
+## mirtverse (development version)
+
+- New article, “Glossary of IRT terms”: 87 terms in plain language,
+  grouped from the basic ideas to test design, each with the mirtverse
+  or mirt function that computes it and a figure where one helps. Every
+  term has a stable anchor (for example `glossary.html#discrimination`)
+  for linking from course materials.
+
 ## mirtverse 0.2.0
 
 ### Assessment pipeline

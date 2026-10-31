@@ -411,6 +411,13 @@ Interactive tutorials for measurement courses.
   make the decisions a psychometrician makes, from scoring and model
   choice to interpretation. Includes an instructor guide and answer key.
 
+- [Glossary of IRT
+  terms](https://www.okanbulut.com/mirtverse/articles/glossary.md):
+
+  Plain-language definitions of the terms used in item response theory,
+  each with the mirtverse or mirt function that computes it, and
+  pictures where a picture helps.
+
 - [A course map for
   instructors](https://www.okanbulut.com/mirtverse/articles/course-map.md):
 
