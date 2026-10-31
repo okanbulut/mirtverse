@@ -80,8 +80,8 @@ calibrate <- function(p, model = "auto", dif = NULL, reference = NULL, ...) {
                          if (!is.na(rxx)) sprintf(", reliability %.2f", rxx) else ""))
   p$link <- NULL
   p$forms <- NULL; p$cuts <- NULL
-  p$scores <- NULL
-  for (s in c("linking", "forms", "cuts", "scoring", "reporting"))
+  p$scores <- NULL; p$security <- NULL
+  for (s in c("linking", "forms", "cuts", "scoring", "security", "reporting"))
     if (p$stages$status[p$stages$stage == s] != "not run")
       p <- set_stage(p, s, "needs rerun", "model changed since this stage ran")
   p <- log_event(p, "calibrate", how)
