@@ -44,6 +44,8 @@
 #' | `cut_consistency` | 0.80 | smallest acceptable classification consistency |
 #' | `cut_sem` | 0.35 | largest acceptable standard error of measurement at a cut score |
 #' | `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
+#' | `duplicate_sim` | 0.90 | largest word overlap (Jaccard) between two items before they are near-duplicates |
+#' | `coverage_ratio` | 3 | items to write per blueprint target (items are lost in review and field testing) |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -100,7 +102,8 @@ default_rules <- list(
   anchor_displacement = 0.3, link_slope_min = 0.8, link_slope_max = 1.2,
   parallel_tol = 0.10, cat_sem = 0.35, cat_bias = 0.1, max_exposure = 0.25,
   unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, cut_accuracy = 0.85,
-  cut_consistency = 0.80, cut_sem = 0.35, panel_sd = 0.5, min_group_n = 10)
+  cut_consistency = 0.80, cut_sem = 0.35, panel_sd = 0.5, duplicate_sim = 0.90,
+  coverage_ratio = 3, min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)

@@ -49,6 +49,8 @@ reference:
     checks and flags to consider before each next stage.
   contents:
   - mv_pipeline
+  - set_blueprint
+  - generate_items
   - add_responses
   - calibrate
   - link_to_bank

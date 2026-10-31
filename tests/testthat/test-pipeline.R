@@ -31,7 +31,7 @@ test_that("add_responses() scores with a key and finds the miskeyed item", {
   f <- flags(p_exam)
   expect_equal(f$target[f$check == "possible_miskey"], "Q14")
   expect_equal(f$level[f$check == "possible_miskey"], "block")
-  expect_equal(p_exam$stages$status[1], "done")
+  expect_equal(p_exam$stages$status[p_exam$stages$stage == "intake"], "done")
 })
 
 test_that("add_responses() checks its input", {
@@ -110,7 +110,7 @@ test_that("drop_items() fixes flags and asks for recalibration", {
   expect_equal(nrow(flags(p)), 0L)
   p2 <- drop_items(p_exam_cal, c("Q21"), note = "testlet")
   expect_null(p2$model)
-  expect_equal(p2$stages$status[2], "needs rerun")
+  expect_equal(p2$stages$status[p2$stages$stage == "calibration"], "needs rerun")
   expect_true("Q21 & Q22" %in% flags(p2, status = "fixed")$target)
   expect_error(drop_items(p_exam, "Q99"), "Unknown item")
 })
@@ -123,7 +123,7 @@ test_that("calibrate() finds planted DIF and local dependence", {
   expect_true("Q21 & Q22" %in% f$target[f$check == "local_dependence"])
   expect_equal(p$dif$ets[p$dif$item == "Q09"], "C")
   expect_equal(p$dif$favours[p$dif$item == "Q09"], "reference")
-  expect_match(p$stages$summary[2], "^2PL, converged, reliability")
+  expect_match(p$stages$summary[p$stages$stage == "calibration"], "^2PL, converged, reliability")
   expect_error(calibrate(mv_pipeline()), "add_responses")
 })
 
