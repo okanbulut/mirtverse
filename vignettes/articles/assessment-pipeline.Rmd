@@ -72,15 +72,16 @@ the drafts (a second model call verifies each key) and flags disputed keys,
 weak distractors, near-duplicate items and readability above the grade level.
 Items written by people come in with `add_items()` and pass the same checks.
 
-`review_packet()` writes a spreadsheet for content and sensitivity
-reviewers, optionally with an AI screen. `read_reviews()` reads their
+`review_packet()` writes a CSV review form (it opens in Excel) for content
+and sensitivity reviewers, optionally with an AI screen. `read_reviews()` reads their
 decisions back and flags items without enough reviewers, items judged
 misaligned or biased, and low agreement between reviewers.
 
 ```{r, eval = FALSE}
-p <- generate_items(p, n = 3)            # needs an API key for the model provider
-p <- review_packet(p, "review.xlsx", reviewers = c("Ana", "Ben", "Chen"))
-p <- read_reviews(p, "review-returned.xlsx")
+# generate_items() needs an API key for the model provider
+p <- generate_items(p, n = 3)
+p <- review_packet(p, "review.csv", reviewers = c("Ana", "Ben", "Chen"))
+p <- read_reviews(p, "review-returned.csv")
 ```
 
 The certexam items already exist, so we skip these steps here.
