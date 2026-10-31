@@ -59,7 +59,9 @@ which you can hand in as an assignment.
 The two labs follow one storyline, but Lab 2 also works on its own. The
 tables below list what students do in each section and the decisions
 they make. The answers are in the [answer key](#answer-key) at the end
-of the page.
+of the page. For where the labs fit in a full term, see the [course
+map](https://www.okanbulut.com/mirtverse/articles/course-map.md), a
+suggested 12-week syllabus.
 
 ### Lab 1: Choosing a model the board can defend
 

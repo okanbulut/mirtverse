@@ -399,6 +399,13 @@ Interactive tutorials for measurement courses.
   make the decisions a psychometrician makes, from scoring and model
   choice to interpretation. Includes an instructor guide and answer key.
 
+- [A course map for
+  instructors](https://www.okanbulut.com/mirtverse/articles/course-map.md):
+
+  A suggested 12-week syllabus for a university course in item response
+  theory, linking each week to mirtverse articles, labs, functions and
+  datasets.
+
 - [Moving from ltm, eRm, TAM or irtQ to
   mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.md):
 
