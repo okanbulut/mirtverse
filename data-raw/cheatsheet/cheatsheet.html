@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>mirtverse cheat sheet</title>
+<!-- Source of pkgdown/assets/cheatsheet/mirtverse-cheatsheet.pdf.
+     Rebuild with: node data-raw/cheatsheet/build.js -->
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+  :root {
+    --navy: #1F3F5E; --blue: #2C5F8A; --amber: #E8A33D; --ink: #1d232a;
+    --muted: #5b6672; --line: #d5dde6; --tint: #eef3f8; --code: #f6f8fa;
+    --red: #b8433a; --green: #3c7d4f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: "Inter", "Liberation Sans", sans-serif; color: var(--ink);
+         font-size: 7.4pt; line-height: 1.3; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 11in; height: 8.5in; padding: 0.28in 0.32in 0.22in; position: relative;
+          overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
+  .page:last-child { page-break-after: auto; }
+
+  /* header */
+  header { display: flex; align-items: center; gap: 12px; padding-bottom: 6px;
+           border-bottom: 2.5px solid var(--navy); margin-bottom: 8px; }
+  header img { height: 0.82in; }
+  header .title { flex: 1; }
+  header h1 { white-space: nowrap; font-size: 19pt; margin: 0; letter-spacing: -0.3px; color: var(--navy); font-weight: 800; }
+  header h1 span { color: var(--amber); font-weight: 700; }
+  header h1 small { font-size: 12pt; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
+  header p { margin: 3px 0 0; font-size: 8.4pt; color: var(--muted); max-width: 6.6in; }
+  header .basics { width: 3.05in; background: var(--tint); border-radius: 6px; padding: 6px 8px; font-size: 7.2pt; }
+  header .basics b { color: var(--navy); }
+
+  .cols { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; min-height: 0; }
+  .col { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+
+  section { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  section h2 { margin: 0; background: var(--navy); color: #fff; font-size: 9.2pt; padding: 3px 8px;
+               font-weight: 700; letter-spacing: 0.2px; display: flex; justify-content: space-between; align-items: baseline; }
+  section h2 em { font-style: normal; font-weight: 500; font-size: 7pt; opacity: 0.85; }
+  section h2.amber { background: var(--blue); }
+  section .body { padding: 5px 8px 6px; }
+  section .lead { color: var(--muted); margin: 0 0 4px; }
+
+  dl { margin: 0; }
+  dt { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 7pt; color: var(--navy);
+       margin-top: 3.5px; font-weight: 600; word-break: break-word; }
+  dt:first-child { margin-top: 0; }
+  dt .arg { color: var(--muted); font-weight: 400; }
+  dd { margin: 0.5px 0 0 10px; }
+  code { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 6.8pt; color: var(--navy); }
+  pre { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 6.8pt; background: var(--code);
+        border-left: 3px solid var(--amber); margin: 3px 0; padding: 4px 6px; white-space: pre-wrap; line-height: 1.38; }
+  pre .c { color: #7b8794; }
+  .note { font-size: 6.9pt; color: var(--muted); margin-top: 4px; }
+  .tag { display: inline-block; font-size: 6pt; font-weight: 700; padding: 0 4px; border-radius: 3px;
+         background: var(--amber); color: #3a2600; vertical-align: 1px; margin-left: 2px; }
+
+  /* graphics grid */
+  .gg { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; }
+  .gg div { display: flex; gap: 5px; align-items: flex-start; }
+  .gg svg { flex: 0 0 auto; width: 34px; height: 24px; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
+  .gg p > code { display: block; font-weight: 600; }
+  .gg span { color: var(--ink); font-size: 6.9pt; }
+
+  /* pipeline strip */
+  .strip { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; margin-bottom: 8px; }
+  .strip div { background: var(--tint); border-radius: 4px; padding: 3px 3px 4px; text-align: center; font-size: 6.6pt;
+               line-height: 1.15; position: relative; border-top: 3px solid var(--blue); }
+  .strip div b { display: block; font-size: 9pt; color: var(--navy); }
+  .strip div.g1 { border-top-color: #6c8ebf; }
+  .strip div.g2 { border-top-color: var(--navy); }
+  .strip div.g3 { border-top-color: var(--amber); }
+  .stage { display: inline-block; min-width: 15px; text-align: center; background: var(--amber); color: #3a2600;
+           border-radius: 8px; font-weight: 700; font-size: 6.6pt; padding: 0 4px; margin-right: 4px; }
+  h3 { font-size: 7.8pt; margin: 6px 0 1px; color: var(--navy); }
+  h3:first-child { margin-top: 0; }
+
+  .levels { display: grid; grid-template-columns: auto 1fr; gap: 2px 6px; margin: 3px 0 2px; align-items: baseline; }
+  .lvl { font-weight: 700; font-size: 6.6pt; padding: 0 5px; border-radius: 3px; color: #fff; text-align: center; }
+  .lvl.info { background: #6c8ebf; } .lvl.review { background: var(--amber); color: #3a2600; } .lvl.block { background: var(--red); }
+
+  footer { display: flex; justify-content: space-between; font-size: 6.6pt; color: var(--muted);
+           border-top: 1px solid var(--line); padding-top: 3px; margin-top: 7px; }
+  footer b { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<div class="page">
+  <header>
+    <img src="../../man/figures/logo.png" alt="mirtverse hex logo">
+    <div class="title">
+      <h1>Item response theory with mirtverse <small>:: CHEAT SHEET</small></h1>
+      <p>mirtverse sits on top of <b>mirt</b>. mirt estimates the models; mirtverse helps you choose a
+        model, read the results, make figures and share them. Every function takes an ordinary mirt model,
+        so you can mix the two packages freely.</p>
+    </div>
+    <div class="basics">
+      <b>Install</b><br>
+      <code>install.packages("mirtverse", repos = c(<br>&nbsp;&nbsp;"https://okanbulut.r-universe.dev",<br>&nbsp;&nbsp;"https://cloud.r-project.org"))</code><br>
+      <code>library(mirtverse)</code> &nbsp;<span style="color:var(--muted)">loads mirt too</span>
+    </div>
+  </header>
+
+  <div class="cols">
+    <!-- column 1 -->
+    <div class="col">
+      <section>
+        <h2>Choose a model <em>start here</em></h2>
+        <div class="body">
+          <pre>data &lt;- expand.table(LSAT7)
+sel  &lt;- select_model(data)
+mod  &lt;- sel$best    <span class="c"># an ordinary mirt model</span></pre>
+          <dl>
+            <dt>select_model(data, <span class="arg">candidates, dims = 1, criterion = "BIC"</span>)</dt>
+            <dd>Fit and recommend a model: Rasch, 2PL or 3PL for 0/1 items; PCM, GPCM or graded otherwise.</dd>
+            <dt>autoplot(sel) &nbsp;·&nbsp; interpret(sel) &nbsp;·&nbsp; tidy(sel)</dt>
+            <dd>Compare the candidates as a plot, in words or as a table.</dd>
+            <dt>mirt(data, 1, <span class="arg">itemtype = "2PL"</span>)</dt>
+            <dd>Or fit the model yourself with mirt.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Read the results in plain language</h2>
+        <div class="body">
+          <dl>
+            <dt>interpret(mod, <span class="arg">alpha = 0.01</span>)</dt>
+            <dd>Fit, reliability, weak or misfitting items and local dependence, written as sentences.
+              Also works on <code>select_model()</code>, <code>dif()</code> and <code>fit_rt()</code> results.</dd>
+            <dt>interpret_prompt(mod, <span class="arg">audience</span>)</dt>
+            <dd>Pack the results into a prompt to paste into an AI assistant for a longer narrative.
+              Nothing is sent anywhere.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tidy outputs <em>data frames for dplyr, gt …</em></h2>
+        <div class="body">
+          <dl>
+            <dt>tidy(mod, <span class="arg">IRTpars = TRUE, conf.int = FALSE</span>)</dt>
+            <dd>One row per item parameter, in the IRT (a, b, c) metric.</dd>
+            <dt>glance(mod)</dt>
+            <dd>One row of model fit: logLik, AIC, BIC, M2, RMSEA, CFI, reliability.</dd>
+            <dt>augment(mod, <span class="arg">method = "EAP", person_fit = FALSE</span>)</dt>
+            <dd>The data with each person's score and standard error added.</dd>
+            <dt>item_table(mod, <span class="arg">fit_stats = "S_X2"</span>)</dt>
+            <dd>One row per item: parameters, fit and a status flag.</dd>
+          </dl>
+          <p class="note">tidy() also works on DIF, response-time, bank and pipeline objects.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Differential item functioning</h2>
+        <div class="body">
+          <pre>d &lt;- dif(data, group = gender, model = "2PL")
+tidy(d); interpret(d); gg_dif(d)</pre>
+          <dl>
+            <dt>dif(x, group, <span class="arg">model, items, which.par, p_adjust = "BH"</span>)</dt>
+            <dd>LR tests, effect sizes, adjusted p-values.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 2 -->
+    <div class="col">
+      <section>
+        <h2>Graphics <em>every plot is a ggplot</em></h2>
+        <div class="body">
+          <div class="gg">
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C12 21 14 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.6"/><path d="M2 20 C16 20 19 6 32 5" fill="none" stroke="#E8A33D" stroke-width="1.3"/></svg>
+              <p style="margin:0"><code>gg_trace(mod)</code><span>item curves; <code>type = "expected"</code></span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C10 21 12 4 17 4 C22 4 24 21 32 21" fill="none" stroke="#2C5F8A" stroke-width="1.6"/></svg>
+              <p style="margin:0"><code>gg_info(mod)</code><span><code>type = "test"</code>, <code>"items"</code>, <code>"se"</code></span></p></div>
+            <div><svg viewBox="0 0 34 24"><g fill="#2C5F8A"><rect x="3" y="5" width="4" height="2"/><rect x="3" y="8" width="8" height="2"/><rect x="3" y="11" width="12" height="2"/><rect x="3" y="14" width="7" height="2"/><rect x="3" y="17" width="3" height="2"/></g><line x1="17" y1="2" x2="17" y2="22" stroke="#999" stroke-width=".6"/><g fill="#E8A33D"><circle cx="22" cy="7" r="1.4"/><circle cx="26" cy="11" r="1.4"/><circle cx="22" cy="14" r="1.4"/><circle cx="29" cy="17" r="1.4"/></g></svg>
+              <p style="margin:0"><code>gg_wright(mod)</code><span>persons and items on one scale</span></p></div>
+            <div><svg viewBox="0 0 34 24"><line x1="22" y1="2" x2="22" y2="22" stroke="#b8433a" stroke-width=".8" stroke-dasharray="2 1"/><g fill="#2C5F8A"><rect x="3" y="4" width="8" height="2.4"/><rect x="3" y="8" width="12" height="2.4"/><rect x="3" y="12" width="6" height="2.4"/><rect x="3" y="16" width="25" height="2.4" fill="#b8433a"/></g></svg>
+              <p style="margin:0"><code>gg_itemfit(mod)</code><span>item fit with a cutoff</span></p></div>
+            <div><svg viewBox="0 0 34 24"><g><rect x="6" y="2" width="5" height="5" fill="#dfe8f1"/><rect x="12" y="2" width="5" height="5" fill="#b8433a"/><rect x="18" y="2" width="5" height="5" fill="#dfe8f1"/><rect x="6" y="8" width="5" height="5" fill="#9fb8d3"/><rect x="12" y="8" width="5" height="5" fill="#dfe8f1"/><rect x="18" y="8" width="5" height="5" fill="#9fb8d3"/><rect x="6" y="14" width="5" height="5" fill="#dfe8f1"/><rect x="12" y="14" width="5" height="5" fill="#9fb8d3"/><rect x="18" y="14" width="5" height="5" fill="#dfe8f1"/></g></svg>
+              <p style="margin:0"><code>gg_q3(mod, cutoff = 0.2)</code><span>local dependence</span></p></div>
+            <div><svg viewBox="0 0 34 24"><g fill="#2C5F8A"><rect x="4" y="18" width="3" height="3"/><rect x="8" y="13" width="3" height="8"/><rect x="12" y="7" width="3" height="14"/><rect x="16" y="4" width="3" height="17"/><rect x="20" y="8" width="3" height="13"/><rect x="24" y="14" width="3" height="7"/><rect x="28" y="18" width="3" height="3"/></g></svg>
+              <p style="margin:0"><code>gg_scores(mod)</code><span>distribution of person scores</span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C12 21 14 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><g fill="#E8A33D"><circle cx="5" cy="19" r="1.3"/><circle cx="11" cy="17" r="1.3"/><circle cx="16" cy="10" r="1.3"/><circle cx="22" cy="7" r="1.3"/><circle cx="29" cy="4" r="1.3"/></g></svg>
+              <p style="margin:0"><code>gg_empirical(mod, item)</code><span>model curve vs. observed</span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C10 21 12 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M2 21 C16 21 20 3 32 3" fill="none" stroke="#b8433a" stroke-width="1.4"/></svg>
+              <p style="margin:0"><code>gg_dif(d)</code><span><code>type = "effect"</code> or <code>"curves"</code></span></p></div>
+          </div>
+          <dl style="margin-top:5px">
+            <dt>autoplot(mod, <span class="arg">type</span>)</dt>
+            <dd>Every plot from one function: <code>"trace"</code>, <code>"expected"</code>, <code>"info"</code>,
+              <code>"iteminfo"</code>, <code>"se"</code>, <code>"wright"</code>, <code>"itemfit"</code>,
+              <code>"q3"</code>, <code>"scores"</code>.</dd>
+            <dt>gg_trace(mod) + theme_mirtverse(<span class="arg">base_size = 11</span>)</dt>
+            <dd>Change labels, colours and themes as with any ggplot.</dd>
+          </dl>
+          <p class="note">Common arguments: <code>which.items</code> picks items, <code>theta_lim = c(-4, 4)</code> sets the ability range.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Response times</h2>
+        <div class="body">
+          <pre>sim &lt;- sim_rt(N = 1500, J = 20, rapid = 0.08)
+mod &lt;- mirt(sim$responses, 1, "2PL")
+fit &lt;- fit_rt(mod, sim$rt)</pre>
+          <dl>
+            <dt>fit_rt(x, rt, <span class="arg">flag_method = "residual"</span>)</dt>
+            <dd>Joint model for responses and response times (van der Linden, 2007) with person speed
+              and rapid-guessing flags. Also <code>"nt10"</code>, <code>"nt15"</code>, <code>"nt20"</code>.</dd>
+            <dt>tidy(fit) · glance(fit) · augment(fit) · autoplot(fit) · interpret(fit)</dt>
+            <dd>Item time parameters, fit, person speed and flags, plots and plain-language findings.</dd>
+            <dt>sim_rt(<span class="arg">N, J, rho = -0.3, sd_speed, rapid, seed</span>)</dt>
+            <dd>Simulate responses and times, with a share of rapid guessers.</dd>
+          </dl>
+        </div>
+      </section>
+      <section>
+        <h2>Coming from another IRT package?</h2>
+        <div class="body">
+          <dl>
+            <dt>mirtify(code, <span class="arg">run = FALSE, notes = TRUE</span>)</dt>
+            <dd>Rewrite <b>ltm</b>, <b>eRm</b>, <b>TAM</b> or <b>irtQ</b> code as mirt code, with notes on
+              what differs. Give it a string or an .R file.</dd>
+            <dt>mirtify_crosswalk(<span class="arg">package</span>)</dt>
+            <dd>Table of equivalent functions.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 3 -->
+    <div class="col">
+      <section>
+        <h2>Share the results</h2>
+        <div class="body">
+          <dl>
+            <dt>item_card(mod, item) · item_cards(mod, <span class="arg">file</span>)</dt>
+            <dd>A one-page health card per item with a traffic-light status, for review meetings.</dd>
+            <dt>mv_report(sel, <span class="arg">file = "report.html", dif, cards, code</span>)</dt>
+            <dd>One HTML report: model comparison, interpretation, tables, graphics, a sum-score table,
+              item cards and the R code to reproduce it.</dd>
+            <dt>mv_dashboard(mod, <span class="arg">title, panels, dif, rt</span>)</dt>
+            <dd>A read-only Shiny dashboard for people who do not use R.</dd>
+            <dt>export_dashboard(mod, "results.html", <span class="arg">format = "html"</span>)</dt>
+            <dd>One offline HTML file to email, or <code>format = "shiny"</code> for shinyapps.io or Posit Connect.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Click, or describe it in words</h2>
+        <div class="body">
+          <dl>
+            <dt>launch_workbench(<span class="arg">data</span>)</dt>
+            <dd>Point-and-click app that writes the R code for every step.</dd>
+          </dl>
+          <pre>mv_ask_setup("claude")        <span class="c"># once</span>
+scr &lt;- mv_ask("Fit a 2PL, check DIF by gender
+  and make a report", data = mydata)
+run_script(scr)
+save_script(scr, "analysis.R")</pre>
+          <dl>
+            <dt>mv_ask(request, data, <span class="arg">anonymize = FALSE, dry_run = FALSE</span>)</dt>
+            <dd>Turn a request into a tested script. <code>dry_run = TRUE</code> shows what would be sent;
+              <code>anonymize = TRUE</code> hides column names. Works offline with a keyword parser.</dd>
+            <dt>profile_data(data) · mv_plan() · update_plan(plan, ...)</dt>
+            <dd>Inspect the data, or write and edit the analysis plan yourself.</dd>
+          </dl>
+        </div>
+      </section>
+
+
+      <section>
+        <h2>Teaching labs</h2>
+        <div class="body">
+          <dl>
+            <dt>run_lab("model-choice") · run_lab("decisions")</dt>
+            <dd>Interactive tutorials: students fit live models and make testing decisions, with feedback.</dd>
+            <dt>list_labs() · lab_truth()</dt>
+            <dd>Available labs; the planted answers, for instructors.</dd>
+            <dt>certexam · certexam_key</dt>
+            <dd>A simulated 32-item certification exam in English and French, with planted problems.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span><b>mirtverse</b> 0.1.0 · www.okanbulut.com/mirtverse · github.com/okanbulut/mirtverse</span>
+    <span>Built on mirt (Chalmers, 2012) · Updated October 2026</span>
+  </footer>
+</div>
+
+<!-- ============================ PAGE 2 ============================ -->
+<div class="page">
+  <header>
+    <img src="../../man/figures/logo.png" alt="mirtverse hex logo">
+    <div class="title">
+      <h1>The assessment pipeline <small>:: CHEAT SHEET</small></h1>
+      <p>One object carries a test from blueprint to bank monitoring. Each stage does its work, then runs a
+        <b>gate</b>: checks that record <b>flags</b> for you to consider before the next stage. Every decision
+        is logged, and <code>p$code</code> keeps the R code for the whole run.</p>
+    </div>
+    <div class="basics">
+      <pre style="margin:0;background:#fff">p &lt;- mv_pipeline("Certification exam")
+p &lt;- add_responses(p, certexam, items = 3:34,
+       key = certexam_key, group = "language")
+p &lt;- calibrate(p, model = "2PL")
+flags(p)
+pipeline_report(p, "report.html")</pre>
+    </div>
+  </header>
+
+  <div class="strip">
+    <div class="g1"><b>0</b>Blueprint</div>
+    <div class="g1"><b>1</b>Item generation</div>
+    <div class="g1"><b>2</b>Item review</div>
+    <div class="g1"><b>3</b>Field-test design</div>
+    <div class="g2"><b>4</b>Data intake</div>
+    <div class="g2"><b>5</b>Calibration</div>
+    <div class="g2"><b>6</b>Linking and bank</div>
+    <div class="g2"><b>7</b>Forms</div>
+    <div class="g3"><b>8</b>Cut scores</div>
+    <div class="g3"><b>9</b>Scoring</div>
+    <div class="g3"><b>10</b>Test security</div>
+    <div class="g3"><b>11</b>Reporting</div>
+    <div class="g3"><b>12</b>Bank monitoring</div>
+  </div>
+
+  <div class="cols">
+    <!-- column 1 -->
+    <div class="col">
+      <section>
+        <h2>Gates and flags <em>decide, then move on</em></h2>
+        <div class="body">
+          <div class="levels">
+            <span class="lvl info">info</span><span>for awareness</span>
+            <span class="lvl review">review</span><span>look before you continue</span>
+            <span class="lvl block">block</span><span>fix, drop or override with a reason</span>
+          </div>
+          <dl>
+            <dt>flags(p, <span class="arg">status = "open", level, stage</span>)</dt>
+            <dd>List flags; <code>status = "all"</code> includes decided ones.</dd>
+            <dt>acknowledge(p, <span class="arg">check, target, note</span>)</dt>
+            <dd>Accept a flag, with an optional note.</dd>
+            <dt>override(p, <span class="arg">check, target</span>, note)</dt>
+            <dd>Go past a flag; a written reason is required.</dd>
+            <dt>drop_items(p, items, <span class="arg">note</span>)</dt>
+            <dd>Remove items and mark their flags fixed.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Rules and strictness</h2>
+        <div class="body">
+          <dl>
+            <dt>mv_pipeline(title, <span class="arg">rules = mv_rules(), strict = FALSE</span>)</dt>
+            <dd>Gates warn by default. With <code>strict = TRUE</code>, open review and block flags stop the
+              next stage until a decision is recorded.</dd>
+            <dt>mv_rules(<span class="arg">..., preset = "standards"</span>)</dt>
+            <dd>Every threshold, changeable by name: <code>mv_rules(q3 = 0.25, reliability = 0.85)</code>.
+              <code>preset = "lenient"</code> relaxes them for pilot studies.</dd>
+          </dl>
+          <p class="note">print(p) shows each stage's status; tidy(p) lists all flags as a data frame.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="amber">Build the test <em>stages 0 to 3</em></h2>
+        <div class="body">
+          <h3><span class="stage">0</span>set_blueprint(p, cells, <span style="font-weight:400;color:var(--muted)">&nbsp;construct, use, reliability</span>)</h3>
+          <div>Content cells and item counts, e.g. <code>c(Ethics = 4, Law = 3)</code>.</div>
+          <h3><span class="stage">1</span>generate_items(p, n, <span style="font-weight:400;color:var(--muted)">&nbsp;type, provider</span>)<span class="tag">LLM</span></h3>
+          <div>Draft MC or open-ended items; <code>verify_items()</code> checks keys;
+            <code>add_items(p, items)</code> brings your own.</div>
+          <h3><span class="stage">2</span>review_packet(p, file, <span style="font-weight:400;color:var(--muted)">&nbsp;reviewers</span>)</h3>
+          <div>Write a review form; <code>read_reviews(p, reviews)</code> reads it back.</div>
+          <h3><span class="stage">3</span>design_field_test(p, n_forms, n_per_form)</h3>
+          <div>Plan forms and anchors, then simulate parameter recovery.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 2 -->
+    <div class="col">
+      <section>
+        <h2 class="amber">Calibrate and assemble <em>stages 4 to 7</em></h2>
+        <div class="body">
+          <h3><span class="stage">4</span>add_responses(p, data, <span style="font-weight:400;color:var(--muted)">&nbsp;items, key, group, id, rt</span>)</h3>
+          <div>Score raw answers with the key. Checks missing data, miskeys, straight-lining, rapid guessing
+            and sparse categories.</div>
+          <h3><span class="stage">5</span>calibrate(p, <span style="font-weight:400;color:var(--muted)">&nbsp;model = "auto", dif, reference</span>)</h3>
+          <div>Fit the model. Checks convergence, model and item fit, local dependence, parameter ranges,
+            DIF, reliability and person fit.</div>
+          <h3><span class="stage">6</span>link_to_bank(p, bank, <span style="font-weight:400;color:var(--muted)">&nbsp;method</span>)</h3>
+          <div>Put the new items on the bank's scale: <code>"stocking-lord"</code>, <code>"haebara"</code>,
+            <code>"mean-sigma"</code>, <code>"mean-mean"</code> or <code>"fixed"</code>.
+            <code>bank_items(p, name)</code> stores them; <code>mv_bank(mod)</code> starts a bank from a model.</div>
+          <h3><span class="stage">7</span>assemble_forms(p, length, <span style="font-weight:400;color:var(--muted)">&nbsp;n_forms, theta, content, blueprint, enemies</span>)</h3>
+          <div>Build parallel forms that meet the blueprint and keep enemy items apart.</div>
+          <dl>
+            <dt>simulate_cat(p, <span class="arg">n, min_sem, max_items, criteria = "MI"</span>)</dt>
+            <dd>Simulate a computerized adaptive test from the bank.</dd>
+            <dt>assemble_mst(p, <span class="arg">router_length, module_length, n_modules</span>)</dt>
+            <dd>Build and simulate a multistage test.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>The certexam example</h2>
+        <div class="body">
+          <pre>p &lt;- drop_items(p, "Q14", note = "Miskey")
+p &lt;- calibrate(p, model = "2PL")
+p &lt;- override(p, check = "dif_large",
+       note = "French version revised")
+p &lt;- bank_items(p, name = "Certification bank")
+p &lt;- set_cuts(p, cuts = 18, scale = "raw",
+       labels = c("Fail", "Pass"))
+p &lt;- score_persons(p)</pre>
+          <p class="note">The full walk-through is in the <i>Assessment pipeline</i> article on the website.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 3 -->
+    <div class="col">
+      <section>
+        <h2 class="amber">Decide, score and report <em>stages 8 to 12</em></h2>
+        <div class="body">
+          <h3><span class="stage">8</span>set_cuts(p, cuts, <span style="font-weight:400;color:var(--muted)">&nbsp;scale = "theta", labels, panel</span>)</h3>
+          <div>Set cut scores on the theta or raw scale, with classification accuracy and consistency.
+            <code>item_map(p, rp = 0.67)</code> maps items to the scale for standard setting.</div>
+          <h3><span class="stage">9</span>score_persons(p, <span style="font-weight:400;color:var(--muted)">&nbsp;method = "EAP"</span>)</h3>
+          <div>Person scores with standard errors, checked for reliability and extreme scores. <code>score_open(p, responses)</code>
+            scores open-ended answers with a rubric and an LLM or your own trained model.<span class="tag">LLM</span></div>
+          <h3><span class="stage">10</span>check_security(p, <span style="font-weight:400;color:var(--muted)">&nbsp;leaked, window, site</span>)</h3>
+          <div>Preknowledge, leaked items, drift, copying and unusual timing.</div>
+          <h3><span class="stage">11</span>pipeline_report(p, <span style="font-weight:400;color:var(--muted)">&nbsp;file</span>)</h3>
+          <div>An HTML technical report with every stage, flag and decision, and the R code.</div>
+          <h3><span class="stage">12</span>monitor_bank(p, <span style="font-weight:400;color:var(--muted)">&nbsp;window, date, content</span>)</h3>
+          <div>After each administration: item exposure, bank depth per content cell, reliability trend and unused items.
+            <code>retire_items(p, items, status, note)</code> takes items out of use.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>What each stage needs</h2>
+        <div class="body">
+          <dl>
+            <dt>ellmer <span class="tag">LLM</span></dt>
+            <dd>Item generation, AI review screening and open-ended scoring, with your own API key
+              (Claude, OpenAI or a local Ollama model).</dd>
+            <dt>eatATA</dt><dd>Form assembly.</dd>
+            <dt>mirtCAT</dt><dd>CAT and multistage simulation.</dd>
+          </dl>
+          <p class="note">These are suggested packages: install them only for the stages you use.
+            Linking and cut-score methods are built in.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Prefer clicking?</h2>
+        <div class="body">
+          <div>The workbench has a <b>Pipeline</b> tab that runs the same stages, shows the flags and
+            writes the code: <code>launch_workbench()</code>.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span><b>mirtverse</b> 0.1.0 · www.okanbulut.com/mirtverse · github.com/okanbulut/mirtverse</span>
+    <span>Learn more: <i>Assessment pipeline</i> article · <code>?mv_pipeline</code> · Updated October 2026</span>
+  </footer>
+</div>
+
+</body>
+</html>

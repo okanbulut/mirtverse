@@ -5,3 +5,4 @@ docs/
 *.html
 !inst/**/*.html
 !pkgdown/assets/**/*.html
+!data-raw/**/*.html
