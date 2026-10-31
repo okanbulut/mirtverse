@@ -15,6 +15,12 @@
 - [The mirtverse
   workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md):
 
+- [An assessment pipeline from blueprint to bank
+  monitoring](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md):
+
+  Take a certification exam through every stage of the mirtverse
+  assessment pipeline, with the checks and decisions at each step.
+
 - [Sharing results with a
   dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md):
 
