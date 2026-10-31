@@ -116,6 +116,13 @@ them as a tibble.
     an HTML technical report that also lists every flag and every
     decision made about it.
 
+13. [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
+    and
+    [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md):
+    after each administration, the bank's health over time (over-exposed
+    items, content cells running short, reliability trend, unused
+    items).
+
 Flags have three levels. `info` flags are shown for awareness. `review`
 flags point at something a psychometrician should look at. `block` flags
 point at problems that make later stages unsafe, such as a model that
@@ -171,6 +178,7 @@ p
 #> [ ] 9  Scoring           not run
 #> [ ] 10 Test security     not run
 #> [ ] 11 Reporting         not run
+#> [ ] 12 Bank monitoring   not run
 #> 
 #> Open flags: 2 block, 4 review, 1 info. See flags(p). 1 decision(s) recorded.
 f <- pipeline_report(p, file = tempfile(fileext = ".html"))

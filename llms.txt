@@ -246,6 +246,10 @@ checks and flags to consider before each next stage.
   : Pipeline stage: test security
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
   : Pipeline stage: technical report
+- [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
+  : Pipeline stage: bank monitoring
+- [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md)
+  : Retire bank items or send them back to review
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
   List the flags raised by a pipeline
 - [`acknowledge()`](https://www.okanbulut.com/mirtverse/reference/acknowledge.md)
