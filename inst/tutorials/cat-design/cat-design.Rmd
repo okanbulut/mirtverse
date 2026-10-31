@@ -1,0 +1,507 @@
+---
+title: "Lab 5: Designing an adaptive test"
+description: >
+  A college wants to replace its 40-item math placement test with a
+  computerized adaptive test (CAT). Inspect the item bank, run one CAT by
+  hand, simulate hundreds of students, and make the design calls: how to
+  stop, how to protect over-used items and how to keep the content balanced.
+  About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+cat_sim <- function(theta, bank, min_se = 0.3, max_items = 30, randomesque = 1,
+                    balance = FALSE) {
+  q <- seq(-4, 4, length.out = 81)                 # quadrature points for EAP
+  areas <- levels(bank$area)
+  used_all <- integer(0)
+  persons <- t(vapply(theta, function(th) {
+    post <- dnorm(q); est <- 0; se <- 1; used <- integer(0)
+    while (length(used) < max_items && se > min_se) {
+      avail <- setdiff(seq_len(nrow(bank)), used)
+      if (balance)                                  # cycle through the content areas
+        avail <- avail[bank$area[avail] == areas[length(used) %% length(areas) + 1]]
+      p <- plogis(bank$a[avail] * (est - bank$b[avail]))
+      info <- bank$a[avail]^2 * p * (1 - p)         # 2PL item information at the estimate
+      top <- avail[order(-info)][seq_len(min(randomesque, length(avail)))]
+      j <- top[sample.int(length(top), 1)]          # randomesque: one of the top items
+      right <- runif(1) < plogis(bank$a[j] * (th - bank$b[j]))
+      pq <- plogis(bank$a[j] * (q - bank$b[j]))
+      post <- post * (if (right) pq else 1 - pq)    # update the posterior
+      w <- post / sum(post)
+      est <- sum(w * q); se <- sqrt(sum(w * (q - est)^2))
+      used <- c(used, j)
+    }
+    used_all <<- c(used_all, used)
+    c(theta = th, estimate = est, se = se, n_items = length(used))
+  }, numeric(4)))
+  exposure <- tabulate(used_all, nrow(bank)) / length(theta)
+  names(exposure) <- bank$item
+  list(persons = as.data.frame(persons), exposure = exposure,
+       area_share = prop.table(table(bank$area[used_all])))
+}
+```
+
+## The brief
+
+### A shorter placement test
+
+You work in the testing office of the fictional **Lakeshore College**. Every
+new student writes a **40-item math placement test** that decides which
+first-year math course they take. Students and advisors complain that it is
+long, that strong students are bored by it and that weak students are
+discouraged by it.
+
+The college has a **calibrated item bank** of 180 items (2PL), in four
+content areas: Algebra, Functions, Geometry and Statistics. The dean asks
+you:
+
+> *Could a computerized adaptive test (CAT) from this bank place students
+> just as precisely with fewer items? And what would we need to watch out
+> for?*
+
+A CAT picks each item for the student in front of it: after every answer it
+re-estimates the student's ability and gives the item that is most
+informative at that estimate. In this lab you will build one by hand, then
+simulate hundreds of students to make the design decisions a testing
+program has to make.
+
+### Meet the bank
+
+`catbank` has one row per item: its ID, content `area`, discrimination `a`,
+difficulty `b`, and `fixed`, which marks the 40 items on the current fixed
+test.
+
+```{r look, exercise = TRUE}
+head(catbank)
+table(catbank$area)
+sum(catbank$fixed)
+summary(catbank$b)
+```
+
+```{r look-check}
+"180 items, 45 per area. The current test uses 40 of them."
+```
+
+## Where is the bank strong?
+
+### Bank information
+
+A CAT can only measure precisely where the bank has informative items. Plot
+the **information** of the whole bank and of the 40 fixed-form items across
+the ability range. Add the line for the fixed form (`fixed_info`).
+
+```{r bankinfo, exercise = TRUE, exercise.lines = 12}
+theta <- seq(-3, 3, by = 0.1)
+item_info <- function(a, b, theta) {
+  p <- plogis(a * (theta - b))
+  a^2 * p * (1 - p)
+}
+bank_info <- sapply(theta, function(t) sum(item_info(catbank$a, catbank$b, t)))
+fixed_info <-
+plot(theta, bank_info, type = "l", ylim = c(0, max(bank_info)),
+     ylab = "Information", xlab = "Ability (theta)")
+lines(theta, fixed_info, lty = 2)
+c(hardest_items = sum(catbank$b > 1.5))
+```
+
+```{r bankinfo-hint}
+fixed_info <- sapply(theta, function(t) sum(item_info(catbank$a[catbank$fixed], catbank$b[___], t)))
+```
+
+```{r bankinfo-solution}
+theta <- seq(-3, 3, by = 0.1)
+item_info <- function(a, b, theta) {
+  p <- plogis(a * (theta - b))
+  a^2 * p * (1 - p)
+}
+bank_info <- sapply(theta, function(t) sum(item_info(catbank$a, catbank$b, t)))
+fixed_info <- sapply(theta, function(t) sum(item_info(catbank$a[catbank$fixed], catbank$b[catbank$fixed], t)))
+plot(theta, bank_info, type = "l", ylim = c(0, max(bank_info)),
+     ylab = "Information", xlab = "Ability (theta)")
+lines(theta, fixed_info, lty = 2)
+c(hardest_items = sum(catbank$b > 1.5))
+```
+
+```{r bankinfo-check}
+lab_need(exists("fixed_info") && length(fixed_info) == length(theta),
+         "Compute `fixed_info` at every value of `theta`.")
+ref <- sapply(theta, function(t) sum(item_info(catbank$a[catbank$fixed], catbank$b[catbank$fixed], t)))
+lab_need(max(abs(fixed_info - ref)) < 1e-8,
+         "Sum the information of the fixed-form items only: subset `a` and `b` with catbank$fixed.")
+"The bank peaks a little below average ability and falls off quickly above theta = 1. Only one item is harder than b = 1.5."
+```
+
+```{r q-thin}
+question_radio("Where will a CAT from this bank have the most trouble?",
+  answer("With strong students (theta above about 1.5): the bank has almost no hard items, so it runs out of informative items for them.",
+         correct = TRUE,
+         message = "Right. A CAT is only as good as the bank behind it. For strong students it will keep giving items that are too easy, each adding little information, so their tests will be long and their scores less precise. The fix is not in the algorithm but in item writing: commission hard items."),
+  answer("With average students, because there are too many items to choose from.",
+         message = "Many good items near the middle is exactly what a CAT wants. Look where the information curve drops."),
+  answer("With weak students, because the fixed form has few easy items.",
+         message = "The fixed form is concentrated in the middle, but the bank has a reasonable number of easy items. Look at the right end of the bank curve."),
+  answer("Nowhere: 180 items are plenty.",
+         message = "The number of items matters less than where they sit. Look at the right end of the bank curve."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## One CAT by hand
+
+### The first item
+
+Every student starts at the same estimate: theta = 0, the average. The CAT
+gives the item with the most information there. Find it, and save its ID as
+`first`.
+
+```{r first, exercise = TRUE}
+p <- plogis(catbank$a * (0 - catbank$b))
+info <- catbank$a^2 * p * (1 - p)
+first <-
+first
+catbank[catbank$item == first, ]
+```
+
+```{r first-hint}
+first <- catbank$item[which.max(___)]
+```
+
+```{r first-solution}
+p <- plogis(catbank$a * (0 - catbank$b))
+info <- catbank$a^2 * p * (1 - p)
+first <- catbank$item[which.max(info)]
+first
+catbank[catbank$item == first, ]
+```
+
+```{r first-check}
+lab_need(exists("first") && identical(first, "M012"),
+         "Pick the item with the largest information at theta = 0: catbank$item[which.max(info)].")
+"M012: a very discriminating Algebra item of about average difficulty. Keep it in mind."
+```
+
+### Watch a CAT unfold
+
+`cat_sim()` runs the whole loop. It is defined for you; this is its heart:
+
+```r
+while (length(used) < max_items && se > min_se) {
+  # 1. information of every unused item at the current estimate
+  # 2. give the most informative one (or one of the top few: randomesque)
+  # 3. score the answer and update the posterior distribution of ability
+  # 4. new estimate (EAP) and standard error
+}
+```
+
+Run it for one strong student (true theta 1.8) and one average student
+(true theta 0), with the CAT stopping when the standard error reaches 0.3
+or after 30 items.
+
+```{r two, exercise = TRUE}
+set.seed(7)
+cat_sim(theta = c(1.8, 0), bank = catbank, min_se = 0.3, max_items = 30)$persons
+```
+
+```{r two-check}
+"The average student is done in 9 items. The strong student uses all 30 and still has not reached SE 0.3."
+```
+
+## Simulate the CAT
+
+### 500 students
+
+Now simulate **500 students** from the population (standard normal ability)
+and compare the CAT with the current 40-item test. Running the fixed form
+through `cat_sim()` with `min_se = 0` and `max_items = 40` gives every
+student all 40 items, so it is the fixed test.
+
+```{r simulate, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 14}
+set.seed(2026)
+students <- rnorm(500)
+cat_res <- cat_sim(students, catbank, min_se = 0.3, max_items = 30)
+fixed_res <- cat_sim(students, catbank[catbank$fixed, ], min_se = 0, max_items = 40)
+summarise <- function(res) with(res$persons, c(
+  items = mean(n_items), rmse = sqrt(mean((estimate - theta)^2)), se = mean(se)))
+round(rbind(CAT = summarise(cat_res), fixed = summarise(fixed_res)), 2)
+band <- cut(students, c(-Inf, -1, 0, 1, 1.5, Inf))
+round(rbind(CAT_items = tapply(cat_res$persons$n_items, band, mean),
+            CAT_se = tapply(cat_res$persons$se, band, mean),
+            fixed_se = tapply(fixed_res$persons$se, band, mean)), 2)
+```
+
+```{r q-length}
+question_radio("The CAT uses about 15 items on average and is about as precise as the 40-item test overall. What do you tell the dean?",
+  answer("The CAT matches the fixed test’s precision with about 60% fewer items, and it is more precise for weak and strong students. But strong students get long tests, and their scores are still less precise, because the bank lacks hard items.",
+         correct = TRUE,
+         message = "That is the full picture. The average hides the conditional story: the fixed form is built for the middle and is imprecise at the extremes, while the CAT adapts. Its weak spot is the top of the scale, which mirrors the bank."),
+  answer("Every student will take 15 items.",
+         message = "With a precision-based stopping rule, test length varies. Look at the length by ability band: strong students take about twice as many items as average ones."),
+  answer("The CAT is better for everyone, with no downside.",
+         message = "Look at the strong students: about 29 items and SE above 0.3. And you have not looked at exposure or content yet."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Protect the items
+
+### Exposure
+
+In a CAT, every student who starts at the same estimate gets the same first
+item, and the most discriminating items are chosen over and over. Items that
+almost everyone sees are a **security risk**: they spread quickly among
+students. Many programs aim to show no item to more than about 25-30% of
+students.
+
+Look at the **exposure rate** (the share of students who saw each item) for
+the CAT you just ran.
+
+```{r exposure, exercise = TRUE, exercise.timelimit = 180}
+set.seed(2026)
+students <- rnorm(500)
+cat_res <- cat_sim(students, catbank, min_se = 0.3, max_items = 30)
+round(head(sort(cat_res$exposure, decreasing = TRUE), 8), 2)
+c(over_30_percent = sum(cat_res$exposure > 0.3), never_used = sum(cat_res$exposure == 0))
+```
+
+```{r q-exposure}
+question_radio("M012 is given to every student and 16 items to more than 30%, while about half the bank is never used. Why, and what is the risk?",
+  answer("Everyone starts at theta = 0, where M012 is the most informative item, and a few very discriminating items dominate. Students will share them, and the test loses its security.",
+         correct = TRUE,
+         message = "Exactly. Maximum-information selection is greedy: it uses the best items all the time and ignores the rest. Once a handful of items are known to everyone, the scores of later students are inflated."),
+  answer("M012 is a bad item and should be removed.",
+         message = "M012 is an excellent item. That is the problem: the CAT loves it."),
+  answer("There is no risk, because the CAT picks different items for different students.",
+         message = "Only after the first few items. Look at the top of the exposure table."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Randomesque selection
+
+**Randomesque** exposure control picks each item at random from the `k`
+most informative ones instead of always the single best. Try `k = 5` and
+compare precision, length and exposure.
+
+```{r randomesque, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 10}
+set.seed(2026)
+students <- rnorm(500)
+plain <- cat_sim(students, catbank, randomesque = 1)
+rand5 <- cat_sim(students, catbank, randomesque = 5)
+compare <- function(res) c(items = mean(res$persons$n_items),
+  rmse = sqrt(mean((res$persons$estimate - res$persons$theta)^2)),
+  max_exposure = max(res$exposure), never_used = mean(res$exposure == 0))
+round(rbind(plain = compare(plain), randomesque_5 = compare(rand5)), 2)
+```
+
+```{r q-randomesque}
+question_radio("Randomesque with k = 5 lowers the highest exposure from 100% to about 75% at almost no cost in length or precision, but it is still far above 30%. What next?",
+  answer("Use exposure control, and also write more items like the five star Algebra items, so the CAT has good alternatives. A stronger method (for example Sympson-Hetter) can then cap exposure directly.",
+         correct = TRUE,
+         message = "Right. Exposure control can only spread use across items that are nearly as good. When five items are far better than everything else, the long-term fix is in the bank: more items of that quality. In the meantime a probabilistic cap such as Sympson-Hetter (available in mirtCAT) holds exposure to a target."),
+  answer("Raise k to 50 so exposure becomes uniform.",
+         message = "At k = 50 the CAT stops being adaptive: it gives items that are poorly matched to the student, and tests get longer for the same precision."),
+  answer("Exposure does not matter for a placement test.",
+         message = "Placement tests are high-volume and students talk to each other. If the most common items become known, placements become less accurate."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Keep the content balanced
+
+### What does the CAT actually measure?
+
+The placement test is supposed to cover four areas equally. Check how the
+CAT's items are split across areas.
+
+```{r content, exercise = TRUE, exercise.timelimit = 180}
+set.seed(2026)
+students <- rnorm(500)
+rand5 <- cat_sim(students, catbank, randomesque = 5)
+round(rand5$area_share, 2)
+round(tapply(catbank$a, catbank$area, mean), 2)
+```
+
+```{r q-content}
+question_radio("About 70% of the CAT’s items are Algebra. What does that mean for the placement test?",
+  answer("Algebra items happen to discriminate best, so the CAT favours them. Without content constraints the test measures mostly Algebra, which changes what the score means and is unfair to students strong in other areas.",
+         correct = TRUE,
+         message = "Exactly. Statistical efficiency is not the only goal. The test’s blueprint defines what the score means, so a CAT must meet it too. The fix is a content constraint: for example, cycle through the areas, or require a minimum share of each."),
+  answer("Algebra is the most important area, so this is fine.",
+         message = "The college’s blueprint says the four areas count equally. The CAT is choosing Algebra for statistical reasons, not curricular ones."),
+  answer("The Statistics items are badly written.",
+         message = "They are fine items; they are just less discriminating on average than the Algebra items."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Add a content constraint
+
+`balance = TRUE` makes the CAT cycle through the four areas: the most
+informative Algebra item, then the most informative Functions item, and so
+on. Compare it with the unconstrained CAT.
+
+```{r balance, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 12}
+set.seed(2026)
+students <- rnorm(500)
+rand5 <- cat_sim(students, catbank, randomesque = 5)
+balanced <- cat_sim(students, catbank, randomesque = 5, balance = ___)
+compare <- function(res) c(items = mean(res$persons$n_items),
+  rmse = sqrt(mean((res$persons$estimate - res$persons$theta)^2)),
+  max_exposure = max(res$exposure), algebra_share = unname(res$area_share["Algebra"]))
+round(rbind(unbalanced = compare(rand5), balanced = compare(balanced)), 2)
+```
+
+```{r balance-hint}
+balanced <- cat_sim(students, catbank, randomesque = 5, balance = TRUE)
+```
+
+```{r balance-solution}
+set.seed(2026)
+students <- rnorm(500)
+rand5 <- cat_sim(students, catbank, randomesque = 5)
+balanced <- cat_sim(students, catbank, randomesque = 5, balance = TRUE)
+compare <- function(res) c(items = mean(res$persons$n_items),
+  rmse = sqrt(mean((res$persons$estimate - res$persons$theta)^2)),
+  max_exposure = max(res$exposure), algebra_share = unname(res$area_share["Algebra"]))
+round(rbind(unbalanced = compare(rand5), balanced = compare(balanced)), 2)
+```
+
+```{r balance-check}
+lab_need(exists("balanced") && is.list(balanced) && "area_share" %in% names(balanced),
+         "Run cat_sim() with balance = TRUE and save it as `balanced`.")
+lab_need(abs(balanced$area_share[["Algebra"]] - 0.25) < 0.05,
+         "Set balance = TRUE so the CAT cycles through the four areas.")
+sprintf("Balanced: Algebra drops to %.0f%% of the items, and the average test grows from about %.0f to %.0f items.",
+        100 * balanced$area_share[["Algebra"]], mean(rand5$persons$n_items), mean(balanced$persons$n_items))
+```
+
+```{r q-balance}
+question_radio("Content balancing costs about 5 items per student. Is it worth it?",
+  answer("Yes. The score has to mean what the blueprint says it means; 20 items is still half the old test. Balancing also spreads exposure.",
+         correct = TRUE,
+         message = "Good. Validity comes first; efficiency is a bonus. A 20-item balanced CAT is still much shorter than the 40-item fixed test, covers the curriculum as designed, and uses more of the bank."),
+  answer("No. Shorter is always better.",
+         message = "A shorter test that measures mostly Algebra is a different test. Placement into a calculus course depends on more than Algebra."),
+  answer("No. Drop the other areas from the test instead.",
+         message = "That changes the construct to suit the item bank, which is backwards."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Choose a stopping rule
+
+### Precision or length?
+
+The CAT stops when the SE reaches `min_se` or after `max_items` items.
+Compare three rules with the balanced, randomesque CAT: SE 0.3 with at most
+30 items, SE 0.25 with at most 40, and a fixed length of 20 items.
+
+```{r stopping, exercise = TRUE, exercise.timelimit = 240, exercise.lines = 16}
+set.seed(2026)
+students <- rnorm(500)
+rules <- list(se_0.30 = list(min_se = 0.30, max_items = 30),
+              se_0.25 = list(min_se = 0.25, max_items = 40),
+              fixed_20 = list(min_se = 0, max_items = 20))
+res <- lapply(rules, function(r) cat_sim(students, catbank, min_se = r$min_se,
+                                         max_items = r$max_items, randomesque = 5,
+                                         balance = TRUE))
+strong <- students > 1.5
+t(sapply(res, function(x) with(x$persons, c(
+  items = mean(n_items), rmse = sqrt(mean((estimate - theta)^2)),
+  strong_items = mean(n_items[strong]), strong_se = mean(se[strong])))))
+```
+
+```{r q-stop}
+question_radio("Tighter precision helps most students, but strong students hit the item limit under every rule. What do you recommend?",
+  answer("Use a precision-based rule (for example SE 0.3, at most 30 items), report SEs with placements, and ask item writers for hard items so strong students can be measured precisely too.",
+         correct = TRUE,
+         message = "That is a sound design. A precision rule gives every student about the same measurement quality where the bank allows it, and a maximum keeps tests reasonable. No stopping rule can create information the bank does not have, so the real fix for strong students is new hard items."),
+  answer("Fixed length of 20: everyone gets the same test experience.",
+         message = "Fixed-length CATs are a legitimate choice, but precision then varies from student to student, and it is worst for exactly the students the bank serves badly."),
+  answer("SE 0.25 with no maximum.",
+         message = "For strong students the CAT would run through dozens of easy items without ever reaching SE 0.25. A maximum is essential."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the dean
+
+Write a short memo (four to six sentences): should the college adopt a CAT,
+with which design (stopping rule, exposure control, content balancing), and
+what the item bank needs next.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: cover length and precision, exposure, content and the bank."))
+    correct("Submitted. Now see what was planted in the bank.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the Dean: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the bank
+
+`catbank` was simulated, with problems built in on purpose.
+`lab_truth("catbank")` lists them.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("catbank")
+truth$stars
+truth$thin_top
+truth$notes
+catbank[catbank$item %in% truth$stars, ]
+```
+
+| What was planted | What the simulation showed |
+|---|---|
+| Few items harder than b = 1.5 | Strong students need about 30 items and still have SE above 0.3 |
+| Algebra items discriminate better | About 70% of an unconstrained CAT is Algebra |
+| Five exceptional Algebra items near the middle | M012 is seen by every student; randomesque alone cannot bring exposure down to 30% |
+
+In practice, mirtverse's assessment pipeline runs the same kind of study on a
+calibrated bank with `simulate_cat()`, which uses the
+[mirtCAT](https://cran.r-project.org/package=mirtCAT) package, and checks
+precision, exposure and bank depth against your rules.
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-thin" = "Where the bank is weak",
+    "q-length" = "CAT versus the fixed test",
+    "q-exposure" = "Why exposure matters",
+    "q-randomesque" = "After randomesque",
+    "q-content" = "Content imbalance",
+    "q-balance" = "Is balancing worth it?",
+    "q-stop" = "Stopping rule",
+    "q-memo" = "Memo to the dean"
+  ))
+})
+```
+
+You have designed an adaptive test the way testing programs do: by looking
+at the bank first, simulating before going live, and weighing efficiency
+against security, content and fairness.

@@ -4,11 +4,11 @@
 \alias{lab_truth}
 \title{Answer key and true values for the lab datasets}
 \usage{
-lab_truth(data = c("certexam", "numeracy", "linking"))
+lab_truth(data = c("certexam", "numeracy", "linking", "catbank"))
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
-(Lab 3) or \code{"linking"} (Lab 4).}
+(Lab 3), \code{"linking"} (Lab 4) or \code{"catbank"} (Lab 5).}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -21,7 +21,9 @@ students) and \code{no_dif_long}, long word problems without DIF. For
 \code{"linking"}, a list with the true \code{model}, the \code{anchors}, the \code{drift} of
 the drifted anchor, each form's group \code{ability} mean and SD on the
 Form A scale, the generating item parameters \code{pars} (with \code{b_formB} for
-the anchors' Form B difficulties) and the Form A pass mark \code{cut_A}.
+the anchors' Form B difficulties) and the Form A pass mark \code{cut_A}. For
+\code{"catbank"}, a list with the five over-used \code{stars}, the number of items
+harder than b = 1.5 (\code{thin_top}), the student \code{population} and \code{notes}.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

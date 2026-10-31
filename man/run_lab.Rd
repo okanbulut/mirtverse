@@ -25,9 +25,10 @@ mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (\link{certexam}); Labs 3 and 4
-each have their own, a provincial numeracy test (\link{numeracy}) and a
-licensure exam with two forms (\link{linking}).
+storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 5
+each have their own: a provincial numeracy test (\link{numeracy}), a licensure
+exam with two forms (\link{linking}) and a placement test's item bank
+(\link{catbank}).
 }
 \details{
 \itemize{
@@ -46,6 +47,10 @@ matters for students' scores and plan a content review.
 Calibrate both forms, link them through common items, catch a drifted
 anchor, compare separate and concurrent calibration, and carry the pass
 mark over with IRT true-score equating.
+\item \code{"cat-design"} (Lab 5): could a computerized adaptive test replace a
+40-item placement test? Inspect the item bank, run a CAT by hand,
+simulate students, and choose a stopping rule, exposure control and
+content balancing.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs
