@@ -245,6 +245,39 @@ balancing</td>
 <p>Lab 5 stands on its own and needs no extra packages: the CAT is a
 short function written out in the lab.</p>
 </div>
+<div class="section level3">
+<h3 id="lab-6-scoring-open-ended-responses">Lab 6: scoring open-ended responses<a class="anchor" aria-label="anchor" href="#lab-6-scoring-open-ended-responses"></a>
+</h3>
+<p>You are the psychometrician for the fictional <strong>Northfield
+Grade 9 Science Assessment</strong>. Six open-ended tasks were each
+scored 0 to 4 by two human raters, with an expert third read when they
+disagreed by two or more points, and by an automated scoring engine
+(<code>openended</code>). Can the scores be trusted, and could the
+engine replace the second human reader?</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>6. Scoring open-ended responses</strong> (about 75
+minutes)</td>
+<td><code>run_lab("open-ended")</code></td>
+<td>Measure rater agreement, find a severe and an inconsistent rater,
+resolve final scores, compare the PCM, GPCM and GRM, collapse rubric
+categories that do not work, and check the engine overall and for
+English language learners</td>
+</tr></tbody>
+</table>
+<p>Lab 6 stands on its own.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="what-it-looks-like">What it looks like<a class="anchor" aria-label="anchor" href="#what-it-looks-like"></a>
@@ -259,7 +292,7 @@ which you can hand in as an assignment.</p>
 <h2 id="for-instructors">For instructors<a class="anchor" aria-label="anchor" href="#for-instructors"></a>
 </h2>
 <p>Labs 1 and 2 follow one storyline, but Lab 2 also works on its own;
-Labs 3 to 5 stand alone. The tables below list what students do in each
+Labs 3 to 6 stand alone. The tables below list what students do in each
 section and the decisions they make. The answers are in the <a href="#answer-key">answer key</a> at the end of the page. For where the
 labs fit in a full term, see the <a href="course-map.html">course
 map</a>, a suggested 12-week syllabus.</p>
@@ -598,6 +631,71 @@ band</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-6-scoring-open-ended-responses-1">Lab 6: Scoring open-ended responses<a class="anchor" aria-label="anchor" href="#lab-6-scoring-open-ended-responses-1"></a>
+</h3>
+<p><code>run_lab("open-ended")</code>, about 75 minutes. Each polytomous
+model takes a few seconds; <code><a href="../reference/select_model.html">select_model()</a></code> fits three.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the director’s question and <code>openended</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Do the raters agree?</td>
+<td>Exact and adjacent agreement and QWK by task</td>
+<td>What to do about T6</td>
+</tr>
+<tr class="odd">
+<td>Rater by rater</td>
+<td>Each rater’s mean and difference from their partner, and exact
+agreement</td>
+<td>Raters R5 and R8</td>
+</tr>
+<tr class="even">
+<td>The final scores</td>
+<td>Resolve two reads with the third-read rule; build the
+student-by-task table</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>A polytomous IRT model</td>
+<td>PCM, GPCM and GRM with <code><a href="../reference/select_model.html">select_model()</a></code>; step
+difficulties and category curves; collapse T4’s categories</td>
+<td>Which model; what to do about T4</td>
+</tr>
+<tr class="even">
+<td>Can the engine replace a reader?</td>
+<td>Engine-human QWK and SMD by task, then SMD for ELL and fluent
+students</td>
+<td>Is the engine ready?</td>
+</tr>
+<tr class="odd">
+<td>The memo</td>
+<td>Free-text memo to the director</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td><code>lab_truth("openended")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -609,7 +707,8 @@ internet connection.</li>
 <strong>Order:</strong> Labs 1 and 2 belong together. Lab 3 works on
 its own and fits a unit on fairness or validity; Lab 2’s short DIF
 section is a good warm-up for it. Lab 4 fits a unit on linking and
-equating, and Lab 5 a unit on item banks and adaptive testing.</li>
+equating, Lab 5 a unit on item banks and adaptive testing, and Lab 6 a
+unit on polytomous models or performance assessment.</li>
 <li>
 <strong>Speed:</strong> most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -1049,6 +1148,99 @@ What would it gain and lose?</li>
 difficulty?</li>
 <li>A student complains that their test was 30 items long and their
 friend’s only 12. How would you explain it?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-6">Lab 6<a class="anchor" aria-label="anchor" href="#lab-6"></a>
+</h3>
+<p>The planted problems in <code>openended</code>
+(<code>lab_truth("openended")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Rater R5 scores 0.6 points too low</td>
+<td>Compares each rater with their partner on the same responses, finds
+R5 about 0.5 below, and recommends recalibration (or a many-facet Rasch
+adjustment)</td>
+</tr>
+<tr class="even">
+<td>Rater R8 is much noisier than the others</td>
+<td>Sees R8’s low exact agreement despite an average mean, and
+recommends retraining or removal, since noise cannot be adjusted
+away</td>
+</tr>
+<tr class="odd">
+<td>T6 has a vague rubric</td>
+<td>Sees low agreement on one task for every rater and asks for a
+clearer rubric with anchor papers</td>
+</tr>
+<tr class="even">
+<td>T4’s rubric levels 1 and 2 are hard to tell apart</td>
+<td>Reads the disordered steps and category curves, collapses 1 and 2,
+and asks for new descriptors</td>
+</tr>
+<tr class="odd">
+<td>The engine scores ELL students 0.4 points too low</td>
+<td>Looks past the overall statistics to the subgroup SMD and keeps
+human second reads</td>
+</tr>
+<tr class="even">
+<td>ELL students are 0.3 SD lower in ability</td>
+<td>Separates this real difference (impact) from the engine’s bias</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Agreement:</strong> QWK is 0.82 to 0.87 on T1 to T5 and 0.68
+on T6, with 43% exact agreement on T6 against about 60% elsewhere.
+Adjacent agreement is at least 96% except on T6 (86%). T6’s rubric is
+the problem, not a rater.</li>
+<li>
+<strong>Raters:</strong> R5’s mean score is about 1.47 against about
+2.0 for the others, and R5 is 0.53 below their partners on the same
+responses. R8’s mean is normal but their exact agreement is 46% against
+about 61%.</li>
+<li>
+<strong>Final scores:</strong> about 5% of responses needed a third
+read.</li>
+<li>
+<strong>Model:</strong> the GPCM has the lowest BIC (20454), then
+the GRM (20487) and the PCM (20496); the likelihood-ratio test also
+prefers the GPCM over the PCM. Discriminations range from about 0.7 (T2)
+to 1.5 (T3).</li>
+<li>
+<strong>T4:</strong> b1 = -0.11 is above b2 = -1.00, so a score of 1
+is never the most likely. After collapsing 1 and 2 the steps are -0.95,
+0.43 and 1.34.</li>
+<li>
+<strong>Engine:</strong> engine-human QWK is 0.81 to 0.89 and the
+SMD -0.08 to -0.14, so it passes the overall checks. Within ELL students
+the SMD is about -0.33 (fluent students about -0.04), well beyond ±0.10.
+It is not ready to replace a human reader.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-5">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-5"></a>
+</h4>
+<ul>
+<li>The engine’s QWK is higher than the human-human QWK. Why is that
+comparison unfair to the humans?</li>
+<li>R5’s severity partly cancels out because every response had a second
+reader. When would it matter more?</li>
+<li>Should students whose responses were read by R8 be rescored? How
+would you decide?</li>
+<li>Collapsing categories changes the score scale for T4. What has to
+happen before next year’s administration, and how would you explain the
+change to teachers?</li>
 </ul>
 </div>
 </div>

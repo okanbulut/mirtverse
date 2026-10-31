@@ -2,6 +2,16 @@
 
 ## mirtverse (development version)
 
+- New teaching lab, “Scoring open-ended responses”:
+  `run_lab("open-ended")`. Six science tasks were scored 0-4 by two
+  human raters each and by an automated scoring engine. Students check
+  rater agreement (exact, adjacent, quadratic weighted kappa), find a
+  severe and an inconsistent rater, resolve final scores with third
+  reads, compare the PCM, GPCM and GRM, collapse rubric categories with
+  disordered steps, and decide whether the engine can replace a human
+  reader, including a subgroup fairness check. The new `openended` data
+  come with `lab_truth("openended")`.
+
 - New teaching lab, “Designing an adaptive test”:
   `run_lab("cat-design")`. A college wants to replace its 40-item
   placement test with a CAT. Students look at where the item bank is

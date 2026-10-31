@@ -44,7 +44,7 @@ writing code by hand later in the term.
 | 5 | Item fit, person fit and item quality |  | `SAT12` |
 | 6 | Information, precision and reliability |  | `certexam` |
 | 7 | Scoring people | [Lab 2](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) in class | `certexam` |
-| 8 | Polytomous items and open-ended responses | Open-ended scoring lab (coming soon) | `Science` |
+| 8 | Polytomous items and open-ended responses | Lab 6, `run_lab("open-ended")` | `openended`, `Science` |
 | 9 | Differential item functioning and fairness | Lab 3, `run_lab("fairness")` | `numeracy`, `certexam` |
 | 10 | Linking and equating | Lab 4, `run_lab("linking")` | `linking`, `certexam` |
 | 11 | Item banks, test assembly and adaptive testing | Lab 5, `run_lab("cat-design")` | `catbank`, `certexam` bank |
@@ -206,8 +206,13 @@ curves, and say when categories should be collapsed.
   on polytomous data,
   [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md),
   [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md).
-- **Lab:** open-ended scoring lab (coming soon).
-- **Data:** `Science` (four Likert-type items).
+- **Lab:** Lab 6 (`run_lab("open-ended")`, about 75 minutes): rater
+  agreement and quadratic weighted kappa, rater severity and
+  consistency, resolving two reads, PCM versus GPCM versus GRM,
+  collapsing categories with disordered steps, and checking an automated
+  scoring engine, including for subgroups.
+- **Data:** `openended` (six rater-scored science tasks) in Lab 6;
+  `Science` (four Likert-type items) for extra practice.
 - **Students coming from ltm, eRm or TAM:**
   [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
   translates their old code ([Coming from other IRT
@@ -343,4 +348,4 @@ when they are released.
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
-| Open-ended scoring lab | Week 8 | Coming soon |
+| Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |

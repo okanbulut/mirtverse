@@ -190,6 +190,8 @@ Interactive tutorials for measurement courses.
   : Two-form licensure exam data for the linking lab
 - [`catbank`](https://www.okanbulut.com/mirtverse/reference/catbank.md)
   : Math placement item bank for the CAT design lab
+- [`openended`](https://www.okanbulut.com/mirtverse/reference/openended.md)
+  : Rater-scored science tasks for the open-ended scoring lab
 
 ## Package
 

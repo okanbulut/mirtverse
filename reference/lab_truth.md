@@ -7,7 +7,7 @@ reveal at the end of the labs.
 ## Usage
 
 ``` r
-lab_truth(data = c("certexam", "numeracy", "linking", "catbank"))
+lab_truth(data = c("certexam", "numeracy", "linking", "catbank", "openended"))
 ```
 
 ## Arguments
@@ -15,7 +15,7 @@ lab_truth(data = c("certexam", "numeracy", "linking", "catbank"))
 - data:
 
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
-  `"linking"` (Lab 4) or `"catbank"` (Lab 5).
+  `"linking"` (Lab 4), `"catbank"` (Lab 5) or `"openended"` (Lab 6).
 
 ## Value
 
@@ -32,6 +32,11 @@ A scale, the generating item parameters `pars` (with `b_formB` for the
 anchors' Form B difficulties) and the Form A pass mark `cut_A`. For
 `"catbank"`, a list with the five over-used `stars`, the number of items
 harder than b = 1.5 (`thin_top`), the student `population` and `notes`.
+For `"openended"`, a list with the true `model`, the `severe_rater` and
+its severity, the `inconsistent_rater`, the task with a `vague_rubric`,
+the categories to `collapse`, the scoring engine's bias against ELL
+students (`engine_bias`), the group `impact` and the generating task
+parameters `pars`.
 
 ## Examples
 
