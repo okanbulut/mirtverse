@@ -149,6 +149,9 @@
   article "Teaching labs for measurement courses" introduces the labs for
   students, followed by an instructor guide and an answer key.
 
+* New article, "A course map for instructors": a suggested 12-week IRT
+  syllabus that links each week to articles, labs, functions and datasets.
+
 ## Sharing results
 
 * New `mv_dashboard()` builds a read-only 'shiny' dashboard of your results for
