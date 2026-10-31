@@ -144,4 +144,4 @@ R environment. *Journal of Statistical Software, 48*(6), 1-29. <https://doi.org/
 
 If you use mirtverse, please cite it together with mirt. Run `citation("mirtverse")` in R, or use:
 
-Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.1.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719385
+Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.2.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719385
