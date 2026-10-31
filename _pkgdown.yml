@@ -51,6 +51,8 @@ reference:
   - mv_pipeline
   - set_blueprint
   - generate_items
+  - review_packet
+  - design_field_test
   - add_responses
   - calibrate
   - link_to_bank

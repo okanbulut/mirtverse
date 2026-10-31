@@ -194,7 +194,7 @@ verify_items <- function(p, ids = NULL, provider = NULL, model = NULL, .rerun = 
 
 item_columns <- c("id", "cell", "type", "stem", "options", "key", "rationales", "rubric",
                   "max_score", "grade", "source", "status", "key_check", "verify_answer",
-                  "weak_distractors", "verify_note")
+                  "weak_distractors", "verify_note", "ai_screen")
 
 append_items <- function(p, items, prefix) {
   n <- nrow(items)
@@ -208,7 +208,7 @@ append_items <- function(p, items, prefix) {
   items$key <- toupper(as.character(items$key))
   items$grade <- vapply(items$stem, fk_grade, numeric(1), USE.NAMES = FALSE)
   items$status <- "draft"
-  for (nm in c("key_check", "verify_answer", "weak_distractors", "verify_note"))
+  for (nm in c("key_check", "verify_answer", "weak_distractors", "verify_note", "ai_screen"))
     if (!nm %in% names(items)) items[[nm]] <- NA_character_
   items <- as_tbl(items[, item_columns])
   p$items <- if (is.null(p$items)) items else rbind(p$items, items)
@@ -219,6 +219,7 @@ finish_generation <- function(p, summary, event = "generate items") {
   p <- set_stage_flags(p, "generation", item_checks(p))
   n <- sum(p$items$status != "rejected")
   p <- set_stage(p, "generation", "done", sprintf("%d items in the pool", n))
+  for (s in c("review", "field_test")) p <- stage_rerun(p, s)
   p <- log_event(p, event, summary)
   report_stage_flags(p, "generation")
   p

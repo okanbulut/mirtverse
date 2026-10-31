@@ -63,6 +63,10 @@ name.
    \code{panel_sd} \tab 0.5 \tab largest standard deviation of standard-setting panelists' cuts (ability units) \cr
    \code{duplicate_sim} \tab 0.90 \tab largest word overlap (Jaccard) between two items before they are near-duplicates \cr
    \code{coverage_ratio} \tab 3 \tab items to write per blueprint target (items are lost in review and field testing) \cr
+   \code{min_reviewers} \tab 2 \tab fewest reviewers per item \cr
+   \code{review_kappa} \tab 0.40 \tab smallest acceptable Fleiss' kappa between reviewers' decisions \cr
+   \code{n_rasch}, \code{n_2pl}, \code{n_3pl} \tab 200, 500, 1000 \tab respondents needed per item in a field test (Rasch; 2PL; 3PL or polytomous models) \cr
+   \code{recovery_rmse} \tab 0.2 \tab largest acceptable RMSE of simulated slope recovery in a field-test design \cr
    \code{min_group_n} \tab 10 \tab smallest group summarized in a report \cr
 }
 

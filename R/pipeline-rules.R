@@ -46,6 +46,10 @@
 #' | `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
 #' | `duplicate_sim` | 0.90 | largest word overlap (Jaccard) between two items before they are near-duplicates |
 #' | `coverage_ratio` | 3 | items to write per blueprint target (items are lost in review and field testing) |
+#' | `min_reviewers` | 2 | fewest reviewers per item |
+#' | `review_kappa` | 0.40 | smallest acceptable Fleiss' kappa between reviewers' decisions |
+#' | `n_rasch`, `n_2pl`, `n_3pl` | 200, 500, 1000 | respondents needed per item in a field test (Rasch; 2PL; 3PL or polytomous models) |
+#' | `recovery_rmse` | 0.2 | largest acceptable RMSE of simulated slope recovery in a field-test design |
 #' | `min_group_n` | 10 | smallest group summarized in a report |
 #'
 #' `preset = "lenient"` relaxes the rules for pilot studies and small samples
@@ -103,7 +107,8 @@ default_rules <- list(
   parallel_tol = 0.10, cat_sem = 0.35, cat_bias = 0.1, max_exposure = 0.25,
   unused_share = 0.20, bank_depth = 10, mst_routing = 0.15, cut_accuracy = 0.85,
   cut_consistency = 0.80, cut_sem = 0.35, panel_sd = 0.5, duplicate_sim = 0.90,
-  coverage_ratio = 3, min_group_n = 10)
+  coverage_ratio = 3, min_reviewers = 2, review_kappa = 0.40, n_rasch = 200, n_2pl = 500,
+  n_3pl = 1000, recovery_rmse = 0.2, min_group_n = 10)
 
 lenient_rules <- list(rmsea = 0.08, cfi = 0.90, q3 = 0.30, a_min = 0.2,
                       reliability = 0.70, missing_item = 0.30)
