@@ -19,7 +19,7 @@ launch_workbench()
 launch_workbench(my_data)
 ```
 
-## The seven steps
+## The eight steps
 
 | Tab | What you do |
 |---|---|
@@ -30,6 +30,7 @@ launch_workbench(my_data)
 | 5. Scores | Person scores (EAP, MAP, ML or WLE) with standard errors, a CSV download, and the sum-score conversion table. |
 | 6. Response times | Upload response times to fit the joint model and flag rapid guessing with the residual rule or the NT10, NT15 or NT20 normative thresholds. |
 | 7. Report & code | Download the HTML report and the R script that reproduces the analysis. |
+| 8. Pipeline | Run the data through the [assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html)'s intake and calibration checks, or load a pipeline saved from R. See the stage tracker, select flags to acknowledge, override or drop items, recalibrate, and download the pipeline and its report. |
 
 ## Sharing the app
 

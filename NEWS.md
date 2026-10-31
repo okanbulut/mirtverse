@@ -1,5 +1,14 @@
 # mirtverse (development version)
 
+* The workbench gains a Pipeline tab: run the data through the assessment
+  pipeline's intake and calibration gates (or load a saved pipeline), follow
+  the stage tracker, record decisions on flags, drop items and recalibrate,
+  and download the pipeline and its report. The SAT12 example in the
+  workbench now loads correctly.
+
+* New article, "An assessment pipeline from blueprint to bank monitoring",
+  takes the `certexam` data through every stage of the pipeline.
+
 * Bank monitoring for the assessment pipeline (stage 12). `monitor_bank()`
   records each administration in the item bank (item exposure and marginal
   reliability by window) and checks the bank over time: items over-exposed
