@@ -10,8 +10,12 @@ redirects:
 
 navbar:
   structure:
-    left: [intro, reference, articles, news]
+    left: [intro, reference, articles, cheatsheet, news]
     right: [search, github]
+  components:
+    cheatsheet:
+      text: Cheat sheet
+      href: cheatsheet/mirtverse-cheatsheet.pdf
 
 articles:
 - title: Guides
@@ -25,6 +29,7 @@ articles:
   - response-times
   - articles/teaching-labs
   - articles/glossary
+  - articles/course-map
   - articles/mirtify
 
 reference:

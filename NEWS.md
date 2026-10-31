@@ -1,5 +1,13 @@
 # mirtverse (development version)
 
+* New article, "Glossary of IRT terms": 87 terms in plain language,
+  grouped from the basic ideas to test design, each with the mirtverse or
+  mirt function that computes it and a figure where one helps. Every term
+  has a stable anchor (for example `glossary.html#discrimination`) for
+  linking from course materials.
+
+# mirtverse 0.2.0
+
 ## Assessment pipeline
 
 * New assessment pipeline (first phase). `mv_pipeline()` starts a pipeline
@@ -149,11 +157,8 @@
   article "Teaching labs for measurement courses" introduces the labs for
   students, followed by an instructor guide and an answer key.
 
-* New article, "Glossary of IRT terms": 87 terms in plain language,
-  grouped from the basic ideas to test design, each with the mirtverse or
-  mirt function that computes it and a figure where one helps. Every term
-  has a stable anchor (for example `glossary.html#discrimination`) for
-  linking from course materials.
+* New article, "A course map for instructors": a suggested 12-week IRT
+  syllabus that links each week to articles, labs, functions and datasets.
 
 ## Sharing results
 
