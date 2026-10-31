@@ -65,6 +65,7 @@ pipeline_report <- function(p, file = "pipeline-report.html", title = p$title, a
   if (!is.null(p$link)) extra[["Linking"]] <- linking_html(p)
   if (!is.null(p$forms)) extra[["Forms"]] <- forms_html(p)
   if (!is.null(p$cuts)) extra[["Cut scores"]] <- cuts_html(p)
+  if (!is.null(p$open_scores) || !is.null(p$scores)) extra[["Scoring"]] <- scoring_html(p)
   extra[["Pipeline decisions"]] <- decisions_html(p)
   x <- if (!is.null(p$selection)) p$selection else p$model
   mv_report(x, file = file, title = title, author = author, code = p$code, extra = extra,
@@ -259,4 +260,24 @@ field_test_html <- function(p) {
                   rec$rmse_d)),
     html_table(as.data.frame(stats::aggregate(item ~ form + role, data = as.data.frame(ft$forms),
                                               FUN = length))))
+}
+
+scoring_html <- function(p) {
+  h <- htmltools::tags
+  htmltools::tagList(
+    if (!is.null(p$open_scores)) {
+      a <- as.data.frame(p$agreement)
+      list(h$p(sprintf(paste("%d open-ended responses were scored by %s. Agreement with human",
+                             "scores (quadratic weighted kappa, QWK) and the standardized mean",
+                             "difference (SMD) between machine and human scores, by item:"),
+                       nrow(p$open_scores), p$scoring$method)),
+           html_table(a))
+    },
+    if (!is.null(p$scores)) {
+      s <- p$scores
+      list(h$p(sprintf(paste("Test takers were scored by %s: mean ability %.2f (SD %.2f),",
+                             "median standard error %.2f."), p$score_method,
+                       mean(s$theta[is.finite(s$theta)]), stats::sd(s$theta[is.finite(s$theta)]),
+                       stats::median(s$se[is.finite(s$se)]))))
+    })
 }

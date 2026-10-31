@@ -63,6 +63,8 @@ reference:
   - assemble_mst
   - set_cuts
   - item_map
+  - score_open
+  - score_persons
   - pipeline_report
   - flags
   - acknowledge

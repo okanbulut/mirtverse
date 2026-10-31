@@ -365,6 +365,7 @@ link_to_bank <- function(p, bank, method = c("stocking-lord", "haebara", "mean-s
   p <- set_stage(p, "linking", "done", link_summary(p$link))
   p <- stage_rerun(p, "forms")
   p <- stage_rerun(p, "cuts")
+  p <- stage_rerun(p, "scoring")
   p <- stage_rerun(p, "reporting")
   p <- log_event(p, "link", link_summary(p$link))
   p <- add_code(p, cl)
