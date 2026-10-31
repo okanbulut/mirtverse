@@ -4,10 +4,10 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 5
+#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 6
 #' each have their own: a provincial numeracy test ([numeracy]), a licensure
-#' exam with two forms ([linking]) and a placement test's item bank
-#' ([catbank]).
+#' exam with two forms ([linking]), a placement test's item bank
+#' ([catbank]) and rater-scored science tasks ([openended]).
 #'
 #' * `"model-choice"` (Lab 1): score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -28,6 +28,11 @@
 #'   40-item placement test? Inspect the item bank, run a CAT by hand,
 #'   simulate students, and choose a stopping rule, exposure control and
 #'   content balancing.
+#' * `"open-ended"` (Lab 6): are the rubric scores on a science assessment
+#'   trustworthy? Check rater agreement, find a severe and an inconsistent
+#'   rater, resolve final scores, fit polytomous IRT models, collapse
+#'   categories that do not work, and decide whether an automated scoring
+#'   engine can replace a human reader.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -172,7 +177,8 @@ lab_decisions <- function(state, labels) {
 #' reveal at the end of the labs.
 #'
 #' @param data the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"`
-#'   (Lab 3), `"linking"` (Lab 4) or `"catbank"` (Lab 5).
+#'   (Lab 3), `"linking"` (Lab 4), `"catbank"` (Lab 5) or `"openended"`
+#'   (Lab 6).
 #' @return For `"certexam"`, a list with the true `model`, the correct `key`,
 #'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
 #'   the group `impact` (mean ability difference in SD units), the generating
@@ -186,13 +192,18 @@ lab_decisions <- function(state, labels) {
 #'   the anchors' Form B difficulties) and the Form A pass mark `cut_A`. For
 #'   `"catbank"`, a list with the five over-used `stars`, the number of items
 #'   harder than b = 1.5 (`thin_top`), the student `population` and `notes`.
+#'   For `"openended"`, a list with the true `model`, the `severe_rater` and
+#'   its severity, the `inconsistent_rater`, the task with a `vague_rubric`,
+#'   the categories to `collapse`, the scoring engine's bias against ELL
+#'   students (`engine_bias`), the group `impact` and the generating task
+#'   parameters `pars`.
 #' @examples
 #' lab_truth()$dif
 #' lab_truth("numeracy")$dif
 #' @export
-lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank")) {
+lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank", "openended")) {
   switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth,
-         linking = linking_truth, catbank = catbank_truth)
+         linking = linking_truth, catbank = catbank_truth, openended = openended_truth)
 }
 
 #' Certification exam data for the teaching labs
@@ -281,3 +292,25 @@ lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank")) {
 #' table(catbank$area, catbank$fixed)
 #' tapply(catbank$a, catbank$area, mean)
 "catbank"
+
+#' Rater-scored science tasks for the open-ended scoring lab
+#'
+#' Simulated scores of 1,200 Grade 9 students on six open-ended tasks of a
+#' fictional science assessment, each scored 0 to 4 against a rubric. Every
+#' response was read by two of eight raters assigned at random, an expert
+#' gave a third read when the two scores were two or more points apart, and
+#' an automated scoring engine scored every response. Problems were planted on
+#' purpose for the [open-ended scoring lab][run_lab];
+#' `lab_truth("openended")` lists them.
+#'
+#' @format A data frame with 7,200 rows (one per response) and 9 columns:
+#'   `student` (student ID), `ell` (factor, `Fluent` or `ELL`), `task` (`T1`
+#'   to `T6`), `rater1` and `rater2` (rater IDs, `R1` to `R8`), `score1` and
+#'   `score2` (their scores), `score3` (the expert's third read, `NA` when
+#'   there was none) and `machine` (the engine's score).
+#' @source Simulated; the script is `data-raw/openended.R` in the package's
+#'   GitHub repository.
+#' @examples
+#' head(openended)
+#' tapply(openended$score1 == openended$score2, openended$task, mean)
+"openended"

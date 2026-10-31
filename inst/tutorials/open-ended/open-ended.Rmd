@@ -1,0 +1,526 @@
+---
+title: "Lab 6: Scoring open-ended responses"
+description: >
+  A science assessment has six open-ended tasks scored by human raters and
+  an automated scoring engine. Check how well the raters agree, find a
+  severe and an inconsistent rater, resolve the final scores, fit a
+  polytomous IRT model, fix a rubric whose categories do not work, and decide
+  whether the engine can replace a human reader. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+# quadratic weighted kappa between two vectors of 0-4 scores
+qwk <- function(x, y, levels = 0:4) {
+  O <- table(factor(x, levels), factor(y, levels))
+  O <- O / sum(O)                                  # observed proportions
+  E <- outer(rowSums(O), colSums(O))               # expected by chance
+  k <- length(levels)
+  W <- outer(seq_len(k), seq_len(k), function(i, j) (i - j)^2) / (k - 1)^2
+  1 - sum(W * O) / sum(W * E)
+}
+# standardized mean difference between machine and human scores
+smd <- function(machine, human)
+  (mean(machine) - mean(human)) / sqrt((var(machine) + var(human)) / 2)
+```
+
+```{r setup-final, include = FALSE}
+openended$final <- ifelse(is.na(openended$score3),
+                          floor((openended$score1 + openended$score2) / 2 + 0.5),
+                          openended$score3)
+scores <- as.data.frame.matrix(xtabs(final ~ student + task, data = openended))
+```
+
+```{r setup-model, include = FALSE}
+openended$final <- ifelse(is.na(openended$score3),
+                          floor((openended$score1 + openended$score2) / 2 + 0.5),
+                          openended$score3)
+scores <- as.data.frame.matrix(xtabs(final ~ student + task, data = openended))
+mod <- mirt(scores, 1, itemtype = "gpcm", verbose = FALSE)
+```
+
+## The brief
+
+### Six tasks, eight raters, one engine
+
+You are the psychometrician for the fictional **Northfield Grade 9 Science
+Assessment**. This year 1,200 students wrote six **open-ended tasks** (T1 to
+T6), for example "Explain why the ice cube melts faster on the metal tray".
+Each answer is scored from 0 to 4 against a rubric.
+
+Scoring followed a standard design:
+
+* every response was read by **two of eight trained raters** (R1 to R8),
+  assigned at random;
+* when the two scores were **two or more points apart**, an expert gave a
+  **third read**;
+* an **automated scoring engine** also scored every response. The ministry
+  wants to know whether the engine could replace the second human reader
+  next year, which would halve the scoring budget.
+
+The director of assessment asks you:
+
+> *Can we trust these scores? Which raters, rubrics or tasks need attention,
+> and is the engine ready?*
+
+### Meet the data
+
+`openended` has one row per response: the `student`, whether the student is
+an English language learner (`ell`), the `task`, the two raters and their
+scores (`rater1`, `score1`, `rater2`, `score2`), the expert's third read
+`score3` (`NA` when there was none) and the engine's score `machine`.
+
+```{r look, exercise = TRUE}
+head(openended)
+dim(openended)
+table(openended$task)
+table(openended$ell[!duplicated(openended$student)])
+```
+
+```{r look-check}
+"7,200 responses: 1,200 students times six tasks, 300 of the students English language learners."
+```
+
+## Do the raters agree?
+
+### Three ways to measure agreement
+
+Before scores are used, check that two raters reading the same answer give
+it the same score. Three statistics are standard:
+
+* **exact agreement**: the share of responses where both raters gave the
+  same score;
+* **adjacent agreement**: the share where they were at most one point apart;
+* **quadratic weighted kappa (QWK)**: agreement corrected for chance, where
+  big disagreements count much more than small ones. `qwk()` is defined for
+  you. Many programs want QWK of at least 0.70.
+
+Add adjacent agreement to the table.
+
+```{r agree, exercise = TRUE, exercise.lines = 8}
+agree <- sapply(split(openended, openended$task), function(d) c(
+  exact = mean(d$score1 == d$score2),
+  adjacent = ,
+  qwk = qwk(d$score1, d$score2)))
+round(agree, 2)
+```
+
+```{r agree-hint}
+adjacent = mean(abs(d$score1 - d$score2) <= ___),
+```
+
+```{r agree-solution}
+agree <- sapply(split(openended, openended$task), function(d) c(
+  exact = mean(d$score1 == d$score2),
+  adjacent = mean(abs(d$score1 - d$score2) <= 1),
+  qwk = qwk(d$score1, d$score2)))
+round(agree, 2)
+```
+
+```{r agree-check}
+lab_need(exists("agree") && is.matrix(agree) && "adjacent" %in% rownames(agree),
+         "Fill in the `adjacent` row and keep the name `agree`.")
+ref <- sapply(split(openended, openended$task), function(d) mean(abs(d$score1 - d$score2) <= 1))
+lab_need(max(abs(agree["adjacent", ] - ref)) < 1e-8,
+         "Adjacent agreement is the share of pairs at most one point apart: mean(abs(d$score1 - d$score2) <= 1).")
+sprintf("Five tasks have QWK above 0.8. T6 is at %.2f, with only %.0f%% exact agreement.",
+        agree["qwk", "T6"], 100 * agree["exact", "T6"])
+```
+
+```{r q-t6}
+question_radio("Human agreement on T6 is well below the other tasks, for every pair of raters. What is the most likely cause, and what do you do?",
+  answer("The T6 rubric is not clear enough for raters to apply it the same way. Revise it, add anchor papers for each score point, and retrain the raters on T6 before its scores are used again.",
+         correct = TRUE,
+         message = "Right. When one task has low agreement across all raters, the problem is the task or its rubric, not the raters. Vague score descriptors (for example \"a partial explanation\" versus \"a mostly complete explanation\") leave room for judgement. Anchor papers, real answers chosen to illustrate each score, are the usual fix."),
+  answer("T6 is harder for students, so raters disagree more.",
+         message = "Difficulty and agreement are different things. A hard task can be scored very consistently; what matters is whether the rubric makes the score points easy to tell apart."),
+  answer("One rater is causing all the disagreement on T6.",
+         message = "Raters were assigned at random, so every rater read T6. If one rater were the problem, agreement would drop on every task. Here it drops on one task for everyone."),
+  answer("Nothing: 86% adjacent agreement is good enough.",
+         message = "Adjacent agreement is easy to achieve on a five-point scale. QWK is the stricter check, and T6 falls below the usual 0.70."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Rater by rater
+
+### Severity and consistency
+
+Because raters were assigned **at random**, every rater saw a similar mix of
+answers. So you can compare raters directly: a rater whose scores are on
+average lower than their partner's on the **same responses** is **severe**,
+and one who rarely agrees with their partner is **inconsistent**.
+
+Stack the reads so that each row is one rater's score with their partner's
+score, and add `vs_other`, the rater's average difference from their
+partner.
+
+```{r raters, exercise = TRUE, exercise.lines = 12}
+reads <- rbind(
+  data.frame(rater = openended$rater1, score = openended$score1, other = openended$score2),
+  data.frame(rater = openended$rater2, score = openended$score2, other = openended$score1))
+by_rater <- sapply(split(reads, reads$rater), function(d) c(
+  reads = nrow(d),
+  mean = mean(d$score),
+  vs_other = ,
+  exact = mean(d$score == d$other)))
+round(by_rater, 2)
+```
+
+```{r raters-hint}
+vs_other = mean(d$score - d$___),
+```
+
+```{r raters-solution}
+reads <- rbind(
+  data.frame(rater = openended$rater1, score = openended$score1, other = openended$score2),
+  data.frame(rater = openended$rater2, score = openended$score2, other = openended$score1))
+by_rater <- sapply(split(reads, reads$rater), function(d) c(
+  reads = nrow(d),
+  mean = mean(d$score),
+  vs_other = mean(d$score - d$other),
+  exact = mean(d$score == d$other)))
+round(by_rater, 2)
+```
+
+```{r raters-check}
+lab_need(exists("by_rater") && is.matrix(by_rater) && "vs_other" %in% rownames(by_rater),
+         "Fill in the `vs_other` row and keep the name `by_rater`.")
+lab_need(abs(by_rater["vs_other", "R5"] + 0.53) < 0.02,
+         "`vs_other` is the rater's score minus their partner's, averaged: mean(d$score - d$other).")
+"R5 scores about half a point below their partners. R8 agrees exactly with their partner only 46% of the time; the others manage about 61%."
+```
+
+```{r q-raters}
+question_radio("What do the rater statistics tell you about R5 and R8?",
+  answer("R5 is severe but consistent; R8 is inconsistent but not harsh or lenient on average. R5 can be recalibrated (and the effect can be modelled); R8 needs retraining or should be taken off scoring.",
+         correct = TRUE,
+         message = "Exactly. Severity is a systematic shift: it can be corrected by feedback and recalibration, and models such as the many-facet Rasch model can adjust scores for it. Inconsistency is noise; no statistical adjustment can recover what an inconsistent rater did not see. Most programs monitor both during scoring, using validity papers with known scores."),
+  answer("R5 is the best rater because their scores are the strictest.",
+         message = "Strictness is not accuracy. The rubric defines the score points; R5 gives lower scores than the rubric (as applied by the others) for the same answers."),
+  answer("R8 is fine because their average matches the others.",
+         message = "An average can hide a lot of noise: R8 gives some answers too high and some too low. Look at exact agreement."),
+  answer("The differences could be due to R5 and R8 reading weaker students.",
+         message = "With random assignment and about 1,800 reads per rater, that is very unlikely. And `vs_other` compares each rater with a partner on the same responses, so the students cancel out."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The final scores
+
+### Resolving two reads
+
+The program's rule for the **final score** of a response:
+
+* if the two reads are **at most one point apart**, the final score is
+  their average, rounded half up (so 2 and 3 give 3);
+* if they are **two or more points apart**, the expert's third read
+  (`score3`) is the final score.
+
+Complete the rule, then put the final scores in a student-by-task table,
+`scores`, for the IRT analysis.
+
+```{r final, exercise = TRUE, exercise.lines = 10}
+openended$final <- ifelse(is.na(openended$score3),
+                          floor((openended$score1 + openended$score2) / 2 + 0.5),
+                          )
+c(third_reads = mean(!is.na(openended$score3)))
+scores <- as.data.frame.matrix(xtabs(final ~ student + task, data = openended))
+head(scores)
+sapply(scores, table)
+```
+
+```{r final-hint}
+# where there is a third read, it is the final score
+openended$final <- ifelse(is.na(openended$score3),
+                          floor((openended$score1 + openended$score2) / 2 + 0.5),
+                          openended$___)
+```
+
+```{r final-solution}
+openended$final <- ifelse(is.na(openended$score3),
+                          floor((openended$score1 + openended$score2) / 2 + 0.5),
+                          openended$score3)
+c(third_reads = mean(!is.na(openended$score3)))
+scores <- as.data.frame.matrix(xtabs(final ~ student + task, data = openended))
+head(scores)
+sapply(scores, table)
+```
+
+```{r final-check}
+lab_need(exists("scores") && is.data.frame(scores) && identical(dim(scores), c(1200L, 6L)),
+         "Build `scores`, a data frame with one row per student and one column per task.")
+ref <- ifelse(is.na(openended$score3), floor((openended$score1 + openended$score2) / 2 + 0.5),
+              openended$score3)
+lab_need(!anyNA(openended$final) && all(openended$final == ref),
+         "Use the expert's read where there is one: the third argument of ifelse() is openended$score3.")
+"About 5% of responses needed a third read. Look at T4: category 1 is used less than its neighbours."
+```
+
+## A polytomous IRT model
+
+### Which model?
+
+Scores of 0 to 4 call for a **polytomous** IRT model. Three are common:
+
+* the **partial credit model (PCM)**: one discrimination for all tasks, a
+  step difficulty between each pair of adjacent categories;
+* the **generalized partial credit model (GPCM)**: the PCM with a
+  discrimination for each task;
+* the **graded response model (GRM)**: models the chance of scoring at or
+  above each category, with a discrimination for each task.
+
+`select_model()` fits all three and compares them.
+
+```{r select, exercise = TRUE, exercise.setup = "setup-final", exercise.timelimit = 180}
+select_model(scores)
+```
+
+```{r select-check}
+"The GPCM has the lowest BIC, well ahead of the GRM and the PCM."
+```
+
+```{r q-model}
+question_radio("The GPCM wins clearly over the PCM. What does that tell you about the tasks?",
+  answer("The tasks differ in how well they separate stronger from weaker students, so a single common discrimination does not fit.",
+         correct = TRUE,
+         message = "Right. The PCM assumes every task is equally discriminating. The likelihood-ratio test and BIC both say that assumption costs too much fit here. Open-ended tasks often differ in this way: some reward understanding sharply, others are more affected by writing or reading."),
+  answer("The tasks are multidimensional.",
+         message = "All three candidates are unidimensional, so the comparison says nothing about dimensionality. That would need a separate check."),
+  answer("The GRM is a bad model for rubric scores.",
+         message = "The GRM is widely used for rubric scores. Here it fits a bit worse than the GPCM, but both are reasonable; the bigger difference is with the PCM."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Do the categories work?
+
+In the GPCM, the **step difficulties** `b1` to `b4` are where adjacent
+categories cross: `b1` is where a score of 1 becomes more likely than 0,
+`b2` where 2 becomes more likely than 1, and so on. They should increase.
+Fit the GPCM and plot the **category curves** of T3, a typical task, and
+T4.
+
+```{r curves, exercise = TRUE, exercise.setup = "setup-final", exercise.timelimit = 180, exercise.lines = 8}
+mod <- mirt(scores, 1, itemtype = "gpcm", verbose = FALSE)
+round(coef(mod, IRTpars = TRUE, simplify = TRUE)$items, 2)
+gg_trace(mod, which.items = c("T3", "T4"))
+```
+
+```{r curves-check}
+"On T4, b1 is higher than b2: the steps are disordered, and the curve for a score of 1 is never the highest."
+```
+
+```{r q-t4}
+question_radio("On T4, a score of 1 is never the most likely score at any ability. What does this mean, and what do you do?",
+  answer("Raters cannot tell rubric levels 1 and 2 apart in a useful way. Collapse categories 1 and 2 for this year’s analysis, and rewrite the level 1 and 2 descriptors before T4 is used again.",
+         correct = TRUE,
+         message = "That is the standard response. Disordered steps mean a category does not mark a distinct region of ability: students who get a 1 are not clearly between those who get 0 and 2. Collapsing it with a neighbour makes the scale work now; the rubric fix makes it work next time."),
+  answer("Switch to the GRM, which cannot have disordered thresholds.",
+         message = "The GRM forces its thresholds into order by construction, so it hides the problem rather than solving it. The category is still not doing its job."),
+  answer("Drop T4 from the test.",
+         message = "T4 discriminates well; only one category is the problem. Collapsing keeps the task’s information."),
+  answer("Nothing: category 1 is still used for about 12% of responses.",
+         message = "A category can be used often and still not work. What matters is whether it sits between its neighbours on the ability scale."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Collapse the categories
+
+Recode T4 so that 0 stays 0, 1 and 2 both become 1, 3 becomes 2 and 4
+becomes 3. Refit and check the steps.
+
+```{r collapse, exercise = TRUE, exercise.setup = "setup-final", exercise.timelimit = 180, exercise.lines = 10}
+scores2 <- scores
+scores2$T4 <- ifelse(scores2$T4 >= 2, , scores2$T4)
+table(original = scores$T4, collapsed = scores2$T4)
+mod2 <- mirt(scores2, 1, itemtype = "gpcm", verbose = FALSE)
+round(coef(mod2, IRTpars = TRUE, simplify = TRUE)$items["T4", ], 2)
+gg_trace(mod2, which.items = "T4")
+```
+
+```{r collapse-hint}
+scores2$T4 <- ifelse(scores2$T4 >= 2, scores2$T4 - ___, scores2$T4)
+```
+
+```{r collapse-solution}
+scores2 <- scores
+scores2$T4 <- ifelse(scores2$T4 >= 2, scores2$T4 - 1, scores2$T4)
+table(original = scores$T4, collapsed = scores2$T4)
+mod2 <- mirt(scores2, 1, itemtype = "gpcm", verbose = FALSE)
+round(coef(mod2, IRTpars = TRUE, simplify = TRUE)$items["T4", ], 2)
+gg_trace(mod2, which.items = "T4")
+```
+
+```{r collapse-check}
+lab_need(exists("scores2") && is.data.frame(scores2) && "T4" %in% names(scores2),
+         "Keep the name `scores2`.")
+ref <- ifelse(scores$T4 >= 2, scores$T4 - 1, scores$T4)
+lab_need(all(scores2$T4 == ref),
+         "Scores of 2 or more move down one point: scores2$T4 - 1. Scores of 0 and 1 stay.")
+lab_need(exists("mod2"), "Refit the model as `mod2`.")
+b <- coef(mod2, IRTpars = TRUE, simplify = TRUE)$items["T4", c("b1", "b2", "b3")]
+lab_need(all(diff(b) > 0), "Refit `mod2` on `scores2`.")
+sprintf("T4 now has four categories with ordered steps (%s).", paste(round(b, 2), collapse = ", "))
+```
+
+## Can the engine replace a reader?
+
+### Overall agreement
+
+The usual checks for an automated scoring engine (Williamson, Xi and Breyer,
+2012) compare it with the human scores:
+
+* **QWK** between engine and human scores should be at least 0.70 and not
+  much lower (at most 0.10) than the agreement between two humans;
+* the **standardized mean difference (SMD)** between engine and human
+  scores should be within ±0.15. `smd()` is defined for you.
+
+```{r engine, exercise = TRUE, exercise.setup = "setup-final"}
+engine <- sapply(split(openended, openended$task), function(d) c(
+  qwk_human = qwk(d$score1, d$score2),
+  qwk_engine = qwk(d$machine, d$final),
+  smd = smd(d$machine, d$final)))
+round(engine, 2)
+```
+
+```{r engine-check}
+"The engine agrees with the final human scores at least as well as two humans agree with each other, and its SMD is within ±0.15 on every task."
+```
+
+### Fairness for subgroups
+
+An engine can look fine overall and still treat a group of students
+differently. Programs also check the SMD **within** each subgroup, often
+against a stricter limit of ±0.10. Add the SMD for English language
+learners.
+
+```{r subgroup, exercise = TRUE, exercise.setup = "setup-final", exercise.lines = 8}
+ell <- openended$ell == "ELL"
+by_group <- c(all = smd(openended$machine, openended$final),
+              Fluent = smd(openended$machine[!ell], openended$final[!ell]),
+              ELL = )
+round(by_group, 2)
+round(tapply(openended$final, openended$ell, mean), 2)
+```
+
+```{r subgroup-hint}
+ELL = smd(openended$machine[ell], openended$final[___])
+```
+
+```{r subgroup-solution}
+ell <- openended$ell == "ELL"
+by_group <- c(all = smd(openended$machine, openended$final),
+              Fluent = smd(openended$machine[!ell], openended$final[!ell]),
+              ELL = smd(openended$machine[ell], openended$final[ell]))
+round(by_group, 2)
+round(tapply(openended$final, openended$ell, mean), 2)
+```
+
+```{r subgroup-check}
+lab_need(exists("by_group") && "ELL" %in% names(by_group),
+         "Fill in the `ELL` entry and keep the name `by_group`.")
+ell <- openended$ell == "ELL"
+ref <- (mean(openended$machine[ell]) - mean(openended$final[ell])) /
+  sqrt((var(openended$machine[ell]) + var(openended$final[ell])) / 2)
+lab_need(abs(by_group[["ELL"]] - ref) < 1e-8,
+         "Compare engine and human scores for ELL students only: index both with `ell`.")
+sprintf("For ELL students the engine is %.2f SD below the human scores; for fluent students it is close to 0.", abs(by_group[["ELL"]]))
+```
+
+```{r q-engine}
+question_radio("Can the engine replace the second human reader next year?",
+  answer("Not yet. It passes the overall checks but scores English language learners about a third of an SD lower than humans do for the same answers. Keep two human reads, ask the vendor to find and fix the cause, and re-check on new data.",
+         correct = TRUE,
+         message = "Right. An engine that underscores one group would build bias into every score it produces, and overall statistics hide it because ELL students are a quarter of the sample. Engines often lean on surface features such as vocabulary, spelling or length, which can penalize language learners for their English rather than their science."),
+  answer("Yes. Its QWK is higher than the human-human QWK on every task.",
+         message = "Overall agreement is necessary but not sufficient. Look at the subgroup SMD. (Also, the engine is compared with the resolved final score, which is more reliable than a single read, so its QWK is flattered.)"),
+  answer("Yes. ELL students get lower human scores too, so lower engine scores are expected.",
+         message = "That confuses impact with bias. The SMD compares engine and human scores for the same ELL students. The humans already show the real group difference; the engine adds an extra gap on top."),
+  answer("Yes, but only for T6, where humans disagree most.",
+         message = "The engine underscores ELL students on every task, T6 included. And low human agreement on T6 is a rubric problem the engine cannot fix."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the director
+
+Write a short memo (four to six sentences): can the scores be trusted, what
+should happen with raters R5 and R8, the T6 rubric and T4's categories, and
+is the engine ready?
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: cover the raters, the two rubrics and the engine."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the Director of Assessment: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the scores
+
+`openended` was simulated from a GPCM, with problems built in on purpose.
+`lab_truth("openended")` lists them.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("openended")
+truth[c("severe_rater", "inconsistent_rater", "vague_rubric", "collapse", "engine_bias", "impact")]
+truth$pars
+```
+
+| What was planted | What you found |
+|---|---|
+| R5 scores 0.6 points too low | R5 about 0.5 below partners on the same responses |
+| R8 is much noisier than the others | R8's exact agreement 46% versus about 61% |
+| Vague T6 rubric | QWK 0.68 on T6, above 0.8 elsewhere |
+| T4 steps 1 and 2 disordered | b1 above b2; category 1 never the most likely; collapsing fixes it |
+| Engine scores ELL students 0.4 points too low | Subgroup SMD about -0.33 for ELL, near 0 for fluent students |
+| ELL students 0.3 SD lower in ability | Real impact, visible in the human scores, not a scoring problem |
+
+In practice, mirtverse's assessment pipeline applies the same agreement
+checks with `score_open()`, which scores responses with a language model or
+your own trained engine and blocks or flags the scores when human
+agreement, engine agreement or subgroup differences fall outside the limits
+in `mv_rules()`.
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-t6" = "Low agreement on T6",
+    "q-raters" = "Raters R5 and R8",
+    "q-model" = "Polytomous model",
+    "q-t4" = "T4 categories",
+    "q-engine" = "Is the engine ready?",
+    "q-memo" = "Memo to the director"
+  ))
+})
+```
+
+You have checked a set of rubric scores the way a scoring program does:
+raters and rubrics first, then the model, then the machine, always asking
+whether every group of students is scored the same way.
