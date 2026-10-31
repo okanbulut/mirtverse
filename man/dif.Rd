@@ -23,7 +23,9 @@ equal across groups (the baseline model).}
 
 \item{group}{the grouping variable: a vector with one value per respondent,
 or the name of a column of \code{x} (that column is then not treated as an
-item). Ignored when \code{x} is a model.}
+item). The first group is the reference group: the first level of a
+factor, otherwise the first value in sorted order. Ignored when \code{x} is a
+model.}
 
 \item{model}{item type passed to \code{\link[mirt:multipleGroup]{mirt::multipleGroup()}}, e.g. \code{"Rasch"},
 \code{"2PL"}, \code{"3PL"}, \code{"graded"} or \code{"gpcm"}. Ignored when \code{x} is a model.}

@@ -24,8 +24,9 @@ useful.
 mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
-would make, getting feedback on each one. The labs share one storyline: a
-certification board's 32-item exam (\link{certexam}).
+would make, getting feedback on each one. Labs 1 and 2 share one
+storyline, a certification board's 32-item exam (\link{certexam}); Lab 3 has its
+own, a provincial numeracy test (\link{numeracy}).
 }
 \details{
 \itemize{
@@ -36,6 +37,10 @@ local dependence, and commit to a model the board can defend.
 pass mark, choose a scoring method, estimate classification accuracy,
 test for DIF between English and French candidates, write a memo, and
 compare the results with the truth behind the data.
+\item \code{"fairness"} (Lab 3): is a numeracy test biased against English language
+learners? Separate impact from DIF, run Mantel-Haenszel and IRT
+likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
+matters for students' scores and plan a content review.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

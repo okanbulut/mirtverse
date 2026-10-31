@@ -20,7 +20,9 @@
 #'   equal across groups (the baseline model).
 #' @param group the grouping variable: a vector with one value per respondent,
 #'   or the name of a column of `x` (that column is then not treated as an
-#'   item). Ignored when `x` is a model.
+#'   item). The first group is the reference group: the first level of a
+#'   factor, otherwise the first value in sorted order. Ignored when `x` is a
+#'   model.
 #' @param model item type passed to [mirt::multipleGroup()], e.g. `"Rasch"`,
 #'   `"2PL"`, `"3PL"`, `"graded"` or `"gpcm"`. Ignored when `x` is a model.
 #' @param items items to test, by name or position. Defaults to all items;
@@ -82,7 +84,7 @@ dif <- function(x, group = NULL, model = "2PL", items = NULL, which.par = NULL,
       x <- x[keep, , drop = FALSE]
       group <- group[keep]
     }
-    group <- as.character(group)
+    group <- if (is.factor(group)) droplevels(group) else as.character(group)
     sizes <- table(group)
     if (length(sizes) < 2L) stop("`group` must have at least two groups.", call. = FALSE)
     if (any(sizes < 100L))

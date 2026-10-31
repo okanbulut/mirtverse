@@ -1,5 +1,18 @@
 # mirtverse (development version)
 
+* New teaching lab, "Is the test fair? Detecting DIF": `run_lab("fairness")`.
+  Students investigate a complaint that a provincial numeracy test is biased
+  against English language learners: they separate impact from DIF, run
+  Mantel-Haenszel and IRT likelihood-ratio DIF tests, purify the anchor, judge
+  how much the DIF matters for students' scores with differential test
+  functioning, and plan a content review. The new `numeracy` data (with
+  `numeracy_items`) have DIF planted on purpose, and `lab_truth("numeracy")`
+  reveals it. The "Teaching labs" article covers the new lab, with its answers
+  in the answer key at the end.
+
+* `dif()` now keeps the order of a factor's levels, so the first level is the
+  reference group. Before, groups were sorted alphabetically.
+
 * The workbench gains a Pipeline tab: run the data through the assessment
   pipeline's intake and calibration gates (or load a saved pipeline), follow
   the stage tracker, record decisions on flags, drop items and recalibrate,
