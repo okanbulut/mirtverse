@@ -106,6 +106,13 @@ Teaching a measurement course? `run_lab("model-choice")` opens an interactive
 lab in which students work through a realistic testing scenario with live
 models (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 
+## Cheat sheet
+
+<a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-1.png" width="49%" alt="Page 1 of the mirtverse cheat sheet"></a> <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png" width="49%" alt="Page 2 of the mirtverse cheat sheet"></a>
+
+A printable two-page [cheat sheet (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+covers the main functions by task: page 1 for analysis and sharing, page 2 for
+the assessment pipeline.
 
 ## Coming from ltm, eRm, TAM or irtQ?
 
