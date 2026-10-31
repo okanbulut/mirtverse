@@ -1,5 +1,11 @@
 # mirtverse (development version)
 
+* New article, "Glossary of IRT terms": about 90 terms in plain language,
+  grouped from the basic ideas to test design, each with the mirtverse or
+  mirt function that computes it and a figure where one helps. Every term
+  has a stable anchor (for example `glossary.html#discrimination`) for
+  linking from course materials.
+
 * The workbench gains a Pipeline tab: run the data through the assessment
   pipeline's intake and calibration gates (or load a saved pipeline), follow
   the stage tracker, record decisions on flags, drop items and recalibrate,

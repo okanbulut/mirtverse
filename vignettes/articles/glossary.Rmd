@@ -1,0 +1,1030 @@
+---
+title: "Glossary of IRT terms"
+description: >
+  Plain-language definitions of the terms used in item response theory, each
+  with the mirtverse or mirt function that computes it, and pictures where a
+  picture helps.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
+                      echo = FALSE, fig.width = 6, fig.height = 3.2,
+                      fig.align = "center", out.width = "85%", dpi = 110)
+```
+
+```{r setup, eval = TRUE, include = FALSE}
+library(mirtverse)
+library(ggplot2)
+cols <- c("#2C5F8A", "#D1495B", "#2E8B57", "#E09F3E", "#7A7A7A")
+theta <- seq(-4, 4, length.out = 201)
+p3 <- function(theta, a = 1, b = 0, g = 0, u = 1)
+  g + (u - g) / (1 + exp(-a * (theta - b)))
+curves <- function(pars) {
+  out <- do.call(rbind, lapply(seq_len(nrow(pars)), function(i)
+    data.frame(theta = theta, p = p3(theta, pars$a[i], pars$b[i], pars$g[i]),
+               item = pars$label[i])))
+  out$item <- factor(out$item, levels = unique(pars$label))  # keep legend order
+  out
+}
+base_plot <- function(df, ylab = "P(correct)") {
+  ggplot(df, aes(theta, p, colour = item)) +
+    geom_line(linewidth = 1) +
+    scale_colour_manual(values = cols, name = NULL) +
+    scale_y_continuous(limits = c(0, 1)) +
+    labs(x = expression(theta ~ "(ability)"), y = ylab) +
+    theme_mirtverse()
+}
+lsat <- mirt(expand.table(LSAT7), 1, verbose = FALSE)
+sci <- mirt(Science, 1, verbose = FALSE)
+```
+
+This page explains the words you will meet in item response theory (IRT)
+courses, papers and mirtverse output. Each entry gives a plain-language
+definition, then **In R**: the mirtverse or mirt function that computes or
+shows it. Function names link to their help pages.
+
+The entries are grouped in the order a course usually meets them, from the
+basic ideas to test design. Use the A to Z index below to jump to a term, or
+your browser's search (Ctrl+F or Cmd+F) to find a word.
+
+To try the code, load the package and fit a model to one of the example
+datasets that come with mirt:
+
+```{r, echo = TRUE}
+library(mirtverse)
+mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
+```
+
+## A to Z index {#index}
+
+**A** [Ability](#ability) ·
+[AIC, BIC and SABIC](#information-criteria) ·
+[Anchor items](#anchor-items) ·
+[Angoff method](#standard-setting) ·
+[Answer copying](#answer-copying) ·
+[Automated test assembly](#automated-test-assembly)
+**B** [Bookmark method](#standard-setting)
+**C** [Calibration](#calibration) ·
+[Category response curve](#category-response-curve) ·
+[CFI and TLI](#cfi-tli) ·
+[Classical test theory](#classical-test-theory) ·
+[Classification accuracy](#classification-accuracy) ·
+[Classification consistency](#classification-consistency) ·
+[Computerized adaptive test](#computerized-adaptive-test) ·
+[Conditional standard error](#standard-error-of-measurement) ·
+[Convergence](#convergence) ·
+[Cut score](#cut-score)
+**D** [Dichotomous item](#dichotomous-item) ·
+[Difficulty](#difficulty) ·
+[Differential item functioning](#dif) ·
+[DIF effect size](#dif-effect-size) ·
+[Dimensionality](#dimensionality) ·
+[Discrimination](#discrimination)
+**E** [EAP](#eap) ·
+[EM algorithm](#marginal-maximum-likelihood) ·
+[Empirical item curve](#empirical-item-curve) ·
+[Equating](#linking) ·
+[Expected score](#expected-score) ·
+[Exposure](#exposure)
+**F** [Factor score](#person-score) ·
+[Fixed form](#automated-test-assembly) ·
+[Focal group](#reference-focal-group)
+**G** [Generalized partial credit model](#gpcm) ·
+[Graded response model](#graded-response-model) ·
+[Guessing](#guessing)
+**H** [Haebara method](#characteristic-curve-linking)
+**I** [Information criteria](#information-criteria) ·
+[Item](#item) ·
+[Item bank](#item-bank) ·
+[Item characteristic curve](#item-characteristic-curve) ·
+[Item difficulty (classical)](#p-value) ·
+[Item fit](#item-fit) ·
+[Item information](#item-information) ·
+[Item parameters](#item-parameters) ·
+[Item response theory](#item-response-theory) ·
+[Item-total correlation](#item-total-correlation)
+**K** [Kappa](#kappa)
+**L** [Latent trait](#latent-trait) ·
+[Likelihood-ratio test](#likelihood-ratio-test) ·
+[Linking](#linking) ·
+[Local dependence](#local-dependence) ·
+[Local independence](#local-independence) ·
+[Logit](#logit) ·
+[Lower asymptote](#guessing)
+**M** [M2](#m2) ·
+[MAP](#map) ·
+[Marginal maximum likelihood](#marginal-maximum-likelihood) ·
+[Marginal reliability](#marginal-reliability) ·
+[Maximum likelihood scoring](#ml-scoring) ·
+[Mean-sigma and mean-mean](#moment-linking) ·
+[Model fit](#model-fit) ·
+[Multidimensional IRT](#multidimensional-irt) ·
+[Multistage test](#multistage-test)
+**N** [Non-uniform DIF](#uniform-nonuniform-dif)
+**O** [One-parameter logistic model](#rasch-model)
+**P** [Parallel forms](#parallel-forms) ·
+[Parameter drift](#parameter-drift) ·
+[Person fit](#person-fit) ·
+[Person score](#person-score) ·
+[Polytomous item](#polytomous-item) ·
+[Preknowledge](#preknowledge) ·
+[p-value (item)](#p-value)
+**Q** [Q3](#q3) ·
+[Quadratic weighted kappa](#qwk)
+**R** [Rapid guessing](#rapid-guessing) ·
+[Rasch model](#rasch-model) ·
+[Reference group](#reference-focal-group) ·
+[Reliability](#marginal-reliability) ·
+[Response probability](#response-probability) ·
+[Response time effort](#response-time-effort) ·
+[RMSEA](#rmsea)
+**S** [S-X2](#s-x2) ·
+[Slope-intercept form](#slope-intercept) ·
+[Speed](#speed) ·
+[SRMSR](#srmsr) ·
+[Standard error (of a parameter)](#standard-error) ·
+[Standard error of measurement](#standard-error-of-measurement) ·
+[Standard setting](#standard-setting) ·
+[Stocking-Lord method](#characteristic-curve-linking) ·
+[Sum score](#sum-score)
+**T** [Targeting](#targeting) ·
+[Test characteristic curve](#test-characteristic-curve) ·
+[Test information](#test-information) ·
+[Theta](#latent-trait) ·
+[Three-parameter logistic model](#three-pl) ·
+[Threshold](#threshold) ·
+[Time intensity](#time-intensity) ·
+[Two-parameter logistic model](#two-pl)
+**U** [Uniform DIF](#uniform-nonuniform-dif) ·
+[Unidimensionality](#dimensionality) ·
+[Upper asymptote](#upper-asymptote)
+**W** [WLE](#wle) ·
+[Wright map](#wright-map)
+**Z** [Zh](#zh)
+
+## The basic ideas {#basics}
+
+### Item response theory {#item-response-theory}
+
+A family of statistical models that link a person's answers to test items
+with an unobserved trait, such as math ability or anxiety. Each item gets its
+own parameters (how hard it is, how well it separates people), so the model
+can say how likely any person is to give any answer. Unlike a sum score, an
+IRT score accounts for *which* items a person answered correctly, and its
+precision can be stated at every level of the trait.
+
+**In R:** `mirt::mirt()` fits the model; `tidy()` lists the item parameters
+and `interpret()` describes the results in sentences.
+
+### Latent trait (theta) {#latent-trait}
+
+The characteristic a test is meant to measure but that cannot be observed
+directly, such as reading ability. It is written with the Greek letter theta
+(θ). Theta is usually scaled so that the group the test was calibrated on has
+a mean of 0 and a standard deviation of 1, so θ = 1 means "one standard
+deviation above the average test taker".
+
+**In R:** `fscores()` estimates each person's theta; `augment()` adds the
+estimates to your data.
+
+### Ability {#ability}
+
+The everyday name for the latent trait in achievement tests. On a survey the
+same quantity might be called an attitude or a symptom level; the mathematics
+is the same.
+
+### Logit {#logit}
+
+The unit of the theta scale in logistic IRT models. A logit is the logarithm
+of the odds of a correct answer. A one-logit gap between a person's ability
+and an item's difficulty changes the odds of success by a factor of about
+2.7, whatever the starting point.
+
+### Item {#item}
+
+One question, task or statement on a test or questionnaire. In R each item
+is one column of the response data, and each row is one person.
+
+**In R:** `profile_data()` summarises the columns of a dataset;
+`mirt::key2binary()` turns multiple-choice answers into 0/1 scores.
+
+### Dichotomous item {#dichotomous-item}
+
+An item scored in two categories, usually 0 (wrong) and 1 (right). True/false
+and scored multiple-choice items are dichotomous.
+
+### Polytomous item {#polytomous-item}
+
+An item with more than two ordered score categories, such as a rating scale
+(strongly disagree to strongly agree) or an essay scored 0 to 4.
+
+**In R:** fit with `itemtype = "graded"` or `"gpcm"` in `mirt::mirt()`.
+
+### Sum score {#sum-score}
+
+The number of points a person earns, added up over the items (also called the
+raw or number-correct score). It is easy to explain but treats every item as
+equally important and gives no item-by-item view of precision.
+
+**In R:** `rowSums(data)`; `mirt::itemstats()` reports the sum-score
+distribution.
+
+### Classical test theory {#classical-test-theory}
+
+The older framework that IRT builds on. It describes a test with sum-score
+statistics such as item p-values, item-total correlations and coefficient
+alpha. These statistics depend on the group that took the test, while IRT
+item parameters (once on a common scale) do not.
+
+**In R:** `mirt::itemstats()`; `item_table()` shows classical and IRT
+statistics side by side.
+
+### Item p-value (classical difficulty) {#p-value}
+
+The proportion of people who answered an item correctly (or the mean item
+score for polytomous items). Despite the name, a *high* p-value means an
+*easy* item. It is not the same as the p-value of a significance test.
+
+**In R:** the `mean` column of `item_table()`.
+
+### Item-total correlation {#item-total-correlation}
+
+The correlation between an item score and the sum of the other items. It is
+the classical index of discrimination: low or negative values (below about
+0.2) suggest a miskeyed, confusing or off-topic item.
+
+**In R:** the `item_total_r` column of `item_table()`.
+
+### Dimensionality and unidimensionality {#dimensionality}
+
+The number of distinct traits a test measures. Most IRT models used in
+practice are *unidimensional*: they assume one trait explains how people
+answer. If a math test also measures reading speed, a one-dimensional model
+may misfit.
+
+**In R:** compare `mirt(data, 1)` with `mirt(data, 2)` using `anova()`;
+`select_model()` can include a two-factor candidate with `dims = 1:2`.
+
+### Local independence {#local-independence}
+
+The assumption that, for people at the same theta, answers to different
+items are unrelated: once ability is known, getting item 3 right tells you
+nothing more about item 4. It is what lets the model multiply item
+probabilities together. See [local dependence](#local-dependence) for how it
+fails.
+
+## Models {#models}
+
+### Rasch model (1PL) {#rasch-model}
+
+The simplest IRT model for 0/1 items. Each item has only a difficulty; all
+items are assumed to discriminate equally. Under the Rasch model the sum score
+contains all the information about ability, which is why it is popular for
+tests that must be scored by hand. The one-parameter logistic (1PL) model is
+the same model with the common discrimination estimated rather than fixed
+at 1.
+
+**In R:** `mirt(data, 1, itemtype = "Rasch")`.
+
+### Two-parameter logistic model (2PL) {#two-pl}
+
+Adds a [discrimination](#discrimination) parameter to each item, so some items
+can separate people more sharply than others. The probability of a correct
+answer is
+
+$$P(\theta) = \frac{1}{1 + e^{-a(\theta - b)}}$$
+
+where *a* is the discrimination and *b* the difficulty.
+
+**In R:** `mirt(data, 1, itemtype = "2PL")` (the default for 0/1 items).
+
+### Three-parameter logistic model (3PL) {#three-pl}
+
+Adds a [lower asymptote](#guessing) *g* (often called *c*) for multiple-choice
+items, where even very low-ability test takers can guess right:
+
+$$P(\theta) = g + \frac{1 - g}{1 + e^{-a(\theta - b)}}$$
+
+The 3PL needs large samples to estimate well; with fewer than about 1,000
+people the guessing parameters are often unstable.
+
+**In R:** `mirt(data, 1, itemtype = "3PL")`. `select_model()` compares the
+Rasch, 2PL and 3PL models for you and explains its choice.
+
+### Graded response model {#graded-response-model}
+
+A model for ordered polytomous items, such as rating scales. It models the
+probability of scoring *in or above* each category with a 2PL-like curve, so
+an item with *k* categories has one discrimination and *k* − 1
+[thresholds](#threshold).
+
+**In R:** `mirt(data, 1, itemtype = "graded")`.
+
+### Generalized partial credit model (GPCM) {#gpcm}
+
+Another model for ordered categories. It models each step from one category
+to the next (from 1 to 2, from 2 to 3) separately. Its step parameters can be
+out of order, which can reveal a category that is rarely the most likely
+response. The partial credit model is its Rasch version.
+
+**In R:** `mirt(data, 1, itemtype = "gpcm")` or `itemtype = "Rasch"` for
+polytomous data.
+
+### Multidimensional IRT {#multidimensional-irt}
+
+Models with two or more latent traits, each item loading on one or several of
+them. They are used when a test deliberately measures several skills, or to
+check whether a single trait is enough.
+
+**In R:** `mirt(data, 2)` for an exploratory two-factor model, or a
+`mirt::mirt.model()` specification for a confirmatory structure.
+
+## Item parameters and curves {#item-parameters-and-curves}
+
+### Item parameters {#item-parameters}
+
+The numbers that describe how an item behaves: discrimination, difficulty and,
+in some models, guessing and an upper asymptote. They are estimated once,
+during [calibration](#calibration), and then reused to score anyone who takes
+the item.
+
+**In R:** `tidy()` returns one row per parameter; `coef(mod, IRTpars = TRUE,
+simplify = TRUE)` is the mirt equivalent.
+
+### Item characteristic curve (ICC) {#item-characteristic-curve}
+
+The S-shaped curve that shows the probability of a correct answer at every
+level of theta. It is also called a trace line. The steepness of the curve is
+the [discrimination](#discrimination); its location is the
+[difficulty](#difficulty).
+
+```{r icc, eval = TRUE, fig.alt = "Three item characteristic curves: an easy item to the left, a medium item in the middle, and a hard item to the right."}
+base_plot(curves(data.frame(a = 1.2, b = c(-1.5, 0, 1.5), g = 0,
+                            label = c("easy (b = -1.5)", "medium (b = 0)",
+                                      "hard (b = 1.5)")))) +
+  geom_hline(yintercept = 0.5, linetype = "dotted", colour = "grey50")
+```
+
+**In R:** `gg_trace(mod)`; `mirt::itemplot()` for one item.
+
+### Difficulty (location, *b*) {#difficulty}
+
+The point on the theta scale where the item characteristic curve crosses a
+50% chance of success (for the 2PL and Rasch models). An item with *b* = 1 is
+answered correctly by half the people whose ability is one standard deviation
+above average. Higher *b* means a harder item. For polytomous items the
+location is usually the mean of the [thresholds](#threshold).
+
+**In R:** the `b` rows of `tidy()`, or the `location` column of
+`item_table()`.
+
+### Discrimination (slope, *a*) {#discrimination}
+
+How steeply the item characteristic curve rises: how sharply the item
+separates people just below its difficulty from people just above it.
+Values around 1 to 2 are typical. Values below about 0.5 mean the item tells
+you little about ability; negative values usually mean a miskeyed item.
+
+```{r discrimination, eval = TRUE, fig.alt = "Two curves with the same difficulty: a steep curve with high discrimination and a flat curve with low discrimination."}
+base_plot(curves(data.frame(a = c(2.5, 0.5), b = 0, g = 0,
+                            label = c("high (a = 2.5)", "low (a = 0.5)"))))
+```
+
+**In R:** the `a` rows of `tidy()`, or the `discrimination` column of
+`item_table()`, which flags low values.
+
+### Guessing (lower asymptote, *c* or *g*) {#guessing}
+
+The chance that a person with very low ability still answers correctly, the
+height of the curve's left tail. For a four-option multiple-choice item it
+is often near 0.20 to 0.25. Only the 3PL and 4PL models estimate it.
+
+```{r guessing, eval = TRUE, fig.alt = "A 3PL curve that levels off at 0.2 on the left, compared with a 2PL curve that goes down to zero."}
+base_plot(curves(data.frame(a = 1.5, b = 0, g = c(0, 0.2),
+                            label = c("no guessing (g = 0)", "3PL (g = 0.2)")))) +
+  geom_hline(yintercept = 0.2, linetype = "dotted", colour = cols[2])
+```
+
+**In R:** the `g` rows of `tidy()` for a 3PL model.
+
+### Upper asymptote (*u*) {#upper-asymptote}
+
+The highest probability of success, even for very able people. It is 1 in most
+models; the four-parameter (4PL) model estimates it, for example when able
+test takers sometimes slip on an item.
+
+**In R:** `itemtype = "4PL"`; the `u` rows of `tidy()`.
+
+### Slope-intercept form {#slope-intercept}
+
+The way mirt stores parameters internally: the 2PL is written as
+1 / (1 + exp(−(*a*θ + *d*))), where *d* is an intercept, rather than with the
+difficulty *b*. The two are related by *b* = −*d* / *a*. Multidimensional
+models are always reported this way, because one difficulty no longer makes
+sense.
+
+**In R:** `coef(mod)` gives slope-intercept values, `coef(mod, IRTpars =
+TRUE)` the traditional ones; `tidy(mod, IRTpars = FALSE)` does the same.
+
+### Threshold {#threshold}
+
+For a polytomous item, the point on the theta scale where a person becomes
+more likely to score in a higher category than in the one below (GPCM), or
+has a 50% chance of scoring in or above a category (graded model). An item
+with five categories has four thresholds.
+
+**In R:** the `b1`, `b2`, … rows of `tidy()`.
+
+### Category response curve {#category-response-curve}
+
+For a polytomous item, one curve per score category showing how likely each
+category is at every theta. Low categories dominate on the left, high ones on
+the right. A category that is never the most likely anywhere may be
+redundant.
+
+```{r category-curves, eval = TRUE, fig.alt = "Category response curves for a four-category item from the Science data: each category is most likely over a different range of theta."}
+gg_trace(sci, which.items = 1)
+```
+
+**In R:** `gg_trace(mod)` for polytomous items (shown above for the first
+item of the `Science` data).
+
+### Expected score {#expected-score}
+
+The average score a person at a given theta would get on an item: the
+probability of success for a 0/1 item, or the probability-weighted average
+category for a polytomous one. Summed over items it gives the
+[test characteristic curve](#test-characteristic-curve).
+
+**In R:** `mirt::expected.item()`; `gg_trace(mod, type = "expected")`.
+
+### Test characteristic curve (TCC) {#test-characteristic-curve}
+
+The expected sum score at every level of theta, found by adding up the item
+curves. It converts between the theta scale and the sum-score scale, and is
+the basis of [characteristic-curve linking](#characteristic-curve-linking).
+
+**In R:** `mirt::expected.test()`; `plot(mod, type = "score")`.
+
+## Estimating the model and scoring people {#estimation-and-scoring}
+
+### Calibration {#calibration}
+
+Estimating the item parameters from a sample of responses. A calibration
+sample should be large enough for the model (a few hundred people for the
+Rasch model, 500 or more for the 2PL, often 1,000 or more for the 3PL) and
+similar to the people who will take the test.
+
+**In R:** `mirt::mirt()`; in a pipeline, `calibrate()`.
+
+### Marginal maximum likelihood and the EM algorithm {#marginal-maximum-likelihood}
+
+The standard way of estimating item parameters. It finds the item parameters
+that make the observed responses most likely, averaging over the unknown
+abilities instead of estimating them at the same time. The EM
+(expectation-maximization) algorithm does this in cycles until the estimates
+stop changing.
+
+**In R:** the default `method = "EM"` in `mirt::mirt()`.
+
+### Convergence {#convergence}
+
+Whether the estimation algorithm reached a stable solution. A model that has
+not converged should not be used: try more cycles (`technical = list(NCYCLES
+= 2000)`), a simpler model or better starting values.
+
+**In R:** the `converged` column of `glance()`; `extract.mirt(mod,
+"converged")`.
+
+### Standard error (of a parameter) {#standard-error}
+
+How uncertain an estimated item parameter is. Small samples, extreme items and
+complex models give large standard errors.
+
+**In R:** fit with `SE = TRUE`, then `tidy(mod, conf.int = TRUE)` adds the
+standard errors and confidence limits.
+
+### Person score (ability estimate) {#person-score}
+
+An estimate of a person's theta from their answers and the item parameters.
+mirt calls these factor scores. The main methods differ mostly for people
+with very high, very low or very short response patterns.
+
+**In R:** `fscores(mod, method = "EAP")`; `augment()` adds scores and their
+standard errors to the data; `score_persons()` does it in a pipeline;
+`gg_scores()` plots their distribution.
+
+### EAP (expected a posteriori) {#eap}
+
+The average of the possible theta values, weighted by how well each fits the
+person's answers and by a prior distribution (usually standard normal). It
+always gives a finite score, even for all-correct patterns, but pulls scores
+slightly toward the mean. It is mirt's default.
+
+**In R:** `fscores(mod, method = "EAP")`.
+
+### MAP (maximum a posteriori) {#map}
+
+The single most likely theta once the prior is taken into account. Similar to
+EAP, with a little more pull toward the mean.
+
+**In R:** `fscores(mod, method = "MAP")`.
+
+### Maximum likelihood (ML) scoring {#ml-scoring}
+
+The theta that makes the person's answers most likely, without a prior. It is
+unbiased for long tests but gives infinite scores for all-correct or
+all-wrong patterns.
+
+**In R:** `fscores(mod, method = "ML")`.
+
+### WLE (weighted likelihood estimate) {#wle}
+
+A version of ML scoring with a correction that reduces its bias on short tests
+and gives finite scores for perfect patterns. Common in large-scale
+assessments and Rasch work.
+
+**In R:** `fscores(mod, method = "WLE")`.
+
+## Precision and targeting {#precision}
+
+### Item information {#item-information}
+
+How much an item reduces uncertainty about theta at each ability level. An
+item is most informative near its difficulty, and more discriminating items
+give more information. Information is what makes items "work" for some
+people and not others: a hard item tells you a lot about strong students and
+almost nothing about weak ones.
+
+**In R:** `gg_info(mod, type = "items")`; `mirt::iteminfo()`.
+
+### Test information {#test-information}
+
+The sum of the item informations: how precisely the whole test measures at
+each theta. A test built to make pass/fail decisions should have its peak
+near the [cut score](#cut-score).
+
+### Standard error of measurement (conditional SEM) {#standard-error-of-measurement}
+
+How far a person's estimated theta is likely to be from their true theta. In
+IRT it depends on theta: SEM = 1 / √(test information), so it is smallest
+where the test has the most information. A standard error of 0.3 means a
+95% interval of about ±0.6 around the estimate.
+
+```{r info, eval = TRUE, fig.alt = "Test information for the LSAT7 data, peaking below average ability, with the standard error of measurement rising toward the high end of the scale."}
+gg_info(lsat)
+```
+
+**In R:** `gg_info(mod)` shows information and SEM together (above, for the
+`LSAT7` data); `gg_info(mod, type = "se")` shows the SEM alone. The
+standard errors of individual scores come from `fscores(mod,
+full.scores.SE = TRUE)` or `augment()`.
+
+### Marginal reliability {#marginal-reliability}
+
+A single summary of precision for a whole population, on the familiar 0-to-1
+reliability scale: the share of the variance in theta estimates that is true
+differences between people rather than measurement error. Above 0.90 is
+excellent, 0.80 good and 0.70 acceptable for most uses.
+
+**In R:** the `reliability` column of `glance()`; `mirt::marginal_rxx()`;
+`mirt::empirical_rxx()` for reliability of the estimated scores.
+
+### Targeting {#targeting}
+
+How well the difficulty of the items matches the ability of the people. A
+well-targeted test has items spread where the people are. A test that is too
+easy gives little information about the strongest test takers.
+
+**In R:** `gg_wright()`; `interpret()` comments on targeting.
+
+### Wright map {#wright-map}
+
+A picture that places people (as a histogram) and items (as points) on the
+same theta scale, so you can see targeting at a glance. Named after Benjamin
+Wright, who popularised it for Rasch measurement.
+
+```{r wright, eval = TRUE, fig.height = 3.6, fig.alt = "Wright map for the LSAT7 data: the person distribution on the left and the five item locations on the right, mostly below average ability."}
+gg_wright(lsat)
+```
+
+**In R:** `gg_wright(mod)`.
+
+## Checking the model {#checking-fit}
+
+### Model fit {#model-fit}
+
+How well the model as a whole reproduces the data. In IRT it is usually
+judged with limited-information statistics such as [M2](#m2) and the indices
+derived from it. Poor fit can come from the wrong model, more than one
+dimension, or a few bad items.
+
+**In R:** `glance()` reports M2, RMSEA, SRMSR, CFI and TLI in one row;
+`mirt::M2()` gives the details.
+
+### M2 {#m2}
+
+A chi-square test of model fit based on the pairs of items (how often each
+pair is answered correctly together). With large samples it almost always
+rejects, so the effect-size indices below matter more. For polytomous items
+mirtverse uses the related C2 statistic.
+
+**In R:** the `M2`, `df` and `p.value` columns of `glance()`.
+
+### RMSEA {#rmsea}
+
+Root mean square error of approximation: misfit per degree of freedom, where
+0 is perfect. Common guidelines are below 0.05 for close fit and below 0.08
+for reasonable fit. The same index is reported for each item from the
+[S-X2](#s-x2) statistic.
+
+**In R:** the `RMSEA` column of `glance()` (model) and of `item_table()`
+(items).
+
+### SRMSR {#srmsr}
+
+Standardized root mean square residual: the average difference between the
+observed and model-implied correlations between items. Values below about
+0.05 indicate good fit.
+
+**In R:** the `SRMSR` column of `glance()`.
+
+### CFI and TLI {#cfi-tli}
+
+Comparative fit indices that compare the model with a baseline in which the
+items are unrelated. Values of 0.95 or above are usually taken as good fit.
+
+**In R:** the `CFI` and `TLI` columns of `glance()`.
+
+### Information criteria (AIC, BIC, SABIC) {#information-criteria}
+
+Numbers for comparing models fitted to the same data: they reward fit and
+penalise extra parameters. *Smaller is better*. BIC penalises complexity more
+than AIC and tends to choose simpler models; SABIC is in between.
+
+**In R:** the `AIC`, `BIC` and `SABIC` columns of `glance()`;
+`select_model()` uses BIC by default; `anova(mod1, mod2)`.
+
+### Likelihood-ratio test {#likelihood-ratio-test}
+
+A significance test comparing two *nested* models, where one is a special
+case of the other (the Rasch model is a 2PL with equal slopes). A small
+p-value means the more complex model fits significantly better.
+
+**In R:** `anova(mod_rasch, mod_2pl)`; the `lrt` element of
+`select_model()`.
+
+### Item fit {#item-fit}
+
+Whether each item behaves the way the model predicts. A misfitting item may
+be poorly written, miskeyed, or measuring something else.
+
+**In R:** `item_table()` (with a `flag` column), `gg_itemfit()`,
+`mirt::itemfit()`; `item_card()` for one item in depth.
+
+### S-X2 {#s-x2}
+
+The most widely used item-fit statistic for IRT (Orlando and Thissen). It
+groups people by sum score and compares the observed proportion correct in
+each group with the model's prediction. A small p-value signals misfit; with
+many items, adjust the p-values for multiple testing.
+
+**In R:** the `S_X2`, `p.value` and `RMSEA` columns of `item_table()`;
+`gg_itemfit()` plots them.
+
+### Empirical item curve {#empirical-item-curve}
+
+The observed proportion correct in groups of people with similar ability,
+plotted over the model's curve. When the dots follow the line, the item fits.
+
+**In R:** `gg_empirical(mod, item = 1)`; `mirt::itemfit(mod, empirical.plot
+= 1)`.
+
+### Local dependence {#local-dependence}
+
+When two items are related beyond what the trait explains, breaking
+[local independence](#local-independence). Common causes are items that share
+a reading passage, items where one answer gives away another, or near-duplicate
+wording. It makes the test look more reliable than it is.
+
+**In R:** `gg_q3()`; `residuals(mod, type = "Q3")`.
+
+### Q3 {#q3}
+
+Yen's Q3 statistic: the correlation between two items' residuals (observed
+minus expected score) after the trait is taken out. Pairs whose Q3 is more
+than 0.2 above the average Q3 are worth a look.
+
+**In R:** `gg_q3(mod)` draws a heatmap and marks the flagged pairs.
+
+### Person fit {#person-fit}
+
+Whether a person's pattern of answers is consistent with the model, for
+example a person who misses easy items but gets hard ones right. Misfit can
+mean guessing, cheating, carelessness or a scoring error.
+
+**In R:** `mirt::personfit()`; `interpret()` reports the share of people
+flagged.
+
+### Zh (or lz) {#zh}
+
+The usual person-fit statistic: a standardized log-likelihood of the person's
+answers. Large negative values (below −1.96) flag unusual patterns.
+
+**In R:** the `Zh` column of `mirt::personfit(mod)`.
+
+## Fairness {#fairness}
+
+### Differential item functioning (DIF) {#dif}
+
+An item has DIF when people from different groups who have the *same* ability
+have different chances of answering it correctly. DIF is not the same as a
+group difference in average scores: groups can truly differ in ability. DIF
+means the item itself behaves differently, for example because of a word that
+is harder in translation.
+
+**In R:** `dif(data, group = "language")` tests every item and reports
+effect sizes; `gg_dif()` plots them; `mirt::DIF()` gives more control.
+
+### Reference and focal groups {#reference-focal-group}
+
+In a DIF study, the reference group is the comparison group (often the
+majority) and the focal group is the one whose fairness is in question.
+
+**In R:** the `reference` and `focal` elements of `dif()`.
+
+### Uniform and non-uniform DIF {#uniform-nonuniform-dif}
+
+With *uniform* DIF the item is harder for one group at every ability level
+(the curves are shifted). With *non-uniform* DIF the gap changes with ability
+and the curves can cross, so the item favours one group at low ability and
+the other at high ability.
+
+```{r dif, eval = TRUE, fig.height = 3, fig.alt = "Two panels: uniform DIF, where the focal group's curve is shifted right of the reference group's curve; and non-uniform DIF, where the two curves cross."}
+dif_df <- rbind(
+  transform(curves(data.frame(a = 1.3, b = c(-0.3, 0.4), g = 0,
+                              label = c("reference", "focal"))),
+            type = "Uniform DIF"),
+  transform(curves(data.frame(a = c(1.8, 0.7), b = 0, g = 0,
+                              label = c("reference", "focal"))),
+            type = "Non-uniform DIF"))
+dif_df$type <- factor(dif_df$type, c("Uniform DIF", "Non-uniform DIF"))
+base_plot(dif_df) + facet_wrap(~type)
+```
+
+**In R:** `dif()` tests all the item parameters by default, so it finds both
+kinds; the `uesd` effect size captures crossing curves.
+
+### DIF effect size {#dif-effect-size}
+
+How big the DIF is, in score units, rather than just whether it is
+statistically significant. mirtverse reports the expected score difference
+between focal and reference group at the same ability, averaged over the
+focal group: `esd` is signed (positive means the item favours the focal
+group) and `uesd` unsigned. For 0/1 items these are differences in
+probability, so 0.05 means five percentage points.
+
+**In R:** the `esd` and `uesd` columns of `dif()`.
+
+### Anchor items {#anchor-items}
+
+Items assumed to be free of DIF (in a DIF study) or shared by two forms (in
+[linking](#linking)). They hold the scale in place while other items are
+compared.
+
+**In R:** the `items` argument of `dif()` (untested items act as anchors);
+`link_to_bank()` finds the anchors shared with a bank.
+
+## Scales, linking and item banks {#linking-section}
+
+### Linking and equating {#linking}
+
+Putting results from different test forms or administrations on the same
+theta scale. Each calibration sets its own zero point (the mean of its
+sample), so parameters from two calibrations cannot be compared until they
+are linked through common [anchor items](#anchor-items) or common people.
+Equating is linking strict enough that scores on the forms can be used
+interchangeably.
+
+**In R:** `link_to_bank()`; `mirt::multipleGroup()` for concurrent
+calibration.
+
+### Characteristic-curve linking (Stocking-Lord and Haebara) {#characteristic-curve-linking}
+
+Methods that find the linear transformation (θ on the bank scale = A × θ + B)
+that makes the anchor items' curves from the new calibration match their bank
+curves. Stocking-Lord matches the [test characteristic
+curve](#test-characteristic-curve); Haebara matches each item curve.
+
+**In R:** `link_to_bank(p, bank, method = "stocking-lord")` (the default) or
+`method = "haebara"`.
+
+### Mean-sigma and mean-mean linking {#moment-linking}
+
+Simpler linking methods that set A and B from the means and standard
+deviations of the anchor items' difficulties (mean-sigma) or the means of
+their difficulties and discriminations (mean-mean).
+
+**In R:** `link_to_bank(p, bank, method = "mean-sigma")`.
+
+### Item bank {#item-bank}
+
+A collection of calibrated items on one common scale, with their parameters,
+content codes and history, from which tests are built.
+
+**In R:** `mv_bank()` starts a bank, `bank_items()` adds items,
+`monitor_bank()` checks its health over time and `retire_items()` takes
+items out.
+
+### Parameter drift {#parameter-drift}
+
+When an item's parameters change over time, for example because it has
+leaked or the curriculum has changed. Drifting items should not be used as
+anchors.
+
+**In R:** `check_security()` flags drift against the bank.
+
+## Making decisions with scores {#decisions}
+
+### Cut score {#cut-score}
+
+The score that separates two decisions or performance levels, such as pass
+and fail, or "basic" and "proficient". It can be set on the theta scale or on
+the sum-score scale.
+
+**In R:** `set_cuts()`.
+
+### Standard setting (Bookmark and Angoff) {#standard-setting}
+
+Structured procedures in which a panel of experts decides where cut scores
+should be. In the *Bookmark* method panelists page through the items ordered
+from easiest to hardest and place a bookmark where a just-qualified person
+would stop succeeding. In the *Angoff* method panelists estimate, item by
+item, the probability that a just-qualified person would answer correctly.
+
+**In R:** `item_map()` builds the ordered item booklet for a Bookmark panel;
+`set_cuts(p, panel = ratings)` turns the panel's ratings into cuts.
+
+### Response probability (RP) {#response-probability}
+
+The chance of success used to place items on the scale for a Bookmark
+booklet. With RP67, each item is located where a person has a two-in-three
+chance of answering correctly.
+
+**In R:** the `rp` argument of `item_map()` (0.67 by default).
+
+### Classification accuracy {#classification-accuracy}
+
+The probability that a person is put in the category their *true* ability
+belongs to. Errors are most likely for people near the cut, which is why a
+test should be most precise there.
+
+```{r accuracy, eval = TRUE, fig.height = 3, fig.alt = "Probability of passing as a function of true ability for a cut at theta = 0.5: it rises steeply around the cut, so people near the cut are the most likely to be misclassified."}
+cut <- 0.5
+sem <- 0.35
+acc <- data.frame(theta = theta, p = pnorm((theta - cut) / sem), item = "P(pass)")
+base_plot(acc, ylab = "P(observed pass)") +
+  geom_vline(xintercept = cut, linetype = "dashed", colour = cols[2]) +
+  annotate("text", x = cut + 0.1, y = 0.08, hjust = 0, size = 3.2,
+           label = "cut score", colour = cols[2]) +
+  annotate("text", x = -3.9, y = 0.85, hjust = 0, size = 3,
+           label = "Far from the cut,\ndecisions are almost\nalways right") +
+  theme(legend.position = "none")
+```
+
+**In R:** `set_cuts()` reports it overall and by cut, with false positive
+and false negative rates.
+
+### Classification consistency {#classification-consistency}
+
+The probability that two parallel administrations of the test would put a
+person in the same category. A test can be consistent without being
+accurate, but not the other way round.
+
+**In R:** `set_cuts()`.
+
+### Kappa {#kappa}
+
+Cohen's kappa is agreement corrected for chance: 0 means no better than
+chance, 1 means perfect agreement. It is reported with classification
+consistency.
+
+**In R:** `set_cuts()`.
+
+## Building tests {#test-design}
+
+### Automated test assembly {#automated-test-assembly}
+
+Choosing items from a bank by optimisation so that a fixed form meets its
+blueprint (so many algebra items, so many geometry items), keeps apart
+*enemy items* that give each other away, and is as
+informative as possible where it matters, such as at the cut score.
+
+**In R:** `assemble_forms()`, with the blueprint from `set_blueprint()`.
+
+### Parallel forms {#parallel-forms}
+
+Two or more test forms with different items but nearly the same
+[test information](#test-information) and content, so it should not matter
+which one a person takes.
+
+**In R:** `assemble_forms(p, n_forms = 2)` builds them and checks that their
+information agrees.
+
+### Computerized adaptive test (CAT) {#computerized-adaptive-test}
+
+A test that picks each next item for the person taking it, usually the item
+with the most information at their current ability estimate. CATs reach the
+same precision as a fixed form with far fewer items, but need a large,
+well-calibrated bank.
+
+**In R:** `simulate_cat()` shows how long, precise and secure a CAT from your
+bank would be; the mirtCAT package runs real ones.
+
+### Multistage test (MST) {#multistage-test}
+
+A test that adapts between blocks of items (modules) instead of after every
+item: everyone starts with the same routing module, then moves to an easier
+or harder module depending on their score.
+
+**In R:** `assemble_mst()`.
+
+### Exposure {#exposure}
+
+The share of test takers who see an item. Items with high exposure are more
+likely to be shared or memorised. CATs need exposure control because the
+best items would otherwise be given to everyone.
+
+**In R:** `simulate_cat()` reports exposure (use `randomesque` to spread
+it); `monitor_bank()` tracks it over time.
+
+## Response times {#response-times}
+
+### Time intensity {#time-intensity}
+
+How long an item typically takes, on a log-seconds scale: the response-time
+counterpart of difficulty. In van der Linden's lognormal model it is written
+β (beta).
+
+**In R:** `fit_rt()`; see the [response times
+article](../articles/response-times.html).
+
+### Speed {#speed}
+
+A person's working pace, the response-time counterpart of ability (written
+τ, tau). Speed and ability are separate traits, though they are often
+correlated.
+
+**In R:** `fit_rt()` estimates each person's speed and its correlation with
+ability.
+
+### Rapid guessing {#rapid-guessing}
+
+Answering so quickly that the person cannot have read the item, a sign of low
+effort. Rapid guesses are usually flagged with a time threshold, such as 10%
+of the item's average time.
+
+**In R:** `fit_rt(mod, rt, flag_method = "nt10")`.
+
+### Response time effort (RTE) {#response-time-effort}
+
+The share of a person's responses that are *not* rapid guesses. People with
+low RTE (often below 0.90) may have scores that understate their ability.
+
+**In R:** the `rte` column of `fit_rt()$persons`;
+`autoplot(fit, type = "rte")` plots it.
+
+## Open-ended responses and security {#open-ended-and-security}
+
+### Quadratic weighted kappa (QWK) {#qwk}
+
+Agreement between two raters (two humans, or a human and a machine) on an
+ordered score scale. Disagreements count more the further apart the scores
+are. Values of 0.70 or above are a common minimum for automated scoring.
+
+**In R:** `score_open()` checks machine scores against human scores with
+QWK before they are used.
+
+### Preknowledge {#preknowledge}
+
+When test takers have seen some items before the test, so they do much
+better on those items than their ability on the others would predict.
+
+**In R:** `check_security(p, leaked = c(...))`.
+
+### Answer copying {#answer-copying}
+
+Pairs of test takers who share many more identical *wrong* answers than their
+scores would lead you to expect. A flag is evidence for an investigation, not
+proof.
+
+**In R:** `check_security()`.
+
+## Where to go next {#next}
+
+- The [Get started](../articles/mirtverse.html) article walks through a
+  complete analysis using most of these terms.
+- The [teaching labs](../articles/teaching-labs.html) let you practise the
+  decisions behind them on a realistic exam.
+- `interpret(mod)` explains a fitted model in sentences, and `item_card(mod,
+  1)` shows everything about one item on a single card.
