@@ -50,9 +50,12 @@ writing code by hand later in the term.
 | 11 | Item banks, test assembly and adaptive testing | Lab 5, `run_lab("cat-design")` | `catbank`, `certexam` bank |
 | 12 | Cut scores, reporting and communicating results | Final project | students’ own data |
 
-The [glossary](#planned-resources) (coming soon) defines each term used
-below, and the [cheat sheet](#planned-resources) (coming soon) lists the
-main functions by task; both work well as handouts from week 1.
+The [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md)
+defines each term used below, and each week links to its key terms
+there. The [cheat
+sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+lists the main functions on two printable pages; both work well as
+handouts from week 1.
 
 ## Week by week
 
@@ -62,6 +65,13 @@ main functions by task; both work well as handouts from week 1.
 against a key, compute proportion correct and item-total correlations,
 and read a distractor analysis.
 
+- **Key terms:** [classical test
+  theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#classical-test-theory),
+  [sum
+  score](https://www.okanbulut.com/mirtverse/articles/glossary.html#sum-score),
+  [p-value](https://www.okanbulut.com/mirtverse/articles/glossary.html#p-value),
+  [item-total
+  correlation](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-total-correlation).
 - **Read:** [Getting
   started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md);
   “The story” and “Start a lab” in [Teaching
@@ -84,6 +94,19 @@ models, fit them with
 [`mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html), and
 read an item characteristic curve.
 
+- **Key terms:** [item response
+  theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-response-theory),
+  [latent
+  trait](https://www.okanbulut.com/mirtverse/articles/glossary.html#latent-trait),
+  [Rasch
+  model](https://www.okanbulut.com/mirtverse/articles/glossary.html#rasch-model),
+  [2PL](https://www.okanbulut.com/mirtverse/articles/glossary.html#two-pl),
+  [3PL](https://www.okanbulut.com/mirtverse/articles/glossary.html#three-pl),
+  [item characteristic
+  curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-characteristic-curve),
+  [difficulty](https://www.okanbulut.com/mirtverse/articles/glossary.html#difficulty),
+  [discrimination](https://www.okanbulut.com/mirtverse/articles/glossary.html#discrimination),
+  [guessing](https://www.okanbulut.com/mirtverse/articles/glossary.html#guessing).
 - **Read:** sections 1 to 4 of [Getting
   started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
 - **Run:**
@@ -105,6 +128,17 @@ likelihood in words, recognise a model that has not converged, and
 compare nested models with likelihood-ratio tests and information
 criteria.
 
+- **Key terms:**
+  [calibration](https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration),
+  [marginal maximum
+  likelihood](https://www.okanbulut.com/mirtverse/articles/glossary.html#marginal-maximum-likelihood),
+  [convergence](https://www.okanbulut.com/mirtverse/articles/glossary.html#convergence),
+  [likelihood-ratio
+  test](https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test),
+  [information
+  criteria](https://www.okanbulut.com/mirtverse/articles/glossary.html#information-criteria),
+  [M2](https://www.okanbulut.com/mirtverse/articles/glossary.html#m2),
+  [RMSEA](https://www.okanbulut.com/mirtverse/articles/glossary.html#rmsea).
 - **Read:** “Let mirtverse pick a model” in [Getting
   started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
 - **Run:**
@@ -124,6 +158,13 @@ criteria.
 enough, read standardized residuals and the Q3 statistic, and tell local
 dependence from a second trait.
 
+- **Key terms:**
+  [dimensionality](https://www.okanbulut.com/mirtverse/articles/glossary.html#dimensionality),
+  [local
+  independence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-independence),
+  [local
+  dependence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-dependence),
+  [Q3](https://www.okanbulut.com/mirtverse/articles/glossary.html#q3).
 - **Run:** a one- vs two-factor model with
   [`anova()`](https://rdrr.io/r/stats/anova.html),
   [`summary()`](https://rdrr.io/r/base/summary.html) for rotated
@@ -141,6 +182,14 @@ dependence from a second trait.
 empirical and a model-implied curve, and flag aberrant response
 patterns.
 
+- **Key terms:** [item
+  fit](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-fit),
+  [S-X²](https://www.okanbulut.com/mirtverse/articles/glossary.html#s-x2),
+  [empirical item
+  curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#empirical-item-curve),
+  [person
+  fit](https://www.okanbulut.com/mirtverse/articles/glossary.html#person-fit),
+  [Zh](https://www.okanbulut.com/mirtverse/articles/glossary.html#zh).
 - **Run:**
   [`itemfit()`](https://philchalmers.github.io/mirt/reference/itemfit.html)
   and
@@ -162,6 +211,15 @@ patterns.
 curves, convert information to a standard error, and explain why
 reliability depends on where on the scale you look.
 
+- **Key terms:** [item
+  information](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-information),
+  [test
+  information](https://www.okanbulut.com/mirtverse/articles/glossary.html#test-information),
+  [standard error of
+  measurement](https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-error-of-measurement),
+  [marginal
+  reliability](https://www.okanbulut.com/mirtverse/articles/glossary.html#marginal-reliability),
+  [targeting](https://www.okanbulut.com/mirtverse/articles/glossary.html#targeting).
 - **Run:**
   [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md),
   [`testinfo()`](https://philchalmers.github.io/mirt/reference/testinfo.html),
@@ -178,6 +236,15 @@ reliability depends on where on the scale you look.
 **By the end of the week, students can** compare EAP, MAP, ML and WLE
 scores, explain why ML fails for perfect scores, and read a Wright map.
 
+- **Key terms:**
+  [EAP](https://www.okanbulut.com/mirtverse/articles/glossary.html#eap),
+  [MAP](https://www.okanbulut.com/mirtverse/articles/glossary.html#map),
+  [ML](https://www.okanbulut.com/mirtverse/articles/glossary.html#ml-scoring),
+  [WLE](https://www.okanbulut.com/mirtverse/articles/glossary.html#wle),
+  [Wright
+  map](https://www.okanbulut.com/mirtverse/articles/glossary.html#wright-map),
+  [classification
+  accuracy](https://www.okanbulut.com/mirtverse/articles/glossary.html#classification-accuracy).
 - **Run:**
   [`fscores()`](https://philchalmers.github.io/mirt/reference/fscores.html)
   (mirt),
@@ -197,6 +264,14 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
 generalized partial credit and graded response models, read category
 curves, and say when categories should be collapsed.
 
+- **Key terms:** [polytomous
+  item](https://www.okanbulut.com/mirtverse/articles/glossary.html#polytomous-item),
+  [graded response
+  model](https://www.okanbulut.com/mirtverse/articles/glossary.html#graded-response-model),
+  [GPCM](https://www.okanbulut.com/mirtverse/articles/glossary.html#gpcm),
+  [category response
+  curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#category-response-curve),
+  [QWK](https://www.okanbulut.com/mirtverse/articles/glossary.html#qwk).
 - **Read:** [Assessment
   pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md),
   section “9. Scoring”, for scoring open-ended responses with
@@ -223,6 +298,16 @@ curves, and say when categories should be collapsed.
 **By the end of the week, students can** tell impact from DIF, run a DIF
 analysis with anchor items, and explain uniform and non-uniform DIF.
 
+- **Key terms:**
+  [DIF](https://www.okanbulut.com/mirtverse/articles/glossary.html#dif),
+  [reference and focal
+  groups](https://www.okanbulut.com/mirtverse/articles/glossary.html#reference-focal-group),
+  [uniform and non-uniform
+  DIF](https://www.okanbulut.com/mirtverse/articles/glossary.html#uniform-nonuniform-dif),
+  [DIF effect
+  size](https://www.okanbulut.com/mirtverse/articles/glossary.html#dif-effect-size),
+  [anchor
+  items](https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items).
 - **Run:**
   [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md),
   [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md),
@@ -246,6 +331,16 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
 common scale, describe anchor-item and common-person designs, and link a
 new calibration to an existing one.
 
+- **Key terms:**
+  [linking](https://www.okanbulut.com/mirtverse/articles/glossary.html#linking),
+  [anchor
+  items](https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items),
+  [moment
+  linking](https://www.okanbulut.com/mirtverse/articles/glossary.html#moment-linking),
+  [characteristic curve
+  linking](https://www.okanbulut.com/mirtverse/articles/glossary.html#characteristic-curve-linking),
+  [parameter
+  drift](https://www.okanbulut.com/mirtverse/articles/glossary.html#parameter-drift).
 - **Read:** [Assessment
   pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md),
   sections “3. Field-test design” and “6. The item bank”.
@@ -270,6 +365,15 @@ new calibration to an existing one.
 a form to a target information curve, and explain how a computerized
 adaptive test picks items and when it stops.
 
+- **Key terms:** [item
+  bank](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-bank),
+  [automated test
+  assembly](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-test-assembly),
+  [computerized adaptive
+  test](https://www.okanbulut.com/mirtverse/articles/glossary.html#computerized-adaptive-test),
+  [multistage
+  test](https://www.okanbulut.com/mirtverse/articles/glossary.html#multistage-test),
+  [exposure](https://www.okanbulut.com/mirtverse/articles/glossary.html#exposure).
 - **Read:** [Assessment
   pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md),
   sections “6. The item bank” and “7. Forms, adaptive and multistage
@@ -292,6 +396,16 @@ adaptive test picks items and when it stops.
 setting, estimate classification accuracy at a cut score, and explain
 IRT results to someone who does not use R.
 
+- **Key terms:** [cut
+  score](https://www.okanbulut.com/mirtverse/articles/glossary.html#cut-score),
+  [standard
+  setting](https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-setting),
+  [response
+  probability](https://www.okanbulut.com/mirtverse/articles/glossary.html#response-probability),
+  [classification
+  accuracy](https://www.okanbulut.com/mirtverse/articles/glossary.html#classification-accuracy),
+  [classification
+  consistency](https://www.okanbulut.com/mirtverse/articles/glossary.html#classification-consistency).
 - **Read:** [Assessment
   pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md),
   sections “8. Cut scores” and “11. The report”; [Sharing results with a
@@ -343,8 +457,8 @@ when they are released.
 
 | Resource | Used in | Status |
 |----|----|----|
-| Glossary of IRT terms on this site | All weeks | Coming soon |
-| Two-page cheat sheet of the main functions | All weeks | Coming soon |
+| Glossary of IRT terms on this site | All weeks | Available: [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
+| Two-page cheat sheet of the main functions | All weeks | Available: [PDF](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |

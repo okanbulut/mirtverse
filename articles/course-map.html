@@ -217,10 +217,10 @@ models</td>
 </tr>
 </tbody>
 </table>
-<p>The <a href="#planned-resources">glossary</a> (coming soon) defines
-each term used below, and the <a href="#planned-resources">cheat
-sheet</a> (coming soon) lists the main functions by task; both work well
-as handouts from week 1.</p>
+<p>The <a href="glossary.html">glossary</a> defines each term used
+below, and each week links to its key terms there. The <a href="../cheatsheet/mirtverse-cheatsheet.pdf">cheat sheet</a> lists the
+main functions on two printable pages; both work well as handouts from
+week 1.</p>
 </div>
 <div class="section level2">
 <h2 id="week-by-week">Week by week<a class="anchor" aria-label="anchor" href="#week-by-week"></a>
@@ -232,6 +232,9 @@ as handouts from week 1.</p>
 multiple-choice responses against a key, compute proportion correct and
 item-total correlations, and read a distractor analysis.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#classical-test-theory">classical test theory</a>, <a href="glossary.html#sum-score">sum score</a>, <a href="glossary.html#p-value">p-value</a>, <a href="glossary.html#item-total-correlation">item-total
+correlation</a>.</li>
 <li>
 <strong>Read:</strong> <a href="mirtverse.html">Getting started</a>;
 “The story” and “Start a lab” in <a href="teaching-labs.html">Teaching
@@ -260,6 +263,9 @@ Rasch, 2PL and 3PL models, fit them with <code><a href="https://philchalmers.git
 an item characteristic curve.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#item-response-theory">item response theory</a>, <a href="glossary.html#latent-trait">latent trait</a>, <a href="glossary.html#rasch-model">Rasch model</a>, <a href="glossary.html#two-pl">2PL</a>, <a href="glossary.html#three-pl">3PL</a>, <a href="glossary.html#item-characteristic-curve">item characteristic
+curve</a>, <a href="glossary.html#difficulty">difficulty</a>, <a href="glossary.html#discrimination">discrimination</a>, <a href="glossary.html#guessing">guessing</a>.</li>
+<li>
 <strong>Read:</strong> sections 1 to 4 of <a href="mirtverse.html">Getting started</a>.</li>
 <li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt()</a></code>,
@@ -283,6 +289,9 @@ converged, and compare nested models with likelihood-ratio tests and
 information criteria.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#calibration">calibration</a>, <a href="glossary.html#marginal-maximum-likelihood">marginal maximum
+likelihood</a>, <a href="glossary.html#convergence">convergence</a>, <a href="glossary.html#likelihood-ratio-test">likelihood-ratio test</a>, <a href="glossary.html#information-criteria">information criteria</a>, <a href="glossary.html#m2">M2</a>, <a href="glossary.html#rmsea">RMSEA</a>.</li>
+<li>
 <strong>Read:</strong> “Let mirtverse pick a model” in <a href="mirtverse.html">Getting started</a>.</li>
 <li>
 <strong>Run:</strong> <code><a href="../reference/select_model.html">select_model()</a></code>,
@@ -303,6 +312,8 @@ sample size has to do with fitting a 3PL.</li>
 one dimension is enough, read standardized residuals and the Q3
 statistic, and tell local dependence from a second trait.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#dimensionality">dimensionality</a>, <a href="glossary.html#local-independence">local independence</a>, <a href="glossary.html#local-dependence">local dependence</a>, <a href="glossary.html#q3">Q3</a>.</li>
 <li>
 <strong>Run:</strong> a one- vs two-factor model with
 <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for rotated loadings,
@@ -327,6 +338,9 @@ fit, compare an empirical and a model-implied curve, and flag aberrant
 response patterns.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#item-fit">item
+fit</a>, <a href="glossary.html#s-x2">S-X²</a>, <a href="glossary.html#empirical-item-curve">empirical item curve</a>, <a href="glossary.html#person-fit">person fit</a>, <a href="glossary.html#zh">Zh</a>.</li>
+<li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/itemfit.html" class="external-link">itemfit()</a></code> and
 <code><a href="../reference/gg_itemfit.html">gg_itemfit()</a></code>, <code><a href="../reference/gg_empirical.html">gg_empirical()</a></code>,
 <code><a href="https://philchalmers.github.io/mirt/reference/personfit.html" class="external-link">personfit()</a></code> (mirt), <code><a href="../reference/item_card.html">item_card()</a></code> and
@@ -347,6 +361,10 @@ test information curves, convert information to a standard error, and
 explain why reliability depends on where on the scale you look.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#item-information">item information</a>, <a href="glossary.html#test-information">test information</a>, <a href="glossary.html#standard-error-of-measurement">standard error of
+measurement</a>, <a href="glossary.html#marginal-reliability">marginal
+reliability</a>, <a href="glossary.html#targeting">targeting</a>.</li>
+<li>
 <strong>Run:</strong> <code><a href="../reference/gg_info.html">gg_info()</a></code>,
 <code><a href="https://philchalmers.github.io/mirt/reference/testinfo.html" class="external-link">testinfo()</a></code>, <code><a href="https://philchalmers.github.io/mirt/reference/marginal_rxx.html" class="external-link">marginal_rxx()</a></code> and
 <code><a href="https://philchalmers.github.io/mirt/reference/empirical_rxx.html" class="external-link">empirical_rxx()</a></code> (mirt).</li>
@@ -364,6 +382,9 @@ Lab 2 previews next week.</li>
 MAP, ML and WLE scores, explain why ML fails for perfect scores, and
 read a Wright map.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#eap">EAP</a>, <a href="glossary.html#map">MAP</a>, <a href="glossary.html#ml-scoring">ML</a>, <a href="glossary.html#wle">WLE</a>, <a href="glossary.html#wright-map">Wright map</a>, <a href="glossary.html#classification-accuracy">classification
+accuracy</a>.</li>
 <li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/fscores.html" class="external-link">fscores()</a></code> (mirt),
 <code><a href="../reference/gg_scores.html">gg_scores()</a></code>, <code><a href="../reference/gg_wright.html">gg_wright()</a></code>,
@@ -387,6 +408,9 @@ Lab 1 can still do it.</li>
 credit, generalized partial credit and graded response models, read
 category curves, and say when categories should be collapsed.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#polytomous-item">polytomous item</a>, <a href="glossary.html#graded-response-model">graded response model</a>, <a href="glossary.html#gpcm">GPCM</a>, <a href="glossary.html#category-response-curve">category response
+curve</a>, <a href="glossary.html#qwk">QWK</a>.</li>
 <li>
 <strong>Read:</strong> <a href="assessment-pipeline.html">Assessment
 pipeline</a>, section “9. Scoring”, for scoring open-ended responses
@@ -417,6 +441,11 @@ from DIF, run a DIF analysis with anchor items, and explain uniform and
 non-uniform DIF.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#dif">DIF</a>, <a href="glossary.html#reference-focal-group">reference and focal
+groups</a>, <a href="glossary.html#uniform-nonuniform-dif">uniform and
+non-uniform DIF</a>, <a href="glossary.html#dif-effect-size">DIF effect
+size</a>, <a href="glossary.html#anchor-items">anchor items</a>.</li>
+<li>
 <strong>Run:</strong> <code><a href="../reference/dif.html">dif()</a></code>, <code><a href="../reference/gg_dif.html">gg_dif()</a></code>,
 <code><a href="../reference/interpret.html">interpret()</a></code> on the result; <code><a href="https://philchalmers.github.io/mirt/reference/multipleGroup.html" class="external-link">multipleGroup()</a></code> and
 <code><a href="https://philchalmers.github.io/mirt/reference/DIF.html" class="external-link">DIF()</a></code> (mirt) for the model behind it.</li>
@@ -441,6 +470,10 @@ a flagged item.</li>
 forms need a common scale, describe anchor-item and common-person
 designs, and link a new calibration to an existing one.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#linking">linking</a>, <a href="glossary.html#anchor-items">anchor items</a>, <a href="glossary.html#moment-linking">moment linking</a>, <a href="glossary.html#characteristic-curve-linking">characteristic curve
+linking</a>, <a href="glossary.html#parameter-drift">parameter
+drift</a>.</li>
 <li>
 <strong>Read:</strong> <a href="assessment-pipeline.html">Assessment
 pipeline</a>, sections “3. Field-test design” and “6. The item
@@ -467,6 +500,12 @@ item bank, assemble a form to a target information curve, and explain
 how a computerized adaptive test picks items and when it stops.</p>
 <ul>
 <li>
+<strong>Key terms:</strong> <a href="glossary.html#item-bank">item
+bank</a>, <a href="glossary.html#automated-test-assembly">automated test
+assembly</a>, <a href="glossary.html#computerized-adaptive-test">computerized adaptive
+test</a>, <a href="glossary.html#multistage-test">multistage test</a>,
+<a href="glossary.html#exposure">exposure</a>.</li>
+<li>
 <strong>Read:</strong> <a href="assessment-pipeline.html">Assessment
 pipeline</a>, sections “6. The item bank” and “7. Forms, adaptive and
 multistage tests”.</li>
@@ -491,6 +530,13 @@ article for the pipeline functions.</li>
 Bookmark standard setting, estimate classification accuracy at a cut
 score, and explain IRT results to someone who does not use R.</p>
 <ul>
+<li>
+<strong>Key terms:</strong> <a href="glossary.html#cut-score">cut
+score</a>, <a href="glossary.html#standard-setting">standard
+setting</a>, <a href="glossary.html#response-probability">response
+probability</a>, <a href="glossary.html#classification-accuracy">classification
+accuracy</a>, <a href="glossary.html#classification-consistency">classification
+consistency</a>.</li>
 <li>
 <strong>Read:</strong> <a href="assessment-pipeline.html">Assessment
 pipeline</a>, sections “8. Cut scores” and “11. The report”; <a href="dashboards.html">Sharing results with a dashboard</a>.</li>
@@ -574,6 +620,11 @@ as test security and bank monitoring.</li>
 <p>These resources are being built and will be linked from the weeks
 above when they are released.</p>
 <table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
 <thead><tr class="header">
 <th>Resource</th>
 <th>Used in</th>
@@ -583,12 +634,14 @@ above when they are released.</p>
 <tr class="odd">
 <td>Glossary of IRT terms on this site</td>
 <td>All weeks</td>
-<td>Coming soon</td>
+<td>Available: <a href="glossary.html">glossary</a>
+</td>
 </tr>
 <tr class="even">
 <td>Two-page cheat sheet of the main functions</td>
 <td>All weeks</td>
-<td>Coming soon</td>
+<td>Available: <a href="../cheatsheet/mirtverse-cheatsheet.pdf">PDF</a>
+</td>
 </tr>
 <tr class="odd">
 <td>DIF and fairness lab</td>
