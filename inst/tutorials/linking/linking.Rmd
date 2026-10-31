@@ -1,0 +1,513 @@
+---
+title: "Lab 4: Linking two forms"
+description: >
+  A licensure exam has a new form, and its pass rate jumped. Find out whether
+  the candidates are better or the form is easier: calibrate both forms, link
+  them through common items, catch an anchor item that drifted, compare
+  separate and concurrent calibration, and carry the pass mark over to the
+  new form. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+anchors <- sprintf("C%02d", 1:12)
+items_A <- c(sprintf("A%02d", 1:28), anchors)
+items_B <- c(sprintf("B%02d", 1:28), anchors)
+form_A <- linking[linking$form == "A", items_A]
+form_B <- linking[linking$form == "B", items_B]
+```
+
+```{r setup-separate, include = FALSE}
+anchors <- sprintf("C%02d", 1:12)
+items_A <- c(sprintf("A%02d", 1:28), anchors)
+items_B <- c(sprintf("B%02d", 1:28), anchors)
+form_A <- linking[linking$form == "A", items_A]
+form_B <- linking[linking$form == "B", items_B]
+m_A <- mirt(form_A, 1, itemtype = "2PL", verbose = FALSE)
+m_B <- mirt(form_B, 1, itemtype = "2PL", verbose = FALSE)
+b_A <- coef(m_A, IRTpars = TRUE, simplify = TRUE)$items[anchors, "b"]
+b_B <- coef(m_B, IRTpars = TRUE, simplify = TRUE)$items[anchors, "b"]
+```
+
+```{r setup-concurrent, include = FALSE}
+anchors <- sprintf("C%02d", 1:12)
+items_A <- c(sprintf("A%02d", 1:28), anchors)
+items_B <- c(sprintf("B%02d", 1:28), anchors)
+form_B <- linking[linking$form == "B", items_B]
+clean <- setdiff(anchors, "C07")
+concurrent <- suppressWarnings(multipleGroup(
+  linking[, -(1:2)], 1, group = linking$form, itemtype = "2PL",
+  invariance = c(clean, "free_means", "free_var"), verbose = FALSE))
+```
+
+## The brief
+
+### A suspicious jump in the pass rate
+
+You are the psychometrician for the fictional **Prairie Nursing Council**,
+which licenses practical nurses. Its exam has **40 multiple-choice items**,
+and candidates pass with **22 or more correct**. That pass mark was set on
+**Form A**, used in 2025.
+
+In 2026 the council introduced **Form B**, so that candidates who retake the
+exam don't see the same items. Both forms share **12 common items**
+(`C01` to `C12`), the **anchor**. The other 28 items on each form are
+unique (`A01` to `A28` and `B01` to `B28`).
+
+The results are in, and the registrar is worried:
+
+> *The pass rate went from 50% to 72%. Are this year's candidates really
+> that much better, or is Form B easier? And what should the pass mark on
+> Form B be?*
+
+Raw scores on two different forms are not comparable, and the two groups of
+candidates are not comparable either. In this lab you will untangle the two
+with **IRT linking**, the standard tool for putting two forms on one scale.
+At the end you will see the truth behind the data.
+
+### Meet the data
+
+`linking` holds the scored responses (1 = right, 0 = wrong) of 1,000
+candidates per form: an ID, the `form` (A or B) and all 68 items. A
+candidate has `NA` for the 28 items on the form they did not take. This
+layout is called the **common-item nonequivalent groups design** (NEAT).
+
+For convenience, the item names are saved as `items_A`, `items_B` and
+`anchors`, and each form's responses as `form_A` and `form_B`.
+
+```{r look, exercise = TRUE}
+dim(linking)
+table(linking$form)
+linking[c(1, 2, 1001, 1002), 1:6]
+dim(form_A)
+dim(form_B)
+```
+
+```{r look-check}
+"Each form has 40 items: its 28 unique items and the 12 anchors."
+```
+
+## Raw scores
+
+### Form, group, or both?
+
+Compute each candidate's raw score on their own form, then the mean raw score
+and the pass rate (22 or more) for each form. Then compute the mean score on
+the 12 anchor items alone, which both groups took.
+
+```{r raw, exercise = TRUE, exercise.lines = 10}
+raw_A <- rowSums(form_A)
+raw_B <- rowSums(form_B)
+c(mean_A = mean(raw_A), mean_B = mean(raw_B))
+c(pass_A = mean(raw_A >= 22), pass_B = mean(raw_B >= 22))
+anchor_A <- rowSums(form_A[, anchors])
+anchor_B <-
+c(anchor_A = mean(anchor_A), anchor_B = mean(anchor_B))
+```
+
+```{r raw-hint}
+anchor_B <- rowSums(form_B[, ___])
+```
+
+```{r raw-solution}
+raw_A <- rowSums(form_A)
+raw_B <- rowSums(form_B)
+c(mean_A = mean(raw_A), mean_B = mean(raw_B))
+c(pass_A = mean(raw_A >= 22), pass_B = mean(raw_B >= 22))
+anchor_A <- rowSums(form_A[, anchors])
+anchor_B <- rowSums(form_B[, anchors])
+c(anchor_A = mean(anchor_A), anchor_B = mean(anchor_B))
+```
+
+```{r raw-check}
+lab_need(exists("anchor_B") && length(anchor_B) == 1000L,
+         "Compute `anchor_B`, each Form B candidate's score on the 12 anchor items.")
+lab_need(abs(mean(anchor_B) - mean(rowSums(form_B[, anchors]))) < 1e-8,
+         "`anchor_B` should be the row sums of `form_B[, anchors]`.")
+sprintf("Form B candidates score %.1f points higher on the whole form but only %.1f higher on the 12 identical anchor items.",
+        mean(rowSums(form_B)) - mean(rowSums(form_A)), mean(anchor_B) - mean(rowSums(form_A[, anchors])))
+```
+
+```{r q-raw}
+question_radio("Form B candidates score about 6 points higher overall, and about 1 point higher on the anchor items that both groups took. What can you say so far?",
+  answer("The 2026 group seems somewhat more able (they do better on the same items), and Form B is probably easier too, but we need a model to separate the two.",
+         correct = TRUE,
+         message = "Right. The anchors are identical, so a difference on them points to a difference between the groups. But a 1-point edge on 12 items does not obviously explain a 6-point edge on 40, which hints that Form B’s unique items are easier. Linking separates the two effects."),
+  answer("Form B is easier; the candidates are the same.",
+         message = "If the groups were the same, they would do about equally well on the identical anchor items. They don’t."),
+  answer("The candidates are better; the forms are equivalent.",
+         message = "Possibly, but the gap on the whole form is much bigger than the gap on the anchors would suggest. Keep both explanations open."),
+  answer("Keep the pass mark at 22; raw scores are raw scores.",
+         message = "A raw score of 22 means different things on an easier and a harder form. That is exactly what linking and equating are for."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Separate calibration
+
+### Two models, two scales
+
+Fit a 2PL model to each form separately and compare the anchor items'
+difficulties. Each calibration sets **its own group's** mean ability to 0
+and SD to 1, so the two sets of parameters are on different scales.
+
+```{r separate, exercise = TRUE, exercise.timelimit = 180}
+m_A <- mirt(form_A, 1, itemtype = "2PL", verbose = FALSE)
+m_B <- mirt(form_B, 1, itemtype = "2PL", verbose = FALSE)
+b_A <- coef(m_A, IRTpars = TRUE, simplify = TRUE)$items[anchors, "b"]
+b_B <- coef(m_B, IRTpars = TRUE, simplify = TRUE)$items[anchors, "b"]
+round(data.frame(b_A, b_B, diff = b_B - b_A), 2)
+plot(b_A, b_B, xlab = "Difficulty on the Form A scale", ylab = "Difficulty on the Form B scale",
+     pch = 19, xlim = c(-2, 2), ylim = c(-2, 2))
+text(b_A, b_B, anchors, pos = 4, cex = 0.8)
+abline(0, 1, lty = 2)
+```
+
+```{r q-scale}
+question_radio("Almost every anchor looks easier on the Form B scale. Why?",
+  answer("Each calibration puts its own group’s mean at 0. The 2026 group is more able, so the same items sit lower on their scale.",
+         correct = TRUE,
+         message = "Exactly. The items did not change; the zero point did. An item that is 0.4 above the average 2025 candidate is closer to the average 2026 candidate. Linking finds the transformation between the two scales."),
+  answer("The anchor items were made easier for Form B.",
+         message = "The anchors are identical on both forms. What changed is the reference point of each scale."),
+  answer("The 2PL model does not fit Form B.",
+         message = "The shift is systematic across almost all anchors, which is what a different scale origin looks like, not misfit."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+```{r q-drift}
+question_radio("One anchor is far out of line with the others. Which one?",
+  answer("C07", correct = TRUE,
+         message = "Yes. C07 is about 1.5 easier on the Form B scale, while the other anchors shift by 0.6 or less. Something happened to this item between 2025 and 2026: it may have been leaked, taught to, or changed during printing. This is called **item parameter drift**."),
+  answer("C01", message = "Look at the `diff` column and at the plot: one point is well below the others."),
+  answer("C12", message = "Look at the `diff` column and at the plot: one point is well below the others."),
+  answer("None; they all shift by about the same amount.", message = "Look at the `diff` column: one value is far more negative than the rest."),
+  allow_retry = TRUE
+)
+```
+
+## Link the scales
+
+### The mean-sigma method
+
+A linear transformation puts Form B's scale onto Form A's:
+$\theta_A = A \, \theta_B + B$, and the same transformation applies to item
+difficulties. The **mean-sigma** method chooses $A$ and $B$ so that the
+anchors' difficulties have the same mean and SD on both scales:
+
+$$A = \frac{SD(b_A)}{SD(b_B)}, \qquad B = \bar b_A - A \, \bar b_B$$
+
+The anchor difficulties are saved as `b_A` and `b_B`. Compute the constants
+twice: with all 12 anchors (`A_all`, `B_all`) and without C07 (`A_clean`,
+`B_clean`).
+
+```{r meansigma, exercise = TRUE, exercise.setup = "setup-separate", exercise.timelimit = 180, exercise.lines = 10}
+A_all <- sd(b_A) / sd(b_B)
+B_all <- mean(b_A) - A_all * mean(b_B)
+keep <- anchors != "C07"
+A_clean <-
+B_clean <-
+round(c(A_all = A_all, B_all = B_all, A_clean = A_clean, B_clean = B_clean), 3)
+```
+
+```{r meansigma-hint}
+A_clean <- sd(b_A[keep]) / sd(b_B[keep])
+B_clean <- mean(b_A[keep]) - A_clean * mean(b_B[___])
+```
+
+```{r meansigma-solution}
+A_all <- sd(b_A) / sd(b_B)
+B_all <- mean(b_A) - A_all * mean(b_B)
+keep <- anchors != "C07"
+A_clean <- sd(b_A[keep]) / sd(b_B[keep])
+B_clean <- mean(b_A[keep]) - A_clean * mean(b_B[keep])
+round(c(A_all = A_all, B_all = B_all, A_clean = A_clean, B_clean = B_clean), 3)
+```
+
+```{r meansigma-check}
+k <- anchors != "C07"
+lab_need(exists("A_clean") && exists("B_clean"), "Compute `A_clean` and `B_clean`.")
+lab_need(abs(A_clean - sd(b_A[k]) / sd(b_B[k])) < 1e-8,
+         "`A_clean` is sd(b_A[keep]) / sd(b_B[keep]).")
+lab_need(abs(B_clean - (mean(b_A[k]) - A_clean * mean(b_B[k]))) < 1e-8,
+         "`B_clean` is mean(b_A[keep]) - A_clean * mean(b_B[keep]).")
+B_with <- mean(b_A) - sd(b_A) / sd(b_B) * mean(b_B)
+sprintf("Without C07: A = %.2f and B = %.2f. With C07, B = %.2f: the drifted item makes the 2026 group look about %.2f SD more able than it is.",
+        A_clean, B_clean, B_with, B_with - B_clean)
+```
+
+```{r q-constants}
+question_radio("With the clean anchors, A is about 1.12 and B about 0.36. What do they tell you about the 2026 candidates?",
+  answer("On the Form A scale, their mean ability is about 0.36 and their SD about 1.12: they are more able, and more spread out, than the 2025 group.",
+         correct = TRUE,
+         message = "Right. A Form B candidate at theta 0 (the 2026 average) sits at A × 0 + B = 0.36 on the Form A scale, and one SD on the Form B scale is 1.12 SD on Form A’s. So part of the higher pass rate is real: the 2026 candidates are better."),
+  answer("Form B is 0.36 SD easier than Form A.",
+         message = "The constants transform the ability scale, so they describe the groups, not the forms. How much easier Form B is shows up later, when you compare the forms at the same ability."),
+  answer("Nothing until we have tested them for significance.",
+         message = "The constants are estimates and do have error, but they have a direct interpretation. Look at what θ_A = A θ_B + B means for the average Form B candidate."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Check the anchors after linking
+
+After linking, each anchor's difficulty from Form B, transformed to the
+Form A scale, should match its Form A difficulty. The difference is the
+item's **displacement**. Compute it with the constants from **all** anchors.
+
+```{r displacement, exercise = TRUE, exercise.setup = "setup-separate", exercise.timelimit = 180}
+A_all <- sd(b_A) / sd(b_B)
+B_all <- mean(b_A) - A_all * mean(b_B)
+displacement <- (A_all * b_B + B_all) - b_A
+round(sort(displacement), 2)
+```
+
+```{r q-drop}
+question_radio("C07’s displacement is about -1.2; every other anchor is within ±0.4. What do you do with C07?",
+  answer("Drop it from the anchor set and link with the other 11. It can still be scored on Form B as an ordinary item, with its own Form B parameters.",
+         correct = TRUE,
+         message = "That is standard practice. An anchor’s only job is to behave the same way in both years. C07 doesn’t, so it can’t tie the scales together. Removing it from the anchor does not mean removing it from the test, though the council should find out why it changed (a leak, for example) before using it again."),
+  answer("Keep it: with only 12 anchors, every item counts.",
+         message = "A drifted anchor does more harm than good: it makes the 2026 candidates look more able than they are, which moves the Form B pass mark. 11 good anchors are better than 12 with one bad one."),
+  answer("Delete C07 from Form B and rescore everyone.",
+         message = "C07 is a problem as an anchor, not necessarily as an item on Form B. Drop it from the linking; whether to score it is a separate decision."),
+  answer("Drop every anchor with a displacement above 0.3.",
+         message = "Small displacements are expected from sampling error. Look for anchors that are clearly out of line with the rest; here only C07 is."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Concurrent calibration
+
+### One model for both forms
+
+Instead of calibrating separately and linking afterwards, you can fit **one
+multiple-group model** to both forms at once: the anchor items' parameters
+are held equal across the two groups, and the Form B group's mean and
+variance are estimated relative to Form A's. This is **concurrent
+calibration**.
+
+Fit it with the 11 clean anchors. mirt warns that each group has no
+responses to the other form's unique items; that is expected in this
+design, so the warnings are suppressed. Save the model as `concurrent` and
+look at the Form B group's mean and SD.
+
+```{r concurrent, exercise = TRUE, exercise.timelimit = 180}
+clean <- setdiff(anchors, "C07")
+concurrent <- suppressWarnings(multipleGroup(
+  linking[, -(1:2)], 1, group = linking$form, itemtype = "2PL",
+  invariance = c(___, "free_means", "free_var"), verbose = FALSE))
+gp <- coef(concurrent)$B$GroupPars
+c(mean = gp[1, "MEAN_1"], sd = sqrt(gp[1, "COV_11"]))
+```
+
+```{r concurrent-hint}
+invariance = c(clean, "free_means", "free_var")
+```
+
+```{r concurrent-solution}
+clean <- setdiff(anchors, "C07")
+concurrent <- suppressWarnings(multipleGroup(
+  linking[, -(1:2)], 1, group = linking$form, itemtype = "2PL",
+  invariance = c(clean, "free_means", "free_var"), verbose = FALSE))
+gp <- coef(concurrent)$B$GroupPars
+c(mean = gp[1, "MEAN_1"], sd = sqrt(gp[1, "COV_11"]))
+```
+
+```{r concurrent-check}
+lab_need(exists("concurrent") && methods::is(concurrent, "MultipleGroupClass"),
+         "Save the multiple-group model as `concurrent`.")
+gp <- coef(concurrent)$B$GroupPars
+lab_need(abs(gp[1, "MEAN_1"] - 0.365) < 0.05,
+         "Hold the 11 clean anchors equal: invariance = c(clean, \"free_means\", \"free_var\").")
+sprintf("Concurrent calibration puts the 2026 group at mean %.2f and SD %.2f on the Form A scale, close to the mean-sigma result (0.36 and 1.12).",
+        gp[1, "MEAN_1"], sqrt(gp[1, "COV_11"]))
+```
+
+```{r q-concurrent}
+question_radio("Separate calibration with mean-sigma linking and concurrent calibration agree closely. Which would you use for the council’s technical report?",
+  answer("Either is defensible. Report one as the main method and the other as a check; agreement between them is evidence that the link is sound.",
+         correct = TRUE,
+         message = "Good. Concurrent calibration uses all the data at once and gives standard errors directly; separate calibration makes drift easy to see and is easier to explain. Testing programs often run both. Characteristic-curve methods (Stocking-Lord, Haebara), which mirtverse’s `link_to_bank()` uses, are another common choice."),
+  answer("Concurrent calibration, because separate calibration is out of date.",
+         message = "Separate calibration with linking is widely used, and it is what made the drift in C07 easy to spot. Neither method is out of date."),
+  answer("Neither until they agree exactly.",
+         message = "They are estimated from the same data in different ways, so small differences are expected. Close agreement is what you hope to see."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Carry the pass mark over
+
+### True-score equating
+
+The pass mark of 22 was set on Form A. To hold Form B candidates to **the
+same standard**, find the ability that a raw score of 22 represents on Form A,
+then the raw score that the same ability is expected to earn on Form B. This
+uses each form's **test characteristic curve** (the expected raw score at
+each ability) and is called **IRT true-score equating**.
+
+The concurrent model is saved as `concurrent`. Complete `cut_B`.
+
+```{r equate, exercise = TRUE, exercise.setup = "setup-concurrent", exercise.timelimit = 180, exercise.lines = 12}
+# each group has no responses to the other form's items, hence suppressWarnings()
+group_A <- suppressWarnings(extract.group(concurrent, "A"))
+group_B <- suppressWarnings(extract.group(concurrent, "B"))
+cols <- colnames(linking)[-(1:2)]
+tcc_A <- function(theta) expected.test(group_A, matrix(theta), which.items = match(items_A, cols))
+tcc_B <- function(theta) expected.test(group_B, matrix(theta), which.items = match(items_B, cols))
+theta_cut <- uniroot(function(t) tcc_A(t) - 22, c(-4, 4))$root
+cut_B <-
+c(theta_cut = theta_cut, cut_B = cut_B)
+```
+
+```{r equate-hint}
+cut_B <- tcc_B(___)
+```
+
+```{r equate-solution}
+# each group has no responses to the other form's items, hence suppressWarnings()
+group_A <- suppressWarnings(extract.group(concurrent, "A"))
+group_B <- suppressWarnings(extract.group(concurrent, "B"))
+cols <- colnames(linking)[-(1:2)]
+tcc_A <- function(theta) expected.test(group_A, matrix(theta), which.items = match(items_A, cols))
+tcc_B <- function(theta) expected.test(group_B, matrix(theta), which.items = match(items_B, cols))
+theta_cut <- uniroot(function(t) tcc_A(t) - 22, c(-4, 4))$root
+cut_B <- tcc_B(theta_cut)
+c(theta_cut = theta_cut, cut_B = cut_B)
+```
+
+```{r equate-check}
+lab_need(exists("cut_B") && is.numeric(cut_B) && length(cut_B) == 1L,
+         "Save the Form B equivalent of the pass mark as `cut_B`.")
+lab_need(abs(cut_B - tcc_B(theta_cut)) < 1e-6,
+         "`cut_B` is Form B's expected raw score at `theta_cut`: tcc_B(theta_cut).")
+sprintf("A raw score of 22 on Form A corresponds to theta = %.2f, where a candidate is expected to score %.1f on Form B. Form B is about %.0f points easier at the pass mark.",
+        theta_cut, cut_B, cut_B - 22)
+```
+
+```{r q-cut}
+question_radio("The Form B equivalent of 22 is about 26.1. What should the pass mark on Form B be?",
+  answer("26: the Form B raw score that represents the same standard as 22 on Form A.",
+         correct = TRUE,
+         message = "Right. Form B is about 4 points easier at the pass mark, so candidates need 26 on Form B to show the same competence as 22 on Form A. With 26, Form B’s pass rate is about 60%, not 72%. That remaining rise from 50% is real: this year’s candidates are better. (Programs set their own rounding rule in advance; some use the next whole score up, which would give 27.)"),
+  answer("22: candidates should be judged by the same raw score every year.",
+         message = "The same raw score on an easier form is a lower standard. Keeping 22 would license candidates who would have failed in 2025."),
+  answer("Whatever gives a 50% pass rate, as on Form A.",
+         message = "That assumes the groups are equally able, which the anchors showed they are not. Equating holds the *standard* constant, not the pass rate."),
+  answer("30, to be safe.",
+         message = "A pass mark should represent the standard the council set, not a guess. Raising it above the equated value would fail candidates who meet the standard."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### What the drifted anchor would have cost
+
+Repeat the equating with all 12 anchors, C07 included, and compare the pass
+rates at each pass mark.
+
+```{r drift-cost, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 14}
+with_c07 <- suppressWarnings(multipleGroup(
+  linking[, -(1:2)], 1, group = linking$form, itemtype = "2PL",
+  invariance = c(anchors, "free_means", "free_var"), verbose = FALSE))
+cols <- colnames(linking)[-(1:2)]
+tcc <- function(group, items, theta)
+  expected.test(suppressWarnings(extract.group(with_c07, group)), matrix(theta),
+                which.items = match(items, cols))
+theta_cut <- uniroot(function(t) tcc("A", items_A, t) - 22, c(-4, 4))$root
+cut_with_c07 <- tcc("B", items_B, theta_cut)
+raw_B <- rowSums(form_B)
+c(cut_with_c07 = cut_with_c07, pass_at_25 = sum(raw_B >= 25), pass_at_26 = sum(raw_B >= 26))
+```
+
+```{r q-cost}
+question_radio("With C07 in the anchor, the equated pass mark drops to about 25. What would that have meant?",
+  answer("About 38 candidates who did not meet the standard would have been licensed, because the leaked item made the 2026 group look more able and Form B look harder than they are.",
+         correct = TRUE,
+         message = "Exactly. One drifted item out of 12 moved the pass mark by a full point. For a licensure exam, where the purpose is public protection, that is a serious error, and checking anchors for drift is a routine step for exactly that reason."),
+  answer("Nothing important: one point is within measurement error.",
+         message = "Measurement error affects individual candidates; this is a systematic shift for everyone. About 38 extra candidates pass at 25 than at 26."),
+  answer("Fewer candidates would have passed.",
+         message = "Check the direction: a lower pass mark means more candidates pass."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the registrar
+
+Write a short memo (four to six sentences) answering the registrar: are the
+candidates better, is Form B easier, what should the pass mark be, and what
+happened with C07.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: cover the group difference, the form difference, the pass mark and C07."))
+    correct("Submitted. Now see how close you came to the truth.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the Registrar: ..."
+)
+```
+
+## The reveal
+
+### The truth behind the data
+
+The `linking` data were simulated, so we know how they were generated.
+`lab_truth("linking")` returns it.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("linking")
+truth$ability
+truth$drift
+truth$cut_A
+```
+
+| What was planted | What the analysis found |
+|---|---|
+| 2026 candidates: mean 0.3, SD 1.1 on the Form A scale | Mean 0.37, SD about 1.15 (11 clean anchors) |
+| Form B's unique items are easier | Form B is about 4 points easier at the pass mark |
+| C07 drifted, 1.3 easier on Form B | Displacement of about -1.2; every other anchor within ±0.4 |
+| Equated pass mark with the true parameters: 26.5 | 26.1 with clean anchors, 25.0 with C07 |
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-raw" = "Reading the raw scores",
+    "q-scale" = "Why the anchors shift",
+    "q-drift" = "The drifted anchor",
+    "q-constants" = "What the linking constants mean",
+    "q-drop" = "What to do with C07",
+    "q-concurrent" = "Separate or concurrent calibration",
+    "q-cut" = "Pass mark on Form B",
+    "q-cost" = "The cost of a drifted anchor",
+    "q-memo" = "Memo to the registrar"
+  ))
+})
+```
+
+You have put two forms on one scale, separated a better group from an easier
+form, caught a drifted anchor and carried a pass mark from one form to
+another. Every testing program that uses more than one form does this, every
+year.

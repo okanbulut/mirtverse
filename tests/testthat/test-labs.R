@@ -33,7 +33,7 @@ run_solution <- function(chunks, label) {
 
 test_that("list_labs() finds the installed labs and run_lab() rejects unknown names", {
   labs <- list_labs()
-  expect_setequal(labs$name, c("decisions", "fairness", "model-choice"))
+  expect_setequal(labs$name, c("decisions", "fairness", "linking", "model-choice"))
   expect_match(labs$title[labs$name == "model-choice"], "Choosing a model")
   expect_true(nchar(labs$description[labs$name == "model-choice"]) > 50)
   expect_error(run_lab("nope"), "Unknown lab")
@@ -100,7 +100,19 @@ test_that("numeracy has the DIF the fairness lab relies on", {
   expect_true(all(numeracy_items$format[match(truth$no_dif_long, numeracy_items$item)] == "Word problem"))
 })
 
-for (lab in c("model-choice", "decisions", "fairness")) {
+test_that("linking has the NEAT design and drift the linking lab relies on", {
+  truth <- lab_truth("linking")
+  expect_equal(dim(linking), c(2000L, 70L))
+  expect_equal(levels(linking$form), c("A", "B"))
+  a_rows <- linking$form == "A"
+  expect_true(all(is.na(linking[a_rows, sprintf("B%02d", 1:28)])))
+  expect_true(all(is.na(linking[!a_rows, sprintf("A%02d", 1:28)])))
+  expect_false(anyNA(linking[, truth$anchors]))
+  expect_equal(names(truth$drift), "C07")
+  expect_equal(truth$cut_A, 22L)  # hard-coded in the lab
+})
+
+for (lab in c("model-choice", "decisions", "fairness", "linking")) {
   test_that(paste("every", lab, "solution passes its own check"), {
     skip_on_cran()
     chunks <- lab_chunks(lab)

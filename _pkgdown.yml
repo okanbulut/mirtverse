@@ -120,6 +120,7 @@ reference:
   - lab_truth
   - certexam
   - numeracy
+  - linking
 - title: Package
   contents:
   - mirtverse-package

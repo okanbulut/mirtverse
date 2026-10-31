@@ -4,11 +4,11 @@
 \alias{lab_truth}
 \title{Answer key and true values for the lab datasets}
 \usage{
-lab_truth(data = c("certexam", "numeracy"))
+lab_truth(data = c("certexam", "numeracy", "linking"))
 }
 \arguments{
-\item{data}{the dataset: \code{"certexam"} (Labs 1 and 2) or \code{"numeracy"}
-(Lab 3).}
+\item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
+(Lab 3) or \code{"linking"} (Lab 4).}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -17,7 +17,11 @@ the group \code{impact} (mean ability difference in SD units), the generating
 item parameters \code{pars} and the pass mark \code{cut_raw}. For \code{"numeracy"}, a
 list with the true \code{model}, the \code{dif} items and their type, the \code{impact},
 the generating item parameters \code{pars} (with separate values for ELL
-students) and \code{no_dif_long}, long word problems without DIF.
+students) and \code{no_dif_long}, long word problems without DIF. For
+\code{"linking"}, a list with the true \code{model}, the \code{anchors}, the \code{drift} of
+the drifted anchor, each form's group \code{ability} mean and SD on the
+Form A scale, the generating item parameters \code{pars} (with \code{b_formB} for
+the anchors' Form B difficulties) and the Form A pass mark \code{cut_A}.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

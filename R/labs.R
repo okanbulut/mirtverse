@@ -4,8 +4,9 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]); Lab 3 has its
-#' own, a provincial numeracy test ([numeracy]).
+#' storyline, a certification board's 32-item exam ([certexam]); Labs 3 and 4
+#' each have their own, a provincial numeracy test ([numeracy]) and a
+#' licensure exam with two forms ([linking]).
 #'
 #' * `"model-choice"` (Lab 1): score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -18,6 +19,10 @@
 #'   learners? Separate impact from DIF, run Mantel-Haenszel and IRT
 #'   likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
 #'   matters for students' scores and plan a content review.
+#' * `"linking"` (Lab 4): a licensure exam's pass rate jumped on a new form.
+#'   Calibrate both forms, link them through common items, catch a drifted
+#'   anchor, compare separate and concurrent calibration, and carry the pass
+#'   mark over with IRT true-score equating.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -161,21 +166,26 @@ lab_decisions <- function(state, labels) {
 #' check students' conclusions. Students meet the same information in the
 #' reveal at the end of the labs.
 #'
-#' @param data the dataset: `"certexam"` (Labs 1 and 2) or `"numeracy"`
-#'   (Lab 3).
+#' @param data the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"`
+#'   (Lab 3) or `"linking"` (Lab 4).
 #' @return For `"certexam"`, a list with the true `model`, the correct `key`,
 #'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
 #'   the group `impact` (mean ability difference in SD units), the generating
 #'   item parameters `pars` and the pass mark `cut_raw`. For `"numeracy"`, a
 #'   list with the true `model`, the `dif` items and their type, the `impact`,
 #'   the generating item parameters `pars` (with separate values for ELL
-#'   students) and `no_dif_long`, long word problems without DIF.
+#'   students) and `no_dif_long`, long word problems without DIF. For
+#'   `"linking"`, a list with the true `model`, the `anchors`, the `drift` of
+#'   the drifted anchor, each form's group `ability` mean and SD on the
+#'   Form A scale, the generating item parameters `pars` (with `b_formB` for
+#'   the anchors' Form B difficulties) and the Form A pass mark `cut_A`.
 #' @examples
 #' lab_truth()$dif
 #' lab_truth("numeracy")$dif
 #' @export
-lab_truth <- function(data = c("certexam", "numeracy")) {
-  switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth)
+lab_truth <- function(data = c("certexam", "numeracy", "linking")) {
+  switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth,
+         linking = linking_truth)
 }
 
 #' Certification exam data for the teaching labs
@@ -224,3 +234,24 @@ lab_truth <- function(data = c("certexam", "numeracy")) {
 
 #' @rdname numeracy
 "numeracy_items"
+
+#' Two-form licensure exam data for the linking lab
+#'
+#' Simulated right/wrong responses to two forms of a fictional 40-item
+#' licensure exam in a common-item nonequivalent groups (NEAT) design. Form A
+#' was taken by 1,000 candidates in 2025 and Form B by 1,000 candidates in
+#' 2026. Each form has 28 unique items and 12 common anchor items. Problems
+#' were planted on purpose for the [linking lab][run_lab];
+#' `lab_truth("linking")` lists them.
+#'
+#' @format A data frame with 2,000 rows and 70 columns: `id` (candidate ID),
+#'   `form` (factor, `A` or `B`), the Form A items `A01` to `A28`, the Form B
+#'   items `B01` to `B28` and the anchors `C01` to `C12` (1 = right,
+#'   0 = wrong, `NA` = not on the candidate's form).
+#' @source Simulated; the script is `data-raw/linking.R` in the package's
+#'   GitHub repository.
+#' @examples
+#' table(linking$form)
+#' form_a <- linking[linking$form == "A", c(sprintf("A%02d", 1:28), sprintf("C%02d", 1:12))]
+#' summary(rowSums(form_a))
+"linking"
