@@ -1,5 +1,8 @@
 # mirtverse (development version)
 
+* New article, "A course map for instructors": a suggested 12-week IRT
+  syllabus that links each week to articles, labs, functions and datasets.
+
 * The workbench gains a Pipeline tab: run the data through the assessment
   pipeline's intake and calibration gates (or load a saved pipeline), follow
   the stage tracker, record decisions on flags, drop items and recalibrate,
