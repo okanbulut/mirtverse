@@ -2,146 +2,7 @@
 
 ## mirtverse (development version)
 
-- The workbench gains a Pipeline tab: run the data through the
-  assessment pipeline’s intake and calibration gates (or load a saved
-  pipeline), follow the stage tracker, record decisions on flags, drop
-  items and recalibrate, and download the pipeline and its report. The
-  SAT12 example in the workbench now loads correctly.
-
-- New article, “An assessment pipeline from blueprint to bank
-  monitoring”, takes the `certexam` data through every stage of the
-  pipeline.
-
-- Bank monitoring for the assessment pipeline (stage 12).
-  [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
-  records each administration in the item bank (item exposure and
-  marginal reliability by window) and checks the bank over time: items
-  over-exposed in consecutive windows, content cells with too few active
-  items, reliability falling from its first value, and items unused for
-  a year.
-  [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md)
-  retires bank items or sends them back to review.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `exposure_windows`, `cell_depth`, `reliability_drop` and
-  `unused_days`.
-
-- Test security for the assessment pipeline (stage 10).
-  [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md)
-  looks for item preknowledge (a likelihood ratio test of leaked against
-  secure items), item leakage across administration windows (proportion
-  correct up, response times down), parameter drift from the bank,
-  answer copying (identical incorrect answers against their expected
-  number), aberrant response times (lognormal residuals), sites with too
-  many flagged test takers and unusual score gains. Respondent-level
-  evidence stays in `p$security$persons`; flags and the report give
-  counts only.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `preknowledge_alpha`, `leak_p`, `leak_rt`, `drift_a`, `drift_b`,
-  `copy_alpha`, `rt_resid`, `rt_share`, `site_alpha` and `gain_sem`.
-
-- Scoring for the assessment pipeline (stage 9).
-  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
-  scores open-ended responses against their rubrics with a language
-  model through ellmer, or with any trained model that has a
-  [`predict()`](https://rdrr.io/r/stats/predict.html) method, and checks
-  the machine scores against human scores (Williamson, Xi and Breyer,
-  2012): too few double-scored responses, low human-human or
-  machine-human quadratic weighted kappa, shifted score distributions
-  and subgroup differences. Short, off-topic and low-confidence
-  responses are routed to human scoring, and the final scores can join
-  the response data for a mixed-format calibration.
-  [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
-  estimates abilities and flags low reliability and extreme scores.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `n_validation`, `qwk_min`, `qwk_drop`, `score_smd`,
-  `subgroup_smd`, `min_confidence`, `min_words` and `max_se`.
-
-- Item review and field-test design for the assessment pipeline (stages
-  2 and 3).
-  [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-  writes a review form with one row per item and reviewer (optionally
-  after an AI bias and accessibility screen), and
-  [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-  reads the decisions back, sets each item’s status by majority and
-  flags items with too few reviewers, alignment disagreements,
-  sensitivity concerns, revision requests, low reviewer agreement
-  (Fleiss’ kappa) and missing provenance.
-  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
-  spreads the approved items over forms with anchor items, and flags
-  small samples per item, too few anchors, cells without an anchor and
-  poor simulated parameter recovery.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `min_reviewers`, `review_kappa`, `n_rasch`, `n_2pl`, `n_3pl` and
-  `recovery_rmse`.
-
-- Blueprint and item generation for the assessment pipeline (stages 0
-  and 1).
-  [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
-  records the construct, content cells with target counts, item types,
-  score use and target reliability, and flags empty cells and a missing
-  score use.
-  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
-  writes multiple-choice items (with keys and option rationales) and
-  open-ended items (with rubrics and anchor responses) for each cell
-  through ellmer, using the provider set up with
-  [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md),
-  and
-  [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
-  has an independent model call answer each item without the key.
-  [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
-  adds items written by people. The checks flag invalid or disputed
-  keys, weak distractors, incomplete rubrics, near-duplicates, thin
-  blueprint coverage and hard reading levels, and the pipeline report
-  gains blueprint and item development sections.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `duplicate_sim` and `coverage_ratio`.
-
-- Cut scores for the assessment pipeline (stage 8).
-  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
-  records cut scores on the ability or summed-score scale (or from a
-  standard-setting panel’s ratings) and estimates classification
-  accuracy and consistency, overall and by cut, with kappa and false
-  positive and negative rates: by Lee’s (2010) method for summed-score
-  cuts and Rudner’s (2001) method for ability cuts, for the calibrated
-  test or a fixed form. It flags low accuracy or consistency, imprecise
-  cuts and panel disagreement, and the pipeline report gains a cut score
-  section.
-  [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
-  gives the ordered item booklet for Bookmark standard setting.
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `cut_accuracy`, `cut_consistency`, `cut_sem` and `panel_sd`.
-
-- Test forms for the assessment pipeline (stage 7).
-  [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
-  builds one or more fixed forms by automated test assembly (eatATA),
-  with a content blueprint, enemy items and parallel forms;
-  [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
-  simulates a computerized adaptive test with mirtCAT; and
-  [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
-  assembles a two-stage multistage test and simulates its routing. The
-  checks flag unbuildable forms, blueprint and enemy violations,
-  non-parallel forms, imprecise forms or CATs, over-exposed and unused
-  items, shallow banks and misrouting. The pipeline report gains a forms
-  section, and
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `parallel_tol`, `cat_sem`, `cat_bias`, `max_exposure`,
-  `unused_share`, `bank_depth`, `mst_routing` and `min_group_n`. eatATA
-  and mirtCAT are suggested packages.
-
-- Item banks and linking for the assessment pipeline (stage 6).
-  [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
-  starts an item bank from a calibrated model or pipeline,
-  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
-  puts a new calibration on the bank’s scale through anchor items
-  (Stocking-Lord, Haebara, mean-sigma, mean-mean or fixed-anchor
-  calibration) and flags drifting anchors, too few anchors and unusual
-  linking constants, and
-  [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
-  adds the new items to the bank. The pipeline report gains a linking
-  section, and
-  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
-  gains `min_anchors`, `min_anchor_share`, `anchor_displacement`,
-  `link_slope_min` and `link_slope_max`.
+### Assessment pipeline
 
 - New assessment pipeline (first phase).
   [`mv_pipeline()`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
@@ -171,6 +32,149 @@
   [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)
   gains an `extra` argument for additional sections.
 
+- Blueprint and item generation for the assessment pipeline (stages 0
+  and 1).
+  [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
+  records the construct, content cells with target counts, item types,
+  score use and target reliability, and flags empty cells and a missing
+  score use.
+  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  writes multiple-choice items (with keys and option rationales) and
+  open-ended items (with rubrics and anchor responses) for each cell
+  through ellmer, using the provider set up with
+  [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md),
+  and
+  [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  has an independent model call answer each item without the key.
+  [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  adds items written by people. The checks flag invalid or disputed
+  keys, weak distractors, incomplete rubrics, near-duplicates, thin
+  blueprint coverage and hard reading levels, and the pipeline report
+  gains blueprint and item development sections.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `duplicate_sim` and `coverage_ratio`.
+
+- Item review and field-test design for the assessment pipeline (stages
+  2 and 3).
+  [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  writes a review form with one row per item and reviewer (optionally
+  after an AI bias and accessibility screen), and
+  [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  reads the decisions back, sets each item’s status by majority and
+  flags items with too few reviewers, alignment disagreements,
+  sensitivity concerns, revision requests, low reviewer agreement
+  (Fleiss’ kappa) and missing provenance.
+  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
+  spreads the approved items over forms with anchor items, and flags
+  small samples per item, too few anchors, cells without an anchor and
+  poor simulated parameter recovery.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `min_reviewers`, `review_kappa`, `n_rasch`, `n_2pl`, `n_3pl` and
+  `recovery_rmse`.
+
+- Item banks and linking for the assessment pipeline (stage 6).
+  [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
+  starts an item bank from a calibrated model or pipeline,
+  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
+  puts a new calibration on the bank’s scale through anchor items
+  (Stocking-Lord, Haebara, mean-sigma, mean-mean or fixed-anchor
+  calibration) and flags drifting anchors, too few anchors and unusual
+  linking constants, and
+  [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
+  adds the new items to the bank. The pipeline report gains a linking
+  section, and
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `min_anchors`, `min_anchor_share`, `anchor_displacement`,
+  `link_slope_min` and `link_slope_max`.
+
+- Test forms for the assessment pipeline (stage 7).
+  [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
+  builds one or more fixed forms by automated test assembly (eatATA),
+  with a content blueprint, enemy items and parallel forms;
+  [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
+  simulates a computerized adaptive test with mirtCAT; and
+  [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
+  assembles a two-stage multistage test and simulates its routing. The
+  checks flag unbuildable forms, blueprint and enemy violations,
+  non-parallel forms, imprecise forms or CATs, over-exposed and unused
+  items, shallow banks and misrouting. The pipeline report gains a forms
+  section, and
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `parallel_tol`, `cat_sem`, `cat_bias`, `max_exposure`,
+  `unused_share`, `bank_depth`, `mst_routing` and `min_group_n`. eatATA
+  and mirtCAT are suggested packages.
+
+- Cut scores for the assessment pipeline (stage 8).
+  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
+  records cut scores on the ability or summed-score scale (or from a
+  standard-setting panel’s ratings) and estimates classification
+  accuracy and consistency, overall and by cut, with kappa and false
+  positive and negative rates: by Lee’s (2010) method for summed-score
+  cuts and Rudner’s (2001) method for ability cuts, for the calibrated
+  test or a fixed form. It flags low accuracy or consistency, imprecise
+  cuts and panel disagreement, and the pipeline report gains a cut score
+  section.
+  [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
+  gives the ordered item booklet for Bookmark standard setting.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `cut_accuracy`, `cut_consistency`, `cut_sem` and `panel_sd`.
+
+- Scoring for the assessment pipeline (stage 9).
+  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+  scores open-ended responses against their rubrics with a language
+  model through ellmer, or with any trained model that has a
+  [`predict()`](https://rdrr.io/r/stats/predict.html) method, and checks
+  the machine scores against human scores (Williamson, Xi and Breyer,
+  2012): too few double-scored responses, low human-human or
+  machine-human quadratic weighted kappa, shifted score distributions
+  and subgroup differences. Short, off-topic and low-confidence
+  responses are routed to human scoring, and the final scores can join
+  the response data for a mixed-format calibration.
+  [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
+  estimates abilities and flags low reliability and extreme scores.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `n_validation`, `qwk_min`, `qwk_drop`, `score_smd`,
+  `subgroup_smd`, `min_confidence`, `min_words` and `max_se`.
+
+- Test security for the assessment pipeline (stage 10).
+  [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md)
+  looks for item preknowledge (a likelihood ratio test of leaked against
+  secure items), item leakage across administration windows (proportion
+  correct up, response times down), parameter drift from the bank,
+  answer copying (identical incorrect answers against their expected
+  number), aberrant response times (lognormal residuals), sites with too
+  many flagged test takers and unusual score gains. Respondent-level
+  evidence stays in `p$security$persons`; flags and the report give
+  counts only.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `preknowledge_alpha`, `leak_p`, `leak_rt`, `drift_a`, `drift_b`,
+  `copy_alpha`, `rt_resid`, `rt_share`, `site_alpha` and `gain_sem`.
+
+- Bank monitoring for the assessment pipeline (stage 12).
+  [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
+  records each administration in the item bank (item exposure and
+  marginal reliability by window) and checks the bank over time: items
+  over-exposed in consecutive windows, content cells with too few active
+  items, reliability falling from its first value, and items unused for
+  a year.
+  [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md)
+  retires bank items or sends them back to review.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `exposure_windows`, `cell_depth`, `reliability_drop` and
+  `unused_days`.
+
+- The workbench gains a Pipeline tab: run the data through the
+  assessment pipeline’s intake and calibration gates (or load a saved
+  pipeline), follow the stage tracker, record decisions on flags, drop
+  items and recalibrate, and download the pipeline and its report. The
+  SAT12 example in the workbench now loads correctly.
+
+- New article, “An assessment pipeline from blueprint to bank
+  monitoring”, takes the `certexam` data through every stage of the
+  pipeline.
+
+### Coming from other IRT packages
+
 - New
   [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
   translates code written for ltm, eRm, TAM and irtQ into mirt code,
@@ -184,6 +188,12 @@
   lists every supported function, and the new article “Moving from ltm,
   eRm, TAM or irtQ to mirt” walks through examples and shows how closely
   the translated models match the originals.
+
+- The homepage has a
+  [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
+  section with a short example.
+
+### Teaching labs
 
 - New interactive teaching labs for measurement courses, built with
   learnr. `run_lab("model-choice")` opens Lab 1, “Choosing a model the
@@ -200,17 +210,11 @@
   lists the labs. The new `certexam` data (with `certexam_key`) are
   simulated with known problems planted for the labs;
   [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
-  reveals them for instructors. The “Teaching labs” article introduces
-  the labs for students and has an instructor guide with an answer key.
+  reveals them for instructors. The article “Teaching labs for
+  measurement courses” introduces the labs for students, followed by an
+  instructor guide and an answer key.
 
-- [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
-  gains the normative threshold rules `flag_method = "nt15"` and
-  `"nt20"` for rapid guessing (15% and 20% of each item’s mean response
-  time), next to `"nt10"`, and the workbench offers all three. Following
-  Wise and Ma (2012), the item thresholds of all three rules are now
-  capped at 10 seconds; change the cap with the new `nt_max` argument
-  (`nt_max = Inf` removes it). The thresholds used are returned in
-  `$thresholds`.
+### Sharing results
 
 - New
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)
@@ -228,6 +232,13 @@
   self-contained HTML file that needs no server, no R and no internet
   connection. The item table, item curves with the ability slider, item
   information and person lookup stay interactive.
+
+- The article “Sharing results with a dashboard” is now a full guide:
+  when to use a dashboard rather than the workbench or the report, every
+  panel, sharing as one HTML file or as a Shiny app, privacy, and a live
+  example dashboard to open.
+
+### Scripts from plain language
 
 - New
   [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
@@ -253,6 +264,22 @@
   shows the column summary that is the only information shared with an
   AI model. The workbench now writes its code with the same templates.
 
+- [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+  reads plans from local models that write text before the JSON (such as
+  Qwen on Ollama), and accepts a plan with no extra steps (for example
+  DIF requested without a grouping variable), instead of falling back to
+  the keyword parser.
+
+- The internal request benchmark (`mirtverse:::ask_benchmark()`) no
+  longer stops when a provider cannot be reached; those requests are
+  scored as wrong and the reason is printed.
+
+- New article, “mv_ask(): from a sentence to a tested R script”, shows
+  the workflow and benchmarks Claude, GPT and local Qwen models against
+  the keyword parser.
+
+### Differential item functioning
+
 - New [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
   tests every item for differential item functioning between groups in
   one call, with likelihood-ratio tests, adjusted p-values and
@@ -263,11 +290,34 @@
   describes the results, and `mv_report(dif = )` adds a DIF section to
   the report.
 
+### Response times
+
+- [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
+  gains the normative threshold rules `flag_method = "nt15"` and
+  `"nt20"` for rapid guessing (15% and 20% of each item’s mean response
+  time), next to `"nt10"`, and the workbench offers all three. Following
+  Wise and Ma (2012), the item thresholds of all three rules are now
+  capped at 10 seconds; change the cap with the new `nt_max` argument
+  (`nt_max = Inf` removes it). The thresholds used are returned in
+  `$thresholds`.
+
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   no longer fails when some persons have no item responses. mirt drops
   those rows from the fitted data;
   [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   now keeps them, and their response times still inform speed.
+
+### Other changes
+
+- The package website moved to <https://www.okanbulut.com/mirtverse/>.
+
+- mirtverse can be cited through its Zenodo DOI; see
+  `citation("mirtverse")` or `CITATION.cff`.
+
+- “Get started” gains sections on dashboards,
+  [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+  and the teaching labs, and the workbench article covers the NT10, NT15
+  and NT20 rules.
 
 ## mirtverse 0.1.0
 
