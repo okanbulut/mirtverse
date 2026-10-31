@@ -7,9 +7,9 @@ authors:
     given-names: Okan
     email: bulut@ualberta.ca
     affiliation: University of Alberta
-version: 0.1.0
+version: 0.2.0
 doi: 10.5281/zenodo.23719385
-date-released: 2026-10-28
+date-released: 2026-10-31
 license: GPL-3.0-or-later
 repository-code: "https://github.com/okanbulut/mirtverse"
 url: "https://www.okanbulut.com/mirtverse/"
