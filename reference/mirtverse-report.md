@@ -2,7 +2,7 @@
 
 # IRT analysis report
 
-October 31, 2026 \| mirt 1.48 \| mirtverse 0.1.0
+October 31, 2026 \| mirt 1.48 \| mirtverse 0.2.0
 
 **Contents**
 
@@ -199,7 +199,7 @@ Session information
     [8] base     
 
     other attached packages:
-    [1] mirtverse_0.1.0 mirt_1.48       lattice_0.23-1 
+    [1] mirtverse_0.2.0 mirt_1.48       lattice_0.23-1 
 
     loaded via a namespace (and not attached):
       [1] mathjaxr_2.0-0       RColorBrewer_1.1-3   rstudioapi_0.19.0   

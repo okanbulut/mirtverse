@@ -114,6 +114,18 @@ interactive lab in which students work through a realistic testing
 scenario with live models (see [Teaching
 labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 
+## Cheat sheet
+
+[![Page 1 of the mirtverse cheat
+sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-1.png)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+[![Page 2 of the mirtverse cheat
+sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+
+A printable two-page [cheat sheet
+(PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+covers the main functions by task: page 1 for analysis and sharing, page
+2 for the assessment pipeline.
+
 ## Coming from ltm, eRm, TAM or irtQ?
 
 [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
@@ -159,7 +171,7 @@ If you use mirtverse, please cite it together with mirt. Run
 `citation("mirtverse")` in R, or use:
 
 Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
-for ‘mirt’* (Version 0.1.0) \[R package\]. Zenodo.
+for ‘mirt’* (Version 0.2.0) \[R package\]. Zenodo.
 <https://doi.org/10.5281/zenodo.23719385>
 
 # Package index

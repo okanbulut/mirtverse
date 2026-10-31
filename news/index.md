@@ -1,6 +1,6 @@
 # Changelog
 
-## mirtverse (development version)
+## mirtverse 0.2.0
 
 ### Assessment pipeline
 

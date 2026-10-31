@@ -10,14 +10,14 @@ Source:
 [`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/main/inst/CITATION)
 
 Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for
-'mirt' (Version 0.1.0) \[R package\]. Zenodo.
+'mirt' (Version 0.2.0) \[R package\]. Zenodo.
 https://doi.org/10.5281/zenodo.23719385
 
     @Manual{,
       title = {{mirtverse}: A Friendly Workflow and Reporting Layer for 'mirt'},
       author = {Okan Bulut},
       year = {2026},
-      note = {R package version 0.1.0},
+      note = {R package version 0.2.0},
       doi = {10.5281/zenodo.23719385},
       url = {https://github.com/okanbulut/mirtverse},
     }
