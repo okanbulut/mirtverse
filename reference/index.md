@@ -188,6 +188,8 @@ Interactive tutorials for measurement courses.
   : Numeracy test data for the DIF and fairness lab
 - [`linking`](https://www.okanbulut.com/mirtverse/reference/linking.md)
   : Two-form licensure exam data for the linking lab
+- [`catbank`](https://www.okanbulut.com/mirtverse/reference/catbank.md)
+  : Math placement item bank for the CAT design lab
 
 ## Package
 

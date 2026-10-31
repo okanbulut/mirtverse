@@ -47,7 +47,7 @@ writing code by hand later in the term.
 | 8 | Polytomous items and open-ended responses | Open-ended scoring lab (coming soon) | `Science` |
 | 9 | Differential item functioning and fairness | Lab 3, `run_lab("fairness")` | `numeracy`, `certexam` |
 | 10 | Linking and equating | Lab 4, `run_lab("linking")` | `linking`, `certexam` |
-| 11 | Item banks, test assembly and adaptive testing | CAT lab (coming soon) | `certexam` bank |
+| 11 | Item banks, test assembly and adaptive testing | Lab 5, `run_lab("cat-design")` | `catbank`, `certexam` bank |
 | 12 | Cut scores, reporting and communicating results | Final project | students’ own data |
 
 The [glossary](#planned-resources) (coming soon) defines each term used
@@ -274,8 +274,12 @@ adaptive test picks items and when it stops.
   [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md),
   [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md),
   [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md).
-- **Lab:** CAT lab (coming soon).
-- **Data:** the `certexam` bank built in the pipeline article.
+- **Lab:** Lab 5 (`run_lab("cat-design")`, about 75 minutes): bank
+  information, a CAT by hand, simulation, exposure control, content
+  balancing and stopping rules.
+- **Data:** `catbank` (a 180-item placement bank) in Lab 5; the
+  `certexam` bank built in the pipeline article for the pipeline
+  functions.
 
 ### Week 12. Cut scores, reporting and communicating results
 
@@ -338,5 +342,5 @@ when they are released.
 | Two-page cheat sheet of the main functions | All weeks | Coming soon |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
-| CAT design lab | Week 11 | Coming soon |
+| CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Coming soon |

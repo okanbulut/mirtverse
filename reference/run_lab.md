@@ -5,11 +5,13 @@ tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
-([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md));
-Labs 3 and 4 each have their own, a provincial numeracy test
-([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md))
-and a licensure exam with two forms
-([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)).
+([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
+Labs 3 to 5 each have their own: a provincial numeracy test
+([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
+a licensure exam with two forms
+([linking](https://www.okanbulut.com/mirtverse/reference/linking.md))
+and a placement test's item bank
+([catbank](https://www.okanbulut.com/mirtverse/reference/catbank.md)).
 
 ## Usage
 
@@ -57,6 +59,11 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
   drifted anchor, compare separate and concurrent calibration, and carry
   the pass mark over with IRT true-score equating.
 
+- `"cat-design"` (Lab 5): could a computerized adaptive test replace a
+  40-item placement test? Inspect the item bank, run a CAT by hand,
+  simulate students, and choose a stopping rule, exposure control and
+  content balancing.
+
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and
@@ -66,12 +73,13 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 4 × 3
+#> # A tibble: 5 × 3
 #>   name         title                                        description         
 #>   <chr>        <chr>                                        <chr>               
-#> 1 decisions    Lab 2: From parameters to decisions          The certification b…
-#> 2 fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…
-#> 3 linking      Lab 4: Linking two forms                     A licensure exam ha…
-#> 4 model-choice Lab 1: Choosing a model the board can defend You are the new psy…
+#> 1 cat-design   Lab 5: Designing an adaptive test            A college wants to …
+#> 2 decisions    Lab 2: From parameters to decisions          The certification b…
+#> 3 fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…
+#> 4 linking      Lab 4: Linking two forms                     A licensure exam ha…
+#> 5 model-choice Lab 1: Choosing a model the board can defend You are the new psy…
 if (interactive()) run_lab("model-choice")
 ```

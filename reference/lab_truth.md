@@ -7,15 +7,15 @@ reveal at the end of the labs.
 ## Usage
 
 ``` r
-lab_truth(data = c("certexam", "numeracy", "linking"))
+lab_truth(data = c("certexam", "numeracy", "linking", "catbank"))
 ```
 
 ## Arguments
 
 - data:
 
-  the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3) or
-  `"linking"` (Lab 4).
+  the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
+  `"linking"` (Lab 4) or `"catbank"` (Lab 5).
 
 ## Value
 
@@ -29,7 +29,9 @@ for ELL students) and `no_dif_long`, long word problems without DIF. For
 `"linking"`, a list with the true `model`, the `anchors`, the `drift` of
 the drifted anchor, each form's group `ability` mean and SD on the Form
 A scale, the generating item parameters `pars` (with `b_formB` for the
-anchors' Form B difficulties) and the Form A pass mark `cut_A`.
+anchors' Form B difficulties) and the Form A pass mark `cut_A`. For
+`"catbank"`, a list with the five over-used `stars`, the number of items
+harder than b = 1.5 (`thin_top`), the student `population` and `notes`.
 
 ## Examples
 

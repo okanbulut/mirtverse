@@ -213,6 +213,38 @@ and carry the pass mark over to the new form</td>
 </table>
 <p>Lab 4 also stands on its own.</p>
 </div>
+<div class="section level3">
+<h3 id="lab-5-designing-an-adaptive-test">Lab 5: designing an adaptive test<a class="anchor" aria-label="anchor" href="#lab-5-designing-an-adaptive-test"></a>
+</h3>
+<p>You work in the testing office of the fictional <strong>Lakeshore
+College</strong>, whose 40-item math placement test is too long. Could a
+computerized adaptive test (CAT) from the college’s 180-item bank
+(<code>catbank</code>) do the job with fewer items? Students simulate it
+and find out what else a CAT needs.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>5. Designing an adaptive test</strong> (about 75
+minutes)</td>
+<td><code>run_lab("cat-design")</code></td>
+<td>Look at where the bank is informative, run one CAT by hand, simulate
+500 students, and choose a stopping rule, exposure control and content
+balancing</td>
+</tr></tbody>
+</table>
+<p>Lab 5 stands on its own and needs no extra packages: the CAT is a
+short function written out in the lab.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="what-it-looks-like">What it looks like<a class="anchor" aria-label="anchor" href="#what-it-looks-like"></a>
@@ -227,7 +259,7 @@ which you can hand in as an assignment.</p>
 <h2 id="for-instructors">For instructors<a class="anchor" aria-label="anchor" href="#for-instructors"></a>
 </h2>
 <p>Labs 1 and 2 follow one storyline, but Lab 2 also works on its own;
-Labs 3 and 4 stand alone. The tables below list what students do in each
+Labs 3 to 5 stand alone. The tables below list what students do in each
 section and the decisions they make. The answers are in the <a href="#answer-key">answer key</a> at the end of the page. For where the
 labs fit in a full term, see the <a href="course-map.html">course
 map</a>, a suggested 12-week syllabus.</p>
@@ -498,6 +530,74 @@ displacement</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-5-designing-an-adaptive-test-1">Lab 5: Designing an adaptive test<a class="anchor" aria-label="anchor" href="#lab-5-designing-an-adaptive-test-1"></a>
+</h3>
+<p><code>run_lab("cat-design")</code>, about 75 minutes. Each simulation
+of 500 students takes a few seconds.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the dean’s question and <code>catbank</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Where is the bank strong?</td>
+<td>Bank and fixed-form information curves</td>
+<td>Where a CAT will struggle</td>
+</tr>
+<tr class="odd">
+<td>One CAT by hand</td>
+<td>Find the first item; watch a CAT for a strong and an average
+student</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Simulate the CAT</td>
+<td>500 students, CAT versus the fixed test, overall and by ability
+band</td>
+<td>What to tell the dean</td>
+</tr>
+<tr class="odd">
+<td>Protect the items</td>
+<td>Exposure rates; randomesque selection</td>
+<td>Why exposure matters; what to do after randomesque</td>
+</tr>
+<tr class="even">
+<td>Keep the content balanced</td>
+<td>Share of items by area; cycling through the areas</td>
+<td>Is balancing worth the extra items?</td>
+</tr>
+<tr class="odd">
+<td>Choose a stopping rule</td>
+<td>SE 0.30, SE 0.25 and a fixed length of 20</td>
+<td>The stopping rule</td>
+</tr>
+<tr class="even">
+<td>The memo</td>
+<td>Free-text memo to the dean</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>The reveal</td>
+<td><code>lab_truth("catbank")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -509,7 +609,7 @@ internet connection.</li>
 <strong>Order:</strong> Labs 1 and 2 belong together. Lab 3 works on
 its own and fits a unit on fairness or validity; Lab 2’s short DIF
 section is a good warm-up for it. Lab 4 fits a unit on linking and
-equating.</li>
+equating, and Lab 5 a unit on item banks and adaptive testing.</li>
 <li>
 <strong>Speed:</strong> most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -868,6 +968,87 @@ these apart?</li>
 they sit in difficulty?</li>
 <li>What would change if the two groups had been randomly equivalent
 (for example, forms spiralled within one administration)?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-5">Lab 5<a class="anchor" aria-label="anchor" href="#lab-5"></a>
+</h3>
+<p>The planted problems in <code>catbank</code>
+(<code>lab_truth("catbank")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Only one item is harder than b = 1.5</td>
+<td>Sees it in the bank information curve, predicts long and imprecise
+CATs for strong students, and asks for hard items</td>
+</tr>
+<tr class="even">
+<td>Algebra items discriminate better than the others</td>
+<td>Notices that an unconstrained CAT is about 70% Algebra and adds
+content balancing</td>
+</tr>
+<tr class="odd">
+<td>Five exceptional Algebra items near the middle (M012, M024, M051,
+M076, M082)</td>
+<td>Spots their exposure; sees that randomesque alone cannot fix it, and
+recommends more items like them and a stronger exposure control</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Where the bank is weak:</strong> above theta of about
+1.5.</li>
+<li>
+<strong>First item:</strong> M012, the most informative item at
+theta = 0, which every student gets.</li>
+<li>
+<strong>One CAT by hand:</strong> the average student finishes in 9
+items; the strong student (theta 1.8) uses all 30 and ends with SE
+0.35.</li>
+<li>
+<strong>CAT versus the fixed test:</strong> about 15 items on
+average against 40, with about the same overall precision (RMSE 0.32
+against 0.30). The CAT is more precise for weak and strong students (SE
+0.30 and 0.35 against 0.35 and 0.43), but students above theta 1.5 take
+about 29 items.</li>
+<li>
+<strong>Exposure:</strong> M012 is seen by every student, 16 items
+by more than 30%, and about half the bank by nobody. Randomesque with k
+= 5 brings the maximum down to about 75% at almost no cost; the
+long-term fix is more items of similar quality, plus a probabilistic cap
+such as Sympson-Hetter.</li>
+<li>
+<strong>Content:</strong> about 70% of an unconstrained CAT is
+Algebra. Cycling through the areas brings Algebra to 27% and adds about
+5 items per student, which is worth it.</li>
+<li>
+<strong>Stopping rule:</strong> SE 0.30 with at most 30 items (about
+21 items with balancing) is a sound choice; SE 0.25 needs about 31 items
+and strong students hit 40; a fixed length of 20 leaves strong students
+with SE 0.41.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-4">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-4"></a>
+</h4>
+<ul>
+<li>Why does every student get the same first item, and what could you
+do about it?</li>
+<li>The college could also use a multistage test (MST) instead of a CAT.
+What would it gain and lose?</li>
+<li>How would you decide how many hard items to commission, and at what
+difficulty?</li>
+<li>A student complains that their test was 30 items long and their
+friend’s only 12. How would you explain it?</li>
 </ul>
 </div>
 </div>

@@ -6,11 +6,12 @@ item response theory (IRT) models; mirtverse helps you choose a model,
 understand the results, make publication-ready figures, and share
 everything, with or without writing R code.
 
-> **New: interactive teaching labs.** Four browser-based labs let
+> **New: interactive teaching labs.** Five browser-based labs let
 > students fit live mirt models and make real testing decisions, from
 > choosing a model to advising a certification board, investigating a
-> fairness complaint and linking two forms of an exam. Start one with
-> `run_lab("model-choice")`, or read [Teaching
+> fairness complaint, linking two forms of an exam and designing an
+> adaptive test. Start one with `run_lab("model-choice")`, or read
+> [Teaching
 > labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html).
 
 ## About mirt

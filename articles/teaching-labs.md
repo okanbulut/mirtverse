@@ -72,6 +72,21 @@ easier? The data (`linking`) cover 1,000 candidates on each of two
 
 Lab 4 also stands on its own.
 
+### Lab 5: designing an adaptive test
+
+You work in the testing office of the fictional **Lakeshore College**,
+whose 40-item math placement test is too long. Could a computerized
+adaptive test (CAT) from the college’s 180-item bank (`catbank`) do the
+job with fewer items? Students simulate it and find out what else a CAT
+needs.
+
+| Lab | Run it with | You will |
+|----|----|----|
+| **5. Designing an adaptive test** (about 75 minutes) | `run_lab("cat-design")` | Look at where the bank is informative, run one CAT by hand, simulate 500 students, and choose a stopping rule, exposure control and content balancing |
+
+Lab 5 stands on its own and needs no extra packages: the CAT is a short
+function written out in the lab.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -88,7 +103,7 @@ which you can hand in as an assignment.
 ## For instructors
 
 Labs 1 and 2 follow one storyline, but Lab 2 also works on its own; Labs
-3 and 4 stand alone. The tables below list what students do in each
+3 to 5 stand alone. The tables below list what students do in each
 section and the decisions they make. The answers are in the [answer
 key](#answer-key) at the end of the page. For where the labs fit in a
 full term, see the [course
@@ -158,6 +173,23 @@ each and take about a minute; the lab warns students before each one.
 | The memo | Free-text memo to the registrar |  |
 | The reveal | `lab_truth("linking")` |  |
 
+### Lab 5: Designing an adaptive test
+
+`run_lab("cat-design")`, about 75 minutes. Each simulation of 500
+students takes a few seconds.
+
+| Section | Students do | Decision |
+|----|----|----|
+| The brief | Meet the dean’s question and `catbank` |  |
+| Where is the bank strong? | Bank and fixed-form information curves | Where a CAT will struggle |
+| One CAT by hand | Find the first item; watch a CAT for a strong and an average student |  |
+| Simulate the CAT | 500 students, CAT versus the fixed test, overall and by ability band | What to tell the dean |
+| Protect the items | Exposure rates; randomesque selection | Why exposure matters; what to do after randomesque |
+| Keep the content balanced | Share of items by area; cycling through the areas | Is balancing worth the extra items? |
+| Choose a stopping rule | SE 0.30, SE 0.25 and a fixed length of 20 | The stopping rule |
+| The memo | Free-text memo to the dean |  |
+| The reveal | `lab_truth("catbank")` |  |
+
 ### Tips for running the labs
 
 - **Before class:** ask students to install mirtverse and learnr and run
@@ -165,7 +197,8 @@ each and take about a minute; the lab warns students before each one.
   Fitting the models needs no internet connection.
 - **Order:** Labs 1 and 2 belong together. Lab 3 works on its own and
   fits a unit on fairness or validity; Lab 2’s short DIF section is a
-  good warm-up for it. Lab 4 fits a unit on linking and equating.
+  good warm-up for it. Lab 4 fits a unit on linking and equating, and
+  Lab 5 a unit on item banks and adaptive testing.
 - **Speed:** most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
@@ -379,3 +412,47 @@ The planted problems in `linking` (`lab_truth("linking")` returns them):
   they sit in difficulty?
 - What would change if the two groups had been randomly equivalent (for
   example, forms spiralled within one administration)?
+
+### Lab 5
+
+The planted problems in `catbank` (`lab_truth("catbank")` returns them):
+
+| Planted problem | What a good analyst does |
+|----|----|
+| Only one item is harder than b = 1.5 | Sees it in the bank information curve, predicts long and imprecise CATs for strong students, and asks for hard items |
+| Algebra items discriminate better than the others | Notices that an unconstrained CAT is about 70% Algebra and adds content balancing |
+| Five exceptional Algebra items near the middle (M012, M024, M051, M076, M082) | Spots their exposure; sees that randomesque alone cannot fix it, and recommends more items like them and a stronger exposure control |
+
+- **Where the bank is weak:** above theta of about 1.5.
+- **First item:** M012, the most informative item at theta = 0, which
+  every student gets.
+- **One CAT by hand:** the average student finishes in 9 items; the
+  strong student (theta 1.8) uses all 30 and ends with SE 0.35.
+- **CAT versus the fixed test:** about 15 items on average against 40,
+  with about the same overall precision (RMSE 0.32 against 0.30). The
+  CAT is more precise for weak and strong students (SE 0.30 and 0.35
+  against 0.35 and 0.43), but students above theta 1.5 take about 29
+  items.
+- **Exposure:** M012 is seen by every student, 16 items by more than
+  30%, and about half the bank by nobody. Randomesque with k = 5 brings
+  the maximum down to about 75% at almost no cost; the long-term fix is
+  more items of similar quality, plus a probabilistic cap such as
+  Sympson-Hetter.
+- **Content:** about 70% of an unconstrained CAT is Algebra. Cycling
+  through the areas brings Algebra to 27% and adds about 5 items per
+  student, which is worth it.
+- **Stopping rule:** SE 0.30 with at most 30 items (about 21 items with
+  balancing) is a sound choice; SE 0.25 needs about 31 items and strong
+  students hit 40; a fixed length of 20 leaves strong students with SE
+  0.41.
+
+#### Discussion prompts
+
+- Why does every student get the same first item, and what could you do
+  about it?
+- The college could also use a multistage test (MST) instead of a CAT.
+  What would it gain and lose?
+- How would you decide how many hard items to commission, and at what
+  difficulty?
+- A student complains that their test was 30 items long and their
+  friend’s only 12. How would you explain it?
