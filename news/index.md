@@ -2,6 +2,24 @@
 
 ## mirtverse (development version)
 
+- Item review and field-test design for the assessment pipeline (stages
+  2 and 3).
+  [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  writes a review form with one row per item and reviewer (optionally
+  after an AI bias and accessibility screen), and
+  [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  reads the decisions back, sets each item’s status by majority and
+  flags items with too few reviewers, alignment disagreements,
+  sensitivity concerns, revision requests, low reviewer agreement
+  (Fleiss’ kappa) and missing provenance.
+  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
+  spreads the approved items over forms with anchor items, and flags
+  small samples per item, too few anchors, cells without an anchor and
+  poor simulated parameter recovery.
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  gains `min_reviewers`, `review_kappa`, `n_rasch`, `n_2pl`, `n_3pl` and
+  `recovery_rmse`.
+
 - Blueprint and item generation for the assessment pipeline (stages 0
   and 1).
   [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)

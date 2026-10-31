@@ -70,6 +70,10 @@ A list of class `mv_rules`.
 | `panel_sd` | 0.5 | largest standard deviation of standard-setting panelists' cuts (ability units) |
 | `duplicate_sim` | 0.90 | largest word overlap (Jaccard) between two items before they are near-duplicates |
 | `coverage_ratio` | 3 | items to write per blueprint target (items are lost in review and field testing) |
+| `min_reviewers` | 2 | fewest reviewers per item |
+| `review_kappa` | 0.40 | smallest acceptable Fleiss' kappa between reviewers' decisions |
+| `n_rasch`, `n_2pl`, `n_3pl` | 200, 500, 1000 | respondents needed per item in a field test (Rasch; 2PL; 3PL or polytomous models) |
+| `recovery_rmse` | 0.2 | largest acceptable RMSE of simulated slope recovery in a field-test design |
 | `min_group_n` | 10 | smallest group summarized in a report |
 
 `preset = "lenient"` relaxes the rules for pilot studies and small
@@ -124,6 +128,12 @@ mv_rules()
 #>   panel_sd            0.5
 #>   duplicate_sim       0.9
 #>   coverage_ratio      3
+#>   min_reviewers       2
+#>   review_kappa        0.4
+#>   n_rasch             200
+#>   n_2pl               500
+#>   n_3pl               1000
+#>   recovery_rmse       0.2
 #>   min_group_n         10
 mv_rules(q3 = 0.25, reliability = 0.85)
 #> <mv_rules> preset: standards; changed: q3, reliability
@@ -169,6 +179,12 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   panel_sd            0.5
 #>   duplicate_sim       0.9
 #>   coverage_ratio      3
+#>   min_reviewers       2
+#>   review_kappa        0.4
+#>   n_rasch             200
+#>   n_2pl               500
+#>   n_3pl               1000
+#>   recovery_rmse       0.2
 #>   min_group_n         10
 mv_rules(preset = "lenient")
 #> <mv_rules> preset: lenient
@@ -214,5 +230,11 @@ mv_rules(preset = "lenient")
 #>   panel_sd            0.5
 #>   duplicate_sim       0.9
 #>   coverage_ratio      3
+#>   min_reviewers       2
+#>   review_kappa        0.4
+#>   n_rasch             200
+#>   n_2pl               500
+#>   n_3pl               1000
+#>   recovery_rmse       0.2
 #>   min_group_n         10
 ```

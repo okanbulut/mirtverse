@@ -111,6 +111,11 @@ and <code><a href="https://generics.r-lib.org/reference/tidy.html" class="extern
 <ol><li><p><code><a href="set_blueprint.html">set_blueprint()</a></code>: the construct, content cells and score use.</p></li>
 <li><p><code><a href="generate_items.html">generate_items()</a></code> or <code><a href="generate_items.html">add_items()</a></code>: item writing with a language model
 or by people (keys, distractors, rubrics, duplicates, coverage).</p></li>
+<li><p><code><a href="review_packet.html">review_packet()</a></code> and <code><a href="review_packet.html">read_reviews()</a></code>: human content and sensitivity
+review, with an optional AI screen (reviewers, alignment, bias,
+agreement).</p></li>
+<li><p><code><a href="design_field_test.html">design_field_test()</a></code>: forms, anchors and sample sizes for the field
+test, with simulated parameter recovery.</p></li>
 <li><p><code><a href="add_responses.html">add_responses()</a></code>: data intake and cleaning (scoring with a key,
 missing data, miskeyed items, straight-lining, rapid guessing, sparse
 categories).</p></li>
@@ -159,14 +164,16 @@ logged with its time and note and printed in the report.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;mv_pipeline&gt; Certification exam</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> flags warn (strict = FALSE); rules: standards</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 0  Blueprint        not run</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 1  Item generation  not run</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [x] 4  Data intake      1,200 respondents, 32 items, scored with key</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [x] 5  Calibration      3PL, NOT converged, reliability 0.83  | open: 2 block, 4 review, 1 info</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 6  Linking and bank not run</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 7  Forms            not run</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 8  Cut scores       not run</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 11 Reporting        not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 0  Blueprint         not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 1  Item generation   not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 2  Item review       not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 3  Field-test design not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [x] 4  Data intake       1,200 respondents, 32 items, scored with key</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [x] 5  Calibration       3PL, NOT converged, reliability 0.83  | open: 2 block, 4 review, 1 info</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 6  Linking and bank  not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 7  Forms             not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 8  Cut scores        not run</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ ] 11 Reporting         not run</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Open flags: 2 block, 4 review, 1 info. See flags(p). 1 decision(s) recorded.</span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="pipeline_report.html">pipeline_report</a></span><span class="op">(</span><span class="va">p</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".html"</span><span class="op">)</span><span class="op">)</span></span></span>

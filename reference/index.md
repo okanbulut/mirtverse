@@ -48,6 +48,11 @@ checks and flags to consider before each next stage.
   [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   : Pipeline stage: item generation
+- [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
+  : Pipeline stage: item review
+- [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
+  : Pipeline stage: field-test design
 - [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
   : Pipeline stage: data intake and cleaning
 - [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
