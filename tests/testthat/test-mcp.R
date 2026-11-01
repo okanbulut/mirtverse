@@ -200,7 +200,7 @@ test_that("toolkit tools call the toolkit and can be undone", {
       invisible(lab)
     },
     lab_outline = function(lab) data.frame(id = "s1", type = "intro", title = "Intro"),
-    add_lab_question = function(lab, question, answers, correct, explanation = NULL, after = NULL) {
+    add_lab_question = function(lab, question, answers, correct, messages = NULL, title = NULL, after = NULL, id = NULL) {
       calls$question <<- list(answers = answers, correct = correct)
       cat("Q:", question, "\n", file = file.path(lab, basename(paste0(basename(lab), ".Rmd"))),
           append = TRUE)

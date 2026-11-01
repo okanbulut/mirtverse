@@ -118,7 +118,9 @@ mcp_tools <- function() {
            key = p_strs("Optional answer key, one entry per item, if the items are unscored."),
            title = p_str("Lab title."),
            data_title = p_str("How the lab describes the data, e.g. 'a 40-item statistics final exam'."),
-           sections = p_strs("Optional section types in order (see list_templates).")),
+           story = p_str("Optional opening scenario for the lab (Markdown)."),
+           sections = p_strs("Optional section types in order (see list_templates)."),
+           overwrite = p_bool("Replace an existing lab with this name (default false).")),
       c("name", "data"), tool_new_lab, needs = "new_lab", title = "New lab from data"),
     mcp_tool("lab_outline",
       "Shows a lab's sections in order with their ids, types and titles. Use the ids with add_lab_section, add_lab_exercise, add_lab_question (after) and remove_lab_section.",
@@ -133,9 +135,13 @@ mcp_tools <- function() {
       "Adds a coding exercise to a lab: a prompt, the solution code, and optionally a check and a hint. The check is R code that uses lab_need(condition, message) and .result (the value of the student's last expression); it ends with the feedback string shown when the answer is right.",
       list(lab = p_str("The lab folder."), title = p_str("Exercise title."),
            prompt = p_str("What the student is asked to do (Markdown)."),
-           solution = p_str("Solution code."), check = p_str("Optional check code."),
+           solution = p_str("Solution code."),
+           starter = p_str("Optional starting code with blanks shown to the student."),
+           check = p_str("Optional check code."),
            hint = p_str("Optional hint code or text."),
-           after = p_str("Id of the section to insert after.")),
+           use_fit = p_bool("Give the exercise the lab's fitted model (default false)."),
+           after = p_str("Id of the section to insert after."),
+           id = p_str("Optional id (chunk label stem) for the exercise.")),
       c("lab", "title", "prompt", "solution"), tool_add_lab_exercise,
       needs = "add_lab_exercise", title = "Add lab exercise"),
     mcp_tool("add_lab_question",
@@ -143,8 +149,10 @@ mcp_tools <- function() {
       list(lab = p_str("The lab folder."), question = p_str("Question text."),
            answers = p_strs("Answer options."),
            correct = p_strs("The correct option(s), copied exactly from answers."),
-           explanation = p_str("Optional explanation shown after answering."),
-           after = p_str("Id of the section to insert after.")),
+           messages = p_strs("Optional feedback for each answer, in the same order as answers."),
+           title = p_str("Optional section title."),
+           after = p_str("Id of the section to insert after."),
+           id = p_str("Optional id for the question.")),
       c("lab", "question", "answers", "correct"), tool_add_lab_question,
       needs = "add_lab_question", title = "Add lab question"),
     mcp_tool("remove_lab_section",
@@ -164,17 +172,21 @@ mcp_tools <- function() {
     mcp_tool("copy_chapter",
       "Copies a chapter of the mirtverse book into the course's chapters/ folder so it can be customized.",
       list(id = p_str("Chapter id (see list_templates)."),
-           from = p_str("Optional source folder of the book.")),
+           from = p_str("Optional source folder of the book."),
+           overwrite = p_bool("Replace an existing copy (default false).")),
       "id", tool_copy_chapter, needs = "copy_chapter", title = "Copy chapter"),
     mcp_tool("new_chapter",
       "Creates a new chapter or set of lecture notes with the book's standard headings.",
-      list(id = p_str("Chapter id (file name without extension)."), title = p_str("Chapter title.")),
+      list(id = p_str("Chapter id (file name without extension)."), title = p_str("Chapter title."),
+           data_code = p_str("Optional R code for the chapter's data chunk."),
+           overwrite = p_bool("Replace an existing chapter (default false).")),
       c("id", "title"), tool_new_chapter, needs = "new_chapter", title = "New chapter"),
     mcp_tool("swap_chapter_data",
       "Replaces the code of a chapter's data chunk (named data-<chapter>-<n>) so the chapter's examples use the instructor's data.",
       list(chapter = p_str("The chapter file relative to the course folder."),
-           chunk = p_str("Chunk label."), code = p_str("New R code for the chunk.")),
-      c("chapter", "chunk", "code"), tool_swap_chapter_data, needs = "swap_chapter_data",
+           chunk = p_str("Chunk label; leave out to replace every data- chunk."),
+           code = p_str("New R code for the chunk.")),
+      c("chapter", "code"), tool_swap_chapter_data, needs = "swap_chapter_data",
       title = "Swap chapter data")
   )
 }
@@ -919,11 +931,12 @@ run_r_subprocess <- function(ctx, code, wd) {
 
 tool_check_material <- function(args, ctx) {
   p <- mcp_path(ctx, args$path)
-  target <- if (dir.exists(p)) {
+  # the toolkit checks lab folders and whole courses; the basic check needs a file
+  target <- if (dir.exists(p) && is.null(toolkit_fn("check_material"))) {
     rmd <- list.files(p, pattern = "\\.(Rmd|qmd)$", full.names = TRUE)
     if (!length(rmd)) stop("No .Rmd or .qmd file in '", attr(p, "rel"), "'.", call. = FALSE)
     rmd[1]
-  } else p
+  } else as.character(p)
   render <- isTRUE(args$render)
   code <- c(
     sprintf(".path <- %s", deparse(target)),
@@ -936,7 +949,7 @@ tool_check_material <- function(args, ctx) {
     "}, error = function(e) data.frame(check = 'check', label = '', status = 'error',",
     "                                  message = conditionMessage(e)))",
     "jsonlite::write_json(.res, .mcp_result, auto_unbox = TRUE, null = 'null')")
-  r <- run_r_subprocess(ctx, code, dirname(target))
+  r <- run_r_subprocess(ctx, code, if (dir.exists(target)) target else dirname(target))
   rel <- rel_path(ctx, target)
   if (r$timed_out)
     return(paste0("The check of ", rel, " did not finish within ", ctx$timeout, " seconds."))
@@ -944,7 +957,7 @@ tool_check_material <- function(args, ctx) {
     return(paste0("The check of ", rel, " failed before producing a result. Last output:\n",
                   paste(r$log, collapse = "\n")))
   tab <- as.data.frame(r$result)
-  bad <- if ("status" %in% names(tab)) tab$status %in% c("error", "fail", "failed") else logical(nrow(tab))
+  bad <- if ("status" %in% names(tab)) grepl("^(error|fail)", tolower(tab$status)) else logical(nrow(tab))
   verdict <- if (!nrow(tab)) "Nothing to check." else if (any(bad))
     sprintf("%d of %d checks FAILED.", sum(bad), nrow(tab)) else sprintf("All %d checks passed.", nrow(tab))
   shown <- if (any(bad)) tab[bad, , drop = FALSE] else NULL
@@ -1032,7 +1045,7 @@ tool_start_course <- function(args, ctx) {
 tool_list_templates <- function(args, ctx) {
   labs <- as.data.frame(list_labs())
   sec <- tryCatch(as.data.frame(toolkit_fn("lab_section_types")()), error = function(e) NULL)
-  ch_fn <- toolkit_fn("list_chapters")
+  ch_fn <- toolkit_fn("book_chapters")
   ch <- if (!is.null(ch_fn)) tryCatch(as.data.frame(ch_fn()), error = function(e) NULL)
   paste0("## Built-in labs (copy_lab)\n\n", md_table(labs),
          "\n\n## Lab section types (add_lab_section)\n\n",
@@ -1054,6 +1067,8 @@ tool_new_lab <- function(args, ctx) {
             items = unlist(args$items), group = args$group, key = unlist(args$key),
             title = args$title, data_title = args$data_title)
   if (!is.null(args$sections)) a$sections <- unlist(args$sections)
+  if (!is.null(args$story)) a$story <- args$story
+  if (!is.null(args$overwrite)) a$overwrite <- isTRUE(args$overwrite)
   a <- a[!vapply(a, is.null, logical(1))]
   r <- toolkit_call(ctx, "new_lab", a, dest, paste("New lab", args$name))
   paste0("Built the lab labs/", args$name, ".\n", changed_files_text(r$files),
@@ -1093,7 +1108,7 @@ tool_swap_lab_data <- function(args, ctx) {
 
 tool_copy_chapter <- function(args, ctx) {
   dest <- mcp_path(ctx, "chapters", must_exist = FALSE)
-  a <- list(id = args$id, course = ctx$root, from = args$from)
+  a <- list(id = args$id, course = ctx$root, from = args$from, overwrite = args$overwrite)
   a <- a[!vapply(a, is.null, logical(1))]
   r <- toolkit_call(ctx, "copy_chapter", a, dest, paste("Copy chapter", args$id))
   paste0("Copied chapter '", args$id, "'.\n", changed_files_text(r$files))
@@ -1101,8 +1116,10 @@ tool_copy_chapter <- function(args, ctx) {
 
 tool_new_chapter <- function(args, ctx) {
   dest <- mcp_path(ctx, "chapters", must_exist = FALSE)
-  r <- toolkit_call(ctx, "new_chapter", list(id = args$id, course = ctx$root, title = args$title),
-                    dest, paste("New chapter", args$id))
+  a <- list(id = args$id, course = ctx$root, title = args$title, data_code = args$data_code,
+            overwrite = args$overwrite)
+  a <- a[!vapply(a, is.null, logical(1))]
+  r <- toolkit_call(ctx, "new_chapter", a, dest, paste("New chapter", args$id))
   paste0("Created chapter '", args$id, "'.\n", changed_files_text(r$files))
 }
 
@@ -1110,8 +1127,9 @@ tool_swap_chapter_data <- function(args, ctx) {
   p <- mcp_path(ctx, args$chapter)
   r <- toolkit_call(ctx, "swap_chapter_data",
                     list(chapter = as.character(p), chunk = args$chunk, code = args$code),
-                    p, paste("Swap data chunk", args$chunk, "in", attr(p, "rel")))
-  paste0("Replaced chunk ", args$chunk, " in ", attr(p, "rel"), ".\n", changed_files_text(r$files))
+                    p, paste("Swap data in", attr(p, "rel")))
+  paste0("Replaced ", if (is.null(args$chunk)) "the data chunks" else paste("chunk", args$chunk),
+         " in ", attr(p, "rel"), ".\n", changed_files_text(r$files))
 }
 
 # ---------------------------------------------------------------------------
