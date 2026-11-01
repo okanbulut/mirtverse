@@ -19,7 +19,9 @@
 #' @param data the responses: a data frame or matrix, or the path of a file
 #'   (`.csv`, `.tsv`, `.txt`, `.xlsx`, `.xls`, `.sav`, `.dta`, `.sas7bdat` or
 #'   `.rds`). Items must be scored 0/1 or in ordered integer categories,
-#'   unless you give a `key`.
+#'   unless you give a `key`. A frequency table (one row per response pattern
+#'   with a `freq` or `count` column, such as [mirt::LSAT7]) is expanded to
+#'   one row per person.
 #' @param course the course folder (see [new_course()]); the lab goes in its
 #'   `labs/` folder.
 #' @param items the item columns, by name or position. By default, every
@@ -402,6 +404,16 @@ tk_read_data <- function(data) {
 # list(responses = <scored item data frame>, group = <factor or NULL>, items, group_name, key)
 tk_prepare_data <- function(data, items = NULL, group = NULL, key = NULL) {
   df <- tk_read_data(data)
+  # a frequency table (one row per response pattern, e.g. mirt's LSAT7):
+  # expand it to one row per person
+  fcol <- grep("^(freq|frequency|count|counts)$", names(df), ignore.case = TRUE, value = TRUE)
+  if (length(fcol) == 1L && !fcol %in% items && is.numeric(df[[fcol]]) &&
+      all(df[[fcol]] >= 0 & df[[fcol]] == round(df[[fcol]]), na.rm = TRUE) && !anyNA(df[[fcol]])) {
+    reps <- rep(seq_len(nrow(df)), df[[fcol]])
+    df <- df[reps, setdiff(names(df), fcol), drop = FALSE]
+    if (!is.null(group) && !(is.character(group) && length(group) == 1L)) group <- group[reps]
+    rownames(df) <- NULL
+  }
   group_name <- NULL
   if (is.character(group) && length(group) == 1L && group %in% names(df)) {
     group_name <- group

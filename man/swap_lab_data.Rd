@@ -20,7 +20,9 @@ swap_lab_data(
 \item{data}{the responses: a data frame or matrix, or the path of a file
 (\code{.csv}, \code{.tsv}, \code{.txt}, \code{.xlsx}, \code{.xls}, \code{.sav}, \code{.dta}, \code{.sas7bdat} or
 \code{.rds}). Items must be scored 0/1 or in ordered integer categories,
-unless you give a \code{key}.}
+unless you give a \code{key}. A frequency table (one row per response pattern
+with a \code{freq} or \code{count} column, such as \link[mirt:LSAT7]{mirt::LSAT7}) is expanded to
+one row per person.}
 
 \item{items}{the item columns, by name or position. By default, every
 column whose values are whole numbers from 0 to 9 (other than \code{group}

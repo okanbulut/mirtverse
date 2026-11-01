@@ -8,6 +8,12 @@ test_that("tk_prepare_data() warns about small samples", {
   expect_warning(mirtverse:::tk_prepare_data(expand.table(LSAT7)[1:150, ]), "fewer than about 200")
 })
 
+test_that("tk_prepare_data() expands frequency tables", {
+  p <- mirtverse:::tk_prepare_data(LSAT7)
+  expect_equal(dim(p$responses), c(1000L, 5L))
+  expect_equal(colMeans(p$responses), colMeans(expand.table(LSAT7)), ignore_attr = TRUE)
+})
+
 test_that("new_course() writes the layout and refuses to overwrite", {
   course <- tk_course()
   expect_true(all(dir.exists(file.path(course, c("labs", "chapters", "data")))))
