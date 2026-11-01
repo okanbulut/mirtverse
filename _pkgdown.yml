@@ -37,6 +37,7 @@ articles:
   - articles/teaching-labs
   - articles/course-map
   - articles/instructor-toolkit
+  - articles/instructor-mcp
   - articles/glossary
 
 reference:
@@ -146,6 +147,11 @@ reference:
   - copy_chapter
   - check_material
   - preview_lab
+- title: AI assistant for instructors
+  desc: Connect Claude or an OpenAI assistant to your course materials.
+  contents:
+  - mv_mcp_server
+  - mv_mcp_config
 - title: Package
   contents:
   - mirtverse-package

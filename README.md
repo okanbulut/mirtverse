@@ -64,6 +64,7 @@ reporting tools around it.
 | Interactive teaching labs for measurement courses (learnr) | `run_lab()`, `list_labs()` |
 | Instructor toolkit: labs on your own data, editable labs and chapters | `new_course()`, `new_lab()`, `swap_lab_data()`, `check_material()` |
 | Translate ltm, eRm, TAM and irtQ code into mirt code | `mirtify()`, `mirtify_crosswalk()` |
+| Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server) | `mv_mcp_server()`, `mv_mcp_config()` |
 
 ## Installation
 

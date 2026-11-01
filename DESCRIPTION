@@ -50,7 +50,8 @@ Suggests:
     readxl,
     rstudioapi,
     withr,
-    haven
+    haven,
+    httpuv
 Config/Needs/website: rsconnect
 Config/testthat/edition: 3
 VignetteBuilder: knitr
