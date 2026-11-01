@@ -150,6 +150,8 @@ tk_parse_chunks <- function(lines) {
   starts <- grep("^```\\{r", lines)
   ends <- grep("^```\\s*$", lines)
   out <- list(); k <- 0L
+  # `r ''` after a chunk header shows the chunk verbatim; knitr does not run it
+  starts <- starts[!grepl("`r ''`", lines[starts], fixed = TRUE)]
   for (s in starts) {
     e <- ends[ends > s][1]
     if (is.na(e)) break

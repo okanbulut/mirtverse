@@ -1,0 +1,275 @@
+# Item banks, test assembly and adaptive testing {#banks-cat}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* describe what an item bank stores and what it is for;
+* read a bank's information curve and spot where the bank is thin;
+* assemble a fixed form from a bank under content constraints;
+* explain, step by step, how a computerized adaptive test (CAT) selects
+  items, scores people and decides when to stop;
+* judge a CAT design by its precision, test length and item exposure.
+</div>
+
+**Key terms:**
+[item bank](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-bank),
+[automated test assembly](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-test-assembly),
+[parallel forms](https://www.okanbulut.com/mirtverse/articles/glossary.html#parallel-forms),
+[computerized adaptive test](https://www.okanbulut.com/mirtverse/articles/glossary.html#computerized-adaptive-test),
+[multistage test](https://www.okanbulut.com/mirtverse/articles/glossary.html#multistage-test),
+[exposure](https://www.okanbulut.com/mirtverse/articles/glossary.html#exposure).
+
+## The ideas
+
+Once items have been calibrated on a common scale (Chapter \@ref(linking)),
+their parameters can be stored in an **item bank** together with their
+content codes, usage history and review status. Because the parameters are
+on one scale, any selection of items from the bank yields scores on that
+scale. That makes two things possible.
+
+**Automated test assembly** (ATA) picks items for a fixed form so that the
+form meets a blueprint (for example, ten items from each content area) and
+its information curve matches a target: high at a cut score for a licensing
+test, flat across the range for a progress test [@vanderlinden2005]. Exact
+solutions use mixed-integer programming; simple greedy rules, which add the
+best remaining item that still fits the blueprint, often get close.
+
+A **computerized adaptive test** (CAT) goes further and builds a different
+test for every person while they take it [@wainer2000]. The loop is:
+
+1. Start with a provisional $\theta$ (often 0).
+2. Choose the unused item with the most information at the current
+   $\theta$, subject to content and exposure rules.
+3. Score the response and update $\theta$ (usually by EAP, which works even
+   after one item).
+4. Stop when the standard error is small enough or a maximum length is
+   reached; otherwise go back to step 2.
+
+A CAT typically reaches the precision of a fixed test with half as many
+items or fewer. The price is a bank large enough to cover the whole range,
+and **exposure**: without control, the most informative items are given to
+almost everybody and soon become known. A **multistage test** (MST) is a
+compromise: people take pre-assembled modules, and the next module depends
+on their performance on the last one.
+
+## Example 1: a vocabulary bank and a fixed form
+
+A language-assessment centre has a calibrated bank of 200 vocabulary items
+in four areas.
+
+```{r data-banks-cat-1}
+# A calibrated 2PL item bank: 200 items, four content areas.
+set.seed(1111)
+bank <- data.frame(item = sprintf("V%03d", 1:200),
+                   area = factor(rep(c("Everyday", "Academic", "Workplace", "Idioms"),
+                                     each = 50)),
+                   a = rlnorm(200, 0.2, 0.3),
+                   b = c(rnorm(50, -0.8, 0.9), rnorm(50, 0.4, 0.9),
+                         rnorm(50, 0, 0.9),    rnorm(50, 0.9, 0.7)))
+```
+
+The bank's information curve, overall and by area, shows where it can
+measure well:
+
+```{r}
+item_info <- function(a, b, theta) {
+  p <- plogis(a * (theta - b)); a^2 * p * (1 - p)
+}
+grid <- seq(-3, 3, by = 0.1)
+bank_info <- do.call(rbind, lapply(levels(bank$area), function(ar) {
+  s <- bank[bank$area == ar, ]
+  data.frame(area = ar, theta = grid,
+             info = sapply(grid, function(t) sum(item_info(s$a, s$b, t))))
+}))
+library(ggplot2)
+ggplot(bank_info, aes(theta, info, fill = area)) +
+  geom_area() +
+  labs(x = expression(theta), y = "Bank information", fill = NULL) +
+  theme_mirtverse()
+```
+
+The bank is rich in the middle and thin at the extremes, especially below
+$\theta = -2$ and above $\theta = 2$. Everyday vocabulary covers the low end,
+idioms the high end. Item writers should be asked for very easy and very
+hard items.
+
+Now a 24-item fixed form with six items from each area, to measure well
+between $\theta = -1$ and $\theta = 1$. A greedy assembly adds, one at a
+time, the item that adds the most information at the target points, as long
+as its area is not yet full:
+
+```{r}
+assemble_greedy <- function(bank, length, per_area, targets) {
+  chosen <- integer(0)
+  while (length(chosen) < length) {
+    full <- names(which(table(bank$area[chosen]) >= per_area))
+    cand <- setdiff(which(!bank$area %in% full), chosen)
+    gain <- sapply(cand, function(i) sum(item_info(bank$a[i], bank$b[i], targets)))
+    chosen <- c(chosen, cand[which.max(gain)])
+  }
+  bank[chosen, ]
+}
+form <- assemble_greedy(bank, length = 24, per_area = 6, targets = c(-1, 0, 1))
+table(form$area)
+```
+
+Compared with a random 24-item form that meets the same blueprint:
+
+```{r}
+random_form <- do.call(rbind, lapply(split(bank, bank$area), function(s) s[sample(50, 6), ]))
+se_at <- function(f, theta) 1 / sqrt(sapply(theta, function(t) sum(item_info(f$a, f$b, t))))
+round(rbind(assembled = se_at(form, c(-1, 0, 1)),
+            random = se_at(random_form, c(-1, 0, 1))), 3)
+```
+
+The assembled form measures more precisely at all three target points with
+the same length and blueprint. For real programmes, `assemble_forms()` in
+the mirtverse [assessment
+pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-7)
+solves the same problem exactly, builds several parallel forms at once and
+handles enemy items (items that must not appear together).
+
+## Example 2: a CAT from scratch
+
+We now write a complete CAT in about 30 lines, using the same bank. The
+scoring step computes the EAP estimate on a grid of quadrature points, with a
+standard normal prior.
+
+```{r}
+quad <- seq(-4, 4, length.out = 81)
+prior <- dnorm(quad)
+eap <- function(a, b, x) {
+  like <- sapply(quad, function(t) prod(ifelse(x == 1, plogis(a * (t - b)),
+                                                1 - plogis(a * (t - b)))))
+  post <- like * prior / sum(like * prior)
+  est <- sum(quad * post)
+  c(theta = est, se = sqrt(sum((quad - est)^2 * post)))
+}
+cat_one <- function(true_theta, bank, se_stop = 0.3, max_items = 30, top = 1) {
+  used <- integer(0); x <- integer(0); est <- c(theta = 0, se = 1)
+  while (length(used) < max_items && est["se"] > se_stop) {
+    info <- item_info(bank$a, bank$b, est["theta"]); info[used] <- -Inf
+    best <- order(info, decreasing = TRUE)[seq_len(top)]
+    item <- if (top == 1) best else sample(best, 1)   # randomesque exposure control
+    used <- c(used, item)
+    x <- c(x, rbinom(1, 1, plogis(bank$a[item] * (true_theta - bank$b[item]))))
+    est <- eap(bank$a[used], bank$b[used], x)
+  }
+  list(theta = est[["theta"]], se = est[["se"]], n = length(used), items = used)
+}
+```
+
+Simulate 300 test takers across the ability range. (To run the CAT on your
+own bank, replace `bank` in the data chunk of Example 1; it needs columns
+`item`, `area`, `a` and `b`.)
+
+```{r data-banks-cat-2}
+# Simulated test takers for the CAT: one true theta per person.
+set.seed(1112)
+true_theta <- rnorm(300)
+```
+
+```{r}
+runs <- lapply(true_theta, cat_one, bank = bank)
+res <- data.frame(true = true_theta,
+                  est = sapply(runs, `[[`, "theta"),
+                  se = sapply(runs, `[[`, "se"),
+                  n = sapply(runs, `[[`, "n"))
+c(mean_length = mean(res$n), rmse = sqrt(mean((res$est - res$true)^2)),
+  cor = cor(res$est, res$true))
+```
+
+On average the CAT reaches a standard error of 0.3 with far fewer than 30
+items. Test length depends on where a person is: in the middle, where the
+bank is rich, the CAT stops quickly; at the extremes it runs out of
+informative items and goes to the maximum.
+
+```{r, fig.height = 3.2}
+ggplot(res, aes(true, n)) + geom_point(alpha = 0.5) +
+  labs(x = "True theta", y = "Items administered") + theme_mirtverse()
+```
+
+Exposure is the other side of the coin. With pure maximum-information
+selection, a few items are given to a large share of test takers:
+
+```{r}
+exposure <- function(runs) {
+  table(factor(unlist(lapply(runs, `[[`, "items")), levels = 1:200)) / length(runs)
+}
+exp_max <- exposure(runs)
+sort(round(exp_max, 2), decreasing = TRUE)[1:6]
+```
+
+The first item is the same for everybody (the most informative item at
+$\theta = 0$), so its exposure is 100%. The **randomesque** method picks at
+random among the five most informative items, which spreads exposure at a
+small cost in test length:
+
+```{r}
+set.seed(1113)
+runs_r <- lapply(true_theta, cat_one, bank = bank, top = 5)
+exp_r <- exposure(runs_r)
+rbind(max_info = c(max_exposure = max(exp_max), mean_length = mean(sapply(runs, `[[`, "n"))),
+      randomesque = c(max_exposure = max(exp_r), mean_length = mean(sapply(runs_r, `[[`, "n"))))
+```
+
+Content balancing (for example, cycling through the four areas) works the
+same way: restrict the candidate items before choosing the most informative
+one. `simulate_cat()` in the assessment pipeline runs this kind of
+simulation on a real bank, and the mirtCAT package can deliver an
+operational CAT.
+
+## Your turn
+
+<div class="yourturn">
+1. Add 20 hard items ($b \sim N(2.2, 0.4)$) to the bank in Example 1 and
+   redraw the information curve. What happens to CAT length for the most
+   able test takers?
+2. Change the stopping rule to $SE < 0.25$. How do mean length and RMSE
+   change?
+3. Add content balancing to `cat_one()` so that each test has at least four
+   items from every area. (Hint: while an area has fewer than four items,
+   restrict the candidates to that area.)
+4. An admissions officer asks why two applicants got different questions and
+   different numbers of questions. Write a short explanation.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+set.seed(1114)
+hard <- data.frame(item = sprintf("H%02d", 1:20), area = factor("Idioms", levels(bank$area)),
+                   a = rlnorm(20, 0.2, 0.3), b = rnorm(20, 2.2, 0.4))
+bank2 <- rbind(bank, hard)
+top <- true_theta > 1.5
+mean(sapply(lapply(true_theta[top], cat_one, bank = bank2), `[[`, "n"))
+mean(res$n[top])
+
+runs25 <- lapply(true_theta, cat_one, bank = bank, se_stop = 0.25)
+c(mean_length = mean(sapply(runs25, `[[`, "n")),
+  rmse = sqrt(mean((sapply(runs25, `[[`, "theta") - true_theta)^2)))
+```
+
+1. The CAT reaches the target precision sooner for the most able test
+   takers, because it now has informative items for them.
+2. Tests get longer and estimates more precise: precision costs items.
+4. For example: "The test adapts to each applicant: after every answer it
+   picks the next question that tells us most about that applicant. Everyone
+   is measured on the same scale, and the test stops when it has measured
+   each person precisely enough, which takes fewer questions for some people
+   than for others."
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 5, `run_lab("cat-design")`, asks whether a college should replace its
+fixed math placement test with a CAT. You examine the bank, run a CAT by
+hand, simulate it, and set exposure, content and stopping rules.
+</div>
+
+## Further reading {-}
+
+Wainer and colleagues [-@wainer2000] give an accessible introduction to
+CAT; van der Linden [-@vanderlinden2005] covers optimal test assembly.

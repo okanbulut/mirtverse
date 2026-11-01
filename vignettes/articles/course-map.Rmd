@@ -26,6 +26,11 @@ in your own readings. The [instructor toolkit](instructor-toolkit.html)
 helps with that: it builds labs on your own datasets and lets you edit the
 built-in labs and add your own exercises.
 
+The online book [*Item Response Theory with mirt and
+mirtverse*](../book/index.html) has one chapter for each week below, with the
+ideas, two worked examples on different data, exercises with solutions and a
+pointer to the matching lab. Assign the chapter as the week's reading.
+
 Everything here runs on a laptop with mirt and mirtverse installed. No
 internet connection is needed once the packages are installed, and none of
 the examples take more than a few seconds to run.
@@ -332,6 +337,7 @@ they are released.
 
 | Resource | Used in | Status |
 |---|---|---|
+| Online book with a chapter per week | All weeks | Available: [book](../book/index.html) |
 | Glossary of IRT terms on this site | All weeks | Available: [glossary](glossary.html) |
 | Two-page cheat sheet of the main functions | All weeks | Available: [PDF](../cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |

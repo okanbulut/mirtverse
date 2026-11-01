@@ -1,0 +1,12 @@
+/* mirtverse book: keep the site's navy accent */
+.book .book-body .page-wrapper .page-inner section.normal a { color: #2C5F8A; }
+.book .book-body .page-wrapper .page-inner section.normal h1,
+.book .book-body .page-wrapper .page-inner section.normal h2 { color: #1F3F5B; }
+.goals, .yourturn, .lab {
+  border-left: 4px solid #2C5F8A; background: #F3F7FB;
+  padding: 0.6em 1em; margin: 1em 0; border-radius: 3px;
+}
+.yourturn { border-left-color: #D99A2B; background: #FDF7EC; }
+.lab { border-left-color: #3C8D5A; background: #EFF7F1; }
+details { margin: 0.5em 0 1em 0; }
+details summary { cursor: pointer; font-weight: 600; color: #2C5F8A; }

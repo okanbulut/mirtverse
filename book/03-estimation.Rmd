@@ -1,0 +1,219 @@
+# Estimation and comparing models {#estimation}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* describe marginal maximum likelihood estimation in words;
+* check whether a model has converged, and know what to do when it has not;
+* compare nested models with a likelihood-ratio test and any models with
+  information criteria;
+* judge overall model fit with M2, RMSEA, SRMSR and CFI;
+* explain why AIC and BIC can disagree, and what sample size has to do with
+  it.
+</div>
+
+**Key terms:**
+[calibration](https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration),
+[marginal maximum likelihood](https://www.okanbulut.com/mirtverse/articles/glossary.html#marginal-maximum-likelihood),
+[convergence](https://www.okanbulut.com/mirtverse/articles/glossary.html#convergence),
+[standard error](https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-error),
+[likelihood-ratio test](https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test),
+[information criteria](https://www.okanbulut.com/mirtverse/articles/glossary.html#information-criteria),
+[M2](https://www.okanbulut.com/mirtverse/articles/glossary.html#m2),
+[RMSEA](https://www.okanbulut.com/mirtverse/articles/glossary.html#rmsea),
+[SRMSR](https://www.okanbulut.com/mirtverse/articles/glossary.html#srmsr),
+[CFI and TLI](https://www.okanbulut.com/mirtverse/articles/glossary.html#cfi-tli).
+
+## The ideas
+
+**Calibration** means estimating the item parameters. We never observe
+$\theta$, so we cannot simply regress responses on it. **Marginal maximum
+likelihood** (MML) instead assumes a distribution for $\theta$ in the
+population, usually standard normal, and integrates it out: the likelihood
+of a response pattern is its probability averaged over all possible values
+of $\theta$. The item parameters are chosen to make the observed patterns as
+likely as possible [@bock1981].
+
+mirt maximizes this likelihood with the **EM algorithm** by default. It
+replaces the integral with a sum over a grid of *quadrature points* and
+alternates two steps: the E-step works out, for every person, how likely each
+grid point is given their responses and the current item parameters; the
+M-step updates each item's parameters as if those expected counts were
+data. The cycles stop when the parameters stop changing, which is called
+**convergence**. If the algorithm hits its limit of 500 cycles first, mirt
+warns you, and the estimates should not be trusted.
+
+Once a model has converged, we compare it with alternatives.
+
+* **Likelihood-ratio test (LRT).** For *nested* models (the Rasch model is a
+  2PL with equal slopes; the 2PL is a 3PL with $c = 0$), twice the difference
+  in log-likelihoods is approximately chi-square distributed with degrees of
+  freedom equal to the difference in the number of parameters. With large
+  samples even trivial improvements become significant.
+* **Information criteria.** $\text{AIC} = -2\log L + 2k$ and
+  $\text{BIC} = -2\log L + k\log N$, where $k$ is the number of parameters
+  and $N$ the sample size. Smaller is better. BIC punishes extra parameters
+  more heavily once $N > 7$, so it favours simpler models. A difference of 10
+  or more BIC points is usually read as strong evidence.
+* **Absolute fit.** The **M2** statistic [@maydeu2006] compares observed and
+  expected proportions for single items and pairs of items. RMSEA (below
+  about 0.05 is close fit), SRMSR (below about 0.05) and CFI (above about 0.95)
+  are effect sizes built from it. Treat the cut-offs as rough guides, not
+  rules.
+
+## Example 1: a test the Rasch model fits
+
+`LSAT6` is another five-item section of the Law School Admission Test, with
+1,000 test takers. It is a textbook example of data the Rasch model fits well.
+
+```{r data-estimation-1}
+# Five dichotomous LSAT items, one row per test taker.
+resp <- expand.table(LSAT6)
+```
+
+Fit the models one at a time, check convergence, and compare them:
+
+```{r}
+rasch <- mirt(resp, 1, itemtype = "Rasch", verbose = FALSE)
+twopl <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+extract.mirt(rasch, "converged")
+extract.mirt(twopl, "iterations")
+anova(rasch, twopl)
+```
+
+The 2PL improves the log-likelihood by a fraction of a point for four extra
+parameters, so the LRT is far from significant and both AIC and BIC prefer
+the Rasch model. `glance()` adds the absolute fit statistics:
+
+```{r}
+glance(rasch)[, c("logLik", "AIC", "BIC", "M2", "df", "p.value", "RMSEA", "SRMSR", "CFI")]
+```
+
+`select_model()` runs all of this in one call. It fits the Rasch, 2PL and
+3PL models (or the polytomous equivalents), checks convergence, ranks them by
+BIC, runs the LRTs between nested pairs and explains its recommendation.
+
+```{r}
+sel <- select_model(resp, verbose = FALSE)
+sel
+```
+
+```{r, fig.height = 2.6}
+autoplot(sel)
+```
+
+The `weight` column converts BIC differences into the relative support for
+each model; here nearly all of it goes to the Rasch model.
+
+## Example 2: when the criteria disagree
+
+Now take the 32 science items of `SAT12`, scored with the corrected key from
+Chapter \@ref(measurement).
+
+```{r data-estimation-2}
+# SAT12 science items, scored with the corrected key (item 32 keyed 3).
+key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,3)
+resp <- key2binary(SAT12, key)
+```
+
+```{r}
+sel <- select_model(resp, verbose = FALSE)
+sel
+sel$lrt
+```
+
+This time the evidence is mixed. The LRT and AIC prefer the 3PL, while BIC
+prefers the 2PL. Neither is "wrong": they answer different questions. The
+LRT asks whether the extra 32 guessing parameters improve fit beyond chance,
+and with 600 people the answer is yes. BIC asks which model is more likely to
+be the better description once we account for the cost of 32 more
+parameters, and it says the 2PL. A sensible report states the tension and
+the reason for the final choice: if scores will be used for decisions about
+low-scoring students, where guessing matters most, the 3PL may be worth its
+cost; for a short research scale, the 2PL is easier to defend.
+
+### Small samples and convergence
+
+The 3PL is the hardest of the three to estimate, because the lower
+asymptote is determined only by what low-ability people do. With 200 students
+the EM algorithm may not converge at all:
+
+```{r}
+set.seed(303)
+small <- resp[sample(nrow(resp), 200), ]
+fit_small <- mirt(small, 1, itemtype = "3PL", verbose = FALSE)
+extract.mirt(fit_small, "converged")
+summary(coef(fit_small, IRTpars = TRUE, simplify = TRUE)$items[, "g"])
+```
+
+Some lower asymptotes drift to zero and others to implausibly large values.
+Three common remedies are to use a 2PL, to fix $c$ at a sensible value (for
+five-option items, 0.2), or to put a **prior** on $c$ so that the data only
+move it away from a plausible value when they have something to say. In mirt
+a prior is part of the model syntax. Here a beta(5, 17) prior centres $c$
+near 0.2 (`expbeta` applies it on the scale mirt uses internally):
+
+```{r}
+spec <- mirt.model("F = 1-32
+                    PRIOR = (1-32, g, expbeta, 5, 17)")
+fit_prior <- mirt(small, spec, itemtype = "3PL", verbose = FALSE)
+extract.mirt(fit_prior, "converged")
+summary(coef(fit_prior, IRTpars = TRUE, simplify = TRUE)$items[, "g"])
+```
+
+With the prior the model converges and the lower asymptotes stay in a
+believable range. Report priors when you use them: they are part of the
+model.
+
+## Your turn
+
+<div class="yourturn">
+1. For `LSAT6`, compute the LRT statistic for Rasch versus 2PL by hand from
+   the two log-likelihoods, and check it against `anova()`.
+2. Fit the 2PL to `SAT12` with `quadpts = 15` and with the default of 61
+   points. Do the item parameters change? What does that tell you?
+3. Draw 300 students from `SAT12` and rerun `select_model()`. Does the
+   recommendation change? Repeat with another random sample.
+4. A colleague reports "the 3PL fitted significantly better (p < .001), so we
+   used it". What would you ask them?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+ll <- c(extract.mirt(rasch, "logLik"), extract.mirt(twopl, "logLik"))
+lrt <- 2 * (ll[2] - ll[1])
+c(X2 = lrt, df = 4, p = pchisq(lrt, 4, lower.tail = FALSE))
+
+m15 <- mirt(resp, 1, "2PL", quadpts = 15, verbose = FALSE)
+m61 <- mirt(resp, 1, "2PL", quadpts = 61, verbose = FALSE)
+max(abs(coef(m15, simplify = TRUE)$items - coef(m61, simplify = TRUE)$items))
+```
+
+2. With only 15 points some estimates move by about 0.1 on the
+   slope-intercept scale; between 61 (the default for one dimension) and more
+   points they hardly move at all. Fewer points trade accuracy for speed,
+   which matters mainly for models with several dimensions.
+3. With fewer people, BIC's penalty matters relatively more and the
+   likelihood gains of the 3PL are smaller, so the 2PL (or even the Rasch
+   model) is chosen more often. Model choice depends on the sample, not only
+   on the items.
+4. Did the model converge? What did BIC say? How large is the sample? Are the
+   guessing estimates plausible, and what were their standard errors? Would
+   the scores or decisions differ between the 2PL and the 3PL?
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 1, `run_lab("model-choice")`, ends with a model choice you have to
+justify to a certification board, using the same evidence as this chapter:
+convergence, likelihood-ratio tests, information criteria and absolute fit.
+</div>
+
+## Further reading {-}
+
+Bock and Aitkin [-@bock1981] introduced the EM approach to marginal maximum
+likelihood. Maydeu-Olivares and Joe [-@maydeu2006] describe M2. de Ayala
+[-@deayala2022] discusses model comparison and fit in detail.

@@ -1,5 +1,14 @@
 # mirtverse (development version)
 
+* New online book, *Item Response Theory with mirt and mirtverse*, at
+  <https://www.okanbulut.com/mirtverse/book/>. Twelve chapters follow the
+  weeks of the course map, from classical item analysis to cut scores and
+  reporting. Each has learning goals, glossary links, two worked examples on
+  different data, exercises with solutions and a pointer to the matching lab.
+  The bookdown source is in `book/`, every example loads its data in one
+  labelled chunk so instructors can swap in their own, and the pkgdown
+  workflow builds the book into the site. The site navbar links to it.
+
 * New instructor toolkit for teaching with your own data, with a guide on
   the website ("The instructor toolkit"). `new_course()` sets up a
   course folder and `course_materials()` lists what is in it. `new_lab()`

@@ -1,0 +1,258 @@
+# Differential item functioning and fairness {#dif}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* tell **impact** (a real difference between groups) from **DIF** (an item
+  that works differently for people of the same ability);
+* run an IRT likelihood-ratio DIF analysis and read its effect sizes;
+* distinguish uniform from non-uniform DIF;
+* run a Mantel-Haenszel DIF test and classify items with the ETS A/B/C rules;
+* explain why anchor items matter.
+</div>
+
+**Key terms:**
+[DIF](https://www.okanbulut.com/mirtverse/articles/glossary.html#dif),
+[reference and focal groups](https://www.okanbulut.com/mirtverse/articles/glossary.html#reference-focal-group),
+[uniform and non-uniform DIF](https://www.okanbulut.com/mirtverse/articles/glossary.html#uniform-nonuniform-dif),
+[DIF effect size](https://www.okanbulut.com/mirtverse/articles/glossary.html#dif-effect-size),
+[anchor items](https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items).
+
+## The ideas
+
+Groups often differ in their average scores. That alone says nothing about
+whether a test is fair: the groups may simply differ in what the test
+measures, which is called **impact**. An item shows **differential item
+functioning** (DIF) when people from different groups *with the same ability*
+have different chances of answering it correctly [@holland1993]. DIF is a
+statistical finding, not a verdict of bias; a content review decides whether
+the reason is irrelevant to what the test should measure (bias) or a real
+difference in what was taught.
+
+We compare a **reference group** (often the majority group) with a **focal
+group**. In IRT terms, DIF means the item has different parameters in the two
+groups.
+
+* **Uniform DIF:** the item is harder for one group at every ability level
+  (the difficulty differs, the curves are parallel).
+* **Non-uniform DIF:** the size or direction of the difference changes with
+  ability (the slopes differ and the curves cross).
+
+To compare groups we must first put them on a common scale, and that needs
+items we trust to work the same way in both: the **anchors**. mirtverse's
+`dif()` uses a *constrained-baseline* approach: it fits a multiple-group
+model in which all item parameters are equal across groups while the group
+means and variances are free, then frees each item's parameters in turn and
+tests the change with a likelihood-ratio test. Items you do not test serve as
+anchors. Because each test involves only one free item, the approach works
+well when DIF is confined to a few items; when many items have DIF, a
+*purification* step (testing, removing flagged items from the anchor set, and
+testing again) is safer.
+
+A significant test is not enough: with large samples tiny differences are
+significant. `dif()` therefore reports effect sizes on the item score scale.
+The signed version (`esd`) is the average difference in the probability of a
+correct answer between the focal and the reference group at the same
+ability; the unsigned version (`uesd`) also captures crossing curves.
+
+The **Mantel-Haenszel** (MH) procedure [@holland1988] is the classical
+alternative. It matches people on their sum score, builds a 2 × 2 table
+(group × right/wrong) at every score level and tests whether the odds of a
+correct answer differ between groups across the tables. ETS classifies the
+size of MH DIF as A (negligible), B (moderate) or C (large).
+
+## Example 1: paper versus tablet
+
+A district moved its Grade 5 reading test from paper to tablets. We simulate
+25 items answered by 1,200 students on paper (reference) and 800 on tablets
+(focal). The tablet group is slightly weaker on average (impact). Two items
+that ask students to drag text into a table are harder on tablets (uniform
+DIF), and one long-passage item is easier for strong tablet readers and
+harder for weak ones (non-uniform DIF).
+
+```{r data-dif-1}
+# Simulated 25-item reading test; `group` is the test mode for each student.
+set.seed(909)
+a <- matrix(rlnorm(25, 0.2, 0.25)); d <- matrix(rnorm(25, 0.2, 0.9))
+a_tab <- a; d_tab <- d
+d_tab[c(7, 18)] <- d[c(7, 18)] - 0.8          # R07, R18: uniform DIF
+a_tab[22] <- a[22] * 1.8; d_tab[22] <- d[22]   # R22: non-uniform DIF
+paper  <- simdata(a, d, N = 1200, itemtype = "2PL")
+tablet <- simdata(a_tab, d_tab, N = 800, itemtype = "2PL",
+                  Theta = matrix(rnorm(800, -0.2, 1)))
+resp <- rbind(paper, tablet)
+colnames(resp) <- sprintf("R%02d", 1:25)
+group <- factor(rep(c("Paper", "Tablet"), c(1200, 800)),
+                levels = c("Paper", "Tablet"))
+```
+
+The raw scores differ between the groups, but that alone does not tell us
+which items, if any, are unfair:
+
+```{r}
+mode_resp <- resp; mode_group <- group   # kept for the exercises
+tapply(rowSums(resp), group, mean)
+```
+
+`dif()` tests every item. Paper is the reference group because it is the
+first level of the factor.
+
+```{r}
+res <- dif(resp, group = group)
+res
+```
+
+The flagged items are the three we planted. The signed effect sizes of R07
+and R18 are negative, meaning the items are harder for tablet users of the
+same ability. R22's signed effect is small but its unsigned effect is
+larger: the curves cross, so the advantages and disadvantages partly cancel
+out on average.
+
+```{r, fig.height = 5.5}
+gg_dif(res)
+```
+
+```{r, fig.height = 3.4}
+gg_dif(res, type = "curves", which.items = c("R07", "R22"))
+```
+
+`interpret()` writes the findings up:
+
+```{r}
+interpret(res)
+```
+
+The baseline model also estimates the impact: the latent mean of the tablet
+group relative to the paper group (fixed at 0).
+
+```{r}
+coef(res$baseline, simplify = TRUE)$Tablet$means
+```
+
+### Choosing anchors
+
+If we already know some items are clean, we can test only the others: the
+untested items become anchors. Here, as a check, we test only the three
+flagged items against the other 22:
+
+```{r}
+dif(resp, group = group, items = c("R07", "R18", "R22"))$table
+```
+
+Does the DIF matter for scores? One way to judge is to compare the expected
+total score of the test in the two groups at the same ability, which is
+called differential test functioning. With two items that are harder for
+tablet users and one that crosses, the total effect is a fraction of a score
+point; a content review would still look at the drag-and-drop items, because
+the problem can be fixed by changing the interface.
+
+## Example 2: Mantel-Haenszel on a chemistry quiz
+
+The MH test needs no IRT model, which makes it a good first screen and a
+useful check. We simulate a 20-item chemistry quiz taken by 600 girls and
+600 boys of equal average ability; item C11 involves a sports context and is
+easier for boys of the same ability.
+
+```{r data-dif-2}
+# Simulated 20-item quiz; `group` is gender. C11 has uniform DIF.
+set.seed(910)
+a <- matrix(rlnorm(20, 0.2, 0.2)); d <- matrix(rnorm(20, 0, 0.8))
+d_boys <- d; d_boys[11] <- d[11] + 0.7
+resp <- rbind(simdata(a, d, N = 600, itemtype = "2PL"),
+              simdata(a, d_boys, N = 600, itemtype = "2PL"))
+colnames(resp) <- sprintf("C%02d", 1:20)
+group <- factor(rep(c("Girl", "Boy"), each = 600), levels = c("Girl", "Boy"))
+```
+
+For each item we match on the total score of the *other* items, build the
+stratified 2 × 2 tables and run the MH test. The common odds ratio
+$\alpha_{MH}$ converts to the ETS delta scale as
+$\text{MH D-DIF} = -2.35 \ln \alpha_{MH}$. The ETS rules call DIF negligible
+(A) when $|\text{MH D-DIF}| < 1$ or the test is not significant, large (C)
+when $|\text{MH D-DIF}| \ge 1.5$ and significant, and moderate (B) otherwise
+(the full rules also test the size against 1).
+
+```{r}
+mh_item <- function(resp, group, item) {
+  rest <- rowSums(resp[, colnames(resp) != item])
+  strata <- cut(rest, unique(quantile(rest, 0:5 / 5)), include.lowest = TRUE)
+  tab <- table(group, factor(resp[, item], levels = 1:0), strata)
+  mh <- mantelhaen.test(tab, exact = FALSE)
+  delta <- -2.35 * log(unname(mh$estimate))
+  data.frame(item = item, alpha_MH = unname(mh$estimate),
+             MH_D_DIF = delta, p.value = mh$p.value,
+             ETS = ifelse(mh$p.value >= 0.05 | abs(delta) < 1, "A",
+                          ifelse(abs(delta) >= 1.5, "C", "B")))
+}
+mh <- do.call(rbind, lapply(colnames(resp), mh_item, resp = resp, group = group))
+mh[order(mh$p.value), ][1:5, ]
+```
+
+The table is arranged so that $\alpha_{MH}$ is the odds of a correct answer
+in the reference group (girls) divided by the odds in the focal group (boys),
+at the same score. Values above 1, and negative MH D-DIF, mean the item
+favours the reference group; values below 1, and positive MH D-DIF, favour
+the focal group. C11 stands out, with a moderate (B) DIF in favour of boys. Matching on five score bands keeps the tables reasonably full
+in a sample of this size; with more people you can match on every score.
+
+The IRT analysis agrees:
+
+```{r}
+subset(dif(resp, group = group)$table, flag)
+```
+
+## Your turn
+
+<div class="yourturn">
+1. In Example 1, refit `dif()` with `p_adjust = "none"`. How many items are
+   flagged now? Which result would you report, and why?
+2. Run the MH procedure on the data of Example 1. Does it detect R22? Why is
+   MH weaker for non-uniform DIF?
+3. In Example 2, what happens to the MH results if you match on the total
+   score *including* the studied item? On five versus ten score bands?
+4. A newspaper writes that "the tablet test is biased because tablet users
+   scored lower". Using the results of Example 1, write three sentences in
+   reply.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+sum(dif(mode_resp, group = mode_group, p_adjust = "none")$table$flag)
+mh_mode <- do.call(rbind, lapply(colnames(mode_resp), mh_item,
+                                 resp = mode_resp, group = mode_group))
+subset(mh_mode, item %in% c("R07", "R18", "R22"))
+```
+
+1. Without adjustment a few more items may be flagged at the 5% level by
+   chance alone, since 25 tests are run. Report the adjusted results, and use
+   the effect sizes to decide which items matter.
+2. MH compares the *average* odds across score levels. When the curves cross,
+   the advantage at one end and the disadvantage at the other cancel out, so
+   MH (like the signed effect size) often misses non-uniform DIF. The IRT
+   likelihood-ratio test, which frees the slope, catches it.
+3. Including the studied item in the matching score is the textbook MH
+   procedure; excluding it, as above, is a common variant. With 20 items the
+   results are similar. More bands make the matching finer, but leave fewer
+   people per table.
+4. For example: "Tablet users did score a little lower on average, but most of
+   that difference reflects a real difference in reading between the groups,
+   not the test. When we compared students of the same reading ability, only
+   three of 25 questions worked differently, and two of them involve dragging
+   text on a screen, which we are redesigning."
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 3, `run_lab("fairness")`, investigates a complaint that a numeracy test
+is biased against English language learners, with Mantel-Haenszel and IRT
+DIF tests, anchor purification and differential test functioning. Lab 2 has
+a shorter DIF section on a certification exam.
+</div>
+
+## Further reading {-}
+
+Holland and Wainer [-@holland1993] remain the standard reference; Holland
+and Thayer [-@holland1988] introduced the MH procedure for DIF.
