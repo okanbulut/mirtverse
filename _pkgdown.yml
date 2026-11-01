@@ -36,6 +36,7 @@ articles:
   contents:
   - articles/teaching-labs
   - articles/course-map
+  - articles/instructor-toolkit
   - articles/glossary
 
 reference:
@@ -129,6 +130,22 @@ reference:
   - linking
   - catbank
   - openended
+- title: Instructor toolkit
+  desc: >
+    Build labs on your own data, adapt the built-in labs and the book's
+    chapters, swap datasets and check materials before class.
+  contents:
+  - new_course
+  - course_materials
+  - new_lab
+  - copy_lab
+  - lab_section_types
+  - add_lab_section
+  - swap_lab_data
+  - lab_data
+  - copy_chapter
+  - check_material
+  - preview_lab
 - title: Package
   contents:
   - mirtverse-package

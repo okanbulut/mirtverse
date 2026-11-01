@@ -1,0 +1,20 @@
+<!-- mv-section: id={{id}} type=reflection -->
+## Your recommendation
+
+### Put it in writing
+
+In a few sentences, write the recommendation you would give to the people
+who own this test: which model you would use, the evidence for it, and one
+limitation or item that needs a closer look.
+
+```{r {{id}}-q-write}
+question_text(
+  "Your recommendation:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 80)
+      return(incorrect("Write a bit more: name the model, the evidence and at least one limitation."))
+    correct("Thanks. Your instructor may ask you to submit this text.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 6)
+```
+

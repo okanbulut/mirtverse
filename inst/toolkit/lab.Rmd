@@ -1,0 +1,39 @@
+---
+title: "{{title}}"
+description: >
+  {{description}}
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+<!--
+Made with the mirtverse instructor toolkit ({{made_with}}).
+
+* The data live in the data/ folder next to this file. Replace them with
+  mirtverse::swap_lab_data() rather than by hand; the text and the answer
+  checks are computed from whatever data are there.
+* Each section starts with an "mv-section" comment. add_lab_section(),
+  add_lab_exercise(), add_lab_question() and remove_lab_section() use these
+  markers, so keep them when you edit a section by hand.
+* Run mirtverse::check_material() on this folder after every edit.
+-->
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5)
+lab <- mirtverse::lab_data()
+resp <- lab$responses
+group <- lab$group
+models <- lab$models
+```
+
+```{r setup-fit, include = FALSE}
+fit <- mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+```
+

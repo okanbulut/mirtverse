@@ -239,6 +239,9 @@ seconds; `select_model()` fits three.
   the tutorial folder (`system.file("tutorials", "model-choice", package =
   "mirtverse")`) to shinyapps.io or Posit Connect. learnr's event recorder
   (`options(tutorial.event_recorder = ...)`) can log students' answers there.
+* **Your own data:** the [instructor toolkit](instructor-toolkit.html)
+  builds a lab on any response dataset with `new_lab()`, and `copy_lab()`
+  gives you an editable copy of any of these labs to reword or extend.
 * **Assessment:** the free-text justification at the end of each lab makes a
   good short assignment. Ask students to paste it, together with their
   decision table, into your course site.

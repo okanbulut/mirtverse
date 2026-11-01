@@ -1,0 +1,48 @@
+<!-- mv-section: id={{id}} type=item-fit -->
+## Item fit
+
+### Does each item follow the model?
+
+Even when a model fits well overall, single items can misfit. The S-X2
+statistic compares how many people in each total-score group got an item
+right with how many the model expects. A small p-value flags the item.
+
+The model `fit` (a one-factor `r models[2]` model) is ready for you. Run
+`itemfit()` on it.
+
+```{r {{id}}-itemfit, exercise = TRUE, exercise.setup = "setup-fit"}
+itemfit(fit, na.rm = TRUE)
+```
+
+```{r {{id}}-itemfit-check}
+lab_need(is.data.frame(.result) && "p.S_X2" %in% names(.result),
+         "Run itemfit(fit, na.rm = TRUE) so that the result shows the S_X2 statistic.")
+paste0(sum(.result$p.S_X2 < 0.01, na.rm = TRUE), " item(s) have p < .01.")
+```
+
+`gg_itemfit()` shows the same result as a plot, with flagged items
+highlighted:
+
+```{r {{id}}-plot, exercise = TRUE, exercise.setup = "setup-fit"}
+gg_itemfit(fit)
+```
+
+```{r {{id}}-plot-check}
+"Flagged items are worth a closer look, for example with gg_empirical(fit, item)."
+```
+
+```{r {{id}}-q-misfit}
+.tk_fit <- mirt::mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+.tk_if <- mirt::itemfit(.tk_fit, na.rm = TRUE)
+.tk_k <- sum(.tk_if$p.S_X2 < 0.01, na.rm = TRUE)
+.tk_opts <- sort(utils::head(unique(pmax(0, .tk_k + c(0, -1, 1, 2, -2, 3, 4))), 4))
+.tk_flag <- paste(.tk_if$item[which(.tk_if$p.S_X2 < 0.01)], collapse = ", ")
+do.call(question_radio, c(
+  list("How many items have an S-X2 p-value below .01?"),
+  lapply(.tk_opts, function(k) answer(as.character(k), correct = k == .tk_k,
+    message = if (k == .tk_k) {
+      if (.tk_k == 0) "Right: no item misfits at this level." else paste0("Right: ", .tk_flag, ".")
+    } else "Count the rows of the itemfit() table with p.S_X2 below 0.01.")),
+  list(allow_retry = TRUE)))
+```
+

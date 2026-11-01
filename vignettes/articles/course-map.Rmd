@@ -22,7 +22,9 @@ response theory (IRT), for graduate students in education, psychology or the
 health sciences. Each week lists what students should be able to do by the
 end of it, what to read on this site, what to run in R, and which lab and
 dataset to use. Take it as a starting point: drop weeks, merge them, or swap
-in your own readings.
+in your own readings. The [instructor toolkit](instructor-toolkit.html)
+helps with that: it builds labs on your own datasets and lets you edit the
+built-in labs and add your own exercises.
 
 The online book [*Item Response Theory with mirt and
 mirtverse*](../book/index.html) has one chapter for each week below, with the
@@ -342,3 +344,4 @@ they are released.
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |
+| Instructor toolkit: labs on your own data, editable copies of the labs | All weeks | Available: [guide](instructor-toolkit.html) |

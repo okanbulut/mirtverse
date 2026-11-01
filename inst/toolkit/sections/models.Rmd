@@ -1,0 +1,59 @@
+<!-- mv-section: id={{id}} type=models -->
+## Compare IRT models
+
+### `r models[1]` or `r models[2]`?
+
+`r if (lab$polytomous) "For items scored in ordered categories, the Rasch-family partial credit model (itemtype \"Rasch\") gives every item the same slope, while the graded response model (\"graded\") lets each item have its own slope." else "The Rasch model gives every item the same discrimination; the 2PL lets each item have its own."`
+The extra parameters always fit the data a little better, so the question is
+whether they fit *enough* better to be worth it. BIC answers that.
+
+Fit both models and compare them. Save them as `fit_a` and `fit_b`.
+
+```{r {{id}}-fit, exercise = TRUE, exercise.lines = 8}
+fit_a <- mirt(resp, 1, itemtype = models[1], verbose = FALSE)
+fit_b <-
+anova(fit_a, fit_b)
+```
+
+```{r {{id}}-fit-hint}
+# same call as fit_a, with itemtype = models[2]
+```
+
+```{r {{id}}-fit-solution}
+fit_a <- mirt(resp, 1, itemtype = models[1], verbose = FALSE)
+fit_b <- mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+anova(fit_a, fit_b)
+```
+
+```{r {{id}}-fit-check}
+lab_need(exists("fit_a") && exists("fit_b"), "Save the two models as `fit_a` and `fit_b`.")
+lab_need(methods::is(fit_b, "SingleGroupClass") &&
+           all(mirt::extract.mirt(fit_b, "itemtype") == models[2]),
+         paste0("`fit_b` should be a mirt() model with itemtype = \"", models[2], "\"."))
+"Now read the AIC and BIC columns: smaller is better."
+```
+
+`select_model()` runs this comparison for several models in one call and
+explains its recommendation:
+
+```{r {{id}}-select, exercise = TRUE}
+select_model(resp, candidates = models, verbose = FALSE)
+```
+
+```{r {{id}}-select-check}
+"select_model() weighs the information criteria for you."
+```
+
+```{r {{id}}-q-model}
+.tk_a <- mirt::mirt(resp, 1, itemtype = models[1], verbose = FALSE)
+.tk_b <- mirt::mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+.tk_bic <- c(mirt::extract.mirt(.tk_a, "BIC"), mirt::extract.mirt(.tk_b, "BIC"))
+.tk_msg <- sprintf("BIC is %.0f for the %s model and %.0f for the %s model.",
+                   .tk_bic[1], models[1], .tk_bic[2], models[2])
+question_radio(
+  "Which model does BIC prefer for these data?",
+  answer(paste("The", models[1], "model"), correct = .tk_bic[1] <= .tk_bic[2], message = .tk_msg),
+  answer(paste("The", models[2], "model"), correct = .tk_bic[2] < .tk_bic[1], message = .tk_msg),
+  allow_retry = TRUE)
+```
+
