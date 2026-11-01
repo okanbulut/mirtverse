@@ -1,5 +1,17 @@
 # mirtverse (development version)
 
+* New MCP server for instructors: `mv_mcp_server()` connects an AI assistant
+  (Claude Desktop, Claude Code, OpenAI Codex, the OpenAI Agents SDK or
+  ChatGPT) to a course folder, so instructors can revise labs, chapters and
+  notes, build labs on their own data, and adapt existing materials (including
+  ltm, eRm, TAM and irtQ code) to mirtverse by describing what they want. The
+  assistant reads and edits files only inside the course folder, every change
+  is backed up and can be undone, it looks up real mirtverse functions instead
+  of guessing, and it runs `check_material` after each change. Lab and chapter
+  tools wrap the instructor toolkit. `mv_mcp_config()` prints the settings to
+  paste into each client. See the new article "An AI assistant for your
+  course materials".
+
 * New teaching lab, "Scoring open-ended responses": `run_lab("open-ended")`.
   Six science tasks were scored 0-4 by two human raters each and by an
   automated scoring engine. Students check rater agreement (exact, adjacent,
