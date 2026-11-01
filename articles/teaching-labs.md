@@ -242,6 +242,13 @@ fits three.
   shinyapps.io or Posit Connect. learnr’s event recorder
   (`options(tutorial.event_recorder = ...)`) can log students’ answers
   there.
+- **Your own data:** the [instructor
+  toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md)
+  builds a lab on any response dataset with
+  [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md),
+  and
+  [`copy_lab()`](https://www.okanbulut.com/mirtverse/reference/copy_lab.md)
+  gives you an editable copy of any of these labs to reword or extend.
 - **Assessment:** the free-text justification at the end of each lab
   makes a good short assignment. Ask students to paste it, together with
   their decision table, into your course site.

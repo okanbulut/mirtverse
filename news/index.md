@@ -2,6 +2,65 @@
 
 ## mirtverse (development version)
 
+- New online book, *Item Response Theory with mirt and mirtverse*, at
+  <https://www.okanbulut.com/mirtverse/book/>. Twelve chapters follow
+  the weeks of the course map, from classical item analysis to cut
+  scores and reporting. Each has learning goals, glossary links, two
+  worked examples on different data, exercises with solutions and a
+  pointer to the matching lab. The bookdown source is in `book/`, every
+  example loads its data in one labelled chunk so instructors can swap
+  in their own, and the pkgdown workflow builds the book into the site.
+  The site navbar links to it.
+
+- New instructor toolkit for teaching with your own data, with a guide
+  on the website (“The instructor toolkit”).
+  [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md)
+  sets up a course folder and
+  [`course_materials()`](https://www.okanbulut.com/mirtverse/reference/new_course.md)
+  lists what is in it.
+  [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
+  builds an interactive learnr lab on any response dataset (a data frame
+  or a CSV, Excel, SPSS, Stata or SAS file), with sections from
+  [`lab_section_types()`](https://www.okanbulut.com/mirtverse/reference/lab_section_types.md)
+  whose text, answer checks and quiz answers are computed from the data,
+  so
+  [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md)
+  can replace the data later.
+  [`add_lab_section()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md),
+  [`add_lab_exercise()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md),
+  [`add_lab_question()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md),
+  [`remove_lab_section()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  and
+  [`lab_outline()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  edit a lab;
+  [`copy_lab()`](https://www.okanbulut.com/mirtverse/reference/copy_lab.md)
+  makes an editable copy of a built-in lab;
+  [`copy_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md),
+  [`new_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  and
+  [`swap_chapter_data()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  do the same for chapters of the mirtverse book.
+  [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md)
+  runs every exercise’s solution through its check (and can render the
+  lab) before students see it, and
+  [`preview_lab()`](https://www.okanbulut.com/mirtverse/reference/preview_lab.md)
+  opens it.
+
+- New MCP server for instructors:
+  [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md)
+  connects an AI assistant (Claude Desktop, Claude Code, OpenAI Codex,
+  the OpenAI Agents SDK or ChatGPT) to a course folder, so instructors
+  can revise labs, chapters and notes, build labs on their own data, and
+  adapt existing materials (including ltm, eRm, TAM and irtQ code) to
+  mirtverse by describing what they want. The assistant reads and edits
+  files only inside the course folder, every change is backed up and can
+  be undone, it looks up real mirtverse functions instead of guessing,
+  and it runs `check_material` after each change. Lab and chapter tools
+  wrap the instructor toolkit.
+  [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md)
+  prints the settings to paste into each client. See the new article “An
+  AI assistant for your course materials”.
+
 - New teaching lab, “Scoring open-ended responses”:
   `run_lab("open-ended")`. Six science tasks were scored 0-4 by two
   human raters each and by an automated scoring engine. Students check

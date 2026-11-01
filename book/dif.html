@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Differential item functioning and fairness | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Differential item functioning and fairness | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Differential item functioning and fairness | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  
+
+<meta name="author" content="Okan Bulut" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="polytomous.html"/>
+<link rel="next" href="linking.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dif" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Differential item functioning and fairness<a href="dif.html#dif" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>tell <strong>impact</strong> (a real difference between groups) from <strong>DIF</strong> (an item
+that works differently for people of the same ability);</li>
+<li>run an IRT likelihood-ratio DIF analysis and read its effect sizes;</li>
+<li>distinguish uniform from non-uniform DIF;</li>
+<li>run a Mantel-Haenszel DIF test and classify items with the ETS A/B/C rules;</li>
+<li>explain why anchor items matter.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#dif">DIF</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#reference-focal-group">reference and focal groups</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#uniform-nonuniform-dif">uniform and non-uniform DIF</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#dif-effect-size">DIF effect size</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items">anchor items</a>.</p>
+<div id="the-ideas-8" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> The ideas<a href="dif.html#the-ideas-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Groups often differ in their average scores. That alone says nothing about
+whether a test is fair: the groups may simply differ in what the test
+measures, which is called <strong>impact</strong>. An item shows <strong>differential item
+functioning</strong> (DIF) when people from different groups <em>with the same ability</em>
+have different chances of answering it correctly <span class="citation">(<a href="#ref-holland1993">Holland and Wainer 1993</a>)</span>. DIF is a
+statistical finding, not a verdict of bias; a content review decides whether
+the reason is irrelevant to what the test should measure (bias) or a real
+difference in what was taught.</p>
+<p>We compare a <strong>reference group</strong> (often the majority group) with a <strong>focal
+group</strong>. In IRT terms, DIF means the item has different parameters in the two
+groups.</p>
+<ul>
+<li><strong>Uniform DIF:</strong> the item is harder for one group at every ability level
+(the difficulty differs, the curves are parallel).</li>
+<li><strong>Non-uniform DIF:</strong> the size or direction of the difference changes with
+ability (the slopes differ and the curves cross).</li>
+</ul>
+<p>To compare groups we must first put them on a common scale, and that needs
+items we trust to work the same way in both: the <strong>anchors</strong>. mirtverse’s
+<code>dif()</code> uses a <em>constrained-baseline</em> approach: it fits a multiple-group
+model in which all item parameters are equal across groups while the group
+means and variances are free, then frees each item’s parameters in turn and
+tests the change with a likelihood-ratio test. Items you do not test serve as
+anchors. Because each test involves only one free item, the approach works
+well when DIF is confined to a few items; when many items have DIF, a
+<em>purification</em> step (testing, removing flagged items from the anchor set, and
+testing again) is safer.</p>
+<p>A significant test is not enough: with large samples tiny differences are
+significant. <code>dif()</code> therefore reports effect sizes on the item score scale.
+The signed version (<code>esd</code>) is the average difference in the probability of a
+correct answer between the focal and the reference group at the same
+ability; the unsigned version (<code>uesd</code>) also captures crossing curves.</p>
+<p>The <strong>Mantel-Haenszel</strong> (MH) procedure <span class="citation">(<a href="#ref-holland1988">Holland and Thayer 1988</a>)</span> is the classical
+alternative. It matches people on their sum score, builds a 2 × 2 table
+(group × right/wrong) at every score level and tests whether the odds of a
+correct answer differ between groups across the tables. ETS classifies the
+size of MH DIF as A (negligible), B (moderate) or C (large).</p>
+</div>
+<div id="example-1-paper-versus-tablet" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Example 1: paper versus tablet<a href="dif.html#example-1-paper-versus-tablet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A district moved its Grade 5 reading test from paper to tablets. We simulate
+25 items answered by 1,200 students on paper (reference) and 800 on tablets
+(focal). The tablet group is slightly weaker on average (impact). Two items
+that ask students to drag text into a table are harder on tablets (uniform
+DIF), and one long-passage item is easier for strong tablet readers and
+harder for weak ones (non-uniform DIF).</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="dif.html#cb99-1" tabindex="-1"></a><span class="co"># Simulated 25-item reading test; `group` is the test mode for each student.</span></span>
+<span id="cb99-2"><a href="dif.html#cb99-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">909</span>)</span>
+<span id="cb99-3"><a href="dif.html#cb99-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">25</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>)); d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">25</span>, <span class="fl">0.2</span>, <span class="fl">0.9</span>))</span>
+<span id="cb99-4"><a href="dif.html#cb99-4" tabindex="-1"></a>a_tab <span class="ot">&lt;-</span> a; d_tab <span class="ot">&lt;-</span> d</span>
+<span id="cb99-5"><a href="dif.html#cb99-5" tabindex="-1"></a>d_tab[<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">18</span>)] <span class="ot">&lt;-</span> d[<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">18</span>)] <span class="sc">-</span> <span class="fl">0.8</span>          <span class="co"># R07, R18: uniform DIF</span></span>
+<span id="cb99-6"><a href="dif.html#cb99-6" tabindex="-1"></a>a_tab[<span class="dv">22</span>] <span class="ot">&lt;-</span> a[<span class="dv">22</span>] <span class="sc">*</span> <span class="fl">1.8</span>; d_tab[<span class="dv">22</span>] <span class="ot">&lt;-</span> d[<span class="dv">22</span>]   <span class="co"># R22: non-uniform DIF</span></span>
+<span id="cb99-7"><a href="dif.html#cb99-7" tabindex="-1"></a>paper  <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">1200</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
+<span id="cb99-8"><a href="dif.html#cb99-8" tabindex="-1"></a>tablet <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a_tab, d_tab, <span class="at">N =</span> <span class="dv">800</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
+<span id="cb99-9"><a href="dif.html#cb99-9" tabindex="-1"></a>                  <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">800</span>, <span class="sc">-</span><span class="fl">0.2</span>, <span class="dv">1</span>)))</span>
+<span id="cb99-10"><a href="dif.html#cb99-10" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(paper, tablet)</span>
+<span id="cb99-11"><a href="dif.html#cb99-11" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;R%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb99-12"><a href="dif.html#cb99-12" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Paper&quot;</span>, <span class="st">&quot;Tablet&quot;</span>), <span class="fu">c</span>(<span class="dv">1200</span>, <span class="dv">800</span>)),</span>
+<span id="cb99-13"><a href="dif.html#cb99-13" tabindex="-1"></a>                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Paper&quot;</span>, <span class="st">&quot;Tablet&quot;</span>))</span></code></pre></div>
+<p>The raw scores differ between the groups, but that alone does not tell us
+which items, if any, are unfair:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="dif.html#cb100-1" tabindex="-1"></a>mode_resp <span class="ot">&lt;-</span> resp; mode_group <span class="ot">&lt;-</span> group   <span class="co"># kept for the exercises</span></span>
+<span id="cb100-2"><a href="dif.html#cb100-2" tabindex="-1"></a><span class="fu">tapply</span>(<span class="fu">rowSums</span>(resp), group, mean)</span>
+<span id="cb100-3"><a href="dif.html#cb100-3" tabindex="-1"></a><span class="co">#&gt;  Paper Tablet </span></span>
+<span id="cb100-4"><a href="dif.html#cb100-4" tabindex="-1"></a><span class="co">#&gt;   12.6   11.1</span></span></code></pre></div>
+<p><code>dif()</code> tests every item. Paper is the reference group because it is the
+first level of the factor.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="dif.html#cb101-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">dif</span>(resp, <span class="at">group =</span> group)</span>
+<span id="cb101-2"><a href="dif.html#cb101-2" tabindex="-1"></a>res</span>
+<span id="cb101-3"><a href="dif.html#cb101-3" tabindex="-1"></a><span class="co">#&gt; DIF analysis: Paper (reference) vs Tablet; 25 items tested</span></span>
+<span id="cb101-4"><a href="dif.html#cb101-4" tabindex="-1"></a><span class="co">#&gt; Likelihood-ratio tests freeing a1, d; BH-adjusted p &lt; 0.05 flags DIF</span></span>
+<span id="cb101-5"><a href="dif.html#cb101-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb101-6"><a href="dif.html#cb101-6" tabindex="-1"></a><span class="co">#&gt;  item     X2 df p.value p.adjusted flag    esd  uesd converged</span></span>
+<span id="cb101-7"><a href="dif.html#cb101-7" tabindex="-1"></a><span class="co">#&gt;   R01  1.273  2    .529       .758      -0.007 0.018      TRUE</span></span>
+<span id="cb101-8"><a href="dif.html#cb101-8" tabindex="-1"></a><span class="co">#&gt;   R02  2.153  2    .341       .758       0.016 0.022      TRUE</span></span>
+<span id="cb101-9"><a href="dif.html#cb101-9" tabindex="-1"></a><span class="co">#&gt;   R03  0.264  2    .876       .876       0.005 0.009      TRUE</span></span>
+<span id="cb101-10"><a href="dif.html#cb101-10" tabindex="-1"></a><span class="co">#&gt;   R04  1.480  2    .477       .758      -0.022 0.022      TRUE</span></span>
+<span id="cb101-11"><a href="dif.html#cb101-11" tabindex="-1"></a><span class="co">#&gt;   R05  1.158  2    .560       .758       0.011 0.019      TRUE</span></span>
+<span id="cb101-12"><a href="dif.html#cb101-12" tabindex="-1"></a><span class="co">#&gt;   R06  0.953  2    .621       .758      -0.017 0.018      TRUE</span></span>
+<span id="cb101-13"><a href="dif.html#cb101-13" tabindex="-1"></a><span class="co">#&gt;   R07 29.459  2  &lt; .001     &lt; .001  DIF -0.100 0.100      TRUE</span></span>
+<span id="cb101-14"><a href="dif.html#cb101-14" tabindex="-1"></a><span class="co">#&gt;   R08  1.447  2    .485       .758       0.021 0.024      TRUE</span></span>
+<span id="cb101-15"><a href="dif.html#cb101-15" tabindex="-1"></a><span class="co">#&gt;   R09  1.793  2    .408       .758      -0.019 0.021      TRUE</span></span>
+<span id="cb101-16"><a href="dif.html#cb101-16" tabindex="-1"></a><span class="co">#&gt;   R10  5.327  2    .070       .290       0.013 0.044      TRUE</span></span>
+<span id="cb101-17"><a href="dif.html#cb101-17" tabindex="-1"></a><span class="co">#&gt;   R11  4.878  2    .087       .312       0.041 0.041      TRUE</span></span>
+<span id="cb101-18"><a href="dif.html#cb101-18" tabindex="-1"></a><span class="co">#&gt;   R12  7.665  2    .022       .108       0.041 0.047      TRUE</span></span>
+<span id="cb101-19"><a href="dif.html#cb101-19" tabindex="-1"></a><span class="co">#&gt;   R13  0.720  2    .698       .758       0.001 0.014      TRUE</span></span>
+<span id="cb101-20"><a href="dif.html#cb101-20" tabindex="-1"></a><span class="co">#&gt;   R14  1.044  2    .593       .758       0.018 0.018      TRUE</span></span>
+<span id="cb101-21"><a href="dif.html#cb101-21" tabindex="-1"></a><span class="co">#&gt;   R15  0.578  2    .749       .780      -0.007 0.012      TRUE</span></span>
+<span id="cb101-22"><a href="dif.html#cb101-22" tabindex="-1"></a><span class="co">#&gt;   R16  0.783  2    .676       .758      -0.011 0.013      TRUE</span></span>
+<span id="cb101-23"><a href="dif.html#cb101-23" tabindex="-1"></a><span class="co">#&gt;   R17  9.572  2    .008       .052       0.061 0.061      TRUE</span></span>
+<span id="cb101-24"><a href="dif.html#cb101-24" tabindex="-1"></a><span class="co">#&gt;   R18 45.538  2  &lt; .001     &lt; .001  DIF -0.135 0.135      TRUE</span></span>
+<span id="cb101-25"><a href="dif.html#cb101-25" tabindex="-1"></a><span class="co">#&gt;   R19  2.351  2    .309       .758       0.017 0.024      TRUE</span></span>
+<span id="cb101-26"><a href="dif.html#cb101-26" tabindex="-1"></a><span class="co">#&gt;   R20  1.087  2    .581       .758      -0.006 0.018      TRUE</span></span>
+<span id="cb101-27"><a href="dif.html#cb101-27" tabindex="-1"></a><span class="co">#&gt;   R21  1.270  2    .530       .758       0.002 0.019      TRUE</span></span>
+<span id="cb101-28"><a href="dif.html#cb101-28" tabindex="-1"></a><span class="co">#&gt;   R22 32.166  2  &lt; .001     &lt; .001  DIF  0.043 0.075      TRUE</span></span>
+<span id="cb101-29"><a href="dif.html#cb101-29" tabindex="-1"></a><span class="co">#&gt;   R23  4.298  2    .117       .364       0.028 0.032      TRUE</span></span>
+<span id="cb101-30"><a href="dif.html#cb101-30" tabindex="-1"></a><span class="co">#&gt;   R24  0.878  2    .645       .758       0.012 0.015      TRUE</span></span>
+<span id="cb101-31"><a href="dif.html#cb101-31" tabindex="-1"></a><span class="co">#&gt;   R25  1.456  2    .483       .758       0.024 0.024      TRUE</span></span></code></pre></div>
+<p>The flagged items are the three we planted. The signed effect sizes of R07
+and R18 are negative, meaning the items are harder for tablet users of the
+same ability. R22’s signed effect is small but its unsigned effect is
+larger: the curves cross, so the advantages and disadvantages partly cancel
+out on average.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="dif.html#cb102-1" tabindex="-1"></a><span class="fu">gg_dif</span>(res)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-93-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="dif.html#cb103-1" tabindex="-1"></a><span class="fu">gg_dif</span>(res, <span class="at">type =</span> <span class="st">&quot;curves&quot;</span>, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="st">&quot;R07&quot;</span>, <span class="st">&quot;R22&quot;</span>))</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-94-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><code>interpret()</code> writes the findings up:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="dif.html#cb104-1" tabindex="-1"></a><span class="fu">interpret</span>(res)</span>
+<span id="cb104-2"><a href="dif.html#cb104-2" tabindex="-1"></a><span class="co">#&gt; DIF overview</span></span>
+<span id="cb104-3"><a href="dif.html#cb104-3" tabindex="-1"></a><span class="co">#&gt; ------------</span></span>
+<span id="cb104-4"><a href="dif.html#cb104-4" tabindex="-1"></a><span class="co">#&gt; * Items were tested for DIF between Paper and Tablet, with Paper as the</span></span>
+<span id="cb104-5"><a href="dif.html#cb104-5" tabindex="-1"></a><span class="co">#&gt;   reference group (n = 1200 Paper, n = 800 Tablet). </span></span>
+<span id="cb104-6"><a href="dif.html#cb104-6" tabindex="-1"></a><span class="co">#&gt; * Each item&#39;s parameters (a1, d) were freed in turn and compared with a model</span></span>
+<span id="cb104-7"><a href="dif.html#cb104-7" tabindex="-1"></a><span class="co">#&gt;   holding them equal across groups (likelihood-ratio test, BH-adjusted p &lt;</span></span>
+<span id="cb104-8"><a href="dif.html#cb104-8" tabindex="-1"></a><span class="co">#&gt;   0.05). </span></span>
+<span id="cb104-9"><a href="dif.html#cb104-9" tabindex="-1"></a><span class="co">#&gt; * On the common scale, the Tablet group&#39;s mean ability is 0.28 SD below the</span></span>
+<span id="cb104-10"><a href="dif.html#cb104-10" tabindex="-1"></a><span class="co">#&gt;   Paper group&#39;s, and its SD is 1.09. </span></span>
+<span id="cb104-11"><a href="dif.html#cb104-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb104-12"><a href="dif.html#cb104-12" tabindex="-1"></a><span class="co">#&gt; DIF items</span></span>
+<span id="cb104-13"><a href="dif.html#cb104-13" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb104-14"><a href="dif.html#cb104-14" tabindex="-1"></a><span class="co">#&gt; * 3 of 25 items show DIF: R18 (expected score difference -0.135, favours</span></span>
+<span id="cb104-15"><a href="dif.html#cb104-15" tabindex="-1"></a><span class="co">#&gt;   Paper; p &lt; .001); R07 (expected score difference -0.100, favours Paper; p &lt;</span></span>
+<span id="cb104-16"><a href="dif.html#cb104-16" tabindex="-1"></a><span class="co">#&gt;   .001); R22 (expected score difference 0.043, favours Tablet; p &lt; .001). </span></span>
+<span id="cb104-17"><a href="dif.html#cb104-17" tabindex="-1"></a><span class="co">#&gt; * Statistical DIF is not proof of bias: ask content experts whether these</span></span>
+<span id="cb104-18"><a href="dif.html#cb104-18" tabindex="-1"></a><span class="co">#&gt;   items measure something other than the intended ability for one group</span></span>
+<span id="cb104-19"><a href="dif.html#cb104-19" tabindex="-1"></a><span class="co">#&gt;   before removing or revising them.</span></span></code></pre></div>
+<p>The baseline model also estimates the impact: the latent mean of the tablet
+group relative to the paper group (fixed at 0).</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="dif.html#cb105-1" tabindex="-1"></a><span class="fu">coef</span>(res<span class="sc">$</span>baseline, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>Tablet<span class="sc">$</span>means</span>
+<span id="cb105-2"><a href="dif.html#cb105-2" tabindex="-1"></a><span class="co">#&gt;     F1 </span></span>
+<span id="cb105-3"><a href="dif.html#cb105-3" tabindex="-1"></a><span class="co">#&gt; -0.283</span></span></code></pre></div>
+<div id="choosing-anchors" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Choosing anchors<a href="dif.html#choosing-anchors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If we already know some items are clean, we can test only the others: the
+untested items become anchors. Here, as a check, we test only the three
+flagged items against the other 22:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="dif.html#cb106-1" tabindex="-1"></a><span class="fu">dif</span>(resp, <span class="at">group =</span> group, <span class="at">items =</span> <span class="fu">c</span>(<span class="st">&quot;R07&quot;</span>, <span class="st">&quot;R18&quot;</span>, <span class="st">&quot;R22&quot;</span>))<span class="sc">$</span>table</span>
+<span id="cb106-2"><a href="dif.html#cb106-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 9</span></span>
+<span id="cb106-3"><a href="dif.html#cb106-3" tabindex="-1"></a><span class="co">#&gt;   item     X2    df  p.value p.adjusted flag      esd   uesd converged</span></span>
+<span id="cb106-4"><a href="dif.html#cb106-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;    </span></span>
+<span id="cb106-5"><a href="dif.html#cb106-5" tabindex="-1"></a><span class="co">#&gt; 1 R07    29.5     2 4.01e- 7   4.01e- 7 TRUE  -0.0997 0.0997 TRUE     </span></span>
+<span id="cb106-6"><a href="dif.html#cb106-6" tabindex="-1"></a><span class="co">#&gt; 2 R18    45.5     2 1.29e-10   3.88e-10 TRUE  -0.135  0.135  TRUE     </span></span>
+<span id="cb106-7"><a href="dif.html#cb106-7" tabindex="-1"></a><span class="co">#&gt; 3 R22    32.2     2 1.04e- 7   1.55e- 7 TRUE   0.0430 0.0755 TRUE</span></span></code></pre></div>
+<p>Does the DIF matter for scores? One way to judge is to compare the expected
+total score of the test in the two groups at the same ability, which is
+called differential test functioning. With two items that are harder for
+tablet users and one that crosses, the total effect is a fraction of a score
+point; a content review would still look at the drag-and-drop items, because
+the problem can be fixed by changing the interface.</p>
+</div>
+</div>
+<div id="example-2-mantel-haenszel-on-a-chemistry-quiz" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Example 2: Mantel-Haenszel on a chemistry quiz<a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The MH test needs no IRT model, which makes it a good first screen and a
+useful check. We simulate a 20-item chemistry quiz taken by 600 girls and
+600 boys of equal average ability; item C11 involves a sports context and is
+easier for boys of the same ability.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="dif.html#cb107-1" tabindex="-1"></a><span class="co"># Simulated 20-item quiz; `group` is gender. C11 has uniform DIF.</span></span>
+<span id="cb107-2"><a href="dif.html#cb107-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">910</span>)</span>
+<span id="cb107-3"><a href="dif.html#cb107-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">20</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>)); d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="fl">0.8</span>))</span>
+<span id="cb107-4"><a href="dif.html#cb107-4" tabindex="-1"></a>d_boys <span class="ot">&lt;-</span> d; d_boys[<span class="dv">11</span>] <span class="ot">&lt;-</span> d[<span class="dv">11</span>] <span class="sc">+</span> <span class="fl">0.7</span></span>
+<span id="cb107-5"><a href="dif.html#cb107-5" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">600</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>),</span>
+<span id="cb107-6"><a href="dif.html#cb107-6" tabindex="-1"></a>              <span class="fu">simdata</span>(a, d_boys, <span class="at">N =</span> <span class="dv">600</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>))</span>
+<span id="cb107-7"><a href="dif.html#cb107-7" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;C%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span>
+<span id="cb107-8"><a href="dif.html#cb107-8" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Girl&quot;</span>, <span class="st">&quot;Boy&quot;</span>), <span class="at">each =</span> <span class="dv">600</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Girl&quot;</span>, <span class="st">&quot;Boy&quot;</span>))</span></code></pre></div>
+<p>For each item we match on the total score of the <em>other</em> items, build the
+stratified 2 × 2 tables and run the MH test. The common odds ratio
+<span class="math inline">\(\alpha_{MH}\)</span> converts to the ETS delta scale as
+<span class="math inline">\(\text{MH D-DIF} = -2.35 \ln \alpha_{MH}\)</span>. The ETS rules call DIF negligible
+(A) when <span class="math inline">\(|\text{MH D-DIF}| &lt; 1\)</span> or the test is not significant, large (C)
+when <span class="math inline">\(|\text{MH D-DIF}| \ge 1.5\)</span> and significant, and moderate (B) otherwise
+(the full rules also test the size against 1).</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="dif.html#cb108-1" tabindex="-1"></a>mh_item <span class="ot">&lt;-</span> <span class="cf">function</span>(resp, group, item) {</span>
+<span id="cb108-2"><a href="dif.html#cb108-2" tabindex="-1"></a>  rest <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(resp[, <span class="fu">colnames</span>(resp) <span class="sc">!=</span> item])</span>
+<span id="cb108-3"><a href="dif.html#cb108-3" tabindex="-1"></a>  strata <span class="ot">&lt;-</span> <span class="fu">cut</span>(rest, <span class="fu">unique</span>(<span class="fu">quantile</span>(rest, <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">/</span> <span class="dv">5</span>)), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb108-4"><a href="dif.html#cb108-4" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">table</span>(group, <span class="fu">factor</span>(resp[, item], <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">0</span>), strata)</span>
+<span id="cb108-5"><a href="dif.html#cb108-5" tabindex="-1"></a>  mh <span class="ot">&lt;-</span> <span class="fu">mantelhaen.test</span>(tab, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb108-6"><a href="dif.html#cb108-6" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">2.35</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fu">unname</span>(mh<span class="sc">$</span>estimate))</span>
+<span id="cb108-7"><a href="dif.html#cb108-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">item =</span> item, <span class="at">alpha_MH =</span> <span class="fu">unname</span>(mh<span class="sc">$</span>estimate),</span>
+<span id="cb108-8"><a href="dif.html#cb108-8" tabindex="-1"></a>             <span class="at">MH_D_DIF =</span> delta, <span class="at">p.value =</span> mh<span class="sc">$</span>p.value,</span>
+<span id="cb108-9"><a href="dif.html#cb108-9" tabindex="-1"></a>             <span class="at">ETS =</span> <span class="fu">ifelse</span>(mh<span class="sc">$</span>p.value <span class="sc">&gt;=</span> <span class="fl">0.05</span> <span class="sc">|</span> <span class="fu">abs</span>(delta) <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb108-10"><a href="dif.html#cb108-10" tabindex="-1"></a>                          <span class="fu">ifelse</span>(<span class="fu">abs</span>(delta) <span class="sc">&gt;=</span> <span class="fl">1.5</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>)))</span>
+<span id="cb108-11"><a href="dif.html#cb108-11" tabindex="-1"></a>}</span>
+<span id="cb108-12"><a href="dif.html#cb108-12" tabindex="-1"></a>mh <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">colnames</span>(resp), mh_item, <span class="at">resp =</span> resp, <span class="at">group =</span> group))</span>
+<span id="cb108-13"><a href="dif.html#cb108-13" tabindex="-1"></a>mh[<span class="fu">order</span>(mh<span class="sc">$</span>p.value), ][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb108-14"><a href="dif.html#cb108-14" tabindex="-1"></a><span class="co">#&gt;    item alpha_MH MH_D_DIF  p.value ETS</span></span>
+<span id="cb108-15"><a href="dif.html#cb108-15" tabindex="-1"></a><span class="co">#&gt; 11  C11    0.576    1.297 3.55e-05   B</span></span>
+<span id="cb108-16"><a href="dif.html#cb108-16" tabindex="-1"></a><span class="co">#&gt; 4   C04    1.288   -0.596 4.54e-02   A</span></span>
+<span id="cb108-17"><a href="dif.html#cb108-17" tabindex="-1"></a><span class="co">#&gt; 13  C13    0.789    0.556 1.22e-01   A</span></span>
+<span id="cb108-18"><a href="dif.html#cb108-18" tabindex="-1"></a><span class="co">#&gt; 1   C01    1.222   -0.471 1.36e-01   A</span></span>
+<span id="cb108-19"><a href="dif.html#cb108-19" tabindex="-1"></a><span class="co">#&gt; 9   C09    1.224   -0.476 1.42e-01   A</span></span></code></pre></div>
+<p>The table is arranged so that <span class="math inline">\(\alpha_{MH}\)</span> is the odds of a correct answer
+in the reference group (girls) divided by the odds in the focal group (boys),
+at the same score. Values above 1, and negative MH D-DIF, mean the item
+favours the reference group; values below 1, and positive MH D-DIF, favour
+the focal group. C11 stands out, with a moderate (B) DIF in favour of boys. Matching on five score bands keeps the tables reasonably full
+in a sample of this size; with more people you can match on every score.</p>
+<p>The IRT analysis agrees:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="dif.html#cb109-1" tabindex="-1"></a><span class="fu">subset</span>(<span class="fu">dif</span>(resp, <span class="at">group =</span> group)<span class="sc">$</span>table, flag)</span>
+<span id="cb109-2"><a href="dif.html#cb109-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 9</span></span>
+<span id="cb109-3"><a href="dif.html#cb109-3" tabindex="-1"></a><span class="co">#&gt;   item     X2    df  p.value p.adjusted flag    esd  uesd converged</span></span>
+<span id="cb109-4"><a href="dif.html#cb109-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;    </span></span>
+<span id="cb109-5"><a href="dif.html#cb109-5" tabindex="-1"></a><span class="co">#&gt; 1 C11    18.1     2 0.000117    0.00233 TRUE  0.104 0.104 TRUE</span></span></code></pre></div>
+</div>
+<div id="your-turn-8" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Your turn<a href="dif.html#your-turn-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>In Example 1, refit <code>dif()</code> with <code>p_adjust = "none"</code>. How many items are
+flagged now? Which result would you report, and why?</li>
+<li>Run the MH procedure on the data of Example 1. Does it detect R22? Why is
+MH weaker for non-uniform DIF?</li>
+<li>In Example 2, what happens to the MH results if you match on the total
+score <em>including</em> the studied item? On five versus ten score bands?</li>
+<li>A newspaper writes that “the tablet test is biased because tablet users
+scored lower”. Using the results of Example 1, write three sentences in
+reply.</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="dif.html#cb110-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dif</span>(mode_resp, <span class="at">group =</span> mode_group, <span class="at">p_adjust =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">$</span>table<span class="sc">$</span>flag)</span>
+<span id="cb110-2"><a href="dif.html#cb110-2" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb110-3"><a href="dif.html#cb110-3" tabindex="-1"></a>mh_mode <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">colnames</span>(mode_resp), mh_item,</span>
+<span id="cb110-4"><a href="dif.html#cb110-4" tabindex="-1"></a>                                 <span class="at">resp =</span> mode_resp, <span class="at">group =</span> mode_group))</span>
+<span id="cb110-5"><a href="dif.html#cb110-5" tabindex="-1"></a><span class="fu">subset</span>(mh_mode, item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;R07&quot;</span>, <span class="st">&quot;R18&quot;</span>, <span class="st">&quot;R22&quot;</span>))</span>
+<span id="cb110-6"><a href="dif.html#cb110-6" tabindex="-1"></a><span class="co">#&gt;    item alpha_MH MH_D_DIF  p.value ETS</span></span>
+<span id="cb110-7"><a href="dif.html#cb110-7" tabindex="-1"></a><span class="co">#&gt; 7   R07    1.980   -1.605 1.16e-09   C</span></span>
+<span id="cb110-8"><a href="dif.html#cb110-8" tabindex="-1"></a><span class="co">#&gt; 18  R18    2.079   -1.720 1.57e-12   C</span></span>
+<span id="cb110-9"><a href="dif.html#cb110-9" tabindex="-1"></a><span class="co">#&gt; 22  R22    0.689    0.876 4.67e-03   A</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Without adjustment a few more items may be flagged at the 5% level by
+chance alone, since 25 tests are run. Report the adjusted results, and use
+the effect sizes to decide which items matter.</li>
+<li>MH compares the <em>average</em> odds across score levels. When the curves cross,
+the advantage at one end and the disadvantage at the other cancel out, so
+MH (like the signed effect size) often misses non-uniform DIF. The IRT
+likelihood-ratio test, which frees the slope, catches it.</li>
+<li>Including the studied item in the matching score is the textbook MH
+procedure; excluding it, as above, is a common variant. With 20 items the
+results are similar. More bands make the matching finer, but leave fewer
+people per table.</li>
+<li>For example: “Tablet users did score a little lower on average, but most of
+that difference reflects a real difference in reading between the groups,
+not the test. When we compared students of the same reading ability, only
+three of 25 questions worked differently, and two of them involve dragging
+text on a screen, which we are redesigning.”</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-8" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="dif.html#in-the-lab-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 3, <code>run_lab("fairness")</code>, investigates a complaint that a numeracy test
+is biased against English language learners, with Mantel-Haenszel and IRT
+DIF tests, anchor purification and differential test functioning. Lab 2 has
+a shorter DIF section on a certification exam.</p>
+</div>
+</div>
+<div id="further-reading-8" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="dif.html#further-reading-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Holland and Wainer <span class="citation">(<a href="#ref-holland1993">1993</a>)</span> remain the standard reference; Holland
+and Thayer <span class="citation">(<a href="#ref-holland1988">1988</a>)</span> introduced the MH procedure for DIF.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-holland1988" class="csl-entry">
+Holland, Paul W., and Dorothy T. Thayer. 1988. <span>“Differential Item Performance and the <span>Mantel-Haenszel</span> Procedure.”</span> In <em>Test Validity</em>, edited by Howard Wainer and Henry I. Braun. Lawrence Erlbaum Associates.
+</div>
+<div id="ref-holland1993" class="csl-entry">
+Holland, Paul W., and Howard Wainer, eds. 1993. <em>Differential Item Functioning</em>. Lawrence Erlbaum Associates.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="polytomous.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linking.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/09-dif.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -63,7 +63,9 @@ interpretation and reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
 | Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
 | Interactive teaching labs for measurement courses (learnr) | [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md), [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md) |
+| Instructor toolkit: labs on your own data, editable labs and chapters | [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md), [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md), [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md), [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md) |
 | Translate ltm, eRm, TAM and irtQ code into mirt code | [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md), [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md) |
+| Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server) | [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md), [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md) |
 
 ## Installation
 
@@ -115,6 +117,13 @@ Teaching a measurement course? `run_lab("model-choice")` opens an
 interactive lab in which students work through a realistic testing
 scenario with live models (see [Teaching
 labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
+The online book [*Item Response Theory with mirt and
+mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended
+notes for each week of a course, with worked examples and exercises. To
+teach with your own data,
+[`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
+builds a lab on any response dataset (see [The instructor
+toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html)).
 
 ## Cheat sheet
 

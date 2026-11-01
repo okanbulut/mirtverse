@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 The Rasch, 2PL and 3PL models | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 The Rasch, 2PL and 3PL models | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 The Rasch, 2PL and 3PL models | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  
+
+<meta name="author" content="Okan Bulut" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="measurement.html"/>
+<link rel="next" href="estimation.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="irt-models" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> The Rasch, 2PL and 3PL models<a href="irt-models.html#irt-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain what a latent trait is and why IRT puts people and items on the
+same scale;</li>
+<li>write down the Rasch, 2PL and 3PL models and say what each parameter does
+to the item characteristic curve;</li>
+<li>fit the three models with <code>mirt()</code> and read their parameters in the
+traditional IRT metric;</li>
+<li>describe an item in words from its curve.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#item-response-theory">item response theory</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#latent-trait">latent trait</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#logit">logit</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#rasch-model">Rasch model</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#two-pl">2PL</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#three-pl">3PL</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#item-characteristic-curve">item characteristic curve</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#difficulty">difficulty</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#discrimination">discrimination</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#guessing">guessing</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#slope-intercept">slope-intercept form</a>.</p>
+<div id="the-ideas-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> The ideas<a href="irt-models.html#the-ideas-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>IRT assumes that a person’s responses depend on an unobserved <strong>latent
+trait</strong> <span class="math inline">\(\theta\)</span> (theta): ability, knowledge, an attitude. By convention
+<span class="math inline">\(\theta\)</span> has mean 0 and standard deviation 1 in the calibration group, so a
+person at <span class="math inline">\(\theta = 1\)</span> is one standard deviation above average.</p>
+<p>Each item gets an <strong>item characteristic curve</strong> (ICC): the probability of a
+correct answer as a function of <span class="math inline">\(\theta\)</span>. The three classic models differ in
+how many parameters shape that curve <span class="citation">(<a href="#ref-hambleton1991">Hambleton et al. 1991</a>; <a href="#ref-embretson2000">Embretson and Reise 2000</a>)</span>.</p>
+<p><strong>The Rasch (1PL) model</strong> has one parameter per item, the difficulty <span class="math inline">\(b_j\)</span>:</p>
+<p><span class="math display">\[P(X_{ij} = 1 \mid \theta_i) = \frac{\exp(\theta_i - b_j)}{1 + \exp(\theta_i - b_j)}.\]</span></p>
+<p>The difficulty is the point on the <span class="math inline">\(\theta\)</span> scale where the probability is
+0.5. All curves have the same slope, so they never cross, and the sum score
+contains all the information about <span class="math inline">\(\theta\)</span>.</p>
+<p><strong>The two-parameter logistic (2PL) model</strong> adds a discrimination <span class="math inline">\(a_j\)</span>:</p>
+<p><span class="math display">\[P(X_{ij} = 1 \mid \theta_i) = \frac{\exp[a_j(\theta_i - b_j)]}{1 + \exp[a_j(\theta_i - b_j)]}.\]</span></p>
+<p>A larger <span class="math inline">\(a_j\)</span> gives a steeper curve: the item separates people just below
+<span class="math inline">\(b_j\)</span> from people just above it more sharply. Values between about 0.8 and 2.5
+are typical for good achievement items; values below about 0.5 mean the item
+hardly tells people apart.</p>
+<p><strong>The three-parameter logistic (3PL) model</strong> adds a lower asymptote <span class="math inline">\(c_j\)</span>,
+often called the guessing parameter:</p>
+<p><span class="math display">\[P(X_{ij} = 1 \mid \theta_i) = c_j + (1 - c_j)\frac{\exp[a_j(\theta_i - b_j)]}{1 + \exp[a_j(\theta_i - b_j)]}.\]</span></p>
+<p>Even very low-ability people get a multiple-choice item right with
+probability <span class="math inline">\(c_j\)</span>, roughly one over the number of options if they guess at
+random. With a lower asymptote, <span class="math inline">\(b_j\)</span> is where the probability is
+<span class="math inline">\((1 + c_j)/2\)</span> rather than 0.5.</p>
+<p>mirt estimates the models in <strong>slope-intercept form</strong>,
+<span class="math inline">\(a_j\theta_i + d_j\)</span>, which behaves better numerically. The two forms are
+related by <span class="math inline">\(b_j = -d_j / a_j\)</span>. Use <code>coef(mod, IRTpars = TRUE)</code>, or
+mirtverse’s <code>tidy()</code> (which uses <code>IRTpars = TRUE</code> by default), to see <span class="math inline">\(a\)</span> and
+<span class="math inline">\(b\)</span>.</p>
+</div>
+<div id="example-1-the-lsat-section-7-items" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Example 1: the LSAT section 7 items<a href="irt-models.html#example-1-the-lsat-section-7-items" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>LSAT7</code> holds the response patterns of 1,000 people to five items from a
+section of the Law School Admission Test, stored as a frequency table.
+<code>expand.table()</code> turns it into one row per person.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="irt-models.html#cb14-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
+<span id="cb14-2"><a href="irt-models.html#cb14-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT7)</span></code></pre></div>
+<p>We fit the three models. <code>itemtype</code> chooses the model and <code>verbose = FALSE</code>
+hides the iteration history.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="irt-models.html#cb15-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-2"><a href="irt-models.html#cb15-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,   <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-3"><a href="irt-models.html#cb15-3" tabindex="-1"></a>threepl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>The item parameters in the IRT metric:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="irt-models.html#cb16-1" tabindex="-1"></a><span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb16-2"><a href="irt-models.html#cb16-2" tabindex="-1"></a><span class="co">#&gt;            a      b g u</span></span>
+<span id="cb16-3"><a href="irt-models.html#cb16-3" tabindex="-1"></a><span class="co">#&gt; Item.1 0.988 -1.879 0 1</span></span>
+<span id="cb16-4"><a href="irt-models.html#cb16-4" tabindex="-1"></a><span class="co">#&gt; Item.2 1.081 -0.748 0 1</span></span>
+<span id="cb16-5"><a href="irt-models.html#cb16-5" tabindex="-1"></a><span class="co">#&gt; Item.3 1.706 -1.058 0 1</span></span>
+<span id="cb16-6"><a href="irt-models.html#cb16-6" tabindex="-1"></a><span class="co">#&gt; Item.4 0.765 -0.635 0 1</span></span>
+<span id="cb16-7"><a href="irt-models.html#cb16-7" tabindex="-1"></a><span class="co">#&gt; Item.5 0.736 -2.520 0 1</span></span></code></pre></div>
+<p>The columns <code>g</code> and <code>u</code> are the lower and upper asymptotes, fixed at 0 and 1
+for the 2PL. The same information as a tidy table, ready for a report:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="irt-models.html#cb17-1" tabindex="-1"></a><span class="fu">tidy</span>(twopl)</span>
+<span id="cb17-2"><a href="irt-models.html#cb17-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 5</span></span>
+<span id="cb17-3"><a href="irt-models.html#cb17-3" tabindex="-1"></a><span class="co">#&gt;    item   itemtype term  estimate std.error</span></span>
+<span id="cb17-4"><a href="irt-models.html#cb17-4" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb17-5"><a href="irt-models.html#cb17-5" tabindex="-1"></a><span class="co">#&gt;  1 Item.1 2PL      a        0.988        NA</span></span>
+<span id="cb17-6"><a href="irt-models.html#cb17-6" tabindex="-1"></a><span class="co">#&gt;  2 Item.1 2PL      b       -1.88         NA</span></span>
+<span id="cb17-7"><a href="irt-models.html#cb17-7" tabindex="-1"></a><span class="co">#&gt;  3 Item.2 2PL      a        1.08         NA</span></span>
+<span id="cb17-8"><a href="irt-models.html#cb17-8" tabindex="-1"></a><span class="co">#&gt;  4 Item.2 2PL      b       -0.748        NA</span></span>
+<span id="cb17-9"><a href="irt-models.html#cb17-9" tabindex="-1"></a><span class="co">#&gt;  5 Item.3 2PL      a        1.71         NA</span></span>
+<span id="cb17-10"><a href="irt-models.html#cb17-10" tabindex="-1"></a><span class="co">#&gt;  6 Item.3 2PL      b       -1.06         NA</span></span>
+<span id="cb17-11"><a href="irt-models.html#cb17-11" tabindex="-1"></a><span class="co">#&gt;  7 Item.4 2PL      a        0.765        NA</span></span>
+<span id="cb17-12"><a href="irt-models.html#cb17-12" tabindex="-1"></a><span class="co">#&gt;  8 Item.4 2PL      b       -0.635        NA</span></span>
+<span id="cb17-13"><a href="irt-models.html#cb17-13" tabindex="-1"></a><span class="co">#&gt;  9 Item.5 2PL      a        0.736        NA</span></span>
+<span id="cb17-14"><a href="irt-models.html#cb17-14" tabindex="-1"></a><span class="co">#&gt; 10 Item.5 2PL      b       -2.52         NA</span></span></code></pre></div>
+<p>All five items have negative difficulties: this is an easy section for this
+group. Item 3 has the steepest slope, items 4 and 5 the flattest. The curves
+show it at a glance.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="irt-models.html#cb18-1" tabindex="-1"></a><span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-18-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>Compare the Rasch curves, which are parallel by construction, with the 2PL
+curves, which are not:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="irt-models.html#cb19-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb19-2"><a href="irt-models.html#cb19-2" tabindex="-1"></a>(<span class="fu">gg_trace</span>(rasch, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;Rasch&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="irt-models.html#cb19-3" tabindex="-1"></a>  (<span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;2PL&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="irt-models.html#cb19-4" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-19-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>The 3PL adds a lower asymptote for each item. With only five easy items there
+is very little information about what low-ability people do. Look at the <span class="math inline">\(c\)</span>
+estimates (<code>g</code>) and their confidence intervals:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="irt-models.html#cb20-1" tabindex="-1"></a>threepl_se <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">SE =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-2"><a href="irt-models.html#cb20-2" tabindex="-1"></a><span class="fu">tidy</span>(threepl_se, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(term <span class="sc">==</span> <span class="st">&quot;g&quot;</span>)</span>
+<span id="cb20-3"><a href="irt-models.html#cb20-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
+<span id="cb20-4"><a href="irt-models.html#cb20-4" tabindex="-1"></a><span class="co">#&gt;   item   itemtype term   estimate std.error conf.low conf.high</span></span>
+<span id="cb20-5"><a href="irt-models.html#cb20-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb20-6"><a href="irt-models.html#cb20-6" tabindex="-1"></a><span class="co">#&gt; 1 Item.1 3PL      g     0.0000703   0.00930 -0.0182    0.0183 </span></span>
+<span id="cb20-7"><a href="irt-models.html#cb20-7" tabindex="-1"></a><span class="co">#&gt; 2 Item.2 3PL      g     0.295       0.140    0.0209    0.569  </span></span>
+<span id="cb20-8"><a href="irt-models.html#cb20-8" tabindex="-1"></a><span class="co">#&gt; 3 Item.3 3PL      g     0.000258    0.0278  -0.0543    0.0548 </span></span>
+<span id="cb20-9"><a href="irt-models.html#cb20-9" tabindex="-1"></a><span class="co">#&gt; 4 Item.4 3PL      g     0.0000506   0.00435 -0.00847   0.00857</span></span>
+<span id="cb20-10"><a href="irt-models.html#cb20-10" tabindex="-1"></a><span class="co">#&gt; 5 Item.5 3PL      g     0.000155    0.0209  -0.0408    0.0411</span></span></code></pre></div>
+<p>Four of the five lower asymptotes sit at essentially zero, on the boundary
+of the parameter space, and the one that does not (Item 2) has a confidence
+interval that runs from almost 0 to well over 0.5. The data say very little
+about guessing. Which model should we report? That is a question for Chapter
+<a href="estimation.html#estimation">3</a>. For now, notice that a model with more parameters is not
+automatically better: it has to be supported by the data.</p>
+<p><code>interpret()</code> describes the fitted model in plain language. Its <em>Items</em>
+section is a useful check on your own reading of the curves.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="irt-models.html#cb21-1" tabindex="-1"></a><span class="fu">interpret</span>(twopl)</span>
+<span id="cb21-2"><a href="irt-models.html#cb21-2" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
+<span id="cb21-3"><a href="irt-models.html#cb21-3" tabindex="-1"></a><span class="co">#&gt; --------</span></span>
+<span id="cb21-4"><a href="irt-models.html#cb21-4" tabindex="-1"></a><span class="co">#&gt; * A 2PL model with 1 dimension was fitted to 1000 respondents and 5 items (EM</span></span>
+<span id="cb21-5"><a href="irt-models.html#cb21-5" tabindex="-1"></a><span class="co">#&gt;   estimation). </span></span>
+<span id="cb21-6"><a href="irt-models.html#cb21-6" tabindex="-1"></a><span class="co">#&gt; * The estimation converged normally. </span></span>
+<span id="cb21-7"><a href="irt-models.html#cb21-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-8"><a href="irt-models.html#cb21-8" tabindex="-1"></a><span class="co">#&gt; Model fit</span></span>
+<span id="cb21-9"><a href="irt-models.html#cb21-9" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb21-10"><a href="irt-models.html#cb21-10" tabindex="-1"></a><span class="co">#&gt; * Overall model fit is close: M2 = 11.94, df = 5, RMSEA = 0.037, CFI = 0.968,</span></span>
+<span id="cb21-11"><a href="irt-models.html#cb21-11" tabindex="-1"></a><span class="co">#&gt;   SRMSR = 0.032. </span></span>
+<span id="cb21-12"><a href="irt-models.html#cb21-12" tabindex="-1"></a><span class="co">#&gt; * The chi-square test is significant, but with large samples this is common;</span></span>
+<span id="cb21-13"><a href="irt-models.html#cb21-13" tabindex="-1"></a><span class="co">#&gt;   the RMSEA indicates the misfit is small in practical terms. </span></span>
+<span id="cb21-14"><a href="irt-models.html#cb21-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-15"><a href="irt-models.html#cb21-15" tabindex="-1"></a><span class="co">#&gt; Reliability</span></span>
+<span id="cb21-16"><a href="irt-models.html#cb21-16" tabindex="-1"></a><span class="co">#&gt; -----------</span></span>
+<span id="cb21-17"><a href="irt-models.html#cb21-17" tabindex="-1"></a><span class="co">#&gt; * Marginal reliability is 0.44 (low). </span></span>
+<span id="cb21-18"><a href="irt-models.html#cb21-18" tabindex="-1"></a><span class="co">#&gt; * Scores are too imprecise for decisions about individuals; consider adding</span></span>
+<span id="cb21-19"><a href="irt-models.html#cb21-19" tabindex="-1"></a><span class="co">#&gt;   items or using the scores only for group-level summaries. </span></span>
+<span id="cb21-20"><a href="irt-models.html#cb21-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-21"><a href="irt-models.html#cb21-21" tabindex="-1"></a><span class="co">#&gt; Targeting</span></span>
+<span id="cb21-22"><a href="irt-models.html#cb21-22" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb21-23"><a href="irt-models.html#cb21-23" tabindex="-1"></a><span class="co">#&gt; * The average item location is -1.37 and the average person score is 0.00, so</span></span>
+<span id="cb21-24"><a href="irt-models.html#cb21-24" tabindex="-1"></a><span class="co">#&gt;   the test is relatively easy for this group. </span></span>
+<span id="cb21-25"><a href="irt-models.html#cb21-25" tabindex="-1"></a><span class="co">#&gt; * Measurement is most precise around theta = -1.08 (information = 1.47, SE =</span></span>
+<span id="cb21-26"><a href="irt-models.html#cb21-26" tabindex="-1"></a><span class="co">#&gt;   0.83). </span></span>
+<span id="cb21-27"><a href="irt-models.html#cb21-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-28"><a href="irt-models.html#cb21-28" tabindex="-1"></a><span class="co">#&gt; Items</span></span>
+<span id="cb21-29"><a href="irt-models.html#cb21-29" tabindex="-1"></a><span class="co">#&gt; -----</span></span>
+<span id="cb21-30"><a href="irt-models.html#cb21-30" tabindex="-1"></a><span class="co">#&gt; * Low item-total correlation: Item.5 (r = 0.17). These items relate weakly to</span></span>
+<span id="cb21-31"><a href="irt-models.html#cb21-31" tabindex="-1"></a><span class="co">#&gt;   the rest of the test. </span></span>
+<span id="cb21-32"><a href="irt-models.html#cb21-32" tabindex="-1"></a><span class="co">#&gt; * Misfit: Item.2 (S-X2 p &lt; .001). The model does not describe responses to</span></span>
+<span id="cb21-33"><a href="irt-models.html#cb21-33" tabindex="-1"></a><span class="co">#&gt;   these items well (alpha = 0.01); inspect them with gg_empirical() or</span></span>
+<span id="cb21-34"><a href="irt-models.html#cb21-34" tabindex="-1"></a><span class="co">#&gt;   item_card(). </span></span>
+<span id="cb21-35"><a href="irt-models.html#cb21-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-36"><a href="irt-models.html#cb21-36" tabindex="-1"></a><span class="co">#&gt; Local dependence</span></span>
+<span id="cb21-37"><a href="irt-models.html#cb21-37" tabindex="-1"></a><span class="co">#&gt; ----------------</span></span>
+<span id="cb21-38"><a href="irt-models.html#cb21-38" tabindex="-1"></a><span class="co">#&gt; * No item pairs show signs of local dependence (Q3). </span></span>
+<span id="cb21-39"><a href="irt-models.html#cb21-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-40"><a href="irt-models.html#cb21-40" tabindex="-1"></a><span class="co">#&gt; Person fit</span></span>
+<span id="cb21-41"><a href="irt-models.html#cb21-41" tabindex="-1"></a><span class="co">#&gt; ----------</span></span>
+<span id="cb21-42"><a href="irt-models.html#cb21-42" tabindex="-1"></a><span class="co">#&gt; * 2.1% of respondents have unusual response patterns (Zh &lt; -1.96), which is</span></span>
+<span id="cb21-43"><a href="irt-models.html#cb21-43" tabindex="-1"></a><span class="co">#&gt;   within what chance alone would produce.</span></span></code></pre></div>
+</div>
+<div id="example-2-a-driving-theory-test-with-guessing" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Example 2: a driving theory test with guessing<a href="irt-models.html#example-2-a-driving-theory-test-with-guessing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To see when the 3PL matters, we simulate a 20-item driving theory test with
+four options per question, taken by 3,000 learner drivers. Because we
+simulate, we know the true parameters and can check how well each model
+recovers them.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="irt-models.html#cb22-1" tabindex="-1"></a><span class="co"># Simulated 20-item, four-option test with real guessing (c around 0.2).</span></span>
+<span id="cb22-2"><a href="irt-models.html#cb22-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
+<span id="cb22-3"><a href="irt-models.html#cb22-3" tabindex="-1"></a>n_items <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb22-4"><a href="irt-models.html#cb22-4" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rlnorm</span>(n_items, <span class="fl">0.2</span>, <span class="fl">0.25</span>),</span>
+<span id="cb22-5"><a href="irt-models.html#cb22-5" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="dv">2</span>, <span class="at">length.out =</span> n_items),</span>
+<span id="cb22-6"><a href="irt-models.html#cb22-6" tabindex="-1"></a>                   <span class="at">c =</span> <span class="fu">rbeta</span>(n_items, <span class="dv">5</span>, <span class="dv">17</span>))</span>
+<span id="cb22-7"><a href="irt-models.html#cb22-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="at">a =</span> <span class="fu">matrix</span>(true<span class="sc">$</span>a), <span class="at">d =</span> <span class="fu">matrix</span>(<span class="sc">-</span>true<span class="sc">$</span>a <span class="sc">*</span> true<span class="sc">$</span>b),</span>
+<span id="cb22-8"><a href="irt-models.html#cb22-8" tabindex="-1"></a>                <span class="at">N =</span> <span class="dv">3000</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">guess =</span> true<span class="sc">$</span>c)</span>
+<span id="cb22-9"><a href="irt-models.html#cb22-9" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;D%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_items)</span></code></pre></div>
+<p>The data chunk converts the true <span class="math inline">\(b\)</span> into an intercept with <span class="math inline">\(d = -ab\)</span>,
+because <code>simdata()</code> uses the slope-intercept form.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="irt-models.html#cb23-1" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-2"><a href="irt-models.html#cb23-2" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-3"><a href="irt-models.html#cb23-3" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit2, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb23-4"><a href="irt-models.html#cb23-4" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit3, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb23-5"><a href="irt-models.html#cb23-5" tabindex="-1"></a>recovery <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb23-6"><a href="irt-models.html#cb23-6" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;2PL&quot;</span>, <span class="st">&quot;3PL&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb23-7"><a href="irt-models.html#cb23-7" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb23-8"><a href="irt-models.html#cb23-8" tabindex="-1"></a>  <span class="at">bias =</span> <span class="fu">c</span>(<span class="fu">mean</span>(est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b),</span>
+<span id="cb23-9"><a href="irt-models.html#cb23-9" tabindex="-1"></a>           <span class="fu">mean</span>(est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)),</span>
+<span id="cb23-10"><a href="irt-models.html#cb23-10" tabindex="-1"></a>  <span class="at">rmse =</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb23-11"><a href="irt-models.html#cb23-11" tabindex="-1"></a>           <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>))))</span>
+<span id="cb23-12"><a href="irt-models.html#cb23-12" tabindex="-1"></a>recovery</span>
+<span id="cb23-13"><a href="irt-models.html#cb23-13" tabindex="-1"></a><span class="co">#&gt;   model parameter    bias  rmse</span></span>
+<span id="cb23-14"><a href="irt-models.html#cb23-14" tabindex="-1"></a><span class="co">#&gt; 1   2PL         a -0.4681 0.583</span></span>
+<span id="cb23-15"><a href="irt-models.html#cb23-15" tabindex="-1"></a><span class="co">#&gt; 2   2PL         b -0.5731 0.698</span></span>
+<span id="cb23-16"><a href="irt-models.html#cb23-16" tabindex="-1"></a><span class="co">#&gt; 3   3PL         a  0.0622 0.338</span></span>
+<span id="cb23-17"><a href="irt-models.html#cb23-17" tabindex="-1"></a><span class="co">#&gt; 4   3PL         b -0.0188 0.379</span></span></code></pre></div>
+<p>When people really do guess, the 2PL absorbs the guessing into the other
+parameters: it <strong>underestimates discrimination</strong> and makes hard items look
+<strong>easier</strong> than they are. The 3PL recovers the parameters much better, and its
+lower asymptotes are close to the truth on average:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="irt-models.html#cb24-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_true_c =</span> <span class="fu">mean</span>(true<span class="sc">$</span>c), <span class="at">mean_estimated_c =</span> <span class="fu">mean</span>(est3[, <span class="st">&quot;g&quot;</span>]))</span>
+<span id="cb24-2"><a href="irt-models.html#cb24-2" tabindex="-1"></a><span class="co">#&gt;      mean_true_c mean_estimated_c </span></span>
+<span id="cb24-3"><a href="irt-models.html#cb24-3" tabindex="-1"></a><span class="co">#&gt;            0.239            0.226</span></span></code></pre></div>
+<p>The empirical item curve makes the problem visible. For the hardest item,
+the observed proportions correct for low-ability groups sit well above the
+2PL curve, which heads towards zero:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="irt-models.html#cb25-1" tabindex="-1"></a><span class="fu">gg_empirical</span>(fit2, <span class="st">&quot;D20&quot;</span>) <span class="sc">+</span> <span class="fu">gg_empirical</span>(fit3, <span class="st">&quot;D20&quot;</span>)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-24-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>What to take away.</strong> The 3PL is worth its extra parameters when items can
+be answered by guessing <em>and</em> there are enough low-ability test takers to
+estimate the lower asymptote: here 3,000 people and a range of difficulties.
+With small samples or easy tests, <span class="math inline">\(c\)</span> is poorly determined, and a 2PL (or a
+3PL with a prior on <span class="math inline">\(c\)</span>) is often the safer choice.</p>
+</div>
+<div id="your-turn-1" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Your turn<a href="irt-models.html#your-turn-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Using the 2PL for <code>LSAT7</code>, compute by hand the probability that a person
+at <span class="math inline">\(\theta = -1\)</span> answers Item 3 correctly. Check your answer with
+<code>probtrace(extract.item(twopl, 3), -1)</code>.</li>
+<li>Fit the Rasch model to <code>LSAT7</code> and compare its difficulties with the 2PL
+difficulties. Which item moves most, and why?</li>
+<li>In Example 2, refit the 3PL using only the first 300 test takers. What
+happens to the recovery of <span class="math inline">\(c\)</span>?</li>
+<li>Sketch (on paper) the curve of an item with <span class="math inline">\(a = 0.3\)</span> and <span class="math inline">\(b = 0\)</span>. Would you
+keep this item on a test used to award licences?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="irt-models.html#cb26-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb26-2"><a href="irt-models.html#cb26-2" tabindex="-1"></a><span class="fu">plogis</span>(p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;a&quot;</span>] <span class="sc">*</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">-</span> p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb26-3"><a href="irt-models.html#cb26-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.525</span></span>
+<span id="cb26-4"><a href="irt-models.html#cb26-4" tabindex="-1"></a><span class="fu">probtrace</span>(<span class="fu">extract.item</span>(twopl, <span class="dv">3</span>), <span class="fu">matrix</span>(<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb26-5"><a href="irt-models.html#cb26-5" tabindex="-1"></a><span class="co">#&gt;        P.0   P.1</span></span>
+<span id="cb26-6"><a href="irt-models.html#cb26-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.475 0.525</span></span>
+<span id="cb26-7"><a href="irt-models.html#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="irt-models.html#cb26-8" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">coef</span>(rasch, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb26-9"><a href="irt-models.html#cb26-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">rasch =</span> pr[, <span class="st">&quot;b&quot;</span>], <span class="at">twopl =</span> p[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
+<span id="cb26-10"><a href="irt-models.html#cb26-10" tabindex="-1"></a><span class="co">#&gt;        rasch twopl</span></span>
+<span id="cb26-11"><a href="irt-models.html#cb26-11" tabindex="-1"></a><span class="co">#&gt; Item.1 -1.87 -1.88</span></span>
+<span id="cb26-12"><a href="irt-models.html#cb26-12" tabindex="-1"></a><span class="co">#&gt; Item.2 -0.79 -0.75</span></span>
+<span id="cb26-13"><a href="irt-models.html#cb26-13" tabindex="-1"></a><span class="co">#&gt; Item.3 -1.46 -1.06</span></span>
+<span id="cb26-14"><a href="irt-models.html#cb26-14" tabindex="-1"></a><span class="co">#&gt; Item.4 -0.52 -0.64</span></span>
+<span id="cb26-15"><a href="irt-models.html#cb26-15" tabindex="-1"></a><span class="co">#&gt; Item.5 -1.99 -2.52</span></span>
+<span id="cb26-16"><a href="irt-models.html#cb26-16" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="irt-models.html#cb26-17" tabindex="-1"></a>small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>, ], <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-18"><a href="irt-models.html#cb26-18" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>c)</span>
+<span id="cb26-19"><a href="irt-models.html#cb26-19" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb26-20"><a href="irt-models.html#cb26-20" tabindex="-1"></a><span class="co">#&gt; -0.3425 -0.0895  0.0558  0.0270  0.1615  0.3461</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Items whose 2PL slope is far from the common Rasch slope move most, here
+Item 3 (the steepest) and Item 5 (one of the flattest). A flat
+item (small <span class="math inline">\(a\)</span>) has a 2PL difficulty further from zero, because its curve
+only reaches 0.5 far out on the scale.</li>
+<li>You may first see a warning that the EM algorithm stopped after 500
+cycles: the 3PL is hard to estimate in small samples (Chapter
+<a href="estimation.html#estimation">3</a>). With 300 people the <span class="math inline">\(c\)</span> estimates scatter much more widely around the
+truth, and some may be close to 0 or implausibly large. The estimates of
+<span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> get worse too, because the three parameters trade off.</li>
+<li>The curve is almost flat: the chance of a correct answer barely depends on
+ability. Such an item adds little information and some noise; it should
+go back to the item writers.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-1" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="irt-models.html#in-the-lab-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 1, <code>run_lab("model-choice")</code>, asks you to compare the Rasch, 2PL and 3PL
+models for a real-sized certification exam and to defend your choice to the
+board. Chapter <a href="estimation.html#estimation">3</a> gives you the tools for that comparison.</p>
+</div>
+</div>
+<div id="further-reading-1" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="irt-models.html#further-reading-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Embretson and Reise <span class="citation">(<a href="#ref-embretson2000">2000</a>)</span> give an accessible introduction for
+psychologists; Hambleton, Swaminathan and Rogers <span class="citation">(<a href="#ref-hambleton1991">1991</a>)</span> a short
+classic; de Ayala <span class="citation">(<a href="#ref-deayala2022">2022</a>)</span> a thorough modern treatment. Chalmers
+<span class="citation">(<a href="#ref-chalmers2012">2012</a>)</span> describes the mirt package.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-deayala2022" class="csl-entry">
+Ayala, R. J. de. 2022. <em>The Theory and Practice of Item Response Theory</em>. 2nd ed. Guilford Press.
+</div>
+<div id="ref-chalmers2012" class="csl-entry">
+Chalmers, R. Philip. 2012. <span>“<span class="nocase">mirt</span>: A Multidimensional Item Response Theory Package for the <span>R</span> Environment.”</span> <em>Journal of Statistical Software</em> 48 (6): 1–29. <a href="https://doi.org/10.18637/jss.v048.i06">https://doi.org/10.18637/jss.v048.i06</a>.
+</div>
+<div id="ref-embretson2000" class="csl-entry">
+Embretson, Susan E., and Steven P. Reise. 2000. <em>Item Response Theory for Psychologists</em>. Lawrence Erlbaum Associates.
+</div>
+<div id="ref-hambleton1991" class="csl-entry">
+Hambleton, Ronald K., H. Swaminathan, and H. Jane Rogers. 1991. <em>Fundamentals of Item Response Theory</em>. Sage.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="measurement.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estimation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/02-irt-models.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

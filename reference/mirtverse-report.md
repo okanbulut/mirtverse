@@ -2,7 +2,7 @@
 
 # IRT analysis report
 
-October 31, 2026 \| mirt 1.48 \| mirtverse 0.2.0
+November 01, 2026 \| mirt 1.48 \| mirtverse 0.2.0
 
 **Contents**
 
@@ -199,54 +199,55 @@ Session information
     [8] base     
 
     other attached packages:
-    [1] mirtverse_0.2.0 mirt_1.48       lattice_0.23-1 
+    [1] learnr_0.11.6   mirtverse_0.2.0 mirt_1.48       lattice_0.23-1 
 
     loaded via a namespace (and not attached):
-      [1] mathjaxr_2.0-0       RColorBrewer_1.1-3   rstudioapi_0.19.0   
-      [4] audio_0.1-12         jsonlite_2.0.0       magrittr_2.0.5      
-      [7] farver_2.1.2         rmarkdown_2.32       Rglpk_0.6-5.1       
-     [10] fs_2.1.0             ragg_1.5.2           vctrs_0.7.3         
-     [13] splines2_0.5.4       memoise_2.0.1        askpass_1.2.1       
-     [16] base64enc_0.1-6      janitor_2.2.1        htmltools_0.5.9     
-     [19] curl_8.1.0           dcurver_0.9.3        sass_0.4.10         
-     [22] parallelly_1.48.0    bslib_0.12.0         htmlwidgets_1.6.4   
-     [25] desc_1.4.3           fontawesome_0.5.3    plyr_1.8.9          
-     [28] mirtCAT_1.14         testthat_3.3.2       httr2_1.3.0         
-     [31] lubridate_1.9.5      cachem_1.1.0         admisc_0.41         
-     [34] whisker_0.4.1        mime_0.13            lifecycle_1.0.5     
-     [37] pkgconfig_2.0.3      Matrix_1.7-6         R6_2.6.1            
-     [40] fastmap_1.2.0        snakecase_0.11.1     future_1.80.0       
-     [43] shiny_1.14.0         digest_0.6.39        colorspace_2.1-4    
-     [46] patchwork_1.3.2      rprojroot_2.1.1      textshaping_1.0.5   
-     [49] crosstalk_1.2.2      vegan_2.7-6          labeling_0.4.3      
-     [52] learnr_0.11.6        progressr_1.1.0      timechange_0.4.0    
-     [55] fansi_1.0.7          mgcv_1.9-4           compiler_4.6.2      
-     [58] proxy_0.4-29         withr_3.0.3          S7_0.2.2            
-     [61] eatATA_1.1.2         psych_2.6.9          R.utils_2.13.0      
-     [64] MASS_7.3-66          openssl_2.4.2        sessioninfo_1.2.4   
-     [67] GPArotation_2026.8-2 permute_0.9-10       tools_4.6.2         
-     [70] otel_0.2.0           httpuv_1.6.17        future.apply_1.21.0 
-     [73] clipr_0.8.1          R.oo_1.27.1          glue_1.8.1          
-     [76] nlme_3.1-171         promises_1.5.0       grid_4.6.2          
-     [79] rsconnect_1.11.2     reshape2_1.4.5       cluster_2.1.8.3     
-     [82] generics_0.1.4       lpSolve_5.6.23       gtable_0.3.6        
-     [85] R.methodsS3_1.8.2    class_7.3-24         eRm_1.0-10          
-     [88] xml2_1.6.0           stringfish_0.19.2    Deriv_4.3.6         
-     [91] utf8_1.2.6           stringr_1.6.0        pillar_1.11.1       
-     [94] later_1.4.8          splines_4.6.2        dplyr_1.2.1         
-     [97] survival_3.8-12      tidyselect_1.2.1     pbapply_1.7-5       
-    [100] downlit_0.4.5        knitr_1.52           gridExtra_2.3.1     
-    [103] CDM_8.3-14           xfun_0.62            expm_1.0-1          
-    [106] statmod_1.5.2        brio_1.1.5           DT_0.34.0           
-    [109] stringi_1.8.9        yaml_2.3.12          evaluate_1.0.5      
-    [112] codetools_0.2-20     beepr_2.0            msm_1.9             
-    [115] irtQ_1.3.1           tibble_3.3.1         TAM_4.3-25          
-    [118] cli_3.6.6            RcppParallel_6.2.1   xtable_1.8-8        
-    [121] systemfonts_1.3.2    jquerylib_0.1.4      Rcpp_1.1.2          
-    [124] zigg_0.0.2           globals_0.20.0       polycor_0.8-2       
-    [127] Rfast_2.1.5.2        parallel_4.6.2       pkgdown_2.2.1       
-    [130] ggplot2_4.0.3        listenv_1.1.0        mvtnorm_1.4-2       
-    [133] viridisLite_0.4.3    slam_0.1-56          SimDesign_2.28      
-    [136] scales_1.4.0         e1071_1.7-17         purrr_1.2.2         
-    [139] rlang_1.3.0          qs2_0.3.1            mnormt_2.1.2        
-    [142] ltm_1.2-0           
+      [1] splines_4.6.2        later_1.4.8          eatATA_1.1.2        
+      [4] tibble_3.3.1         R.oo_1.27.1          janitor_2.2.1       
+      [7] lifecycle_1.0.5      httr2_1.3.0          rprojroot_2.1.1     
+     [10] globals_0.20.0       MASS_7.3-66          crosstalk_1.2.2     
+     [13] backports_1.5.1      magrittr_2.0.5       sass_0.4.10         
+     [16] rmarkdown_2.32       jquerylib_0.1.4      yaml_2.3.12         
+     [19] httpuv_1.6.17        otel_0.2.0           askpass_1.2.1       
+     [22] sessioninfo_1.2.4    pbapply_1.7-5        RColorBrewer_1.1-3  
+     [25] lubridate_1.9.5      audio_0.1-12         expm_1.0-1          
+     [28] purrr_1.2.2          downlit_0.4.5        R.utils_2.13.0      
+     [31] listenv_1.1.0        testthat_3.3.2       vegan_2.7-6         
+     [34] parallelly_1.50.0    pkgdown_2.2.1        permute_0.9-10      
+     [37] commonmark_2.0.0     codetools_0.2-20     DT_0.34.0           
+     [40] xml2_1.6.0           tidyselect_1.2.1     farver_2.1.2        
+     [43] base64enc_0.1-6      splines2_0.5.4       mathjaxr_2.0-0      
+     [46] jsonlite_2.0.0       polycor_0.8-2        e1071_1.7-17        
+     [49] progressr_1.1.0      survival_3.8-12      systemfonts_1.3.2   
+     [52] tools_4.6.2          ragg_1.5.2           Rcpp_1.1.2          
+     [55] glue_1.8.1           mnormt_2.1.2         gridExtra_2.3.1     
+     [58] qs2_0.3.1            xfun_0.62            mgcv_1.9-4          
+     [61] admisc_0.41          msm_1.9              eRm_1.0-10          
+     [64] dplyr_1.2.1          withr_3.0.3          beepr_2.0           
+     [67] fastmap_1.2.0        fansi_1.0.7          openssl_2.4.2       
+     [70] litedown_0.11        digest_0.6.39        timechange_0.4.0    
+     [73] R6_2.6.1             mime_0.13            textshaping_1.0.5   
+     [76] colorspace_2.1-4     TAM_4.3-25           lpSolve_5.6.23      
+     [79] markdown_2.1         R.methodsS3_1.8.2    utf8_1.2.6          
+     [82] generics_0.1.4       mirtCAT_1.14         Rglpk_0.6-5.1       
+     [85] class_7.3-24         SimDesign_2.28       htmlwidgets_1.6.4   
+     [88] whisker_0.4.1        pkgconfig_2.0.3      gtable_0.3.6        
+     [91] rsconnect_1.11.2     S7_0.2.2             irtQ_1.3.1          
+     [94] brio_1.1.5           htmltools_0.5.9      zigg_0.0.2          
+     [97] scales_1.4.0         snakecase_0.11.1     knitr_1.52          
+    [100] rstudioapi_0.19.0    reshape2_1.4.5       checkmate_2.3.4     
+    [103] nlme_3.1-171         curl_8.1.0           proxy_0.4-29        
+    [106] cachem_1.1.0         stringr_1.6.0        parallel_4.6.2      
+    [109] desc_1.4.3           pillar_1.11.1        grid_4.6.2          
+    [112] vctrs_0.7.3          slam_0.1-56          promises_1.5.0      
+    [115] stringfish_0.19.2    CDM_8.3-14           xtable_1.8-8        
+    [118] Deriv_4.3.6          cluster_2.1.8.3      dcurver_0.9.3       
+    [121] GPArotation_2026.8-2 evaluate_1.0.5       mvtnorm_1.4-2       
+    [124] cli_3.6.6            compiler_4.6.2       rlang_1.3.0         
+    [127] future.apply_1.21.0  labeling_0.4.3       plyr_1.8.9          
+    [130] fs_2.1.0             stringi_1.8.9        psych_2.6.9         
+    [133] viridisLite_0.4.3    Matrix_1.7-6         patchwork_1.3.2     
+    [136] future_1.80.0        ggplot2_4.0.3        statmod_1.5.2       
+    [139] ltm_1.2-0            shiny_1.14.0         Rfast_2.1.5.2       
+    [142] fontawesome_0.5.3    clipr_0.8.1          memoise_2.0.1       
+    [145] RcppParallel_6.2.1   bslib_0.12.0        

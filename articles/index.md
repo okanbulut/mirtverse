@@ -53,6 +53,20 @@
   theory, linking each week to mirtverse articles, labs, functions and
   datasets.
 
+- [The instructor
+  toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md):
+
+  Build interactive labs on your own data, adapt the built-in labs and
+  the book’s chapters, add exercises and questions, swap datasets, and
+  check everything before class.
+
+- [An AI assistant for your course
+  materials](https://www.okanbulut.com/mirtverse/articles/instructor-mcp.md):
+
+  Connect Claude or an OpenAI assistant to your mirtverse course folder
+  and revise labs, chapters and notes, or bring your existing materials
+  into mirtverse, by describing what you want.
+
 - [Glossary of IRT
   terms](https://www.okanbulut.com/mirtverse/articles/glossary.md):
 

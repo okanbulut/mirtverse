@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Estimation and comparing models | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Estimation and comparing models | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Estimation and comparing models | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  
+
+<meta name="author" content="Okan Bulut" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="irt-models.html"/>
+<link rel="next" href="dimensionality.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="estimation" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Estimation and comparing models<a href="estimation.html#estimation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>describe marginal maximum likelihood estimation in words;</li>
+<li>check whether a model has converged, and know what to do when it has not;</li>
+<li>compare nested models with a likelihood-ratio test and any models with
+information criteria;</li>
+<li>judge overall model fit with M2, RMSEA, SRMSR and CFI;</li>
+<li>explain why AIC and BIC can disagree, and what sample size has to do with
+it.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration">calibration</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#marginal-maximum-likelihood">marginal maximum likelihood</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#convergence">convergence</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-error">standard error</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test">likelihood-ratio test</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#information-criteria">information criteria</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#m2">M2</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#rmsea">RMSEA</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#srmsr">SRMSR</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#cfi-tli">CFI and TLI</a>.</p>
+<div id="the-ideas-2" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> The ideas<a href="estimation.html#the-ideas-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Calibration</strong> means estimating the item parameters. We never observe
+<span class="math inline">\(\theta\)</span>, so we cannot simply regress responses on it. <strong>Marginal maximum
+likelihood</strong> (MML) instead assumes a distribution for <span class="math inline">\(\theta\)</span> in the
+population, usually standard normal, and integrates it out: the likelihood
+of a response pattern is its probability averaged over all possible values
+of <span class="math inline">\(\theta\)</span>. The item parameters are chosen to make the observed patterns as
+likely as possible <span class="citation">(<a href="#ref-bock1981">Bock and Aitkin 1981</a>)</span>.</p>
+<p>mirt maximizes this likelihood with the <strong>EM algorithm</strong> by default. It
+replaces the integral with a sum over a grid of <em>quadrature points</em> and
+alternates two steps: the E-step works out, for every person, how likely each
+grid point is given their responses and the current item parameters; the
+M-step updates each item’s parameters as if those expected counts were
+data. The cycles stop when the parameters stop changing, which is called
+<strong>convergence</strong>. If the algorithm hits its limit of 500 cycles first, mirt
+warns you, and the estimates should not be trusted.</p>
+<p>Once a model has converged, we compare it with alternatives.</p>
+<ul>
+<li><strong>Likelihood-ratio test (LRT).</strong> For <em>nested</em> models (the Rasch model is a
+2PL with equal slopes; the 2PL is a 3PL with <span class="math inline">\(c = 0\)</span>), twice the difference
+in log-likelihoods is approximately chi-square distributed with degrees of
+freedom equal to the difference in the number of parameters. With large
+samples even trivial improvements become significant.</li>
+<li><strong>Information criteria.</strong> <span class="math inline">\(\text{AIC} = -2\log L + 2k\)</span> and
+<span class="math inline">\(\text{BIC} = -2\log L + k\log N\)</span>, where <span class="math inline">\(k\)</span> is the number of parameters
+and <span class="math inline">\(N\)</span> the sample size. Smaller is better. BIC punishes extra parameters
+more heavily once <span class="math inline">\(N &gt; 7\)</span>, so it favours simpler models. A difference of 10
+or more BIC points is usually read as strong evidence.</li>
+<li><strong>Absolute fit.</strong> The <strong>M2</strong> statistic <span class="citation">(<a href="#ref-maydeu2006">Maydeu-Olivares and Joe 2006</a>)</span> compares observed and
+expected proportions for single items and pairs of items. RMSEA (below
+about 0.05 is close fit), SRMSR (below about 0.05) and CFI (above about 0.95)
+are effect sizes built from it. Treat the cut-offs as rough guides, not
+rules.</li>
+</ul>
+</div>
+<div id="example-1-a-test-the-rasch-model-fits" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Example 1: a test the Rasch model fits<a href="estimation.html#example-1-a-test-the-rasch-model-fits" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>LSAT6</code> is another five-item section of the Law School Admission Test, with
+1,000 test takers. It is a textbook example of data the Rasch model fits well.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="estimation.html#cb27-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
+<span id="cb27-2"><a href="estimation.html#cb27-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT6)</span></code></pre></div>
+<p>Fit the models one at a time, check convergence, and compare them:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="estimation.html#cb28-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-2"><a href="estimation.html#cb28-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-3"><a href="estimation.html#cb28-3" tabindex="-1"></a><span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb28-4"><a href="estimation.html#cb28-4" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb28-5"><a href="estimation.html#cb28-5" tabindex="-1"></a><span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;iterations&quot;</span>)</span>
+<span id="cb28-6"><a href="estimation.html#cb28-6" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
+<span id="cb28-7"><a href="estimation.html#cb28-7" tabindex="-1"></a><span class="fu">anova</span>(rasch, twopl)</span>
+<span id="cb28-8"><a href="estimation.html#cb28-8" tabindex="-1"></a><span class="co">#&gt;        AIC SABIC   HQ  BIC logLik    X2 df     p</span></span>
+<span id="cb28-9"><a href="estimation.html#cb28-9" tabindex="-1"></a><span class="co">#&gt; rasch 4946  4956 4957 4975  -2467               </span></span>
+<span id="cb28-10"><a href="estimation.html#cb28-10" tabindex="-1"></a><span class="co">#&gt; twopl 4953  4971 4972 5002  -2467 0.569  4 0.966</span></span></code></pre></div>
+<p>The 2PL improves the log-likelihood by a fraction of a point for four extra
+parameters, so the LRT is far from significant and both AIC and BIC prefer
+the Rasch model. <code>glance()</code> adds the absolute fit statistics:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="estimation.html#cb29-1" tabindex="-1"></a><span class="fu">glance</span>(rasch)[, <span class="fu">c</span>(<span class="st">&quot;logLik&quot;</span>, <span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;M2&quot;</span>, <span class="st">&quot;df&quot;</span>, <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)]</span>
+<span id="cb29-2"><a href="estimation.html#cb29-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 9</span></span>
+<span id="cb29-3"><a href="estimation.html#cb29-3" tabindex="-1"></a><span class="co">#&gt;   logLik   AIC   BIC    M2    df p.value RMSEA  SRMSR   CFI</span></span>
+<span id="cb29-4"><a href="estimation.html#cb29-4" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb29-5"><a href="estimation.html#cb29-5" tabindex="-1"></a><span class="co">#&gt; 1 -2467. 4946. 4975.  5.29     9   0.808     0 0.0224     1</span></span></code></pre></div>
+<p><code>select_model()</code> runs all of this in one call. It fits the Rasch, 2PL and
+3PL models (or the polytomous equivalents), checks convergence, ranks them by
+BIC, runs the LRTs between nested pairs and explains its recommendation.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="estimation.html#cb30-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-2"><a href="estimation.html#cb30-2" tabindex="-1"></a>sel</span>
+<span id="cb30-3"><a href="estimation.html#cb30-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb30-4"><a href="estimation.html#cb30-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb30-5"><a href="estimation.html#cb30-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik  AIC  BIC SABIC RMSEA CFI delta weight</span></span>
+<span id="cb30-6"><a href="estimation.html#cb30-6" tabindex="-1"></a><span class="co">#&gt;  Rasch    6  -2467 4946 4975  4956     0   1   0.0      1</span></span>
+<span id="cb30-7"><a href="estimation.html#cb30-7" tabindex="-1"></a><span class="co">#&gt;    2PL   10  -2467 4953 5002  4971     0   1  27.1      0</span></span>
+<span id="cb30-8"><a href="estimation.html#cb30-8" tabindex="-1"></a><span class="co">#&gt;    3PL   15  -2467 4963 5037  4989    NA  NA  61.6      0</span></span>
+<span id="cb30-9"><a href="estimation.html#cb30-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb30-10"><a href="estimation.html#cb30-10" tabindex="-1"></a><span class="co">#&gt; The Rasch model is recommended because it has the lowest BIC (4975.3). The</span></span>
+<span id="cb30-11"><a href="estimation.html#cb30-11" tabindex="-1"></a><span class="co">#&gt; runner-up, 2PL, is 27.1 BIC points worse, which is very strong evidence for the</span></span>
+<span id="cb30-12"><a href="estimation.html#cb30-12" tabindex="-1"></a><span class="co">#&gt; Rasch model. Likelihood-ratio test Rasch vs. 2PL: chi-square(4) = 0.57, p =</span></span>
+<span id="cb30-13"><a href="estimation.html#cb30-13" tabindex="-1"></a><span class="co">#&gt; .966; the extra parameters of 2PL are not needed. Likelihood-ratio test Rasch</span></span>
+<span id="cb30-14"><a href="estimation.html#cb30-14" tabindex="-1"></a><span class="co">#&gt; vs. 3PL: chi-square(9) = 0.54, p = 1.000; the extra parameters of 3PL are not</span></span>
+<span id="cb30-15"><a href="estimation.html#cb30-15" tabindex="-1"></a><span class="co">#&gt; needed. Absolute fit of the Rasch model: RMSEA = 0.000 (close fit), CFI =</span></span>
+<span id="cb30-16"><a href="estimation.html#cb30-16" tabindex="-1"></a><span class="co">#&gt; 1.000, SRMSR = 0.022.</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="estimation.html#cb31-1" tabindex="-1"></a><span class="fu">autoplot</span>(sel)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-30-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>The <code>weight</code> column converts BIC differences into the relative support for
+each model; here nearly all of it goes to the Rasch model.</p>
+</div>
+<div id="example-2-when-the-criteria-disagree" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Example 2: when the criteria disagree<a href="estimation.html#example-2-when-the-criteria-disagree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now take the 32 science items of <code>SAT12</code>, scored with the corrected key from
+Chapter <a href="measurement.html#measurement">1</a>.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="estimation.html#cb32-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
+<span id="cb32-2"><a href="estimation.html#cb32-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb32-3"><a href="estimation.html#cb32-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="estimation.html#cb33-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-2"><a href="estimation.html#cb33-2" tabindex="-1"></a>sel</span>
+<span id="cb33-3"><a href="estimation.html#cb33-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb33-4"><a href="estimation.html#cb33-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb33-5"><a href="estimation.html#cb33-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik   AIC   BIC SABIC RMSEA   CFI delta weight</span></span>
+<span id="cb33-6"><a href="estimation.html#cb33-6" tabindex="-1"></a><span class="co">#&gt;    2PL   64  -9622 19373 19654 19451 0.029 0.953   0.0      1</span></span>
+<span id="cb33-7"><a href="estimation.html#cb33-7" tabindex="-1"></a><span class="co">#&gt;  Rasch   33  -9768 19602 19747 19642 0.039 0.905  92.5      0</span></span>
+<span id="cb33-8"><a href="estimation.html#cb33-8" tabindex="-1"></a><span class="co">#&gt;    3PL   96  -9572 19337 19759 19454 0.022 0.975 104.5      0</span></span>
+<span id="cb33-9"><a href="estimation.html#cb33-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb33-10"><a href="estimation.html#cb33-10" tabindex="-1"></a><span class="co">#&gt; The 2PL model is recommended because it has the lowest BIC (19654.2). The</span></span>
+<span id="cb33-11"><a href="estimation.html#cb33-11" tabindex="-1"></a><span class="co">#&gt; runner-up, Rasch, is 92.5 BIC points worse, which is very strong evidence for</span></span>
+<span id="cb33-12"><a href="estimation.html#cb33-12" tabindex="-1"></a><span class="co">#&gt; the 2PL model. Likelihood-ratio test Rasch vs. 2PL: chi-square(31) = 290.83, p</span></span>
+<span id="cb33-13"><a href="estimation.html#cb33-13" tabindex="-1"></a><span class="co">#&gt; &lt; .001; the 2PL model fits significantly better. Likelihood-ratio test 2PL vs.</span></span>
+<span id="cb33-14"><a href="estimation.html#cb33-14" tabindex="-1"></a><span class="co">#&gt; 3PL: chi-square(32) = 100.16, p &lt; .001; the 3PL model fits significantly</span></span>
+<span id="cb33-15"><a href="estimation.html#cb33-15" tabindex="-1"></a><span class="co">#&gt; better. Note the tension: the likelihood-ratio test prefers 3PL, while BIC</span></span>
+<span id="cb33-16"><a href="estimation.html#cb33-16" tabindex="-1"></a><span class="co">#&gt; penalizes extra parameters and prefers 2PL. Choose 2PL if parsimony matters</span></span>
+<span id="cb33-17"><a href="estimation.html#cb33-17" tabindex="-1"></a><span class="co">#&gt; most, or 3PL if fit to these data matters most. AIC would instead select the</span></span>
+<span id="cb33-18"><a href="estimation.html#cb33-18" tabindex="-1"></a><span class="co">#&gt; 3PL model. Absolute fit of the 2PL model: RMSEA = 0.029 (close fit), CFI =</span></span>
+<span id="cb33-19"><a href="estimation.html#cb33-19" tabindex="-1"></a><span class="co">#&gt; 0.953, SRMSR = 0.045.</span></span>
+<span id="cb33-20"><a href="estimation.html#cb33-20" tabindex="-1"></a>sel<span class="sc">$</span>lrt</span>
+<span id="cb33-21"><a href="estimation.html#cb33-21" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb33-22"><a href="estimation.html#cb33-22" tabindex="-1"></a><span class="co">#&gt;   simpler complex    X2    df  p.value</span></span>
+<span id="cb33-23"><a href="estimation.html#cb33-23" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span id="cb33-24"><a href="estimation.html#cb33-24" tabindex="-1"></a><span class="co">#&gt; 1 Rasch   2PL      291.    31 5.30e-44</span></span>
+<span id="cb33-25"><a href="estimation.html#cb33-25" tabindex="-1"></a><span class="co">#&gt; 2 Rasch   3PL      391.    63 7.62e-49</span></span>
+<span id="cb33-26"><a href="estimation.html#cb33-26" tabindex="-1"></a><span class="co">#&gt; 3 2PL     3PL      100.    32 6.00e- 9</span></span></code></pre></div>
+<p>This time the evidence is mixed. The LRT and AIC prefer the 3PL, while BIC
+prefers the 2PL. Neither is “wrong”: they answer different questions. The
+LRT asks whether the extra 32 guessing parameters improve fit beyond chance,
+and with 600 people the answer is yes. BIC asks which model is more likely to
+be the better description once we account for the cost of 32 more
+parameters, and it says the 2PL. A sensible report states the tension and
+the reason for the final choice: if scores will be used for decisions about
+low-scoring students, where guessing matters most, the 3PL may be worth its
+cost; for a short research scale, the 2PL is easier to defend.</p>
+<div id="small-samples-and-convergence" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Small samples and convergence<a href="estimation.html#small-samples-and-convergence" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The 3PL is the hardest of the three to estimate, because the lower
+asymptote is determined only by what low-ability people do. With 200 students
+the EM algorithm may not converge at all:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="estimation.html#cb34-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">303</span>)</span>
+<span id="cb34-2"><a href="estimation.html#cb34-2" tabindex="-1"></a>small <span class="ot">&lt;-</span> resp[<span class="fu">sample</span>(<span class="fu">nrow</span>(resp), <span class="dv">200</span>), ]</span>
+<span id="cb34-3"><a href="estimation.html#cb34-3" tabindex="-1"></a>fit_small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-4"><a href="estimation.html#cb34-4" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_small, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb34-5"><a href="estimation.html#cb34-5" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb34-6"><a href="estimation.html#cb34-6" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
+<span id="cb34-7"><a href="estimation.html#cb34-7" tabindex="-1"></a><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
+<span id="cb34-8"><a href="estimation.html#cb34-8" tabindex="-1"></a><span class="co">#&gt; 0.000276 0.002136 0.079776 0.125231 0.207500 0.500034</span></span></code></pre></div>
+<p>Some lower asymptotes drift to zero and others to implausibly large values.
+Three common remedies are to use a 2PL, to fix <span class="math inline">\(c\)</span> at a sensible value (for
+five-option items, 0.2), or to put a <strong>prior</strong> on <span class="math inline">\(c\)</span> so that the data only
+move it away from a plausible value when they have something to say. In mirt
+a prior is part of the model syntax. Here a beta(5, 17) prior centres <span class="math inline">\(c\)</span>
+near 0.2 (<code>expbeta</code> applies it on the scale mirt uses internally):</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="estimation.html#cb35-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mirt.model</span>(<span class="st">&quot;F = 1-32</span></span>
+<span id="cb35-2"><a href="estimation.html#cb35-2" tabindex="-1"></a><span class="st">                    PRIOR = (1-32, g, expbeta, 5, 17)&quot;</span>)</span>
+<span id="cb35-3"><a href="estimation.html#cb35-3" tabindex="-1"></a>fit_prior <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, spec, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-4"><a href="estimation.html#cb35-4" tabindex="-1"></a><span class="co">#&gt; Warning: Observed log-likelihood may still be increasing.</span></span>
+<span id="cb35-5"><a href="estimation.html#cb35-5" tabindex="-1"></a><span class="co">#&gt;   Final log-likelihood values were: </span></span>
+<span id="cb35-6"><a href="estimation.html#cb35-6" tabindex="-1"></a><span class="co">#&gt;   -3154.689, -3151.159, -3149.755</span></span>
+<span id="cb35-7"><a href="estimation.html#cb35-7" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_prior, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb35-8"><a href="estimation.html#cb35-8" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb35-9"><a href="estimation.html#cb35-9" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_prior, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
+<span id="cb35-10"><a href="estimation.html#cb35-10" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb35-11"><a href="estimation.html#cb35-11" tabindex="-1"></a><span class="co">#&gt;   0.109   0.181   0.192   0.187   0.195   0.235</span></span></code></pre></div>
+<p>With the prior the model converges and the lower asymptotes stay in a
+believable range. Report priors when you use them: they are part of the
+model.</p>
+</div>
+</div>
+<div id="your-turn-2" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Your turn<a href="estimation.html#your-turn-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>For <code>LSAT6</code>, compute the LRT statistic for Rasch versus 2PL by hand from
+the two log-likelihoods, and check it against <code>anova()</code>.</li>
+<li>Fit the 2PL to <code>SAT12</code> with <code>quadpts = 15</code> and with the default of 61
+points. Do the item parameters change? What does that tell you?</li>
+<li>Draw 300 students from <code>SAT12</code> and rerun <code>select_model()</code>. Does the
+recommendation change? Repeat with another random sample.</li>
+<li>A colleague reports “the 3PL fitted significantly better (p &lt; .001), so we
+used it”. What would you ask them?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="estimation.html#cb36-1" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;logLik&quot;</span>), <span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;logLik&quot;</span>))</span>
+<span id="cb36-2"><a href="estimation.html#cb36-2" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (ll[<span class="dv">2</span>] <span class="sc">-</span> ll[<span class="dv">1</span>])</span>
+<span id="cb36-3"><a href="estimation.html#cb36-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">X2 =</span> lrt, <span class="at">df =</span> <span class="dv">4</span>, <span class="at">p =</span> <span class="fu">pchisq</span>(lrt, <span class="dv">4</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb36-4"><a href="estimation.html#cb36-4" tabindex="-1"></a><span class="co">#&gt;    X2    df     p </span></span>
+<span id="cb36-5"><a href="estimation.html#cb36-5" tabindex="-1"></a><span class="co">#&gt; 0.569 4.000 0.966</span></span>
+<span id="cb36-6"><a href="estimation.html#cb36-6" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="estimation.html#cb36-7" tabindex="-1"></a>m15 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">15</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-8"><a href="estimation.html#cb36-8" tabindex="-1"></a>m61 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">61</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-9"><a href="estimation.html#cb36-9" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">coef</span>(m15, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items <span class="sc">-</span> <span class="fu">coef</span>(m61, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items))</span>
+<span id="cb36-10"><a href="estimation.html#cb36-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.142</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>With only 15 points some estimates move by about 0.1 on the
+slope-intercept scale; between 61 (the default for one dimension) and more
+points they hardly move at all. Fewer points trade accuracy for speed,
+which matters mainly for models with several dimensions.</li>
+<li>With fewer people, BIC’s penalty matters relatively more and the
+likelihood gains of the 3PL are smaller, so the 2PL (or even the Rasch
+model) is chosen more often. Model choice depends on the sample, not only
+on the items.</li>
+<li>Did the model converge? What did BIC say? How large is the sample? Are the
+guessing estimates plausible, and what were their standard errors? Would
+the scores or decisions differ between the 2PL and the 3PL?</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-2" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="estimation.html#in-the-lab-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 1, <code>run_lab("model-choice")</code>, ends with a model choice you have to
+justify to a certification board, using the same evidence as this chapter:
+convergence, likelihood-ratio tests, information criteria and absolute fit.</p>
+</div>
+</div>
+<div id="further-reading-2" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="estimation.html#further-reading-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Bock and Aitkin <span class="citation">(<a href="#ref-bock1981">1981</a>)</span> introduced the EM approach to marginal maximum
+likelihood. Maydeu-Olivares and Joe <span class="citation">(<a href="#ref-maydeu2006">2006</a>)</span> describe M2. de Ayala
+<span class="citation">(<a href="#ref-deayala2022">2022</a>)</span> discusses model comparison and fit in detail.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-deayala2022" class="csl-entry">
+Ayala, R. J. de. 2022. <em>The Theory and Practice of Item Response Theory</em>. 2nd ed. Guilford Press.
+</div>
+<div id="ref-bock1981" class="csl-entry">
+Bock, R. Darrell, and Murray Aitkin. 1981. <span>“Marginal Maximum Likelihood Estimation of Item Parameters: Application of an <span>EM</span> Algorithm.”</span> <em>Psychometrika</em> 46 (4): 443–59.
+</div>
+<div id="ref-maydeu2006" class="csl-entry">
+Maydeu-Olivares, Alberto, and Harry Joe. 2006. <span>“Limited Information Goodness-of-Fit Testing in Multidimensional Contingency Tables.”</span> <em>Psychometrika</em> 71 (4): 713–32.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="irt-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dimensionality.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/03-estimation.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

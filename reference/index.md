@@ -193,6 +193,49 @@ Interactive tutorials for measurement courses.
 - [`openended`](https://www.okanbulut.com/mirtverse/reference/openended.md)
   : Rater-scored science tasks for the open-ended scoring lab
 
+## Instructor toolkit
+
+Build labs on your own data, adapt the built-in labs and the book’s
+chapters, swap datasets and check materials before class.
+
+- [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md)
+  [`course_materials()`](https://www.okanbulut.com/mirtverse/reference/new_course.md)
+  : Start a course folder for the instructor toolkit
+- [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
+  : Build a lab from your own data
+- [`copy_lab()`](https://www.okanbulut.com/mirtverse/reference/copy_lab.md)
+  : Copy a built-in lab into a course to edit it
+- [`lab_section_types()`](https://www.okanbulut.com/mirtverse/reference/lab_section_types.md)
+  : Sections you can add to a toolkit lab
+- [`add_lab_section()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  [`add_lab_exercise()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  [`add_lab_question()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  [`remove_lab_section()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  [`lab_outline()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
+  : Add, remove and list the sections of a lab
+- [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md)
+  : Replace the data in a toolkit lab
+- [`lab_data()`](https://www.okanbulut.com/mirtverse/reference/lab_data.md)
+  : Load the data of a toolkit lab
+- [`copy_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  [`new_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  [`swap_chapter_data()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  : Notes chapters for a course
+- [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md)
+  : Check a lab, a chapter or a whole course
+- [`preview_lab()`](https://www.okanbulut.com/mirtverse/reference/preview_lab.md)
+  : Open a lab in the browser
+
+## AI assistant for instructors
+
+Connect Claude or an OpenAI assistant to your course materials.
+
+- [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md)
+  : MCP server for instructors
+- [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md)
+  : Settings to connect an AI client to the instructor MCP server
+
 ## Package
 
 - [`mirtverse`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)

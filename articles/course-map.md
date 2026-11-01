@@ -5,7 +5,16 @@ item response theory (IRT), for graduate students in education,
 psychology or the health sciences. Each week lists what students should
 be able to do by the end of it, what to read on this site, what to run
 in R, and which lab and dataset to use. Take it as a starting point:
-drop weeks, merge them, or swap in your own readings.
+drop weeks, merge them, or swap in your own readings. The [instructor
+toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md)
+helps with that: it builds labs on your own datasets and lets you edit
+the built-in labs and add your own exercises.
+
+The online book [*Item Response Theory with mirt and
+mirtverse*](https://www.okanbulut.com/mirtverse/book/index.md) has one
+chapter for each week below, with the ideas, two worked examples on
+different data, exercises with solutions and a pointer to the matching
+lab. Assign the chapter as the week’s reading.
 
 Everything here runs on a laptop with mirt and mirtverse installed. No
 internet connection is needed once the packages are installed, and none
@@ -457,9 +466,11 @@ when they are released.
 
 | Resource | Used in | Status |
 |----|----|----|
+| Online book with a chapter per week | All weeks | Available: [book](https://www.okanbulut.com/mirtverse/book/index.md) |
 | Glossary of IRT terms on this site | All weeks | Available: [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
 | Two-page cheat sheet of the main functions | All weeks | Available: [PDF](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |
+| Instructor toolkit: labs on your own data, editable copies of the labs | All weeks | Available: [guide](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Polytomous items and open-ended responses | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Polytomous items and open-ended responses | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Polytomous items and open-ended responses | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  
+
+<meta name="author" content="Okan Bulut" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="scoring.html"/>
+<link rel="next" href="dif.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="polytomous" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Polytomous items and open-ended responses<a href="polytomous.html#polytomous" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>fit the partial credit, generalized partial credit and graded response
+models, and say how they differ;</li>
+<li>read category response curves and thresholds;</li>
+<li>recognise disordered thresholds and decide whether to collapse categories;</li>
+<li>describe how rater-scored open-ended responses fit into an IRT analysis.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#polytomous-item">polytomous item</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#graded-response-model">graded response model</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#gpcm">GPCM</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#category-response-curve">category response curve</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#threshold">threshold</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#expected-score">expected score</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#qwk">QWK</a>.</p>
+<div id="the-ideas-7" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> The ideas<a href="polytomous.html#the-ideas-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Many items have more than two score categories: rating scales (<em>strongly
+disagree</em> to <em>strongly agree</em>), partial-credit mathematics problems, essays
+scored 0 to 4 against a rubric. Three families of models are used most.</p>
+<ul>
+<li>The <strong>graded response model</strong> (GRM, <span class="citation">Samejima (<a href="#ref-samejima1969">1969</a>)</span>) models the cumulative
+probability of scoring in category <span class="math inline">\(k\)</span> <em>or higher</em> with a 2PL curve,
+<span class="math inline">\(P(X \ge k \mid \theta) = \text{logistic}[a(\theta - b_k)]\)</span>. The thresholds
+<span class="math inline">\(b_1 &lt; b_2 &lt; \dots\)</span> are ordered by construction: <span class="math inline">\(b_k\)</span> is where a person has
+a 50% chance of scoring <span class="math inline">\(k\)</span> or more.</li>
+<li>The <strong>partial credit model</strong> (PCM, <span class="citation">Masters (<a href="#ref-masters1982">1982</a>)</span>) is the polytomous Rasch
+model. It models each <em>step</em> from category <span class="math inline">\(k-1\)</span> to <span class="math inline">\(k\)</span> as a Rasch item,
+with a step difficulty <span class="math inline">\(b_k\)</span>. All items share the same slope.</li>
+<li>The <strong>generalized partial credit model</strong> (GPCM, <span class="citation">Muraki (<a href="#ref-muraki1992">1992</a>)</span>) adds an item
+slope to the PCM.</li>
+</ul>
+<p>In the PCM and GPCM the step difficulties are the points where adjacent
+category curves cross. They do <em>not</em> have to be in order. <strong>Disordered
+steps</strong> (for example <span class="math inline">\(b_2 &lt; b_1\)</span>) mean that a middle category is never the
+most likely response at any ability: respondents skip over it. That is often
+a sign of a category label that is unclear or a rubric level that raters
+cannot distinguish, and a common remedy is to merge the category with a
+neighbour.</p>
+<p>Each item’s <strong>expected score</strong> curve, the average score as a function of
+<span class="math inline">\(\theta\)</span>, summarizes the categories in one line and is often the easiest plot
+to explain.</p>
+</div>
+<div id="example-1-attitudes-to-science" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Example 1: attitudes to science<a href="polytomous.html#example-1-attitudes-to-science" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Science</code> holds the responses of 392 people to four statements about science
+and technology, each rated on a four-point scale (1 = <em>strongly disagree</em> to
+4 = <em>strongly agree</em>).</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="polytomous.html#cb87-1" tabindex="-1"></a><span class="co"># Four 4-category attitude items (scored 1-4), 392 respondents.</span></span>
+<span id="cb87-2"><a href="polytomous.html#cb87-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> Science</span></code></pre></div>
+<p><code>select_model()</code> compares the three models:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="polytomous.html#cb88-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb88-2"><a href="polytomous.html#cb88-2" tabindex="-1"></a>sel</span>
+<span id="cb88-3"><a href="polytomous.html#cb88-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb88-4"><a href="polytomous.html#cb88-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb88-5"><a href="polytomous.html#cb88-5" tabindex="-1"></a><span class="co">#&gt;        model npar logLik  AIC  BIC SABIC RMSEA   CFI delta weight</span></span>
+<span id="cb88-6"><a href="polytomous.html#cb88-6" tabindex="-1"></a><span class="co">#&gt;          GRM   16  -1609 3250 3313  3263 0.148 0.910  0.00  0.795</span></span>
+<span id="cb88-7"><a href="polytomous.html#cb88-7" tabindex="-1"></a><span class="co">#&gt;  PCM (Rasch)   13  -1619 3265 3316  3275 0.117 0.860  2.90  0.187</span></span>
+<span id="cb88-8"><a href="polytomous.html#cb88-8" tabindex="-1"></a><span class="co">#&gt;         GPCM   16  -1613 3257 3321  3270 0.136 0.924  7.63  0.018</span></span>
+<span id="cb88-9"><a href="polytomous.html#cb88-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb88-10"><a href="polytomous.html#cb88-10" tabindex="-1"></a><span class="co">#&gt; The GRM model is recommended because it has the lowest BIC (3313.3). The</span></span>
+<span id="cb88-11"><a href="polytomous.html#cb88-11" tabindex="-1"></a><span class="co">#&gt; runner-up, PCM (Rasch), is 2.9 BIC points worse, which is positive evidence for</span></span>
+<span id="cb88-12"><a href="polytomous.html#cb88-12" tabindex="-1"></a><span class="co">#&gt; the GRM model. Absolute fit of the GRM model: RMSEA = 0.148 (poor fit), CFI =</span></span>
+<span id="cb88-13"><a href="polytomous.html#cb88-13" tabindex="-1"></a><span class="co">#&gt; 0.910, SRMSR = 0.073.</span></span></code></pre></div>
+<p>The GRM has the lowest BIC, but the absolute fit (RMSEA) is not good for
+any of the three. With only four items, M2 has few degrees of freedom and
+RMSEA is unstable, so read it with care, and look at the items.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="polytomous.html#cb89-1" tabindex="-1"></a>grm <span class="ot">&lt;-</span> sel<span class="sc">$</span>models[[<span class="st">&quot;GRM&quot;</span>]]</span>
+<span id="cb89-2"><a href="polytomous.html#cb89-2" tabindex="-1"></a><span class="fu">tidy</span>(grm)</span>
+<span id="cb89-3"><a href="polytomous.html#cb89-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 16 × 5</span></span>
+<span id="cb89-4"><a href="polytomous.html#cb89-4" tabindex="-1"></a><span class="co">#&gt;    item    itemtype term  estimate std.error</span></span>
+<span id="cb89-5"><a href="polytomous.html#cb89-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb89-6"><a href="polytomous.html#cb89-6" tabindex="-1"></a><span class="co">#&gt;  1 Comfort graded   a        1.04         NA</span></span>
+<span id="cb89-7"><a href="polytomous.html#cb89-7" tabindex="-1"></a><span class="co">#&gt;  2 Comfort graded   b1      -4.67         NA</span></span>
+<span id="cb89-8"><a href="polytomous.html#cb89-8" tabindex="-1"></a><span class="co">#&gt;  3 Comfort graded   b2      -2.53         NA</span></span>
+<span id="cb89-9"><a href="polytomous.html#cb89-9" tabindex="-1"></a><span class="co">#&gt;  4 Comfort graded   b3       1.41         NA</span></span>
+<span id="cb89-10"><a href="polytomous.html#cb89-10" tabindex="-1"></a><span class="co">#&gt;  5 Work    graded   a        1.23         NA</span></span>
+<span id="cb89-11"><a href="polytomous.html#cb89-11" tabindex="-1"></a><span class="co">#&gt;  6 Work    graded   b1      -2.39         NA</span></span>
+<span id="cb89-12"><a href="polytomous.html#cb89-12" tabindex="-1"></a><span class="co">#&gt;  7 Work    graded   b2      -0.735        NA</span></span>
+<span id="cb89-13"><a href="polytomous.html#cb89-13" tabindex="-1"></a><span class="co">#&gt;  8 Work    graded   b3       1.85         NA</span></span>
+<span id="cb89-14"><a href="polytomous.html#cb89-14" tabindex="-1"></a><span class="co">#&gt;  9 Future  graded   a        2.29         NA</span></span>
+<span id="cb89-15"><a href="polytomous.html#cb89-15" tabindex="-1"></a><span class="co">#&gt; 10 Future  graded   b1      -2.28         NA</span></span>
+<span id="cb89-16"><a href="polytomous.html#cb89-16" tabindex="-1"></a><span class="co">#&gt; 11 Future  graded   b2      -0.965        NA</span></span>
+<span id="cb89-17"><a href="polytomous.html#cb89-17" tabindex="-1"></a><span class="co">#&gt; 12 Future  graded   b3       0.856        NA</span></span>
+<span id="cb89-18"><a href="polytomous.html#cb89-18" tabindex="-1"></a><span class="co">#&gt; 13 Benefit graded   a        1.09         NA</span></span>
+<span id="cb89-19"><a href="polytomous.html#cb89-19" tabindex="-1"></a><span class="co">#&gt; 14 Benefit graded   b1      -3.06         NA</span></span>
+<span id="cb89-20"><a href="polytomous.html#cb89-20" tabindex="-1"></a><span class="co">#&gt; 15 Benefit graded   b2      -0.906        NA</span></span>
+<span id="cb89-21"><a href="polytomous.html#cb89-21" tabindex="-1"></a><span class="co">#&gt; 16 Benefit graded   b3       1.54         NA</span></span></code></pre></div>
+<p>Each item has one slope and three thresholds. <em>Future</em> has by far
+the steepest slope. The category curves show how the thresholds divide the
+scale:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="polytomous.html#cb90-1" tabindex="-1"></a><span class="fu">gg_trace</span>(grm)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-82-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>and the expected score curves summarize them:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="polytomous.html#cb91-1" tabindex="-1"></a><span class="fu">gg_trace</span>(grm, <span class="at">type =</span> <span class="st">&quot;expected&quot;</span>, <span class="at">facet =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-83-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>The lowest category is rare for every item: its first threshold is far below
+average, so the curve for “strongly disagree” only rises for people far out
+in the left tail. The Wright map shows every threshold next to the
+distribution of people:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="polytomous.html#cb92-1" tabindex="-1"></a><span class="fu">gg_wright</span>(grm)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-84-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="example-2-a-rating-category-nobody-uses" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Example 2: a rating category nobody uses<a href="polytomous.html#example-2-a-rating-category-nobody-uses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We simulate a six-item job satisfaction scale with five categories (0 to 4),
+answered by 1,500 employees. On item J3 the middle label was badly worded,
+so respondents tend to skip category 2.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="polytomous.html#cb93-1" tabindex="-1"></a><span class="co"># Simulated 6-item, 5-category scale; item J3 has disordered steps.</span></span>
+<span id="cb93-2"><a href="polytomous.html#cb93-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">808</span>)</span>
+<span id="cb93-3"><a href="polytomous.html#cb93-3" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.0</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">1.6</span>),</span>
+<span id="cb93-4"><a href="polytomous.html#cb93-4" tabindex="-1"></a>               <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.8</span>, <span class="sc">-</span><span class="fl">0.6</span>, <span class="fl">0.6</span>, <span class="fl">1.8</span>),</span>
+<span id="cb93-5"><a href="polytomous.html#cb93-5" tabindex="-1"></a>               <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.6</span>,  <span class="fl">0.9</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">1.4</span>),   <span class="co"># J3: step 2 harder than step 3</span></span>
+<span id="cb93-6"><a href="polytomous.html#cb93-6" tabindex="-1"></a>               <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.2</span>, <span class="sc">-</span><span class="fl">1.0</span>, <span class="fl">0.2</span>, <span class="fl">1.4</span>),</span>
+<span id="cb93-7"><a href="polytomous.html#cb93-7" tabindex="-1"></a>               <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.9</span>, <span class="sc">-</span><span class="fl">0.7</span>, <span class="fl">0.5</span>, <span class="fl">1.7</span>),</span>
+<span id="cb93-8"><a href="polytomous.html#cb93-8" tabindex="-1"></a>               <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.7</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="fl">1.9</span>))</span>
+<span id="cb93-9"><a href="polytomous.html#cb93-9" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="fl">1.5</span>, <span class="fl">1.4</span>, <span class="fl">1.2</span>, <span class="fl">1.6</span>, <span class="fl">1.3</span>)</span>
+<span id="cb93-10"><a href="polytomous.html#cb93-10" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">0</span>, <span class="sc">-</span>a <span class="sc">*</span> <span class="fu">t</span>(<span class="fu">apply</span>(steps, <span class="dv">1</span>, cumsum)))   <span class="co"># GPCM intercepts</span></span>
+<span id="cb93-11"><a href="polytomous.html#cb93-11" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">matrix</span>(a), d, <span class="at">N =</span> <span class="dv">1500</span>, <span class="at">itemtype =</span> <span class="st">&quot;gpcm&quot;</span>)</span>
+<span id="cb93-12"><a href="polytomous.html#cb93-12" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;J&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
+<p>The category frequencies already hint at the problem:</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="polytomous.html#cb94-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">apply</span>(resp, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">table</span>(<span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>)) <span class="sc">/</span> <span class="fu">length</span>(x))), <span class="dv">2</span>)</span>
+<span id="cb94-2"><a href="polytomous.html#cb94-2" tabindex="-1"></a><span class="co">#&gt;       0    1    2    3    4</span></span>
+<span id="cb94-3"><a href="polytomous.html#cb94-3" tabindex="-1"></a><span class="co">#&gt; J1 0.05 0.21 0.34 0.28 0.12</span></span>
+<span id="cb94-4"><a href="polytomous.html#cb94-4" tabindex="-1"></a><span class="co">#&gt; J2 0.07 0.23 0.37 0.24 0.08</span></span>
+<span id="cb94-5"><a href="polytomous.html#cb94-5" tabindex="-1"></a><span class="co">#&gt; J3 0.12 0.41 0.10 0.25 0.13</span></span>
+<span id="cb94-6"><a href="polytomous.html#cb94-6" tabindex="-1"></a><span class="co">#&gt; J4 0.05 0.18 0.32 0.30 0.14</span></span>
+<span id="cb94-7"><a href="polytomous.html#cb94-7" tabindex="-1"></a><span class="co">#&gt; J5 0.07 0.22 0.36 0.27 0.08</span></span>
+<span id="cb94-8"><a href="polytomous.html#cb94-8" tabindex="-1"></a><span class="co">#&gt; J6 0.09 0.24 0.37 0.22 0.08</span></span></code></pre></div>
+<p>Fit the GPCM and look at the step parameters:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="polytomous.html#cb95-1" tabindex="-1"></a>gpcm <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;gpcm&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb95-2"><a href="polytomous.html#cb95-2" tabindex="-1"></a><span class="fu">coef</span>(gpcm, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb95-3"><a href="polytomous.html#cb95-3" tabindex="-1"></a><span class="co">#&gt;       a    b1     b2     b3   b4</span></span>
+<span id="cb95-4"><a href="polytomous.html#cb95-4" tabindex="-1"></a><span class="co">#&gt; J1 1.33 -2.14 -0.831  0.345 1.53</span></span>
+<span id="cb95-5"><a href="polytomous.html#cb95-5" tabindex="-1"></a><span class="co">#&gt; J2 1.51 -1.87 -0.665  0.603 1.72</span></span>
+<span id="cb95-6"><a href="polytomous.html#cb95-6" tabindex="-1"></a><span class="co">#&gt; J3 1.24 -1.81  1.008 -0.380 1.44</span></span>
+<span id="cb95-7"><a href="polytomous.html#cb95-7" tabindex="-1"></a><span class="co">#&gt; J4 1.18 -2.20 -0.963  0.163 1.39</span></span>
+<span id="cb95-8"><a href="polytomous.html#cb95-8" tabindex="-1"></a><span class="co">#&gt; J5 1.46 -1.92 -0.723  0.501 1.76</span></span>
+<span id="cb95-9"><a href="polytomous.html#cb95-9" tabindex="-1"></a><span class="co">#&gt; J6 1.21 -1.75 -0.625  0.768 1.87</span></span></code></pre></div>
+<p>For J3 the second step (<span class="math inline">\(b_2\)</span>) is larger than the third (<span class="math inline">\(b_3\)</span>), unlike every
+other item. The category curves make it plain: category 2 of J3 is never the
+most likely response.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="polytomous.html#cb96-1" tabindex="-1"></a><span class="fu">gg_trace</span>(gpcm, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="st">&quot;J2&quot;</span>, <span class="st">&quot;J3&quot;</span>))</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-87-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>Disordered steps are not always a problem; they mean a category is rarely
+the <em>most likely</em> response, not that nobody uses it. Look at the wording or
+the rubric, and at how many people chose the category. Here we decide that
+the middle label is unclear and merge categories 1 and 2 of J3, so it is
+scored 0 to 3:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="polytomous.html#cb97-1" tabindex="-1"></a>collapsed <span class="ot">&lt;-</span> resp</span>
+<span id="cb97-2"><a href="polytomous.html#cb97-2" tabindex="-1"></a>collapsed[, <span class="st">&quot;J3&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)[resp[, <span class="st">&quot;J3&quot;</span>] <span class="sc">+</span> <span class="dv">1</span>]</span>
+<span id="cb97-3"><a href="polytomous.html#cb97-3" tabindex="-1"></a>gpcm_c <span class="ot">&lt;-</span> <span class="fu">mirt</span>(collapsed, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;gpcm&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb97-4"><a href="polytomous.html#cb97-4" tabindex="-1"></a><span class="fu">coef</span>(gpcm_c, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="st">&quot;J3&quot;</span>, ]</span>
+<span id="cb97-5"><a href="polytomous.html#cb97-5" tabindex="-1"></a><span class="co">#&gt;      a     b1     b2     b3     b4 </span></span>
+<span id="cb97-6"><a href="polytomous.html#cb97-6" tabindex="-1"></a><span class="co">#&gt;  1.613 -1.663  0.575  1.302     NA</span></span></code></pre></div>
+<p>The steps of the collapsed item are now in order. The GRM would never have
+shown the problem, because its thresholds are ordered by definition: this is
+one reason to fit a PCM or GPCM when you are developing a rating scale.</p>
+</div>
+<div id="open-ended-responses-and-raters" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Open-ended responses and raters<a href="polytomous.html#open-ended-responses-and-raters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Open-ended tasks, such as essays and constructed responses, are usually scored
+by trained raters against a rubric, and then analysed with a polytomous
+model like the ones above. Two extra questions come first. <strong>Do the raters
+agree?</strong> Agreement on ordinal scores is usually summarized by exact
+agreement and by <strong>quadratic weighted kappa</strong> (QWK), which gives partial
+credit for near misses <span class="citation">(<a href="#ref-cohen1968">Cohen 1968</a>)</span>. <strong>Are some raters harsher or less
+consistent than others?</strong> Rater effects can be studied by comparing each
+rater’s scores with those of the other raters on the same responses, or with
+models that include rater parameters.</p>
+<p>mirtverse’s assessment pipeline has a scoring stage for this,
+<code>score_open()</code>, which resolves two reads into a final score and checks
+agreement (see section 9 of the <a href="https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-9">assessment pipeline
+article</a>).
+Lab 6 works through the whole process with eight raters and an automated
+scoring engine.</p>
+</div>
+<div id="your-turn-7" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Your turn<a href="polytomous.html#your-turn-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Fit the PCM (<code>itemtype = "Rasch"</code>) to <code>Science</code>. Are any of its step
+difficulties disordered?</li>
+<li>In Example 2, fit the GRM to the original data. What do the thresholds of
+J3 look like, and why do they not reveal the problem?</li>
+<li>Compare the test information of the original and the collapsed GPCM. How
+much information is lost by collapsing one category of one item?</li>
+<li>Two raters score 200 essays from 0 to 4 and agree exactly on 60% of them.
+Why is QWK a better summary than exact agreement for deciding whether the
+raters can be trusted?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="polytomous.html#cb98-1" tabindex="-1"></a>pcm <span class="ot">&lt;-</span> <span class="fu">mirt</span>(Science, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb98-2"><a href="polytomous.html#cb98-2" tabindex="-1"></a><span class="fu">coef</span>(pcm, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb98-3"><a href="polytomous.html#cb98-3" tabindex="-1"></a><span class="co">#&gt;         a    b1     b2   b3</span></span>
+<span id="cb98-4"><a href="polytomous.html#cb98-4" tabindex="-1"></a><span class="co">#&gt; Comfort 1 -3.09 -2.595 1.39</span></span>
+<span id="cb98-5"><a href="polytomous.html#cb98-5" tabindex="-1"></a><span class="co">#&gt; Work    1 -1.90 -0.911 1.86</span></span>
+<span id="cb98-6"><a href="polytomous.html#cb98-6" tabindex="-1"></a><span class="co">#&gt; Future  1 -2.65 -1.421 1.14</span></span>
+<span id="cb98-7"><a href="polytomous.html#cb98-7" tabindex="-1"></a><span class="co">#&gt; Benefit 1 -2.45 -0.900 1.36</span></span>
+<span id="cb98-8"><a href="polytomous.html#cb98-8" tabindex="-1"></a></span>
+<span id="cb98-9"><a href="polytomous.html#cb98-9" tabindex="-1"></a>grm2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;graded&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb98-10"><a href="polytomous.html#cb98-10" tabindex="-1"></a><span class="fu">coef</span>(grm2, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="st">&quot;J3&quot;</span>, ]</span>
+<span id="cb98-11"><a href="polytomous.html#cb98-11" tabindex="-1"></a><span class="co">#&gt;       a      b1      b2      b3      b4 </span></span>
+<span id="cb98-12"><a href="polytomous.html#cb98-12" tabindex="-1"></a><span class="co">#&gt;  1.9899 -1.6164  0.0767  0.4230  1.5352</span></span>
+<span id="cb98-13"><a href="polytomous.html#cb98-13" tabindex="-1"></a></span>
+<span id="cb98-14"><a href="polytomous.html#cb98-14" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="dv">1</span>))</span>
+<span id="cb98-15"><a href="polytomous.html#cb98-15" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">original =</span> <span class="fu">testinfo</span>(gpcm, theta), <span class="at">collapsed =</span> <span class="fu">testinfo</span>(gpcm_c, theta)), <span class="dv">2</span>)</span>
+<span id="cb98-16"><a href="polytomous.html#cb98-16" tabindex="-1"></a><span class="co">#&gt;           [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span></span>
+<span id="cb98-17"><a href="polytomous.html#cb98-17" tabindex="-1"></a><span class="co">#&gt; original  1.95 4.19 5.80 6.99 6.16 3.64 1.43</span></span>
+<span id="cb98-18"><a href="polytomous.html#cb98-18" tabindex="-1"></a><span class="co">#&gt; collapsed 1.95 4.41 5.89 6.31 6.34 3.85 1.42</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>The GRM thresholds of J3 are in order, because the model forces them to
+be; the second and third are just close together.</li>
+<li>Hardly any. At some points the collapsed model even has a little more
+information, because the slope of J3 is estimated higher once the model no
+longer has to accommodate the skipped category. Collapsing a category that
+people skip costs almost nothing.</li>
+<li>Exact agreement treats a 3 versus 4 disagreement the same as a 0 versus
+4 disagreement. QWK weights disagreements by their size and corrects for
+agreement by chance, so it reflects whether the raters rank the essays in
+the same way.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-7" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="polytomous.html#in-the-lab-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 6, <code>run_lab("open-ended")</code>, follows six rater-scored science tasks from
+rater agreement to the final IRT model: QWK, rater severity and consistency,
+resolving two reads, PCM versus GPCM versus GRM, collapsing categories, and
+checking an automated scoring engine.</p>
+</div>
+</div>
+<div id="further-reading-7" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="polytomous.html#further-reading-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Samejima <span class="citation">(<a href="#ref-samejima1969">1969</a>)</span>, Masters <span class="citation">(<a href="#ref-masters1982">1982</a>)</span> and Muraki
+<span class="citation">(<a href="#ref-muraki1992">1992</a>)</span> introduced the three models; Embretson and Reise
+<span class="citation">(<a href="#ref-embretson2000">2000</a>)</span> compare them. Cohen <span class="citation">(<a href="#ref-cohen1968">1968</a>)</span> introduced weighted kappa.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-cohen1968" class="csl-entry">
+Cohen, Jacob. 1968. <span>“Weighted Kappa: Nominal Scale Agreement with Provision for Scaled Disagreement or Partial Credit.”</span> <em>Psychological Bulletin</em> 70 (4): 213–20.
+</div>
+<div id="ref-embretson2000" class="csl-entry">
+Embretson, Susan E., and Steven P. Reise. 2000. <em>Item Response Theory for Psychologists</em>. Lawrence Erlbaum Associates.
+</div>
+<div id="ref-masters1982" class="csl-entry">
+Masters, Geoff N. 1982. <span>“A <span>Rasch</span> Model for Partial Credit Scoring.”</span> <em>Psychometrika</em> 47 (2): 149–74.
+</div>
+<div id="ref-muraki1992" class="csl-entry">
+Muraki, Eiji. 1992. <span>“A Generalized Partial Credit Model: Application of an <span>EM</span> Algorithm.”</span> <em>Applied Psychological Measurement</em> 16 (2): 159–76.
+</div>
+<div id="ref-samejima1969" class="csl-entry">
+Samejima, Fumiko. 1969. <span>“Estimation of Latent Ability Using a Response Pattern of Graded Scores.”</span> <em>Psychometrika Monograph Supplement</em> 34 (4, Pt. 2).
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="scoring.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dif.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/08-polytomous.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

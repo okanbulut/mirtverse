@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Linking and equating | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 10 Linking and equating | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Linking and equating | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  
+
+<meta name="author" content="Okan Bulut" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dif.html"/>
+<link rel="next" href="banks-cat.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linking" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Linking and equating<a href="linking.html#linking" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain why two separately calibrated forms are not on the same scale;</li>
+<li>describe common-item (anchor) and common-person designs;</li>
+<li>link two calibrations with the mean-sigma and Stocking-Lord methods;</li>
+<li>check anchor items for parameter drift;</li>
+<li>run a concurrent calibration with a multiple-group model;</li>
+<li>carry a cut score from one form to another with IRT true-score equating.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#linking">linking</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items">anchor items</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#moment-linking">moment linking</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#characteristic-curve-linking">characteristic curve linking</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#parameter-drift">parameter drift</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#test-characteristic-curve">test characteristic curve</a>.</p>
+<div id="the-ideas-9" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> The ideas<a href="linking.html#the-ideas-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Every calibration fixes the scale by assuming that the people in it have
+<span class="math inline">\(\theta\)</span> with mean 0 and standard deviation 1. If this year’s candidates are
+stronger than last year’s, a separate calibration of this year’s form will
+still put <em>them</em> at mean 0, and every item will look harder than it is. To
+compare forms, or groups, the two calibrations must be put on a common
+scale. That is <strong>linking</strong>; when the goal is to make scores on two forms
+interchangeable, it is called <strong>equating</strong> <span class="citation">(<a href="#ref-kolen2014">Kolen and Brennan 2014</a>)</span>.</p>
+<p>Because the IRT scale is only determined up to a linear transformation,
+linking amounts to finding two constants <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that, for the new
+form’s parameters,</p>
+<p><span class="math display">\[\theta^* = A\theta + B, \qquad b^* = A b + B, \qquad a^* = a / A.\]</span></p>
+<p>The constants come from information the two calibrations share. In the
+common design, the <strong>non-equivalent groups with anchor test</strong> (NEAT) design,
+the two forms share a set of <strong>anchor items</strong>. Two families of methods
+estimate <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> from the anchors.</p>
+<ul>
+<li><strong>Moment methods.</strong> <em>Mean-sigma</em> matches the mean and standard deviation of
+the anchor difficulties: <span class="math inline">\(A = s_{b,\text{old}} / s_{b,\text{new}}\)</span> and
+<span class="math inline">\(B = \bar b_\text{old} - A\,\bar b_\text{new}\)</span>. They are simple, but
+sensitive to a single unusual anchor.</li>
+<li><strong>Characteristic curve methods.</strong> <em>Stocking-Lord</em> <span class="citation">(<a href="#ref-stocking1983">Stocking and Lord 1983</a>)</span> chooses
+<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to make the anchors’ test characteristic curve (the expected
+anchor score as a function of <span class="math inline">\(\theta\)</span>) as similar as possible on the two
+scales. They use all the parameters at once and are more robust.</li>
+</ul>
+<p>An alternative to linking two separate calibrations is <strong>concurrent
+calibration</strong>: fit one multiple-group model to both forms, constraining the
+anchor items to be equal across groups and estimating the new group’s mean
+and standard deviation.</p>
+<p>Everything rests on the anchors behaving the same way in both
+administrations. An anchor whose parameters have changed, because it was
+exposed, taught to, or its position or wording changed, shows <strong>parameter
+drift</strong>, and it must be removed from the anchor set before linking.</p>
+</div>
+<div id="example-1-separate-calibration-and-linking" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Example 1: separate calibration and linking<a href="linking.html#example-1-separate-calibration-and-linking" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A language school has an old and a new 30-item placement test that share 10
+anchor items. We simulate 1,000 students on each. The new cohort is stronger
+(mean 0.4, standard deviation 1.1), and anchor A06 was leaked and became
+easier on the new form.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="linking.html#cb111-1" tabindex="-1"></a><span class="co"># Simulated NEAT design: old form (O01-O20 + anchors A01-A10) and new form</span></span>
+<span id="cb111-2"><a href="linking.html#cb111-2" tabindex="-1"></a><span class="co"># (N01-N20 + the same anchors); anchor A06 drifts on the new form.</span></span>
+<span id="cb111-3"><a href="linking.html#cb111-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1010</span>)</span>
+<span id="cb111-4"><a href="linking.html#cb111-4" tabindex="-1"></a>anchors <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;A%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb111-5"><a href="linking.html#cb111-5" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors),</span>
+<span id="cb111-6"><a href="linking.html#cb111-6" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">50</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb111-7"><a href="linking.html#cb111-7" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="cf">function</span>(items, n, mean, sd, <span class="at">shift =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb111-8"><a href="linking.html#cb111-8" tabindex="-1"></a>  p <span class="ot">&lt;-</span> pars[<span class="fu">match</span>(items, pars<span class="sc">$</span>item), ]</span>
+<span id="cb111-9"><a href="linking.html#cb111-9" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(shift)) p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="ot">&lt;-</span> p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="sc">+</span> shift</span>
+<span id="cb111-10"><a href="linking.html#cb111-10" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">matrix</span>(p<span class="sc">$</span>a), <span class="fu">matrix</span>(<span class="sc">-</span>p<span class="sc">$</span>a <span class="sc">*</span> p<span class="sc">$</span>b), <span class="at">N =</span> n, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
+<span id="cb111-11"><a href="linking.html#cb111-11" tabindex="-1"></a>                 <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n, mean, sd)))</span>
+<span id="cb111-12"><a href="linking.html#cb111-12" tabindex="-1"></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> items</span>
+<span id="cb111-13"><a href="linking.html#cb111-13" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(out)</span>
+<span id="cb111-14"><a href="linking.html#cb111-14" tabindex="-1"></a>}</span>
+<span id="cb111-15"><a href="linking.html#cb111-15" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb111-16"><a href="linking.html#cb111-16" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="fl">0.4</span>, <span class="fl">1.1</span>, <span class="at">shift =</span> <span class="fu">c</span>(<span class="at">A06 =</span> <span class="sc">-</span><span class="fl">1.2</span>))</span></code></pre></div>
+<p>Calibrate each form on its own:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="linking.html#cb112-1" tabindex="-1"></a>fit_old <span class="ot">&lt;-</span> <span class="fu">mirt</span>(old, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb112-2"><a href="linking.html#cb112-2" tabindex="-1"></a>fit_new <span class="ot">&lt;-</span> <span class="fu">mirt</span>(new, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb112-3"><a href="linking.html#cb112-3" tabindex="-1"></a>p_old <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_old, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
+<span id="cb112-4"><a href="linking.html#cb112-4" tabindex="-1"></a>p_new <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_new, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
+<span id="cb112-5"><a href="linking.html#cb112-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">b_old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">b_new =</span> p_new[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
+<span id="cb112-6"><a href="linking.html#cb112-6" tabindex="-1"></a><span class="co">#&gt;     b_old b_new</span></span>
+<span id="cb112-7"><a href="linking.html#cb112-7" tabindex="-1"></a><span class="co">#&gt; A01 -0.49 -0.90</span></span>
+<span id="cb112-8"><a href="linking.html#cb112-8" tabindex="-1"></a><span class="co">#&gt; A02  0.69  0.18</span></span>
+<span id="cb112-9"><a href="linking.html#cb112-9" tabindex="-1"></a><span class="co">#&gt; A03 -1.44 -1.74</span></span>
+<span id="cb112-10"><a href="linking.html#cb112-10" tabindex="-1"></a><span class="co">#&gt; A04 -0.13 -0.38</span></span>
+<span id="cb112-11"><a href="linking.html#cb112-11" tabindex="-1"></a><span class="co">#&gt; A05 -1.05 -1.53</span></span>
+<span id="cb112-12"><a href="linking.html#cb112-12" tabindex="-1"></a><span class="co">#&gt; A06 -0.43 -2.10</span></span>
+<span id="cb112-13"><a href="linking.html#cb112-13" tabindex="-1"></a><span class="co">#&gt; A07 -1.10 -1.51</span></span>
+<span id="cb112-14"><a href="linking.html#cb112-14" tabindex="-1"></a><span class="co">#&gt; A08 -0.62 -1.02</span></span>
+<span id="cb112-15"><a href="linking.html#cb112-15" tabindex="-1"></a><span class="co">#&gt; A09  1.14  0.65</span></span>
+<span id="cb112-16"><a href="linking.html#cb112-16" tabindex="-1"></a><span class="co">#&gt; A10 -1.82 -2.15</span></span></code></pre></div>
+<p>The anchors look easier on the new calibration, because the new students are
+stronger and their calibration puts them at mean 0. Before linking, check
+for drift. On a common scale the anchor difficulties should lie on a straight
+line:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="linking.html#cb113-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb113-2"><a href="linking.html#cb113-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">new =</span> p_new[, <span class="st">&quot;b&quot;</span>], <span class="at">item =</span> anchors),</span>
+<span id="cb113-3"><a href="linking.html#cb113-3" tabindex="-1"></a>       <span class="fu">aes</span>(new, old)) <span class="sc">+</span></span>
+<span id="cb113-4"><a href="linking.html#cb113-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">&quot;grey70&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb113-5"><a href="linking.html#cb113-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> item), <span class="at">nudge_y =</span> <span class="fl">0.15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb113-6"><a href="linking.html#cb113-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Difficulty, new calibration&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Difficulty, old calibration&quot;</span>) <span class="sc">+</span></span>
+<span id="cb113-7"><a href="linking.html#cb113-7" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-103-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<p>A06 sits well off the line formed by the others. A simple rule is to flag
+anchors whose difference in difficulty is far from the typical difference:</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="linking.html#cb114-1" tabindex="-1"></a>diff_b <span class="ot">&lt;-</span> p_old[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> p_new[, <span class="st">&quot;b&quot;</span>]</span>
+<span id="cb114-2"><a href="linking.html#cb114-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sort</span>((diff_b <span class="sc">-</span> <span class="fu">median</span>(diff_b)) <span class="sc">/</span> <span class="fu">mad</span>(diff_b)), <span class="dv">1</span>)</span>
+<span id="cb114-3"><a href="linking.html#cb114-3" tabindex="-1"></a><span class="co">#&gt;  A04  A03  A10  A08  A01  A07  A09  A05  A02  A06 </span></span>
+<span id="cb114-4"><a href="linking.html#cb114-4" tabindex="-1"></a><span class="co">#&gt; -1.3 -0.9 -0.7 -0.1  0.0  0.0  0.7  0.7  0.9 10.8</span></span></code></pre></div>
+<p>We drop A06 from the anchor set and compute the mean-sigma constants from the
+remaining nine:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="linking.html#cb115-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>)</span>
+<span id="cb115-2"><a href="linking.html#cb115-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb115-3"><a href="linking.html#cb115-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb115-4"><a href="linking.html#cb115-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A, <span class="at">B =</span> B)</span>
+<span id="cb115-5"><a href="linking.html#cb115-5" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
+<span id="cb115-6"><a href="linking.html#cb115-6" tabindex="-1"></a><span class="co">#&gt; 1.04 0.44</span></span></code></pre></div>
+<p><span class="math inline">\(B\)</span> estimates how much stronger the new cohort is on the old scale (we
+simulated 0.4), and <span class="math inline">\(A\)</span> how much more spread out (1.1). Stocking-Lord finds
+the constants that make the two anchor characteristic curves agree:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="linking.html#cb116-1" tabindex="-1"></a>tcc <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, theta) <span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b))))</span>
+<span id="cb116-2"><a href="linking.html#cb116-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">41</span>)</span>
+<span id="cb116-3"><a href="linking.html#cb116-3" tabindex="-1"></a>sl_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb116-4"><a href="linking.html#cb116-4" tabindex="-1"></a>  A <span class="ot">&lt;-</span> k[<span class="dv">1</span>]; B <span class="ot">&lt;-</span> k[<span class="dv">2</span>]</span>
+<span id="cb116-5"><a href="linking.html#cb116-5" tabindex="-1"></a>  <span class="fu">sum</span>((<span class="fu">tcc</span>(p_old[keep, <span class="st">&quot;a&quot;</span>], p_old[keep, <span class="st">&quot;b&quot;</span>], grid) <span class="sc">-</span></span>
+<span id="cb116-6"><a href="linking.html#cb116-6" tabindex="-1"></a>       <span class="fu">tcc</span>(p_new[keep, <span class="st">&quot;a&quot;</span>] <span class="sc">/</span> A, A <span class="sc">*</span> p_new[keep, <span class="st">&quot;b&quot;</span>] <span class="sc">+</span> B, grid))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">dnorm</span>(grid))</span>
+<span id="cb116-7"><a href="linking.html#cb116-7" tabindex="-1"></a>}</span>
+<span id="cb116-8"><a href="linking.html#cb116-8" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), sl_loss)<span class="sc">$</span>par</span>
+<span id="cb116-9"><a href="linking.html#cb116-9" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> sl[<span class="dv">1</span>], <span class="at">B =</span> sl[<span class="dv">2</span>])</span>
+<span id="cb116-10"><a href="linking.html#cb116-10" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
+<span id="cb116-11"><a href="linking.html#cb116-11" tabindex="-1"></a><span class="co">#&gt; 1.05 0.41</span></span></code></pre></div>
+<p>Both methods recover the cohort difference well. What would have happened
+if we had kept the drifted anchor?</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="linking.html#cb117-1" tabindex="-1"></a>A_all <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb117-2"><a href="linking.html#cb117-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_all, <span class="at">B =</span> <span class="fu">mean</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_all <span class="sc">*</span> <span class="fu">mean</span>(p_new[, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb117-3"><a href="linking.html#cb117-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
+<span id="cb117-4"><a href="linking.html#cb117-4" tabindex="-1"></a><span class="co">#&gt; 0.963 0.487</span></span></code></pre></div>
+<p>One leaked item is enough to distort the link, and with it every score on
+the new form.</p>
+</div>
+<div id="example-2-concurrent-calibration-and-equating-a-pass-mark" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Example 2: concurrent calibration and equating a pass mark<a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Concurrent calibration fits both forms at once. We stack the two datasets;
+each student has <code>NA</code> for the items they did not take.</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="linking.html#cb118-1" tabindex="-1"></a><span class="co"># The same NEAT data stacked: NA for items not on a student&#39;s form.</span></span>
+<span id="cb118-2"><a href="linking.html#cb118-2" tabindex="-1"></a><span class="co"># A06 is renamed on the new form, so it is not treated as an anchor.</span></span>
+<span id="cb118-3"><a href="linking.html#cb118-3" tabindex="-1"></a>new_a <span class="ot">&lt;-</span> new; <span class="fu">names</span>(new_a)[<span class="fu">names</span>(new_a) <span class="sc">==</span> <span class="st">&quot;A06&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;A06_new&quot;</span></span>
+<span id="cb118-4"><a href="linking.html#cb118-4" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
+<span id="cb118-5"><a href="linking.html#cb118-5" tabindex="-1"></a>              <span class="fu">transform</span>(new_a, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new_a))),</span>
+<span id="cb118-6"><a href="linking.html#cb118-6" tabindex="-1"></a>              <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb118-7"><a href="linking.html#cb118-7" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
+<span id="cb118-8"><a href="linking.html#cb118-8" tabindex="-1"></a>resp <span class="ot">&lt;-</span> resp[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span></code></pre></div>
+<p>Renaming A06 on the new form turns it into two separate items, one per form,
+which is the usual way to drop a drifted anchor from the link without
+discarding its responses. <code>multipleGroup()</code> constrains every item to have the
+same parameters in both groups (each unique item is only seen by one group
+anyway) and frees the new group’s mean and variance:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="linking.html#cb119-1" tabindex="-1"></a>mg <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
+<span id="cb119-2"><a href="linking.html#cb119-2" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp, <span class="dv">1</span>, <span class="at">group =</span> form, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb119-3"><a href="linking.html#cb119-3" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
+<span id="cb119-4"><a href="linking.html#cb119-4" tabindex="-1"></a><span class="fu">coef</span>(mg, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new[<span class="fu">c</span>(<span class="st">&quot;means&quot;</span>, <span class="st">&quot;cov&quot;</span>)]</span>
+<span id="cb119-5"><a href="linking.html#cb119-5" tabindex="-1"></a><span class="co">#&gt; $means</span></span>
+<span id="cb119-6"><a href="linking.html#cb119-6" tabindex="-1"></a><span class="co">#&gt;    F1 </span></span>
+<span id="cb119-7"><a href="linking.html#cb119-7" tabindex="-1"></a><span class="co">#&gt; 0.411 </span></span>
+<span id="cb119-8"><a href="linking.html#cb119-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb119-9"><a href="linking.html#cb119-9" tabindex="-1"></a><span class="co">#&gt; $cov</span></span>
+<span id="cb119-10"><a href="linking.html#cb119-10" tabindex="-1"></a><span class="co">#&gt;      F1</span></span>
+<span id="cb119-11"><a href="linking.html#cb119-11" tabindex="-1"></a><span class="co">#&gt; F1 1.12</span></span></code></pre></div>
+<p>The new group’s mean and variance are estimated on the old group’s scale, and
+are close to the values we simulated (0.4 and <span class="math inline">\(1.1^2 = 1.21\)</span>).</p>
+<p>Now the pass mark. The old form’s pass mark was 18 correct out of 30. What
+score on the new form corresponds to the same ability? <strong>IRT true-score
+equating</strong> finds the <span class="math inline">\(\theta\)</span> at which the old form’s expected score (its test
+characteristic curve) equals 18, then reads off the new form’s expected score
+at that <span class="math inline">\(\theta\)</span>.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="linking.html#cb120-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">coef</span>(mg, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>old<span class="sc">$</span>items</span>
+<span id="cb120-2"><a href="linking.html#cb120-2" tabindex="-1"></a>old_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors)</span>
+<span id="cb120-3"><a href="linking.html#cb120-3" tabindex="-1"></a>new_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>), <span class="st">&quot;A06_new&quot;</span>)</span>
+<span id="cb120-4"><a href="linking.html#cb120-4" tabindex="-1"></a>tcc_form <span class="ot">&lt;-</span> <span class="cf">function</span>(ids, theta) <span class="fu">tcc</span>(items[ids, <span class="st">&quot;a&quot;</span>], items[ids, <span class="st">&quot;b&quot;</span>], theta)</span>
+<span id="cb120-5"><a href="linking.html#cb120-5" tabindex="-1"></a>theta_cut <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">18</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
+<span id="cb120-6"><a href="linking.html#cb120-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">new_form_cut =</span> <span class="fu">tcc_form</span>(new_items, theta_cut))</span>
+<span id="cb120-7"><a href="linking.html#cb120-7" tabindex="-1"></a><span class="co">#&gt;    theta_cut new_form_cut </span></span>
+<span id="cb120-8"><a href="linking.html#cb120-8" tabindex="-1"></a><span class="co">#&gt;        0.419       19.763</span></span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="linking.html#cb121-1" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> <span class="fu">rep</span>(grid, <span class="dv">2</span>),</span>
+<span id="cb121-2"><a href="linking.html#cb121-2" tabindex="-1"></a>                     <span class="at">score =</span> <span class="fu">c</span>(<span class="fu">tcc_form</span>(old_items, grid), <span class="fu">tcc_form</span>(new_items, grid)),</span>
+<span id="cb121-3"><a href="linking.html#cb121-3" tabindex="-1"></a>                     <span class="at">form =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Old form&quot;</span>, <span class="st">&quot;New form&quot;</span>), <span class="at">each =</span> <span class="fu">length</span>(grid)))</span>
+<span id="cb121-4"><a href="linking.html#cb121-4" tabindex="-1"></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(theta, score, <span class="at">colour =</span> form)) <span class="sc">+</span></span>
+<span id="cb121-5"><a href="linking.html#cb121-5" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb121-6"><a href="linking.html#cb121-6" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> theta_cut, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb121-7"><a href="linking.html#cb121-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">18</span>, <span class="at">linetype =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb121-8"><a href="linking.html#cb121-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Expected number correct&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb121-9"><a href="linking.html#cb121-9" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-110-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p>If the new form is easier, its curve lies above the old form’s and the pass
+mark on the new form is higher; if it is harder, the pass mark is lower.
+Here the new form is a little easier, so the old pass mark of 18 corresponds
+to about 19.8 on the new form.
+Rounding the equated score to a whole number is a policy decision: rounding
+down passes slightly more candidates than the old standard, rounding up
+slightly fewer.</p>
+</div>
+<div id="your-turn-9" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Your turn<a href="linking.html#your-turn-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Repeat the mean-sigma link in Example 1 with the <em>mean-mean</em> method:
+<span class="math inline">\(A = \bar a_\text{new} / \bar a_\text{old}\)</span>, <span class="math inline">\(B = \bar b_\text{old} - A\,\bar
+b_\text{new}\)</span>. How close are the constants to the Stocking-Lord ones?</li>
+<li>Rerun the concurrent calibration of Example 2 <em>with</em> A06 as an anchor.
+How much does the estimated mean of the new group change?</li>
+<li>Compute the pass mark on the new form if the old pass mark were 22.</li>
+<li>A board member asks why the pass mark changed from one year to the next
+“when the standard was supposed to stay the same”. Answer in two sentences.</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="linking.html#cb122-1" tabindex="-1"></a>A_mm <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;a&quot;</span>]) <span class="sc">/</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;a&quot;</span>])</span>
+<span id="cb122-2"><a href="linking.html#cb122-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_mm, <span class="at">B =</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_mm <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb122-3"><a href="linking.html#cb122-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
+<span id="cb122-4"><a href="linking.html#cb122-4" tabindex="-1"></a><span class="co">#&gt; 1.025 0.422</span></span>
+<span id="cb122-5"><a href="linking.html#cb122-5" tabindex="-1"></a></span>
+<span id="cb122-6"><a href="linking.html#cb122-6" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
+<span id="cb122-7"><a href="linking.html#cb122-7" tabindex="-1"></a>                  <span class="fu">transform</span>(new, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new))),</span>
+<span id="cb122-8"><a href="linking.html#cb122-8" tabindex="-1"></a>                  <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb122-9"><a href="linking.html#cb122-9" tabindex="-1"></a>form_all <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp_all<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
+<span id="cb122-10"><a href="linking.html#cb122-10" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> resp_all[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp_all), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span>
+<span id="cb122-11"><a href="linking.html#cb122-11" tabindex="-1"></a>mg_all <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
+<span id="cb122-12"><a href="linking.html#cb122-12" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp_all, <span class="dv">1</span>, <span class="at">group =</span> form_all, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb122-13"><a href="linking.html#cb122-13" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp_all), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
+<span id="cb122-14"><a href="linking.html#cb122-14" tabindex="-1"></a><span class="fu">coef</span>(mg_all, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new<span class="sc">$</span>means</span>
+<span id="cb122-15"><a href="linking.html#cb122-15" tabindex="-1"></a><span class="co">#&gt;   F1 </span></span>
+<span id="cb122-16"><a href="linking.html#cb122-16" tabindex="-1"></a><span class="co">#&gt; 0.54</span></span>
+<span id="cb122-17"><a href="linking.html#cb122-17" tabindex="-1"></a></span>
+<span id="cb122-18"><a href="linking.html#cb122-18" tabindex="-1"></a>theta22 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">22</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
+<span id="cb122-19"><a href="linking.html#cb122-19" tabindex="-1"></a><span class="fu">tcc_form</span>(new_items, theta22)</span>
+<span id="cb122-20"><a href="linking.html#cb122-20" tabindex="-1"></a><span class="co">#&gt; [1] 23.1</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>With A06 treated as an anchor, the new group’s mean rises well above the
+simulated 0.4. The model has to explain why the new students do so much
+better on A06; since A06 is constrained to be the same item, part of the
+leak is credited to the students’ ability. Every new-form score would be
+too high.</li>
+<li>For example: “The standard is the same level of ability, not the same
+number of questions. This year’s form was a little easier, so reaching
+that level of ability takes a slightly higher number of correct answers.”</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-9" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="linking.html#in-the-lab-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 4, <code>run_lab("linking")</code>, asks why a licensure exam’s pass rate jumped on
+a new form. You calibrate both forms, link them, check the anchors, compare
+separate and concurrent calibration, and carry the pass mark over.</p>
+</div>
+</div>
+<div id="further-reading-9" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="linking.html#further-reading-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Kolen and Brennan <span class="citation">(<a href="#ref-kolen2014">2014</a>)</span> is the standard reference on equating and
+linking. Stocking and Lord <span class="citation">(<a href="#ref-stocking1983">1983</a>)</span> introduced the characteristic
+curve method used here.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-kolen2014" class="csl-entry">
+Kolen, Michael J., and Robert L. Brennan. 2014. <em>Test Equating, Scaling, and Linking: Methods and Practices</em>. 3rd ed. Springer.
+</div>
+<div id="ref-stocking1983" class="csl-entry">
+Stocking, Martha L., and Frederic M. Lord. 1983. <span>“Developing a Common Metric in Item Response Theory.”</span> <em>Applied Psychological Measurement</em> 7 (2): 201–10.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dif.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="banks-cat.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/10-linking.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

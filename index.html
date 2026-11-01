@@ -47,9 +47,12 @@
     <li><h6 class="dropdown-header" data-toc-skip>Teaching and learning</h6></li>
     <li><a class="dropdown-item" href="articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
     <li><a class="dropdown-item" href="articles/course-map.html">A course map for instructors</a></li>
+    <li><a class="dropdown-item" href="articles/instructor-toolkit.html">The instructor toolkit</a></li>
+    <li><a class="dropdown-item" href="articles/instructor-mcp.html">An AI assistant for your course materials</a></li>
     <li><a class="dropdown-item" href="articles/glossary.html">Glossary of IRT terms</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="book/index.html">Book</a></li>
 <li class="nav-item"><a class="nav-link" href="cheatsheet/mirtverse-cheatsheet.pdf">Cheat sheet</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
@@ -173,9 +176,21 @@
 </td>
 </tr>
 <tr>
+<td>Instructor toolkit: labs on your own data, editable labs and chapters</td>
+<td>
+<code><a href="reference/new_course.html">new_course()</a></code>, <code><a href="reference/new_lab.html">new_lab()</a></code>, <code><a href="reference/swap_lab_data.html">swap_lab_data()</a></code>, <code><a href="reference/check_material.html">check_material()</a></code>
+</td>
+</tr>
+<tr>
 <td>Translate ltm, eRm, TAM and irtQ code into mirt code</td>
 <td>
 <code><a href="reference/mirtify.html">mirtify()</a></code>, <code><a href="reference/mirtify_crosswalk.html">mirtify_crosswalk()</a></code>
+</td>
+</tr>
+<tr>
+<td>Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server)</td>
+<td>
+<code><a href="reference/mv_mcp_server.html">mv_mcp_server()</a></code>, <code><a href="reference/mv_mcp_config.html">mv_mcp_config()</a></code>
 </td>
 </tr>
 </tbody>
@@ -213,7 +228,7 @@
 <span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span>
 <span><span class="fu"><a href="reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, title <span class="op">=</span> <span class="st">"LSAT results"</span><span class="op">)</span>   <span class="co"># interactive dashboard to share</span></span></code></pre></div>
 <p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>. Prefer describing the analysis in words? <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes the whole script for you.</p>
-<p>Teaching a measurement course? <code>run_lab("model-choice")</code> opens an interactive lab in which students work through a realistic testing scenario with live models (see <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">Teaching labs</a>).</p>
+<p>Teaching a measurement course? <code>run_lab("model-choice")</code> opens an interactive lab in which students work through a realistic testing scenario with live models (see <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">Teaching labs</a>). The online book <a href="https://www.okanbulut.com/mirtverse/book/"><em>Item Response Theory with mirt and mirtverse</em></a> gives extended notes for each week of a course, with worked examples and exercises. To teach with your own data, <code><a href="reference/new_lab.html">new_lab()</a></code> builds a lab on any response dataset (see <a href="https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html">The instructor toolkit</a>).</p>
 </div>
 <div class="section level2">
 <h2 id="cheat-sheet">Cheat sheet<a class="anchor" aria-label="anchor" href="#cheat-sheet"></a>
