@@ -10,9 +10,12 @@ redirects:
 
 navbar:
   structure:
-    left: [intro, reference, articles, cheatsheet, news]
+    left: [intro, reference, articles, book, cheatsheet, news]
     right: [search, github]
   components:
+    book:
+      text: Book
+      href: book/index.html
     cheatsheet:
       text: Cheat sheet
       href: cheatsheet/mirtverse-cheatsheet.pdf
@@ -33,6 +36,7 @@ articles:
   contents:
   - articles/teaching-labs
   - articles/course-map
+  - articles/instructor-toolkit
   - articles/instructor-mcp
   - articles/glossary
 
@@ -127,6 +131,22 @@ reference:
   - linking
   - catbank
   - openended
+- title: Instructor toolkit
+  desc: >
+    Build labs on your own data, adapt the built-in labs and the book's
+    chapters, swap datasets and check materials before class.
+  contents:
+  - new_course
+  - course_materials
+  - new_lab
+  - copy_lab
+  - lab_section_types
+  - add_lab_section
+  - swap_lab_data
+  - lab_data
+  - copy_chapter
+  - check_material
+  - preview_lab
 - title: AI assistant for instructors
   desc: Connect Claude or an OpenAI assistant to your course materials.
   contents:

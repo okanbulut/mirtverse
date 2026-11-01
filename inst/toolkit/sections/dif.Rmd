@@ -1,0 +1,38 @@
+<!-- mv-section: id={{id}} type=dif -->
+## Are the items fair?
+
+### Differential item functioning
+
+An item shows **differential item functioning (DIF)** when people of the
+same ability but from different groups (here, `r paste(levels(group), collapse = " and ")`)
+have different chances of getting it right. A difference in the groups'
+*average* scores is not DIF by itself; it may reflect a real difference in
+ability (impact).
+
+`dif()` tests each item in turn with a likelihood-ratio test, using the
+other items as anchors. It can take up to a minute.
+
+```{r {{id}}-dif, exercise = TRUE, exercise.timelimit = 300}
+res <- dif(resp, group = group, model = models[2])
+res
+```
+
+```{r {{id}}-dif-check}
+lab_need(exists("res") && inherits(res, "mv_dif"), "Save the result of dif() as `res`.")
+paste0(sum(res$table$flag), " item(s) are flagged after the Benjamini-Hochberg adjustment.")
+```
+
+```{r {{id}}-q-dif}
+.tk_res <- mirtverse::dif(resp, group = group, model = models[2])
+.tk_k <- sum(.tk_res$table$flag)
+.tk_opts <- sort(utils::head(unique(pmax(0, .tk_k + c(0, -1, 1, 2, -2, 3, 4))), 4))
+.tk_flag <- paste(.tk_res$table$item[.tk_res$table$flag], collapse = ", ")
+do.call(question_radio, c(
+  list("How many items does dif() flag?"),
+  lapply(.tk_opts, function(k) answer(as.character(k), correct = k == .tk_k,
+    message = if (k == .tk_k) {
+      if (.tk_k == 0) "Right: no item is flagged." else paste0("Right: ", .tk_flag, ". A flag starts a content review; it does not prove bias.")
+    } else "Count the flagged rows in the table that dif() prints.")),
+  list(allow_retry = TRUE)))
+```
+

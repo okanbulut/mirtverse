@@ -1,0 +1,6 @@
+_book/
+_bookdown_files/
+*.rds
+*_cache/
+*_files/
+mirtverse-book.*

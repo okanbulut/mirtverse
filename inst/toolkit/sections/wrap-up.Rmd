@@ -1,0 +1,10 @@
+<!-- mv-section: id={{id}} type=wrap-up -->
+## Where to next
+
+You worked through an IRT analysis of `r lab$info$data_title` from the raw
+responses to a written recommendation. To go further:
+
+* `mv_report(fit)` writes a full HTML report for a model.
+* `interpret(fit)` explains a model's results in plain language.
+* `run_lab()` opens the mirtverse teaching labs, and `list_labs()` lists them.
+

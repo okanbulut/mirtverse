@@ -1,0 +1,27 @@
+book_filename: "mirtverse-book"
+output_dir: "_book"
+delete_merged_file: true
+before_chapter_script: "_common.R"
+repo: https://github.com/okanbulut/mirtverse/blob/main/book/
+language:
+  label:
+    exr: "Exercise "
+  ui:
+    chapter_name: "Chapter "
+rmd_files:
+  - index.Rmd
+  - 01-measurement.Rmd
+  - 02-irt-models.Rmd
+  - 03-estimation.Rmd
+  - 04-dimensionality.Rmd
+  - 05-fit.Rmd
+  - 06-information.Rmd
+  - 07-scoring.Rmd
+  - 08-polytomous.Rmd
+  - 09-dif.Rmd
+  - 10-linking.Rmd
+  - 11-banks-cat.Rmd
+  - 12-reporting.Rmd
+  - 90-datasets.Rmd
+  - 91-adapting.Rmd
+  - 99-references.Rmd

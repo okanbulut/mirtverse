@@ -1,0 +1,25 @@
+<!-- mv-section: id={{id}} type=intro -->
+## Meet the data
+
+### The story
+
+`r lab$info$story`
+
+### The responses
+
+The data are **`r lab$info$data_title`**: `r nrow(resp)` people answered
+`r ncol(resp)` items. `r if (lab$polytomous) "The items are scored in ordered categories (0, 1, 2 and so on)." else "Each item is scored 1 (right) or 0 (wrong)."`
+`r if (!is.null(group)) paste0("Each person also belongs to one of two groups (", paste(levels(group), collapse = " or "), "), which you will use to check whether the items are fair.") else ""`
+
+The scored responses are in `resp`, one column per item and one row per
+person. Run the code to look at the first rows and the size of the data.
+
+```{r {{id}}-look, exercise = TRUE}
+head(resp)
+dim(resp)
+```
+
+```{r {{id}}-look-check}
+"Each row is a person and each column is an item."
+```
+

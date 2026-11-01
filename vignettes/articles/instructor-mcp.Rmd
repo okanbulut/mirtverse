@@ -44,7 +44,7 @@ the assistant picks them.
 | Bring in existing materials | `scan_material`, `translate_code` (uses `mirtify()`) |
 | Get it right | `mirtverse_help` (real function names and arguments), `guide` (lab and chapter style), `check_material` (runs the material) |
 
-The lab and chapter tools use the instructor toolkit functions of mirtverse, so anything the assistant builds is the same as what
+The lab and chapter tools use the functions of the [instructor toolkit](instructor-toolkit.html), so anything the assistant builds is the same as what
 you would build by hand.
 
 It also offers three ready-made requests (MCP "prompts"), which appear in

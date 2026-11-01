@@ -1,5 +1,28 @@
 # mirtverse (development version)
 
+* New online book, *Item Response Theory with mirt and mirtverse*, at
+  <https://www.okanbulut.com/mirtverse/book/>. Twelve chapters follow the
+  weeks of the course map, from classical item analysis to cut scores and
+  reporting. Each has learning goals, glossary links, two worked examples on
+  different data, exercises with solutions and a pointer to the matching lab.
+  The bookdown source is in `book/`, every example loads its data in one
+  labelled chunk so instructors can swap in their own, and the pkgdown
+  workflow builds the book into the site. The site navbar links to it.
+
+* New instructor toolkit for teaching with your own data, with a guide on
+  the website ("The instructor toolkit"). `new_course()` sets up a
+  course folder and `course_materials()` lists what is in it. `new_lab()`
+  builds an interactive learnr lab on any response dataset (a data frame or
+  a CSV, Excel, SPSS, Stata or SAS file), with sections from
+  `lab_section_types()` whose text, answer checks and quiz answers are
+  computed from the data, so `swap_lab_data()` can replace the data later.
+  `add_lab_section()`, `add_lab_exercise()`, `add_lab_question()`,
+  `remove_lab_section()` and `lab_outline()` edit a lab; `copy_lab()` makes
+  an editable copy of a built-in lab; `copy_chapter()`, `new_chapter()` and
+  `swap_chapter_data()` do the same for chapters of the mirtverse book.
+  `check_material()` runs every exercise's solution through its check (and
+  can render the lab) before students see it, and `preview_lab()` opens it.
+
 * New MCP server for instructors: `mv_mcp_server()` connects an AI assistant
   (Claude Desktop, Claude Code, OpenAI Codex, the OpenAI Agents SDK or
   ChatGPT) to a course folder, so instructors can revise labs, chapters and
