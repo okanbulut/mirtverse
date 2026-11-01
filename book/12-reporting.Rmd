@@ -1,0 +1,259 @@
+# Cut scores, reporting and communicating results {#reporting}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* describe the Bookmark standard-setting method and build an item map at a
+  response probability of 0.67;
+* turn a cut on the $\theta$ scale into a raw-score cut;
+* estimate classification accuracy and consistency at a cut score;
+* report IRT results to people who do not use R, with a written summary, a
+  report and a dashboard.
+</div>
+
+**Key terms:**
+[cut score](https://www.okanbulut.com/mirtverse/articles/glossary.html#cut-score),
+[standard setting](https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-setting),
+[response probability](https://www.okanbulut.com/mirtverse/articles/glossary.html#response-probability),
+[classification accuracy](https://www.okanbulut.com/mirtverse/articles/glossary.html#classification-accuracy),
+[classification consistency](https://www.okanbulut.com/mirtverse/articles/glossary.html#classification-consistency),
+[test characteristic curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#test-characteristic-curve).
+
+## The ideas
+
+A **cut score** divides a scale into categories such as *pass* and *fail*, or
+*below basic*, *proficient* and *advanced*. Where the cut goes is a judgement
+about what performance is good enough, made by people who know the content
+and the consequences. **Standard setting** is the family of structured
+procedures for making that judgement defensibly [@cizek2007].
+
+The **Bookmark method** is closely tied to IRT. Items are ordered from
+easiest to hardest in an *ordered item booklet*, where each item's location
+is the $\theta$ at which a test taker has a fixed probability (usually 0.67,
+the **response probability** RP67) of answering it correctly. Each panelist
+places a bookmark after the last item that a *just-qualified* candidate
+should master. The location of the bookmarked item is that panelist's cut,
+and the panel's cut is usually the median over panelists after several
+rounds of discussion. For a 2PL item, the RP67 location is
+
+$$\theta_{0.67} = b + \frac{\ln(0.67/0.33)}{a}.$$
+
+Once a cut is fixed on the $\theta$ scale, two numbers describe how well the
+test sorts people. **Classification accuracy** is the proportion of people
+whose estimated category matches their true category. **Classification
+consistency** is the proportion who would be placed in the same category on
+two independent administrations of the test. Both can be estimated from a
+single administration using the scores and their standard errors
+[@rudner2001].
+
+Finally, results have to be communicated. People who make decisions with test
+scores rarely read item parameters. They need a short, honest summary of what
+the test measures, how precisely, for whom it works, and what the scores mean.
+
+## Example 1: setting a proficiency standard
+
+A provincial Grade 6 science test has 36 items. We simulate a calibration on
+2,500 students.
+
+```{r data-reporting-1}
+# Simulated 36-item science test, 2,500 students.
+set.seed(1212)
+a <- matrix(rlnorm(36, 0.15, 0.25)); b <- sort(rnorm(36, 0, 1))
+resp <- simdata(a, matrix(-a * b), N = 2500, itemtype = "2PL")
+colnames(resp) <- sprintf("S%02d", 1:36)
+```
+
+```{r}
+mod <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+pars <- coef(mod, IRTpars = TRUE, simplify = TRUE)$items
+booklet <- data.frame(item = rownames(pars), a = pars[, "a"], b = pars[, "b"])
+booklet$rp67 <- booklet$b + log(0.67 / 0.33) / booklet$a
+booklet <- booklet[order(booklet$rp67), ]
+booklet$page <- seq_len(nrow(booklet))
+head(booklet, 8)
+```
+
+The ordered item booklet is `booklet`, one page per item. Suppose eight
+panelists, after two rounds of discussion, place their bookmarks for
+*proficient* on these pages:
+
+```{r}
+bookmarks <- c(20, 22, 21, 23, 22, 24, 21, 22)
+panel_cuts <- booklet$rp67[bookmarks]
+theta_cut <- median(panel_cuts)
+c(theta_cut = theta_cut, spread = sd(panel_cuts))
+```
+
+The standard deviation of the panelists' cuts, divided by the square root of
+the number of panelists, is a rough standard error of the panel's cut. It
+should be reported alongside the cut.
+
+Teachers and parents see raw scores, so we convert the cut with the **test
+characteristic curve**: the expected number correct at $\theta$.
+
+```{r}
+raw_cut <- expected.test(mod, matrix(theta_cut))
+c(theta_cut = theta_cut, expected_raw = raw_cut, raw_cut = ceiling(raw_cut))
+```
+
+How many students are classified as proficient, and how accurately?
+
+```{r}
+sc <- fscores(mod, full.scores.SE = TRUE)
+above <- sc[, 1] >= theta_cut
+p_above <- pnorm((sc[, 1] - theta_cut) / sc[, 2])
+c(percent_proficient = mean(above),
+  accuracy = mean(ifelse(above, p_above, 1 - p_above)),
+  consistency = mean(p_above^2 + (1 - p_above)^2))
+```
+
+Accuracy compares each student's category with where their true score
+probably lies; consistency asks how often two independent testings would
+agree (here approximated from each student's posterior probability of being
+above the cut). Consistency is always the lower of the two, because both
+testings carry error.
+
+An item map makes the cut concrete for teachers: it shows which items a
+just-proficient student is likely to answer correctly (the items below the
+line). Printing the text of a few items on each side of the line is a good
+way to describe what *proficient* means.
+
+```{r, fig.height = 3.8}
+library(ggplot2)
+ggplot(booklet, aes(page, rp67, colour = rp67 <= theta_cut)) +
+  geom_hline(yintercept = theta_cut, colour = "#C0392B", linewidth = 0.8) +
+  geom_point(size = 2) +
+  annotate("text", x = 1, y = theta_cut + 0.15, label = "Proficient cut",
+           colour = "#C0392B", hjust = 0, size = 3.5) +
+  scale_colour_manual(values = c(`TRUE` = "#2C5F8A", `FALSE` = "grey60"),
+                      labels = c(`TRUE` = "mastered at the cut", `FALSE` = "not yet")) +
+  labs(x = "Page in the ordered item booklet", y = "RP67 location (theta)",
+       colour = NULL) +
+  theme_mirtverse()
+```
+
+In a real programme, `item_map()` and `set_cuts()` in the [assessment
+pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-8)
+produce the booklet, record the panel's judgements, and report impact and
+classification statistics for several cuts at once.
+
+## Example 2: telling the story
+
+We return to the attitude scale from Chapter \@ref(polytomous) to show the
+reporting tools on a different kind of instrument.
+
+```{r data-reporting-2}
+# Four 4-category attitude items (scored 1-4), 392 respondents.
+resp <- Science
+```
+
+`select_model()` and `interpret()` give a plain-language summary that is a
+good first draft for the methods and results sections of a report:
+
+```{r}
+sel <- select_model(resp, verbose = FALSE)
+interpret(sel$best)
+```
+
+Read it critically before you use it: it flags the poor absolute fit and the
+low precision, and a careful report says what that means for the intended
+use of the scores.
+
+`interpret_prompt()` packages the same results into a prompt you can paste
+into an AI assistant to draft a longer narrative. Nothing is sent anywhere.
+
+For people who want to see everything, mirtverse writes a complete HTML
+report in one call, with the model comparison, the interpretation, tables,
+figures, a sum-score conversion table, item health cards and the code to
+reproduce it:
+
+```{r, eval = FALSE}
+mv_report(sel, file = "science-attitudes-report.html")
+```
+
+For people who want to explore, a dashboard lets them move an ability slider,
+click through items and download tables, without R:
+
+```{r, eval = FALSE}
+mv_dashboard(sel$best, title = "Attitudes to science")
+export_dashboard(sel$best, "science-dashboard.html", format = "html")
+```
+
+See [Sharing results with a
+dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.html) for
+the options.
+
+### A one-page memo
+
+Decision makers usually want one page. A structure that works:
+
+1. **The question.** What decision will the scores support?
+2. **The answer.** One or two sentences: can the test support it?
+3. **The evidence.** Three to five bullets: precision where the decision is
+   made, classification accuracy, fairness checks, any items removed.
+4. **What it means.** The consequences of the cut for the people tested,
+   for example the percentage classified in each category and how many are
+   close to the cut.
+5. **Recommendations and limits.**
+
+## Your turn
+
+<div class="yourturn">
+1. In Example 1, how many raw-score points does the cut move if every
+   panelist moves their bookmark one page later?
+2. Repeat the item map with RP50 instead of RP67. Does the cut move up or
+   down? Why does the choice of response probability matter to panelists?
+3. Add a second cut for *advanced* at page 30. Estimate the accuracy of the
+   three-category classification.
+4. Write the "answer" and "evidence" parts of a memo about the proficiency
+   cut in Example 1.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+cut_later <- median(booklet$rp67[bookmarks + 1])
+c(expected.test(mod, matrix(theta_cut)), expected.test(mod, matrix(cut_later)))
+
+rp50 <- sort(booklet$b)
+c(rp67_cut = theta_cut, rp50_cut = median(rp50[bookmarks]))
+
+adv <- median(booklet$rp67[rep(30, 8)])
+cats <- cut(sc[, 1], c(-Inf, theta_cut, adv, Inf), labels = c("below", "proficient", "advanced"))
+p_cat <- cbind(pnorm((theta_cut - sc[, 1]) / sc[, 2]),
+               pnorm((adv - sc[, 1]) / sc[, 2]) - pnorm((theta_cut - sc[, 1]) / sc[, 2]),
+               1 - pnorm((adv - sc[, 1]) / sc[, 2]))
+mean(p_cat[cbind(seq_len(nrow(p_cat)), as.integer(cats))])
+```
+
+1. Hardly at all here, because the items in that part of the booklet have
+   very similar RP67 locations. Where the booklet has gaps between items, a
+   single page can move the cut a lot, which is worth showing panelists.
+2. With RP50 every item's location is lower, so the same bookmark gives a
+   lower cut. Panelists must understand what "mastered" means (a 50% or a
+   67% chance), or their bookmarks will not mean what they intend.
+4. For example: "The test can support a proficient/not proficient
+   decision. About 93% of students are expected to be classified correctly,
+   and 89% would be classified the same way if tested again. The panel's
+   eight judgements were close together, and about one student in five is
+   classified as proficient." Use the numbers from your own output, and add
+   the standard error at the cut (`1 / sqrt(testinfo(mod, matrix(theta_cut)))`).
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+The course map ends with a final project: a full analysis of a dataset of
+the student's choice, handed in as an `mv_report()` or a dashboard plus a
+two-page memo. The [assessment
+pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html)
+is a useful checklist for it.
+</div>
+
+## Further reading {-}
+
+Cizek and Bunch [-@cizek2007] describe the Bookmark method and other
+standard-setting procedures. Rudner [-@rudner2001] shows how to estimate
+classification accuracy from IRT results. The *Standards* [@aera2014] set out
+what to report about cut scores.

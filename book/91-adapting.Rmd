@@ -1,0 +1,89 @@
+# Adapting the book for your course {#adapting}
+
+The book is meant to be changed. Each chapter is a separate R Markdown file,
+each example starts from one data chunk, and the book builds with one
+command, so you can reorder chapters, replace examples with your own data,
+or add a chapter for a topic you teach.
+
+## The files {-}
+
+All sources are in the
+[`book/` folder](https://github.com/okanbulut/mirtverse/tree/main/book) of
+the mirtverse repository:
+
+| File | Contents |
+|---|---|
+| `index.Rmd` | Title page and preface |
+| `01-measurement.Rmd` to `12-reporting.Rmd` | The twelve chapters, one per course week |
+| `90-datasets.Rmd`, `91-adapting.Rmd` | The appendices |
+| `_bookdown.yml` | Chapter order (`rmd_files`) and output folder |
+| `_output.yml` | Look of the HTML book |
+| `_common.R` | Code run before every chapter: loads mirtverse and sets chunk options |
+| `references.bib` | References cited in the book |
+
+The chapter files and their ids (`{#measurement}`, `{#irt-models}` and so
+on) are kept stable, so links to a chapter keep working across versions.
+
+## Every chapter has the same shape {-}
+
+1. A **Learning goals** box.
+2. **Key terms**, linked to the glossary.
+3. **The ideas.**
+4. **Example 1** and **Example 2**, each starting with a data chunk labelled
+   `data-<chapter id>-1` or `-2`.
+5. **Your turn**, with solutions in a folded `<details>` block.
+6. **In the lab** and **Further reading**.
+
+Keep this shape when you add a chapter, and students will always know where
+to look.
+
+## Swapping in your own data {-}
+
+To use your own data in an example, replace the body of its data chunk and
+keep the label and the object names listed in Appendix \@ref(datasets). For
+example, to run Example 1 of Chapter \@ref(irt-models) on your own
+dichotomous test:
+
+````markdown
+```{r data-irt-models-1}`r ''`
+# Our midterm: 40 multiple-choice items, scored 0/1.
+resp <- read.csv("midterm-scored.csv")[, -1]   # drop the ID column
+```
+````
+
+The rest of the example then runs on your data. Two caveats:
+
+* Examples built on **simulated** data compare estimates with the true
+  values used to simulate them (objects such as `true`, `true_theta` or the
+  planted DIF items). With real data there is no truth, so delete those
+  comparisons or turn them into questions for students.
+* The prose describes the original results. Re-read the text around each
+  output after you swap the data, and edit the interpretation to match.
+
+The mirtverse instructor toolkit automates these steps, for example copying
+a chapter into a course folder and replacing a data chunk; see the
+[instructor toolkit
+guide](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html).
+
+## Building the book {-}
+
+Install bookdown once, then build from the `book/` folder:
+
+```{r, eval = FALSE}
+install.packages("bookdown")
+bookdown::render_book("index.Rmd")           # the whole book, into _book/
+bookdown::preview_chapter("05-fit.Rmd")      # one chapter, faster
+```
+
+Open `_book/index.html` in a browser to read the result. The whole book
+builds in a few minutes on a laptop. To publish your own version, put the
+`_book/` folder on any web server, or use GitHub Pages as the mirtverse
+repository does (its `book` workflow builds the book and publishes it next
+to the package website).
+
+## Suggesting changes {-}
+
+Every page has a *Suggest an edit* link at the top, which opens the
+chapter's source on GitHub. Corrections and new examples are welcome as
+issues or pull requests in the [mirtverse
+repository](https://github.com/okanbulut/mirtverse).

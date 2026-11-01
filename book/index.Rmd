@@ -1,0 +1,110 @@
+---
+title: "Item Response Theory with mirt and mirtverse"
+subtitle: "Notes for teaching and learning"
+author: "Okan Bulut"
+date: "`r format(Sys.Date(), '%B %Y')`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: references.bib
+link-citations: true
+description: >
+  Extended course notes on item response theory with worked R examples in
+  mirt and mirtverse, one chapter per week of a 12-week course, with
+  exercises and links to the mirtverse teaching labs.
+url: https://www.okanbulut.com/mirtverse/book/
+github-repo: okanbulut/mirtverse
+---
+
+# Preface {-}
+
+This book is a set of extended course notes on item response theory (IRT). It
+is written for instructors who teach measurement with R and for the students
+in their courses. Every chapter mixes a short explanation of the ideas with
+worked examples that you can run line by line, using the
+[mirt](https://philchalmers.github.io/mirt/) package [@chalmers2012] for
+estimation and [mirtverse](https://www.okanbulut.com/mirtverse/) for model
+choice, tidy tables, graphics and plain-language interpretation.
+
+## How the book is organised {-}
+
+The twelve chapters follow the twelve weeks of the mirtverse [course
+map](https://www.okanbulut.com/mirtverse/articles/course-map.html), so an
+instructor can assign one chapter a week and pair it with the matching lab.
+
+| Chapter | Topic | Matching lab |
+|---|---|---|
+| \@ref(measurement) | Measurement, scoring and classical item analysis | Lab 1 (first two sections) |
+| \@ref(irt-models) | The Rasch, 2PL and 3PL models | |
+| \@ref(estimation) | Estimation and comparing models | |
+| \@ref(dimensionality) | Dimensionality and local independence | Lab 1 |
+| \@ref(fit) | Item fit, person fit and item quality | |
+| \@ref(information) | Information, precision and reliability | |
+| \@ref(scoring) | Scoring people | Lab 2 |
+| \@ref(polytomous) | Polytomous items and open-ended responses | Lab 6 |
+| \@ref(dif) | Differential item functioning and fairness | Lab 3 |
+| \@ref(linking) | Linking and equating | Lab 4 |
+| \@ref(banks-cat) | Item banks, test assembly and adaptive testing | Lab 5 |
+| \@ref(reporting) | Cut scores, reporting and communicating results | Final project |
+
+Every chapter has the same parts:
+
+* **Learning goals:** what you should be able to do after the chapter.
+* **Key terms:** links to the mirtverse
+  [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html).
+* **The ideas:** a short explanation, with formulas only where they help.
+* **Example 1 and Example 2:** two worked analyses on different data, so you
+  see the same method in two settings.
+* **Your turn:** exercises. Solutions are folded away; click to open them.
+* **In the lab:** the interactive mirtverse lab that goes with the chapter.
+* **Further reading.**
+
+The examples deliberately use different data from the labs. The labs hide
+problems in their data for students to find, and the book does not give those
+away.
+
+## Before you start {-}
+
+You need R (version 4.1 or later), the mirt package and mirtverse:
+
+```{r, eval = FALSE}
+install.packages(c("mirt", "learnr"))
+install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev",
+                                        "https://cloud.r-project.org"))
+library(mirtverse)
+```
+
+Loading mirtverse also loads mirt, so `mirt()`, `fscores()`, `itemfit()` and
+the mirt datasets are available straight away. Every example runs in a few
+seconds on a laptop, and no internet connection is needed once the packages
+are installed.
+
+Students who are new to R can follow much of the book without writing code.
+The [workbench](https://www.okanbulut.com/mirtverse/articles/workbench.html)
+(`launch_workbench()`) runs the same analyses by pointing and clicking and
+shows the R code for every step, and
+[`mv_ask()`](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+writes a script from a plain-language request.
+
+## Other teaching materials {-}
+
+* [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html):
+  six interactive learnr labs with an instructor guide and answer key.
+* [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.html):
+  a 12-week syllabus with readings, functions, labs and assessment ideas.
+* [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html) of
+  IRT terms.
+* [Cheat sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
+  of the main functions, on two printable pages.
+* [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html):
+  a test's full life cycle from blueprint to bank monitoring.
+
+## Using and adapting the book {-}
+
+The source of every chapter is an R Markdown file in the
+[`book/` folder](https://github.com/okanbulut/mirtverse/tree/main/book) of the
+mirtverse repository. Each example loads its data in one clearly labelled
+chunk, so you can swap in your own data and rebuild the chapter. Appendix
+\@ref(adapting) explains how.
+
+The book is licensed under the same terms as mirtverse (GPL-3). Please cite
+mirtverse with `citation("mirtverse")` if you use the book in a course.

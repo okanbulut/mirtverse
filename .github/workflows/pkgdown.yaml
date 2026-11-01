@@ -27,11 +27,20 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: any::pkgdown, any::bookdown, local::.
           needs: website
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
+      - name: Build the online book into the site
+        run: |
+          bookdown::render_book("index.Rmd", quiet = TRUE)
+          unlink("../docs/book", recursive = TRUE)
+          file.copy("_book", "../docs", recursive = TRUE)
+          file.rename("../docs/_book", "../docs/book")
+        shell: Rscript {0}
+        working-directory: book
+
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:

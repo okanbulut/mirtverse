@@ -1,0 +1,250 @@
+# Measurement, scoring and classical item analysis {#measurement}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* turn raw responses into item scores with a key, and reverse-score
+  negatively worded items;
+* compute and read proportion correct, item-total correlations and
+  coefficient alpha;
+* use a distractor analysis to spot an item that is miskeyed or badly
+  written;
+* say what a sum score can and cannot tell you, and why we need IRT.
+</div>
+
+**Key terms:**
+[classical test theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#classical-test-theory),
+[sum score](https://www.okanbulut.com/mirtverse/articles/glossary.html#sum-score),
+[p-value](https://www.okanbulut.com/mirtverse/articles/glossary.html#p-value),
+[item-total correlation](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-total-correlation),
+[dichotomous item](https://www.okanbulut.com/mirtverse/articles/glossary.html#dichotomous-item),
+[polytomous item](https://www.okanbulut.com/mirtverse/articles/glossary.html#polytomous-item).
+
+## The ideas
+
+A test is a sample of tasks that we use to make an inference about something
+we cannot see directly: a student's reading ability, a nurse's clinical
+knowledge, a patient's level of anxiety. Before any model is fitted, raw
+responses have to be turned into **item scores**. For a multiple-choice item
+that means comparing the option chosen with the key (1 = right, 0 = wrong).
+For a rating scale it means coding the categories as 0, 1, 2, ... and making
+sure that a higher score always means "more" of the trait, which is why
+negatively worded items are reverse-scored.
+
+The simplest summary of a person's performance is the **sum score**, the
+total of the item scores. **Classical test theory** (CTT) models the sum score
+as a true score plus error, $X = T + E$, and gives us a small toolkit for
+judging items [@crocker1986]:
+
+* **Item difficulty** ($p$): the proportion of people who answer correctly
+  (for rating items, the item mean). Confusingly, a *high* $p$ means an *easy*
+  item.
+* **Item discrimination**: the correlation between the item score and the
+  total score. Items that good performers get right and weak performers get
+  wrong have high item-total correlations. The *corrected* correlation
+  removes the item from the total first, which matters for short tests.
+* **Coefficient alpha**: an estimate of reliability, the proportion of
+  sum-score variance that is true-score variance.
+* **Distractor analysis**: for multiple-choice items, how often each wrong
+  option is chosen, and by whom. A good distractor attracts low scorers. An
+  option that attracts high scorers is a warning sign: it may be a second
+  correct answer, or the key may be wrong.
+
+CTT statistics are easy to compute and to explain, and you should always
+start with them. But they have two limits that motivate the rest of this
+book. First, $p$ and the item-total correlation depend on the group that took
+the test: the same item looks easy in a strong group and hard in a weak one.
+Second, the sum score treats every item as equally informative and gives one
+standard error for everybody, even though a test measures some people more
+precisely than others. Item response theory addresses both.
+
+## Example 1: a multiple-choice science test
+
+The `SAT12` data in mirt hold the answers of 600 high-school students to 32
+multiple-choice science items with five options (8 marks an omitted item).
+The key is published on the help page, `?SAT12`.
+
+```{r data-measurement-1}
+# Raw multiple-choice responses (options 1-5, 8 = omitted) and the key.
+raw <- SAT12
+key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,5)
+```
+
+`key2binary()` scores every response against the key. Omits count as wrong.
+
+```{r}
+resp <- key2binary(raw, key)
+resp[1:5, 1:8]
+total <- rowSums(resp)
+summary(total)
+```
+
+`itemstats()` gives the classical statistics for every item in one table.
+
+```{r}
+st <- itemstats(resp)
+st$overall
+head(st$itemstats, 8)
+```
+
+The `mean` column is the proportion correct, `total.r_if_rm` is the corrected
+item-total correlation, and `alpha_if_rm` is alpha with the item removed. Let
+us sort the items by their corrected correlation and look at the weakest.
+
+```{r}
+items <- st$itemstats
+items[order(items$total.r_if_rm), c("mean", "total.r_if_rm", "alpha_if_rm")][1:5, ]
+```
+
+A corrected correlation near zero, or an alpha that goes *up* when the item
+is removed, means the item is not measuring what the rest of the test
+measures. Before blaming the item writer, check the key. A distractor
+analysis splits students into groups by total score and shows which option
+each group chose.
+
+```{r}
+distractors <- function(raw, total, item, groups = 5) {
+  band <- cut(rank(total, ties.method = "first"), groups,
+              labels = c("lowest", paste0("band ", 2:(groups - 1)), "highest"))
+  round(prop.table(table(band, option = raw[[item]]), 1), 2)
+}
+distractors(raw, total, "Item.32")
+```
+
+The keyed answer to item 32 is option 5, yet option 3 is the most popular
+choice in every band, and its share climbs steeply from the lowest band to
+the highest. Option 5 gains far less. When an "unkeyed" option behaves the
+way a correct answer should, suspect the key. The
+help page for `SAT12` agrees: the key for item 32 is probably wrong and should
+be 3. Re-scoring fixes the item:
+
+```{r}
+key_fixed <- replace(key, 32, 3)
+resp_fixed <- key2binary(raw, key_fixed)
+st_fixed <- itemstats(resp_fixed)
+c(old_r = items["Item.32", "total.r_if_rm"],
+  new_r = st_fixed$itemstats["Item.32", "total.r_if_rm"],
+  old_alpha = st$overall$alpha, new_alpha = st_fixed$overall$alpha)
+```
+
+**What to take away.** A low item-total correlation is a symptom, not a
+diagnosis. The distractor table tells you *why*: a wrong key, two defensible
+answers, an option that confuses strong students, or simply an item that is
+too hard for everyone.
+
+## Example 2: a wellbeing questionnaire
+
+Rating scales need the same care. Here we simulate a short questionnaire: 800
+adults rate eight statements about their wellbeing from 0 (*strongly
+disagree*) to 3 (*strongly agree*). Items 3 and 7 are negatively worded ("I
+often feel tense"), so agreeing with them means *lower* wellbeing.
+
+```{r data-measurement-2}
+# Simulated 8-item wellbeing scale, 0-3, items W3 and W7 negatively worded.
+set.seed(101)
+a <- matrix(c(1.6, 1.4, 1.2, 1.8, 1.3, 1.5, 1.1, 0.5))
+d <- matrix(c( 2.0, 0.5, -1.5,
+               1.8, 0.2, -1.8,
+               2.2, 0.8, -1.0,
+               1.5, 0.0, -2.0,
+               2.5, 1.0, -0.8,
+               1.7, 0.3, -1.6,
+               2.0, 0.6, -1.2,
+               1.0, 0.0, -1.0), ncol = 3, byrow = TRUE)
+resp <- simdata(a, d, N = 800, itemtype = "graded")
+colnames(resp) <- paste0("W", 1:8)
+resp[, c("W3", "W7")] <- 3 - resp[, c("W3", "W7")]   # as answered on the form
+resp <- as.data.frame(resp)
+```
+
+If we forget to reverse-score, the two negative items correlate *negatively*
+with the total, and alpha is badly understated.
+
+```{r}
+itemstats(resp)$itemstats[, c("mean", "total.r_if_rm")]
+itemstats(resp)$overall$alpha
+```
+
+Reverse-scoring maps 0 to 3, 1 to 2 and so on:
+
+```{r}
+scored <- resp
+scored[, c("W3", "W7")] <- 3 - scored[, c("W3", "W7")]
+st <- itemstats(scored)
+st$itemstats[, c("mean", "total.r_if_rm", "alpha_if_rm")]
+st$overall$alpha
+```
+
+All items now point the same way. Item W8 still has a low corrected
+correlation, and alpha rises from 0.75 to 0.77 without it: it is a weak item, and an
+IRT model will give it a low discrimination too (Chapter \@ref(irt-models)).
+For rating scales the category frequencies are worth a look as well. A
+category almost nobody uses carries little information and may need to be
+merged with its neighbour (Chapter \@ref(polytomous)).
+
+```{r}
+round(st$proportions, 2)
+```
+
+## A first look with mirtverse
+
+`profile_data()` gives a quick overview of any response file, and is what
+`mv_ask()` uses before it writes an analysis. For each column it reports the
+type, the number of distinct values, the range and the share of missing
+values, and it guesses which columns are items and which are IDs or grouping
+variables.
+
+```{r}
+profile_data(scored)
+```
+
+## Your turn
+
+<div class="yourturn">
+1. Score `SAT12` with the corrected key. Which three items are now the
+   hardest, and which three have the lowest corrected item-total correlation?
+2. Run `distractors()` on the item with the lowest corrected correlation.
+   Is the problem the key, a distractor, or the difficulty of the item?
+3. In Example 2, what happens to alpha if you drop W8? Would you drop it?
+   Give one reason for and one against.
+4. Suppose 30% of students omitted the last five items of `SAT12` because they
+   ran out of time. Why would scoring omits as wrong distort the item
+   statistics of those items?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+resp_fixed <- key2binary(SAT12, replace(key, 32, 3))
+it <- itemstats(resp_fixed)$itemstats
+rownames(it)[order(it$mean)][1:3]                 # hardest
+rownames(it)[order(it$total.r_if_rm)][1:3]        # weakest
+```
+
+2. Use `distractors(SAT12, rowSums(resp_fixed), "<item>")`. If no option is
+   preferred by the top band and the correct option rises only slowly, the
+   item is simply hard or vague rather than miskeyed.
+3. Alpha rises only a little. Dropping W8 shortens the scale and may remove
+   content the scale is meant to cover; keeping it costs little precision. A
+   content review should decide, not alpha alone.
+4. Not-reached items would look harder and would correlate with speed rather
+   than knowledge. Treat not-reached items as missing (`NA`) rather than
+   wrong; IRT estimation handles missing responses naturally.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+The first two sections of Lab 1, `run_lab("model-choice")`, put you in charge
+of scoring a certification exam with 1,200 candidates. You score the
+responses, screen the items and decide what to do about anything suspicious.
+See [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html).
+</div>
+
+## Further reading {-}
+
+Crocker and Algina [-@crocker1986] remain the classic introduction to
+classical test theory and item analysis. The *Standards for Educational and
+Psychological Testing* [@aera2014] set out what evidence a test score needs
+before it is used.

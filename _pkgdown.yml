@@ -10,9 +10,12 @@ redirects:
 
 navbar:
   structure:
-    left: [intro, reference, articles, cheatsheet, news]
+    left: [intro, reference, articles, book, cheatsheet, news]
     right: [search, github]
   components:
+    book:
+      text: Book
+      href: book/index.html
     cheatsheet:
       text: Cheat sheet
       href: cheatsheet/mirtverse-cheatsheet.pdf
