@@ -1,0 +1,246 @@
+# Dimensionality and local independence {#dimensionality}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain the assumptions of unidimensionality and local independence;
+* compare one- and two-factor models and read rotated factor loadings;
+* fit a confirmatory model in which each item measures a named dimension;
+* read standardized residuals and Yen's Q3, and tell local dependence from a
+  second trait;
+* choose a remedy for locally dependent items.
+</div>
+
+**Key terms:**
+[dimensionality](https://www.okanbulut.com/mirtverse/articles/glossary.html#dimensionality),
+[local independence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-independence),
+[local dependence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-dependence),
+[Q3](https://www.okanbulut.com/mirtverse/articles/glossary.html#q3),
+[multidimensional IRT](https://www.okanbulut.com/mirtverse/articles/glossary.html#multidimensional-irt).
+
+## The ideas
+
+The models in Chapter \@ref(irt-models) make two related assumptions.
+**Unidimensionality** says that one latent trait accounts for the
+relationships among the items. **Local independence** says that once we know
+a person's $\theta$, their responses to different items are independent: the
+only reason two items correlate is that both depend on $\theta$.
+
+Both can fail, in different ways.
+
+* A test may measure **two or more traits**, for example reading and
+  arithmetic in a set of mathematics word problems. Then a one-factor model
+  forces two traits into one score, and the items of the smaller dimension
+  look poorly discriminating.
+* A **small cluster of items** may share something beyond the trait: a
+  common reading passage, a shared stimulus, near-identical wording, or an
+  item whose answer gives away the next. These pairs or clusters are *locally
+  dependent*. They look like extra-good items, they inflate reliability, and
+  they distort the item parameters.
+
+The tools differ too. For the first problem we compare models with one and
+two factors and look at the factor loadings. For the second we look at what
+is left over after fitting a one-factor model: if local independence holds,
+the residual correlations between item pairs should be close to zero. Yen's
+**Q3** statistic [@yen1984] is the correlation between two items' residuals.
+Values well above the average Q3 (often by 0.2 or more) flag dependent pairs.
+
+## Example 1: a mathematics test with a reading dimension
+
+We simulate a 24-item mathematics test taken by 1,500 Grade 8 students.
+Items M01 to M12 are calculation items. Items W01 to W12 are word problems
+that also depend on reading, which correlates 0.5 with calculation skill.
+
+```{r data-dimensionality-1}
+# Simulated 24-item test, two correlated traits (r = 0.5), 12 items each.
+set.seed(404)
+a <- cbind(c(runif(12, 1.0, 2.0), runif(12, 0.3, 0.6)),
+           c(rep(0, 12),          runif(12, 1.0, 1.8)))
+d <- matrix(rnorm(24, 0, 0.8))
+sigma <- matrix(c(1, 0.5, 0.5, 1), 2)
+resp <- simdata(a, d, N = 1500, itemtype = "2PL", sigma = sigma)
+colnames(resp) <- c(sprintf("M%02d", 1:12), sprintf("W%02d", 1:12))
+```
+
+First, an exploratory comparison of one and two factors. We keep a copy of
+the data as `math` for the exercises.
+
+```{r}
+math <- resp
+f1 <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+f2 <- mirt(resp, 2, itemtype = "2PL", verbose = FALSE)
+anova(f1, f2)
+```
+
+The two-factor model is far better on every criterion. `summary()` shows the
+standardized loadings after an oblique rotation, which lets the factors
+correlate:
+
+```{r}
+summary(f2, rotate = "oblimin", suppress = 0.25)
+```
+
+The calculation items load on one factor and the word problems on the
+other. The factor correlation is higher than the 0.5 we simulated between
+the two traits, because the word problems also need calculation skill: the
+rotation cannot separate that shared part cleanly, so some of it shows up as
+correlation between the factors. The one-factor fit statistics give the same
+message from the other side:
+
+```{r}
+rbind(one_factor = glance(f1)[, c("RMSEA", "SRMSR", "CFI")],
+      two_factor = glance(f2)[, c("RMSEA", "SRMSR", "CFI")])
+```
+
+Exploratory models are useful for finding structure. When the structure is
+known from the test blueprint, a **confirmatory** model states it directly.
+Each item loads only on its own factor, and the factor correlation is
+estimated (`COV = F1*F2`):
+
+```{r}
+spec <- mirt.model("Calc    = 1-12
+                    Reading = 13-24
+                    COV     = Calc*Reading")
+cfa <- mirt(resp, spec, itemtype = "2PL", verbose = FALSE)
+coef(cfa, simplify = TRUE)$cov
+anova(cfa, f2)
+```
+
+The confirmatory model is nearly as good as the exploratory one with far
+fewer parameters, so BIC prefers it. What should we report to the school?
+That depends on use. Two subscores are defensible if each is reliable
+enough (Chapter \@ref(information)); a single total score mixes two skills,
+and students with weak reading will look weaker at mathematics than they are.
+
+## Example 2: a reading passage that ties four items together
+
+In this test of 20 items, items R05 to R08 all refer to the same passage.
+Students who happen to understand the passage well do better on all four
+than their general reading ability predicts. We simulate this with a small
+extra factor that only those four items share.
+
+```{r data-dimensionality-2}
+# Simulated 20-item reading test; R05-R08 share a passage (testlet effect).
+set.seed(405)
+a_gen <- runif(20, 1.0, 1.8)
+a_pas <- c(rep(0, 4), rep(2.0, 4), rep(0, 12))
+resp <- simdata(cbind(a_gen, a_pas), matrix(rnorm(20, 0, 0.7)),
+                N = 1200, itemtype = "2PL")
+colnames(resp) <- sprintf("R%02d", 1:20)
+```
+
+We fit an ordinary unidimensional 2PL, as an analyst who did not know about
+the passage would, and look at the Q3 matrix.
+
+```{r, fig.height = 5.5, fig.width = 6.5, out.width = "75%"}
+uni <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+gg_q3(uni)
+```
+
+The six pairs among R05 to R08 stand out. Most other Q3 values are slightly
+negative, which is normal: residuals are a little negatively correlated on
+average, so we judge a pair against the average Q3 rather than against zero.
+The numbers behind the plot:
+
+```{r}
+q3 <- residuals(uni, type = "Q3", verbose = FALSE)
+round(q3[5:8, 5:8], 2)
+```
+
+Local dependence has a cost. The unidimensional model has nowhere to put the
+passage effect, so it bends the item parameters to accommodate it and treats
+part of the passage effect as reading ability. Remedy 1 below shows how
+different the passage items look once the dependence is modelled.
+
+There are three common remedies.
+
+1. **Model the dependence.** A *testlet* or *bifactor* model gives the
+   passage items a specific factor of their own, uncorrelated with the
+   general factor. `bfactor()` fits it; its second argument says which
+   specific factor each item belongs to (`NA` for none).
+
+```{r}
+specific <- c(rep(NA, 4), rep(1, 4), rep(NA, 12))
+bf <- bfactor(resp, specific, verbose = FALSE)
+anova(uni, bf)
+round(coef(bf, simplify = TRUE)$items[3:10, c("a1", "a2")], 2)
+```
+
+   The passage effect now has its own slope (`a2`), and the general slopes
+   (`a1`) of R05 to R08 are higher than in the unidimensional model, which
+   had diluted them. Compare them with
+   `coef(uni, simplify = TRUE)$items[5:8, "a1"]`. Likelihood-ratio test and
+   BIC both favour the bifactor model.
+
+2. **Combine the items.** Sum R05 to R08 into one polytomous "super-item"
+   scored 0 to 4 and fit a polytomous model (Chapter \@ref(polytomous)). This
+   is simple and robust, at the cost of some information.
+
+3. **Drop or rewrite items** in a future form, so that no two items depend on
+   each other beyond the trait.
+
+## Your turn
+
+<div class="yourturn">
+1. In Example 1, compute the sum score of the word problems and of the
+   calculation items separately. How strongly do they correlate? Why is this
+   lower than the factor correlation?
+2. Use `select_model(resp, dims = 1:2)` on the data of Example 1. Which model
+   does it choose?
+3. In Example 2, compare the empirical reliability of the scores
+   (`empirical_rxx()` on `fscores(..., full.scores.SE = TRUE)`) from the
+   unidimensional model with that of the general factor of the bifactor model.
+   Which one would you report, and why?
+4. Make the super-item from R05 to R08, fit a graded model to the 17 items,
+   and check the Q3 matrix again.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+cor(rowSums(math[, 1:12]), rowSums(math[, 13:24]))
+```
+
+1. Sum scores contain measurement error, which attenuates (weakens) the
+   correlation; the factor correlation is corrected for it.
+```{r}
+select_model(math, dims = 1:2, verbose = FALSE)
+```
+
+2. It fits one- and two-factor versions of each candidate and should prefer a
+   two-factor model, because the second dimension is strong.
+```{r}
+empirical_rxx(fscores(uni, full.scores.SE = TRUE))
+empirical_rxx(fscores(bf, full.scores.SE = TRUE))
+```
+
+3. The unidimensional model reports a somewhat higher reliability, because it
+   counts the shared passage effect as signal about reading. The general
+   factor of the bifactor model gives the more honest figure. With one small
+   passage the difference is modest; with several passages it grows.
+
+```{r}
+super <- data.frame(resp[, -(5:8)], R05_08 = rowSums(resp[, 5:8]))
+sup <- mirt(super, 1, itemtype = c(rep("2PL", 16), "graded"), verbose = FALSE)
+q3s <- residuals(sup, type = "Q3", verbose = FALSE)
+max(abs(q3s[upper.tri(q3s)]))
+```
+
+4. The super-item removes the dependent pairs, and the largest remaining Q3
+   is small.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 1, `run_lab("model-choice")`, includes a dimensionality check and a
+local dependence screen on a certification exam. Decide for yourself whether
+anything needs fixing before you choose a model.
+</div>
+
+## Further reading {-}
+
+Yen [-@yen1984] introduced Q3 and showed how local dependence affects
+parameter estimates and equating. Embretson and Reise [-@embretson2000]
+cover multidimensional and bifactor models.

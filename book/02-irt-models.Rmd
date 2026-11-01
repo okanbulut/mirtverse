@@ -1,0 +1,262 @@
+# The Rasch, 2PL and 3PL models {#irt-models}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain what a latent trait is and why IRT puts people and items on the
+  same scale;
+* write down the Rasch, 2PL and 3PL models and say what each parameter does
+  to the item characteristic curve;
+* fit the three models with `mirt()` and read their parameters in the
+  traditional IRT metric;
+* describe an item in words from its curve.
+</div>
+
+**Key terms:**
+[item response theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-response-theory),
+[latent trait](https://www.okanbulut.com/mirtverse/articles/glossary.html#latent-trait),
+[logit](https://www.okanbulut.com/mirtverse/articles/glossary.html#logit),
+[Rasch model](https://www.okanbulut.com/mirtverse/articles/glossary.html#rasch-model),
+[2PL](https://www.okanbulut.com/mirtverse/articles/glossary.html#two-pl),
+[3PL](https://www.okanbulut.com/mirtverse/articles/glossary.html#three-pl),
+[item characteristic curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-characteristic-curve),
+[difficulty](https://www.okanbulut.com/mirtverse/articles/glossary.html#difficulty),
+[discrimination](https://www.okanbulut.com/mirtverse/articles/glossary.html#discrimination),
+[guessing](https://www.okanbulut.com/mirtverse/articles/glossary.html#guessing),
+[slope-intercept form](https://www.okanbulut.com/mirtverse/articles/glossary.html#slope-intercept).
+
+## The ideas
+
+IRT assumes that a person's responses depend on an unobserved **latent
+trait** $\theta$ (theta): ability, knowledge, an attitude. By convention
+$\theta$ has mean 0 and standard deviation 1 in the calibration group, so a
+person at $\theta = 1$ is one standard deviation above average.
+
+Each item gets an **item characteristic curve** (ICC): the probability of a
+correct answer as a function of $\theta$. The three classic models differ in
+how many parameters shape that curve [@hambleton1991; @embretson2000].
+
+**The Rasch (1PL) model** has one parameter per item, the difficulty $b_j$:
+
+$$P(X_{ij} = 1 \mid \theta_i) = \frac{\exp(\theta_i - b_j)}{1 + \exp(\theta_i - b_j)}.$$
+
+The difficulty is the point on the $\theta$ scale where the probability is
+0.5. All curves have the same slope, so they never cross, and the sum score
+contains all the information about $\theta$.
+
+**The two-parameter logistic (2PL) model** adds a discrimination $a_j$:
+
+$$P(X_{ij} = 1 \mid \theta_i) = \frac{\exp[a_j(\theta_i - b_j)]}{1 + \exp[a_j(\theta_i - b_j)]}.$$
+
+A larger $a_j$ gives a steeper curve: the item separates people just below
+$b_j$ from people just above it more sharply. Values between about 0.8 and 2.5
+are typical for good achievement items; values below about 0.5 mean the item
+hardly tells people apart.
+
+**The three-parameter logistic (3PL) model** adds a lower asymptote $c_j$,
+often called the guessing parameter:
+
+$$P(X_{ij} = 1 \mid \theta_i) = c_j + (1 - c_j)\frac{\exp[a_j(\theta_i - b_j)]}{1 + \exp[a_j(\theta_i - b_j)]}.$$
+
+Even very low-ability people get a multiple-choice item right with
+probability $c_j$, roughly one over the number of options if they guess at
+random. With a lower asymptote, $b_j$ is where the probability is
+$(1 + c_j)/2$ rather than 0.5.
+
+mirt estimates the models in **slope-intercept form**,
+$a_j\theta_i + d_j$, which behaves better numerically. The two forms are
+related by $b_j = -d_j / a_j$. Use `coef(mod, IRTpars = TRUE)`, or
+mirtverse's `tidy()` (which uses `IRTpars = TRUE` by default), to see $a$ and
+$b$.
+
+## Example 1: the LSAT section 7 items
+
+`LSAT7` holds the response patterns of 1,000 people to five items from a
+section of the Law School Admission Test, stored as a frequency table.
+`expand.table()` turns it into one row per person.
+
+```{r data-irt-models-1}
+# Five dichotomous LSAT items, one row per test taker.
+resp <- expand.table(LSAT7)
+```
+
+We fit the three models. `itemtype` chooses the model and `verbose = FALSE`
+hides the iteration history.
+
+```{r}
+rasch <- mirt(resp, 1, itemtype = "Rasch", verbose = FALSE)
+twopl <- mirt(resp, 1, itemtype = "2PL",   verbose = FALSE)
+threepl <- mirt(resp, 1, itemtype = "3PL", verbose = FALSE)
+```
+
+The item parameters in the IRT metric:
+
+```{r}
+coef(twopl, IRTpars = TRUE, simplify = TRUE)$items
+```
+
+The columns `g` and `u` are the lower and upper asymptotes, fixed at 0 and 1
+for the 2PL. The same information as a tidy table, ready for a report:
+
+```{r}
+tidy(twopl)
+```
+
+All five items have negative difficulties: this is an easy section for this
+group. Item 3 has the steepest slope, items 4 and 5 the flattest. The curves
+show it at a glance.
+
+```{r, fig.height = 3.6}
+gg_trace(twopl, facet = FALSE)
+```
+
+Compare the Rasch curves, which are parallel by construction, with the 2PL
+curves, which are not:
+
+```{r, fig.height = 3.6}
+library(patchwork)
+(gg_trace(rasch, facet = FALSE) + ggplot2::ggtitle("Rasch")) +
+  (gg_trace(twopl, facet = FALSE) + ggplot2::ggtitle("2PL")) +
+  plot_layout(guides = "collect")
+```
+
+The 3PL adds a lower asymptote for each item. With only five easy items there
+is very little information about what low-ability people do. Look at the $c$
+estimates (`g`) and their confidence intervals:
+
+```{r}
+threepl_se <- mirt(resp, 1, itemtype = "3PL", SE = TRUE, verbose = FALSE)
+tidy(threepl_se, conf.int = TRUE) |> subset(term == "g")
+```
+
+Four of the five lower asymptotes sit at essentially zero, on the boundary
+of the parameter space, and the one that does not (Item 2) has a confidence
+interval that runs from almost 0 to well over 0.5. The data say very little
+about guessing. Which model should we report? That is a question for Chapter
+\@ref(estimation). For now, notice that a model with more parameters is not
+automatically better: it has to be supported by the data.
+
+`interpret()` describes the fitted model in plain language. Its *Items*
+section is a useful check on your own reading of the curves.
+
+```{r}
+interpret(twopl)
+```
+
+## Example 2: a driving theory test with guessing
+
+To see when the 3PL matters, we simulate a 20-item driving theory test with
+four options per question, taken by 3,000 learner drivers. Because we
+simulate, we know the true parameters and can check how well each model
+recovers them.
+
+```{r data-irt-models-2}
+# Simulated 20-item, four-option test with real guessing (c around 0.2).
+set.seed(202)
+n_items <- 20
+true <- data.frame(a = rlnorm(n_items, 0.2, 0.25),
+                   b = seq(-1.5, 2, length.out = n_items),
+                   c = rbeta(n_items, 5, 17))
+resp <- simdata(a = matrix(true$a), d = matrix(-true$a * true$b),
+                N = 3000, itemtype = "3PL", guess = true$c)
+colnames(resp) <- sprintf("D%02d", 1:n_items)
+```
+
+The data chunk converts the true $b$ into an intercept with $d = -ab$,
+because `simdata()` uses the slope-intercept form.
+
+```{r}
+fit2 <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+fit3 <- mirt(resp, 1, itemtype = "3PL", verbose = FALSE)
+est2 <- coef(fit2, IRTpars = TRUE, simplify = TRUE)$items
+est3 <- coef(fit3, IRTpars = TRUE, simplify = TRUE)$items
+recovery <- data.frame(
+  model = rep(c("2PL", "3PL"), each = 2),
+  parameter = rep(c("a", "b"), 2),
+  bias = c(mean(est2[, "a"] - true$a), mean(est2[, "b"] - true$b),
+           mean(est3[, "a"] - true$a), mean(est3[, "b"] - true$b)),
+  rmse = c(sqrt(mean((est2[, "a"] - true$a)^2)), sqrt(mean((est2[, "b"] - true$b)^2)),
+           sqrt(mean((est3[, "a"] - true$a)^2)), sqrt(mean((est3[, "b"] - true$b)^2))))
+recovery
+```
+
+When people really do guess, the 2PL absorbs the guessing into the other
+parameters: it **underestimates discrimination** and makes hard items look
+**easier** than they are. The 3PL recovers the parameters much better, and its
+lower asymptotes are close to the truth on average:
+
+```{r}
+c(mean_true_c = mean(true$c), mean_estimated_c = mean(est3[, "g"]))
+```
+
+The empirical item curve makes the problem visible. For the hardest item,
+the observed proportions correct for low-ability groups sit well above the
+2PL curve, which heads towards zero:
+
+```{r, fig.height = 3.4}
+gg_empirical(fit2, "D20") + gg_empirical(fit3, "D20")
+```
+
+**What to take away.** The 3PL is worth its extra parameters when items can
+be answered by guessing *and* there are enough low-ability test takers to
+estimate the lower asymptote: here 3,000 people and a range of difficulties.
+With small samples or easy tests, $c$ is poorly determined, and a 2PL (or a
+3PL with a prior on $c$) is often the safer choice.
+
+## Your turn
+
+<div class="yourturn">
+1. Using the 2PL for `LSAT7`, compute by hand the probability that a person
+   at $\theta = -1$ answers Item 3 correctly. Check your answer with
+   `probtrace(extract.item(twopl, 3), -1)`.
+2. Fit the Rasch model to `LSAT7` and compare its difficulties with the 2PL
+   difficulties. Which item moves most, and why?
+3. In Example 2, refit the 3PL using only the first 300 test takers. What
+   happens to the recovery of $c$?
+4. Sketch (on paper) the curve of an item with $a = 0.3$ and $b = 0$. Would you
+   keep this item on a test used to award licences?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+p <- coef(twopl, IRTpars = TRUE, simplify = TRUE)$items
+plogis(p["Item.3", "a"] * (-1 - p["Item.3", "b"]))
+probtrace(extract.item(twopl, 3), matrix(-1))
+
+pr <- coef(rasch, IRTpars = TRUE, simplify = TRUE)$items
+round(cbind(rasch = pr[, "b"], twopl = p[, "b"]), 2)
+
+small <- mirt(resp[1:300, ], 1, itemtype = "3PL", verbose = FALSE)
+summary(coef(small, IRTpars = TRUE, simplify = TRUE)$items[, "g"] - true$c)
+```
+
+2. Items whose 2PL slope is far from the common Rasch slope move most, here
+   Item 3 (the steepest) and Item 5 (one of the flattest). A flat
+   item (small $a$) has a 2PL difficulty further from zero, because its curve
+   only reaches 0.5 far out on the scale.
+3. You may first see a warning that the EM algorithm stopped after 500
+   cycles: the 3PL is hard to estimate in small samples (Chapter
+   \@ref(estimation)). With 300 people the $c$ estimates scatter much more widely around the
+   truth, and some may be close to 0 or implausibly large. The estimates of
+   $a$ and $b$ get worse too, because the three parameters trade off.
+4. The curve is almost flat: the chance of a correct answer barely depends on
+   ability. Such an item adds little information and some noise; it should
+   go back to the item writers.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 1, `run_lab("model-choice")`, asks you to compare the Rasch, 2PL and 3PL
+models for a real-sized certification exam and to defend your choice to the
+board. Chapter \@ref(estimation) gives you the tools for that comparison.
+</div>
+
+## Further reading {-}
+
+Embretson and Reise [-@embretson2000] give an accessible introduction for
+psychologists; Hambleton, Swaminathan and Rogers [-@hambleton1991] a short
+classic; de Ayala [-@deayala2022] a thorough modern treatment. Chalmers
+[-@chalmers2012] describes the mirt package.

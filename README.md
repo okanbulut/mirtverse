@@ -107,6 +107,9 @@ writes the whole script for you.
 Teaching a measurement course? `run_lab("model-choice")` opens an interactive
 lab in which students work through a realistic testing scenario with live
 models (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
+The online book [*Item Response Theory with mirt and
+mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended notes for
+each week of a course, with worked examples and exercises.
 
 ## Cheat sheet
 

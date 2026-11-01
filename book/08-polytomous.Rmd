@@ -1,0 +1,232 @@
+# Polytomous items and open-ended responses {#polytomous}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* fit the partial credit, generalized partial credit and graded response
+  models, and say how they differ;
+* read category response curves and thresholds;
+* recognise disordered thresholds and decide whether to collapse categories;
+* describe how rater-scored open-ended responses fit into an IRT analysis.
+</div>
+
+**Key terms:**
+[polytomous item](https://www.okanbulut.com/mirtverse/articles/glossary.html#polytomous-item),
+[graded response model](https://www.okanbulut.com/mirtverse/articles/glossary.html#graded-response-model),
+[GPCM](https://www.okanbulut.com/mirtverse/articles/glossary.html#gpcm),
+[category response curve](https://www.okanbulut.com/mirtverse/articles/glossary.html#category-response-curve),
+[threshold](https://www.okanbulut.com/mirtverse/articles/glossary.html#threshold),
+[expected score](https://www.okanbulut.com/mirtverse/articles/glossary.html#expected-score),
+[QWK](https://www.okanbulut.com/mirtverse/articles/glossary.html#qwk).
+
+## The ideas
+
+Many items have more than two score categories: rating scales (*strongly
+disagree* to *strongly agree*), partial-credit mathematics problems, essays
+scored 0 to 4 against a rubric. Three families of models are used most.
+
+* The **graded response model** (GRM, @samejima1969) models the cumulative
+  probability of scoring in category $k$ *or higher* with a 2PL curve,
+  $P(X \ge k \mid \theta) = \text{logistic}[a(\theta - b_k)]$. The thresholds
+  $b_1 < b_2 < \dots$ are ordered by construction: $b_k$ is where a person has
+  a 50% chance of scoring $k$ or more.
+* The **partial credit model** (PCM, @masters1982) is the polytomous Rasch
+  model. It models each *step* from category $k-1$ to $k$ as a Rasch item,
+  with a step difficulty $b_k$. All items share the same slope.
+* The **generalized partial credit model** (GPCM, @muraki1992) adds an item
+  slope to the PCM.
+
+In the PCM and GPCM the step difficulties are the points where adjacent
+category curves cross. They do *not* have to be in order. **Disordered
+steps** (for example $b_2 < b_1$) mean that a middle category is never the
+most likely response at any ability: respondents skip over it. That is often
+a sign of a category label that is unclear or a rubric level that raters
+cannot distinguish, and a common remedy is to merge the category with a
+neighbour.
+
+Each item's **expected score** curve, the average score as a function of
+$\theta$, summarizes the categories in one line and is often the easiest plot
+to explain.
+
+## Example 1: attitudes to science
+
+`Science` holds the responses of 392 people to four statements about science
+and technology, each rated on a four-point scale (1 = *strongly disagree* to
+4 = *strongly agree*).
+
+```{r data-polytomous-1}
+# Four 4-category attitude items (scored 1-4), 392 respondents.
+resp <- Science
+```
+
+`select_model()` compares the three models:
+
+```{r}
+sel <- select_model(resp, verbose = FALSE)
+sel
+```
+
+The GRM has the lowest BIC, but the absolute fit (RMSEA) is not good for
+any of the three. With only four items, M2 has few degrees of freedom and
+RMSEA is unstable, so read it with care, and look at the items.
+
+```{r}
+grm <- sel$models[["GRM"]]
+tidy(grm)
+```
+
+Each item has one slope and three thresholds. *Future* has by far
+the steepest slope. The category curves show how the thresholds divide the
+scale:
+
+```{r, fig.height = 4.8}
+gg_trace(grm)
+```
+
+and the expected score curves summarize them:
+
+```{r, fig.height = 3.4}
+gg_trace(grm, type = "expected", facet = FALSE)
+```
+
+The lowest category is rare for every item: its first threshold is far below
+average, so the curve for "strongly disagree" only rises for people far out
+in the left tail. The Wright map shows every threshold next to the
+distribution of people:
+
+```{r, fig.height = 3.8}
+gg_wright(grm)
+```
+
+## Example 2: a rating category nobody uses
+
+We simulate a six-item job satisfaction scale with five categories (0 to 4),
+answered by 1,500 employees. On item J3 the middle label was badly worded,
+so respondents tend to skip category 2.
+
+```{r data-polytomous-2}
+# Simulated 6-item, 5-category scale; item J3 has disordered steps.
+set.seed(808)
+steps <- rbind(c(-2.0, -0.8, 0.4, 1.6),
+               c(-1.8, -0.6, 0.6, 1.8),
+               c(-1.6,  0.9, -0.3, 1.4),   # J3: step 2 harder than step 3
+               c(-2.2, -1.0, 0.2, 1.4),
+               c(-1.9, -0.7, 0.5, 1.7),
+               c(-1.7, -0.5, 0.7, 1.9))
+a <- c(1.3, 1.5, 1.4, 1.2, 1.6, 1.3)
+d <- cbind(0, -a * t(apply(steps, 1, cumsum)))   # GPCM intercepts
+resp <- simdata(matrix(a), d, N = 1500, itemtype = "gpcm")
+colnames(resp) <- paste0("J", 1:6)
+```
+
+The category frequencies already hint at the problem:
+
+```{r}
+round(t(apply(resp, 2, function(x) table(factor(x, levels = 0:4)) / length(x))), 2)
+```
+
+Fit the GPCM and look at the step parameters:
+
+```{r}
+gpcm <- mirt(resp, 1, itemtype = "gpcm", verbose = FALSE)
+coef(gpcm, IRTpars = TRUE, simplify = TRUE)$items
+```
+
+For J3 the second step ($b_2$) is larger than the third ($b_3$), unlike every
+other item. The category curves make it plain: category 2 of J3 is never the
+most likely response.
+
+```{r, fig.height = 3.4}
+gg_trace(gpcm, which.items = c("J2", "J3"))
+```
+
+Disordered steps are not always a problem; they mean a category is rarely
+the *most likely* response, not that nobody uses it. Look at the wording or
+the rubric, and at how many people chose the category. Here we decide that
+the middle label is unclear and merge categories 1 and 2 of J3, so it is
+scored 0 to 3:
+
+```{r}
+collapsed <- resp
+collapsed[, "J3"] <- c(0, 1, 1, 2, 3)[resp[, "J3"] + 1]
+gpcm_c <- mirt(collapsed, 1, itemtype = "gpcm", verbose = FALSE)
+coef(gpcm_c, IRTpars = TRUE, simplify = TRUE)$items["J3", ]
+```
+
+The steps of the collapsed item are now in order. The GRM would never have
+shown the problem, because its thresholds are ordered by definition: this is
+one reason to fit a PCM or GPCM when you are developing a rating scale.
+
+## Open-ended responses and raters
+
+Open-ended tasks, such as essays and constructed responses, are usually scored
+by trained raters against a rubric, and then analysed with a polytomous
+model like the ones above. Two extra questions come first. **Do the raters
+agree?** Agreement on ordinal scores is usually summarized by exact
+agreement and by **quadratic weighted kappa** (QWK), which gives partial
+credit for near misses [@cohen1968]. **Are some raters harsher or less
+consistent than others?** Rater effects can be studied by comparing each
+rater's scores with those of the other raters on the same responses, or with
+models that include rater parameters.
+
+mirtverse's assessment pipeline has a scoring stage for this,
+`score_open()`, which resolves two reads into a final score and checks
+agreement (see section 9 of the [assessment pipeline
+article](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-9)).
+Lab 6 works through the whole process with eight raters and an automated
+scoring engine.
+
+## Your turn
+
+<div class="yourturn">
+1. Fit the PCM (`itemtype = "Rasch"`) to `Science`. Are any of its step
+   difficulties disordered?
+2. In Example 2, fit the GRM to the original data. What do the thresholds of
+   J3 look like, and why do they not reveal the problem?
+3. Compare the test information of the original and the collapsed GPCM. How
+   much information is lost by collapsing one category of one item?
+4. Two raters score 200 essays from 0 to 4 and agree exactly on 60% of them.
+   Why is QWK a better summary than exact agreement for deciding whether the
+   raters can be trusted?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+pcm <- mirt(Science, 1, itemtype = "Rasch", verbose = FALSE)
+coef(pcm, IRTpars = TRUE, simplify = TRUE)$items
+
+grm2 <- mirt(resp, 1, itemtype = "graded", verbose = FALSE)
+coef(grm2, IRTpars = TRUE, simplify = TRUE)$items["J3", ]
+
+theta <- matrix(seq(-3, 3, by = 1))
+round(rbind(original = testinfo(gpcm, theta), collapsed = testinfo(gpcm_c, theta)), 2)
+```
+
+2. The GRM thresholds of J3 are in order, because the model forces them to
+   be; the second and third are just close together.
+3. Hardly any. At some points the collapsed model even has a little more
+   information, because the slope of J3 is estimated higher once the model no
+   longer has to accommodate the skipped category. Collapsing a category that
+   people skip costs almost nothing.
+4. Exact agreement treats a 3 versus 4 disagreement the same as a 0 versus
+   4 disagreement. QWK weights disagreements by their size and corrects for
+   agreement by chance, so it reflects whether the raters rank the essays in
+   the same way.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 6, `run_lab("open-ended")`, follows six rater-scored science tasks from
+rater agreement to the final IRT model: QWK, rater severity and consistency,
+resolving two reads, PCM versus GPCM versus GRM, collapsing categories, and
+checking an automated scoring engine.
+</div>
+
+## Further reading {-}
+
+Samejima [-@samejima1969], Masters [-@masters1982] and Muraki
+[-@muraki1992] introduced the three models; Embretson and Reise
+[-@embretson2000] compare them. Cohen [-@cohen1968] introduced weighted kappa.

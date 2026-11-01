@@ -1,5 +1,14 @@
 # mirtverse (development version)
 
+* New online book, *Item Response Theory with mirt and mirtverse*, at
+  <https://www.okanbulut.com/mirtverse/book/>. Twelve chapters follow the
+  weeks of the course map, from classical item analysis to cut scores and
+  reporting. Each has learning goals, glossary links, two worked examples on
+  different data, exercises with solutions and a pointer to the matching lab.
+  The bookdown source is in `book/`, every example loads its data in one
+  labelled chunk so instructors can swap in their own, and the pkgdown
+  workflow builds the book into the site. The site navbar links to it.
+
 * New teaching lab, "Scoring open-ended responses": `run_lab("open-ended")`.
   Six science tasks were scored 0-4 by two human raters each and by an
   automated scoring engine. Students check rater agreement (exact, adjacent,
