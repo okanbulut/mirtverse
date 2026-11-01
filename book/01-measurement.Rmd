@@ -87,13 +87,13 @@ st$overall
 head(st$itemstats, 8)
 ```
 
-The `mean` column is the proportion correct, `total.r_if_rm` is the corrected
+The `mean` column is the proportion correct, `cor_if_rm` is the corrected
 item-total correlation, and `alpha_if_rm` is alpha with the item removed. Let
 us sort the items by their corrected correlation and look at the weakest.
 
 ```{r}
 items <- st$itemstats
-items[order(items$total.r_if_rm), c("mean", "total.r_if_rm", "alpha_if_rm")][1:5, ]
+items[order(items$cor_if_rm), c("mean", "cor_if_rm", "alpha_if_rm")][1:5, ]
 ```
 
 A corrected correlation near zero, or an alpha that goes *up* when the item
@@ -122,8 +122,8 @@ be 3. Re-scoring fixes the item:
 key_fixed <- replace(key, 32, 3)
 resp_fixed <- key2binary(raw, key_fixed)
 st_fixed <- itemstats(resp_fixed)
-c(old_r = items["Item.32", "total.r_if_rm"],
-  new_r = st_fixed$itemstats["Item.32", "total.r_if_rm"],
+c(old_r = items["Item.32", "cor_if_rm"],
+  new_r = st_fixed$itemstats["Item.32", "cor_if_rm"],
   old_alpha = st$overall$alpha, new_alpha = st_fixed$overall$alpha)
 ```
 
@@ -161,7 +161,7 @@ If we forget to reverse-score, the two negative items correlate *negatively*
 with the total, and alpha is badly understated.
 
 ```{r}
-itemstats(resp)$itemstats[, c("mean", "total.r_if_rm")]
+itemstats(resp)$itemstats[, c("mean", "cor_if_rm")]
 itemstats(resp)$overall$alpha
 ```
 
@@ -171,7 +171,7 @@ Reverse-scoring maps 0 to 3, 1 to 2 and so on:
 scored <- resp
 scored[, c("W3", "W7")] <- 3 - scored[, c("W3", "W7")]
 st <- itemstats(scored)
-st$itemstats[, c("mean", "total.r_if_rm", "alpha_if_rm")]
+st$itemstats[, c("mean", "cor_if_rm", "alpha_if_rm")]
 st$overall$alpha
 ```
 
@@ -218,7 +218,7 @@ profile_data(scored)
 resp_fixed <- key2binary(SAT12, replace(key, 32, 3))
 it <- itemstats(resp_fixed)$itemstats
 rownames(it)[order(it$mean)][1:3]                 # hardest
-rownames(it)[order(it$total.r_if_rm)][1:3]        # weakest
+rownames(it)[order(it$cor_if_rm)][1:3]        # weakest
 ```
 
 2. Use `distractors(SAT12, rowSums(resp_fixed), "<item>")`. If no option is

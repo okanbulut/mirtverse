@@ -64,7 +64,7 @@ away.
 
 ## Before you start {-}
 
-You need R (version 4.1 or later), the mirt package and mirtverse:
+You need R (version 4.1 or later), mirt (version 1.48 or later) and mirtverse:
 
 ```{r, eval = FALSE}
 install.packages(c("mirt", "learnr"))
