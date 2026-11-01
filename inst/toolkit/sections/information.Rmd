@@ -1,0 +1,43 @@
+<!-- mv-section: id={{id}} type=information -->
+## Information and precision
+
+### Where does the test measure well?
+
+IRT gives every point on the ability scale its own precision. The **test
+information function** is high where the items measure well and the
+standard error, 1 / sqrt(information), is low.
+
+Plot the test information of the one-factor `r models[2]` model `fit`.
+
+```{r {{id}}-info, exercise = TRUE, exercise.setup = "setup-fit"}
+gg_info(fit)
+```
+
+```{r {{id}}-info-check}
+"The peak shows where the test is most precise. Is that where your decisions are made?"
+```
+
+Use `type = "se"` to see the standard error instead:
+
+```{r {{id}}-se, exercise = TRUE, exercise.setup = "setup-fit"}
+gg_info(fit, type = "se")
+```
+
+```{r {{id}}-se-check}
+"The standard error is the mirror image of the information."
+```
+
+```{r {{id}}-q-peak}
+.tk_fit <- mirt::mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+.tk_grid <- seq(-4, 4, by = 0.05)
+.tk_peak <- .tk_grid[which.max(mirt::testinfo(.tk_fit, matrix(.tk_grid)))]
+.tk_where <- if (.tk_peak < -1) "low" else if (.tk_peak > 1) "high" else "middle"
+.tk_msg <- sprintf("Information peaks at theta = %.1f.", .tk_peak)
+question_radio(
+  "Where on the ability scale is this test most precise?",
+  answer("Low ability (theta below -1)", correct = .tk_where == "low", message = .tk_msg),
+  answer("Average ability (theta between -1 and 1)", correct = .tk_where == "middle", message = .tk_msg),
+  answer("High ability (theta above 1)", correct = .tk_where == "high", message = .tk_msg),
+  allow_retry = TRUE)
+```
+

@@ -62,6 +62,7 @@ reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | `mv_dashboard()`, `export_dashboard()` |
 | Response-time modelling and rapid-guessing detection | `fit_rt()`, `sim_rt()` |
 | Interactive teaching labs for measurement courses (learnr) | `run_lab()`, `list_labs()` |
+| Instructor toolkit: labs on your own data, editable labs and chapters | `new_course()`, `new_lab()`, `swap_lab_data()`, `check_material()` |
 | Translate ltm, eRm, TAM and irtQ code into mirt code | `mirtify()`, `mirtify_crosswalk()` |
 
 ## Installation
@@ -107,6 +108,8 @@ writes the whole script for you.
 Teaching a measurement course? `run_lab("model-choice")` opens an interactive
 lab in which students work through a realistic testing scenario with live
 models (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
+To teach with your own data, `new_lab()` builds a lab on any response
+dataset (see [The instructor toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html)).
 
 ## Cheat sheet
 

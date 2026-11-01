@@ -1,0 +1,39 @@
+<!-- mv-section: id={{id}} type=dimensionality -->
+## How many dimensions?
+
+### One factor or two?
+
+The models in this lab assume that one latent trait explains the responses.
+A quick check is to compare a one-factor model with a two-factor model. If
+the second factor adds little, the lower BIC belongs to the one-factor model.
+
+Fit both models with `mirt()` and compare them with `anova()`. The two-factor
+model uses fewer quadrature points (`quadpts = 15`) so it runs quickly.
+
+```{r {{id}}-fit, exercise = TRUE, exercise.lines = 8}
+one <- mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+two <- mirt(resp, 2, itemtype = models[2], quadpts = 15, verbose = FALSE)
+anova(one, two)
+```
+
+```{r {{id}}-fit-check}
+lab_need(exists("one") && exists("two"), "Keep the names `one` and `two` for the two models.")
+lab_need(mirt::extract.mirt(one, "nfact") == 1 && mirt::extract.mirt(two, "nfact") == 2,
+         "`one` should have one factor and `two` two factors.")
+"Compare the BIC column: the smaller value is the better trade-off between fit and complexity."
+```
+
+```{r {{id}}-q-dims}
+.tk_one <- mirt::mirt(resp, 1, itemtype = models[2], verbose = FALSE)
+.tk_two <- suppressWarnings(mirt::mirt(resp, 2, itemtype = models[2], quadpts = 15, verbose = FALSE))
+.tk_bic <- c(one = mirt::extract.mirt(.tk_one, "BIC"), two = mirt::extract.mirt(.tk_two, "BIC"))
+.tk_best <- names(which.min(.tk_bic))
+question_radio(
+  "Which model does BIC prefer?",
+  answer("The one-factor model", correct = .tk_best == "one",
+         message = sprintf("BIC is %.0f for one factor and %.0f for two.", .tk_bic[["one"]], .tk_bic[["two"]])),
+  answer("The two-factor model", correct = .tk_best == "two",
+         message = sprintf("BIC is %.0f for one factor and %.0f for two.", .tk_bic[["one"]], .tk_bic[["two"]])),
+  allow_retry = TRUE)
+```
+

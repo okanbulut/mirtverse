@@ -1,0 +1,67 @@
+# {{title}} {#{{id}}}
+
+<!--
+Made with the mirtverse instructor toolkit ({{made_with}}). The headings
+follow the mirtverse online book, so this chapter can sit next to the book's
+own chapters. Each example opens with a chunk labelled data-{{id}}-<n> that
+loads its data: replace that chunk (by hand or with
+mirtverse::swap_chapter_data()) to use your own dataset.
+-->
+
+```{r setup-{{id}}, include = FALSE}
+library(mirt)
+library(mirtverse)
+```
+
+## Learning goals
+
+By the end of this chapter, students can:
+
+* (goal 1)
+* (goal 2)
+
+## Key terms
+
+* [item response theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-response-theory)
+
+## Example 1
+
+```{r data-{{id}}-1}
+{{data_code}}
+```
+
+```{r example-{{id}}-1}
+fit <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
+coef(fit, IRTpars = TRUE, simplify = TRUE)$items
+```
+
+## Example 2
+
+```{r data-{{id}}-2}
+{{data_code}}
+```
+
+```{r example-{{id}}-2}
+fit <- mirt(resp, 1, itemtype = "Rasch", verbose = FALSE)
+gg_info(fit)
+```
+
+## Your turn
+
+1. (exercise)
+
+<details><summary>Solution</summary>
+
+```{r solution-{{id}}-1, eval = FALSE}
+# solution code
+```
+
+</details>
+
+## In the lab
+
+(Which lab goes with this chapter, for example `run_lab("model-choice")`.)
+
+## Further reading
+
+* (reading)

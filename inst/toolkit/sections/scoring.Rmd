@@ -1,0 +1,45 @@
+<!-- mv-section: id={{id}} type=scoring -->
+## Scoring people
+
+### IRT scores and sum scores
+
+`fscores()` estimates each person's ability (theta) from the model `fit`.
+EAP scores are the default. Save them as `theta` and compare them with the
+sum scores.
+
+```{r {{id}}-scores, exercise = TRUE, exercise.setup = "setup-fit"}
+theta <- fscores(fit, method = "EAP")
+sum_score <- rowSums(resp, na.rm = TRUE)
+cor(theta[, 1], sum_score)
+```
+
+```{r {{id}}-scores-check}
+lab_need(exists("theta") && NROW(theta) == nrow(resp),
+         "Save the EAP scores as `theta`, one row per person.")
+sprintf("The correlation is %.3f. IRT scores and sum scores usually agree closely, but not perfectly.",
+        stats::cor(theta[, 1], rowSums(resp, na.rm = TRUE)))
+```
+
+`gg_scores()` shows the distribution of the scores:
+
+```{r {{id}}-plot, exercise = TRUE, exercise.setup = "setup-fit"}
+gg_scores(fit)
+```
+
+```{r {{id}}-plot-check}
+"Each bar is a group of people with similar ability estimates."
+```
+
+```{r {{id}}-q-same-sum}
+question_radio(
+  paste0("Under the ", models[2], " model, two people with the same sum score can get different theta estimates. Why?"),
+  answer("Because the model weights items by their discrimination, so *which* items a person gets right matters, not only how many.",
+         correct = TRUE,
+         message = "Right. In the Rasch model the sum score carries all the information; once slopes differ, the response pattern matters."),
+  answer("Because EAP scores contain random error added on purpose.",
+         message = "EAP scores are not random: the same responses always give the same score. The reason is that items have different slopes."),
+  answer("Because fscores() ignores missing responses.",
+         message = "Missing responses can play a part, but the main reason is that items with different slopes count differently."),
+  allow_retry = TRUE, random_answer_order = TRUE)
+```
+

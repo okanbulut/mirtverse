@@ -1,0 +1,66 @@
+<!-- mv-section: id={{id}} type=classical -->
+## Classical item statistics
+
+### Item means
+
+Before fitting an IRT model, look at the items one at a time. An item's mean
+score is the classical index of its difficulty: for items scored 0/1 it is
+the proportion of people who got the item right, so a **low** mean is a
+**hard** item.
+
+Compute the mean of every column of `resp`, skipping missing responses, and
+save the result as `item_means`.
+
+```{r {{id}}-means, exercise = TRUE}
+item_means <-
+```
+
+```{r {{id}}-means-hint}
+# colMeans() averages each column; na.rm = TRUE skips missing responses
+item_means <- colMeans(resp, na.rm = ___)
+```
+
+```{r {{id}}-means-solution}
+item_means <- colMeans(resp, na.rm = TRUE)
+item_means
+```
+
+```{r {{id}}-means-check}
+lab_need(exists("item_means"), "Save the item means as `item_means`.")
+lab_need(length(item_means) == ncol(resp) &&
+           isTRUE(all.equal(unname(item_means), unname(colMeans(resp, na.rm = TRUE)))),
+         "`item_means` should hold one mean per item. Try colMeans(resp, na.rm = TRUE).")
+paste0("Right. The easiest item is ", names(which.max(item_means)),
+       " and the hardest is ", names(which.min(item_means)), ".")
+```
+
+### Item-total correlations
+
+An item's **item-total correlation** tells you whether people who do well on
+the rest of the test also do well on the item. Values near zero, or negative
+ones, point to a key error, a confusing item or an item that measures
+something else. mirt's `itemstats()` reports it as `total.r_if_rm` (the
+correlation with the total of the *other* items).
+
+```{r {{id}}-stats, exercise = TRUE}
+itemstats(resp)$itemstats
+```
+
+```{r {{id}}-stats-check}
+"Look down the total.r_if_rm column for the smallest value."
+```
+
+```{r {{id}}-q-low}
+.tk_st <- mirt::itemstats(resp)$itemstats
+.tk_r <- stats::setNames(.tk_st$total.r_if_rm, rownames(.tk_st))
+.tk_low <- names(which.min(.tk_r))
+.tk_other <- utils::head(setdiff(names(sort(.tk_r, decreasing = TRUE)), .tk_low), 3)
+do.call(question_radio, c(
+  list("Which item has the lowest item-total correlation (total.r_if_rm)?"),
+  list(answer(.tk_low, correct = TRUE,
+              message = sprintf("Right: %s correlates %.2f with the rest of the test. Read the item and its key before you trust it.",
+                                .tk_low, .tk_r[[.tk_low]]))),
+  lapply(.tk_other, function(i) answer(i, message = sprintf("%s correlates %.2f with the rest of the test; look for a smaller value.", i, .tk_r[[i]]))),
+  list(allow_retry = TRUE, random_answer_order = TRUE)))
+```
+
