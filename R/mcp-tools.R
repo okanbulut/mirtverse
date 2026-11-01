@@ -473,6 +473,8 @@ toolkit_materials <- function(ctx) {
   if (is.null(tab)) return(NULL)
   if ("type" %in% names(tab) && !"kind" %in% names(tab)) names(tab)[names(tab) == "type"] <- "kind"
   tab[] <- lapply(tab, function(v) if (is.list(v)) vapply(v, function(z) paste(format(z), collapse = ", "), "") else v)
+  if ("path" %in% names(tab))
+    tab$path <- vapply(tab$path, function(x) rel_path(ctx, x), "", USE.NAMES = FALSE)
   files <- materials_table(ctx)
   other <- files[!files$path %in% tab$path & !startsWith(files$path, "labs/") &
                    !startsWith(files$path, "chapters/"), , drop = FALSE]
