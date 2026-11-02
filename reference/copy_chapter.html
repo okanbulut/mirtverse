@@ -55,7 +55,7 @@ example's data."><meta property="og:image" content="https://www.okanbulut.com/mi
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
-    <li><a class="dropdown-item" href="../reference/score_open.html">Score open-ended responses</a></li>
+    <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
 <li class="nav-item"><a class="nav-link" href="../cheatsheet/mirtverse-cheatsheet.pdf">Cheat sheet</a></li>
@@ -172,7 +172,7 @@ easiest way is <code>swap_chapter_data()</code>.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">book_chapters</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id             file                  title                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> measurement    01-measurement.Rmd    Measurement, scoring and classical item…</span>
@@ -188,9 +188,10 @@ easiest way is <code>swap_chapter_data()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> banks-cat      11-banks-cat.Rmd      Item banks, test assembly and adaptive …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> reporting      12-reporting.Rmd      Cut scores, reporting and communicating…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ml-lens        13-ml-lens.Rmd        Machine learning through an IRT lens    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> llms           17-llms.Rmd           Large language models as a colleague    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> datasets       90-datasets.Rmd       Appendix: the datasets                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> adapting       91-adapting.Rmd       Appendix: adapting the book             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> auto-scoring   16-auto-scoring.Rmd   Automated scoring                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> llms           17-llms.Rmd           Large language models as a colleague    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> datasets       90-datasets.Rmd       Appendix: the datasets                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> adapting       91-adapting.Rmd       Appendix: adapting the book             </span>
 <span class="r-in"><span><span class="va">course</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"chapter-demo"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ch</span> <span class="op">&lt;-</span> <span class="fu">new_chapter</span><span class="op">(</span><span class="st">"my-week"</span>, <span class="va">course</span>, title <span class="op">=</span> <span class="st">"Our own data"</span>,</span></span>
 <span class="r-in"><span>                  data_code <span class="op">=</span> <span class="st">"resp &lt;- expand.table(LSAT7)"</span><span class="op">)</span></span></span>

@@ -66,7 +66,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
-    <li><a class="dropdown-item" href="../reference/score_open.html">Score open-ended responses</a></li>
+    <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -297,6 +297,40 @@ English language learners</td>
 </tr></tbody>
 </table>
 <p>Lab 6 stands on its own.</p>
+</div>
+<div class="section level3">
+<h3 id="lab-7">Lab 7: Can the engine score alone?<a class="anchor" aria-label="anchor" href="#lab-7"></a>
+</h3>
+<p>You are the psychometrician for the fictional <strong>Lakeshore Grade
+8 Science Explanations</strong>. 400 students wrote short answers to
+four prompts, each scored 0 to 4 by a rater, and 40% by a second rater
+(<code>essays</code>). A vendor offers an automated scoring engine.
+Students build the engine themselves with <code><a href="../reference/train_scorer.html">train_scorer()</a></code>
+and decide whether it can score on its own.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>7. Can the engine score alone?</strong> (about 75
+minutes)</td>
+<td><code>run_lab("auto-scoring")</code></td>
+<td>Measure human agreement, split the data by student, train an engine
+and read its word weights, judge it with QWK, SMD and PRMSE overall and
+for English language learners, test why it differs, and choose its
+role</td>
+</tr></tbody>
+</table>
+<p>Lab 7 is part of the <a href="ai-hub.html">AI Hub</a> and fits well
+after Lab 6.</p>
 </div>
 </div>
 <div class="section level2">
@@ -716,6 +750,71 @@ students</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-7-can-the-engine-score-alone">Lab 7: Can the engine score alone?<a class="anchor" aria-label="anchor" href="#lab-7-can-the-engine-score-alone"></a>
+</h3>
+<p><code>run_lab("auto-scoring")</code>, about 75 minutes. Training the
+engine takes a few seconds.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the board’s question and <code>essays</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>How good are the raters?</td>
+<td>Human-human agreement by prompt with
+<code><a href="../reference/agreement_report.html">agreement_report()</a></code>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Training the engine</td>
+<td>Split by student; train with <code><a href="../reference/train_scorer.html">train_scorer()</a></code>; read the
+word weights</td>
+<td>Why split by student; what the engine learns</td>
+</tr>
+<tr class="even">
+<td>Judging the engine</td>
+<td>Agreement, SMD and PRMSE on the test students, then by group</td>
+<td>What PRMSE adds; is the gap for ELL students a problem?</td>
+</tr>
+<tr class="odd">
+<td>Where does the gap come from?</td>
+<td>Read under-scored answers; probe the engine with misspelled and
+padded answers; retrain with length</td>
+<td>What drives the gap</td>
+</tr>
+<tr class="even">
+<td>How much should the engine do?</td>
+<td>Share of answers a check scorer sends to a second reader</td>
+<td>Recommendation to the board</td>
+</tr>
+<tr class="odd">
+<td>The memo</td>
+<td>Free-text memo to the board</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td><code>lab_truth("essays")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -728,7 +827,8 @@ internet connection.</li>
 its own and fits a unit on fairness or validity; Lab 2’s short DIF
 section is a good warm-up for it. Lab 4 fits a unit on linking and
 equating, Lab 5 a unit on item banks and adaptive testing, and Lab 6 a
-unit on polytomous models or performance assessment.</li>
+unit on polytomous models or performance assessment. Lab 7 follows Lab 6
+in a unit on automated scoring or AI in measurement.</li>
 <li>
 <strong>Speed:</strong> Most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -1266,6 +1366,93 @@ would you decide?</li>
 <li>Collapsing categories changes the score scale for T4. What has to
 happen before next year’s administration, and how would you explain the
 change to teachers?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-7-1">Lab 7<a class="anchor" aria-label="anchor" href="#lab-7-1"></a>
+</h3>
+<p>The planted problems in <code>essays</code>
+(<code>lab_truth("essays")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>ELL students misspell about 60% of their longer words and drop
+articles</td>
+<td>Looks past the overall statistics to the subgroup SMD and PRMSE,
+reads the under-scored answers, and traces the gap to misspelled key
+words</td>
+</tr>
+<tr class="even">
+<td>Fluent writers add filler, so their answers are about twice as
+long</td>
+<td>Tests the length explanation (padding, <code>length = TRUE</code>)
+and rules it out for this engine</td>
+</tr>
+<tr class="odd">
+<td>Some answers state an idea the wrong way round with the right
+words</td>
+<td>Probes the engine with such answers rather than trusting agreement
+alone</td>
+</tr>
+<tr class="even">
+<td>Raters are good but not perfect</td>
+<td>Uses human-human agreement as the bar and PRMSE to allow for rater
+error</td>
+</tr>
+<tr class="odd">
+<td>ELL students are 0.25 SD lower in ability</td>
+<td>Separates this real difference (impact) from the engine’s gap</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Raters:</strong> Two raters agree exactly on about 56% of
+answers; QWK 0.81 to 0.85 by prompt.</li>
+<li>
+<strong>Overall:</strong> On the 100 test students the engine’s QWK
+is 0.87 against 0.83 between two humans, SMD -0.01 and PRMSE 0.90. It
+passes every overall check.</li>
+<li>
+<strong>Groups:</strong> For fluent students SMD +0.03 and PRMSE
+0.93; for ELL students SMD -0.13 (beyond ±0.10) and PRMSE 0.77. With
+<code>length = TRUE</code> the ELL SMD is about the same (-0.12).</li>
+<li>
+<strong>Probe:</strong> The same E1 answer gets 1.54 points spelled
+correctly and 0.98 misspelled; filler changes it by about -0.1.</li>
+<li>
+<strong>Check scorer:</strong> With a two-point rule about 2% of
+answers get a second read (35% with a one-point rule), against 40%
+today. Final scores stay human, so the engine’s gap for ELL students
+cannot lower their scores.</li>
+<li>
+<strong>Recommendation:</strong> A check scorer next to one human
+read, not a sole scorer, until the gap for ELL students is fixed and
+re-checked.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-6">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-6"></a>
+</h4>
+<ul>
+<li>The engine agrees with the first rater better than the second rater
+does. Why is that comparison flattering to the engine, and how does
+PRMSE avoid it?</li>
+<li>How would you fix the engine’s weakness with misspellings, and what
+would you need to check after the fix?</li>
+<li>If the board insists on a sole scorer for budget reasons, what
+evidence and safeguards would you require, and what would you tell
+parents?</li>
+<li>A real engine uses thousands of features you cannot read. Which of
+the lab’s checks still work, and which become harder?</li>
 </ul>
 </div>
 </div>

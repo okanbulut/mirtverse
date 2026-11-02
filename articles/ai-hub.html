@@ -66,7 +66,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
-    <li><a class="dropdown-item" href="../reference/score_open.html">Score open-ended responses</a></li>
+    <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -184,11 +184,13 @@ colleague</a>
 <tr class="even">
 <td>4. Automated scoring</td>
 <td>Can a machine score constructed responses as well as raters?</td>
-<td><a href="ai-reading.html#automated-scoring">Reading list: Automated
-scoring</a></td>
+<td>Book: <a href="../book/auto-scoring.html">Automated scoring</a>; <a href="ai-reading.html#automated-scoring">reading list: Automated
+scoring</a>
+</td>
 <td>
-<code><a href="../reference/score_open.html">score_open()</a></code>; <a href="teaching-labs.html">Lab
-6</a>
+<code><a href="../reference/train_scorer.html">train_scorer()</a></code>, <code><a href="../reference/agreement_report.html">agreement_report()</a></code>,
+<code><a href="../reference/score_open.html">score_open()</a></code>; <a href="teaching-labs.html#lab-7">Lab
+7</a>
 </td>
 </tr>
 <tr class="odd">
@@ -272,6 +274,16 @@ prepares the human review.</p>
 <span><span class="fu"><a href="../reference/flags.html">flags</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>                                        <span class="co"># agreement and fairness gates</span></span></code></pre></div>
 <p>The full example in <code>examples.R</code> scores 40 answers from
 the <code>essays</code> data against a four-point rubric.</p>
+<p>To train your own engine instead of calling a language model, use
+<code><a href="../reference/train_scorer.html">train_scorer()</a></code>. It learns from human-scored answers, runs
+offline, and works with <code><a href="../reference/score_open.html">score_open()</a></code> like any other trained
+model:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="va">essays</span><span class="op">[</span><span class="va">essays</span><span class="op">$</span><span class="va">prompt</span> <span class="op">==</span> <span class="st">"E1"</span>, <span class="op">]</span></span>
+<span><span class="va">engine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train_scorer.html">train_scorer</a></span><span class="op">(</span><span class="va">e1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">300</span>, <span class="op">]</span><span class="op">)</span>                 <span class="co"># words and phrases -&gt; human score</span></span>
+<span><span class="va">test</span> <span class="op">&lt;-</span> <span class="va">e1</span><span class="op">[</span><span class="fl">301</span><span class="op">:</span><span class="fl">400</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/agreement_report.html">agreement_report</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">engine</span>, <span class="va">test</span><span class="op">)</span>, <span class="va">test</span><span class="op">$</span><span class="va">human1</span>, <span class="va">test</span><span class="op">$</span><span class="va">human2</span>,</span>
+<span>                 group <span class="op">=</span> <span class="va">test</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>                <span class="co"># QWK, SMD and PRMSE by group</span></span></code></pre></div>
 <p>Machine scores pass the same gates whether they come from a language
 model or from a model you trained yourself: Quadratic weighted kappa
 against human scores, standardized mean differences overall and within
@@ -308,8 +320,11 @@ score.</li>
 <h2 id="instructors">For instructors<a class="anchor" aria-label="anchor" href="#instructors"></a>
 </h2>
 <p><a href="teaching-labs.html">Lab 6</a>, on scoring open-ended
-responses, already compares an automated engine with human raters and
-fits well at the end of an IRT course. The <a href="../book/index.html">online book</a> has a part on AI in
+responses, compares an automated engine with human raters and fits well
+at the end of an IRT course. <a href="teaching-labs.html#lab-7">Lab
+7</a> goes further: Students train their own engine, judge it on new
+students, find why it underscores English language learners, and decide
+how much of the scoring it should do. The <a href="../book/index.html">online book</a> has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. More AI labs, chapters and an optional AI module for the <a href="course-map.html">course map</a> are being written; they will be
 listed on this page and in the AI Hub menu as they are released.</p>

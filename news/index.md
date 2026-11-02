@@ -2,6 +2,37 @@
 
 ## mirtverse (development version)
 
+- New
+  [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
+  trains an automated scoring engine on human-scored text: A ridge
+  regression on words and two-word phrases, in base R, with the penalty
+  chosen by cross-validation. It runs offline,
+  [`predict()`](https://rdrr.io/r/stats/predict.html) scores new
+  answers, [`tidy()`](https://generics.r-lib.org/reference/tidy.html)
+  shows the word weights, and it plugs into
+  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md).
+  New
+  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
+  compares machine and human scores overall, by group and by item: Exact
+  and adjacent agreement, QWK, SMD, correlation and PRMSE, with a
+  verdict against
+  [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
+  and an
+  [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+  method.
+
+- New Lab 7, `run_lab("auto-scoring")`: Students train an engine on
+  `essays`, judge it on new students, find why it underscores English
+  language learners, and decide how much of the scoring it should do.
+  The book has a new chapter, “Automated scoring” (`auto-scoring` in
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)).
+
+- `essays` is harder to score by machine, as real answers are: Language
+  learners misspell more content words and drop articles, some answers
+  state an idea the wrong way round with the right words, and raters are
+  a little less consistent (human-human QWK about 0.8). The example
+  recordings were rebuilt to match.
+
 - The online book has a new part, *AI in measurement*, with two
   chapters: “Machine learning through an IRT lens” (prediction versus
   measurement, the 2PL as a logistic regression on a latent predictor,

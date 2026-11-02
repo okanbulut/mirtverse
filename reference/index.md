@@ -98,13 +98,22 @@ checks and flags to consider before each next stage.
 
 ## AI in measurement
 
-Run the language model features offline from recorded responses, and
-teaching datasets with item text and written answers.
+Run the language model features offline from recorded responses, train
+and check an automated scoring engine, and teaching datasets with item
+text and written answers.
 
 - [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_recordings()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   : Replay or record language model responses
+- [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
+  [`tidy(`*`<mv_scorer>`*`)`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
+  : Train an automated scorer on human-scored text
+- [`predict(`*`<mv_scorer>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict.mv_scorer.md)
+  : Score new responses with a trained scorer
+- [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
+  [`autoplot(`*`<mv_agreement>`*`)`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
+  : Agreement between machine and human scores
 - [`itemtext`](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
   : Numeracy items with their text, for the AI Hub
 - [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :

@@ -302,15 +302,24 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
 <li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>14</b> Large language models as a colleague</a>
+<li class="chapter" data-level="14" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>14</b> Automated scoring</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="llms.html"><a href="llms.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
-<li class="chapter" data-level="14.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>14.2</b> Example 1: From a sentence to a tested script</a></li>
-<li class="chapter" data-level="14.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>14.3</b> Example 2: Writing items, and catching the mistakes</a></li>
-<li class="chapter" data-level="14.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>14.4</b> Example 3: Is a recording reproducible?</a></li>
-<li class="chapter" data-level="14.5" data-path="llms.html"><a href="llms.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="14.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>14.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="14.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>14.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="14.4" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-13"><i class="fa fa-check"></i><b>14.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>15</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="llms.html"><a href="llms.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>15.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="15.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>15.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="15.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>15.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="15.5" data-path="llms.html"><a href="llms.html#your-turn-14"><i class="fa fa-check"></i><b>15.5</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
-<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendices</b></span></li>
 <li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
@@ -347,7 +356,7 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datasets" class="section level1 hasAnchor" number="15">
+<div id="datasets" class="section level1 hasAnchor" number="16">
 <h1><span class="header-section-number">A</span> Datasets used in the book<a href="datasets.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Every example loads its data in one chunk, labelled <code>data-&lt;chapter&gt;-&lt;n&gt;</code>, at
 the start of the example. The table lists what each chunk defines. <em>Real</em>
@@ -526,6 +535,18 @@ them.</p>
 <td>40-item placement test and a pass/fail course result</td>
 <td>Simulated</td>
 <td><code>resp</code>, <code>ability</code>, <code>passed</code></td>
+</tr>
+<tr class="odd">
+<td><code>data-auto-scoring-1</code></td>
+<td>Short answers to a science question, scored 0 to 3 by one or two raters</td>
+<td>Simulated</td>
+<td><code>bread</code></td>
+</tr>
+<tr class="even">
+<td><code>data-auto-scoring-2</code></td>
+<td>Four answers with a known correct score</td>
+<td>Simulated</td>
+<td><code>probe</code></td>
 </tr>
 <tr class="odd">
 <td><code>data-llms-1</code></td>

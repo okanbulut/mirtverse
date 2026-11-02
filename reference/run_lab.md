@@ -6,14 +6,16 @@ testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
 ([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
-Labs 3 to 6 each have their own: a provincial numeracy test
+Labs 3 to 7 each have their own: a provincial numeracy test
 ([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
 a licensure exam with two forms
 ([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)), a
 placement test's item bank
-([catbank](https://www.okanbulut.com/mirtverse/reference/catbank.md))
-and rater-scored science tasks
-([openended](https://www.okanbulut.com/mirtverse/reference/openended.md)).
+([catbank](https://www.okanbulut.com/mirtverse/reference/catbank.md)),
+rater-scored science tasks
+([openended](https://www.okanbulut.com/mirtverse/reference/openended.md))
+and written science explanations
+([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)).
 
 ## Usage
 
@@ -42,35 +44,43 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
 
 ## Details
 
-- `"model-choice"` (Lab 1): score the responses, screen the items, check
+- `"model-choice"` (Lab 1): Score the responses, screen the items, check
   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit
   and local dependence, and commit to a model the board can defend.
 
-- `"decisions"` (Lab 2): read the item parameters, check precision at
+- `"decisions"` (Lab 2): Read the item parameters, check precision at
   the pass mark, choose a scoring method, estimate classification
   accuracy, test for DIF between English and French candidates, write a
   memo, and compare the results with the truth behind the data.
 
-- `"fairness"` (Lab 3): is a numeracy test biased against English
+- `"fairness"` (Lab 3): Is a numeracy test biased against English
   language learners? Separate impact from DIF, run Mantel-Haenszel and
   IRT likelihood-ratio DIF tests, purify the anchor, judge how much the
   DIF matters for students' scores and plan a content review.
 
-- `"linking"` (Lab 4): a licensure exam's pass rate jumped on a new
+- `"linking"` (Lab 4): A licensure exam's pass rate jumped on a new
   form. Calibrate both forms, link them through common items, catch a
   drifted anchor, compare separate and concurrent calibration, and carry
   the pass mark over with IRT true-score equating.
 
-- `"cat-design"` (Lab 5): could a computerized adaptive test replace a
+- `"cat-design"` (Lab 5): Could a computerized adaptive test replace a
   40-item placement test? Inspect the item bank, run a CAT by hand,
   simulate students, and choose a stopping rule, exposure control and
   content balancing.
 
-- `"open-ended"` (Lab 6): are the rubric scores on a science assessment
+- `"open-ended"` (Lab 6): Are the rubric scores on a science assessment
   trustworthy? Check rater agreement, find a severe and an inconsistent
   rater, resolve final scores, fit polytomous IRT models, collapse
   categories that do not work, and decide whether an automated scoring
   engine can replace a human reader.
+
+- `"auto-scoring"` (Lab 7): Can an automated scoring engine score
+  written science explanations on its own? Train an engine with
+  [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md),
+  judge it on new students with
+  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md),
+  check it for English language learners, find what drives the
+  difference, and choose the engine's role.
 
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -81,14 +91,15 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 6 × 3
+#> # A tibble: 7 × 3
 #>   name         title                                        description         
 #>   <chr>        <chr>                                        <chr>               
-#> 1 cat-design   Lab 5: Designing an adaptive test            A college wants to …
-#> 2 decisions    Lab 2: From parameters to decisions          The certification b…
-#> 3 fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…
-#> 4 linking      Lab 4: Linking two forms                     A licensure exam ha…
-#> 5 model-choice Lab 1: Choosing a model the board can defend You are the new psy…
-#> 6 open-ended   Lab 6: Scoring open-ended responses          A science assessmen…
+#> 1 auto-scoring Lab 7: Can the engine score alone?           A science program w…
+#> 2 cat-design   Lab 5: Designing an adaptive test            A college wants to …
+#> 3 decisions    Lab 2: From parameters to decisions          The certification b…
+#> 4 fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…
+#> 5 linking      Lab 4: Linking two forms                     A licensure exam ha…
+#> 6 model-choice Lab 1: Choosing a model the board can defend You are the new psy…
+#> 7 open-ended   Lab 6: Scoring open-ended responses          A science assessmen…
 if (interactive()) run_lab("model-choice")
 ```

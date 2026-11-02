@@ -38,7 +38,7 @@ step names the question it answers, what to read and what to try in R.
 | 1\. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md); the AI section of the [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html#ai) | — |
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md) |
-| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) |
+| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
 | 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
@@ -113,6 +113,21 @@ flags(q)                                        # agreement and fairness gates
 The full example in `examples.R` scores 40 answers from the `essays`
 data against a four-point rubric.
 
+To train your own engine instead of calling a language model, use
+[`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md).
+It learns from human-scored answers, runs offline, and works with
+[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+like any other trained model:
+
+``` r
+
+e1 <- essays[essays$prompt == "E1", ]
+engine <- train_scorer(e1[1:300, ])                 # words and phrases -> human score
+test <- e1[301:400, ]
+agreement_report(predict(engine, test), test$human1, test$human2,
+                 group = test$group)                # QWK, SMD and PRMSE by group
+```
+
 Machine scores pass the same gates whether they come from a language
 model or from a model you trained yourself: Quadratic weighted kappa
 against human scores, standardized mean differences overall and within
@@ -140,8 +155,12 @@ groups, and low-confidence responses routed back to human raters.
 ## For instructors
 
 [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md),
-on scoring open-ended responses, already compares an automated engine
-with human raters and fits well at the end of an IRT course. The [online
+on scoring open-ended responses, compares an automated engine with human
+raters and fits well at the end of an IRT course. [Lab
+7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7)
+goes further: Students train their own engine, judge it on new students,
+find why it underscores English language learners, and decide how much
+of the scoring it should do. The [online
 book](https://www.okanbulut.com/mirtverse/book/index.md) has a part on
 AI in measurement whose chapters work offline, so they can be assigned
 as readings. More AI labs, chapters and an optional AI module for the

@@ -55,7 +55,7 @@ spoon feels colder than a wooden one)."><meta property="og:image" content="https
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
-    <li><a class="dropdown-item" href="../reference/score_open.html">Score open-ended responses</a></li>
+    <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
 <li class="nav-item"><a class="nav-link" href="../cheatsheet/mirtverse-cheatsheet.pdf">Cheat sheet</a></li>
@@ -120,19 +120,19 @@ responses and check them against human scores.</p></div>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">essays</span><span class="op">$</span><span class="va">response</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. That is why this happens."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Our planet is tilted on its axis. Because the tilt stays pointed the same way, each hemisphere takes turns facing the Sun. Seasons happen because the weather changes."                                                                                                                                                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "This is something that we can see in everyday life. There are a few reasons why this happens. Green plants carry out photosynthesis to make their food. The raw materials are carbon dioxide and water. This shows that science can explain things we see every day."                                                                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I learned about this in class last year. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "I learned about this in class last year. Earth's axis is tilted about 23.5 degrees. As Earth orbits the Sun, first one hemisphere and then the other leans toward the Sun. Direct rays in summer concentrate the Sun's energy on a smaller area, which heats it more."                                                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Let me explain what I think is going on here. This is a really interesting question about science. Plants make food by photosynthesis. Carbon dioxide enters through the leaves and water comes up from the roots. The plant grows and makes food. Plants take in oxygen and give off carbon dioxide when they make food. Overall, it is a combination of these things."   </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">essays</span><span class="op">$</span><span class="va">prompt</span>, <span class="va">essays</span><span class="op">$</span><span class="va">human1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0   1   2   3   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   E1  51 105 101  77  66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   E2  76 108  98  75  43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   E3  35  75  88 105  97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   E4  93  92  93  87  35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   E1  58  99  92  99  52</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   E2  81  96  97  82  44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   E3  35  76 105 103  81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   E4  86  90 106  69  49</span>
 <span class="r-in"><span><span class="co"># human-human agreement on the double-scored responses</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">essays</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">human1</span> <span class="op">==</span> <span class="va">human2</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7725948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5634675</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

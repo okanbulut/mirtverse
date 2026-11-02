@@ -94,4 +94,8 @@ these ideas fit into the measurement workflow.
   an annotated set of papers and books for each topic.
 - [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md)
   puts an automated scoring engine next to human raters on the same
-  responses.
+  responses, and [Lab
+  7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7)
+  has students train an engine with
+  [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
+  and check it for fairness.

@@ -46,17 +46,17 @@ to score responses and check them against human scores.
 
 ``` r
 essays$response[1:3]
-#> [1] "Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. That is why this happens."
-#> [2] "Our planet is tilted on its axis. Because the tilt stays pointed the same way, each hemisphere takes turns facing the Sun. Seasons happen because the weather changes."                                                                                                                                                                                                     
-#> [3] "This is something that we can see in everyday life. There are a few reasons why this happens. Green plants carry out photosynthesis to make their food. The raw materials are carbon dioxide and water. This shows that science can explain things we see every day."                                                                                                       
+#> [1] "I learned about this in class last year. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works."
+#> [2] "I learned about this in class last year. Earth's axis is tilted about 23.5 degrees. As Earth orbits the Sun, first one hemisphere and then the other leans toward the Sun. Direct rays in summer concentrate the Sun's energy on a smaller area, which heats it more."                                                                                                     
+#> [3] "Let me explain what I think is going on here. This is a really interesting question about science. Plants make food by photosynthesis. Carbon dioxide enters through the leaves and water comes up from the roots. The plant grows and makes food. Plants take in oxygen and give off carbon dioxide when they make food. Overall, it is a combination of these things."   
 table(essays$prompt, essays$human1)
 #>     
 #>        0   1   2   3   4
-#>   E1  51 105 101  77  66
-#>   E2  76 108  98  75  43
-#>   E3  35  75  88 105  97
-#>   E4  93  92  93  87  35
+#>   E1  58  99  92  99  52
+#>   E2  81  96  97  82  44
+#>   E3  35  76 105 103  81
+#>   E4  86  90 106  69  49
 # human-human agreement on the double-scored responses
 with(essays, mean(human1 == human2, na.rm = TRUE))
-#> [1] 0.7725948
+#> [1] 0.5634675
 ```

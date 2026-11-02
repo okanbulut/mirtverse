@@ -27,6 +27,7 @@ fig:bank-info
 fig:cat-length
 fig:item-map
 fig:ml-attenuation
+fig:auto-agree
 tab:datasets
 tab:files
 measurement
@@ -99,11 +100,16 @@ the-ideas-12
 example-1-the-2pl-is-a-logistic-regression-on-theta
 example-2-forty-items-or-one-score
 your-turn-12
-llms
+auto-scoring
 the-ideas-13
+example-1-training-and-judging-an-engine
+example-2-what-is-the-engine-rewarding
+your-turn-13
+llms
+the-ideas-14
 example-1-from-a-sentence-to-a-tested-script
 example-2-writing-items-and-catching-the-mistakes
 example-3-is-a-recording-reproducible
-your-turn-13
+your-turn-14
 datasets
 adapting
