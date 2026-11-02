@@ -25,37 +25,43 @@ mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 6
+storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 7
 each have their own: a provincial numeracy test (\link{numeracy}), a licensure
 exam with two forms (\link{linking}), a placement test's item bank
-(\link{catbank}) and rater-scored science tasks (\link{openended}).
+(\link{catbank}), rater-scored science tasks (\link{openended}) and written science
+explanations (\link{essays}).
 }
 \details{
 \itemize{
-\item \code{"model-choice"} (Lab 1): score the responses, screen the items, check
+\item \code{"model-choice"} (Lab 1): Score the responses, screen the items, check
 dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
 local dependence, and commit to a model the board can defend.
-\item \code{"decisions"} (Lab 2): read the item parameters, check precision at the
+\item \code{"decisions"} (Lab 2): Read the item parameters, check precision at the
 pass mark, choose a scoring method, estimate classification accuracy,
 test for DIF between English and French candidates, write a memo, and
 compare the results with the truth behind the data.
-\item \code{"fairness"} (Lab 3): is a numeracy test biased against English language
+\item \code{"fairness"} (Lab 3): Is a numeracy test biased against English language
 learners? Separate impact from DIF, run Mantel-Haenszel and IRT
 likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
 matters for students' scores and plan a content review.
-\item \code{"linking"} (Lab 4): a licensure exam's pass rate jumped on a new form.
+\item \code{"linking"} (Lab 4): A licensure exam's pass rate jumped on a new form.
 Calibrate both forms, link them through common items, catch a drifted
 anchor, compare separate and concurrent calibration, and carry the pass
 mark over with IRT true-score equating.
-\item \code{"cat-design"} (Lab 5): could a computerized adaptive test replace a
+\item \code{"cat-design"} (Lab 5): Could a computerized adaptive test replace a
 40-item placement test? Inspect the item bank, run a CAT by hand,
 simulate students, and choose a stopping rule, exposure control and
 content balancing.
-\item \code{"open-ended"} (Lab 6): are the rubric scores on a science assessment
+\item \code{"open-ended"} (Lab 6): Are the rubric scores on a science assessment
 trustworthy? Check rater agreement, find a severe and an inconsistent
 rater, resolve final scores, fit polytomous IRT models, collapse
 categories that do not work, and decide whether an automated scoring
 engine can replace a human reader.
+\item \code{"auto-scoring"} (Lab 7): Can an automated scoring engine score written
+science explanations on its own? Train an engine with \code{\link[=train_scorer]{train_scorer()}},
+judge it on new students with \code{\link[=agreement_report]{agreement_report()}}, check it for
+English language learners, find what drives the difference, and choose
+the engine's role.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

@@ -174,7 +174,8 @@ mirtverse's assessment pipeline has a scoring stage for this,
 agreement (see section 9 of the [assessment pipeline
 article](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-9)).
 Lab 6 works through the whole process with eight raters and an automated
-scoring engine.
+scoring engine, and Chapter \@ref(auto-scoring) shows how such an engine is
+trained and evaluated.
 
 ## Your turn
 

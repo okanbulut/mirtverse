@@ -1,0 +1,288 @@
+# Automated scoring {#auto-scoring}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain what an automated scoring engine learns from human scores, and
+  why it is a **prediction model** of the raters rather than a measurement
+  model;
+* train a simple engine on human-scored text with `train_scorer()` and judge
+  it on responses it has not seen;
+* evaluate machine scores with exact and adjacent agreement, **quadratic
+  weighted kappa**, the **standardized mean difference** and **PRMSE**,
+  overall and within groups, using `agreement_report()`;
+* recognize **construct-irrelevant** features that an engine can reward,
+  and choose how much of the scoring an engine should do.
+</div>
+
+**Key terms:**
+[Automated scoring](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-scoring),
+[PRMSE](https://www.okanbulut.com/mirtverse/articles/glossary.html#prmse),
+[feature](https://www.okanbulut.com/mirtverse/articles/glossary.html#feature),
+[overfitting and cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation),
+[human-in-the-loop](https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop).
+
+## The ideas
+
+Constructed responses, from a one-sentence explanation to a full essay, are
+scored by trained raters against a rubric. Chapter \@ref(polytomous) treated
+the raters' scores as data for a polytomous IRT model and checked that two
+raters agree. Human scoring is slow and expensive, so many testing programs
+now use an **automated scoring engine**: A model that predicts the score a
+trained rater would give.
+
+An engine is built the way any machine learning model is (Chapter
+\@ref(ml-lens)). Each response is turned into **features**, such as the
+words it uses, its length, or its spelling, and a model learns from a set of
+human-scored responses which features go with which scores. The engine
+never reads the rubric. It learns whatever predicts the raters, including
+features the rubric does not mention. Two consequences follow:
+
+* **The engine can only be as good as its training scores.** If the raters
+  are inconsistent, the engine learns their noise; if they are biased, it
+  learns their bias.
+* **Agreement is not the same as measuring the construct.** Long answers
+  tend to earn high scores, so length predicts scores, but an engine that
+  rewards length is scoring something other than the rubric. Such features
+  add **construct-irrelevant** variance and invite gaming.
+
+Machine scores are therefore judged against human scores before they are
+used, following Williamson, Xi and Breyer [-@williamson2012]:
+
+* **Agreement** with a human rater: Exact and adjacent agreement and the
+  quadratic weighted kappa (QWK), which should be at least 0.70 and not much
+  below the agreement between two humans (degradation of at most 0.10).
+* **Score level**: The standardized mean difference (SMD) between machine
+  and human scores, within $\pm$0.15 overall.
+* **Fairness**: The same SMD within groups of test takers, often within
+  $\pm$0.10, because an engine can match humans overall and still score one group
+  lower [@bridgeman2012].
+
+Agreement with one rater undersells a good engine, because that rater makes
+errors too. The **proportional reduction in mean squared error** (PRMSE)
+asks a better question: How much of the variance of the *true* score, the
+average over many raters, do the machine scores explain [@loukina2020]?
+It uses the double-scored responses to estimate rater error and corrects
+for it. A PRMSE of 0.80 means the machine scores predict the true score
+about as well as a measure with reliability 0.80 would.
+
+Finally, a program decides **how much** the engine does. It can be the
+**sole scorer**; a **check scorer** next to one human read, where a second
+person reads only the responses on which human and machine disagree; or
+not be used at all. The stronger the role, the stronger the evidence it
+needs [@yan2020].
+
+## Example 1: Training and judging an engine
+
+A Grade 7 science test asks: *"Why does bread go mouldy faster on the
+kitchen counter than in the fridge?"* A full answer has three key ideas:
+mould is a living fungus, it grows from spores that are already on the bread
+or in the air, and warmth speeds its growth while cold slows it. Each
+answer scores 0 to 3, one point per idea. We simulate 900 answers, all
+scored by one rater and half of them by a second. Students state each idea
+in many different ways, and some state an idea wrongly with much the same
+words ("Cold makes it grow faster."), which earns no credit.
+
+```{r data-auto-scoring-1}
+# Simulated short answers to the mouldy bread question, scored 0 to 3.
+set.seed(1616)
+pick <- function(...) sample(c(...), 1)
+ideas <- list(   # one function per key idea; each call writes one sentence
+  function() paste0(pick("Mould", "Mold", "The fuzz", "The green stuff", "It"), " ",
+                    pick("is a fungus", "is a kind of fungus", "is a living fungus",
+                         "is alive, a type of fungus", "is a living thing called a fungus"), "."),
+  function() paste0(pick("Its spores", "Tiny spores", "Mould spores", "Spores"), " ",
+                    pick("are already on the bread", "float in the air",
+                         "land on the bread from the air", "are everywhere in the air"),
+                    pick("", " and start to grow", " and grow on it"), "."),
+  function() paste0(pick("Warmth", "A warm kitchen", "Heat", "Being warm"), " ",
+                    pick("speeds up its growth", "makes it grow faster", "helps it grow quickly"), " ",
+                    pick("and the cold fridge slows it down", "while cold slows it",
+                         "but low temperatures stop it growing fast"), "."))
+wrong <- list(   # the same ideas stated wrongly, with much of the same vocabulary
+  function() paste0(pick("Mould", "Mold", "The fuzz", "It"), " ",
+                    pick("is not alive", "is a kind of plant", "is just dirt", "is not a living thing"), "."),
+  function() paste0(pick("The bread", "The flour", "Old bread"), " ",
+                    pick("makes the mould by itself", "turns into mould", "grows the fuzz on its own"), "."),
+  function() paste0(pick("Cold", "The fridge", "A low temperature"), " ",
+                    pick("makes it grow faster", "speeds up its growth", "helps mould grow"), "."))
+filler <- c("I think this is because of science.", "This happens a lot in my house.",
+            "Bread is made of flour and water.", "It is gross when bread goes bad.")
+answer <- function(theta) {
+  has <- runif(3) < plogis(1.4 * (theta - c(-1, 0, 0.7)))
+  bad <- !has & runif(3) < 0.4
+  txt <- c(vapply(ideas[has], function(f) f(), ""), vapply(wrong[bad], function(f) f(), ""),
+           sample(filler, rbinom(1, 2, 0.4)))
+  if (!length(txt)) txt <- "I don't know."
+  list(text = paste(sample(txt), collapse = " "), true = sum(has))
+}
+ans <- lapply(rnorm(900), answer)
+rate <- function(true) pmin(3, pmax(0, round(true + rnorm(length(true), 0, 0.45))))
+bread <- data.frame(id = 1:900, response = vapply(ans, `[[`, "", "text"),
+                    true = vapply(ans, `[[`, 0, "true"))
+bread$human1 <- rate(bread$true)
+bread$human2 <- ifelse(runif(900) < 0.5, rate(bread$true), NA)
+```
+
+Two raters agree well on the double-scored answers. An engine has to do at
+least this well:
+
+```{r}
+head(bread$response, 3)
+dbl <- !is.na(bread$human2)
+agreement_report(bread$human2[dbl], bread$human1[dbl])[, c("n", "exact", "qwk")]
+```
+
+We train the engine on the first 600 answers and keep the last 300 as a
+test set that it never sees. `train_scorer()` fits a ridge regression of the
+first human score on the words and two-word phrases of each answer, and
+chooses the amount of shrinkage by cross-validation:
+
+```{r}
+train <- bread[1:600, ]
+test <- bread[601:900, ]
+engine <- train_scorer(train, response = "response", score = "human1")
+engine
+head(tidy(engine), 10)
+```
+
+Among the words with the largest weights are the ones the rubric cares
+about, *fungus*, *spores* and *slows*. Nothing told the engine so; it learned
+them because raters gave points to answers that used them. But *is a* and
+*the* are near the top as well. They carry no idea; they go with longer
+answers, and longer answers tend to state more ideas. Now the test set:
+
+```{r}
+test$machine <- predict(engine, test)
+agreement_report(test$machine, test$human1, test$human2)
+```
+
+On answers it has never seen, the engine agrees with the first rater at
+least as well as the two raters agree with each other, its scores are at
+the same level (SMD near zero), and its PRMSE is above 0.9: It predicts the
+true score better than a single rater does. On this evidence it could at least
+serve as a check scorer. Figure \@ref(fig:auto-agree) shows the same
+statistics as a picture.
+
+```{r auto-agree, fig.height = 3, fig.cap = "Agreement report for the engine on the test set: QWK with the first rater (dot) next to human-human QWK (cross), and the machine-human SMD with the band of $\\pm$0.10."}
+autoplot(agreement_report(test$machine, test$human1, test$human2))
+```
+
+## Example 2: What is the engine rewarding?
+
+Agreement statistics average over the answers in the test set. To see what
+the engine actually rewards, give it answers whose correct score you know.
+A rater would give the first two answers below 0, because they name the
+right words but explain nothing; the third 0, because both its statements
+are wrong; and the fourth the full 3, because it states all three ideas in
+words the engine has rarely seen:
+
+```{r data-auto-scoring-2}
+# Four answers with a known correct score, unlike any in the training data.
+probe <- data.frame(response = c(
+  "fungus spores cold warm fungus spores grow",
+  "Spores spores spores. Fungus fungus fungus. Warm warm warm.",
+  "The fuzz is not a living thing. Cold makes it grow faster.",
+  "It is a mushroom-like organism whose seeds drift onto the loaf, and it multiplies quicker in heat than in a chilled fridge."),
+  rater = c(0, 0, 0, 3))
+```
+
+```{r}
+probe$machine <- predict(engine, probe)
+probe$raw <- round(predict(engine, probe, type = "raw"), 2)
+probe[, c("rater", "machine", "raw")]
+```
+
+The engine gets the third answer right: Wrong statements like these were
+common in the training data, and it learned that *not alive* and *grow
+faster* after *cold* go with low scores. It gets the other three wrong. It
+gives a point to each list of key words, which explains nothing, and only
+one point to the best answer, because that answer is phrased in words the
+training answers never used. Nothing in the agreement statistics of
+Example 1 warned about this: The test set held only answers like the
+training answers, so it could not show what happens with an unusual writer,
+or when test takers learn how the engine works.
+
+This is the core lesson of automated scoring for a psychometrician:
+agreement with raters is necessary evidence, not sufficient evidence. A
+validity argument for machine scores also needs to show that the features
+the engine uses are part of the construct, that the engine treats groups of
+test takers the same way, and that the scoring design catches responses the
+engine was not built for. A check scorer design does the last part
+automatically: Answers on which human and machine disagree go to a second
+reader.
+
+## Your turn
+
+<div class="yourturn">
+1. Retrain the engine in Example 1 with `length = TRUE`, which adds the
+   number of words as a feature. Does agreement on the test set change? Look
+   at the weight of `(length)` in `tidy()`.
+2. Train the engine on only the first 100 answers and evaluate it on the
+   same test set. What happens to the QWK and the PRMSE, and why?
+3. In Example 1, the engine was judged against `human1`, the score it was
+   trained on. Compute the QWK of the machine scores with `human2` on the
+   double-scored test answers. Is it lower or higher than with `human1`, and
+   what does that tell you?
+4. Your program is offered an engine with a QWK of 0.86 against one rater
+   on a vendor's own test set. List three more pieces of evidence you would
+   want before using it as the sole scorer.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+# 1. adding response length
+engine_len <- train_scorer(train, length = TRUE)
+agreement_report(predict(engine_len, test), test$human1, test$human2)[, c("qwk", "smd", "prmse")]
+tidy(engine_len)[tidy(engine_len)$term == "(length)", ]
+
+# 2. a small training set
+engine_100 <- train_scorer(bread[1:100, ])
+agreement_report(predict(engine_100, test), test$human1, test$human2)[, c("qwk", "smd", "prmse")]
+
+# 3. agreement with the second rater
+d <- !is.na(test$human2)
+agreement_report(test$machine[d], test$human2[d])[, c("n", "qwk")]
+```
+
+1. Agreement does not change, and length gets a small weight. Here the
+   words already carry the key ideas, so length adds little. In real essays
+   length is often one of the strongest predictors, which is why engines
+   that use it need checks for gaming and for groups who write shorter
+   answers.
+2. With 100 answers the engine has seen fewer ways of stating each idea, so
+   it misses more of them in new answers: QWK drops by about 0.1 and PRMSE
+   to below 0.8, now no better than a single rater. Engines need
+   hundreds of scored responses per item, and more for long answers.
+3. The QWK with `human2` is about the same as with `human1`, although the
+   engine never saw `human2`. The engine has learned the rubric's ideas, not
+   the quirks of one rater; an engine that agreed much better with its
+   training rater than with others would be copying that rater's errors.
+4. For example: Agreement on an independent sample of your own test
+   takers, not the vendor's; the SMD within groups such as English language
+   learners [@bridgeman2012]; PRMSE on double-scored responses; evidence that
+   it does not reward length or key-word lists; and how unusual responses
+   are routed to people.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 7, `run_lab("auto-scoring")`, trains an engine on 1,600 science
+explanations, checks it the way a testing program would, and asks whether it
+can score on its own. The [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) collects the
+other AI tools in mirtverse, and `score_open()` uses a trained engine, or a
+language model, inside the assessment pipeline.
+</div>
+
+## Further reading {-}
+
+Williamson, Xi and Breyer [-@williamson2012] set out the evaluation
+framework used in this chapter. Yan, Rupp and Foltz [-@yan2020] cover
+scoring engines and their operational use in depth. Loukina et al.
+[-@loukina2020] explain PRMSE, and Bridgeman, Trapani and Attali
+[-@bridgeman2012] show how an engine can differ from human raters for some
+groups of test takers.

@@ -36,6 +36,8 @@ them.
 | `data-reporting-2` | `Science` | Real | `resp` |
 | `data-ml-lens-1` | 20-item test with known abilities and item parameters | Simulated | `resp`, `theta`, `a`, `b` |
 | `data-ml-lens-2` | 40-item placement test and a pass/fail course result | Simulated | `resp`, `ability`, `passed` |
+| `data-auto-scoring-1` | Short answers to a science question, scored 0 to 3 by one or two raters | Simulated | `bread` |
+| `data-auto-scoring-2` | Four answers with a known correct score | Simulated | `probe` |
 | `data-llms-1` | `Science` | Real | `resp` |
 | `data-llms-2` | A two-cell blueprint for a numeracy quiz | Simulated | `cells` |
 

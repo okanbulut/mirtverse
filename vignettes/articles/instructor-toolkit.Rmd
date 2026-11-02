@@ -228,7 +228,7 @@ exercises you added keep working as long as their checks compute their
 answers from `resp`. Settings you leave out are kept (for example the
 `group` column and the story).
 
-The six built-in labs are different: Each tells the story of its own
+The built-in labs are different: Each tells the story of its own
 dataset, with problems planted on purpose (a miskeyed item, a drifted
 anchor, a severe rater), and the feedback talks about them. To teach the
 same topic on your data, build a toolkit lab with the matching sections.

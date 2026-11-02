@@ -74,10 +74,11 @@ psychometrics. It goes with the mirtverse [AI
 Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) and grows as
 the hub does.
 
-| Chapter | Topic |
-|---|---|
-| \@ref(ml-lens) | Machine learning through an IRT lens |
-| \@ref(llms) | Large language models as a colleague |
+| Chapter | Topic | Matching lab |
+|---|---|---|
+| \@ref(ml-lens) | Machine learning through an IRT lens | |
+| \@ref(auto-scoring) | Automated scoring | Lab 7 |
+| \@ref(llms) | Large language models as a colleague | |
 
 Table: (\#tab:ai-chapters) The chapters on AI in measurement.
 
@@ -124,7 +125,7 @@ writes a script from a plain-language request.
 ## Other teaching materials {-}
 
 * [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html):
-  Six interactive learnr labs with an instructor guide and answer key.
+  Seven interactive learnr labs with an instructor guide and answer key.
 * [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.html):
   A 12-week syllabus with readings, functions, labs and assessment ideas.
 * [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html) of

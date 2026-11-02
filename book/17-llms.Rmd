@@ -218,9 +218,9 @@ options(old_llm)
 
 <div class="lab">
 The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
-shows the AI features of mirtverse in one place. Lab 6,
-`run_lab("open-ended")`, puts an automated scoring engine next to human
-raters, and the [mv_ask()
+shows the AI features of mirtverse in one place. Lab 7,
+`run_lab("auto-scoring")`, trains and checks an automated scoring engine,
+and the [mv_ask()
 guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
 explains what `mv_ask()` sends and how it was benchmarked.
 </div>
