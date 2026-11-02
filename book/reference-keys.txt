@@ -1,4 +1,5 @@
 tab:chapters
+tab:ai-chapters
 fig:trace-2pl
 fig:trace-rasch-2pl
 fig:empirical-d20
@@ -25,6 +26,7 @@ fig:tcc-forms
 fig:bank-info
 fig:cat-length
 fig:item-map
+fig:ml-attenuation
 tab:datasets
 tab:files
 measurement
@@ -92,5 +94,16 @@ example-1-setting-a-proficiency-standard
 example-2-telling-the-story
 a-one-page-memo
 your-turn-11
+ml-lens
+the-ideas-12
+example-1-the-2pl-is-a-logistic-regression-on-theta
+example-2-forty-items-or-one-score
+your-turn-12
+llms
+the-ideas-13
+example-1-from-a-sentence-to-a-tested-script
+example-2-writing-items-and-catching-the-mistakes
+example-3-is-a-recording-reproducible
+your-turn-13
 datasets
 adapting

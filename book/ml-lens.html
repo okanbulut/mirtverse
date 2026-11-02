@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Machine learning through an IRT lens | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Machine learning through an IRT lens | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Machine learning through an IRT lens | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reporting.html"/>
+<link rel="next" href="llms.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: the 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>14</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="llms.html"><a href="llms.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>14.2</b> Example 1: from a sentence to a tested script</a></li>
+<li class="chapter" data-level="14.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>14.3</b> Example 2: writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="14.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>14.4</b> Example 3: is a recording reproducible?</a></li>
+<li class="chapter" data-level="14.5" data-path="llms.html"><a href="llms.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ml-lens" class="section level1 hasAnchor" number="13">
+<h1><span class="header-section-number">Chapter 13</span> Machine learning through an IRT lens<a href="ml-lens.html#ml-lens" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain the difference between a <strong>prediction model</strong> and a
+<strong>measurement model</strong>, and say what each can and cannot claim;</li>
+<li>show that a 2PL item response function is a logistic regression on a
+latent predictor, and what goes wrong when an observed score stands in for
+it;</li>
+<li>estimate how well a model predicts new cases with <strong>cross-validation</strong>, and
+recognize <strong>overfitting</strong>;</li>
+<li>explain why a single IRT score often predicts better than all the item
+responses fed to a flexible model.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#machine-learning">machine learning</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#feature">feature</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation">overfitting and cross-validation</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#latent-trait">latent trait</a>.
+The <a href="https://www.okanbulut.com/mirtverse/articles/ai-translation.html">translation
+table</a>
+pairs many more machine learning words with their psychometric relatives.</p>
+<div id="the-ideas-12" class="section level2 hasAnchor" number="13.1">
+<h2><span class="header-section-number">13.1</span> The ideas<a href="ml-lens.html#the-ideas-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Machine learning (ML) is a set of methods for learning a rule that predicts
+an outcome from data. It is judged by one question: how well does the rule
+predict cases it has not seen? Breiman <span class="citation">(<a href="#ref-breiman2001">2001</a>)</span> called this the
+<em>algorithmic</em> culture of statistics, in contrast to the <em>data modelling</em>
+culture that psychometrics grew up in, where a model is a claim about how the
+data arose and its parameters mean something.</p>
+<p>An IRT model makes such a claim. The 2PL says that the chance of a correct
+answer depends on one unobserved trait through a logistic curve whose slope
+and location are properties of the item. That is a logistic regression, with
+one twist: the predictor <span class="math inline">\(\theta\)</span> is never observed. Everything that makes IRT
+useful follows from taking that claim seriously: item parameters that do not
+depend on who took the test, a standard error for every score, information
+to design tests with, and checks of fit that can reject the model.</p>
+<p>A prediction model makes a weaker promise. It does not say why the outcome
+happens, only that its rule will predict well in data like the training
+data. In exchange it can use any predictors (<strong>features</strong>) in any flexible
+form. Two habits of ML are worth taking home even if you never fit a neural
+network:</p>
+<ul>
+<li><strong>Hold data out.</strong> A model always fits the data it was estimated on
+better than new data, and a flexible model can fit noise. This is
+<strong>overfitting</strong>, and the cure is to judge a model on data it did not see.
+<strong>Cross-validation</strong> splits the data into <em>k</em> parts (folds), fits the
+model on <span class="math inline">\(k - 1\)</span> of them, predicts the one left out, and repeats until
+every case has been predicted once <span class="citation">(<a href="#ref-james2021">James et al. 2021</a>)</span>.</li>
+<li><strong>Shrink.</strong> Penalizing large coefficients (ridge, lasso) trades a little
+bias for a large cut in variance. It is the same idea as a prior on item
+parameters, or as MAP and EAP scoring pulling extreme scores toward the
+mean.</li>
+</ul>
+<p>Yarkoni and Westfall <span class="citation">(<a href="#ref-yarkoni2017">2017</a>)</span> make the case that psychology should
+care more about prediction. The examples below show the reverse lesson as
+well: a good measurement model is itself a very effective way to predict.</p>
+</div>
+<div id="example-1-the-2pl-is-a-logistic-regression-on-theta" class="section level2 hasAnchor" number="13.2">
+<h2><span class="header-section-number">13.2</span> Example 1: the 2PL is a logistic regression on theta<a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We simulate 20 items answered by 2,000 test takers whose true abilities we
+keep, so we can do something impossible with real data: regress each item on
+the true <span class="math inline">\(\theta\)</span>.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ml-lens.html#cb146-1" tabindex="-1"></a><span class="co"># Simulated 20-item test with known abilities and item parameters.</span></span>
+<span id="cb146-2"><a href="ml-lens.html#cb146-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1313</span>)</span>
+<span id="cb146-3"><a href="ml-lens.html#cb146-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb146-4"><a href="ml-lens.html#cb146-4" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb146-5"><a href="ml-lens.html#cb146-5" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rlnorm</span>(<span class="dv">20</span>, <span class="fu">log</span>(<span class="fl">1.3</span>), <span class="fl">0.3</span>), <span class="dv">2</span>)</span>
+<span id="cb146-6"><a href="ml-lens.html#cb146-6" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sort</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">1</span>)), <span class="dv">2</span>)</span>
+<span id="cb146-7"><a href="ml-lens.html#cb146-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">outer</span>(theta, a) <span class="sc">-</span> <span class="fu">matrix</span>(a <span class="sc">*</span> b, n, <span class="dv">20</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb146-8"><a href="ml-lens.html#cb146-8" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>((<span class="fu">matrix</span>(<span class="fu">runif</span>(n <span class="sc">*</span> <span class="dv">20</span>), n) <span class="sc">&lt;</span> p) <span class="sc">*</span> <span class="dv">1</span><span class="dt">L</span>)</span>
+<span id="cb146-9"><a href="ml-lens.html#cb146-9" tabindex="-1"></a><span class="fu">names</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;Q%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
+<p>A logistic regression of item 5 on the true <span class="math inline">\(\theta\)</span> estimates its slope and
+intercept directly; on the logit scale the intercept is <span class="math inline">\(-ab\)</span>:</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ml-lens.html#cb147-1" tabindex="-1"></a>fit5 <span class="ot">&lt;-</span> <span class="fu">glm</span>(resp<span class="sc">$</span>Q05 <span class="sc">~</span> theta, <span class="at">family =</span> binomial)</span>
+<span id="cb147-2"><a href="ml-lens.html#cb147-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit5)[<span class="dv">2</span>]), <span class="at">b =</span> <span class="fu">unname</span>(<span class="sc">-</span><span class="fu">coef</span>(fit5)[<span class="dv">1</span>] <span class="sc">/</span> <span class="fu">coef</span>(fit5)[<span class="dv">2</span>]),</span>
+<span id="cb147-3"><a href="ml-lens.html#cb147-3" tabindex="-1"></a>  <span class="at">true_a =</span> a[<span class="dv">5</span>], <span class="at">true_b =</span> b[<span class="dv">5</span>])</span>
+<span id="cb147-4"><a href="ml-lens.html#cb147-4" tabindex="-1"></a><span class="co">#&gt;  slope      b true_a true_b </span></span>
+<span id="cb147-5"><a href="ml-lens.html#cb147-5" tabindex="-1"></a><span class="co">#&gt;  1.328 -0.139  1.210 -0.190</span></span></code></pre></div>
+<p>With real data we do not have <span class="math inline">\(\theta\)</span>. The obvious stand-in is the sum score.
+Doing the same regression on the standardized rest score (the sum of the
+other 19 items) gives slopes that are on average about a fifth too flat,
+because the rest score measures <span class="math inline">\(\theta\)</span> with error (Figure <a href="ml-lens.html#fig:ml-attenuation">13.1</a>). IRT
+avoids this by estimating <span class="math inline">\(\theta\)</span> and the item parameters together:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="ml-lens.html#cb148-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb148-2"><a href="ml-lens.html#cb148-2" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb148-3"><a href="ml-lens.html#cb148-3" tabindex="-1"></a>slope_obs <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="cf">function</span>(j) {</span>
+<span id="cb148-4"><a href="ml-lens.html#cb148-4" tabindex="-1"></a>  rest <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">rowSums</span>(resp[, <span class="sc">-</span>j]))</span>
+<span id="cb148-5"><a href="ml-lens.html#cb148-5" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">glm</span>(resp[[j]] <span class="sc">~</span> rest, <span class="at">family =</span> binomial))[<span class="dv">2</span>]</span>
+<span id="cb148-6"><a href="ml-lens.html#cb148-6" tabindex="-1"></a>})</span>
+<span id="cb148-7"><a href="ml-lens.html#cb148-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">true =</span> <span class="fu">mean</span>(a), <span class="at">irt =</span> <span class="fu">mean</span>(est[, <span class="st">&quot;a&quot;</span>]), <span class="at">rest_score =</span> <span class="fu">mean</span>(slope_obs)), <span class="dv">2</span>)</span>
+<span id="cb148-8"><a href="ml-lens.html#cb148-8" tabindex="-1"></a><span class="co">#&gt;       true        irt rest_score </span></span>
+<span id="cb148-9"><a href="ml-lens.html#cb148-9" tabindex="-1"></a><span class="co">#&gt;       1.28       1.26       1.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ml-lens.html#cb149-1" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">true =</span> a, <span class="at">estimate =</span> est[, <span class="st">&quot;a&quot;</span>], <span class="at">method =</span> <span class="st">&quot;2PL (mirt)&quot;</span>),</span>
+<span id="cb149-2"><a href="ml-lens.html#cb149-2" tabindex="-1"></a>                <span class="fu">data.frame</span>(<span class="at">true =</span> a, <span class="at">estimate =</span> slope_obs, <span class="at">method =</span> <span class="st">&quot;Regression on rest score&quot;</span>))</span>
+<span id="cb149-3"><a href="ml-lens.html#cb149-3" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(slopes, ggplot2<span class="sc">::</span><span class="fu">aes</span>(true, estimate, <span class="at">colour =</span> method)) <span class="sc">+</span></span>
+<span id="cb149-4"><a href="ml-lens.html#cb149-4" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_abline</span>(<span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">colour =</span> <span class="st">&quot;grey50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb149-5"><a href="ml-lens.html#cb149-5" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb149-6"><a href="ml-lens.html#cb149-6" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;True slope (a)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Estimated slope&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb149-7"><a href="ml-lens.html#cb149-7" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ml-attenuation"></span>
+<img src="mirtverse-book_files/figure-html/ml-attenuation-1.png" alt="Item slopes estimated by the 2PL and by logistic regression on the standardized rest score, against the true slopes. The dashed line marks perfect recovery." width="90%" />
+<p class="caption">
+Figure 13.1: Item slopes estimated by the 2PL and by logistic regression on the standardized rest score, against the true slopes. The dashed line marks perfect recovery.
+</p>
+</div>
+<p>The lesson carries over to every ML model that uses test scores as
+features: an observed score is a noisy measure of the trait, and models
+that ignore the noise underestimate how strongly the trait relates to
+anything else.</p>
+</div>
+<div id="example-2-forty-items-or-one-score" class="section level2 hasAnchor" number="13.3">
+<h2><span class="header-section-number">13.3</span> Example 2: forty items or one score?<a href="ml-lens.html#example-2-forty-items-or-one-score" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A university wants to predict which applicants will pass a first-year
+statistics course from a 40-item placement test. We simulate 400 past
+students whose course result depends only on their ability, plus noise.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ml-lens.html#cb150-1" tabindex="-1"></a><span class="co"># Simulated 40-item placement test and a pass/fail course outcome.</span></span>
+<span id="cb150-2"><a href="ml-lens.html#cb150-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2027</span>)</span>
+<span id="cb150-3"><a href="ml-lens.html#cb150-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb150-4"><a href="ml-lens.html#cb150-4" tabindex="-1"></a>ability <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb150-5"><a href="ml-lens.html#cb150-5" tabindex="-1"></a>a2 <span class="ot">&lt;-</span> <span class="fu">rlnorm</span>(<span class="dv">40</span>, <span class="fu">log</span>(<span class="fl">1.1</span>), <span class="fl">0.3</span>)</span>
+<span id="cb150-6"><a href="ml-lens.html#cb150-6" tabindex="-1"></a>b2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb150-7"><a href="ml-lens.html#cb150-7" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">outer</span>(ability, a2) <span class="sc">-</span> <span class="fu">matrix</span>(a2 <span class="sc">*</span> b2, n, <span class="dv">40</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb150-8"><a href="ml-lens.html#cb150-8" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>((<span class="fu">matrix</span>(<span class="fu">runif</span>(n <span class="sc">*</span> <span class="dv">40</span>), n) <span class="sc">&lt;</span> p2) <span class="sc">*</span> <span class="dv">1</span><span class="dt">L</span>)</span>
+<span id="cb150-9"><a href="ml-lens.html#cb150-9" tabindex="-1"></a><span class="fu">names</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;P%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>)</span>
+<span id="cb150-10"><a href="ml-lens.html#cb150-10" tabindex="-1"></a>passed <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">1.6</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fl">0.3</span>))</span></code></pre></div>
+<p>The ML approach feeds all 40 item responses to a classifier as features.
+The measurement approach first summarizes them in one IRT score and uses
+only that. Both are logistic regressions here, so the comparison is about
+the features, not the algorithm. We judge each by its accuracy on the data
+it was fitted to and with 10-fold cross-validation:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ml-lens.html#cb151-1" tabindex="-1"></a>theta_hat <span class="ot">&lt;-</span> <span class="fu">fscores</span>(<span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>))[, <span class="dv">1</span>]</span>
+<span id="cb151-2"><a href="ml-lens.html#cb151-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(passed, theta_hat, resp)</span>
+<span id="cb151-3"><a href="ml-lens.html#cb151-3" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="cf">function</span>(fit, newdata)</span>
+<span id="cb151-4"><a href="ml-lens.html#cb151-4" tabindex="-1"></a>  <span class="fu">mean</span>((<span class="fu">predict</span>(fit, newdata, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>) <span class="sc">&gt;</span> <span class="fl">0.5</span>) <span class="sc">==</span> newdata<span class="sc">$</span>passed)</span>
+<span id="cb151-5"><a href="ml-lens.html#cb151-5" tabindex="-1"></a></span>
+<span id="cb151-6"><a href="ml-lens.html#cb151-6" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, <span class="at">k =</span> <span class="dv">10</span>) {</span>
+<span id="cb151-7"><a href="ml-lens.html#cb151-7" tabindex="-1"></a>  fold <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="at">length.out =</span> <span class="fu">nrow</span>(dat)))</span>
+<span id="cb151-8"><a href="ml-lens.html#cb151-8" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(f) {</span>
+<span id="cb151-9"><a href="ml-lens.html#cb151-9" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(formula, binomial, <span class="at">data =</span> dat[fold <span class="sc">!=</span> f, ]))</span>
+<span id="cb151-10"><a href="ml-lens.html#cb151-10" tabindex="-1"></a>    <span class="fu">accuracy</span>(fit, dat[fold <span class="sc">==</span> f, ])</span>
+<span id="cb151-11"><a href="ml-lens.html#cb151-11" tabindex="-1"></a>  }))</span>
+<span id="cb151-12"><a href="ml-lens.html#cb151-12" tabindex="-1"></a>}</span>
+<span id="cb151-13"><a href="ml-lens.html#cb151-13" tabindex="-1"></a>items_formula <span class="ot">&lt;-</span> <span class="fu">reformulate</span>(<span class="fu">names</span>(resp), <span class="st">&quot;passed&quot;</span>)</span>
+<span id="cb151-14"><a href="ml-lens.html#cb151-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb151-15"><a href="ml-lens.html#cb151-15" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb151-16"><a href="ml-lens.html#cb151-16" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;40 item responses&quot;</span>, <span class="st">&quot;one IRT score&quot;</span>),</span>
+<span id="cb151-17"><a href="ml-lens.html#cb151-17" tabindex="-1"></a>  <span class="at">training_accuracy =</span> <span class="fu">c</span>(<span class="fu">accuracy</span>(<span class="fu">suppressWarnings</span>(<span class="fu">glm</span>(items_formula, binomial, <span class="at">data =</span> dat)), dat),</span>
+<span id="cb151-18"><a href="ml-lens.html#cb151-18" tabindex="-1"></a>                        <span class="fu">accuracy</span>(<span class="fu">glm</span>(passed <span class="sc">~</span> theta_hat, binomial, <span class="at">data =</span> dat), dat)),</span>
+<span id="cb151-19"><a href="ml-lens.html#cb151-19" tabindex="-1"></a>  <span class="at">cv_accuracy =</span> <span class="fu">c</span>(<span class="fu">cv</span>(items_formula), <span class="fu">cv</span>(passed <span class="sc">~</span> theta_hat)))</span>
+<span id="cb151-20"><a href="ml-lens.html#cb151-20" tabindex="-1"></a><span class="co">#&gt;            features training_accuracy cv_accuracy</span></span>
+<span id="cb151-21"><a href="ml-lens.html#cb151-21" tabindex="-1"></a><span class="co">#&gt; 1 40 item responses             0.787       0.720</span></span>
+<span id="cb151-22"><a href="ml-lens.html#cb151-22" tabindex="-1"></a><span class="co">#&gt; 2     one IRT score             0.735       0.742</span></span></code></pre></div>
+<p>On the training data the 40-item model looks better: with 41 coefficients
+it can fit some of the noise. Cross-validation tells the truth. On new
+students it does worse than the single score, because the IRT model has
+already done what a good ML pipeline would have had to learn: that the
+items measure one thing and should be combined with weights close to their
+discriminations. A measurement model is a strong, theory-based form of
+regularization.</p>
+<p>This is not an argument against ML. With thousands of students, features
+that carry information beyond the trait (response times, the text of
+answers), or an outcome that depends on more than one trait, a flexible
+model may well win. The point is to compare on held-out data and to know
+what each approach is claiming.</p>
+</div>
+<div id="your-turn-12" class="section level2 hasAnchor" number="13.4">
+<h2><span class="header-section-number">13.4</span> Your turn<a href="ml-lens.html#your-turn-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>In Example 1, repeat the rest-score regression using the EAP score from
+<code>fscores(mod)</code> instead of the rest score. Are the slopes closer to the
+truth? Why not?</li>
+<li>In Example 2, change <code>n</code> to 2,000 in the data chunk and run the
+comparison again. What happens to the gap between the two approaches, and
+why?</li>
+<li>Shrinking the 40 item coefficients toward a common value reduces
+overfitting; giving every item the same weight, the proportion correct
+<code>rowMeans(resp)</code>, is the extreme case. How does a model on the proportion
+correct do under cross-validation in Example 2?</li>
+<li>A vendor reports that their ML model “predicts course success with 82%
+accuracy” from your placement test items. Write three questions you would
+ask before believing it.</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ml-lens.html#cb152-1" tabindex="-1"></a><span class="co"># 1. the same regression on the EAP score of Example 1</span></span>
+<span id="cb152-2"><a href="ml-lens.html#cb152-2" tabindex="-1"></a>resp1 <span class="ot">&lt;-</span> <span class="fu">extract.mirt</span>(mod, <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb152-3"><a href="ml-lens.html#cb152-3" tabindex="-1"></a>eap <span class="ot">&lt;-</span> <span class="fu">fscores</span>(mod)[, <span class="dv">1</span>]</span>
+<span id="cb152-4"><a href="ml-lens.html#cb152-4" tabindex="-1"></a>slope_eap <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="cf">function</span>(j) <span class="fu">coef</span>(<span class="fu">glm</span>(resp1[, j] <span class="sc">~</span> eap, <span class="at">family =</span> binomial))[<span class="dv">2</span>])</span>
+<span id="cb152-5"><a href="ml-lens.html#cb152-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">true =</span> <span class="fu">mean</span>(a), <span class="at">eap =</span> <span class="fu">mean</span>(slope_eap)), <span class="dv">2</span>)</span>
+<span id="cb152-6"><a href="ml-lens.html#cb152-6" tabindex="-1"></a><span class="co">#&gt; true  eap </span></span>
+<span id="cb152-7"><a href="ml-lens.html#cb152-7" tabindex="-1"></a><span class="co">#&gt; 1.28 1.56</span></span>
+<span id="cb152-8"><a href="ml-lens.html#cb152-8" tabindex="-1"></a></span>
+<span id="cb152-9"><a href="ml-lens.html#cb152-9" tabindex="-1"></a><span class="co"># 3. equal weights: the extreme form of shrinkage</span></span>
+<span id="cb152-10"><a href="ml-lens.html#cb152-10" tabindex="-1"></a>dat<span class="sc">$</span>prop <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(resp)</span>
+<span id="cb152-11"><a href="ml-lens.html#cb152-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb152-12"><a href="ml-lens.html#cb152-12" tabindex="-1"></a><span class="fu">cv</span>(passed <span class="sc">~</span> prop)</span>
+<span id="cb152-13"><a href="ml-lens.html#cb152-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.74</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Now the slopes are too <em>steep</em> on average. EAP scores are shrunk toward
+the mean, so their spread is smaller than <span class="math inline">\(\theta\)</span>’s and each unit of EAP
+corresponds to more than one unit of <span class="math inline">\(\theta\)</span>; and each item’s own response
+helped compute the EAP score it is regressed on. An estimated score is
+not <span class="math inline">\(\theta\)</span>, whichever way you compute it; that is why IRT estimates the item
+parameters and the trait distribution together.</li>
+<li>With 2,000 students the 40-item model has more data per coefficient, so it
+overfits less and the cross-validated gap narrows. It still rarely beats
+the IRT score, because the outcome depends only on the trait.</li>
+<li>The proportion correct does about as well as the IRT score under
+cross-validation: equal weights are a strong form of shrinkage and lose
+little when the items’ discriminations are similar.</li>
+<li>For example: was the 82% computed on students who were not used to train
+the model? What is the accuracy of predicting from the total score alone,
+or of predicting that everyone passes? Is the accuracy similar for
+subgroups of students, such as English language learners?</li>
+</ol>
+</details>
+</div>
+<div id="in-the-ai-hub" class="section level2 unnumbered hasAnchor">
+<h2>In the AI Hub<a href="ml-lens.html#in-the-ai-hub" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI Hub</a> has
+a learning path through AI in measurement, and its <a href="https://www.okanbulut.com/mirtverse/articles/ai-translation.html">translation
+table</a>
+lists the ML terms used in this chapter with their psychometric relatives.</p>
+</div>
+</div>
+<div id="further-reading-12" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="ml-lens.html#further-reading-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>James et al. <span class="citation">(<a href="#ref-james2021">2021</a>)</span> is the standard introduction to statistical
+learning, with R labs. Breiman <span class="citation">(<a href="#ref-breiman2001">2001</a>)</span> and Yarkoni and Westfall
+<span class="citation">(<a href="#ref-yarkoni2017">2017</a>)</span> are short, readable arguments for taking prediction
+seriously. Bulut et al. <span class="citation">(<a href="#ref-bulut2024">2024</a>)</span> survey where AI is used in
+educational measurement.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-breiman2001" class="csl-entry">
+Breiman, Leo. 2001. <span>“Statistical Modeling: The Two Cultures.”</span> <em>Statistical Science</em> 16 (3): 199–231. <a href="https://doi.org/10.1214/ss/1009213726">https://doi.org/10.1214/ss/1009213726</a>.
+</div>
+<div id="ref-bulut2024" class="csl-entry">
+Bulut, Okan, Maggie Beiting-Parrish, Jodi M. Casabianca, et al. 2024. <span>“The Rise of Artificial Intelligence in Educational Measurement: Opportunities and Ethical Challenges.”</span> <em>Chinese/English Journal of Educational Measurement and Evaluation</em>, ahead of print. <a href="https://doi.org/10.59863/MIQL7785">https://doi.org/10.59863/MIQL7785</a>.
+</div>
+<div id="ref-james2021" class="csl-entry">
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning with Applications in <span>R</span></em>. 2nd ed. Springer. <a href="https://doi.org/10.1007/978-1-0716-1418-1">https://doi.org/10.1007/978-1-0716-1418-1</a>.
+</div>
+<div id="ref-yarkoni2017" class="csl-entry">
+Yarkoni, Tal, and Jacob Westfall. 2017. <span>“Choosing Prediction over Explanation in Psychology: Lessons from Machine Learning.”</span> <em>Perspectives on Psychological Science</em> 12 (6): 1100–1122. <a href="https://doi.org/10.1177/1745691617693393">https://doi.org/10.1177/1745691617693393</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reporting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="llms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/13-ml-lens.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

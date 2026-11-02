@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="reporting.html"/>
+<link rel="prev" href="llms.html"/>
 <link rel="next" href="adapting.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -292,6 +292,26 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
 <li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: the 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>14</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="llms.html"><a href="llms.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>14.2</b> Example 1: from a sentence to a tested script</a></li>
+<li class="chapter" data-level="14.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>14.3</b> Example 2: writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="14.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>14.4</b> Example 3: is a recording reproducible?</a></li>
+<li class="chapter" data-level="14.5" data-path="llms.html"><a href="llms.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendices</b></span></li>
 <li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
 <ul>
@@ -327,7 +347,7 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datasets" class="section level1 hasAnchor" number="13">
+<div id="datasets" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">A</span> Datasets used in the book<a href="datasets.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Every example loads its data in one chunk, labelled <code>data-&lt;chapter&gt;-&lt;n&gt;</code>, at
 the start of the example. The table lists what each chunk defines. <em>Real</em>
@@ -495,11 +515,36 @@ them.</p>
 <td>Real</td>
 <td><code>resp</code></td>
 </tr>
+<tr class="odd">
+<td><code>data-ml-lens-1</code></td>
+<td>20-item test with known abilities and item parameters</td>
+<td>Simulated</td>
+<td><code>resp</code>, <code>theta</code>, <code>a</code>, <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>data-ml-lens-2</code></td>
+<td>40-item placement test and a pass/fail course result</td>
+<td>Simulated</td>
+<td><code>resp</code>, <code>ability</code>, <code>passed</code></td>
+</tr>
+<tr class="odd">
+<td><code>data-llms-1</code></td>
+<td><code>Science</code></td>
+<td>Real</td>
+<td><code>resp</code></td>
+</tr>
+<tr class="even">
+<td><code>data-llms-2</code></td>
+<td>A two-cell blueprint for a numeracy quiz</td>
+<td>Simulated</td>
+<td><code>cells</code></td>
+</tr>
 </tbody>
 </table>
 <p>The book deliberately does not analyse the mirtverse lab datasets
 (<code>certexam</code>, <code>numeracy</code>, <code>linking</code>, <code>catbank</code> and <code>openended</code>), because the
-labs ask students to discover problems hidden in them. They are described in
+labs ask students to discover problems hidden in them. The same goes for the
+AI Hub datasets <code>itemtext</code> and <code>essays</code>. They are described in
 the <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">teaching labs
 article</a> and
 on their help pages, for example <code>?certexam</code>.</p>
@@ -527,7 +572,7 @@ models and DIF.</li>
           </div>
         </div>
       </div>
-<a href="reporting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="llms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="adapting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

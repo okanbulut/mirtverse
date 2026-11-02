@@ -2,6 +2,16 @@
 
 ## mirtverse (development version)
 
+- The online book has a new part, *AI in measurement*, with two
+  chapters: “Machine learning through an IRT lens” (prediction versus
+  measurement, the 2PL as a logistic regression on a latent predictor,
+  overfitting and cross-validation) and “Large language models as a
+  colleague” (what is sent to a model, checking generated items,
+  reproducibility with recorded responses). Both build offline with
+  [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
+  lists them as `ml-lens` and `llms`, and the AI Hub menu links to them.
+
 - New
   [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   answers every language model request

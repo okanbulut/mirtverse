@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Large language models as a colleague | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Large language models as a colleague | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Large language models as a colleague | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ml-lens.html"/>
+<link rel="next" href="datasets.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: a multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: a wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: the LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: a driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: a test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: when the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: a mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: a reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: the same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: a proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: a rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: a vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: a CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: the 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>14</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="llms.html"><a href="llms.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>14.2</b> Example 1: from a sentence to a tested script</a></li>
+<li class="chapter" data-level="14.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>14.3</b> Example 2: writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="14.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>14.4</b> Example 3: is a recording reproducible?</a></li>
+<li class="chapter" data-level="14.5" data-path="llms.html"><a href="llms.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="llms" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">Chapter 14</span> Large language models as a colleague<a href="llms.html#llms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>describe what a <strong>large language model</strong> (LLM) does and why its output
+varies and can be wrong;</li>
+<li>use an LLM through mirtverse to draft analysis code, write items and
+score responses, and see exactly what is sent to it;</li>
+<li>explain why every LLM output in testing needs a <strong>check</strong>, and use
+mirtverse’s checks for wrong keys, weak distractors and machine-human
+agreement;</li>
+<li>make LLM work <strong>reproducible</strong> by recording and replaying responses, and
+say what to report about an LLM in a technical manual or paper.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#llm">large language model</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#prompt">prompt</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#hallucination">hallucination</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop">human-in-the-loop</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#aig">automatic item generation</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-scoring">automated scoring</a>.</p>
+<div id="the-ideas-13" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">14.1</span> The ideas<a href="llms.html#the-ideas-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A large language model is a neural network trained on a very large amount
+of text to predict the next piece of text. Given instructions and context,
+the <strong>prompt</strong>, it continues them, and that one ability is enough to write
+items, explain results, score essays against a rubric or draft code. Claude,
+GPT and the open models that run on a laptop through Ollama all work this
+way.</p>
+<p>For a psychometrician, three properties matter more than how the network
+works:</p>
+<ul>
+<li><strong>Its output is a sample.</strong> The same prompt can give different answers on
+different runs and with different versions of the model. An LLM is not a
+function with a fixed value; it behaves more like a rater.</li>
+<li><strong>It can be fluently wrong.</strong> A model can write an item with no correct
+option, invent a reference or misread a rubric, in the same confident
+style as a correct answer. Such errors are called <strong>hallucinations</strong>, and
+they are found only by checking.</li>
+<li><strong>What you send leaves your computer.</strong> Unless the model runs locally,
+the prompt goes to a provider. Test content and response data may be
+confidential, so what is sent has to be a decision, not an accident.</li>
+</ul>
+<p>These properties lead to the way mirtverse uses LLMs, which is also a good
+rule for any testing program <span class="citation">(<a href="#ref-hao2024">Hao et al. 2024</a>; <a href="#ref-bulut2024">Bulut et al. 2024</a>)</span>: the model drafts,
+something else checks, and a person decides. Generated items are answered
+again by a second, independent model call that does not see the key.
+Machine scores must agree with human scores, overall and within groups,
+before they count, following the framework of Williamson, Xi and Breyer
+<span class="citation">(<a href="#ref-williamson2012">2012</a>)</span>. Anything the model is unsure about goes to a person.</p>
+<p>mirtverse talks to models through the ellmer package. <code>mv_ask_setup()</code>
+chooses a provider once: Claude or OpenAI with your own API key, or Ollama
+for a free model that runs on your own computer. This chapter instead runs
+in <strong>replay mode</strong>: <code>mv_llm_replay()</code> answers every request from a file of
+recorded responses that comes with mirtverse, so the examples need no key,
+no internet connection and give the same results for every reader. Those
+responses were written by hand to show what a model returns, including a
+few deliberate mistakes; they were not produced by a live model.</p>
+</div>
+<div id="example-1-from-a-sentence-to-a-tested-script" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">14.2</span> Example 1: from a sentence to a tested script<a href="llms.html#example-1-from-a-sentence-to-a-tested-script" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>mv_ask()</code> turns a plain-language request into an analysis plan and the
+plan into an R script built from tested templates. The model never writes
+code and never sees the responses: it sees the request and a summary of the
+columns. You can see that payload before anything is sent with
+<code>dry_run = TRUE</code>:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="llms.html#cb153-1" tabindex="-1"></a><span class="co"># mirt&#39;s Science data: 392 respondents, 4 attitude items scored 1 to 4.</span></span>
+<span id="cb153-2"><a href="llms.html#cb153-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> Science</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="llms.html#cb154-1" tabindex="-1"></a>request <span class="ot">&lt;-</span> <span class="st">&quot;Fit a graded response model to these attitude items, check the fit and explain the results.&quot;</span></span>
+<span id="cb154-2"><a href="llms.html#cb154-2" tabindex="-1"></a><span class="fu">mv_ask</span>(request, <span class="at">data =</span> resp, <span class="at">dry_run =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb154-3"><a href="llms.html#cb154-3" tabindex="-1"></a><span class="co">#&gt; This would be sent to recorded responses:</span></span>
+<span id="cb154-4"><a href="llms.html#cb154-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb154-5"><a href="llms.html#cb154-5" tabindex="-1"></a><span class="co">#&gt; Request: Fit a graded response model to these attitude items, check the fit and explain the results.</span></span>
+<span id="cb154-6"><a href="llms.html#cb154-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb154-7"><a href="llms.html#cb154-7" tabindex="-1"></a><span class="co">#&gt; Data: 392 rows, 4 columns.</span></span>
+<span id="cb154-8"><a href="llms.html#cb154-8" tabindex="-1"></a><span class="co">#&gt; Columns (name | type | distinct values | min | max | share missing | guessed role | categories):</span></span>
+<span id="cb154-9"><a href="llms.html#cb154-9" tabindex="-1"></a><span class="co">#&gt; - Comfort | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb154-10"><a href="llms.html#cb154-10" tabindex="-1"></a><span class="co">#&gt; - Work | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb154-11"><a href="llms.html#cb154-11" tabindex="-1"></a><span class="co">#&gt; - Future | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb154-12"><a href="llms.html#cb154-12" tabindex="-1"></a><span class="co">#&gt; - Benefit | integer | 4 | 1 | 4 | 0.00 | item |</span></span></code></pre></div>
+<p>The payload holds the request, the number of rows and, for each column, its
+type, range, share missing and the role mirtverse guesses for it. With
+<code>anonymize = TRUE</code> the column names are replaced by codes as well. Now the
+real call, answered from the recording:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="llms.html#cb155-1" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">mv_ask</span>(request, <span class="at">data =</span> Science, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb155-2"><a href="llms.html#cb155-2" tabindex="-1"></a>s<span class="sc">$</span>parser</span>
+<span id="cb155-3"><a href="llms.html#cb155-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;recorded responses&quot;</span></span>
+<span id="cb155-4"><a href="llms.html#cb155-4" tabindex="-1"></a>s<span class="sc">$</span>plan<span class="sc">$</span>model</span>
+<span id="cb155-5"><a href="llms.html#cb155-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;graded&quot;</span></span>
+<span id="cb155-6"><a href="llms.html#cb155-6" tabindex="-1"></a>s<span class="sc">$</span>plan<span class="sc">$</span>assumptions</span>
+<span id="cb155-7"><a href="llms.html#cb155-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;All four columns (Comfort, Work, Future, Benefit) are items scored 1 to 4.&quot;</span></span>
+<span id="cb155-8"><a href="llms.html#cb155-8" tabindex="-1"></a><span class="co">#&gt; [2] &quot;No grouping column was mentioned, so no DIF analysis is included.&quot;         </span></span>
+<span id="cb155-9"><a href="llms.html#cb155-9" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Used the 4 columns that look like item responses as items.&quot;</span></span></code></pre></div>
+<p>The model chose the graded response model, kept the default steps, and
+stated two assumptions it made. Read them: an assumption is where a model
+fills a gap in your request, and a wrong one gives a wrong analysis that
+runs without error. The script itself is printed with <code>s</code>, and run with
+<code>run_script(s)</code>.</p>
+</div>
+<div id="example-2-writing-items-and-catching-the-mistakes" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Example 2: writing items, and catching the mistakes<a href="llms.html#example-2-writing-items-and-catching-the-mistakes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The assessment pipeline writes items for the cells of a blueprint. Each
+multiple-choice item comes with a key and a rationale for every option,
+and is then checked by a second call that answers it blind.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="llms.html#cb156-1" tabindex="-1"></a><span class="co"># A two-cell blueprint for a short Grade 7 numeracy quiz.</span></span>
+<span id="cb156-2"><a href="llms.html#cb156-2" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">content =</span> <span class="fu">c</span>(<span class="st">&quot;Ratios and rates&quot;</span>, <span class="st">&quot;Measurement&quot;</span>),</span>
+<span id="cb156-3"><a href="llms.html#cb156-3" tabindex="-1"></a>                    <span class="at">cognitive =</span> <span class="fu">c</span>(<span class="st">&quot;Apply&quot;</span>, <span class="st">&quot;Apply&quot;</span>), <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="llms.html#cb157-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">mv_pipeline</span>(<span class="st">&quot;Grade 7 numeracy&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb157-2"><a href="llms.html#cb157-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">set_blueprint</span>(p, cells, <span class="at">construct =</span> <span class="st">&quot;Grade 7 numeracy&quot;</span>, <span class="at">use =</span> <span class="st">&quot;classroom diagnostic&quot;</span>,</span>
+<span id="cb157-3"><a href="llms.html#cb157-3" tabindex="-1"></a>                   <span class="at">population =</span> <span class="st">&quot;Grade 7 students&quot;</span>)</span>
+<span id="cb157-4"><a href="llms.html#cb157-4" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">generate_items</span>(p, <span class="at">n =</span> <span class="dv">2</span>))</span>
+<span id="cb157-5"><a href="llms.html#cb157-5" tabindex="-1"></a>p<span class="sc">$</span>items[, <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;stem&quot;</span>, <span class="st">&quot;key&quot;</span>, <span class="st">&quot;verify_answer&quot;</span>, <span class="st">&quot;key_check&quot;</span>)]</span>
+<span id="cb157-6"><a href="llms.html#cb157-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 5</span></span>
+<span id="cb157-7"><a href="llms.html#cb157-7" tabindex="-1"></a><span class="co">#&gt;   id    stem                                       key   verify_answer key_check</span></span>
+<span id="cb157-8"><a href="llms.html#cb157-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                      &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;    </span></span>
+<span id="cb157-9"><a href="llms.html#cb157-9" tabindex="-1"></a><span class="co">#&gt; 1 G001  A recipe uses 3 cups of flour for every 2… A     A             agree    </span></span>
+<span id="cb157-10"><a href="llms.html#cb157-10" tabindex="-1"></a><span class="co">#&gt; 2 G002  A cyclist rides 45 km in 3 hours at a ste… C     C             agree    </span></span>
+<span id="cb157-11"><a href="llms.html#cb157-11" tabindex="-1"></a><span class="co">#&gt; 3 G003  A garden is 12 m long and 7 m wide. How m… A     B             disagree </span></span>
+<span id="cb157-12"><a href="llms.html#cb157-12" tabindex="-1"></a><span class="co">#&gt; 4 G004  A water bottle holds 2.5 litres. How many… B     B             agree</span></span></code></pre></div>
+<p>Two of the four items have problems. The writer keyed the garden item (G003)
+as 84 m, which is the garden’s area, but the question asks for the fence
+around it, the perimeter of 38 m. The checking call answered B and the item
+is flagged. In the millilitre item (G004), one distractor is a length, not
+a volume, so no test taker would choose it:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="llms.html#cb158-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">flags</span>(p, <span class="at">stage =</span> <span class="st">&quot;generation&quot;</span>)</span>
+<span id="cb158-2"><a href="llms.html#cb158-2" tabindex="-1"></a>f[, <span class="fu">c</span>(<span class="st">&quot;check&quot;</span>, <span class="st">&quot;target&quot;</span>, <span class="st">&quot;level&quot;</span>, <span class="st">&quot;value&quot;</span>)]</span>
+<span id="cb158-3"><a href="llms.html#cb158-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 4</span></span>
+<span id="cb158-4"><a href="llms.html#cb158-4" tabindex="-1"></a><span class="co">#&gt;   check      target                   level  value                              </span></span>
+<span id="cb158-5"><a href="llms.html#cb158-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                    &lt;chr&gt;  &lt;chr&gt;                              </span></span>
+<span id="cb158-6"><a href="llms.html#cb158-6" tabindex="-1"></a><span class="co">#&gt; 1 key_check  G003                     block  key A, verifier chose B; Fencing a…</span></span>
+<span id="cb158-7"><a href="llms.html#cb158-7" tabindex="-1"></a><span class="co">#&gt; 2 distractor G004                     review D (implausible)                    </span></span>
+<span id="cb158-8"><a href="llms.html#cb158-8" tabindex="-1"></a><span class="co">#&gt; 3 coverage   Ratios and rates / Apply review 2 items for a target of 2          </span></span>
+<span id="cb158-9"><a href="llms.html#cb158-9" tabindex="-1"></a><span class="co">#&gt; 4 coverage   Measurement / Apply      review 2 items for a target of 2</span></span>
+<span id="cb158-10"><a href="llms.html#cb158-10" tabindex="-1"></a>p<span class="sc">$</span>items<span class="sc">$</span>verify_note[<span class="dv">3</span>]</span>
+<span id="cb158-11"><a href="llms.html#cb158-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Fencing around the garden is the perimeter, 2 x (12 + 7) = 38 m (option B); 84 m is the area, so the key appears to be wrong.&quot;</span></span></code></pre></div>
+<p>A <code>block</code> flag stops the pipeline at the next stage until a person fixes the
+item or acknowledges the flag. The coverage flags are a reminder that items
+are lost in review and field testing, so a pool needs more items than the
+blueprint asks for. Notice what the checks do <em>not</em> do: they do not show
+that the items measure Grade 7 numeracy, that they are fair, or that their
+difficulty suits the test. Content review and a field test still do that.</p>
+</div>
+<div id="example-3-is-a-recording-reproducible" class="section level2 hasAnchor" number="14.4">
+<h2><span class="header-section-number">14.4</span> Example 3: is a recording reproducible?<a href="llms.html#example-3-is-a-recording-reproducible" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Replay makes a session reproducible in a strong sense: the same calls on
+the same data give the same output, on any computer. It also makes the
+limits of a recording visible. Change the request by one word and the
+recording has no answer for it:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="llms.html#cb159-1" tabindex="-1"></a><span class="fu">tryCatch</span>(</span>
+<span id="cb159-2"><a href="llms.html#cb159-2" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(<span class="fu">generate_items</span>(<span class="fu">set_blueprint</span>(<span class="fu">mv_pipeline</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>), <span class="fu">c</span>(<span class="at">Algebra =</span> <span class="dv">2</span>)),</span>
+<span id="cb159-3"><a href="llms.html#cb159-3" tabindex="-1"></a>                                  <span class="at">n =</span> <span class="dv">1</span>)),</span>
+<span id="cb159-4"><a href="llms.html#cb159-4" tabindex="-1"></a>  <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">conditionMessage</span>(e))</span>
+<span id="cb159-5"><a href="llms.html#cb159-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;This request is not in the recording examples.json. A recording answers only the exact calls it was made from. Use a live model (mv_llm_replay(FALSE), then mv_ask_setup()), or record the call with mv_llm_record().&quot;</span></span></code></pre></div>
+<p>For your own work, <code>mv_llm_record("session.json")</code> saves every request and
+response while you use a live model, and <code>mv_llm_replay("session.json")</code>
+plays them back. Keep the file with your analysis, as you would keep the
+data and the code. When you report work that used an LLM, say which model
+and version you used and when, give the prompts (mirtverse’s are in its
+source code and in the recording), say what was sent and what was not, and
+describe how the outputs were checked.</p>
+</div>
+<div id="your-turn-13" class="section level2 hasAnchor" number="14.5">
+<h2><span class="header-section-number">14.5</span> Your turn<a href="llms.html#your-turn-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Run <code>mv_ask(request, data = Science, dry_run = TRUE, anonymize = TRUE)</code>.
+What is still sent? Is anything in it confidential for your own data?</li>
+<li>List the recordings that come with mirtverse with <code>mv_llm_recordings()</code>.
+Which mirtverse functions made them?</li>
+<li>In Example 2, fix the miskeyed item with <code>p$items$key[3] &lt;- "B"</code> and
+acknowledge the flag with <code>acknowledge()</code>. Why does mirtverse ask for a
+person to acknowledge a flag rather than clear it automatically?</li>
+<li>Your program wants an LLM to score 20,000 short answers next spring. Name
+three pieces of evidence you would ask for before the machine scores
+count, and one group of test takers you would check separately.</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="llms.html#cb160-1" tabindex="-1"></a><span class="fu">mv_ask</span>(request, <span class="at">data =</span> Science, <span class="at">dry_run =</span> <span class="cn">TRUE</span>, <span class="at">anonymize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb160-2"><a href="llms.html#cb160-2" tabindex="-1"></a><span class="co">#&gt; This would be sent to recorded responses:</span></span>
+<span id="cb160-3"><a href="llms.html#cb160-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb160-4"><a href="llms.html#cb160-4" tabindex="-1"></a><span class="co">#&gt; Request: Fit a graded response model to these attitude items, check the fit and explain the results.</span></span>
+<span id="cb160-5"><a href="llms.html#cb160-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb160-6"><a href="llms.html#cb160-6" tabindex="-1"></a><span class="co">#&gt; Data: 392 rows, 4 columns.</span></span>
+<span id="cb160-7"><a href="llms.html#cb160-7" tabindex="-1"></a><span class="co">#&gt; Columns (name | type | distinct values | min | max | share missing | guessed role | categories):</span></span>
+<span id="cb160-8"><a href="llms.html#cb160-8" tabindex="-1"></a><span class="co">#&gt; - V1 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb160-9"><a href="llms.html#cb160-9" tabindex="-1"></a><span class="co">#&gt; - V2 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb160-10"><a href="llms.html#cb160-10" tabindex="-1"></a><span class="co">#&gt; - V3 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb160-11"><a href="llms.html#cb160-11" tabindex="-1"></a><span class="co">#&gt; - V4 | integer | 4 | 1 | 4 | 0.00 | item |</span></span>
+<span id="cb160-12"><a href="llms.html#cb160-12" tabindex="-1"></a><span class="fu">mv_llm_recordings</span>()[, <span class="fu">c</span>(<span class="st">&quot;function_name&quot;</span>, <span class="st">&quot;prompt_start&quot;</span>)]</span>
+<span id="cb160-13"><a href="llms.html#cb160-13" tabindex="-1"></a><span class="co">#&gt; # A tibble: 11 × 2</span></span>
+<span id="cb160-14"><a href="llms.html#cb160-14" tabindex="-1"></a><span class="co">#&gt;    function_name  prompt_start                                                  </span></span>
+<span id="cb160-15"><a href="llms.html#cb160-15" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;                                                         </span></span>
+<span id="cb160-16"><a href="llms.html#cb160-16" tabindex="-1"></a><span class="co">#&gt;  1 mv_ask         &quot;Request: Fit a graded response model to these attitude items&quot;</span></span>
+<span id="cb160-17"><a href="llms.html#cb160-17" tabindex="-1"></a><span class="co">#&gt;  2 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
+<span id="cb160-18"><a href="llms.html#cb160-18" tabindex="-1"></a><span class="co">#&gt;  3 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
+<span id="cb160-19"><a href="llms.html#cb160-19" tabindex="-1"></a><span class="co">#&gt;  4 verify_items   &quot;A recipe uses 3 cups of flour for every 2 cups of milk. How &quot;</span></span>
+<span id="cb160-20"><a href="llms.html#cb160-20" tabindex="-1"></a><span class="co">#&gt;  5 verify_items   &quot;A cyclist rides 45 km in 3 hours at a steady speed. How far &quot;</span></span>
+<span id="cb160-21"><a href="llms.html#cb160-21" tabindex="-1"></a><span class="co">#&gt;  6 verify_items   &quot;A garden is 12 m long and 7 m wide. How many metres of fenci&quot;</span></span>
+<span id="cb160-22"><a href="llms.html#cb160-22" tabindex="-1"></a><span class="co">#&gt;  7 verify_items   &quot;A water bottle holds 2.5 litres. How many millilitres does i&quot;</span></span>
+<span id="cb160-23"><a href="llms.html#cb160-23" tabindex="-1"></a><span class="co">#&gt;  8 score_open     &quot;Item: Explain why ice floats on liquid water. Rubric: 0 poin&quot;</span></span>
+<span id="cb160-24"><a href="llms.html#cb160-24" tabindex="-1"></a><span class="co">#&gt;  9 score_open     &quot;Item: Explain why ice floats on liquid water. Rubric: 0 poin&quot;</span></span>
+<span id="cb160-25"><a href="llms.html#cb160-25" tabindex="-1"></a><span class="co">#&gt; 10 score_open     &quot;Item: Explain why ice floats on liquid water. Rubric: 0 poin&quot;</span></span>
+<span id="cb160-26"><a href="llms.html#cb160-26" tabindex="-1"></a><span class="co">#&gt; 11 score_open     &quot;Item: Explain why ice floats on liquid water. Rubric: 0 poin&quot;</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>The request (with column names coded), the number of rows and the
+summary of each column (type, distinct values, range, share missing,
+guessed role) are still sent. Category labels are left out. Individual
+responses are never sent. For a confidential test, the request itself or
+the column names may give away content, which is why <code>anonymize = TRUE</code>
+exists; a local model through Ollama sends nothing at all.</li>
+<li><code>mv_ask()</code>, <code>generate_items()</code> (twice, one call per blueprint cell),
+<code>verify_items()</code> (once per item, called by <code>generate_items()</code>) and
+<code>score_open()</code> (once per batch of 10 responses, from the example in
+<code>system.file("replay", "examples.R", package = "mirtverse")</code>).</li>
+<li>A check can only say that something looks wrong; deciding whether it is,
+and what to do, is a professional judgement. Recording who acknowledged
+which flag, and why, is part of the evidence for the test.</li>
+<li>For example: agreement between machine and human scores on a sample of
+double-scored responses, compared with agreement between two humans
+<span class="citation">(<a href="#ref-williamson2012">Williamson et al. 2012</a>)</span>; the standardized mean difference between machine and
+human scores; and the same statistics within groups, such as English
+language learners, whose answers may be shorter or phrased differently
+at the same level of understanding. <code>score_open()</code> reports all of these.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-ai-hub-1" class="section level2 unnumbered hasAnchor">
+<h2>In the AI Hub<a href="llms.html#in-the-ai-hub-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI Hub</a>
+shows the AI features of mirtverse in one place. Lab 6,
+<code>run_lab("open-ended")</code>, puts an automated scoring engine next to human
+raters, and the <a href="https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html">mv_ask()
+guide</a>
+explains what <code>mv_ask()</code> sends and how it was benchmarked.</p>
+</div>
+</div>
+<div id="further-reading-13" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="llms.html#further-reading-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Hao et al. <span class="citation">(<a href="#ref-hao2024">2024</a>)</span> describe what large language models change in
+testing, from item development to score reporting. Bulut et al.
+<span class="citation">(<a href="#ref-bulut2024">2024</a>)</span> discuss the opportunities and the ethical questions, and
+Williamson, Xi and Breyer <span class="citation">(<a href="#ref-williamson2012">2012</a>)</span> remain the reference for
+evaluating automated scores.</p>
+
+</div>
+</div>
+
+
+
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bulut2024" class="csl-entry">
+Bulut, Okan, Maggie Beiting-Parrish, Jodi M. Casabianca, et al. 2024. <span>“The Rise of Artificial Intelligence in Educational Measurement: Opportunities and Ethical Challenges.”</span> <em>Chinese/English Journal of Educational Measurement and Evaluation</em>, ahead of print. <a href="https://doi.org/10.59863/MIQL7785">https://doi.org/10.59863/MIQL7785</a>.
+</div>
+<div id="ref-hao2024" class="csl-entry">
+Hao, Jiangang, Alina A. von Davier, Victoria Yaneva, Susan Lottridge, Matthias von Davier, and Deborah J. Harris. 2024. <span>“Transforming Assessment: The Impacts and Implications of Large Language Models and Generative <span>AI</span>.”</span> <em>Educational Measurement: Issues and Practice</em> 43 (2): 16–29. <a href="https://doi.org/10.1111/emip.12602">https://doi.org/10.1111/emip.12602</a>.
+</div>
+<div id="ref-williamson2012" class="csl-entry">
+Williamson, David M., Xiaoming Xi, and F. Jay Breyer. 2012. <span>“A Framework for Evaluation and Use of Automated Scoring.”</span> <em>Educational Measurement: Issues and Practice</em> 31 (1): 2–13. <a href="https://doi.org/10.1111/j.1745-3992.2011.00223.x">https://doi.org/10.1111/j.1745-3992.2011.00223.x</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ml-lens.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datasets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/17-llms.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
