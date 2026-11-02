@@ -22,6 +22,8 @@ navbar:
         href: articles/ai-translation.html
       - text: Reading list
         href: articles/ai-reading.html
+      - text: "Book: AI in measurement"
+        href: book/ml-lens.html
       - text: -------
       - text: AI tools in mirtverse
       - text: Write analysis code from plain language

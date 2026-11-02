@@ -1,0 +1,234 @@
+# Large language models as a colleague {#llms}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* describe what a **large language model** (LLM) does and why its output
+  varies and can be wrong;
+* use an LLM through mirtverse to draft analysis code, write items and
+  score responses, and see exactly what is sent to it;
+* explain why every LLM output in testing needs a **check**, and use
+  mirtverse's checks for wrong keys, weak distractors and machine-human
+  agreement;
+* make LLM work **reproducible** by recording and replaying responses, and
+  say what to report about an LLM in a technical manual or paper.
+</div>
+
+**Key terms:**
+[large language model](https://www.okanbulut.com/mirtverse/articles/glossary.html#llm),
+[prompt](https://www.okanbulut.com/mirtverse/articles/glossary.html#prompt),
+[hallucination](https://www.okanbulut.com/mirtverse/articles/glossary.html#hallucination),
+[human-in-the-loop](https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop),
+[automatic item generation](https://www.okanbulut.com/mirtverse/articles/glossary.html#aig),
+[automated scoring](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-scoring).
+
+```{r replay-on, include = FALSE}
+# This chapter answers every language model request from the example
+# recordings that come with mirtverse, so it builds offline and gives the
+# same output every time. See mv_llm_replay().
+old_llm <- suppressMessages(mv_llm_replay())
+```
+
+## The ideas
+
+A large language model is a neural network trained on a very large amount
+of text to predict the next piece of text. Given instructions and context,
+the **prompt**, it continues them, and that one ability is enough to write
+items, explain results, score essays against a rubric or draft code. Claude,
+GPT and the open models that run on a laptop through Ollama all work this
+way.
+
+For a psychometrician, three properties matter more than how the network
+works:
+
+* **Its output is a sample.** The same prompt can give different answers on
+  different runs and with different versions of the model. An LLM is not a
+  function with a fixed value; it behaves more like a rater.
+* **It can be fluently wrong.** A model can write an item with no correct
+  option, invent a reference or misread a rubric, in the same confident
+  style as a correct answer. Such errors are called **hallucinations**, and
+  they are found only by checking.
+* **What you send leaves your computer.** Unless the model runs locally,
+  the prompt goes to a provider. Test content and response data may be
+  confidential, so what is sent has to be a decision, not an accident.
+
+These properties lead to the way mirtverse uses LLMs, which is also a good
+rule for any testing program [@hao2024; @bulut2024]: the model drafts,
+something else checks, and a person decides. Generated items are answered
+again by a second, independent model call that does not see the key.
+Machine scores must agree with human scores, overall and within groups,
+before they count, following the framework of Williamson, Xi and Breyer
+[-@williamson2012]. Anything the model is unsure about goes to a person.
+
+mirtverse talks to models through the ellmer package. `mv_ask_setup()`
+chooses a provider once: Claude or OpenAI with your own API key, or Ollama
+for a free model that runs on your own computer. This chapter instead runs
+in **replay mode**: `mv_llm_replay()` answers every request from a file of
+recorded responses that comes with mirtverse, so the examples need no key,
+no internet connection and give the same results for every reader. Those
+responses were written by hand to show what a model returns, including a
+few deliberate mistakes; they were not produced by a live model.
+
+## Example 1: from a sentence to a tested script
+
+`mv_ask()` turns a plain-language request into an analysis plan and the
+plan into an R script built from tested templates. The model never writes
+code and never sees the responses: it sees the request and a summary of the
+columns. You can see that payload before anything is sent with
+`dry_run = TRUE`:
+
+```{r data-llms-1}
+# mirt's Science data: 392 respondents, 4 attitude items scored 1 to 4.
+resp <- Science
+```
+
+```{r}
+request <- "Fit a graded response model to these attitude items, check the fit and explain the results."
+mv_ask(request, data = resp, dry_run = TRUE)
+```
+
+The payload holds the request, the number of rows and, for each column, its
+type, range, share missing and the role mirtverse guesses for it. With
+`anonymize = TRUE` the column names are replaced by codes as well. Now the
+real call, answered from the recording:
+
+```{r}
+s <- mv_ask(request, data = Science, ask = FALSE)
+s$parser
+s$plan$model
+s$plan$assumptions
+```
+
+The model chose the graded response model, kept the default steps, and
+stated two assumptions it made. Read them: an assumption is where a model
+fills a gap in your request, and a wrong one gives a wrong analysis that
+runs without error. The script itself is printed with `s`, and run with
+`run_script(s)`.
+
+## Example 2: writing items, and catching the mistakes
+
+The assessment pipeline writes items for the cells of a blueprint. Each
+multiple-choice item comes with a key and a rationale for every option,
+and is then checked by a second call that answers it blind.
+
+```{r data-llms-2}
+# A two-cell blueprint for a short Grade 7 numeracy quiz.
+cells <- data.frame(content = c("Ratios and rates", "Measurement"),
+                    cognitive = c("Apply", "Apply"), n = c(2, 2))
+```
+
+```{r}
+p <- mv_pipeline("Grade 7 numeracy", verbose = FALSE)
+p <- set_blueprint(p, cells, construct = "Grade 7 numeracy", use = "classroom diagnostic",
+                   population = "Grade 7 students")
+p <- suppressWarnings(generate_items(p, n = 2))
+p$items[, c("id", "stem", "key", "verify_answer", "key_check")]
+```
+
+Two of the four items have problems. The writer keyed the garden item (G003)
+as 84 m, which is the garden's area, but the question asks for the fence
+around it, the perimeter of 38 m. The checking call answered B and the item
+is flagged. In the millilitre item (G004), one distractor is a length, not
+a volume, so no test taker would choose it:
+
+```{r}
+f <- flags(p, stage = "generation")
+f[, c("check", "target", "level", "value")]
+p$items$verify_note[3]
+```
+
+A `block` flag stops the pipeline at the next stage until a person fixes the
+item or acknowledges the flag. The coverage flags are a reminder that items
+are lost in review and field testing, so a pool needs more items than the
+blueprint asks for. Notice what the checks do *not* do: they do not show
+that the items measure Grade 7 numeracy, that they are fair, or that their
+difficulty suits the test. Content review and a field test still do that.
+
+## Example 3: is a recording reproducible?
+
+Replay makes a session reproducible in a strong sense: the same calls on
+the same data give the same output, on any computer. It also makes the
+limits of a recording visible. Change the request by one word and the
+recording has no answer for it:
+
+```{r}
+tryCatch(
+  suppressWarnings(generate_items(set_blueprint(mv_pipeline(verbose = FALSE), c(Algebra = 2)),
+                                  n = 1)),
+  error = function(e) conditionMessage(e))
+```
+
+For your own work, `mv_llm_record("session.json")` saves every request and
+response while you use a live model, and `mv_llm_replay("session.json")`
+plays them back. Keep the file with your analysis, as you would keep the
+data and the code. When you report work that used an LLM, say which model
+and version you used and when, give the prompts (mirtverse's are in its
+source code and in the recording), say what was sent and what was not, and
+describe how the outputs were checked.
+
+## Your turn
+
+<div class="yourturn">
+1. Run `mv_ask(request, data = Science, dry_run = TRUE, anonymize = TRUE)`.
+   What is still sent? Is anything in it confidential for your own data?
+2. List the recordings that come with mirtverse with `mv_llm_recordings()`.
+   Which mirtverse functions made them?
+3. In Example 2, fix the miskeyed item with `p$items$key[3] <- "B"` and
+   acknowledge the flag with `acknowledge()`. Why does mirtverse ask for a
+   person to acknowledge a flag rather than clear it automatically?
+4. Your program wants an LLM to score 20,000 short answers next spring. Name
+   three pieces of evidence you would ask for before the machine scores
+   count, and one group of test takers you would check separately.
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+mv_ask(request, data = Science, dry_run = TRUE, anonymize = TRUE)
+mv_llm_recordings()[, c("function_name", "prompt_start")]
+```
+
+1. The request (with column names coded), the number of rows and the
+   summary of each column (type, distinct values, range, share missing,
+   guessed role) are still sent. Category labels are left out. Individual
+   responses are never sent. For a confidential test, the request itself or
+   the column names may give away content, which is why `anonymize = TRUE`
+   exists; a local model through Ollama sends nothing at all.
+2. `mv_ask()`, `generate_items()` (twice, one call per blueprint cell),
+   `verify_items()` (once per item, called by `generate_items()`) and
+   `score_open()` (once per batch of 10 responses, from the example in
+   `system.file("replay", "examples.R", package = "mirtverse")`).
+3. A check can only say that something looks wrong; deciding whether it is,
+   and what to do, is a professional judgement. Recording who acknowledged
+   which flag, and why, is part of the evidence for the test.
+4. For example: agreement between machine and human scores on a sample of
+   double-scored responses, compared with agreement between two humans
+   [@williamson2012]; the standardized mean difference between machine and
+   human scores; and the same statistics within groups, such as English
+   language learners, whose answers may be shorter or phrased differently
+   at the same level of understanding. `score_open()` reports all of these.
+
+</details>
+
+```{r replay-off, include = FALSE}
+options(old_llm)
+```
+
+## In the AI Hub {-}
+
+<div class="lab">
+The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
+shows the AI features of mirtverse in one place. Lab 6,
+`run_lab("open-ended")`, puts an automated scoring engine next to human
+raters, and the [mv_ask()
+guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+explains what `mv_ask()` sends and how it was benchmarked.
+</div>
+
+## Further reading {-}
+
+Hao et al. [-@hao2024] describe what large language models change in
+testing, from item development to score reporting. Bulut et al.
+[-@bulut2024] discuss the opportunities and the ethical questions, and
+Williamson, Xi and Breyer [-@williamson2012] remain the reference for
+evaluating automated scores.

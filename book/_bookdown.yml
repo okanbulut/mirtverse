@@ -23,6 +23,8 @@ rmd_files:
   - 10-linking.Rmd
   - 11-banks-cat.Rmd
   - 12-reporting.Rmd
+  - 13-ml-lens.Rmd
+  - 17-llms.Rmd
   - 90-datasets.Rmd
   - 91-adapting.Rmd
   - 99-references.Rmd

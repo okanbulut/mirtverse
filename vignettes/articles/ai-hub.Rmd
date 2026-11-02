@@ -52,8 +52,8 @@ names the question it answers, what to read and what to try in R.
 | Step | The question | Read | Try in R |
 |---|---|---|---|
 | 1. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](ai-translation.html); the AI section of the [glossary](glossary.html#ai) | — |
-| 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book chapter on machine learning (coming soon) | — |
-| 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book chapter on LLMs (coming soon) | `mv_ask()` |
+| 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
+| 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()` |
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: automated scoring](ai-reading.html#automated-scoring) | `score_open()`; [Lab 6](teaching-labs.html) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: item text](ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `generate_items()`, `verify_items()` |
@@ -145,9 +145,11 @@ low-confidence responses routed back to human raters.
 
 [Lab 6](teaching-labs.html), on scoring open-ended responses, already
 compares an automated engine with human raters and fits well at the end of
-an IRT course. More AI labs, book chapters and an optional AI module for the
-[course map](course-map.html) are being written; they will be listed on this
-page and in the AI Hub menu as they are released.
+an IRT course. The [online book](../book/index.html) has a part on AI in
+measurement whose chapters work offline, so they can be assigned as
+readings. More AI labs, chapters and an optional AI module for the [course
+map](course-map.html) are being written; they will be listed on this page
+and in the AI Hub menu as they are released.
 
 ## Read more {#read-more}
 

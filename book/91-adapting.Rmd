@@ -16,6 +16,7 @@ the mirtverse repository:
 | `index.Rmd` | Title page and preface |
 | `00-author.Rmd` | About the author |
 | `01-measurement.Rmd` to `12-reporting.Rmd` | The twelve chapters, one per course week |
+| `13-ml-lens.Rmd`, `17-llms.Rmd` | The chapters on AI in measurement (file numbers leave room for chapters to come) |
 | `90-datasets.Rmd`, `91-adapting.Rmd` | The appendices |
 | `_bookdown.yml` | Chapter order (`rmd_files`) and output folder |
 | `_output.yml` | Look of the HTML, PDF and EPUB editions |
