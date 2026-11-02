@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 12 Cut scores, reporting and communicating results | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 12 Cut scores, reporting and communicating results | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -374,54 +378,54 @@ the test measures, how precisely, for whom it works, and what the scores mean.</
 <h2><span class="header-section-number">12.2</span> Example 1: setting a proficiency standard<a href="reporting.html#example-1-setting-a-proficiency-standard" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A provincial Grade 6 science test has 36 items. We simulate a calibration on
 2,500 students.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="reporting.html#cb134-1" tabindex="-1"></a><span class="co"># Simulated 36-item science test, 2,500 students.</span></span>
-<span id="cb134-2"><a href="reporting.html#cb134-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1212</span>)</span>
-<span id="cb134-3"><a href="reporting.html#cb134-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">36</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>)); b <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb134-4"><a href="reporting.html#cb134-4" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">2500</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
-<span id="cb134-5"><a href="reporting.html#cb134-5" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;S%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">36</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="reporting.html#cb135-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb135-2"><a href="reporting.html#cb135-2" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb135-3"><a href="reporting.html#cb135-3" tabindex="-1"></a>booklet <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">rownames</span>(pars), <span class="at">a =</span> pars[, <span class="st">&quot;a&quot;</span>], <span class="at">b =</span> pars[, <span class="st">&quot;b&quot;</span>])</span>
-<span id="cb135-4"><a href="reporting.html#cb135-4" tabindex="-1"></a>booklet<span class="sc">$</span>rp67 <span class="ot">&lt;-</span> booklet<span class="sc">$</span>b <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">0.67</span> <span class="sc">/</span> <span class="fl">0.33</span>) <span class="sc">/</span> booklet<span class="sc">$</span>a</span>
-<span id="cb135-5"><a href="reporting.html#cb135-5" tabindex="-1"></a>booklet <span class="ot">&lt;-</span> booklet[<span class="fu">order</span>(booklet<span class="sc">$</span>rp67), ]</span>
-<span id="cb135-6"><a href="reporting.html#cb135-6" tabindex="-1"></a>booklet<span class="sc">$</span>page <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(booklet))</span>
-<span id="cb135-7"><a href="reporting.html#cb135-7" tabindex="-1"></a><span class="fu">head</span>(booklet, <span class="dv">8</span>)</span>
-<span id="cb135-8"><a href="reporting.html#cb135-8" tabindex="-1"></a><span class="co">#&gt;     item     a      b   rp67 page</span></span>
-<span id="cb135-9"><a href="reporting.html#cb135-9" tabindex="-1"></a><span class="co">#&gt; S02  S02 1.924 -1.473 -1.105    1</span></span>
-<span id="cb135-10"><a href="reporting.html#cb135-10" tabindex="-1"></a><span class="co">#&gt; S01  S01 0.928 -1.827 -1.064    2</span></span>
-<span id="cb135-11"><a href="reporting.html#cb135-11" tabindex="-1"></a><span class="co">#&gt; S03  S03 1.243 -1.387 -0.818    3</span></span>
-<span id="cb135-12"><a href="reporting.html#cb135-12" tabindex="-1"></a><span class="co">#&gt; S05  S05 1.335 -0.955 -0.425    4</span></span>
-<span id="cb135-13"><a href="reporting.html#cb135-13" tabindex="-1"></a><span class="co">#&gt; S06  S06 1.118 -1.011 -0.377    5</span></span>
-<span id="cb135-14"><a href="reporting.html#cb135-14" tabindex="-1"></a><span class="co">#&gt; S04  S04 0.833 -1.090 -0.239    6</span></span>
-<span id="cb135-15"><a href="reporting.html#cb135-15" tabindex="-1"></a><span class="co">#&gt; S08  S08 1.245 -0.741 -0.173    7</span></span>
-<span id="cb135-16"><a href="reporting.html#cb135-16" tabindex="-1"></a><span class="co">#&gt; S10  S10 1.931 -0.488 -0.121    8</span></span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="reporting.html#cb135-1" tabindex="-1"></a><span class="co"># Simulated 36-item science test, 2,500 students.</span></span>
+<span id="cb135-2"><a href="reporting.html#cb135-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1212</span>)</span>
+<span id="cb135-3"><a href="reporting.html#cb135-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">36</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>)); b <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb135-4"><a href="reporting.html#cb135-4" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">2500</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
+<span id="cb135-5"><a href="reporting.html#cb135-5" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;S%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">36</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="reporting.html#cb136-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb136-2"><a href="reporting.html#cb136-2" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb136-3"><a href="reporting.html#cb136-3" tabindex="-1"></a>booklet <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">rownames</span>(pars), <span class="at">a =</span> pars[, <span class="st">&quot;a&quot;</span>], <span class="at">b =</span> pars[, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb136-4"><a href="reporting.html#cb136-4" tabindex="-1"></a>booklet<span class="sc">$</span>rp67 <span class="ot">&lt;-</span> booklet<span class="sc">$</span>b <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">0.67</span> <span class="sc">/</span> <span class="fl">0.33</span>) <span class="sc">/</span> booklet<span class="sc">$</span>a</span>
+<span id="cb136-5"><a href="reporting.html#cb136-5" tabindex="-1"></a>booklet <span class="ot">&lt;-</span> booklet[<span class="fu">order</span>(booklet<span class="sc">$</span>rp67), ]</span>
+<span id="cb136-6"><a href="reporting.html#cb136-6" tabindex="-1"></a>booklet<span class="sc">$</span>page <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(booklet))</span>
+<span id="cb136-7"><a href="reporting.html#cb136-7" tabindex="-1"></a><span class="fu">head</span>(booklet, <span class="dv">8</span>)</span>
+<span id="cb136-8"><a href="reporting.html#cb136-8" tabindex="-1"></a><span class="co">#&gt;     item     a      b   rp67 page</span></span>
+<span id="cb136-9"><a href="reporting.html#cb136-9" tabindex="-1"></a><span class="co">#&gt; S02  S02 1.924 -1.473 -1.105    1</span></span>
+<span id="cb136-10"><a href="reporting.html#cb136-10" tabindex="-1"></a><span class="co">#&gt; S01  S01 0.928 -1.827 -1.064    2</span></span>
+<span id="cb136-11"><a href="reporting.html#cb136-11" tabindex="-1"></a><span class="co">#&gt; S03  S03 1.243 -1.387 -0.818    3</span></span>
+<span id="cb136-12"><a href="reporting.html#cb136-12" tabindex="-1"></a><span class="co">#&gt; S05  S05 1.335 -0.955 -0.425    4</span></span>
+<span id="cb136-13"><a href="reporting.html#cb136-13" tabindex="-1"></a><span class="co">#&gt; S06  S06 1.118 -1.011 -0.377    5</span></span>
+<span id="cb136-14"><a href="reporting.html#cb136-14" tabindex="-1"></a><span class="co">#&gt; S04  S04 0.833 -1.090 -0.239    6</span></span>
+<span id="cb136-15"><a href="reporting.html#cb136-15" tabindex="-1"></a><span class="co">#&gt; S08  S08 1.245 -0.741 -0.173    7</span></span>
+<span id="cb136-16"><a href="reporting.html#cb136-16" tabindex="-1"></a><span class="co">#&gt; S10  S10 1.931 -0.488 -0.121    8</span></span></code></pre></div>
 <p>The ordered item booklet is <code>booklet</code>, one page per item. Suppose eight
 panelists, after two rounds of discussion, place their bookmarks for
 <em>proficient</em> on these pages:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="reporting.html#cb136-1" tabindex="-1"></a>bookmarks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">22</span>)</span>
-<span id="cb136-2"><a href="reporting.html#cb136-2" tabindex="-1"></a>panel_cuts <span class="ot">&lt;-</span> booklet<span class="sc">$</span>rp67[bookmarks]</span>
-<span id="cb136-3"><a href="reporting.html#cb136-3" tabindex="-1"></a>theta_cut <span class="ot">&lt;-</span> <span class="fu">median</span>(panel_cuts)</span>
-<span id="cb136-4"><a href="reporting.html#cb136-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">spread =</span> <span class="fu">sd</span>(panel_cuts))</span>
-<span id="cb136-5"><a href="reporting.html#cb136-5" tabindex="-1"></a><span class="co">#&gt; theta_cut    spread </span></span>
-<span id="cb136-6"><a href="reporting.html#cb136-6" tabindex="-1"></a><span class="co">#&gt;    0.7943    0.0586</span></span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="reporting.html#cb137-1" tabindex="-1"></a>bookmarks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">22</span>)</span>
+<span id="cb137-2"><a href="reporting.html#cb137-2" tabindex="-1"></a>panel_cuts <span class="ot">&lt;-</span> booklet<span class="sc">$</span>rp67[bookmarks]</span>
+<span id="cb137-3"><a href="reporting.html#cb137-3" tabindex="-1"></a>theta_cut <span class="ot">&lt;-</span> <span class="fu">median</span>(panel_cuts)</span>
+<span id="cb137-4"><a href="reporting.html#cb137-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">spread =</span> <span class="fu">sd</span>(panel_cuts))</span>
+<span id="cb137-5"><a href="reporting.html#cb137-5" tabindex="-1"></a><span class="co">#&gt; theta_cut    spread </span></span>
+<span id="cb137-6"><a href="reporting.html#cb137-6" tabindex="-1"></a><span class="co">#&gt;    0.7943    0.0586</span></span></code></pre></div>
 <p>The standard deviation of the panelists’ cuts, divided by the square root of
 the number of panelists, is a rough standard error of the panel’s cut. It
 should be reported alongside the cut.</p>
 <p>Teachers and parents see raw scores, so we convert the cut with the <strong>test
 characteristic curve</strong>: the expected number correct at <span class="math inline">\(\theta\)</span>.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="reporting.html#cb137-1" tabindex="-1"></a>raw_cut <span class="ot">&lt;-</span> <span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(theta_cut))</span>
-<span id="cb137-2"><a href="reporting.html#cb137-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">expected_raw =</span> raw_cut, <span class="at">raw_cut =</span> <span class="fu">ceiling</span>(raw_cut))</span>
-<span id="cb137-3"><a href="reporting.html#cb137-3" tabindex="-1"></a><span class="co">#&gt;    theta_cut expected_raw      raw_cut </span></span>
-<span id="cb137-4"><a href="reporting.html#cb137-4" tabindex="-1"></a><span class="co">#&gt;        0.794       24.583       25.000</span></span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="reporting.html#cb138-1" tabindex="-1"></a>raw_cut <span class="ot">&lt;-</span> <span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(theta_cut))</span>
+<span id="cb138-2"><a href="reporting.html#cb138-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">expected_raw =</span> raw_cut, <span class="at">raw_cut =</span> <span class="fu">ceiling</span>(raw_cut))</span>
+<span id="cb138-3"><a href="reporting.html#cb138-3" tabindex="-1"></a><span class="co">#&gt;    theta_cut expected_raw      raw_cut </span></span>
+<span id="cb138-4"><a href="reporting.html#cb138-4" tabindex="-1"></a><span class="co">#&gt;        0.794       24.583       25.000</span></span></code></pre></div>
 <p>How many students are classified as proficient, and how accurately?</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="reporting.html#cb138-1" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">fscores</span>(mod, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb138-2"><a href="reporting.html#cb138-2" tabindex="-1"></a>above <span class="ot">&lt;-</span> sc[, <span class="dv">1</span>] <span class="sc">&gt;=</span> theta_cut</span>
-<span id="cb138-3"><a href="reporting.html#cb138-3" tabindex="-1"></a>p_above <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((sc[, <span class="dv">1</span>] <span class="sc">-</span> theta_cut) <span class="sc">/</span> sc[, <span class="dv">2</span>])</span>
-<span id="cb138-4"><a href="reporting.html#cb138-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">percent_proficient =</span> <span class="fu">mean</span>(above),</span>
-<span id="cb138-5"><a href="reporting.html#cb138-5" tabindex="-1"></a>  <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(above, p_above, <span class="dv">1</span> <span class="sc">-</span> p_above)),</span>
-<span id="cb138-6"><a href="reporting.html#cb138-6" tabindex="-1"></a>  <span class="at">consistency =</span> <span class="fu">mean</span>(p_above<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> p_above)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb138-7"><a href="reporting.html#cb138-7" tabindex="-1"></a><span class="co">#&gt; percent_proficient           accuracy        consistency </span></span>
-<span id="cb138-8"><a href="reporting.html#cb138-8" tabindex="-1"></a><span class="co">#&gt;              0.204              0.925              0.893</span></span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="reporting.html#cb139-1" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">fscores</span>(mod, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb139-2"><a href="reporting.html#cb139-2" tabindex="-1"></a>above <span class="ot">&lt;-</span> sc[, <span class="dv">1</span>] <span class="sc">&gt;=</span> theta_cut</span>
+<span id="cb139-3"><a href="reporting.html#cb139-3" tabindex="-1"></a>p_above <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((sc[, <span class="dv">1</span>] <span class="sc">-</span> theta_cut) <span class="sc">/</span> sc[, <span class="dv">2</span>])</span>
+<span id="cb139-4"><a href="reporting.html#cb139-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">percent_proficient =</span> <span class="fu">mean</span>(above),</span>
+<span id="cb139-5"><a href="reporting.html#cb139-5" tabindex="-1"></a>  <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(above, p_above, <span class="dv">1</span> <span class="sc">-</span> p_above)),</span>
+<span id="cb139-6"><a href="reporting.html#cb139-6" tabindex="-1"></a>  <span class="at">consistency =</span> <span class="fu">mean</span>(p_above<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> p_above)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb139-7"><a href="reporting.html#cb139-7" tabindex="-1"></a><span class="co">#&gt; percent_proficient           accuracy        consistency </span></span>
+<span id="cb139-8"><a href="reporting.html#cb139-8" tabindex="-1"></a><span class="co">#&gt;              0.204              0.925              0.893</span></span></code></pre></div>
 <p>Accuracy compares each student’s category with where their true score
 probably lies; consistency asks how often two independent testings would
 agree (here approximated from each student’s posterior probability of being
@@ -431,18 +435,23 @@ testings carry error.</p>
 just-proficient student is likely to answer correctly (the items below the
 line). Printing the text of a few items on each side of the line is a good
 way to describe what <em>proficient</em> means.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="reporting.html#cb139-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb139-2"><a href="reporting.html#cb139-2" tabindex="-1"></a><span class="fu">ggplot</span>(booklet, <span class="fu">aes</span>(page, rp67, <span class="at">colour =</span> rp67 <span class="sc">&lt;=</span> theta_cut)) <span class="sc">+</span></span>
-<span id="cb139-3"><a href="reporting.html#cb139-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> theta_cut, <span class="at">colour =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb139-4"><a href="reporting.html#cb139-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb139-5"><a href="reporting.html#cb139-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> theta_cut <span class="sc">+</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">&quot;Proficient cut&quot;</span>,</span>
-<span id="cb139-6"><a href="reporting.html#cb139-6" tabindex="-1"></a>           <span class="at">colour =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb139-7"><a href="reporting.html#cb139-7" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;#2C5F8A&quot;</span>, <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;grey60&quot;</span>),</span>
-<span id="cb139-8"><a href="reporting.html#cb139-8" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;mastered at the cut&quot;</span>, <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;not yet&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb139-9"><a href="reporting.html#cb139-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Page in the ordered item booklet&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RP67 location (theta)&quot;</span>,</span>
-<span id="cb139-10"><a href="reporting.html#cb139-10" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb139-11"><a href="reporting.html#cb139-11" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-127-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="reporting.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb140-2"><a href="reporting.html#cb140-2" tabindex="-1"></a><span class="fu">ggplot</span>(booklet, <span class="fu">aes</span>(page, rp67, <span class="at">colour =</span> rp67 <span class="sc">&lt;=</span> theta_cut)) <span class="sc">+</span></span>
+<span id="cb140-3"><a href="reporting.html#cb140-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> theta_cut, <span class="at">colour =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb140-4"><a href="reporting.html#cb140-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb140-5"><a href="reporting.html#cb140-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> theta_cut <span class="sc">+</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">&quot;Proficient cut&quot;</span>,</span>
+<span id="cb140-6"><a href="reporting.html#cb140-6" tabindex="-1"></a>           <span class="at">colour =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb140-7"><a href="reporting.html#cb140-7" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;#2C5F8A&quot;</span>, <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;grey60&quot;</span>),</span>
+<span id="cb140-8"><a href="reporting.html#cb140-8" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;mastered at the cut&quot;</span>, <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;not yet&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb140-9"><a href="reporting.html#cb140-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Page in the ordered item booklet&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RP67 location (theta)&quot;</span>,</span>
+<span id="cb140-10"><a href="reporting.html#cb140-10" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb140-11"><a href="reporting.html#cb140-11" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:item-map"></span>
+<img src="mirtverse-book_files/figure-html/item-map-1.png" alt="Item map of the ordered item booklet with the proficient cut score." width="90%" />
+<p class="caption">
+Figure 12.1: Item map of the ordered item booklet with the proficient cut score.
+</p>
+</div>
 <p>In a real programme, <code>item_map()</code> and <code>set_cuts()</code> in the <a href="https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-8">assessment
 pipeline</a>
 produce the booklet, record the panel’s judgements, and report impact and
@@ -452,52 +461,52 @@ classification statistics for several cuts at once.</p>
 <h2><span class="header-section-number">12.3</span> Example 2: telling the story<a href="reporting.html#example-2-telling-the-story" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We return to the attitude scale from Chapter <a href="polytomous.html#polytomous">8</a> to show the
 reporting tools on a different kind of instrument.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="reporting.html#cb140-1" tabindex="-1"></a><span class="co"># Four 4-category attitude items (scored 1-4), 392 respondents.</span></span>
-<span id="cb140-2"><a href="reporting.html#cb140-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> Science</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="reporting.html#cb141-1" tabindex="-1"></a><span class="co"># Four 4-category attitude items (scored 1-4), 392 respondents.</span></span>
+<span id="cb141-2"><a href="reporting.html#cb141-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> Science</span></code></pre></div>
 <p><code>select_model()</code> and <code>interpret()</code> give a plain-language summary that is a
 good first draft for the methods and results sections of a report:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="reporting.html#cb141-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb141-2"><a href="reporting.html#cb141-2" tabindex="-1"></a><span class="fu">interpret</span>(sel<span class="sc">$</span>best)</span>
-<span id="cb141-3"><a href="reporting.html#cb141-3" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
-<span id="cb141-4"><a href="reporting.html#cb141-4" tabindex="-1"></a><span class="co">#&gt; --------</span></span>
-<span id="cb141-5"><a href="reporting.html#cb141-5" tabindex="-1"></a><span class="co">#&gt; * A graded model with 1 dimension was fitted to 392 respondents and 4 items</span></span>
-<span id="cb141-6"><a href="reporting.html#cb141-6" tabindex="-1"></a><span class="co">#&gt;   (EM estimation). </span></span>
-<span id="cb141-7"><a href="reporting.html#cb141-7" tabindex="-1"></a><span class="co">#&gt; * The estimation converged normally. </span></span>
-<span id="cb141-8"><a href="reporting.html#cb141-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-9"><a href="reporting.html#cb141-9" tabindex="-1"></a><span class="co">#&gt; Model fit</span></span>
-<span id="cb141-10"><a href="reporting.html#cb141-10" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
-<span id="cb141-11"><a href="reporting.html#cb141-11" tabindex="-1"></a><span class="co">#&gt; * Overall model fit is poor: C2 = 19.18, df = 2, RMSEA = 0.148, CFI = 0.910,</span></span>
-<span id="cb141-12"><a href="reporting.html#cb141-12" tabindex="-1"></a><span class="co">#&gt;   SRMSR = 0.073. </span></span>
-<span id="cb141-13"><a href="reporting.html#cb141-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-14"><a href="reporting.html#cb141-14" tabindex="-1"></a><span class="co">#&gt; Reliability</span></span>
-<span id="cb141-15"><a href="reporting.html#cb141-15" tabindex="-1"></a><span class="co">#&gt; -----------</span></span>
-<span id="cb141-16"><a href="reporting.html#cb141-16" tabindex="-1"></a><span class="co">#&gt; * Marginal reliability is 0.67 (low). </span></span>
-<span id="cb141-17"><a href="reporting.html#cb141-17" tabindex="-1"></a><span class="co">#&gt; * Scores are too imprecise for decisions about individuals; consider adding</span></span>
-<span id="cb141-18"><a href="reporting.html#cb141-18" tabindex="-1"></a><span class="co">#&gt;   items or using the scores only for group-level summaries. </span></span>
-<span id="cb141-19"><a href="reporting.html#cb141-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-20"><a href="reporting.html#cb141-20" tabindex="-1"></a><span class="co">#&gt; Targeting</span></span>
-<span id="cb141-21"><a href="reporting.html#cb141-21" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
-<span id="cb141-22"><a href="reporting.html#cb141-22" tabindex="-1"></a><span class="co">#&gt; * The average item location is -0.99 and the average person score is 0.00, so</span></span>
-<span id="cb141-23"><a href="reporting.html#cb141-23" tabindex="-1"></a><span class="co">#&gt;   the test is relatively easy for this group. </span></span>
-<span id="cb141-24"><a href="reporting.html#cb141-24" tabindex="-1"></a><span class="co">#&gt; * Measurement is most precise around theta = -2.20 (information = 2.42, SE =</span></span>
-<span id="cb141-25"><a href="reporting.html#cb141-25" tabindex="-1"></a><span class="co">#&gt;   0.64). </span></span>
-<span id="cb141-26"><a href="reporting.html#cb141-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-27"><a href="reporting.html#cb141-27" tabindex="-1"></a><span class="co">#&gt; Items</span></span>
-<span id="cb141-28"><a href="reporting.html#cb141-28" tabindex="-1"></a><span class="co">#&gt; -----</span></span>
-<span id="cb141-29"><a href="reporting.html#cb141-29" tabindex="-1"></a><span class="co">#&gt; * No items were flagged for low discrimination, extreme location, or misfit. </span></span>
-<span id="cb141-30"><a href="reporting.html#cb141-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-31"><a href="reporting.html#cb141-31" tabindex="-1"></a><span class="co">#&gt; Local dependence</span></span>
-<span id="cb141-32"><a href="reporting.html#cb141-32" tabindex="-1"></a><span class="co">#&gt; ----------------</span></span>
-<span id="cb141-33"><a href="reporting.html#cb141-33" tabindex="-1"></a><span class="co">#&gt; * 1 item pair shows possible local dependence (Q3 exceeds the average of</span></span>
-<span id="cb141-34"><a href="reporting.html#cb141-34" tabindex="-1"></a><span class="co">#&gt;   -0.19 by more than 0.2). </span></span>
-<span id="cb141-35"><a href="reporting.html#cb141-35" tabindex="-1"></a><span class="co">#&gt; * Strongest: Comfort &amp; Benefit (Q3 = 0.08). </span></span>
-<span id="cb141-36"><a href="reporting.html#cb141-36" tabindex="-1"></a><span class="co">#&gt; * Check whether these items share a stimulus, wording, or content; consider a</span></span>
-<span id="cb141-37"><a href="reporting.html#cb141-37" tabindex="-1"></a><span class="co">#&gt;   testlet or bifactor model. </span></span>
-<span id="cb141-38"><a href="reporting.html#cb141-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb141-39"><a href="reporting.html#cb141-39" tabindex="-1"></a><span class="co">#&gt; Person fit</span></span>
-<span id="cb141-40"><a href="reporting.html#cb141-40" tabindex="-1"></a><span class="co">#&gt; ----------</span></span>
-<span id="cb141-41"><a href="reporting.html#cb141-41" tabindex="-1"></a><span class="co">#&gt; * 4.8% of respondents have unusual response patterns (Zh &lt; -1.96), which is</span></span>
-<span id="cb141-42"><a href="reporting.html#cb141-42" tabindex="-1"></a><span class="co">#&gt;   within what chance alone would produce.</span></span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="reporting.html#cb142-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb142-2"><a href="reporting.html#cb142-2" tabindex="-1"></a><span class="fu">interpret</span>(sel<span class="sc">$</span>best)</span>
+<span id="cb142-3"><a href="reporting.html#cb142-3" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
+<span id="cb142-4"><a href="reporting.html#cb142-4" tabindex="-1"></a><span class="co">#&gt; --------</span></span>
+<span id="cb142-5"><a href="reporting.html#cb142-5" tabindex="-1"></a><span class="co">#&gt; * A graded model with 1 dimension was fitted to 392 respondents and 4 items</span></span>
+<span id="cb142-6"><a href="reporting.html#cb142-6" tabindex="-1"></a><span class="co">#&gt;   (EM estimation). </span></span>
+<span id="cb142-7"><a href="reporting.html#cb142-7" tabindex="-1"></a><span class="co">#&gt; * The estimation converged normally. </span></span>
+<span id="cb142-8"><a href="reporting.html#cb142-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-9"><a href="reporting.html#cb142-9" tabindex="-1"></a><span class="co">#&gt; Model fit</span></span>
+<span id="cb142-10"><a href="reporting.html#cb142-10" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb142-11"><a href="reporting.html#cb142-11" tabindex="-1"></a><span class="co">#&gt; * Overall model fit is poor: C2 = 19.18, df = 2, RMSEA = 0.148, CFI = 0.910,</span></span>
+<span id="cb142-12"><a href="reporting.html#cb142-12" tabindex="-1"></a><span class="co">#&gt;   SRMSR = 0.073. </span></span>
+<span id="cb142-13"><a href="reporting.html#cb142-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-14"><a href="reporting.html#cb142-14" tabindex="-1"></a><span class="co">#&gt; Reliability</span></span>
+<span id="cb142-15"><a href="reporting.html#cb142-15" tabindex="-1"></a><span class="co">#&gt; -----------</span></span>
+<span id="cb142-16"><a href="reporting.html#cb142-16" tabindex="-1"></a><span class="co">#&gt; * Marginal reliability is 0.67 (low). </span></span>
+<span id="cb142-17"><a href="reporting.html#cb142-17" tabindex="-1"></a><span class="co">#&gt; * Scores are too imprecise for decisions about individuals; consider adding</span></span>
+<span id="cb142-18"><a href="reporting.html#cb142-18" tabindex="-1"></a><span class="co">#&gt;   items or using the scores only for group-level summaries. </span></span>
+<span id="cb142-19"><a href="reporting.html#cb142-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-20"><a href="reporting.html#cb142-20" tabindex="-1"></a><span class="co">#&gt; Targeting</span></span>
+<span id="cb142-21"><a href="reporting.html#cb142-21" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb142-22"><a href="reporting.html#cb142-22" tabindex="-1"></a><span class="co">#&gt; * The average item location is -0.99 and the average person score is 0.00, so</span></span>
+<span id="cb142-23"><a href="reporting.html#cb142-23" tabindex="-1"></a><span class="co">#&gt;   the test is relatively easy for this group. </span></span>
+<span id="cb142-24"><a href="reporting.html#cb142-24" tabindex="-1"></a><span class="co">#&gt; * Measurement is most precise around theta = -2.20 (information = 2.42, SE =</span></span>
+<span id="cb142-25"><a href="reporting.html#cb142-25" tabindex="-1"></a><span class="co">#&gt;   0.64). </span></span>
+<span id="cb142-26"><a href="reporting.html#cb142-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-27"><a href="reporting.html#cb142-27" tabindex="-1"></a><span class="co">#&gt; Items</span></span>
+<span id="cb142-28"><a href="reporting.html#cb142-28" tabindex="-1"></a><span class="co">#&gt; -----</span></span>
+<span id="cb142-29"><a href="reporting.html#cb142-29" tabindex="-1"></a><span class="co">#&gt; * No items were flagged for low discrimination, extreme location, or misfit. </span></span>
+<span id="cb142-30"><a href="reporting.html#cb142-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-31"><a href="reporting.html#cb142-31" tabindex="-1"></a><span class="co">#&gt; Local dependence</span></span>
+<span id="cb142-32"><a href="reporting.html#cb142-32" tabindex="-1"></a><span class="co">#&gt; ----------------</span></span>
+<span id="cb142-33"><a href="reporting.html#cb142-33" tabindex="-1"></a><span class="co">#&gt; * 1 item pair shows possible local dependence (Q3 exceeds the average of</span></span>
+<span id="cb142-34"><a href="reporting.html#cb142-34" tabindex="-1"></a><span class="co">#&gt;   -0.19 by more than 0.2). </span></span>
+<span id="cb142-35"><a href="reporting.html#cb142-35" tabindex="-1"></a><span class="co">#&gt; * Strongest: Comfort &amp; Benefit (Q3 = 0.08). </span></span>
+<span id="cb142-36"><a href="reporting.html#cb142-36" tabindex="-1"></a><span class="co">#&gt; * Check whether these items share a stimulus, wording, or content; consider a</span></span>
+<span id="cb142-37"><a href="reporting.html#cb142-37" tabindex="-1"></a><span class="co">#&gt;   testlet or bifactor model. </span></span>
+<span id="cb142-38"><a href="reporting.html#cb142-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb142-39"><a href="reporting.html#cb142-39" tabindex="-1"></a><span class="co">#&gt; Person fit</span></span>
+<span id="cb142-40"><a href="reporting.html#cb142-40" tabindex="-1"></a><span class="co">#&gt; ----------</span></span>
+<span id="cb142-41"><a href="reporting.html#cb142-41" tabindex="-1"></a><span class="co">#&gt; * 4.8% of respondents have unusual response patterns (Zh &lt; -1.96), which is</span></span>
+<span id="cb142-42"><a href="reporting.html#cb142-42" tabindex="-1"></a><span class="co">#&gt;   within what chance alone would produce.</span></span></code></pre></div>
 <p>Read it critically before you use it: it flags the poor absolute fit and the
 low precision, and a careful report says what that means for the intended
 use of the scores.</p>
@@ -507,11 +516,11 @@ into an AI assistant to draft a longer narrative. Nothing is sent anywhere.</p>
 report in one call, with the model comparison, the interpretation, tables,
 figures, a sum-score conversion table, item health cards and the code to
 reproduce it:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="reporting.html#cb142-1" tabindex="-1"></a><span class="fu">mv_report</span>(sel, <span class="at">file =</span> <span class="st">&quot;science-attitudes-report.html&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="reporting.html#cb143-1" tabindex="-1"></a><span class="fu">mv_report</span>(sel, <span class="at">file =</span> <span class="st">&quot;science-attitudes-report.html&quot;</span>)</span></code></pre></div>
 <p>For people who want to explore, a dashboard lets them move an ability slider,
 click through items and download tables, without R:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="reporting.html#cb143-1" tabindex="-1"></a><span class="fu">mv_dashboard</span>(sel<span class="sc">$</span>best, <span class="at">title =</span> <span class="st">&quot;Attitudes to science&quot;</span>)</span>
-<span id="cb143-2"><a href="reporting.html#cb143-2" tabindex="-1"></a><span class="fu">export_dashboard</span>(sel<span class="sc">$</span>best, <span class="st">&quot;science-dashboard.html&quot;</span>, <span class="at">format =</span> <span class="st">&quot;html&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="reporting.html#cb144-1" tabindex="-1"></a><span class="fu">mv_dashboard</span>(sel<span class="sc">$</span>best, <span class="at">title =</span> <span class="st">&quot;Attitudes to science&quot;</span>)</span>
+<span id="cb144-2"><a href="reporting.html#cb144-2" tabindex="-1"></a><span class="fu">export_dashboard</span>(sel<span class="sc">$</span>best, <span class="st">&quot;science-dashboard.html&quot;</span>, <span class="at">format =</span> <span class="st">&quot;html&quot;</span>)</span></code></pre></div>
 <p>See <a href="https://www.okanbulut.com/mirtverse/articles/dashboards.html">Sharing results with a
 dashboard</a> for
 the options.</p>
@@ -548,22 +557,22 @@ cut in Example 1.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="reporting.html#cb144-1" tabindex="-1"></a>cut_later <span class="ot">&lt;-</span> <span class="fu">median</span>(booklet<span class="sc">$</span>rp67[bookmarks <span class="sc">+</span> <span class="dv">1</span>])</span>
-<span id="cb144-2"><a href="reporting.html#cb144-2" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(theta_cut)), <span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(cut_later)))</span>
-<span id="cb144-3"><a href="reporting.html#cb144-3" tabindex="-1"></a><span class="co">#&gt; [1] 24.6 24.7</span></span>
-<span id="cb144-4"><a href="reporting.html#cb144-4" tabindex="-1"></a></span>
-<span id="cb144-5"><a href="reporting.html#cb144-5" tabindex="-1"></a>rp50 <span class="ot">&lt;-</span> <span class="fu">sort</span>(booklet<span class="sc">$</span>b)</span>
-<span id="cb144-6"><a href="reporting.html#cb144-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rp67_cut =</span> theta_cut, <span class="at">rp50_cut =</span> <span class="fu">median</span>(rp50[bookmarks]))</span>
-<span id="cb144-7"><a href="reporting.html#cb144-7" tabindex="-1"></a><span class="co">#&gt; rp67_cut rp50_cut </span></span>
-<span id="cb144-8"><a href="reporting.html#cb144-8" tabindex="-1"></a><span class="co">#&gt;    0.794    0.100</span></span>
-<span id="cb144-9"><a href="reporting.html#cb144-9" tabindex="-1"></a></span>
-<span id="cb144-10"><a href="reporting.html#cb144-10" tabindex="-1"></a>adv <span class="ot">&lt;-</span> <span class="fu">median</span>(booklet<span class="sc">$</span>rp67[<span class="fu">rep</span>(<span class="dv">30</span>, <span class="dv">8</span>)])</span>
-<span id="cb144-11"><a href="reporting.html#cb144-11" tabindex="-1"></a>cats <span class="ot">&lt;-</span> <span class="fu">cut</span>(sc[, <span class="dv">1</span>], <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, theta_cut, adv, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;below&quot;</span>, <span class="st">&quot;proficient&quot;</span>, <span class="st">&quot;advanced&quot;</span>))</span>
-<span id="cb144-12"><a href="reporting.html#cb144-12" tabindex="-1"></a>p_cat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">pnorm</span>((theta_cut <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]),</span>
-<span id="cb144-13"><a href="reporting.html#cb144-13" tabindex="-1"></a>               <span class="fu">pnorm</span>((adv <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fu">pnorm</span>((theta_cut <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]),</span>
-<span id="cb144-14"><a href="reporting.html#cb144-14" tabindex="-1"></a>               <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>((adv <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]))</span>
-<span id="cb144-15"><a href="reporting.html#cb144-15" tabindex="-1"></a><span class="fu">mean</span>(p_cat[<span class="fu">cbind</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(p_cat)), <span class="fu">as.integer</span>(cats))])</span>
-<span id="cb144-16"><a href="reporting.html#cb144-16" tabindex="-1"></a><span class="co">#&gt; [1] 0.88</span></span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="reporting.html#cb145-1" tabindex="-1"></a>cut_later <span class="ot">&lt;-</span> <span class="fu">median</span>(booklet<span class="sc">$</span>rp67[bookmarks <span class="sc">+</span> <span class="dv">1</span>])</span>
+<span id="cb145-2"><a href="reporting.html#cb145-2" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(theta_cut)), <span class="fu">expected.test</span>(mod, <span class="fu">matrix</span>(cut_later)))</span>
+<span id="cb145-3"><a href="reporting.html#cb145-3" tabindex="-1"></a><span class="co">#&gt; [1] 24.6 24.7</span></span>
+<span id="cb145-4"><a href="reporting.html#cb145-4" tabindex="-1"></a></span>
+<span id="cb145-5"><a href="reporting.html#cb145-5" tabindex="-1"></a>rp50 <span class="ot">&lt;-</span> <span class="fu">sort</span>(booklet<span class="sc">$</span>b)</span>
+<span id="cb145-6"><a href="reporting.html#cb145-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rp67_cut =</span> theta_cut, <span class="at">rp50_cut =</span> <span class="fu">median</span>(rp50[bookmarks]))</span>
+<span id="cb145-7"><a href="reporting.html#cb145-7" tabindex="-1"></a><span class="co">#&gt; rp67_cut rp50_cut </span></span>
+<span id="cb145-8"><a href="reporting.html#cb145-8" tabindex="-1"></a><span class="co">#&gt;    0.794    0.100</span></span>
+<span id="cb145-9"><a href="reporting.html#cb145-9" tabindex="-1"></a></span>
+<span id="cb145-10"><a href="reporting.html#cb145-10" tabindex="-1"></a>adv <span class="ot">&lt;-</span> <span class="fu">median</span>(booklet<span class="sc">$</span>rp67[<span class="fu">rep</span>(<span class="dv">30</span>, <span class="dv">8</span>)])</span>
+<span id="cb145-11"><a href="reporting.html#cb145-11" tabindex="-1"></a>cats <span class="ot">&lt;-</span> <span class="fu">cut</span>(sc[, <span class="dv">1</span>], <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, theta_cut, adv, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;below&quot;</span>, <span class="st">&quot;proficient&quot;</span>, <span class="st">&quot;advanced&quot;</span>))</span>
+<span id="cb145-12"><a href="reporting.html#cb145-12" tabindex="-1"></a>p_cat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">pnorm</span>((theta_cut <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]),</span>
+<span id="cb145-13"><a href="reporting.html#cb145-13" tabindex="-1"></a>               <span class="fu">pnorm</span>((adv <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fu">pnorm</span>((theta_cut <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]),</span>
+<span id="cb145-14"><a href="reporting.html#cb145-14" tabindex="-1"></a>               <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>((adv <span class="sc">-</span> sc[, <span class="dv">1</span>]) <span class="sc">/</span> sc[, <span class="dv">2</span>]))</span>
+<span id="cb145-15"><a href="reporting.html#cb145-15" tabindex="-1"></a><span class="fu">mean</span>(p_cat[<span class="fu">cbind</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(p_cat)), <span class="fu">as.integer</span>(cats))])</span>
+<span id="cb145-16"><a href="reporting.html#cb145-16" tabindex="-1"></a><span class="co">#&gt; [1] 0.88</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Hardly at all here, because the items in that part of the booklet have
 very similar RP67 locations. Where the booklet has gaps between items, a
@@ -652,7 +661,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 3 Estimation and comparing models | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 3 Estimation and comparing models | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -388,48 +392,53 @@ rules.</li>
 <h2><span class="header-section-number">3.2</span> Example 1: a test the Rasch model fits<a href="estimation.html#example-1-a-test-the-rasch-model-fits" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>LSAT6</code> is another five-item section of the Law School Admission Test, with
 1,000 test takers. It is a textbook example of data the Rasch model fits well.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="estimation.html#cb27-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
-<span id="cb27-2"><a href="estimation.html#cb27-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT6)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="estimation.html#cb28-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
+<span id="cb28-2"><a href="estimation.html#cb28-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT6)</span></code></pre></div>
 <p>Fit the models one at a time, check convergence, and compare them:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="estimation.html#cb28-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb28-2"><a href="estimation.html#cb28-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb28-3"><a href="estimation.html#cb28-3" tabindex="-1"></a><span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;converged&quot;</span>)</span>
-<span id="cb28-4"><a href="estimation.html#cb28-4" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb28-5"><a href="estimation.html#cb28-5" tabindex="-1"></a><span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;iterations&quot;</span>)</span>
-<span id="cb28-6"><a href="estimation.html#cb28-6" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
-<span id="cb28-7"><a href="estimation.html#cb28-7" tabindex="-1"></a><span class="fu">anova</span>(rasch, twopl)</span>
-<span id="cb28-8"><a href="estimation.html#cb28-8" tabindex="-1"></a><span class="co">#&gt;        AIC SABIC   HQ  BIC logLik    X2 df     p</span></span>
-<span id="cb28-9"><a href="estimation.html#cb28-9" tabindex="-1"></a><span class="co">#&gt; rasch 4946  4956 4957 4975  -2467               </span></span>
-<span id="cb28-10"><a href="estimation.html#cb28-10" tabindex="-1"></a><span class="co">#&gt; twopl 4953  4971 4972 5002  -2467 0.569  4 0.966</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="estimation.html#cb29-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-2"><a href="estimation.html#cb29-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-3"><a href="estimation.html#cb29-3" tabindex="-1"></a><span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb29-4"><a href="estimation.html#cb29-4" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb29-5"><a href="estimation.html#cb29-5" tabindex="-1"></a><span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;iterations&quot;</span>)</span>
+<span id="cb29-6"><a href="estimation.html#cb29-6" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
+<span id="cb29-7"><a href="estimation.html#cb29-7" tabindex="-1"></a><span class="fu">anova</span>(rasch, twopl)</span>
+<span id="cb29-8"><a href="estimation.html#cb29-8" tabindex="-1"></a><span class="co">#&gt;        AIC SABIC   HQ  BIC logLik    X2 df     p</span></span>
+<span id="cb29-9"><a href="estimation.html#cb29-9" tabindex="-1"></a><span class="co">#&gt; rasch 4946  4956 4957 4975  -2467               </span></span>
+<span id="cb29-10"><a href="estimation.html#cb29-10" tabindex="-1"></a><span class="co">#&gt; twopl 4953  4971 4972 5002  -2467 0.569  4 0.966</span></span></code></pre></div>
 <p>The 2PL improves the log-likelihood by a fraction of a point for four extra
 parameters, so the LRT is far from significant and both AIC and BIC prefer
 the Rasch model. <code>glance()</code> adds the absolute fit statistics:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="estimation.html#cb29-1" tabindex="-1"></a><span class="fu">glance</span>(rasch)[, <span class="fu">c</span>(<span class="st">&quot;logLik&quot;</span>, <span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;M2&quot;</span>, <span class="st">&quot;df&quot;</span>, <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)]</span>
-<span id="cb29-2"><a href="estimation.html#cb29-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 9</span></span>
-<span id="cb29-3"><a href="estimation.html#cb29-3" tabindex="-1"></a><span class="co">#&gt;   logLik   AIC   BIC    M2    df p.value RMSEA  SRMSR   CFI</span></span>
-<span id="cb29-4"><a href="estimation.html#cb29-4" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb29-5"><a href="estimation.html#cb29-5" tabindex="-1"></a><span class="co">#&gt; 1 -2467. 4946. 4975.  5.29     9   0.808     0 0.0224     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="estimation.html#cb30-1" tabindex="-1"></a><span class="fu">glance</span>(rasch)[, <span class="fu">c</span>(<span class="st">&quot;logLik&quot;</span>, <span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;M2&quot;</span>, <span class="st">&quot;df&quot;</span>, <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)]</span>
+<span id="cb30-2"><a href="estimation.html#cb30-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 9</span></span>
+<span id="cb30-3"><a href="estimation.html#cb30-3" tabindex="-1"></a><span class="co">#&gt;   logLik   AIC   BIC    M2    df p.value RMSEA  SRMSR   CFI</span></span>
+<span id="cb30-4"><a href="estimation.html#cb30-4" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb30-5"><a href="estimation.html#cb30-5" tabindex="-1"></a><span class="co">#&gt; 1 -2467. 4946. 4975.  5.29     9   0.808     0 0.0224     1</span></span></code></pre></div>
 <p><code>select_model()</code> runs all of this in one call. It fits the Rasch, 2PL and
 3PL models (or the polytomous equivalents), checks convergence, ranks them by
 BIC, runs the LRTs between nested pairs and explains its recommendation.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="estimation.html#cb30-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb30-2"><a href="estimation.html#cb30-2" tabindex="-1"></a>sel</span>
-<span id="cb30-3"><a href="estimation.html#cb30-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
-<span id="cb30-4"><a href="estimation.html#cb30-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb30-5"><a href="estimation.html#cb30-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik  AIC  BIC SABIC RMSEA CFI delta weight</span></span>
-<span id="cb30-6"><a href="estimation.html#cb30-6" tabindex="-1"></a><span class="co">#&gt;  Rasch    6  -2467 4946 4975  4956     0   1   0.0      1</span></span>
-<span id="cb30-7"><a href="estimation.html#cb30-7" tabindex="-1"></a><span class="co">#&gt;    2PL   10  -2467 4953 5002  4971     0   1  27.1      0</span></span>
-<span id="cb30-8"><a href="estimation.html#cb30-8" tabindex="-1"></a><span class="co">#&gt;    3PL   15  -2467 4963 5037  4989    NA  NA  61.6      0</span></span>
-<span id="cb30-9"><a href="estimation.html#cb30-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb30-10"><a href="estimation.html#cb30-10" tabindex="-1"></a><span class="co">#&gt; The Rasch model is recommended because it has the lowest BIC (4975.3). The</span></span>
-<span id="cb30-11"><a href="estimation.html#cb30-11" tabindex="-1"></a><span class="co">#&gt; runner-up, 2PL, is 27.1 BIC points worse, which is very strong evidence for the</span></span>
-<span id="cb30-12"><a href="estimation.html#cb30-12" tabindex="-1"></a><span class="co">#&gt; Rasch model. Likelihood-ratio test Rasch vs. 2PL: chi-square(4) = 0.57, p =</span></span>
-<span id="cb30-13"><a href="estimation.html#cb30-13" tabindex="-1"></a><span class="co">#&gt; .966; the extra parameters of 2PL are not needed. Likelihood-ratio test Rasch</span></span>
-<span id="cb30-14"><a href="estimation.html#cb30-14" tabindex="-1"></a><span class="co">#&gt; vs. 3PL: chi-square(9) = 0.54, p = 1.000; the extra parameters of 3PL are not</span></span>
-<span id="cb30-15"><a href="estimation.html#cb30-15" tabindex="-1"></a><span class="co">#&gt; needed. Absolute fit of the Rasch model: RMSEA = 0.000 (close fit), CFI =</span></span>
-<span id="cb30-16"><a href="estimation.html#cb30-16" tabindex="-1"></a><span class="co">#&gt; 1.000, SRMSR = 0.022.</span></span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="estimation.html#cb31-1" tabindex="-1"></a><span class="fu">autoplot</span>(sel)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-30-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="estimation.html#cb31-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-2"><a href="estimation.html#cb31-2" tabindex="-1"></a>sel</span>
+<span id="cb31-3"><a href="estimation.html#cb31-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb31-4"><a href="estimation.html#cb31-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb31-5"><a href="estimation.html#cb31-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik  AIC  BIC SABIC RMSEA CFI delta weight</span></span>
+<span id="cb31-6"><a href="estimation.html#cb31-6" tabindex="-1"></a><span class="co">#&gt;  Rasch    6  -2467 4946 4975  4956     0   1   0.0      1</span></span>
+<span id="cb31-7"><a href="estimation.html#cb31-7" tabindex="-1"></a><span class="co">#&gt;    2PL   10  -2467 4953 5002  4971     0   1  27.1      0</span></span>
+<span id="cb31-8"><a href="estimation.html#cb31-8" tabindex="-1"></a><span class="co">#&gt;    3PL   15  -2467 4963 5037  4989    NA  NA  61.6      0</span></span>
+<span id="cb31-9"><a href="estimation.html#cb31-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb31-10"><a href="estimation.html#cb31-10" tabindex="-1"></a><span class="co">#&gt; The Rasch model is recommended because it has the lowest BIC (4975.3). The</span></span>
+<span id="cb31-11"><a href="estimation.html#cb31-11" tabindex="-1"></a><span class="co">#&gt; runner-up, 2PL, is 27.1 BIC points worse, which is very strong evidence for the</span></span>
+<span id="cb31-12"><a href="estimation.html#cb31-12" tabindex="-1"></a><span class="co">#&gt; Rasch model. Likelihood-ratio test Rasch vs. 2PL: chi-square(4) = 0.57, p =</span></span>
+<span id="cb31-13"><a href="estimation.html#cb31-13" tabindex="-1"></a><span class="co">#&gt; .966; the extra parameters of 2PL are not needed. Likelihood-ratio test Rasch</span></span>
+<span id="cb31-14"><a href="estimation.html#cb31-14" tabindex="-1"></a><span class="co">#&gt; vs. 3PL: chi-square(9) = 0.54, p = 1.000; the extra parameters of 3PL are not</span></span>
+<span id="cb31-15"><a href="estimation.html#cb31-15" tabindex="-1"></a><span class="co">#&gt; needed. Absolute fit of the Rasch model: RMSEA = 0.000 (close fit), CFI =</span></span>
+<span id="cb31-16"><a href="estimation.html#cb31-16" tabindex="-1"></a><span class="co">#&gt; 1.000, SRMSR = 0.022.</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="estimation.html#cb32-1" tabindex="-1"></a><span class="fu">autoplot</span>(sel)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:select-plot"></span>
+<img src="mirtverse-book_files/figure-html/select-plot-1.png" alt="Model comparison for LSAT6: each model's information criterion relative to the best model (0 = best)." width="90%" />
+<p class="caption">
+Figure 3.1: Model comparison for LSAT6: each model’s information criterion relative to the best model (0 = best).
+</p>
+</div>
 <p>The <code>weight</code> column converts BIC differences into the relative support for
 each model; here nearly all of it goes to the Rasch model.</p>
 </div>
@@ -437,35 +446,35 @@ each model; here nearly all of it goes to the Rasch model.</p>
 <h2><span class="header-section-number">3.3</span> Example 2: when the criteria disagree<a href="estimation.html#example-2-when-the-criteria-disagree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now take the 32 science items of <code>SAT12</code>, scored with the corrected key from
 Chapter <a href="measurement.html#measurement">1</a>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="estimation.html#cb32-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
-<span id="cb32-2"><a href="estimation.html#cb32-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
-<span id="cb32-3"><a href="estimation.html#cb32-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="estimation.html#cb33-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb33-2"><a href="estimation.html#cb33-2" tabindex="-1"></a>sel</span>
-<span id="cb33-3"><a href="estimation.html#cb33-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
-<span id="cb33-4"><a href="estimation.html#cb33-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb33-5"><a href="estimation.html#cb33-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik   AIC   BIC SABIC RMSEA   CFI delta weight</span></span>
-<span id="cb33-6"><a href="estimation.html#cb33-6" tabindex="-1"></a><span class="co">#&gt;    2PL   64  -9622 19373 19654 19451 0.029 0.953   0.0      1</span></span>
-<span id="cb33-7"><a href="estimation.html#cb33-7" tabindex="-1"></a><span class="co">#&gt;  Rasch   33  -9768 19602 19747 19642 0.039 0.905  92.5      0</span></span>
-<span id="cb33-8"><a href="estimation.html#cb33-8" tabindex="-1"></a><span class="co">#&gt;    3PL   96  -9572 19337 19759 19454 0.022 0.975 104.5      0</span></span>
-<span id="cb33-9"><a href="estimation.html#cb33-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb33-10"><a href="estimation.html#cb33-10" tabindex="-1"></a><span class="co">#&gt; The 2PL model is recommended because it has the lowest BIC (19654.2). The</span></span>
-<span id="cb33-11"><a href="estimation.html#cb33-11" tabindex="-1"></a><span class="co">#&gt; runner-up, Rasch, is 92.5 BIC points worse, which is very strong evidence for</span></span>
-<span id="cb33-12"><a href="estimation.html#cb33-12" tabindex="-1"></a><span class="co">#&gt; the 2PL model. Likelihood-ratio test Rasch vs. 2PL: chi-square(31) = 290.83, p</span></span>
-<span id="cb33-13"><a href="estimation.html#cb33-13" tabindex="-1"></a><span class="co">#&gt; &lt; .001; the 2PL model fits significantly better. Likelihood-ratio test 2PL vs.</span></span>
-<span id="cb33-14"><a href="estimation.html#cb33-14" tabindex="-1"></a><span class="co">#&gt; 3PL: chi-square(32) = 100.16, p &lt; .001; the 3PL model fits significantly</span></span>
-<span id="cb33-15"><a href="estimation.html#cb33-15" tabindex="-1"></a><span class="co">#&gt; better. Note the tension: the likelihood-ratio test prefers 3PL, while BIC</span></span>
-<span id="cb33-16"><a href="estimation.html#cb33-16" tabindex="-1"></a><span class="co">#&gt; penalizes extra parameters and prefers 2PL. Choose 2PL if parsimony matters</span></span>
-<span id="cb33-17"><a href="estimation.html#cb33-17" tabindex="-1"></a><span class="co">#&gt; most, or 3PL if fit to these data matters most. AIC would instead select the</span></span>
-<span id="cb33-18"><a href="estimation.html#cb33-18" tabindex="-1"></a><span class="co">#&gt; 3PL model. Absolute fit of the 2PL model: RMSEA = 0.029 (close fit), CFI =</span></span>
-<span id="cb33-19"><a href="estimation.html#cb33-19" tabindex="-1"></a><span class="co">#&gt; 0.953, SRMSR = 0.045.</span></span>
-<span id="cb33-20"><a href="estimation.html#cb33-20" tabindex="-1"></a>sel<span class="sc">$</span>lrt</span>
-<span id="cb33-21"><a href="estimation.html#cb33-21" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
-<span id="cb33-22"><a href="estimation.html#cb33-22" tabindex="-1"></a><span class="co">#&gt;   simpler complex    X2    df  p.value</span></span>
-<span id="cb33-23"><a href="estimation.html#cb33-23" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;</span></span>
-<span id="cb33-24"><a href="estimation.html#cb33-24" tabindex="-1"></a><span class="co">#&gt; 1 Rasch   2PL      291.    31 5.30e-44</span></span>
-<span id="cb33-25"><a href="estimation.html#cb33-25" tabindex="-1"></a><span class="co">#&gt; 2 Rasch   3PL      391.    63 7.62e-49</span></span>
-<span id="cb33-26"><a href="estimation.html#cb33-26" tabindex="-1"></a><span class="co">#&gt; 3 2PL     3PL      100.    32 6.00e- 9</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="estimation.html#cb33-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
+<span id="cb33-2"><a href="estimation.html#cb33-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb33-3"><a href="estimation.html#cb33-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="estimation.html#cb34-1" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="fu">select_model</span>(resp, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-2"><a href="estimation.html#cb34-2" tabindex="-1"></a>sel</span>
+<span id="cb34-3"><a href="estimation.html#cb34-3" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb34-4"><a href="estimation.html#cb34-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb34-5"><a href="estimation.html#cb34-5" tabindex="-1"></a><span class="co">#&gt;  model npar logLik   AIC   BIC SABIC RMSEA   CFI delta weight</span></span>
+<span id="cb34-6"><a href="estimation.html#cb34-6" tabindex="-1"></a><span class="co">#&gt;    2PL   64  -9622 19373 19654 19451 0.029 0.953   0.0      1</span></span>
+<span id="cb34-7"><a href="estimation.html#cb34-7" tabindex="-1"></a><span class="co">#&gt;  Rasch   33  -9768 19602 19747 19642 0.039 0.905  92.5      0</span></span>
+<span id="cb34-8"><a href="estimation.html#cb34-8" tabindex="-1"></a><span class="co">#&gt;    3PL   96  -9572 19337 19759 19454 0.022 0.975 104.5      0</span></span>
+<span id="cb34-9"><a href="estimation.html#cb34-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb34-10"><a href="estimation.html#cb34-10" tabindex="-1"></a><span class="co">#&gt; The 2PL model is recommended because it has the lowest BIC (19654.2). The</span></span>
+<span id="cb34-11"><a href="estimation.html#cb34-11" tabindex="-1"></a><span class="co">#&gt; runner-up, Rasch, is 92.5 BIC points worse, which is very strong evidence for</span></span>
+<span id="cb34-12"><a href="estimation.html#cb34-12" tabindex="-1"></a><span class="co">#&gt; the 2PL model. Likelihood-ratio test Rasch vs. 2PL: chi-square(31) = 290.83, p</span></span>
+<span id="cb34-13"><a href="estimation.html#cb34-13" tabindex="-1"></a><span class="co">#&gt; &lt; .001; the 2PL model fits significantly better. Likelihood-ratio test 2PL vs.</span></span>
+<span id="cb34-14"><a href="estimation.html#cb34-14" tabindex="-1"></a><span class="co">#&gt; 3PL: chi-square(32) = 100.16, p &lt; .001; the 3PL model fits significantly</span></span>
+<span id="cb34-15"><a href="estimation.html#cb34-15" tabindex="-1"></a><span class="co">#&gt; better. Note the tension: the likelihood-ratio test prefers 3PL, while BIC</span></span>
+<span id="cb34-16"><a href="estimation.html#cb34-16" tabindex="-1"></a><span class="co">#&gt; penalizes extra parameters and prefers 2PL. Choose 2PL if parsimony matters</span></span>
+<span id="cb34-17"><a href="estimation.html#cb34-17" tabindex="-1"></a><span class="co">#&gt; most, or 3PL if fit to these data matters most. AIC would instead select the</span></span>
+<span id="cb34-18"><a href="estimation.html#cb34-18" tabindex="-1"></a><span class="co">#&gt; 3PL model. Absolute fit of the 2PL model: RMSEA = 0.029 (close fit), CFI =</span></span>
+<span id="cb34-19"><a href="estimation.html#cb34-19" tabindex="-1"></a><span class="co">#&gt; 0.953, SRMSR = 0.045.</span></span>
+<span id="cb34-20"><a href="estimation.html#cb34-20" tabindex="-1"></a>sel<span class="sc">$</span>lrt</span>
+<span id="cb34-21"><a href="estimation.html#cb34-21" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb34-22"><a href="estimation.html#cb34-22" tabindex="-1"></a><span class="co">#&gt;   simpler complex    X2    df  p.value</span></span>
+<span id="cb34-23"><a href="estimation.html#cb34-23" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span id="cb34-24"><a href="estimation.html#cb34-24" tabindex="-1"></a><span class="co">#&gt; 1 Rasch   2PL      291.    31 5.30e-44</span></span>
+<span id="cb34-25"><a href="estimation.html#cb34-25" tabindex="-1"></a><span class="co">#&gt; 2 Rasch   3PL      391.    63 7.62e-49</span></span>
+<span id="cb34-26"><a href="estimation.html#cb34-26" tabindex="-1"></a><span class="co">#&gt; 3 2PL     3PL      100.    32 6.00e- 9</span></span></code></pre></div>
 <p>This time the evidence is mixed. The LRT and AIC prefer the 3PL, while BIC
 prefers the 2PL. Neither is “wrong”: they answer different questions. The
 LRT asks whether the extra 32 guessing parameters improve fit beyond chance,
@@ -480,31 +489,31 @@ cost; for a short research scale, the 2PL is easier to defend.</p>
 <p>The 3PL is the hardest of the three to estimate, because the lower
 asymptote is determined only by what low-ability people do. With 200 students
 the EM algorithm may not converge at all:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="estimation.html#cb34-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">303</span>)</span>
-<span id="cb34-2"><a href="estimation.html#cb34-2" tabindex="-1"></a>small <span class="ot">&lt;-</span> resp[<span class="fu">sample</span>(<span class="fu">nrow</span>(resp), <span class="dv">200</span>), ]</span>
-<span id="cb34-3"><a href="estimation.html#cb34-3" tabindex="-1"></a>fit_small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb34-4"><a href="estimation.html#cb34-4" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_small, <span class="st">&quot;converged&quot;</span>)</span>
-<span id="cb34-5"><a href="estimation.html#cb34-5" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
-<span id="cb34-6"><a href="estimation.html#cb34-6" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
-<span id="cb34-7"><a href="estimation.html#cb34-7" tabindex="-1"></a><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
-<span id="cb34-8"><a href="estimation.html#cb34-8" tabindex="-1"></a><span class="co">#&gt; 0.000276 0.002136 0.079776 0.125231 0.207500 0.500034</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="estimation.html#cb35-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">303</span>)</span>
+<span id="cb35-2"><a href="estimation.html#cb35-2" tabindex="-1"></a>small <span class="ot">&lt;-</span> resp[<span class="fu">sample</span>(<span class="fu">nrow</span>(resp), <span class="dv">200</span>), ]</span>
+<span id="cb35-3"><a href="estimation.html#cb35-3" tabindex="-1"></a>fit_small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-4"><a href="estimation.html#cb35-4" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_small, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb35-5"><a href="estimation.html#cb35-5" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb35-6"><a href="estimation.html#cb35-6" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
+<span id="cb35-7"><a href="estimation.html#cb35-7" tabindex="-1"></a><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
+<span id="cb35-8"><a href="estimation.html#cb35-8" tabindex="-1"></a><span class="co">#&gt; 0.000276 0.002136 0.079776 0.125231 0.207500 0.500034</span></span></code></pre></div>
 <p>Some lower asymptotes drift to zero and others to implausibly large values.
 Three common remedies are to use a 2PL, to fix <span class="math inline">\(c\)</span> at a sensible value (for
 five-option items, 0.2), or to put a <strong>prior</strong> on <span class="math inline">\(c\)</span> so that the data only
 move it away from a plausible value when they have something to say. In mirt
 a prior is part of the model syntax. Here a beta(5, 17) prior centres <span class="math inline">\(c\)</span>
 near 0.2 (<code>expbeta</code> applies it on the scale mirt uses internally):</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="estimation.html#cb35-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mirt.model</span>(<span class="st">&quot;F = 1-32</span></span>
-<span id="cb35-2"><a href="estimation.html#cb35-2" tabindex="-1"></a><span class="st">                    PRIOR = (1-32, g, expbeta, 5, 17)&quot;</span>)</span>
-<span id="cb35-3"><a href="estimation.html#cb35-3" tabindex="-1"></a>fit_prior <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, spec, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb35-4"><a href="estimation.html#cb35-4" tabindex="-1"></a><span class="co">#&gt; Warning: Observed log-likelihood may still be increasing.</span></span>
-<span id="cb35-5"><a href="estimation.html#cb35-5" tabindex="-1"></a><span class="co">#&gt;   Final log-likelihood values were: </span></span>
-<span id="cb35-6"><a href="estimation.html#cb35-6" tabindex="-1"></a><span class="co">#&gt;   -3154.689, -3151.159, -3149.755</span></span>
-<span id="cb35-7"><a href="estimation.html#cb35-7" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_prior, <span class="st">&quot;converged&quot;</span>)</span>
-<span id="cb35-8"><a href="estimation.html#cb35-8" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb35-9"><a href="estimation.html#cb35-9" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_prior, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
-<span id="cb35-10"><a href="estimation.html#cb35-10" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb35-11"><a href="estimation.html#cb35-11" tabindex="-1"></a><span class="co">#&gt;   0.109   0.181   0.192   0.187   0.195   0.235</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="estimation.html#cb36-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mirt.model</span>(<span class="st">&quot;F = 1-32</span></span>
+<span id="cb36-2"><a href="estimation.html#cb36-2" tabindex="-1"></a><span class="st">                    PRIOR = (1-32, g, expbeta, 5, 17)&quot;</span>)</span>
+<span id="cb36-3"><a href="estimation.html#cb36-3" tabindex="-1"></a>fit_prior <span class="ot">&lt;-</span> <span class="fu">mirt</span>(small, spec, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-4"><a href="estimation.html#cb36-4" tabindex="-1"></a><span class="co">#&gt; Warning: Observed log-likelihood may still be increasing.</span></span>
+<span id="cb36-5"><a href="estimation.html#cb36-5" tabindex="-1"></a><span class="co">#&gt;   Final log-likelihood values were: </span></span>
+<span id="cb36-6"><a href="estimation.html#cb36-6" tabindex="-1"></a><span class="co">#&gt;   -3154.689, -3151.159, -3149.755</span></span>
+<span id="cb36-7"><a href="estimation.html#cb36-7" tabindex="-1"></a><span class="fu">extract.mirt</span>(fit_prior, <span class="st">&quot;converged&quot;</span>)</span>
+<span id="cb36-8"><a href="estimation.html#cb36-8" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb36-9"><a href="estimation.html#cb36-9" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(fit_prior, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>])</span>
+<span id="cb36-10"><a href="estimation.html#cb36-10" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb36-11"><a href="estimation.html#cb36-11" tabindex="-1"></a><span class="co">#&gt;   0.109   0.181   0.192   0.187   0.195   0.235</span></span></code></pre></div>
 <p>With the prior the model converges and the lower asymptotes stay in a
 believable range. Report priors when you use them: they are part of the
 model.</p>
@@ -528,16 +537,16 @@ used it”. What would you ask them?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="estimation.html#cb36-1" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;logLik&quot;</span>), <span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;logLik&quot;</span>))</span>
-<span id="cb36-2"><a href="estimation.html#cb36-2" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (ll[<span class="dv">2</span>] <span class="sc">-</span> ll[<span class="dv">1</span>])</span>
-<span id="cb36-3"><a href="estimation.html#cb36-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">X2 =</span> lrt, <span class="at">df =</span> <span class="dv">4</span>, <span class="at">p =</span> <span class="fu">pchisq</span>(lrt, <span class="dv">4</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb36-4"><a href="estimation.html#cb36-4" tabindex="-1"></a><span class="co">#&gt;    X2    df     p </span></span>
-<span id="cb36-5"><a href="estimation.html#cb36-5" tabindex="-1"></a><span class="co">#&gt; 0.569 4.000 0.966</span></span>
-<span id="cb36-6"><a href="estimation.html#cb36-6" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="estimation.html#cb36-7" tabindex="-1"></a>m15 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">15</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb36-8"><a href="estimation.html#cb36-8" tabindex="-1"></a>m61 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">61</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb36-9"><a href="estimation.html#cb36-9" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">coef</span>(m15, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items <span class="sc">-</span> <span class="fu">coef</span>(m61, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items))</span>
-<span id="cb36-10"><a href="estimation.html#cb36-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.142</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="estimation.html#cb37-1" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">extract.mirt</span>(rasch, <span class="st">&quot;logLik&quot;</span>), <span class="fu">extract.mirt</span>(twopl, <span class="st">&quot;logLik&quot;</span>))</span>
+<span id="cb37-2"><a href="estimation.html#cb37-2" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (ll[<span class="dv">2</span>] <span class="sc">-</span> ll[<span class="dv">1</span>])</span>
+<span id="cb37-3"><a href="estimation.html#cb37-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">X2 =</span> lrt, <span class="at">df =</span> <span class="dv">4</span>, <span class="at">p =</span> <span class="fu">pchisq</span>(lrt, <span class="dv">4</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb37-4"><a href="estimation.html#cb37-4" tabindex="-1"></a><span class="co">#&gt;    X2    df     p </span></span>
+<span id="cb37-5"><a href="estimation.html#cb37-5" tabindex="-1"></a><span class="co">#&gt; 0.569 4.000 0.966</span></span>
+<span id="cb37-6"><a href="estimation.html#cb37-6" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="estimation.html#cb37-7" tabindex="-1"></a>m15 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">15</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-8"><a href="estimation.html#cb37-8" tabindex="-1"></a>m61 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="st">&quot;2PL&quot;</span>, <span class="at">quadpts =</span> <span class="dv">61</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-9"><a href="estimation.html#cb37-9" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">coef</span>(m15, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items <span class="sc">-</span> <span class="fu">coef</span>(m61, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items))</span>
+<span id="cb37-10"><a href="estimation.html#cb37-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.142</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>With only 15 points some estimates move by about 0.1 on the
 slope-intercept scale; between 61 (the default for one dimension) and more
@@ -619,7 +628,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

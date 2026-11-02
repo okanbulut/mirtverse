@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 6 Information, precision and reliability | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 6 Information, precision and reliability | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -375,47 +379,57 @@ made. That is why we look at the curves.</p>
 </div>
 <div id="example-1-where-does-the-science-test-measure-well" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Example 1: where does the science test measure well?<a href="information.html#example-1-where-does-the-science-test-measure-well" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="information.html#cb64-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
-<span id="cb64-2"><a href="information.html#cb64-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
-<span id="cb64-3"><a href="information.html#cb64-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="information.html#cb65-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb65-2"><a href="information.html#cb65-2" tabindex="-1"></a><span class="fu">gg_info</span>(mod) <span class="sc">+</span> <span class="fu">gg_info</span>(mod, <span class="at">type =</span> <span class="st">&quot;se&quot;</span>)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-59-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="information.html#cb65-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
+<span id="cb65-2"><a href="information.html#cb65-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb65-3"><a href="information.html#cb65-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="information.html#cb66-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb66-2"><a href="information.html#cb66-2" tabindex="-1"></a><span class="fu">gg_info</span>(mod) <span class="sc">+</span> <span class="fu">gg_info</span>(mod, <span class="at">type =</span> <span class="st">&quot;se&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:info-sat12"></span>
+<img src="mirtverse-book_files/figure-html/info-sat12-1.png" alt="Test information (left) and standard error of measurement (right) for the SAT12 science test under the 2PL." width="90%" />
+<p class="caption">
+Figure 6.1: Test information (left) and standard error of measurement (right) for the SAT12 science test under the 2PL.
+</p>
+</div>
 <p>The test is most informative a little below average ability and loses
 precision quickly above <span class="math inline">\(\theta = 1\)</span>. The values behind the curves:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="information.html#cb66-1" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb66-2"><a href="information.html#cb66-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">theta =</span> theta[, <span class="dv">1</span>],</span>
-<span id="cb66-3"><a href="information.html#cb66-3" tabindex="-1"></a>           <span class="at">information =</span> <span class="fu">testinfo</span>(mod, theta),</span>
-<span id="cb66-4"><a href="information.html#cb66-4" tabindex="-1"></a>           <span class="at">se =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">testinfo</span>(mod, theta)))</span>
-<span id="cb66-5"><a href="information.html#cb66-5" tabindex="-1"></a><span class="co">#&gt;   theta information    se</span></span>
-<span id="cb66-6"><a href="information.html#cb66-6" tabindex="-1"></a><span class="co">#&gt; 1    -3        3.53 0.533</span></span>
-<span id="cb66-7"><a href="information.html#cb66-7" tabindex="-1"></a><span class="co">#&gt; 2    -2        5.82 0.415</span></span>
-<span id="cb66-8"><a href="information.html#cb66-8" tabindex="-1"></a><span class="co">#&gt; 3    -1        7.12 0.375</span></span>
-<span id="cb66-9"><a href="information.html#cb66-9" tabindex="-1"></a><span class="co">#&gt; 4     0        5.74 0.417</span></span>
-<span id="cb66-10"><a href="information.html#cb66-10" tabindex="-1"></a><span class="co">#&gt; 5     1        4.12 0.492</span></span>
-<span id="cb66-11"><a href="information.html#cb66-11" tabindex="-1"></a><span class="co">#&gt; 6     2        2.41 0.644</span></span>
-<span id="cb66-12"><a href="information.html#cb66-12" tabindex="-1"></a><span class="co">#&gt; 7     3        1.31 0.875</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="information.html#cb67-1" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb67-2"><a href="information.html#cb67-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">theta =</span> theta[, <span class="dv">1</span>],</span>
+<span id="cb67-3"><a href="information.html#cb67-3" tabindex="-1"></a>           <span class="at">information =</span> <span class="fu">testinfo</span>(mod, theta),</span>
+<span id="cb67-4"><a href="information.html#cb67-4" tabindex="-1"></a>           <span class="at">se =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">testinfo</span>(mod, theta)))</span>
+<span id="cb67-5"><a href="information.html#cb67-5" tabindex="-1"></a><span class="co">#&gt;   theta information    se</span></span>
+<span id="cb67-6"><a href="information.html#cb67-6" tabindex="-1"></a><span class="co">#&gt; 1    -3        3.53 0.533</span></span>
+<span id="cb67-7"><a href="information.html#cb67-7" tabindex="-1"></a><span class="co">#&gt; 2    -2        5.82 0.415</span></span>
+<span id="cb67-8"><a href="information.html#cb67-8" tabindex="-1"></a><span class="co">#&gt; 3    -1        7.12 0.375</span></span>
+<span id="cb67-9"><a href="information.html#cb67-9" tabindex="-1"></a><span class="co">#&gt; 4     0        5.74 0.417</span></span>
+<span id="cb67-10"><a href="information.html#cb67-10" tabindex="-1"></a><span class="co">#&gt; 5     1        4.12 0.492</span></span>
+<span id="cb67-11"><a href="information.html#cb67-11" tabindex="-1"></a><span class="co">#&gt; 6     2        2.41 0.644</span></span>
+<span id="cb67-12"><a href="information.html#cb67-12" tabindex="-1"></a><span class="co">#&gt; 7     3        1.31 0.875</span></span></code></pre></div>
 <p>Each item’s contribution:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="information.html#cb67-1" tabindex="-1"></a><span class="fu">gg_info</span>(mod, <span class="at">type =</span> <span class="st">&quot;items&quot;</span>, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">19</span>, <span class="dv">28</span>))</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-61-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="information.html#cb68-1" tabindex="-1"></a><span class="fu">gg_info</span>(mod, <span class="at">type =</span> <span class="st">&quot;items&quot;</span>, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">19</span>, <span class="dv">28</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:info-items"></span>
+<img src="mirtverse-book_files/figure-html/info-items-1.png" alt="Item information curves of six SAT12 items." width="90%" />
+<p class="caption">
+Figure 6.2: Item information curves of six SAT12 items.
+</p>
+</div>
 <p>Items differ a lot. Steep items in the middle of the scale do most of the
 work; very easy items (such as Item.9) add information only far below
 average, and flat items (such as Item.12) add almost nothing anywhere.</p>
 <p>Reliability:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="information.html#cb68-1" tabindex="-1"></a><span class="fu">marginal_rxx</span>(mod)</span>
-<span id="cb68-2"><a href="information.html#cb68-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.837</span></span>
-<span id="cb68-3"><a href="information.html#cb68-3" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(mod, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb68-4"><a href="information.html#cb68-4" tabindex="-1"></a><span class="co">#&gt;    F1 </span></span>
-<span id="cb68-5"><a href="information.html#cb68-5" tabindex="-1"></a><span class="co">#&gt; 0.838</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="information.html#cb69-1" tabindex="-1"></a><span class="fu">marginal_rxx</span>(mod)</span>
+<span id="cb69-2"><a href="information.html#cb69-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.837</span></span>
+<span id="cb69-3"><a href="information.html#cb69-3" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(mod, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb69-4"><a href="information.html#cb69-4" tabindex="-1"></a><span class="co">#&gt;    F1 </span></span>
+<span id="cb69-5"><a href="information.html#cb69-5" tabindex="-1"></a><span class="co">#&gt; 0.838</span></span></code></pre></div>
 <p><code>areainfo()</code> tells us how much of the test’s total information lies in a
 range of the scale, here between <span class="math inline">\(\theta = -1\)</span> and <span class="math inline">\(\theta = 1\)</span>:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="information.html#cb69-1" tabindex="-1"></a><span class="fu">areainfo</span>(mod, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb69-2"><a href="information.html#cb69-2" tabindex="-1"></a><span class="co">#&gt;  LowerBound UpperBound Info TotalInfo Proportion nitems</span></span>
-<span id="cb69-3"><a href="information.html#cb69-3" tabindex="-1"></a><span class="co">#&gt;          -1          1 11.4      34.2      0.334     32</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="information.html#cb70-1" tabindex="-1"></a><span class="fu">areainfo</span>(mod, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb70-2"><a href="information.html#cb70-2" tabindex="-1"></a><span class="co">#&gt;  LowerBound UpperBound Info TotalInfo Proportion nitems</span></span>
+<span id="cb70-3"><a href="information.html#cb70-3" tabindex="-1"></a><span class="co">#&gt;          -1          1 11.4      34.2      0.334     32</span></span></code></pre></div>
 <p>Suppose the school awards a science prize to students above <span class="math inline">\(\theta = 1.5\)</span>.
 At that point the standard error is</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="information.html#cb70-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">testinfo</span>(mod, <span class="fu">matrix</span>(<span class="fl">1.5</span>)))</span>
-<span id="cb70-2"><a href="information.html#cb70-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.559</span></span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="information.html#cb71-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">testinfo</span>(mod, <span class="fu">matrix</span>(<span class="fl">1.5</span>)))</span>
+<span id="cb71-2"><a href="information.html#cb71-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.559</span></span></code></pre></div>
 <p>about half a standard deviation. A student estimated at 1.5 could easily
 have a true ability of 1.0 or 2.0. The overall reliability of about 0.84
 gives a much rosier picture than the precision at the decision point.</p>
@@ -426,43 +440,48 @@ gives a much rosier picture than the precision at the decision point.</p>
 2PL items for a nursing entrance test, with a pass mark at <span class="math inline">\(\theta = 0.5\)</span>.
 We compare three 20-item forms built from the pool, without collecting any
 new data: the information function only needs the item parameters.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="information.html#cb71-1" tabindex="-1"></a><span class="co"># A pool of 90 calibrated 2PL items (a, b), as stored in an item bank.</span></span>
-<span id="cb71-2"><a href="information.html#cb71-2" tabindex="-1"></a><span class="co"># No responses are needed: this example works from item parameters only.</span></span>
-<span id="cb71-3"><a href="information.html#cb71-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">606</span>)</span>
-<span id="cb71-4"><a href="information.html#cb71-4" tabindex="-1"></a>pool <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">90</span>),</span>
-<span id="cb71-5"><a href="information.html#cb71-5" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">90</span>, <span class="fl">0.15</span>, <span class="fl">0.3</span>),</span>
-<span id="cb71-6"><a href="information.html#cb71-6" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">90</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">1.1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="information.html#cb72-1" tabindex="-1"></a><span class="co"># A pool of 90 calibrated 2PL items (a, b), as stored in an item bank.</span></span>
+<span id="cb72-2"><a href="information.html#cb72-2" tabindex="-1"></a><span class="co"># No responses are needed: this example works from item parameters only.</span></span>
+<span id="cb72-3"><a href="information.html#cb72-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">606</span>)</span>
+<span id="cb72-4"><a href="information.html#cb72-4" tabindex="-1"></a>pool <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">90</span>),</span>
+<span id="cb72-5"><a href="information.html#cb72-5" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">90</span>, <span class="fl">0.15</span>, <span class="fl">0.3</span>),</span>
+<span id="cb72-6"><a href="information.html#cb72-6" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">90</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">1.1</span>))</span></code></pre></div>
 <p>A small function computes 2PL information from the formula above:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="information.html#cb72-1" tabindex="-1"></a>info_2pl <span class="ot">&lt;-</span> <span class="cf">function</span>(items, theta) {</span>
-<span id="cb72-2"><a href="information.html#cb72-2" tabindex="-1"></a>  <span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) {</span>
-<span id="cb72-3"><a href="information.html#cb72-3" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(items<span class="sc">$</span>a <span class="sc">*</span> (t <span class="sc">-</span> items<span class="sc">$</span>b))</span>
-<span id="cb72-4"><a href="information.html#cb72-4" tabindex="-1"></a>    <span class="fu">sum</span>(items<span class="sc">$</span>a<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p))</span>
-<span id="cb72-5"><a href="information.html#cb72-5" tabindex="-1"></a>  })</span>
-<span id="cb72-6"><a href="information.html#cb72-6" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="information.html#cb73-1" tabindex="-1"></a>info_2pl <span class="ot">&lt;-</span> <span class="cf">function</span>(items, theta) {</span>
+<span id="cb73-2"><a href="information.html#cb73-2" tabindex="-1"></a>  <span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) {</span>
+<span id="cb73-3"><a href="information.html#cb73-3" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(items<span class="sc">$</span>a <span class="sc">*</span> (t <span class="sc">-</span> items<span class="sc">$</span>b))</span>
+<span id="cb73-4"><a href="information.html#cb73-4" tabindex="-1"></a>    <span class="fu">sum</span>(items<span class="sc">$</span>a<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p))</span>
+<span id="cb73-5"><a href="information.html#cb73-5" tabindex="-1"></a>  })</span>
+<span id="cb73-6"><a href="information.html#cb73-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>Three ways to choose 20 items:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="information.html#cb73-1" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb73-2"><a href="information.html#cb73-2" tabindex="-1"></a>  <span class="at">random   =</span> pool[<span class="fu">sample</span>(<span class="fu">nrow</span>(pool), <span class="dv">20</span>), ],</span>
-<span id="cb73-3"><a href="information.html#cb73-3" tabindex="-1"></a>  <span class="at">spread   =</span> pool[<span class="fu">order</span>(pool<span class="sc">$</span>b)[<span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">90</span>, <span class="at">length.out =</span> <span class="dv">20</span>))], ],</span>
-<span id="cb73-4"><a href="information.html#cb73-4" tabindex="-1"></a>  <span class="at">targeted =</span> pool[<span class="fu">order</span>(<span class="fu">abs</span>(pool<span class="sc">$</span>b <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> pool<span class="sc">$</span>a)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], ]</span>
-<span id="cb73-5"><a href="information.html#cb73-5" tabindex="-1"></a>)</span>
-<span id="cb73-6"><a href="information.html#cb73-6" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
-<span id="cb73-7"><a href="information.html#cb73-7" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(forms), <span class="cf">function</span>(f)</span>
-<span id="cb73-8"><a href="information.html#cb73-8" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">form =</span> f, <span class="at">theta =</span> grid, <span class="at">info =</span> <span class="fu">info_2pl</span>(forms[[f]], grid))))</span>
-<span id="cb73-9"><a href="information.html#cb73-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb73-10"><a href="information.html#cb73-10" tabindex="-1"></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(theta, info, <span class="at">colour =</span> form)) <span class="sc">+</span></span>
-<span id="cb73-11"><a href="information.html#cb73-11" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb73-12"><a href="information.html#cb73-12" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb73-13"><a href="information.html#cb73-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Test information&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;Form&quot;</span>) <span class="sc">+</span></span>
-<span id="cb73-14"><a href="information.html#cb73-14" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-66-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="information.html#cb74-1" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb74-2"><a href="information.html#cb74-2" tabindex="-1"></a>  <span class="at">random   =</span> pool[<span class="fu">sample</span>(<span class="fu">nrow</span>(pool), <span class="dv">20</span>), ],</span>
+<span id="cb74-3"><a href="information.html#cb74-3" tabindex="-1"></a>  <span class="at">spread   =</span> pool[<span class="fu">order</span>(pool<span class="sc">$</span>b)[<span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">90</span>, <span class="at">length.out =</span> <span class="dv">20</span>))], ],</span>
+<span id="cb74-4"><a href="information.html#cb74-4" tabindex="-1"></a>  <span class="at">targeted =</span> pool[<span class="fu">order</span>(<span class="fu">abs</span>(pool<span class="sc">$</span>b <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> pool<span class="sc">$</span>a)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], ]</span>
+<span id="cb74-5"><a href="information.html#cb74-5" tabindex="-1"></a>)</span>
+<span id="cb74-6"><a href="information.html#cb74-6" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb74-7"><a href="information.html#cb74-7" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(forms), <span class="cf">function</span>(f)</span>
+<span id="cb74-8"><a href="information.html#cb74-8" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">form =</span> f, <span class="at">theta =</span> grid, <span class="at">info =</span> <span class="fu">info_2pl</span>(forms[[f]], grid))))</span>
+<span id="cb74-9"><a href="information.html#cb74-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb74-10"><a href="information.html#cb74-10" tabindex="-1"></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(theta, info, <span class="at">colour =</span> form)) <span class="sc">+</span></span>
+<span id="cb74-11"><a href="information.html#cb74-11" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb74-12"><a href="information.html#cb74-12" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb74-13"><a href="information.html#cb74-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Test information&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;Form&quot;</span>) <span class="sc">+</span></span>
+<span id="cb74-14"><a href="information.html#cb74-14" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:info-forms"></span>
+<img src="mirtverse-book_files/figure-html/info-forms-1.png" alt="Test information of three 20-item forms drawn from the nursing pool; the dashed line marks the pass mark." width="90%" />
+<p class="caption">
+Figure 6.3: Test information of three 20-item forms drawn from the nursing pool; the dashed line marks the pass mark.
+</p>
+</div>
 <p>The <em>targeted</em> form picks items whose difficulty is close to the pass mark,
 favouring steep ones (dividing by <span class="math inline">\(a\)</span> ranks steep items first). The <em>spread</em>
 form covers the whole range evenly, and the <em>random</em> form is what we get by
 chance. At the pass mark:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="information.html#cb74-1" tabindex="-1"></a><span class="fu">sapply</span>(forms, <span class="cf">function</span>(f) <span class="fu">c</span>(<span class="at">info =</span> <span class="fu">info_2pl</span>(f, <span class="fl">0.5</span>), <span class="at">se =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">info_2pl</span>(f, <span class="fl">0.5</span>))))</span>
-<span id="cb74-2"><a href="information.html#cb74-2" tabindex="-1"></a><span class="co">#&gt;      random spread targeted</span></span>
-<span id="cb74-3"><a href="information.html#cb74-3" tabindex="-1"></a><span class="co">#&gt; info   4.17  5.879    10.44</span></span>
-<span id="cb74-4"><a href="information.html#cb74-4" tabindex="-1"></a><span class="co">#&gt; se     0.49  0.412     0.31</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="information.html#cb75-1" tabindex="-1"></a><span class="fu">sapply</span>(forms, <span class="cf">function</span>(f) <span class="fu">c</span>(<span class="at">info =</span> <span class="fu">info_2pl</span>(f, <span class="fl">0.5</span>), <span class="at">se =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">info_2pl</span>(f, <span class="fl">0.5</span>))))</span>
+<span id="cb75-2"><a href="information.html#cb75-2" tabindex="-1"></a><span class="co">#&gt;      random spread targeted</span></span>
+<span id="cb75-3"><a href="information.html#cb75-3" tabindex="-1"></a><span class="co">#&gt; info   4.17  5.879    10.44</span></span>
+<span id="cb75-4"><a href="information.html#cb75-4" tabindex="-1"></a><span class="co">#&gt; se     0.49  0.412     0.31</span></span></code></pre></div>
 <p>The targeted form has more than twice as much information at the pass mark as the
 random one, with the same number of items. The price is precision far from
 the cut: the spread form is better for reporting scores across the whole
@@ -489,22 +508,22 @@ enough to decide whether it can be used to award the prize.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="information.html#cb75-1" tabindex="-1"></a>one <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">0</span>)</span>
-<span id="cb75-2"><a href="information.html#cb75-2" tabindex="-1"></a>grid[<span class="fu">which.max</span>(<span class="fu">info_2pl</span>(one, grid))]; <span class="fu">max</span>(<span class="fu">info_2pl</span>(one, grid))</span>
-<span id="cb75-3"><a href="information.html#cb75-3" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
-<span id="cb75-4"><a href="information.html#cb75-4" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb75-5"><a href="information.html#cb75-5" tabindex="-1"></a></span>
-<span id="cb75-6"><a href="information.html#cb75-6" tabindex="-1"></a><span class="co"># 2. information needed for SE = 0.35, and the average item information at 1.5</span></span>
-<span id="cb75-7"><a href="information.html#cb75-7" tabindex="-1"></a>need <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fl">0.35</span><span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb75-8"><a href="information.html#cb75-8" tabindex="-1"></a>have <span class="ot">&lt;-</span> <span class="fu">testinfo</span>(mod, <span class="fu">matrix</span>(<span class="fl">1.5</span>))</span>
-<span id="cb75-9"><a href="information.html#cb75-9" tabindex="-1"></a>per_item <span class="ot">&lt;-</span> have <span class="sc">/</span> <span class="dv">32</span></span>
-<span id="cb75-10"><a href="information.html#cb75-10" tabindex="-1"></a><span class="fu">ceiling</span>((need <span class="sc">-</span> have) <span class="sc">/</span> per_item)</span>
-<span id="cb75-11"><a href="information.html#cb75-11" tabindex="-1"></a><span class="co">#&gt; [1] 50</span></span>
-<span id="cb75-12"><a href="information.html#cb75-12" tabindex="-1"></a></span>
-<span id="cb75-13"><a href="information.html#cb75-13" tabindex="-1"></a>t30 <span class="ot">&lt;-</span> pool[<span class="fu">order</span>(<span class="fu">abs</span>(pool<span class="sc">$</span>b <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> pool<span class="sc">$</span>a)[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>], ]</span>
-<span id="cb75-14"><a href="information.html#cb75-14" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">c</span>(<span class="at">twenty =</span> <span class="fu">info_2pl</span>(forms<span class="sc">$</span>targeted, <span class="fl">0.5</span>), <span class="at">thirty =</span> <span class="fu">info_2pl</span>(t30, <span class="fl">0.5</span>)))</span>
-<span id="cb75-15"><a href="information.html#cb75-15" tabindex="-1"></a><span class="co">#&gt; twenty thirty </span></span>
-<span id="cb75-16"><a href="information.html#cb75-16" tabindex="-1"></a><span class="co">#&gt;  0.310  0.272</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="information.html#cb76-1" tabindex="-1"></a>one <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">0</span>)</span>
+<span id="cb76-2"><a href="information.html#cb76-2" tabindex="-1"></a>grid[<span class="fu">which.max</span>(<span class="fu">info_2pl</span>(one, grid))]; <span class="fu">max</span>(<span class="fu">info_2pl</span>(one, grid))</span>
+<span id="cb76-3"><a href="information.html#cb76-3" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb76-4"><a href="information.html#cb76-4" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb76-5"><a href="information.html#cb76-5" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="information.html#cb76-6" tabindex="-1"></a><span class="co"># 2. information needed for SE = 0.35, and the average item information at 1.5</span></span>
+<span id="cb76-7"><a href="information.html#cb76-7" tabindex="-1"></a>need <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fl">0.35</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb76-8"><a href="information.html#cb76-8" tabindex="-1"></a>have <span class="ot">&lt;-</span> <span class="fu">testinfo</span>(mod, <span class="fu">matrix</span>(<span class="fl">1.5</span>))</span>
+<span id="cb76-9"><a href="information.html#cb76-9" tabindex="-1"></a>per_item <span class="ot">&lt;-</span> have <span class="sc">/</span> <span class="dv">32</span></span>
+<span id="cb76-10"><a href="information.html#cb76-10" tabindex="-1"></a><span class="fu">ceiling</span>((need <span class="sc">-</span> have) <span class="sc">/</span> per_item)</span>
+<span id="cb76-11"><a href="information.html#cb76-11" tabindex="-1"></a><span class="co">#&gt; [1] 50</span></span>
+<span id="cb76-12"><a href="information.html#cb76-12" tabindex="-1"></a></span>
+<span id="cb76-13"><a href="information.html#cb76-13" tabindex="-1"></a>t30 <span class="ot">&lt;-</span> pool[<span class="fu">order</span>(<span class="fu">abs</span>(pool<span class="sc">$</span>b <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> pool<span class="sc">$</span>a)[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>], ]</span>
+<span id="cb76-14"><a href="information.html#cb76-14" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">c</span>(<span class="at">twenty =</span> <span class="fu">info_2pl</span>(forms<span class="sc">$</span>targeted, <span class="fl">0.5</span>), <span class="at">thirty =</span> <span class="fu">info_2pl</span>(t30, <span class="fl">0.5</span>)))</span>
+<span id="cb76-15"><a href="information.html#cb76-15" tabindex="-1"></a><span class="co">#&gt; twenty thirty </span></span>
+<span id="cb76-16"><a href="information.html#cb76-16" tabindex="-1"></a><span class="co">#&gt;  0.310  0.272</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Many more items, because the average item adds little information at
 1.5. Adding a few <em>hard, discriminating</em> items would be far more
@@ -582,7 +601,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

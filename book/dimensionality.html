@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 4 Dimensionality and local independence | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 4 Dimensionality and local independence | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -373,94 +377,94 @@ Values well above the average Q3 (often by 0.2 or more) flag dependent pairs.</p
 <p>We simulate a 24-item mathematics test taken by 1,500 Grade 8 students.
 Items M01 to M12 are calculation items. Items W01 to W12 are word problems
 that also depend on reading, which correlates 0.5 with calculation skill.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="dimensionality.html#cb37-1" tabindex="-1"></a><span class="co"># Simulated 24-item test, two correlated traits (r = 0.5), 12 items each.</span></span>
-<span id="cb37-2"><a href="dimensionality.html#cb37-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">404</span>)</span>
-<span id="cb37-3"><a href="dimensionality.html#cb37-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">1.0</span>, <span class="fl">2.0</span>), <span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>)),</span>
-<span id="cb37-4"><a href="dimensionality.html#cb37-4" tabindex="-1"></a>           <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>),          <span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">1.0</span>, <span class="fl">1.8</span>)))</span>
-<span id="cb37-5"><a href="dimensionality.html#cb37-5" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">0</span>, <span class="fl">0.8</span>))</span>
-<span id="cb37-6"><a href="dimensionality.html#cb37-6" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dv">2</span>)</span>
-<span id="cb37-7"><a href="dimensionality.html#cb37-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">1500</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">sigma =</span> sigma)</span>
-<span id="cb37-8"><a href="dimensionality.html#cb37-8" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;M%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>), <span class="fu">sprintf</span>(<span class="st">&quot;W%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="dimensionality.html#cb38-1" tabindex="-1"></a><span class="co"># Simulated 24-item test, two correlated traits (r = 0.5), 12 items each.</span></span>
+<span id="cb38-2"><a href="dimensionality.html#cb38-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">404</span>)</span>
+<span id="cb38-3"><a href="dimensionality.html#cb38-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">1.0</span>, <span class="fl">2.0</span>), <span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb38-4"><a href="dimensionality.html#cb38-4" tabindex="-1"></a>           <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>),          <span class="fu">runif</span>(<span class="dv">12</span>, <span class="fl">1.0</span>, <span class="fl">1.8</span>)))</span>
+<span id="cb38-5"><a href="dimensionality.html#cb38-5" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">0</span>, <span class="fl">0.8</span>))</span>
+<span id="cb38-6"><a href="dimensionality.html#cb38-6" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dv">2</span>)</span>
+<span id="cb38-7"><a href="dimensionality.html#cb38-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">1500</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">sigma =</span> sigma)</span>
+<span id="cb38-8"><a href="dimensionality.html#cb38-8" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;M%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>), <span class="fu">sprintf</span>(<span class="st">&quot;W%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>))</span></code></pre></div>
 <p>First, an exploratory comparison of one and two factors. We keep a copy of
 the data as <code>math</code> for the exercises.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="dimensionality.html#cb38-1" tabindex="-1"></a>math <span class="ot">&lt;-</span> resp</span>
-<span id="cb38-2"><a href="dimensionality.html#cb38-2" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-3"><a href="dimensionality.html#cb38-3" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">2</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-4"><a href="dimensionality.html#cb38-4" tabindex="-1"></a><span class="fu">anova</span>(f1, f2)</span>
-<span id="cb38-5"><a href="dimensionality.html#cb38-5" tabindex="-1"></a><span class="co">#&gt;      AIC SABIC    HQ   BIC logLik      X2 df p</span></span>
-<span id="cb38-6"><a href="dimensionality.html#cb38-6" tabindex="-1"></a><span class="co">#&gt; f1 41008 41111 41103 41263 -20456             </span></span>
-<span id="cb38-7"><a href="dimensionality.html#cb38-7" tabindex="-1"></a><span class="co">#&gt; f2 40185 40337 40326 40563 -20022 868.777 23 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="dimensionality.html#cb39-1" tabindex="-1"></a>math <span class="ot">&lt;-</span> resp</span>
+<span id="cb39-2"><a href="dimensionality.html#cb39-2" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-3"><a href="dimensionality.html#cb39-3" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">2</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-4"><a href="dimensionality.html#cb39-4" tabindex="-1"></a><span class="fu">anova</span>(f1, f2)</span>
+<span id="cb39-5"><a href="dimensionality.html#cb39-5" tabindex="-1"></a><span class="co">#&gt;      AIC SABIC    HQ   BIC logLik      X2 df p</span></span>
+<span id="cb39-6"><a href="dimensionality.html#cb39-6" tabindex="-1"></a><span class="co">#&gt; f1 41008 41111 41103 41263 -20456             </span></span>
+<span id="cb39-7"><a href="dimensionality.html#cb39-7" tabindex="-1"></a><span class="co">#&gt; f2 40185 40337 40326 40563 -20022 868.777 23 0</span></span></code></pre></div>
 <p>The two-factor model is far better on every criterion. <code>summary()</code> shows the
 standardized loadings after an oblique rotation, which lets the factors
 correlate:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="dimensionality.html#cb39-1" tabindex="-1"></a><span class="fu">summary</span>(f2, <span class="at">rotate =</span> <span class="st">&quot;oblimin&quot;</span>, <span class="at">suppress =</span> <span class="fl">0.25</span>)</span>
-<span id="cb39-2"><a href="dimensionality.html#cb39-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-3"><a href="dimensionality.html#cb39-3" tabindex="-1"></a><span class="co">#&gt; Rotation:  oblimin </span></span>
-<span id="cb39-4"><a href="dimensionality.html#cb39-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-5"><a href="dimensionality.html#cb39-5" tabindex="-1"></a><span class="co">#&gt; Rotated factor loadings: </span></span>
-<span id="cb39-6"><a href="dimensionality.html#cb39-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-7"><a href="dimensionality.html#cb39-7" tabindex="-1"></a><span class="co">#&gt;        F1    F2    h2</span></span>
-<span id="cb39-8"><a href="dimensionality.html#cb39-8" tabindex="-1"></a><span class="co">#&gt; M01       0.708 0.509</span></span>
-<span id="cb39-9"><a href="dimensionality.html#cb39-9" tabindex="-1"></a><span class="co">#&gt; M02       0.717 0.504</span></span>
-<span id="cb39-10"><a href="dimensionality.html#cb39-10" tabindex="-1"></a><span class="co">#&gt; M03       0.663 0.453</span></span>
-<span id="cb39-11"><a href="dimensionality.html#cb39-11" tabindex="-1"></a><span class="co">#&gt; M04       0.628 0.453</span></span>
-<span id="cb39-12"><a href="dimensionality.html#cb39-12" tabindex="-1"></a><span class="co">#&gt; M05       0.581 0.360</span></span>
-<span id="cb39-13"><a href="dimensionality.html#cb39-13" tabindex="-1"></a><span class="co">#&gt; M06       0.598 0.394</span></span>
-<span id="cb39-14"><a href="dimensionality.html#cb39-14" tabindex="-1"></a><span class="co">#&gt; M07       0.665 0.398</span></span>
-<span id="cb39-15"><a href="dimensionality.html#cb39-15" tabindex="-1"></a><span class="co">#&gt; M08       0.559 0.281</span></span>
-<span id="cb39-16"><a href="dimensionality.html#cb39-16" tabindex="-1"></a><span class="co">#&gt; M09       0.473 0.233</span></span>
-<span id="cb39-17"><a href="dimensionality.html#cb39-17" tabindex="-1"></a><span class="co">#&gt; M10       0.617 0.390</span></span>
-<span id="cb39-18"><a href="dimensionality.html#cb39-18" tabindex="-1"></a><span class="co">#&gt; M11       0.715 0.539</span></span>
-<span id="cb39-19"><a href="dimensionality.html#cb39-19" tabindex="-1"></a><span class="co">#&gt; M12       0.724 0.492</span></span>
-<span id="cb39-20"><a href="dimensionality.html#cb39-20" tabindex="-1"></a><span class="co">#&gt; W01 0.634       0.428</span></span>
-<span id="cb39-21"><a href="dimensionality.html#cb39-21" tabindex="-1"></a><span class="co">#&gt; W02 0.520       0.430</span></span>
-<span id="cb39-22"><a href="dimensionality.html#cb39-22" tabindex="-1"></a><span class="co">#&gt; W03 0.751       0.572</span></span>
-<span id="cb39-23"><a href="dimensionality.html#cb39-23" tabindex="-1"></a><span class="co">#&gt; W04 0.646       0.444</span></span>
-<span id="cb39-24"><a href="dimensionality.html#cb39-24" tabindex="-1"></a><span class="co">#&gt; W05 0.588       0.373</span></span>
-<span id="cb39-25"><a href="dimensionality.html#cb39-25" tabindex="-1"></a><span class="co">#&gt; W06 0.737       0.512</span></span>
-<span id="cb39-26"><a href="dimensionality.html#cb39-26" tabindex="-1"></a><span class="co">#&gt; W07 0.560       0.451</span></span>
-<span id="cb39-27"><a href="dimensionality.html#cb39-27" tabindex="-1"></a><span class="co">#&gt; W08 0.785       0.600</span></span>
-<span id="cb39-28"><a href="dimensionality.html#cb39-28" tabindex="-1"></a><span class="co">#&gt; W09 0.697       0.484</span></span>
-<span id="cb39-29"><a href="dimensionality.html#cb39-29" tabindex="-1"></a><span class="co">#&gt; W10 0.766       0.570</span></span>
-<span id="cb39-30"><a href="dimensionality.html#cb39-30" tabindex="-1"></a><span class="co">#&gt; W11 0.775       0.555</span></span>
-<span id="cb39-31"><a href="dimensionality.html#cb39-31" tabindex="-1"></a><span class="co">#&gt; W12 0.716       0.486</span></span>
-<span id="cb39-32"><a href="dimensionality.html#cb39-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-33"><a href="dimensionality.html#cb39-33" tabindex="-1"></a><span class="co">#&gt; Rotated SS loadings:  5.67 5 </span></span>
-<span id="cb39-34"><a href="dimensionality.html#cb39-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-35"><a href="dimensionality.html#cb39-35" tabindex="-1"></a><span class="co">#&gt; Factor correlations: </span></span>
-<span id="cb39-36"><a href="dimensionality.html#cb39-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb39-37"><a href="dimensionality.html#cb39-37" tabindex="-1"></a><span class="co">#&gt;       F1 F2</span></span>
-<span id="cb39-38"><a href="dimensionality.html#cb39-38" tabindex="-1"></a><span class="co">#&gt; F1 1.000   </span></span>
-<span id="cb39-39"><a href="dimensionality.html#cb39-39" tabindex="-1"></a><span class="co">#&gt; F2 0.654  1</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="dimensionality.html#cb40-1" tabindex="-1"></a><span class="fu">summary</span>(f2, <span class="at">rotate =</span> <span class="st">&quot;oblimin&quot;</span>, <span class="at">suppress =</span> <span class="fl">0.25</span>)</span>
+<span id="cb40-2"><a href="dimensionality.html#cb40-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-3"><a href="dimensionality.html#cb40-3" tabindex="-1"></a><span class="co">#&gt; Rotation:  oblimin </span></span>
+<span id="cb40-4"><a href="dimensionality.html#cb40-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-5"><a href="dimensionality.html#cb40-5" tabindex="-1"></a><span class="co">#&gt; Rotated factor loadings: </span></span>
+<span id="cb40-6"><a href="dimensionality.html#cb40-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-7"><a href="dimensionality.html#cb40-7" tabindex="-1"></a><span class="co">#&gt;        F1    F2    h2</span></span>
+<span id="cb40-8"><a href="dimensionality.html#cb40-8" tabindex="-1"></a><span class="co">#&gt; M01       0.708 0.509</span></span>
+<span id="cb40-9"><a href="dimensionality.html#cb40-9" tabindex="-1"></a><span class="co">#&gt; M02       0.717 0.504</span></span>
+<span id="cb40-10"><a href="dimensionality.html#cb40-10" tabindex="-1"></a><span class="co">#&gt; M03       0.663 0.453</span></span>
+<span id="cb40-11"><a href="dimensionality.html#cb40-11" tabindex="-1"></a><span class="co">#&gt; M04       0.628 0.453</span></span>
+<span id="cb40-12"><a href="dimensionality.html#cb40-12" tabindex="-1"></a><span class="co">#&gt; M05       0.581 0.360</span></span>
+<span id="cb40-13"><a href="dimensionality.html#cb40-13" tabindex="-1"></a><span class="co">#&gt; M06       0.598 0.394</span></span>
+<span id="cb40-14"><a href="dimensionality.html#cb40-14" tabindex="-1"></a><span class="co">#&gt; M07       0.665 0.398</span></span>
+<span id="cb40-15"><a href="dimensionality.html#cb40-15" tabindex="-1"></a><span class="co">#&gt; M08       0.559 0.281</span></span>
+<span id="cb40-16"><a href="dimensionality.html#cb40-16" tabindex="-1"></a><span class="co">#&gt; M09       0.473 0.233</span></span>
+<span id="cb40-17"><a href="dimensionality.html#cb40-17" tabindex="-1"></a><span class="co">#&gt; M10       0.617 0.390</span></span>
+<span id="cb40-18"><a href="dimensionality.html#cb40-18" tabindex="-1"></a><span class="co">#&gt; M11       0.715 0.539</span></span>
+<span id="cb40-19"><a href="dimensionality.html#cb40-19" tabindex="-1"></a><span class="co">#&gt; M12       0.724 0.492</span></span>
+<span id="cb40-20"><a href="dimensionality.html#cb40-20" tabindex="-1"></a><span class="co">#&gt; W01 0.634       0.428</span></span>
+<span id="cb40-21"><a href="dimensionality.html#cb40-21" tabindex="-1"></a><span class="co">#&gt; W02 0.520       0.430</span></span>
+<span id="cb40-22"><a href="dimensionality.html#cb40-22" tabindex="-1"></a><span class="co">#&gt; W03 0.751       0.572</span></span>
+<span id="cb40-23"><a href="dimensionality.html#cb40-23" tabindex="-1"></a><span class="co">#&gt; W04 0.646       0.444</span></span>
+<span id="cb40-24"><a href="dimensionality.html#cb40-24" tabindex="-1"></a><span class="co">#&gt; W05 0.588       0.373</span></span>
+<span id="cb40-25"><a href="dimensionality.html#cb40-25" tabindex="-1"></a><span class="co">#&gt; W06 0.737       0.512</span></span>
+<span id="cb40-26"><a href="dimensionality.html#cb40-26" tabindex="-1"></a><span class="co">#&gt; W07 0.560       0.451</span></span>
+<span id="cb40-27"><a href="dimensionality.html#cb40-27" tabindex="-1"></a><span class="co">#&gt; W08 0.785       0.600</span></span>
+<span id="cb40-28"><a href="dimensionality.html#cb40-28" tabindex="-1"></a><span class="co">#&gt; W09 0.697       0.484</span></span>
+<span id="cb40-29"><a href="dimensionality.html#cb40-29" tabindex="-1"></a><span class="co">#&gt; W10 0.766       0.570</span></span>
+<span id="cb40-30"><a href="dimensionality.html#cb40-30" tabindex="-1"></a><span class="co">#&gt; W11 0.775       0.555</span></span>
+<span id="cb40-31"><a href="dimensionality.html#cb40-31" tabindex="-1"></a><span class="co">#&gt; W12 0.716       0.486</span></span>
+<span id="cb40-32"><a href="dimensionality.html#cb40-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-33"><a href="dimensionality.html#cb40-33" tabindex="-1"></a><span class="co">#&gt; Rotated SS loadings:  5.67 5 </span></span>
+<span id="cb40-34"><a href="dimensionality.html#cb40-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-35"><a href="dimensionality.html#cb40-35" tabindex="-1"></a><span class="co">#&gt; Factor correlations: </span></span>
+<span id="cb40-36"><a href="dimensionality.html#cb40-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-37"><a href="dimensionality.html#cb40-37" tabindex="-1"></a><span class="co">#&gt;       F1 F2</span></span>
+<span id="cb40-38"><a href="dimensionality.html#cb40-38" tabindex="-1"></a><span class="co">#&gt; F1 1.000   </span></span>
+<span id="cb40-39"><a href="dimensionality.html#cb40-39" tabindex="-1"></a><span class="co">#&gt; F2 0.654  1</span></span></code></pre></div>
 <p>The calculation items load on one factor and the word problems on the
 other. The factor correlation is higher than the 0.5 we simulated between
 the two traits, because the word problems also need calculation skill: the
 rotation cannot separate that shared part cleanly, so some of it shows up as
 correlation between the factors. The one-factor fit statistics give the same
 message from the other side:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="dimensionality.html#cb40-1" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">one_factor =</span> <span class="fu">glance</span>(f1)[, <span class="fu">c</span>(<span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)],</span>
-<span id="cb40-2"><a href="dimensionality.html#cb40-2" tabindex="-1"></a>      <span class="at">two_factor =</span> <span class="fu">glance</span>(f2)[, <span class="fu">c</span>(<span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)])</span>
-<span id="cb40-3"><a href="dimensionality.html#cb40-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
-<span id="cb40-4"><a href="dimensionality.html#cb40-4" tabindex="-1"></a><span class="co">#&gt;    RMSEA  SRMSR   CFI</span></span>
-<span id="cb40-5"><a href="dimensionality.html#cb40-5" tabindex="-1"></a><span class="co">#&gt; *  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb40-6"><a href="dimensionality.html#cb40-6" tabindex="-1"></a><span class="co">#&gt; 1 0.0644 0.0518 0.936</span></span>
-<span id="cb40-7"><a href="dimensionality.html#cb40-7" tabindex="-1"></a><span class="co">#&gt; 2 0      0.0173 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="dimensionality.html#cb41-1" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">one_factor =</span> <span class="fu">glance</span>(f1)[, <span class="fu">c</span>(<span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)],</span>
+<span id="cb41-2"><a href="dimensionality.html#cb41-2" tabindex="-1"></a>      <span class="at">two_factor =</span> <span class="fu">glance</span>(f2)[, <span class="fu">c</span>(<span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;SRMSR&quot;</span>, <span class="st">&quot;CFI&quot;</span>)])</span>
+<span id="cb41-3"><a href="dimensionality.html#cb41-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb41-4"><a href="dimensionality.html#cb41-4" tabindex="-1"></a><span class="co">#&gt;    RMSEA  SRMSR   CFI</span></span>
+<span id="cb41-5"><a href="dimensionality.html#cb41-5" tabindex="-1"></a><span class="co">#&gt; *  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb41-6"><a href="dimensionality.html#cb41-6" tabindex="-1"></a><span class="co">#&gt; 1 0.0644 0.0518 0.936</span></span>
+<span id="cb41-7"><a href="dimensionality.html#cb41-7" tabindex="-1"></a><span class="co">#&gt; 2 0      0.0173 1</span></span></code></pre></div>
 <p>Exploratory models are useful for finding structure. When the structure is
 known from the test blueprint, a <strong>confirmatory</strong> model states it directly.
 Each item loads only on its own factor, and the factor correlation is
 estimated (<code>COV = F1*F2</code>):</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="dimensionality.html#cb41-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mirt.model</span>(<span class="st">&quot;Calc    = 1-12</span></span>
-<span id="cb41-2"><a href="dimensionality.html#cb41-2" tabindex="-1"></a><span class="st">                    Reading = 13-24</span></span>
-<span id="cb41-3"><a href="dimensionality.html#cb41-3" tabindex="-1"></a><span class="st">                    COV     = Calc*Reading&quot;</span>)</span>
-<span id="cb41-4"><a href="dimensionality.html#cb41-4" tabindex="-1"></a>cfa <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, spec, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb41-5"><a href="dimensionality.html#cb41-5" tabindex="-1"></a><span class="fu">coef</span>(cfa, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>cov</span>
-<span id="cb41-6"><a href="dimensionality.html#cb41-6" tabindex="-1"></a><span class="co">#&gt;          Calc Reading</span></span>
-<span id="cb41-7"><a href="dimensionality.html#cb41-7" tabindex="-1"></a><span class="co">#&gt; Calc    1.000   0.676</span></span>
-<span id="cb41-8"><a href="dimensionality.html#cb41-8" tabindex="-1"></a><span class="co">#&gt; Reading 0.676   1.000</span></span>
-<span id="cb41-9"><a href="dimensionality.html#cb41-9" tabindex="-1"></a><span class="fu">anova</span>(cfa, f2)</span>
-<span id="cb41-10"><a href="dimensionality.html#cb41-10" tabindex="-1"></a><span class="co">#&gt;       AIC SABIC    HQ   BIC logLik     X2 df     p</span></span>
-<span id="cb41-11"><a href="dimensionality.html#cb41-11" tabindex="-1"></a><span class="co">#&gt; cfa 40174 40279 40271 40434 -20038                </span></span>
-<span id="cb41-12"><a href="dimensionality.html#cb41-12" tabindex="-1"></a><span class="co">#&gt; f2  40185 40337 40326 40563 -20022 32.658 22 0.067</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="dimensionality.html#cb42-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mirt.model</span>(<span class="st">&quot;Calc    = 1-12</span></span>
+<span id="cb42-2"><a href="dimensionality.html#cb42-2" tabindex="-1"></a><span class="st">                    Reading = 13-24</span></span>
+<span id="cb42-3"><a href="dimensionality.html#cb42-3" tabindex="-1"></a><span class="st">                    COV     = Calc*Reading&quot;</span>)</span>
+<span id="cb42-4"><a href="dimensionality.html#cb42-4" tabindex="-1"></a>cfa <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, spec, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb42-5"><a href="dimensionality.html#cb42-5" tabindex="-1"></a><span class="fu">coef</span>(cfa, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>cov</span>
+<span id="cb42-6"><a href="dimensionality.html#cb42-6" tabindex="-1"></a><span class="co">#&gt;          Calc Reading</span></span>
+<span id="cb42-7"><a href="dimensionality.html#cb42-7" tabindex="-1"></a><span class="co">#&gt; Calc    1.000   0.676</span></span>
+<span id="cb42-8"><a href="dimensionality.html#cb42-8" tabindex="-1"></a><span class="co">#&gt; Reading 0.676   1.000</span></span>
+<span id="cb42-9"><a href="dimensionality.html#cb42-9" tabindex="-1"></a><span class="fu">anova</span>(cfa, f2)</span>
+<span id="cb42-10"><a href="dimensionality.html#cb42-10" tabindex="-1"></a><span class="co">#&gt;       AIC SABIC    HQ   BIC logLik     X2 df     p</span></span>
+<span id="cb42-11"><a href="dimensionality.html#cb42-11" tabindex="-1"></a><span class="co">#&gt; cfa 40174 40279 40271 40434 -20038                </span></span>
+<span id="cb42-12"><a href="dimensionality.html#cb42-12" tabindex="-1"></a><span class="co">#&gt; f2  40185 40337 40326 40563 -20022 32.658 22 0.067</span></span></code></pre></div>
 <p>The confirmatory model is nearly as good as the exploratory one with far
 fewer parameters, so BIC prefers it. What should we report to the school?
 That depends on use. Two subscores are defensible if each is reliable
@@ -473,29 +477,34 @@ and students with weak reading will look weaker at mathematics than they are.</p
 Students who happen to understand the passage well do better on all four
 than their general reading ability predicts. We simulate this with a small
 extra factor that only those four items share.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="dimensionality.html#cb42-1" tabindex="-1"></a><span class="co"># Simulated 20-item reading test; R05-R08 share a passage (testlet effect).</span></span>
-<span id="cb42-2"><a href="dimensionality.html#cb42-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">405</span>)</span>
-<span id="cb42-3"><a href="dimensionality.html#cb42-3" tabindex="-1"></a>a_gen <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">20</span>, <span class="fl">1.0</span>, <span class="fl">1.8</span>)</span>
-<span id="cb42-4"><a href="dimensionality.html#cb42-4" tabindex="-1"></a>a_pas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="fl">2.0</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>))</span>
-<span id="cb42-5"><a href="dimensionality.html#cb42-5" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">cbind</span>(a_gen, a_pas), <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="fl">0.7</span>)),</span>
-<span id="cb42-6"><a href="dimensionality.html#cb42-6" tabindex="-1"></a>                <span class="at">N =</span> <span class="dv">1200</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
-<span id="cb42-7"><a href="dimensionality.html#cb42-7" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;R%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="dimensionality.html#cb43-1" tabindex="-1"></a><span class="co"># Simulated 20-item reading test; R05-R08 share a passage (testlet effect).</span></span>
+<span id="cb43-2"><a href="dimensionality.html#cb43-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">405</span>)</span>
+<span id="cb43-3"><a href="dimensionality.html#cb43-3" tabindex="-1"></a>a_gen <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">20</span>, <span class="fl">1.0</span>, <span class="fl">1.8</span>)</span>
+<span id="cb43-4"><a href="dimensionality.html#cb43-4" tabindex="-1"></a>a_pas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="fl">2.0</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">12</span>))</span>
+<span id="cb43-5"><a href="dimensionality.html#cb43-5" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">cbind</span>(a_gen, a_pas), <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="fl">0.7</span>)),</span>
+<span id="cb43-6"><a href="dimensionality.html#cb43-6" tabindex="-1"></a>                <span class="at">N =</span> <span class="dv">1200</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
+<span id="cb43-7"><a href="dimensionality.html#cb43-7" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;R%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
 <p>We fit an ordinary unidimensional 2PL, as an analyst who did not know about
 the passage would, and look at the Q3 matrix.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="dimensionality.html#cb43-1" tabindex="-1"></a>uni <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb43-2"><a href="dimensionality.html#cb43-2" tabindex="-1"></a><span class="fu">gg_q3</span>(uni)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-40-1.png" alt="" width="75%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="dimensionality.html#cb44-1" tabindex="-1"></a>uni <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb44-2"><a href="dimensionality.html#cb44-2" tabindex="-1"></a><span class="fu">gg_q3</span>(uni)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:q3-passage"></span>
+<img src="mirtverse-book_files/figure-html/q3-passage-1.png" alt="Q3 residual correlations from a unidimensional 2PL fitted to the reading test with a four-item passage." width="75%" />
+<p class="caption">
+Figure 4.1: Q3 residual correlations from a unidimensional 2PL fitted to the reading test with a four-item passage.
+</p>
+</div>
 <p>The six pairs among R05 to R08 stand out. Most other Q3 values are slightly
 negative, which is normal: residuals are a little negatively correlated on
 average, so we judge a pair against the average Q3 rather than against zero.
 The numbers behind the plot:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="dimensionality.html#cb44-1" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">residuals</span>(uni, <span class="at">type =</span> <span class="st">&quot;Q3&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb44-2"><a href="dimensionality.html#cb44-2" tabindex="-1"></a><span class="fu">round</span>(q3[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>], <span class="dv">2</span>)</span>
-<span id="cb44-3"><a href="dimensionality.html#cb44-3" tabindex="-1"></a><span class="co">#&gt;      R05  R06  R07  R08</span></span>
-<span id="cb44-4"><a href="dimensionality.html#cb44-4" tabindex="-1"></a><span class="co">#&gt; R05 1.00 0.31 0.25 0.28</span></span>
-<span id="cb44-5"><a href="dimensionality.html#cb44-5" tabindex="-1"></a><span class="co">#&gt; R06 0.31 1.00 0.28 0.26</span></span>
-<span id="cb44-6"><a href="dimensionality.html#cb44-6" tabindex="-1"></a><span class="co">#&gt; R07 0.25 0.28 1.00 0.24</span></span>
-<span id="cb44-7"><a href="dimensionality.html#cb44-7" tabindex="-1"></a><span class="co">#&gt; R08 0.28 0.26 0.24 1.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="dimensionality.html#cb45-1" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">residuals</span>(uni, <span class="at">type =</span> <span class="st">&quot;Q3&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb45-2"><a href="dimensionality.html#cb45-2" tabindex="-1"></a><span class="fu">round</span>(q3[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>], <span class="dv">2</span>)</span>
+<span id="cb45-3"><a href="dimensionality.html#cb45-3" tabindex="-1"></a><span class="co">#&gt;      R05  R06  R07  R08</span></span>
+<span id="cb45-4"><a href="dimensionality.html#cb45-4" tabindex="-1"></a><span class="co">#&gt; R05 1.00 0.31 0.25 0.28</span></span>
+<span id="cb45-5"><a href="dimensionality.html#cb45-5" tabindex="-1"></a><span class="co">#&gt; R06 0.31 1.00 0.28 0.26</span></span>
+<span id="cb45-6"><a href="dimensionality.html#cb45-6" tabindex="-1"></a><span class="co">#&gt; R07 0.25 0.28 1.00 0.24</span></span>
+<span id="cb45-7"><a href="dimensionality.html#cb45-7" tabindex="-1"></a><span class="co">#&gt; R08 0.28 0.26 0.24 1.00</span></span></code></pre></div>
 <p>Local dependence has a cost. The unidimensional model has nowhere to put the
 passage effect, so it bends the item parameters to accommodate it and treats
 part of the passage effect as reading ability. Remedy 1 below shows how
@@ -507,22 +516,22 @@ passage items a specific factor of their own, uncorrelated with the
 general factor. <code>bfactor()</code> fits it; its second argument says which
 specific factor each item belongs to (<code>NA</code> for none).</li>
 </ol>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="dimensionality.html#cb45-1" tabindex="-1"></a>specific <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">12</span>))</span>
-<span id="cb45-2"><a href="dimensionality.html#cb45-2" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">bfactor</span>(resp, specific, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb45-3"><a href="dimensionality.html#cb45-3" tabindex="-1"></a><span class="fu">anova</span>(uni, bf)</span>
-<span id="cb45-4"><a href="dimensionality.html#cb45-4" tabindex="-1"></a><span class="co">#&gt;       AIC SABIC    HQ   BIC logLik      X2 df p</span></span>
-<span id="cb45-5"><a href="dimensionality.html#cb45-5" tabindex="-1"></a><span class="co">#&gt; uni 28458 28534 28534 28661 -14189             </span></span>
-<span id="cb45-6"><a href="dimensionality.html#cb45-6" tabindex="-1"></a><span class="co">#&gt; bf  27901 27985 27985 28125 -13906 564.869  4 0</span></span>
-<span id="cb45-7"><a href="dimensionality.html#cb45-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(bf, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;a1&quot;</span>, <span class="st">&quot;a2&quot;</span>)], <span class="dv">2</span>)</span>
-<span id="cb45-8"><a href="dimensionality.html#cb45-8" tabindex="-1"></a><span class="co">#&gt;       a1   a2</span></span>
-<span id="cb45-9"><a href="dimensionality.html#cb45-9" tabindex="-1"></a><span class="co">#&gt; R03 1.51 0.00</span></span>
-<span id="cb45-10"><a href="dimensionality.html#cb45-10" tabindex="-1"></a><span class="co">#&gt; R04 0.93 0.00</span></span>
-<span id="cb45-11"><a href="dimensionality.html#cb45-11" tabindex="-1"></a><span class="co">#&gt; R05 1.44 2.11</span></span>
-<span id="cb45-12"><a href="dimensionality.html#cb45-12" tabindex="-1"></a><span class="co">#&gt; R06 1.45 2.20</span></span>
-<span id="cb45-13"><a href="dimensionality.html#cb45-13" tabindex="-1"></a><span class="co">#&gt; R07 1.27 1.76</span></span>
-<span id="cb45-14"><a href="dimensionality.html#cb45-14" tabindex="-1"></a><span class="co">#&gt; R08 1.88 1.99</span></span>
-<span id="cb45-15"><a href="dimensionality.html#cb45-15" tabindex="-1"></a><span class="co">#&gt; R09 1.38 0.00</span></span>
-<span id="cb45-16"><a href="dimensionality.html#cb45-16" tabindex="-1"></a><span class="co">#&gt; R10 1.31 0.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="dimensionality.html#cb46-1" tabindex="-1"></a>specific <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">12</span>))</span>
+<span id="cb46-2"><a href="dimensionality.html#cb46-2" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">bfactor</span>(resp, specific, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb46-3"><a href="dimensionality.html#cb46-3" tabindex="-1"></a><span class="fu">anova</span>(uni, bf)</span>
+<span id="cb46-4"><a href="dimensionality.html#cb46-4" tabindex="-1"></a><span class="co">#&gt;       AIC SABIC    HQ   BIC logLik      X2 df p</span></span>
+<span id="cb46-5"><a href="dimensionality.html#cb46-5" tabindex="-1"></a><span class="co">#&gt; uni 28458 28534 28534 28661 -14189             </span></span>
+<span id="cb46-6"><a href="dimensionality.html#cb46-6" tabindex="-1"></a><span class="co">#&gt; bf  27901 27985 27985 28125 -13906 564.869  4 0</span></span>
+<span id="cb46-7"><a href="dimensionality.html#cb46-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(bf, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;a1&quot;</span>, <span class="st">&quot;a2&quot;</span>)], <span class="dv">2</span>)</span>
+<span id="cb46-8"><a href="dimensionality.html#cb46-8" tabindex="-1"></a><span class="co">#&gt;       a1   a2</span></span>
+<span id="cb46-9"><a href="dimensionality.html#cb46-9" tabindex="-1"></a><span class="co">#&gt; R03 1.51 0.00</span></span>
+<span id="cb46-10"><a href="dimensionality.html#cb46-10" tabindex="-1"></a><span class="co">#&gt; R04 0.93 0.00</span></span>
+<span id="cb46-11"><a href="dimensionality.html#cb46-11" tabindex="-1"></a><span class="co">#&gt; R05 1.44 2.11</span></span>
+<span id="cb46-12"><a href="dimensionality.html#cb46-12" tabindex="-1"></a><span class="co">#&gt; R06 1.45 2.20</span></span>
+<span id="cb46-13"><a href="dimensionality.html#cb46-13" tabindex="-1"></a><span class="co">#&gt; R07 1.27 1.76</span></span>
+<span id="cb46-14"><a href="dimensionality.html#cb46-14" tabindex="-1"></a><span class="co">#&gt; R08 1.88 1.99</span></span>
+<span id="cb46-15"><a href="dimensionality.html#cb46-15" tabindex="-1"></a><span class="co">#&gt; R09 1.38 0.00</span></span>
+<span id="cb46-16"><a href="dimensionality.html#cb46-16" tabindex="-1"></a><span class="co">#&gt; R10 1.31 0.00</span></span></code></pre></div>
 <p>The passage effect now has its own slope (<code>a2</code>), and the general slopes
 (<code>a1</code>) of R05 to R08 are higher than in the unidimensional model, which
 had diluted them. Compare them with
@@ -557,49 +566,49 @@ and check the Q3 matrix again.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="dimensionality.html#cb46-1" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">rowSums</span>(math[, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]), <span class="fu">rowSums</span>(math[, <span class="dv">13</span><span class="sc">:</span><span class="dv">24</span>]))</span>
-<span id="cb46-2"><a href="dimensionality.html#cb46-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.554</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="dimensionality.html#cb47-1" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">rowSums</span>(math[, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]), <span class="fu">rowSums</span>(math[, <span class="dv">13</span><span class="sc">:</span><span class="dv">24</span>]))</span>
+<span id="cb47-2"><a href="dimensionality.html#cb47-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.554</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Sum scores contain measurement error, which attenuates (weakens) the
 correlation; the factor correlation is corrected for it.</li>
 </ol>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="dimensionality.html#cb47-1" tabindex="-1"></a><span class="fu">select_model</span>(math, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb47-2"><a href="dimensionality.html#cb47-2" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
-<span id="cb47-3"><a href="dimensionality.html#cb47-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb47-4"><a href="dimensionality.html#cb47-4" tabindex="-1"></a><span class="co">#&gt;     model npar logLik   AIC   BIC SABIC RMSEA   CFI delta weight</span></span>
-<span id="cb47-5"><a href="dimensionality.html#cb47-5" tabindex="-1"></a><span class="co">#&gt;  2PL (2F)   71 -20022 40185 40563 40337 0.000 1.000     0      1</span></span>
-<span id="cb47-6"><a href="dimensionality.html#cb47-6" tabindex="-1"></a><span class="co">#&gt;     Rasch   25 -20526 41102 41235 41156 0.064 0.931   673      0</span></span>
-<span id="cb47-7"><a href="dimensionality.html#cb47-7" tabindex="-1"></a><span class="co">#&gt;       2PL   48 -20456 41008 41263 41111 0.064 0.936   701      0</span></span>
-<span id="cb47-8"><a href="dimensionality.html#cb47-8" tabindex="-1"></a><span class="co">#&gt;       3PL   72 -20450 41044 41426 41198 0.064 0.942   864      0</span></span>
-<span id="cb47-9"><a href="dimensionality.html#cb47-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb47-10"><a href="dimensionality.html#cb47-10" tabindex="-1"></a><span class="co">#&gt; The 2PL (2F) model is recommended because it has the lowest BIC (40562.7). The</span></span>
-<span id="cb47-11"><a href="dimensionality.html#cb47-11" tabindex="-1"></a><span class="co">#&gt; runner-up, Rasch, is 672.6 BIC points worse, which is very strong evidence for</span></span>
-<span id="cb47-12"><a href="dimensionality.html#cb47-12" tabindex="-1"></a><span class="co">#&gt; the 2PL (2F) model. Likelihood-ratio test Rasch vs. 2PL (2F): chi-square(46) =</span></span>
-<span id="cb47-13"><a href="dimensionality.html#cb47-13" tabindex="-1"></a><span class="co">#&gt; 1008.97, p &lt; .001; the 2PL (2F) model fits significantly better.</span></span>
-<span id="cb47-14"><a href="dimensionality.html#cb47-14" tabindex="-1"></a><span class="co">#&gt; Likelihood-ratio test 2PL vs. 2PL (2F): chi-square(23) = 868.78, p &lt; .001; the</span></span>
-<span id="cb47-15"><a href="dimensionality.html#cb47-15" tabindex="-1"></a><span class="co">#&gt; 2PL (2F) model fits significantly better. Absolute fit of the 2PL (2F) model:</span></span>
-<span id="cb47-16"><a href="dimensionality.html#cb47-16" tabindex="-1"></a><span class="co">#&gt; RMSEA = 0.000 (close fit), CFI = 1.000, SRMSR = 0.017.</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="dimensionality.html#cb48-1" tabindex="-1"></a><span class="fu">select_model</span>(math, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb48-2"><a href="dimensionality.html#cb48-2" tabindex="-1"></a><span class="co">#&gt; mirtverse model selection (ranked by BIC)</span></span>
+<span id="cb48-3"><a href="dimensionality.html#cb48-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-4"><a href="dimensionality.html#cb48-4" tabindex="-1"></a><span class="co">#&gt;     model npar logLik   AIC   BIC SABIC RMSEA   CFI delta weight</span></span>
+<span id="cb48-5"><a href="dimensionality.html#cb48-5" tabindex="-1"></a><span class="co">#&gt;  2PL (2F)   71 -20022 40185 40563 40337 0.000 1.000     0      1</span></span>
+<span id="cb48-6"><a href="dimensionality.html#cb48-6" tabindex="-1"></a><span class="co">#&gt;     Rasch   25 -20526 41102 41235 41156 0.064 0.931   673      0</span></span>
+<span id="cb48-7"><a href="dimensionality.html#cb48-7" tabindex="-1"></a><span class="co">#&gt;       2PL   48 -20456 41008 41263 41111 0.064 0.936   701      0</span></span>
+<span id="cb48-8"><a href="dimensionality.html#cb48-8" tabindex="-1"></a><span class="co">#&gt;       3PL   72 -20450 41044 41426 41198 0.064 0.942   864      0</span></span>
+<span id="cb48-9"><a href="dimensionality.html#cb48-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-10"><a href="dimensionality.html#cb48-10" tabindex="-1"></a><span class="co">#&gt; The 2PL (2F) model is recommended because it has the lowest BIC (40562.7). The</span></span>
+<span id="cb48-11"><a href="dimensionality.html#cb48-11" tabindex="-1"></a><span class="co">#&gt; runner-up, Rasch, is 672.6 BIC points worse, which is very strong evidence for</span></span>
+<span id="cb48-12"><a href="dimensionality.html#cb48-12" tabindex="-1"></a><span class="co">#&gt; the 2PL (2F) model. Likelihood-ratio test Rasch vs. 2PL (2F): chi-square(46) =</span></span>
+<span id="cb48-13"><a href="dimensionality.html#cb48-13" tabindex="-1"></a><span class="co">#&gt; 1008.97, p &lt; .001; the 2PL (2F) model fits significantly better.</span></span>
+<span id="cb48-14"><a href="dimensionality.html#cb48-14" tabindex="-1"></a><span class="co">#&gt; Likelihood-ratio test 2PL vs. 2PL (2F): chi-square(23) = 868.78, p &lt; .001; the</span></span>
+<span id="cb48-15"><a href="dimensionality.html#cb48-15" tabindex="-1"></a><span class="co">#&gt; 2PL (2F) model fits significantly better. Absolute fit of the 2PL (2F) model:</span></span>
+<span id="cb48-16"><a href="dimensionality.html#cb48-16" tabindex="-1"></a><span class="co">#&gt; RMSEA = 0.000 (close fit), CFI = 1.000, SRMSR = 0.017.</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>It fits one- and two-factor versions of each candidate and should prefer a
 two-factor model, because the second dimension is strong.</li>
 </ol>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="dimensionality.html#cb48-1" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(uni, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb48-2"><a href="dimensionality.html#cb48-2" tabindex="-1"></a><span class="co">#&gt;   F1 </span></span>
-<span id="cb48-3"><a href="dimensionality.html#cb48-3" tabindex="-1"></a><span class="co">#&gt; 0.85</span></span>
-<span id="cb48-4"><a href="dimensionality.html#cb48-4" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(bf, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb48-5"><a href="dimensionality.html#cb48-5" tabindex="-1"></a><span class="co">#&gt;     G    S1 </span></span>
-<span id="cb48-6"><a href="dimensionality.html#cb48-6" tabindex="-1"></a><span class="co">#&gt; 0.838 0.587</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="dimensionality.html#cb49-1" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(uni, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb49-2"><a href="dimensionality.html#cb49-2" tabindex="-1"></a><span class="co">#&gt;   F1 </span></span>
+<span id="cb49-3"><a href="dimensionality.html#cb49-3" tabindex="-1"></a><span class="co">#&gt; 0.85</span></span>
+<span id="cb49-4"><a href="dimensionality.html#cb49-4" tabindex="-1"></a><span class="fu">empirical_rxx</span>(<span class="fu">fscores</span>(bf, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb49-5"><a href="dimensionality.html#cb49-5" tabindex="-1"></a><span class="co">#&gt;     G    S1 </span></span>
+<span id="cb49-6"><a href="dimensionality.html#cb49-6" tabindex="-1"></a><span class="co">#&gt; 0.838 0.587</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>The unidimensional model reports a somewhat higher reliability, because it
 counts the shared passage effect as signal about reading. The general
 factor of the bifactor model gives the more honest figure. With one small
 passage the difference is modest; with several passages it grows.</li>
 </ol>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="dimensionality.html#cb49-1" tabindex="-1"></a>super <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(resp[, <span class="sc">-</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)], <span class="at">R05_08 =</span> <span class="fu">rowSums</span>(resp[, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]))</span>
-<span id="cb49-2"><a href="dimensionality.html#cb49-2" tabindex="-1"></a>sup <span class="ot">&lt;-</span> <span class="fu">mirt</span>(super, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;2PL&quot;</span>, <span class="dv">16</span>), <span class="st">&quot;graded&quot;</span>), <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb49-3"><a href="dimensionality.html#cb49-3" tabindex="-1"></a>q3s <span class="ot">&lt;-</span> <span class="fu">residuals</span>(sup, <span class="at">type =</span> <span class="st">&quot;Q3&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb49-4"><a href="dimensionality.html#cb49-4" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(q3s[<span class="fu">upper.tri</span>(q3s)]))</span>
-<span id="cb49-5"><a href="dimensionality.html#cb49-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.131</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="dimensionality.html#cb50-1" tabindex="-1"></a>super <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(resp[, <span class="sc">-</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)], <span class="at">R05_08 =</span> <span class="fu">rowSums</span>(resp[, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]))</span>
+<span id="cb50-2"><a href="dimensionality.html#cb50-2" tabindex="-1"></a>sup <span class="ot">&lt;-</span> <span class="fu">mirt</span>(super, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;2PL&quot;</span>, <span class="dv">16</span>), <span class="st">&quot;graded&quot;</span>), <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-3"><a href="dimensionality.html#cb50-3" tabindex="-1"></a>q3s <span class="ot">&lt;-</span> <span class="fu">residuals</span>(sup, <span class="at">type =</span> <span class="st">&quot;Q3&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-4"><a href="dimensionality.html#cb50-4" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(q3s[<span class="fu">upper.tri</span>(q3s)]))</span>
+<span id="cb50-5"><a href="dimensionality.html#cb50-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.131</span></span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>The super-item removes the dependent pairs, and the largest remaining Q3
 is small.</li>
@@ -669,7 +678,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

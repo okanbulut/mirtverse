@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 11 Item banks, test assembly and adaptive testing | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 11 Item banks, test assembly and adaptive testing | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -378,31 +382,36 @@ on their performance on the last one.</p>
 <h2><span class="header-section-number">11.2</span> Example 1: a vocabulary bank and a fixed form<a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A language-assessment centre has a calibrated bank of 200 vocabulary items
 in four areas.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="banks-cat.html#cb123-1" tabindex="-1"></a><span class="co"># A calibrated 2PL item bank: 200 items, four content areas.</span></span>
-<span id="cb123-2"><a href="banks-cat.html#cb123-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
-<span id="cb123-3"><a href="banks-cat.html#cb123-3" tabindex="-1"></a>bank <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;V%03d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),</span>
-<span id="cb123-4"><a href="banks-cat.html#cb123-4" tabindex="-1"></a>                   <span class="at">area =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Everyday&quot;</span>, <span class="st">&quot;Academic&quot;</span>, <span class="st">&quot;Workplace&quot;</span>, <span class="st">&quot;Idioms&quot;</span>),</span>
-<span id="cb123-5"><a href="banks-cat.html#cb123-5" tabindex="-1"></a>                                     <span class="at">each =</span> <span class="dv">50</span>)),</span>
-<span id="cb123-6"><a href="banks-cat.html#cb123-6" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">200</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>),</span>
-<span id="cb123-7"><a href="banks-cat.html#cb123-7" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.9</span>), <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="fl">0.4</span>, <span class="fl">0.9</span>),</span>
-<span id="cb123-8"><a href="banks-cat.html#cb123-8" tabindex="-1"></a>                         <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="fl">0.9</span>),    <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="fl">0.9</span>, <span class="fl">0.7</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="banks-cat.html#cb124-1" tabindex="-1"></a><span class="co"># A calibrated 2PL item bank: 200 items, four content areas.</span></span>
+<span id="cb124-2"><a href="banks-cat.html#cb124-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb124-3"><a href="banks-cat.html#cb124-3" tabindex="-1"></a>bank <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;V%03d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),</span>
+<span id="cb124-4"><a href="banks-cat.html#cb124-4" tabindex="-1"></a>                   <span class="at">area =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Everyday&quot;</span>, <span class="st">&quot;Academic&quot;</span>, <span class="st">&quot;Workplace&quot;</span>, <span class="st">&quot;Idioms&quot;</span>),</span>
+<span id="cb124-5"><a href="banks-cat.html#cb124-5" tabindex="-1"></a>                                     <span class="at">each =</span> <span class="dv">50</span>)),</span>
+<span id="cb124-6"><a href="banks-cat.html#cb124-6" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">200</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>),</span>
+<span id="cb124-7"><a href="banks-cat.html#cb124-7" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.9</span>), <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="fl">0.4</span>, <span class="fl">0.9</span>),</span>
+<span id="cb124-8"><a href="banks-cat.html#cb124-8" tabindex="-1"></a>                         <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="fl">0.9</span>),    <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="fl">0.9</span>, <span class="fl">0.7</span>)))</span></code></pre></div>
 <p>The bank’s information curve, overall and by area, shows where it can
 measure well:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="banks-cat.html#cb124-1" tabindex="-1"></a>item_info <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, theta) {</span>
-<span id="cb124-2"><a href="banks-cat.html#cb124-2" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(a <span class="sc">*</span> (theta <span class="sc">-</span> b)); a<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
-<span id="cb124-3"><a href="banks-cat.html#cb124-3" tabindex="-1"></a>}</span>
-<span id="cb124-4"><a href="banks-cat.html#cb124-4" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb124-5"><a href="banks-cat.html#cb124-5" tabindex="-1"></a>bank_info <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">levels</span>(bank<span class="sc">$</span>area), <span class="cf">function</span>(ar) {</span>
-<span id="cb124-6"><a href="banks-cat.html#cb124-6" tabindex="-1"></a>  s <span class="ot">&lt;-</span> bank[bank<span class="sc">$</span>area <span class="sc">==</span> ar, ]</span>
-<span id="cb124-7"><a href="banks-cat.html#cb124-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">area =</span> ar, <span class="at">theta =</span> grid,</span>
-<span id="cb124-8"><a href="banks-cat.html#cb124-8" tabindex="-1"></a>             <span class="at">info =</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">item_info</span>(s<span class="sc">$</span>a, s<span class="sc">$</span>b, t))))</span>
-<span id="cb124-9"><a href="banks-cat.html#cb124-9" tabindex="-1"></a>}))</span>
-<span id="cb124-10"><a href="banks-cat.html#cb124-10" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb124-11"><a href="banks-cat.html#cb124-11" tabindex="-1"></a><span class="fu">ggplot</span>(bank_info, <span class="fu">aes</span>(theta, info, <span class="at">fill =</span> area)) <span class="sc">+</span></span>
-<span id="cb124-12"><a href="banks-cat.html#cb124-12" tabindex="-1"></a>  <span class="fu">geom_area</span>() <span class="sc">+</span></span>
-<span id="cb124-13"><a href="banks-cat.html#cb124-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Bank information&quot;</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb124-14"><a href="banks-cat.html#cb124-14" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-113-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="banks-cat.html#cb125-1" tabindex="-1"></a>item_info <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, theta) {</span>
+<span id="cb125-2"><a href="banks-cat.html#cb125-2" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(a <span class="sc">*</span> (theta <span class="sc">-</span> b)); a<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
+<span id="cb125-3"><a href="banks-cat.html#cb125-3" tabindex="-1"></a>}</span>
+<span id="cb125-4"><a href="banks-cat.html#cb125-4" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb125-5"><a href="banks-cat.html#cb125-5" tabindex="-1"></a>bank_info <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">levels</span>(bank<span class="sc">$</span>area), <span class="cf">function</span>(ar) {</span>
+<span id="cb125-6"><a href="banks-cat.html#cb125-6" tabindex="-1"></a>  s <span class="ot">&lt;-</span> bank[bank<span class="sc">$</span>area <span class="sc">==</span> ar, ]</span>
+<span id="cb125-7"><a href="banks-cat.html#cb125-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">area =</span> ar, <span class="at">theta =</span> grid,</span>
+<span id="cb125-8"><a href="banks-cat.html#cb125-8" tabindex="-1"></a>             <span class="at">info =</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">item_info</span>(s<span class="sc">$</span>a, s<span class="sc">$</span>b, t))))</span>
+<span id="cb125-9"><a href="banks-cat.html#cb125-9" tabindex="-1"></a>}))</span>
+<span id="cb125-10"><a href="banks-cat.html#cb125-10" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb125-11"><a href="banks-cat.html#cb125-11" tabindex="-1"></a><span class="fu">ggplot</span>(bank_info, <span class="fu">aes</span>(theta, info, <span class="at">fill =</span> area)) <span class="sc">+</span></span>
+<span id="cb125-12"><a href="banks-cat.html#cb125-12" tabindex="-1"></a>  <span class="fu">geom_area</span>() <span class="sc">+</span></span>
+<span id="cb125-13"><a href="banks-cat.html#cb125-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Bank information&quot;</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb125-14"><a href="banks-cat.html#cb125-14" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:bank-info"></span>
+<img src="mirtverse-book_files/figure-html/bank-info-1.png" alt="Information of the 200-item vocabulary bank, stacked by content area." width="90%" />
+<p class="caption">
+Figure 11.1: Information of the 200-item vocabulary bank, stacked by content area.
+</p>
+</div>
 <p>The bank is rich in the middle and thin at the extremes, especially below
 <span class="math inline">\(\theta = -2\)</span> and above <span class="math inline">\(\theta = 2\)</span>. Everyday vocabulary covers the low end,
 idioms the high end. Item writers should be asked for very easy and very
@@ -411,29 +420,29 @@ hard items.</p>
 between <span class="math inline">\(\theta = -1\)</span> and <span class="math inline">\(\theta = 1\)</span>. A greedy assembly adds, one at a
 time, the item that adds the most information at the target points, as long
 as its area is not yet full:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="banks-cat.html#cb125-1" tabindex="-1"></a>assemble_greedy <span class="ot">&lt;-</span> <span class="cf">function</span>(bank, length, per_area, targets) {</span>
-<span id="cb125-2"><a href="banks-cat.html#cb125-2" tabindex="-1"></a>  chosen <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>)</span>
-<span id="cb125-3"><a href="banks-cat.html#cb125-3" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(chosen) <span class="sc">&lt;</span> length) {</span>
-<span id="cb125-4"><a href="banks-cat.html#cb125-4" tabindex="-1"></a>    full <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(<span class="fu">table</span>(bank<span class="sc">$</span>area[chosen]) <span class="sc">&gt;=</span> per_area))</span>
-<span id="cb125-5"><a href="banks-cat.html#cb125-5" tabindex="-1"></a>    cand <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">which</span>(<span class="sc">!</span>bank<span class="sc">$</span>area <span class="sc">%in%</span> full), chosen)</span>
-<span id="cb125-6"><a href="banks-cat.html#cb125-6" tabindex="-1"></a>    gain <span class="ot">&lt;-</span> <span class="fu">sapply</span>(cand, <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">item_info</span>(bank<span class="sc">$</span>a[i], bank<span class="sc">$</span>b[i], targets)))</span>
-<span id="cb125-7"><a href="banks-cat.html#cb125-7" tabindex="-1"></a>    chosen <span class="ot">&lt;-</span> <span class="fu">c</span>(chosen, cand[<span class="fu">which.max</span>(gain)])</span>
-<span id="cb125-8"><a href="banks-cat.html#cb125-8" tabindex="-1"></a>  }</span>
-<span id="cb125-9"><a href="banks-cat.html#cb125-9" tabindex="-1"></a>  bank[chosen, ]</span>
-<span id="cb125-10"><a href="banks-cat.html#cb125-10" tabindex="-1"></a>}</span>
-<span id="cb125-11"><a href="banks-cat.html#cb125-11" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="fu">assemble_greedy</span>(bank, <span class="at">length =</span> <span class="dv">24</span>, <span class="at">per_area =</span> <span class="dv">6</span>, <span class="at">targets =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb125-12"><a href="banks-cat.html#cb125-12" tabindex="-1"></a><span class="fu">table</span>(form<span class="sc">$</span>area)</span>
-<span id="cb125-13"><a href="banks-cat.html#cb125-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb125-14"><a href="banks-cat.html#cb125-14" tabindex="-1"></a><span class="co">#&gt;  Academic  Everyday    Idioms Workplace </span></span>
-<span id="cb125-15"><a href="banks-cat.html#cb125-15" tabindex="-1"></a><span class="co">#&gt;         6         6         6         6</span></span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="banks-cat.html#cb126-1" tabindex="-1"></a>assemble_greedy <span class="ot">&lt;-</span> <span class="cf">function</span>(bank, length, per_area, targets) {</span>
+<span id="cb126-2"><a href="banks-cat.html#cb126-2" tabindex="-1"></a>  chosen <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>)</span>
+<span id="cb126-3"><a href="banks-cat.html#cb126-3" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(chosen) <span class="sc">&lt;</span> length) {</span>
+<span id="cb126-4"><a href="banks-cat.html#cb126-4" tabindex="-1"></a>    full <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(<span class="fu">table</span>(bank<span class="sc">$</span>area[chosen]) <span class="sc">&gt;=</span> per_area))</span>
+<span id="cb126-5"><a href="banks-cat.html#cb126-5" tabindex="-1"></a>    cand <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">which</span>(<span class="sc">!</span>bank<span class="sc">$</span>area <span class="sc">%in%</span> full), chosen)</span>
+<span id="cb126-6"><a href="banks-cat.html#cb126-6" tabindex="-1"></a>    gain <span class="ot">&lt;-</span> <span class="fu">sapply</span>(cand, <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">item_info</span>(bank<span class="sc">$</span>a[i], bank<span class="sc">$</span>b[i], targets)))</span>
+<span id="cb126-7"><a href="banks-cat.html#cb126-7" tabindex="-1"></a>    chosen <span class="ot">&lt;-</span> <span class="fu">c</span>(chosen, cand[<span class="fu">which.max</span>(gain)])</span>
+<span id="cb126-8"><a href="banks-cat.html#cb126-8" tabindex="-1"></a>  }</span>
+<span id="cb126-9"><a href="banks-cat.html#cb126-9" tabindex="-1"></a>  bank[chosen, ]</span>
+<span id="cb126-10"><a href="banks-cat.html#cb126-10" tabindex="-1"></a>}</span>
+<span id="cb126-11"><a href="banks-cat.html#cb126-11" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="fu">assemble_greedy</span>(bank, <span class="at">length =</span> <span class="dv">24</span>, <span class="at">per_area =</span> <span class="dv">6</span>, <span class="at">targets =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb126-12"><a href="banks-cat.html#cb126-12" tabindex="-1"></a><span class="fu">table</span>(form<span class="sc">$</span>area)</span>
+<span id="cb126-13"><a href="banks-cat.html#cb126-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb126-14"><a href="banks-cat.html#cb126-14" tabindex="-1"></a><span class="co">#&gt;  Academic  Everyday    Idioms Workplace </span></span>
+<span id="cb126-15"><a href="banks-cat.html#cb126-15" tabindex="-1"></a><span class="co">#&gt;         6         6         6         6</span></span></code></pre></div>
 <p>Compared with a random 24-item form that meets the same blueprint:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="banks-cat.html#cb126-1" tabindex="-1"></a>random_form <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">split</span>(bank, bank<span class="sc">$</span>area), <span class="cf">function</span>(s) s[<span class="fu">sample</span>(<span class="dv">50</span>, <span class="dv">6</span>), ]))</span>
-<span id="cb126-2"><a href="banks-cat.html#cb126-2" tabindex="-1"></a>se_at <span class="ot">&lt;-</span> <span class="cf">function</span>(f, theta) <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">item_info</span>(f<span class="sc">$</span>a, f<span class="sc">$</span>b, t))))</span>
-<span id="cb126-3"><a href="banks-cat.html#cb126-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">assembled =</span> <span class="fu">se_at</span>(form, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)),</span>
-<span id="cb126-4"><a href="banks-cat.html#cb126-4" tabindex="-1"></a>            <span class="at">random =</span> <span class="fu">se_at</span>(random_form, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))), <span class="dv">3</span>)</span>
-<span id="cb126-5"><a href="banks-cat.html#cb126-5" tabindex="-1"></a><span class="co">#&gt;            [,1]  [,2]  [,3]</span></span>
-<span id="cb126-6"><a href="banks-cat.html#cb126-6" tabindex="-1"></a><span class="co">#&gt; assembled 0.265 0.236 0.276</span></span>
-<span id="cb126-7"><a href="banks-cat.html#cb126-7" tabindex="-1"></a><span class="co">#&gt; random    0.318 0.304 0.332</span></span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="banks-cat.html#cb127-1" tabindex="-1"></a>random_form <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">split</span>(bank, bank<span class="sc">$</span>area), <span class="cf">function</span>(s) s[<span class="fu">sample</span>(<span class="dv">50</span>, <span class="dv">6</span>), ]))</span>
+<span id="cb127-2"><a href="banks-cat.html#cb127-2" tabindex="-1"></a>se_at <span class="ot">&lt;-</span> <span class="cf">function</span>(f, theta) <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">item_info</span>(f<span class="sc">$</span>a, f<span class="sc">$</span>b, t))))</span>
+<span id="cb127-3"><a href="banks-cat.html#cb127-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">assembled =</span> <span class="fu">se_at</span>(form, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)),</span>
+<span id="cb127-4"><a href="banks-cat.html#cb127-4" tabindex="-1"></a>            <span class="at">random =</span> <span class="fu">se_at</span>(random_form, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))), <span class="dv">3</span>)</span>
+<span id="cb127-5"><a href="banks-cat.html#cb127-5" tabindex="-1"></a><span class="co">#&gt;            [,1]  [,2]  [,3]</span></span>
+<span id="cb127-6"><a href="banks-cat.html#cb127-6" tabindex="-1"></a><span class="co">#&gt; assembled 0.265 0.236 0.276</span></span>
+<span id="cb127-7"><a href="banks-cat.html#cb127-7" tabindex="-1"></a><span class="co">#&gt; random    0.318 0.304 0.332</span></span></code></pre></div>
 <p>The assembled form measures more precisely at all three target points with
 the same length and blueprint. For real programmes, <code>assemble_forms()</code> in
 the mirtverse <a href="https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-7">assessment
@@ -446,71 +455,76 @@ handles enemy items (items that must not appear together).</p>
 <p>We now write a complete CAT in about 30 lines, using the same bank. The
 scoring step computes the EAP estimate on a grid of quadrature points, with a
 standard normal prior.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="banks-cat.html#cb127-1" tabindex="-1"></a>quad <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">81</span>)</span>
-<span id="cb127-2"><a href="banks-cat.html#cb127-2" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(quad)</span>
-<span id="cb127-3"><a href="banks-cat.html#cb127-3" tabindex="-1"></a>eap <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, x) {</span>
-<span id="cb127-4"><a href="banks-cat.html#cb127-4" tabindex="-1"></a>  like <span class="ot">&lt;-</span> <span class="fu">sapply</span>(quad, <span class="cf">function</span>(t) <span class="fu">prod</span>(<span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b)),</span>
-<span id="cb127-5"><a href="banks-cat.html#cb127-5" tabindex="-1"></a>                                                <span class="dv">1</span> <span class="sc">-</span> <span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b)))))</span>
-<span id="cb127-6"><a href="banks-cat.html#cb127-6" tabindex="-1"></a>  post <span class="ot">&lt;-</span> like <span class="sc">*</span> prior <span class="sc">/</span> <span class="fu">sum</span>(like <span class="sc">*</span> prior)</span>
-<span id="cb127-7"><a href="banks-cat.html#cb127-7" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">sum</span>(quad <span class="sc">*</span> post)</span>
-<span id="cb127-8"><a href="banks-cat.html#cb127-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">theta =</span> est, <span class="at">se =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((quad <span class="sc">-</span> est)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> post)))</span>
-<span id="cb127-9"><a href="banks-cat.html#cb127-9" tabindex="-1"></a>}</span>
-<span id="cb127-10"><a href="banks-cat.html#cb127-10" tabindex="-1"></a>cat_one <span class="ot">&lt;-</span> <span class="cf">function</span>(true_theta, bank, <span class="at">se_stop =</span> <span class="fl">0.3</span>, <span class="at">max_items =</span> <span class="dv">30</span>, <span class="at">top =</span> <span class="dv">1</span>) {</span>
-<span id="cb127-11"><a href="banks-cat.html#cb127-11" tabindex="-1"></a>  used <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); x <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); est <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">theta =</span> <span class="dv">0</span>, <span class="at">se =</span> <span class="dv">1</span>)</span>
-<span id="cb127-12"><a href="banks-cat.html#cb127-12" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(used) <span class="sc">&lt;</span> max_items <span class="sc">&amp;&amp;</span> est[<span class="st">&quot;se&quot;</span>] <span class="sc">&gt;</span> se_stop) {</span>
-<span id="cb127-13"><a href="banks-cat.html#cb127-13" tabindex="-1"></a>    info <span class="ot">&lt;-</span> <span class="fu">item_info</span>(bank<span class="sc">$</span>a, bank<span class="sc">$</span>b, est[<span class="st">&quot;theta&quot;</span>]); info[used] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="cn">Inf</span></span>
-<span id="cb127-14"><a href="banks-cat.html#cb127-14" tabindex="-1"></a>    best <span class="ot">&lt;-</span> <span class="fu">order</span>(info, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="fu">seq_len</span>(top)]</span>
-<span id="cb127-15"><a href="banks-cat.html#cb127-15" tabindex="-1"></a>    item <span class="ot">&lt;-</span> <span class="cf">if</span> (top <span class="sc">==</span> <span class="dv">1</span>) best <span class="cf">else</span> <span class="fu">sample</span>(best, <span class="dv">1</span>)   <span class="co"># randomesque exposure control</span></span>
-<span id="cb127-16"><a href="banks-cat.html#cb127-16" tabindex="-1"></a>    used <span class="ot">&lt;-</span> <span class="fu">c</span>(used, item)</span>
-<span id="cb127-17"><a href="banks-cat.html#cb127-17" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">plogis</span>(bank<span class="sc">$</span>a[item] <span class="sc">*</span> (true_theta <span class="sc">-</span> bank<span class="sc">$</span>b[item]))))</span>
-<span id="cb127-18"><a href="banks-cat.html#cb127-18" tabindex="-1"></a>    est <span class="ot">&lt;-</span> <span class="fu">eap</span>(bank<span class="sc">$</span>a[used], bank<span class="sc">$</span>b[used], x)</span>
-<span id="cb127-19"><a href="banks-cat.html#cb127-19" tabindex="-1"></a>  }</span>
-<span id="cb127-20"><a href="banks-cat.html#cb127-20" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> est[[<span class="st">&quot;theta&quot;</span>]], <span class="at">se =</span> est[[<span class="st">&quot;se&quot;</span>]], <span class="at">n =</span> <span class="fu">length</span>(used), <span class="at">items =</span> used)</span>
-<span id="cb127-21"><a href="banks-cat.html#cb127-21" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="banks-cat.html#cb128-1" tabindex="-1"></a>quad <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">81</span>)</span>
+<span id="cb128-2"><a href="banks-cat.html#cb128-2" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(quad)</span>
+<span id="cb128-3"><a href="banks-cat.html#cb128-3" tabindex="-1"></a>eap <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, x) {</span>
+<span id="cb128-4"><a href="banks-cat.html#cb128-4" tabindex="-1"></a>  like <span class="ot">&lt;-</span> <span class="fu">sapply</span>(quad, <span class="cf">function</span>(t) <span class="fu">prod</span>(<span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b)),</span>
+<span id="cb128-5"><a href="banks-cat.html#cb128-5" tabindex="-1"></a>                                                <span class="dv">1</span> <span class="sc">-</span> <span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b)))))</span>
+<span id="cb128-6"><a href="banks-cat.html#cb128-6" tabindex="-1"></a>  post <span class="ot">&lt;-</span> like <span class="sc">*</span> prior <span class="sc">/</span> <span class="fu">sum</span>(like <span class="sc">*</span> prior)</span>
+<span id="cb128-7"><a href="banks-cat.html#cb128-7" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">sum</span>(quad <span class="sc">*</span> post)</span>
+<span id="cb128-8"><a href="banks-cat.html#cb128-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">theta =</span> est, <span class="at">se =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((quad <span class="sc">-</span> est)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> post)))</span>
+<span id="cb128-9"><a href="banks-cat.html#cb128-9" tabindex="-1"></a>}</span>
+<span id="cb128-10"><a href="banks-cat.html#cb128-10" tabindex="-1"></a>cat_one <span class="ot">&lt;-</span> <span class="cf">function</span>(true_theta, bank, <span class="at">se_stop =</span> <span class="fl">0.3</span>, <span class="at">max_items =</span> <span class="dv">30</span>, <span class="at">top =</span> <span class="dv">1</span>) {</span>
+<span id="cb128-11"><a href="banks-cat.html#cb128-11" tabindex="-1"></a>  used <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); x <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); est <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">theta =</span> <span class="dv">0</span>, <span class="at">se =</span> <span class="dv">1</span>)</span>
+<span id="cb128-12"><a href="banks-cat.html#cb128-12" tabindex="-1"></a>  <span class="cf">while</span> (<span class="fu">length</span>(used) <span class="sc">&lt;</span> max_items <span class="sc">&amp;&amp;</span> est[<span class="st">&quot;se&quot;</span>] <span class="sc">&gt;</span> se_stop) {</span>
+<span id="cb128-13"><a href="banks-cat.html#cb128-13" tabindex="-1"></a>    info <span class="ot">&lt;-</span> <span class="fu">item_info</span>(bank<span class="sc">$</span>a, bank<span class="sc">$</span>b, est[<span class="st">&quot;theta&quot;</span>]); info[used] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="cn">Inf</span></span>
+<span id="cb128-14"><a href="banks-cat.html#cb128-14" tabindex="-1"></a>    best <span class="ot">&lt;-</span> <span class="fu">order</span>(info, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="fu">seq_len</span>(top)]</span>
+<span id="cb128-15"><a href="banks-cat.html#cb128-15" tabindex="-1"></a>    item <span class="ot">&lt;-</span> <span class="cf">if</span> (top <span class="sc">==</span> <span class="dv">1</span>) best <span class="cf">else</span> <span class="fu">sample</span>(best, <span class="dv">1</span>)   <span class="co"># randomesque exposure control</span></span>
+<span id="cb128-16"><a href="banks-cat.html#cb128-16" tabindex="-1"></a>    used <span class="ot">&lt;-</span> <span class="fu">c</span>(used, item)</span>
+<span id="cb128-17"><a href="banks-cat.html#cb128-17" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">plogis</span>(bank<span class="sc">$</span>a[item] <span class="sc">*</span> (true_theta <span class="sc">-</span> bank<span class="sc">$</span>b[item]))))</span>
+<span id="cb128-18"><a href="banks-cat.html#cb128-18" tabindex="-1"></a>    est <span class="ot">&lt;-</span> <span class="fu">eap</span>(bank<span class="sc">$</span>a[used], bank<span class="sc">$</span>b[used], x)</span>
+<span id="cb128-19"><a href="banks-cat.html#cb128-19" tabindex="-1"></a>  }</span>
+<span id="cb128-20"><a href="banks-cat.html#cb128-20" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> est[[<span class="st">&quot;theta&quot;</span>]], <span class="at">se =</span> est[[<span class="st">&quot;se&quot;</span>]], <span class="at">n =</span> <span class="fu">length</span>(used), <span class="at">items =</span> used)</span>
+<span id="cb128-21"><a href="banks-cat.html#cb128-21" tabindex="-1"></a>}</span></code></pre></div>
 <p>Simulate 300 test takers across the ability range. (To run the CAT on your
 own bank, replace <code>bank</code> in the data chunk of Example 1; it needs columns
 <code>item</code>, <code>area</code>, <code>a</code> and <code>b</code>.)</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="banks-cat.html#cb128-1" tabindex="-1"></a><span class="co"># Simulated test takers for the CAT: one true theta per person.</span></span>
-<span id="cb128-2"><a href="banks-cat.html#cb128-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1112</span>)</span>
-<span id="cb128-3"><a href="banks-cat.html#cb128-3" tabindex="-1"></a>true_theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">300</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="banks-cat.html#cb129-1" tabindex="-1"></a>runs <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank)</span>
-<span id="cb129-2"><a href="banks-cat.html#cb129-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">true =</span> true_theta,</span>
-<span id="cb129-3"><a href="banks-cat.html#cb129-3" tabindex="-1"></a>                  <span class="at">est =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;theta&quot;</span>),</span>
-<span id="cb129-4"><a href="banks-cat.html#cb129-4" tabindex="-1"></a>                  <span class="at">se =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;se&quot;</span>),</span>
-<span id="cb129-5"><a href="banks-cat.html#cb129-5" tabindex="-1"></a>                  <span class="at">n =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))</span>
-<span id="cb129-6"><a href="banks-cat.html#cb129-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_length =</span> <span class="fu">mean</span>(res<span class="sc">$</span>n), <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((res<span class="sc">$</span>est <span class="sc">-</span> res<span class="sc">$</span>true)<span class="sc">^</span><span class="dv">2</span>)),</span>
-<span id="cb129-7"><a href="banks-cat.html#cb129-7" tabindex="-1"></a>  <span class="at">cor =</span> <span class="fu">cor</span>(res<span class="sc">$</span>est, res<span class="sc">$</span>true))</span>
-<span id="cb129-8"><a href="banks-cat.html#cb129-8" tabindex="-1"></a><span class="co">#&gt; mean_length        rmse         cor </span></span>
-<span id="cb129-9"><a href="banks-cat.html#cb129-9" tabindex="-1"></a><span class="co">#&gt;      12.337       0.292       0.959</span></span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="banks-cat.html#cb129-1" tabindex="-1"></a><span class="co"># Simulated test takers for the CAT: one true theta per person.</span></span>
+<span id="cb129-2"><a href="banks-cat.html#cb129-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1112</span>)</span>
+<span id="cb129-3"><a href="banks-cat.html#cb129-3" tabindex="-1"></a>true_theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">300</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="banks-cat.html#cb130-1" tabindex="-1"></a>runs <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank)</span>
+<span id="cb130-2"><a href="banks-cat.html#cb130-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">true =</span> true_theta,</span>
+<span id="cb130-3"><a href="banks-cat.html#cb130-3" tabindex="-1"></a>                  <span class="at">est =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;theta&quot;</span>),</span>
+<span id="cb130-4"><a href="banks-cat.html#cb130-4" tabindex="-1"></a>                  <span class="at">se =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;se&quot;</span>),</span>
+<span id="cb130-5"><a href="banks-cat.html#cb130-5" tabindex="-1"></a>                  <span class="at">n =</span> <span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))</span>
+<span id="cb130-6"><a href="banks-cat.html#cb130-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_length =</span> <span class="fu">mean</span>(res<span class="sc">$</span>n), <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((res<span class="sc">$</span>est <span class="sc">-</span> res<span class="sc">$</span>true)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb130-7"><a href="banks-cat.html#cb130-7" tabindex="-1"></a>  <span class="at">cor =</span> <span class="fu">cor</span>(res<span class="sc">$</span>est, res<span class="sc">$</span>true))</span>
+<span id="cb130-8"><a href="banks-cat.html#cb130-8" tabindex="-1"></a><span class="co">#&gt; mean_length        rmse         cor </span></span>
+<span id="cb130-9"><a href="banks-cat.html#cb130-9" tabindex="-1"></a><span class="co">#&gt;      12.337       0.292       0.959</span></span></code></pre></div>
 <p>On average the CAT reaches a standard error of 0.3 with far fewer than 30
 items. Test length depends on where a person is: in the middle, where the
 bank is rich, the CAT stops quickly; at the extremes it runs out of
 informative items and goes to the maximum.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="banks-cat.html#cb130-1" tabindex="-1"></a><span class="fu">ggplot</span>(res, <span class="fu">aes</span>(true, n)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb130-2"><a href="banks-cat.html#cb130-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;True theta&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Items administered&quot;</span>) <span class="sc">+</span> <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-118-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="banks-cat.html#cb131-1" tabindex="-1"></a><span class="fu">ggplot</span>(res, <span class="fu">aes</span>(true, n)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb131-2"><a href="banks-cat.html#cb131-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;True theta&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Items administered&quot;</span>) <span class="sc">+</span> <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cat-length"></span>
+<img src="mirtverse-book_files/figure-html/cat-length-1.png" alt="Number of items administered by the CAT against true ability." width="90%" />
+<p class="caption">
+Figure 11.2: Number of items administered by the CAT against true ability.
+</p>
+</div>
 <p>Exposure is the other side of the coin. With pure maximum-information
 selection, a few items are given to a large share of test takers:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="banks-cat.html#cb131-1" tabindex="-1"></a>exposure <span class="ot">&lt;-</span> <span class="cf">function</span>(runs) {</span>
-<span id="cb131-2"><a href="banks-cat.html#cb131-2" tabindex="-1"></a>  <span class="fu">table</span>(<span class="fu">factor</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;items&quot;</span>)), <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)) <span class="sc">/</span> <span class="fu">length</span>(runs)</span>
-<span id="cb131-3"><a href="banks-cat.html#cb131-3" tabindex="-1"></a>}</span>
-<span id="cb131-4"><a href="banks-cat.html#cb131-4" tabindex="-1"></a>exp_max <span class="ot">&lt;-</span> <span class="fu">exposure</span>(runs)</span>
-<span id="cb131-5"><a href="banks-cat.html#cb131-5" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">round</span>(exp_max, <span class="dv">2</span>), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
-<span id="cb131-6"><a href="banks-cat.html#cb131-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb131-7"><a href="banks-cat.html#cb131-7" tabindex="-1"></a><span class="co">#&gt;   31  100   97   67  135  140 </span></span>
-<span id="cb131-8"><a href="banks-cat.html#cb131-8" tabindex="-1"></a><span class="co">#&gt; 1.00 0.68 0.64 0.60 0.48 0.48</span></span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="banks-cat.html#cb132-1" tabindex="-1"></a>exposure <span class="ot">&lt;-</span> <span class="cf">function</span>(runs) {</span>
+<span id="cb132-2"><a href="banks-cat.html#cb132-2" tabindex="-1"></a>  <span class="fu">table</span>(<span class="fu">factor</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;items&quot;</span>)), <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)) <span class="sc">/</span> <span class="fu">length</span>(runs)</span>
+<span id="cb132-3"><a href="banks-cat.html#cb132-3" tabindex="-1"></a>}</span>
+<span id="cb132-4"><a href="banks-cat.html#cb132-4" tabindex="-1"></a>exp_max <span class="ot">&lt;-</span> <span class="fu">exposure</span>(runs)</span>
+<span id="cb132-5"><a href="banks-cat.html#cb132-5" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">round</span>(exp_max, <span class="dv">2</span>), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb132-6"><a href="banks-cat.html#cb132-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb132-7"><a href="banks-cat.html#cb132-7" tabindex="-1"></a><span class="co">#&gt;   31  100   97   67  135  140 </span></span>
+<span id="cb132-8"><a href="banks-cat.html#cb132-8" tabindex="-1"></a><span class="co">#&gt; 1.00 0.68 0.64 0.60 0.48 0.48</span></span></code></pre></div>
 <p>The first item is the same for everybody (the most informative item at
 <span class="math inline">\(\theta = 0\)</span>), so its exposure is 100%. The <strong>randomesque</strong> method picks at
 random among the five most informative items, which spreads exposure at a
 small cost in test length:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="banks-cat.html#cb132-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1113</span>)</span>
-<span id="cb132-2"><a href="banks-cat.html#cb132-2" tabindex="-1"></a>runs_r <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank, <span class="at">top =</span> <span class="dv">5</span>)</span>
-<span id="cb132-3"><a href="banks-cat.html#cb132-3" tabindex="-1"></a>exp_r <span class="ot">&lt;-</span> <span class="fu">exposure</span>(runs_r)</span>
-<span id="cb132-4"><a href="banks-cat.html#cb132-4" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">max_info =</span> <span class="fu">c</span>(<span class="at">max_exposure =</span> <span class="fu">max</span>(exp_max), <span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))),</span>
-<span id="cb132-5"><a href="banks-cat.html#cb132-5" tabindex="-1"></a>      <span class="at">randomesque =</span> <span class="fu">c</span>(<span class="at">max_exposure =</span> <span class="fu">max</span>(exp_r), <span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs_r, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))))</span>
-<span id="cb132-6"><a href="banks-cat.html#cb132-6" tabindex="-1"></a><span class="co">#&gt;             max_exposure mean_length</span></span>
-<span id="cb132-7"><a href="banks-cat.html#cb132-7" tabindex="-1"></a><span class="co">#&gt; max_info           1.000        12.3</span></span>
-<span id="cb132-8"><a href="banks-cat.html#cb132-8" tabindex="-1"></a><span class="co">#&gt; randomesque        0.677        12.9</span></span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="banks-cat.html#cb133-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1113</span>)</span>
+<span id="cb133-2"><a href="banks-cat.html#cb133-2" tabindex="-1"></a>runs_r <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank, <span class="at">top =</span> <span class="dv">5</span>)</span>
+<span id="cb133-3"><a href="banks-cat.html#cb133-3" tabindex="-1"></a>exp_r <span class="ot">&lt;-</span> <span class="fu">exposure</span>(runs_r)</span>
+<span id="cb133-4"><a href="banks-cat.html#cb133-4" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">max_info =</span> <span class="fu">c</span>(<span class="at">max_exposure =</span> <span class="fu">max</span>(exp_max), <span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))),</span>
+<span id="cb133-5"><a href="banks-cat.html#cb133-5" tabindex="-1"></a>      <span class="at">randomesque =</span> <span class="fu">c</span>(<span class="at">max_exposure =</span> <span class="fu">max</span>(exp_r), <span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs_r, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))))</span>
+<span id="cb133-6"><a href="banks-cat.html#cb133-6" tabindex="-1"></a><span class="co">#&gt;             max_exposure mean_length</span></span>
+<span id="cb133-7"><a href="banks-cat.html#cb133-7" tabindex="-1"></a><span class="co">#&gt; max_info           1.000        12.3</span></span>
+<span id="cb133-8"><a href="banks-cat.html#cb133-8" tabindex="-1"></a><span class="co">#&gt; randomesque        0.677        12.9</span></span></code></pre></div>
 <p>Content balancing (for example, cycling through the four areas) works the
 same way: restrict the candidate items before choosing the most informative
 one. <code>simulate_cat()</code> in the assessment pipeline runs this kind of
@@ -537,21 +551,21 @@ different numbers of questions. Write a short explanation.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="banks-cat.html#cb133-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1114</span>)</span>
-<span id="cb133-2"><a href="banks-cat.html#cb133-2" tabindex="-1"></a>hard <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;H%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="at">area =</span> <span class="fu">factor</span>(<span class="st">&quot;Idioms&quot;</span>, <span class="fu">levels</span>(bank<span class="sc">$</span>area)),</span>
-<span id="cb133-3"><a href="banks-cat.html#cb133-3" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">20</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="fl">2.2</span>, <span class="fl">0.4</span>))</span>
-<span id="cb133-4"><a href="banks-cat.html#cb133-4" tabindex="-1"></a>bank2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(bank, hard)</span>
-<span id="cb133-5"><a href="banks-cat.html#cb133-5" tabindex="-1"></a>top <span class="ot">&lt;-</span> true_theta <span class="sc">&gt;</span> <span class="fl">1.5</span></span>
-<span id="cb133-6"><a href="banks-cat.html#cb133-6" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sapply</span>(<span class="fu">lapply</span>(true_theta[top], cat_one, <span class="at">bank =</span> bank2), <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))</span>
-<span id="cb133-7"><a href="banks-cat.html#cb133-7" tabindex="-1"></a><span class="co">#&gt; [1] 14.8</span></span>
-<span id="cb133-8"><a href="banks-cat.html#cb133-8" tabindex="-1"></a><span class="fu">mean</span>(res<span class="sc">$</span>n[top])</span>
-<span id="cb133-9"><a href="banks-cat.html#cb133-9" tabindex="-1"></a><span class="co">#&gt; [1] 17.8</span></span>
-<span id="cb133-10"><a href="banks-cat.html#cb133-10" tabindex="-1"></a></span>
-<span id="cb133-11"><a href="banks-cat.html#cb133-11" tabindex="-1"></a>runs25 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank, <span class="at">se_stop =</span> <span class="fl">0.25</span>)</span>
-<span id="cb133-12"><a href="banks-cat.html#cb133-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs25, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>)),</span>
-<span id="cb133-13"><a href="banks-cat.html#cb133-13" tabindex="-1"></a>  <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">sapply</span>(runs25, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;theta&quot;</span>) <span class="sc">-</span> true_theta)<span class="sc">^</span><span class="dv">2</span>)))</span>
-<span id="cb133-14"><a href="banks-cat.html#cb133-14" tabindex="-1"></a><span class="co">#&gt; mean_length        rmse </span></span>
-<span id="cb133-15"><a href="banks-cat.html#cb133-15" tabindex="-1"></a><span class="co">#&gt;      18.963       0.246</span></span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="banks-cat.html#cb134-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1114</span>)</span>
+<span id="cb134-2"><a href="banks-cat.html#cb134-2" tabindex="-1"></a>hard <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">sprintf</span>(<span class="st">&quot;H%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="at">area =</span> <span class="fu">factor</span>(<span class="st">&quot;Idioms&quot;</span>, <span class="fu">levels</span>(bank<span class="sc">$</span>area)),</span>
+<span id="cb134-3"><a href="banks-cat.html#cb134-3" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">20</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="fl">2.2</span>, <span class="fl">0.4</span>))</span>
+<span id="cb134-4"><a href="banks-cat.html#cb134-4" tabindex="-1"></a>bank2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(bank, hard)</span>
+<span id="cb134-5"><a href="banks-cat.html#cb134-5" tabindex="-1"></a>top <span class="ot">&lt;-</span> true_theta <span class="sc">&gt;</span> <span class="fl">1.5</span></span>
+<span id="cb134-6"><a href="banks-cat.html#cb134-6" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sapply</span>(<span class="fu">lapply</span>(true_theta[top], cat_one, <span class="at">bank =</span> bank2), <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>))</span>
+<span id="cb134-7"><a href="banks-cat.html#cb134-7" tabindex="-1"></a><span class="co">#&gt; [1] 14.8</span></span>
+<span id="cb134-8"><a href="banks-cat.html#cb134-8" tabindex="-1"></a><span class="fu">mean</span>(res<span class="sc">$</span>n[top])</span>
+<span id="cb134-9"><a href="banks-cat.html#cb134-9" tabindex="-1"></a><span class="co">#&gt; [1] 17.8</span></span>
+<span id="cb134-10"><a href="banks-cat.html#cb134-10" tabindex="-1"></a></span>
+<span id="cb134-11"><a href="banks-cat.html#cb134-11" tabindex="-1"></a>runs25 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(true_theta, cat_one, <span class="at">bank =</span> bank, <span class="at">se_stop =</span> <span class="fl">0.25</span>)</span>
+<span id="cb134-12"><a href="banks-cat.html#cb134-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_length =</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(runs25, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;n&quot;</span>)),</span>
+<span id="cb134-13"><a href="banks-cat.html#cb134-13" tabindex="-1"></a>  <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">sapply</span>(runs25, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">&quot;theta&quot;</span>) <span class="sc">-</span> true_theta)<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb134-14"><a href="banks-cat.html#cb134-14" tabindex="-1"></a><span class="co">#&gt; mean_length        rmse </span></span>
+<span id="cb134-15"><a href="banks-cat.html#cb134-15" tabindex="-1"></a><span class="co">#&gt;      18.963       0.246</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>The CAT reaches the target precision sooner for the most able test
 takers, because it now has informative items for them.</li>
@@ -626,7 +640,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

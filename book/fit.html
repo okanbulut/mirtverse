@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 5 Item fit, person fit and item quality | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 5 Item fit, person fit and item quality | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -375,35 +379,40 @@ misconduct.</p>
 <div id="example-1-the-same-items-under-two-models" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Example 1: the same items under two models<a href="fit.html#example-1-the-same-items-under-two-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We return to the <code>SAT12</code> science items, scored with the corrected key.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="fit.html#cb50-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
-<span id="cb50-2"><a href="fit.html#cb50-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
-<span id="cb50-3"><a href="fit.html#cb50-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="fit.html#cb51-1" tabindex="-1"></a><span class="co"># SAT12 science items, scored with the corrected key (item 32 keyed 3).</span></span>
+<span id="cb51-2"><a href="fit.html#cb51-2" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span>
+<span id="cb51-3"><a href="fit.html#cb51-3" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, key)</span></code></pre></div>
 <p>First, the Rasch model. <code>gg_itemfit()</code> plots each item’s S-X² RMSEA and marks
 the items whose p-value is below <code>alpha</code>.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="fit.html#cb51-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb51-2"><a href="fit.html#cb51-2" tabindex="-1"></a><span class="fu">gg_itemfit</span>(rasch, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-48-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="fit.html#cb52-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb52-2"><a href="fit.html#cb52-2" tabindex="-1"></a><span class="fu">gg_itemfit</span>(rasch, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:itemfit-rasch"></span>
+<img src="mirtverse-book_files/figure-html/itemfit-rasch-1.png" alt="S-$X^2$ RMSEA of each SAT12 item under the Rasch model; flagged items are marked." width="90%" />
+<p class="caption">
+Figure 5.1: S-<span class="math inline">\(X^2\)</span> RMSEA of each SAT12 item under the Rasch model; flagged items are marked.
+</p>
+</div>
 <p><code>item_table()</code> puts the classical statistics, IRT parameters, fit and flags
 in one table. Here are the items that misfit the Rasch model most:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="fit.html#cb52-1" tabindex="-1"></a>tab_r <span class="ot">&lt;-</span> <span class="fu">item_table</span>(rasch, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb52-2"><a href="fit.html#cb52-2" tabindex="-1"></a>tab_r[<span class="fu">order</span>(tab_r<span class="sc">$</span>p.value), <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;item_total_r&quot;</span>, <span class="st">&quot;location&quot;</span>, <span class="st">&quot;S_X2&quot;</span>, <span class="st">&quot;df&quot;</span>,</span>
-<span id="cb52-3"><a href="fit.html#cb52-3" tabindex="-1"></a>                              <span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;p.value&quot;</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
-<span id="cb52-4"><a href="fit.html#cb52-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
-<span id="cb52-5"><a href="fit.html#cb52-5" tabindex="-1"></a><span class="co">#&gt;   item    item_total_r location  S_X2    df  RMSEA  p.value</span></span>
-<span id="cb52-6"><a href="fit.html#cb52-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb52-7"><a href="fit.html#cb52-7" tabindex="-1"></a><span class="co">#&gt; 1 Item.12       0.0685    0.394  91.7    18 0.0827 2.26e-10</span></span>
-<span id="cb52-8"><a href="fit.html#cb52-8" tabindex="-1"></a><span class="co">#&gt; 2 Item.30       0.157     0.274  60.7    18 0.0629 2.52e- 5</span></span>
-<span id="cb52-9"><a href="fit.html#cb52-9" tabindex="-1"></a><span class="co">#&gt; 3 Item.4        0.236     0.574  53.1    18 0.0571 2.69e- 4</span></span>
-<span id="cb52-10"><a href="fit.html#cb52-10" tabindex="-1"></a><span class="co">#&gt; 4 Item.31       0.425    -1.85   41.3    17 0.0488 6.80e- 3</span></span>
-<span id="cb52-11"><a href="fit.html#cb52-11" tabindex="-1"></a><span class="co">#&gt; 5 Item.32       0.203     0.258  41.4    18 0.0466 8.45e- 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="fit.html#cb53-1" tabindex="-1"></a>tab_r <span class="ot">&lt;-</span> <span class="fu">item_table</span>(rasch, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb53-2"><a href="fit.html#cb53-2" tabindex="-1"></a>tab_r[<span class="fu">order</span>(tab_r<span class="sc">$</span>p.value), <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;item_total_r&quot;</span>, <span class="st">&quot;location&quot;</span>, <span class="st">&quot;S_X2&quot;</span>, <span class="st">&quot;df&quot;</span>,</span>
+<span id="cb53-3"><a href="fit.html#cb53-3" tabindex="-1"></a>                              <span class="st">&quot;RMSEA&quot;</span>, <span class="st">&quot;p.value&quot;</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb53-4"><a href="fit.html#cb53-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
+<span id="cb53-5"><a href="fit.html#cb53-5" tabindex="-1"></a><span class="co">#&gt;   item    item_total_r location  S_X2    df  RMSEA  p.value</span></span>
+<span id="cb53-6"><a href="fit.html#cb53-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb53-7"><a href="fit.html#cb53-7" tabindex="-1"></a><span class="co">#&gt; 1 Item.12       0.0685    0.394  91.7    18 0.0827 2.26e-10</span></span>
+<span id="cb53-8"><a href="fit.html#cb53-8" tabindex="-1"></a><span class="co">#&gt; 2 Item.30       0.157     0.274  60.7    18 0.0629 2.52e- 5</span></span>
+<span id="cb53-9"><a href="fit.html#cb53-9" tabindex="-1"></a><span class="co">#&gt; 3 Item.4        0.236     0.574  53.1    18 0.0571 2.69e- 4</span></span>
+<span id="cb53-10"><a href="fit.html#cb53-10" tabindex="-1"></a><span class="co">#&gt; 4 Item.31       0.425    -1.85   41.3    17 0.0488 6.80e- 3</span></span>
+<span id="cb53-11"><a href="fit.html#cb53-11" tabindex="-1"></a><span class="co">#&gt; 5 Item.32       0.203     0.258  41.4    18 0.0466 8.45e- 3</span></span></code></pre></div>
 <p>The worst-fitting items include items whose item-total correlation is far
 from the typical value: either much flatter or much steeper than the common
 slope the Rasch model imposes. Now fit the 2PL, which lets the slopes vary:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="fit.html#cb53-1" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb53-2"><a href="fit.html#cb53-2" tabindex="-1"></a>tab_2 <span class="ot">&lt;-</span> <span class="fu">item_table</span>(twopl, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb53-3"><a href="fit.html#cb53-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">misfit_rasch =</span> <span class="fu">sum</span>(tab_r<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>), <span class="at">misfit_2pl =</span> <span class="fu">sum</span>(tab_2<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>))</span>
-<span id="cb53-4"><a href="fit.html#cb53-4" tabindex="-1"></a><span class="co">#&gt; misfit_rasch   misfit_2pl </span></span>
-<span id="cb53-5"><a href="fit.html#cb53-5" tabindex="-1"></a><span class="co">#&gt;            5            0</span></span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="fit.html#cb54-1" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb54-2"><a href="fit.html#cb54-2" tabindex="-1"></a>tab_2 <span class="ot">&lt;-</span> <span class="fu">item_table</span>(twopl, <span class="at">p_adjust =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb54-3"><a href="fit.html#cb54-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">misfit_rasch =</span> <span class="fu">sum</span>(tab_r<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>), <span class="at">misfit_2pl =</span> <span class="fu">sum</span>(tab_2<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>))</span>
+<span id="cb54-4"><a href="fit.html#cb54-4" tabindex="-1"></a><span class="co">#&gt; misfit_rasch   misfit_2pl </span></span>
+<span id="cb54-5"><a href="fit.html#cb54-5" tabindex="-1"></a><span class="co">#&gt;            5            0</span></span></code></pre></div>
 <p>The 2PL removes the misfit. Whether that is the right response depends on
 the purpose. A Rasch programme would rather revise or drop the items that do
 not fit, because equal slopes give the sum score its simple meaning; a 2PL
@@ -411,30 +420,40 @@ programme would keep them.</p>
 <p>An <strong>empirical item curve</strong> shows the misfit directly. People are grouped by
 their estimated <span class="math inline">\(\theta\)</span>, and the observed proportion correct in each group
 is plotted against the model curve:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="fit.html#cb54-1" tabindex="-1"></a>worst <span class="ot">&lt;-</span> tab_r<span class="sc">$</span>item[<span class="fu">which.min</span>(tab_r<span class="sc">$</span>p.value)]</span>
-<span id="cb54-2"><a href="fit.html#cb54-2" tabindex="-1"></a><span class="fu">gg_empirical</span>(rasch, worst) <span class="sc">+</span> <span class="fu">gg_empirical</span>(twopl, worst)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-51-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="fit.html#cb55-1" tabindex="-1"></a>worst <span class="ot">&lt;-</span> tab_r<span class="sc">$</span>item[<span class="fu">which.min</span>(tab_r<span class="sc">$</span>p.value)]</span>
+<span id="cb55-2"><a href="fit.html#cb55-2" tabindex="-1"></a><span class="fu">gg_empirical</span>(rasch, worst) <span class="sc">+</span> <span class="fu">gg_empirical</span>(twopl, worst)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:empirical-worst"></span>
+<img src="mirtverse-book_files/figure-html/empirical-worst-1.png" alt="Empirical item curve of the worst-fitting item under the Rasch model (left) and the 2PL (right)." width="90%" />
+<p class="caption">
+Figure 5.2: Empirical item curve of the worst-fitting item under the Rasch model (left) and the 2PL (right).
+</p>
+</div>
 <p>Under the Rasch model the observed points do not follow the curve; under the
 2PL they do. Fit is not the only thing that matters about an item, though.
 <code>item_table()</code> also flags items that are very easy or very hard, or that
 discriminate poorly:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="fit.html#cb55-1" tabindex="-1"></a>tab_2[tab_2<span class="sc">$</span>flag <span class="sc">!=</span> <span class="st">&quot;&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;item_total_r&quot;</span>, <span class="st">&quot;discrimination&quot;</span>,</span>
-<span id="cb55-2"><a href="fit.html#cb55-2" tabindex="-1"></a>                          <span class="st">&quot;location&quot;</span>, <span class="st">&quot;flag&quot;</span>)]</span>
-<span id="cb55-3"><a href="fit.html#cb55-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 6</span></span>
-<span id="cb55-4"><a href="fit.html#cb55-4" tabindex="-1"></a><span class="co">#&gt;   item     mean item_total_r discrimination location flag                       </span></span>
-<span id="cb55-5"><a href="fit.html#cb55-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                      </span></span>
-<span id="cb55-6"><a href="fit.html#cb55-6" tabindex="-1"></a><span class="co">#&gt; 1 Item.9  0.885       0.123           0.518   -4.13  extreme location; low item…</span></span>
-<span id="cb55-7"><a href="fit.html#cb55-7" tabindex="-1"></a><span class="co">#&gt; 2 Item.11 0.983       0.150           1.69    -3.07  extreme location; low item…</span></span>
-<span id="cb55-8"><a href="fit.html#cb55-8" tabindex="-1"></a><span class="co">#&gt; 3 Item.12 0.415       0.0685          0.156    2.21  low discrimination; low it…</span></span>
-<span id="cb55-9"><a href="fit.html#cb55-9" tabindex="-1"></a><span class="co">#&gt; 4 Item.17 0.963       0.199           1.53    -2.71  low item-total correlation </span></span>
-<span id="cb55-10"><a href="fit.html#cb55-10" tabindex="-1"></a><span class="co">#&gt; 5 Item.21 0.915       0.131           0.600   -4.19  extreme location; low item…</span></span>
-<span id="cb55-11"><a href="fit.html#cb55-11" tabindex="-1"></a><span class="co">#&gt; 6 Item.30 0.44        0.157           0.383    0.647 low discrimination; low it…</span></span>
-<span id="cb55-12"><a href="fit.html#cb55-12" tabindex="-1"></a><span class="co">#&gt; 7 Item.32 0.443       0.203           0.490    0.484 low discrimination</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="fit.html#cb56-1" tabindex="-1"></a>tab_2[tab_2<span class="sc">$</span>flag <span class="sc">!=</span> <span class="st">&quot;&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;item_total_r&quot;</span>, <span class="st">&quot;discrimination&quot;</span>,</span>
+<span id="cb56-2"><a href="fit.html#cb56-2" tabindex="-1"></a>                          <span class="st">&quot;location&quot;</span>, <span class="st">&quot;flag&quot;</span>)]</span>
+<span id="cb56-3"><a href="fit.html#cb56-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 6</span></span>
+<span id="cb56-4"><a href="fit.html#cb56-4" tabindex="-1"></a><span class="co">#&gt;   item     mean item_total_r discrimination location flag                       </span></span>
+<span id="cb56-5"><a href="fit.html#cb56-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                      </span></span>
+<span id="cb56-6"><a href="fit.html#cb56-6" tabindex="-1"></a><span class="co">#&gt; 1 Item.9  0.885       0.123           0.518   -4.13  extreme location; low item…</span></span>
+<span id="cb56-7"><a href="fit.html#cb56-7" tabindex="-1"></a><span class="co">#&gt; 2 Item.11 0.983       0.150           1.69    -3.07  extreme location; low item…</span></span>
+<span id="cb56-8"><a href="fit.html#cb56-8" tabindex="-1"></a><span class="co">#&gt; 3 Item.12 0.415       0.0685          0.156    2.21  low discrimination; low it…</span></span>
+<span id="cb56-9"><a href="fit.html#cb56-9" tabindex="-1"></a><span class="co">#&gt; 4 Item.17 0.963       0.199           1.53    -2.71  low item-total correlation </span></span>
+<span id="cb56-10"><a href="fit.html#cb56-10" tabindex="-1"></a><span class="co">#&gt; 5 Item.21 0.915       0.131           0.600   -4.19  extreme location; low item…</span></span>
+<span id="cb56-11"><a href="fit.html#cb56-11" tabindex="-1"></a><span class="co">#&gt; 6 Item.30 0.44        0.157           0.383    0.647 low discrimination; low it…</span></span>
+<span id="cb56-12"><a href="fit.html#cb56-12" tabindex="-1"></a><span class="co">#&gt; 7 Item.32 0.443       0.203           0.490    0.484 low discrimination</span></span></code></pre></div>
 <p>An <strong>item health card</strong> collects everything about one item on a page, with a
 traffic-light status, for item review meetings:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="fit.html#cb56-1" tabindex="-1"></a>weak <span class="ot">&lt;-</span> tab_2<span class="sc">$</span>item[<span class="fu">which.min</span>(tab_2<span class="sc">$</span>discrimination)]</span>
-<span id="cb56-2"><a href="fit.html#cb56-2" tabindex="-1"></a><span class="fu">item_card</span>(twopl, weak)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-53-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="fit.html#cb57-1" tabindex="-1"></a>weak <span class="ot">&lt;-</span> tab_2<span class="sc">$</span>item[<span class="fu">which.min</span>(tab_2<span class="sc">$</span>discrimination)]</span>
+<span id="cb57-2"><a href="fit.html#cb57-2" tabindex="-1"></a><span class="fu">item_card</span>(twopl, weak)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:item-card"></span>
+<img src="mirtverse-book_files/figure-html/item-card-1.png" alt="Item health card of the SAT12 item with the lowest discrimination under the 2PL." width="90%" />
+<p class="caption">
+Figure 5.3: Item health card of the SAT12 item with the lowest discrimination under the 2PL.
+</p>
+</div>
 <p><code>item_cards(twopl, file = "cards.html")</code> writes a card for every item into
 one HTML page that reviewers can open in a browser.</p>
 </div>
@@ -445,46 +464,51 @@ according to a 2PL model, but 40 answered at random (careless responding)
 and 30 weak students somehow got the ten hardest items right (perhaps they
 saw them in advance). We record who is who so we can check the person-fit
 statistic.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="fit.html#cb57-1" tabindex="-1"></a><span class="co"># Simulated 30-item quiz: 930 regular students, 40 random responders and</span></span>
-<span id="cb57-2"><a href="fit.html#cb57-2" tabindex="-1"></a><span class="co"># 30 weak students who know the 10 hardest items. `type` records which.</span></span>
-<span id="cb57-3"><a href="fit.html#cb57-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">505</span>)</span>
-<span id="cb57-4"><a href="fit.html#cb57-4" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">30</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>)); b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">30</span>)</span>
-<span id="cb57-5"><a href="fit.html#cb57-5" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">1000</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
-<span id="cb57-6"><a href="fit.html#cb57-6" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;Q%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
-<span id="cb57-7"><a href="fit.html#cb57-7" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;regular&quot;</span>, <span class="st">&quot;random&quot;</span>, <span class="st">&quot;preknowledge&quot;</span>), <span class="fu">c</span>(<span class="dv">930</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
-<span id="cb57-8"><a href="fit.html#cb57-8" tabindex="-1"></a>resp[type <span class="sc">==</span> <span class="st">&quot;random&quot;</span>, ] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">40</span> <span class="sc">*</span> <span class="dv">30</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb57-9"><a href="fit.html#cb57-9" tabindex="-1"></a>weak <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">30</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
-<span id="cb57-10"><a href="fit.html#cb57-10" tabindex="-1"></a>                <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">0.3</span>)))</span>
-<span id="cb57-11"><a href="fit.html#cb57-11" tabindex="-1"></a>weak[, <span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb57-12"><a href="fit.html#cb57-12" tabindex="-1"></a>resp[type <span class="sc">==</span> <span class="st">&quot;preknowledge&quot;</span>, ] <span class="ot">&lt;-</span> weak</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="fit.html#cb58-1" tabindex="-1"></a><span class="co"># Simulated 30-item quiz: 930 regular students, 40 random responders and</span></span>
+<span id="cb58-2"><a href="fit.html#cb58-2" tabindex="-1"></a><span class="co"># 30 weak students who know the 10 hardest items. `type` records which.</span></span>
+<span id="cb58-3"><a href="fit.html#cb58-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">505</span>)</span>
+<span id="cb58-4"><a href="fit.html#cb58-4" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rlnorm</span>(<span class="dv">30</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>)); b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">30</span>)</span>
+<span id="cb58-5"><a href="fit.html#cb58-5" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">1000</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>)</span>
+<span id="cb58-6"><a href="fit.html#cb58-6" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;Q%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb58-7"><a href="fit.html#cb58-7" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;regular&quot;</span>, <span class="st">&quot;random&quot;</span>, <span class="st">&quot;preknowledge&quot;</span>), <span class="fu">c</span>(<span class="dv">930</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
+<span id="cb58-8"><a href="fit.html#cb58-8" tabindex="-1"></a>resp[type <span class="sc">==</span> <span class="st">&quot;random&quot;</span>, ] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">40</span> <span class="sc">*</span> <span class="dv">30</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb58-9"><a href="fit.html#cb58-9" tabindex="-1"></a>weak <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, <span class="fu">matrix</span>(<span class="sc">-</span>a <span class="sc">*</span> b), <span class="at">N =</span> <span class="dv">30</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
+<span id="cb58-10"><a href="fit.html#cb58-10" tabindex="-1"></a>                <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">0.3</span>)))</span>
+<span id="cb58-11"><a href="fit.html#cb58-11" tabindex="-1"></a>weak[, <span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb58-12"><a href="fit.html#cb58-12" tabindex="-1"></a>resp[type <span class="sc">==</span> <span class="st">&quot;preknowledge&quot;</span>, ] <span class="ot">&lt;-</span> weak</span></code></pre></div>
 <p><code>augment()</code> adds each person’s score, its standard error and, with
 <code>person_fit = TRUE</code>, the Zh statistic to the data:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="fit.html#cb58-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-2"><a href="fit.html#cb58-2" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">augment</span>(mod, <span class="at">person_fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb58-3"><a href="fit.html#cb58-3" tabindex="-1"></a>scores<span class="sc">$</span>type <span class="ot">&lt;-</span> type</span>
-<span id="cb58-4"><a href="fit.html#cb58-4" tabindex="-1"></a><span class="fu">head</span>(scores[, <span class="fu">c</span>(<span class="st">&quot;.F1&quot;</span>, <span class="st">&quot;.se_F1&quot;</span>, <span class="st">&quot;.Zh&quot;</span>, <span class="st">&quot;type&quot;</span>)])</span>
-<span id="cb58-5"><a href="fit.html#cb58-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
-<span id="cb58-6"><a href="fit.html#cb58-6" tabindex="-1"></a><span class="co">#&gt;       .F1 .se_F1    .Zh type   </span></span>
-<span id="cb58-7"><a href="fit.html#cb58-7" tabindex="-1"></a><span class="co">#&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  </span></span>
-<span id="cb58-8"><a href="fit.html#cb58-8" tabindex="-1"></a><span class="co">#&gt; 1 -1.74    0.472  0.166 regular</span></span>
-<span id="cb58-9"><a href="fit.html#cb58-9" tabindex="-1"></a><span class="co">#&gt; 2  1.48    0.406  0.970 regular</span></span>
-<span id="cb58-10"><a href="fit.html#cb58-10" tabindex="-1"></a><span class="co">#&gt; 3 -0.422   0.388  0.809 regular</span></span>
-<span id="cb58-11"><a href="fit.html#cb58-11" tabindex="-1"></a><span class="co">#&gt; 4 -0.0768  0.376 -0.238 regular</span></span>
-<span id="cb58-12"><a href="fit.html#cb58-12" tabindex="-1"></a><span class="co">#&gt; 5  1.01    0.380  1.03  regular</span></span>
-<span id="cb58-13"><a href="fit.html#cb58-13" tabindex="-1"></a><span class="co">#&gt; 6 -0.822   0.407 -0.218 regular</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="fit.html#cb59-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb59-2"><a href="fit.html#cb59-2" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">augment</span>(mod, <span class="at">person_fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-3"><a href="fit.html#cb59-3" tabindex="-1"></a>scores<span class="sc">$</span>type <span class="ot">&lt;-</span> type</span>
+<span id="cb59-4"><a href="fit.html#cb59-4" tabindex="-1"></a><span class="fu">head</span>(scores[, <span class="fu">c</span>(<span class="st">&quot;.F1&quot;</span>, <span class="st">&quot;.se_F1&quot;</span>, <span class="st">&quot;.Zh&quot;</span>, <span class="st">&quot;type&quot;</span>)])</span>
+<span id="cb59-5"><a href="fit.html#cb59-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb59-6"><a href="fit.html#cb59-6" tabindex="-1"></a><span class="co">#&gt;       .F1 .se_F1    .Zh type   </span></span>
+<span id="cb59-7"><a href="fit.html#cb59-7" tabindex="-1"></a><span class="co">#&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span id="cb59-8"><a href="fit.html#cb59-8" tabindex="-1"></a><span class="co">#&gt; 1 -1.74    0.472  0.166 regular</span></span>
+<span id="cb59-9"><a href="fit.html#cb59-9" tabindex="-1"></a><span class="co">#&gt; 2  1.48    0.406  0.970 regular</span></span>
+<span id="cb59-10"><a href="fit.html#cb59-10" tabindex="-1"></a><span class="co">#&gt; 3 -0.422   0.388  0.809 regular</span></span>
+<span id="cb59-11"><a href="fit.html#cb59-11" tabindex="-1"></a><span class="co">#&gt; 4 -0.0768  0.376 -0.238 regular</span></span>
+<span id="cb59-12"><a href="fit.html#cb59-12" tabindex="-1"></a><span class="co">#&gt; 5  1.01    0.380  1.03  regular</span></span>
+<span id="cb59-13"><a href="fit.html#cb59-13" tabindex="-1"></a><span class="co">#&gt; 6 -0.822   0.407 -0.218 regular</span></span></code></pre></div>
 <p>How well does Zh separate the groups?</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="fit.html#cb59-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb59-2"><a href="fit.html#cb59-2" tabindex="-1"></a><span class="fu">ggplot</span>(scores, <span class="fu">aes</span>(.Zh, <span class="at">fill =</span> type)) <span class="sc">+</span></span>
-<span id="cb59-3"><a href="fit.html#cb59-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb59-4"><a href="fit.html#cb59-4" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb59-5"><a href="fit.html#cb59-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Zh person-fit statistic&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Students&quot;</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb59-6"><a href="fit.html#cb59-6" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-55-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="fit.html#cb60-1" tabindex="-1"></a><span class="fu">aggregate</span>(.Zh <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">~</span> type, <span class="at">data =</span> scores, <span class="at">FUN =</span> mean)</span>
-<span id="cb60-2"><a href="fit.html#cb60-2" tabindex="-1"></a><span class="co">#&gt;           type .Zh &lt; -2</span></span>
-<span id="cb60-3"><a href="fit.html#cb60-3" tabindex="-1"></a><span class="co">#&gt; 1 preknowledge  1.00000</span></span>
-<span id="cb60-4"><a href="fit.html#cb60-4" tabindex="-1"></a><span class="co">#&gt; 2       random  0.85000</span></span>
-<span id="cb60-5"><a href="fit.html#cb60-5" tabindex="-1"></a><span class="co">#&gt; 3      regular  0.00323</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="fit.html#cb60-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb60-2"><a href="fit.html#cb60-2" tabindex="-1"></a><span class="fu">ggplot</span>(scores, <span class="fu">aes</span>(.Zh, <span class="at">fill =</span> type)) <span class="sc">+</span></span>
+<span id="cb60-3"><a href="fit.html#cb60-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb60-4"><a href="fit.html#cb60-4" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb60-5"><a href="fit.html#cb60-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Zh person-fit statistic&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Students&quot;</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb60-6"><a href="fit.html#cb60-6" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:zh-hist"></span>
+<img src="mirtverse-book_files/figure-html/zh-hist-1.png" alt="Distribution of the Zh person-fit statistic for regular students, random responders and students with pre-knowledge." width="90%" />
+<p class="caption">
+Figure 5.4: Distribution of the Zh person-fit statistic for regular students, random responders and students with pre-knowledge.
+</p>
+</div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="fit.html#cb61-1" tabindex="-1"></a><span class="fu">aggregate</span>(.Zh <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">~</span> type, <span class="at">data =</span> scores, <span class="at">FUN =</span> mean)</span>
+<span id="cb61-2"><a href="fit.html#cb61-2" tabindex="-1"></a><span class="co">#&gt;           type .Zh &lt; -2</span></span>
+<span id="cb61-3"><a href="fit.html#cb61-3" tabindex="-1"></a><span class="co">#&gt; 1 preknowledge  1.00000</span></span>
+<span id="cb61-4"><a href="fit.html#cb61-4" tabindex="-1"></a><span class="co">#&gt; 2       random  0.85000</span></span>
+<span id="cb61-5"><a href="fit.html#cb61-5" tabindex="-1"></a><span class="co">#&gt; 3      regular  0.00323</span></span></code></pre></div>
 <p>All of the students with pre-knowledge are flagged: getting the hardest
 items right while missing easier ones is very unlikely under the model. Most
 random responders are flagged too, because on a 30-item test with a wide
@@ -499,13 +523,13 @@ article</a>).</p>
 refitting without the flagged students and comparing both sets of
 difficulties for the ten hardest items with the values used to simulate the
 data:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="fit.html#cb61-1" tabindex="-1"></a>clean <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp[scores<span class="sc">$</span>.Zh <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">2</span>, ], <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb61-2"><a href="fit.html#cb61-2" tabindex="-1"></a>b_all <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>, <span class="st">&quot;b&quot;</span>]</span>
-<span id="cb61-3"><a href="fit.html#cb61-3" tabindex="-1"></a>b_clean <span class="ot">&lt;-</span> <span class="fu">coef</span>(clean, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>, <span class="st">&quot;b&quot;</span>]</span>
-<span id="cb61-4"><a href="fit.html#cb61-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">error_all =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(b_all <span class="sc">-</span> b[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>])),</span>
-<span id="cb61-5"><a href="fit.html#cb61-5" tabindex="-1"></a>        <span class="at">error_clean =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(b_clean <span class="sc">-</span> b[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>]))), <span class="dv">3</span>)</span>
-<span id="cb61-6"><a href="fit.html#cb61-6" tabindex="-1"></a><span class="co">#&gt;   error_all error_clean </span></span>
-<span id="cb61-7"><a href="fit.html#cb61-7" tabindex="-1"></a><span class="co">#&gt;       0.145       0.140</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="fit.html#cb62-1" tabindex="-1"></a>clean <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp[scores<span class="sc">$</span>.Zh <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">2</span>, ], <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb62-2"><a href="fit.html#cb62-2" tabindex="-1"></a>b_all <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>, <span class="st">&quot;b&quot;</span>]</span>
+<span id="cb62-3"><a href="fit.html#cb62-3" tabindex="-1"></a>b_clean <span class="ot">&lt;-</span> <span class="fu">coef</span>(clean, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>, <span class="st">&quot;b&quot;</span>]</span>
+<span id="cb62-4"><a href="fit.html#cb62-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">error_all =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(b_all <span class="sc">-</span> b[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>])),</span>
+<span id="cb62-5"><a href="fit.html#cb62-5" tabindex="-1"></a>        <span class="at">error_clean =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(b_clean <span class="sc">-</span> b[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>]))), <span class="dv">3</span>)</span>
+<span id="cb62-6"><a href="fit.html#cb62-6" tabindex="-1"></a><span class="co">#&gt;   error_all error_clean </span></span>
+<span id="cb62-7"><a href="fit.html#cb62-7" tabindex="-1"></a><span class="co">#&gt;       0.145       0.140</span></span></code></pre></div>
 <p>Here the difference is small, because only 7% of the students are aberrant
 and the model is estimated from everyone else. With more contamination, or
 with pre-knowledge concentrated on a few items, the damage grows, and
@@ -529,16 +553,21 @@ person-fit statistic means and what it does not mean.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="fit.html#cb62-1" tabindex="-1"></a>best <span class="ot">&lt;-</span> tab_r<span class="sc">$</span>item[<span class="fu">which.max</span>(tab_r<span class="sc">$</span>p.value)]</span>
-<span id="cb62-2"><a href="fit.html#cb62-2" tabindex="-1"></a><span class="fu">gg_empirical</span>(rasch, best)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-57-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="fit.html#cb63-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">item_table</span>(rasch)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
-<span id="cb63-2"><a href="fit.html#cb63-2" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb63-3"><a href="fit.html#cb63-3" tabindex="-1"></a>cut5 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(scores<span class="sc">$</span>.Zh[type <span class="sc">==</span> <span class="st">&quot;regular&quot;</span>], <span class="fl">0.05</span>)</span>
-<span id="cb63-4"><a href="fit.html#cb63-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cutoff =</span> <span class="fu">unname</span>(cut5),</span>
-<span id="cb63-5"><a href="fit.html#cb63-5" tabindex="-1"></a>  <span class="at">caught =</span> <span class="fu">mean</span>(scores<span class="sc">$</span>.Zh[type <span class="sc">==</span> <span class="st">&quot;preknowledge&quot;</span>] <span class="sc">&lt;</span> cut5))</span>
-<span id="cb63-6"><a href="fit.html#cb63-6" tabindex="-1"></a><span class="co">#&gt; cutoff caught </span></span>
-<span id="cb63-7"><a href="fit.html#cb63-7" tabindex="-1"></a><span class="co">#&gt; -0.945  1.000</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="fit.html#cb63-1" tabindex="-1"></a>best <span class="ot">&lt;-</span> tab_r<span class="sc">$</span>item[<span class="fu">which.max</span>(tab_r<span class="sc">$</span>p.value)]</span>
+<span id="cb63-2"><a href="fit.html#cb63-2" tabindex="-1"></a><span class="fu">gg_empirical</span>(rasch, best)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:empirical-best"></span>
+<img src="mirtverse-book_files/figure-html/empirical-best-1.png" alt="Empirical item curve of the best-fitting item under the Rasch model." width="90%" />
+<p class="caption">
+Figure 5.5: Empirical item curve of the best-fitting item under the Rasch model.
+</p>
+</div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="fit.html#cb64-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">item_table</span>(rasch)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
+<span id="cb64-2"><a href="fit.html#cb64-2" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb64-3"><a href="fit.html#cb64-3" tabindex="-1"></a>cut5 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(scores<span class="sc">$</span>.Zh[type <span class="sc">==</span> <span class="st">&quot;regular&quot;</span>], <span class="fl">0.05</span>)</span>
+<span id="cb64-4"><a href="fit.html#cb64-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cutoff =</span> <span class="fu">unname</span>(cut5),</span>
+<span id="cb64-5"><a href="fit.html#cb64-5" tabindex="-1"></a>  <span class="at">caught =</span> <span class="fu">mean</span>(scores<span class="sc">$</span>.Zh[type <span class="sc">==</span> <span class="st">&quot;preknowledge&quot;</span>] <span class="sc">&lt;</span> cut5))</span>
+<span id="cb64-6"><a href="fit.html#cb64-6" tabindex="-1"></a><span class="co">#&gt; cutoff caught </span></span>
+<span id="cb64-7"><a href="fit.html#cb64-7" tabindex="-1"></a><span class="co">#&gt; -0.945  1.000</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Without adjustment more items are flagged, some only by chance. With 32
 tests, report the adjusted results, and look at the RMSEA to judge size.</li>
@@ -615,7 +644,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

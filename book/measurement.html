@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 1 Measurement, scoring and classical item analysis | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 1 Measurement, scoring and classical item analysis | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -29,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
+<link rel="prev" href="about-the-author.html"/>
 <link rel="next" href="irt-models.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -386,80 +390,80 @@ precisely than others. Item response theory addresses both.</p>
 <p>The <code>SAT12</code> data in mirt hold the answers of 600 high-school students to 32
 multiple-choice science items with five options (8 marks an omitted item).
 The key is published on the help page, <code>?SAT12</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="measurement.html#cb2-1" tabindex="-1"></a><span class="co"># Raw multiple-choice responses (options 1-5, 8 = omitted) and the key.</span></span>
-<span id="cb2-2"><a href="measurement.html#cb2-2" tabindex="-1"></a>raw <span class="ot">&lt;-</span> SAT12</span>
-<span id="cb2-3"><a href="measurement.html#cb2-3" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="measurement.html#cb3-1" tabindex="-1"></a><span class="co"># Raw multiple-choice responses (options 1-5, 8 = omitted) and the key.</span></span>
+<span id="cb3-2"><a href="measurement.html#cb3-2" tabindex="-1"></a>raw <span class="ot">&lt;-</span> SAT12</span>
+<span id="cb3-3"><a href="measurement.html#cb3-3" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
 <p><code>key2binary()</code> scores every response against the key. Omits count as wrong.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="measurement.html#cb3-1" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(raw, key)</span>
-<span id="cb3-2"><a href="measurement.html#cb3-2" tabindex="-1"></a>resp[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
-<span id="cb3-3"><a href="measurement.html#cb3-3" tabindex="-1"></a><span class="co">#&gt;      Item.1 Item.2 Item.3 Item.4 Item.5 Item.6 Item.7 Item.8</span></span>
-<span id="cb3-4"><a href="measurement.html#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1,]      1      1      1      1      1      1      1      1</span></span>
-<span id="cb3-5"><a href="measurement.html#cb3-5" tabindex="-1"></a><span class="co">#&gt; [2,]      0      1      0      0      1      0      1      0</span></span>
-<span id="cb3-6"><a href="measurement.html#cb3-6" tabindex="-1"></a><span class="co">#&gt; [3,]      1      1      1      0      1      0      1      0</span></span>
-<span id="cb3-7"><a href="measurement.html#cb3-7" tabindex="-1"></a><span class="co">#&gt; [4,]      0      1      0      1      1      0      1      0</span></span>
-<span id="cb3-8"><a href="measurement.html#cb3-8" tabindex="-1"></a><span class="co">#&gt; [5,]      0      1      1      1      1      0      1      1</span></span>
-<span id="cb3-9"><a href="measurement.html#cb3-9" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(resp)</span>
-<span id="cb3-10"><a href="measurement.html#cb3-10" tabindex="-1"></a><span class="fu">summary</span>(total)</span>
-<span id="cb3-11"><a href="measurement.html#cb3-11" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb3-12"><a href="measurement.html#cb3-12" tabindex="-1"></a><span class="co">#&gt;     4.0    14.8    18.0    18.2    22.0    32.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="measurement.html#cb4-1" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(raw, key)</span>
+<span id="cb4-2"><a href="measurement.html#cb4-2" tabindex="-1"></a>resp[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span>
+<span id="cb4-3"><a href="measurement.html#cb4-3" tabindex="-1"></a><span class="co">#&gt;      Item.1 Item.2 Item.3 Item.4 Item.5 Item.6 Item.7 Item.8</span></span>
+<span id="cb4-4"><a href="measurement.html#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1,]      1      1      1      1      1      1      1      1</span></span>
+<span id="cb4-5"><a href="measurement.html#cb4-5" tabindex="-1"></a><span class="co">#&gt; [2,]      0      1      0      0      1      0      1      0</span></span>
+<span id="cb4-6"><a href="measurement.html#cb4-6" tabindex="-1"></a><span class="co">#&gt; [3,]      1      1      1      0      1      0      1      0</span></span>
+<span id="cb4-7"><a href="measurement.html#cb4-7" tabindex="-1"></a><span class="co">#&gt; [4,]      0      1      0      1      1      0      1      0</span></span>
+<span id="cb4-8"><a href="measurement.html#cb4-8" tabindex="-1"></a><span class="co">#&gt; [5,]      0      1      1      1      1      0      1      1</span></span>
+<span id="cb4-9"><a href="measurement.html#cb4-9" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(resp)</span>
+<span id="cb4-10"><a href="measurement.html#cb4-10" tabindex="-1"></a><span class="fu">summary</span>(total)</span>
+<span id="cb4-11"><a href="measurement.html#cb4-11" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb4-12"><a href="measurement.html#cb4-12" tabindex="-1"></a><span class="co">#&gt;     4.0    14.8    18.0    18.2    22.0    32.0</span></span></code></pre></div>
 <p><code>itemstats()</code> gives the classical statistics for every item in one table.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="measurement.html#cb4-1" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp)</span>
-<span id="cb4-2"><a href="measurement.html#cb4-2" tabindex="-1"></a>st<span class="sc">$</span>overall</span>
-<span id="cb4-3"><a href="measurement.html#cb4-3" tabindex="-1"></a><span class="co">#&gt;    N mean.total sd.total std.alpha alpha SEM.alpha mean.r  sd.r</span></span>
-<span id="cb4-4"><a href="measurement.html#cb4-4" tabindex="-1"></a><span class="co">#&gt;  600       18.2     5.05     0.795 0.798      2.27  0.108 0.075</span></span>
-<span id="cb4-5"><a href="measurement.html#cb4-5" tabindex="-1"></a><span class="fu">head</span>(st<span class="sc">$</span>itemstats, <span class="dv">8</span>)</span>
-<span id="cb4-6"><a href="measurement.html#cb4-6" tabindex="-1"></a><span class="co">#&gt;          N K  mean    sd cor_if_rm   smc alpha_if_rm</span></span>
-<span id="cb4-7"><a href="measurement.html#cb4-7" tabindex="-1"></a><span class="co">#&gt; Item.1 600 2 0.283 0.451     0.300 0.158       0.793</span></span>
-<span id="cb4-8"><a href="measurement.html#cb4-8" tabindex="-1"></a><span class="co">#&gt; Item.2 600 2 0.568 0.496     0.464 0.270       0.785</span></span>
-<span id="cb4-9"><a href="measurement.html#cb4-9" tabindex="-1"></a><span class="co">#&gt; Item.3 600 2 0.280 0.449     0.371 0.184       0.789</span></span>
-<span id="cb4-10"><a href="measurement.html#cb4-10" tabindex="-1"></a><span class="co">#&gt; Item.4 600 2 0.378 0.485     0.235 0.145       0.796</span></span>
-<span id="cb4-11"><a href="measurement.html#cb4-11" tabindex="-1"></a><span class="co">#&gt; Item.5 600 2 0.620 0.486     0.340 0.197       0.791</span></span>
-<span id="cb4-12"><a href="measurement.html#cb4-12" tabindex="-1"></a><span class="co">#&gt; Item.6 600 2 0.160 0.367     0.351 0.185       0.791</span></span>
-<span id="cb4-13"><a href="measurement.html#cb4-13" tabindex="-1"></a><span class="co">#&gt; Item.7 600 2 0.760 0.427     0.289 0.200       0.793</span></span>
-<span id="cb4-14"><a href="measurement.html#cb4-14" tabindex="-1"></a><span class="co">#&gt; Item.8 600 2 0.202 0.402     0.233 0.116       0.795</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="measurement.html#cb5-1" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp)</span>
+<span id="cb5-2"><a href="measurement.html#cb5-2" tabindex="-1"></a>st<span class="sc">$</span>overall</span>
+<span id="cb5-3"><a href="measurement.html#cb5-3" tabindex="-1"></a><span class="co">#&gt;    N mean.total sd.total std.alpha alpha SEM.alpha mean.r  sd.r</span></span>
+<span id="cb5-4"><a href="measurement.html#cb5-4" tabindex="-1"></a><span class="co">#&gt;  600       18.2     5.05     0.795 0.798      2.27  0.108 0.075</span></span>
+<span id="cb5-5"><a href="measurement.html#cb5-5" tabindex="-1"></a><span class="fu">head</span>(st<span class="sc">$</span>itemstats, <span class="dv">8</span>)</span>
+<span id="cb5-6"><a href="measurement.html#cb5-6" tabindex="-1"></a><span class="co">#&gt;          N K  mean    sd cor_if_rm   smc alpha_if_rm</span></span>
+<span id="cb5-7"><a href="measurement.html#cb5-7" tabindex="-1"></a><span class="co">#&gt; Item.1 600 2 0.283 0.451     0.300 0.158       0.793</span></span>
+<span id="cb5-8"><a href="measurement.html#cb5-8" tabindex="-1"></a><span class="co">#&gt; Item.2 600 2 0.568 0.496     0.464 0.270       0.785</span></span>
+<span id="cb5-9"><a href="measurement.html#cb5-9" tabindex="-1"></a><span class="co">#&gt; Item.3 600 2 0.280 0.449     0.371 0.184       0.789</span></span>
+<span id="cb5-10"><a href="measurement.html#cb5-10" tabindex="-1"></a><span class="co">#&gt; Item.4 600 2 0.378 0.485     0.235 0.145       0.796</span></span>
+<span id="cb5-11"><a href="measurement.html#cb5-11" tabindex="-1"></a><span class="co">#&gt; Item.5 600 2 0.620 0.486     0.340 0.197       0.791</span></span>
+<span id="cb5-12"><a href="measurement.html#cb5-12" tabindex="-1"></a><span class="co">#&gt; Item.6 600 2 0.160 0.367     0.351 0.185       0.791</span></span>
+<span id="cb5-13"><a href="measurement.html#cb5-13" tabindex="-1"></a><span class="co">#&gt; Item.7 600 2 0.760 0.427     0.289 0.200       0.793</span></span>
+<span id="cb5-14"><a href="measurement.html#cb5-14" tabindex="-1"></a><span class="co">#&gt; Item.8 600 2 0.202 0.402     0.233 0.116       0.795</span></span></code></pre></div>
 <p>The <code>mean</code> column is the proportion correct, <code>cor_if_rm</code> is the corrected
 item-total correlation, and <code>alpha_if_rm</code> is alpha with the item removed. Let
 us sort the items by their corrected correlation and look at the weakest.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="measurement.html#cb5-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> st<span class="sc">$</span>itemstats</span>
-<span id="cb5-2"><a href="measurement.html#cb5-2" tabindex="-1"></a>items[<span class="fu">order</span>(items<span class="sc">$</span>cor_if_rm), <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>, <span class="st">&quot;alpha_if_rm&quot;</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
-<span id="cb5-3"><a href="measurement.html#cb5-3" tabindex="-1"></a><span class="co">#&gt;          mean cor_if_rm alpha_if_rm</span></span>
-<span id="cb5-4"><a href="measurement.html#cb5-4" tabindex="-1"></a><span class="co">#&gt; Item.32 0.162     0.037       0.802</span></span>
-<span id="cb5-5"><a href="measurement.html#cb5-5" tabindex="-1"></a><span class="co">#&gt; Item.12 0.415     0.076       0.803</span></span>
-<span id="cb5-6"><a href="measurement.html#cb5-6" tabindex="-1"></a><span class="co">#&gt; Item.9  0.885     0.127       0.798</span></span>
-<span id="cb5-7"><a href="measurement.html#cb5-7" tabindex="-1"></a><span class="co">#&gt; Item.21 0.915     0.136       0.798</span></span>
-<span id="cb5-8"><a href="measurement.html#cb5-8" tabindex="-1"></a><span class="co">#&gt; Item.11 0.983     0.156       0.797</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="measurement.html#cb6-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> st<span class="sc">$</span>itemstats</span>
+<span id="cb6-2"><a href="measurement.html#cb6-2" tabindex="-1"></a>items[<span class="fu">order</span>(items<span class="sc">$</span>cor_if_rm), <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>, <span class="st">&quot;alpha_if_rm&quot;</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb6-3"><a href="measurement.html#cb6-3" tabindex="-1"></a><span class="co">#&gt;          mean cor_if_rm alpha_if_rm</span></span>
+<span id="cb6-4"><a href="measurement.html#cb6-4" tabindex="-1"></a><span class="co">#&gt; Item.32 0.162     0.037       0.802</span></span>
+<span id="cb6-5"><a href="measurement.html#cb6-5" tabindex="-1"></a><span class="co">#&gt; Item.12 0.415     0.076       0.803</span></span>
+<span id="cb6-6"><a href="measurement.html#cb6-6" tabindex="-1"></a><span class="co">#&gt; Item.9  0.885     0.127       0.798</span></span>
+<span id="cb6-7"><a href="measurement.html#cb6-7" tabindex="-1"></a><span class="co">#&gt; Item.21 0.915     0.136       0.798</span></span>
+<span id="cb6-8"><a href="measurement.html#cb6-8" tabindex="-1"></a><span class="co">#&gt; Item.11 0.983     0.156       0.797</span></span></code></pre></div>
 <p>A corrected correlation near zero, or an alpha that goes <em>up</em> when the item
 is removed, means the item is not measuring what the rest of the test
 measures. Before blaming the item writer, check the key. A distractor
 analysis splits students into groups by total score and shows which option
 each group chose.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="measurement.html#cb6-1" tabindex="-1"></a>distractors <span class="ot">&lt;-</span> <span class="cf">function</span>(raw, total, item, <span class="at">groups =</span> <span class="dv">5</span>) {</span>
-<span id="cb6-2"><a href="measurement.html#cb6-2" tabindex="-1"></a>  band <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">rank</span>(total, <span class="at">ties.method =</span> <span class="st">&quot;first&quot;</span>), groups,</span>
-<span id="cb6-3"><a href="measurement.html#cb6-3" tabindex="-1"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;lowest&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;band &quot;</span>, <span class="dv">2</span><span class="sc">:</span>(groups <span class="sc">-</span> <span class="dv">1</span>)), <span class="st">&quot;highest&quot;</span>))</span>
-<span id="cb6-4"><a href="measurement.html#cb6-4" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(band, <span class="at">option =</span> raw[[item]]), <span class="dv">1</span>), <span class="dv">2</span>)</span>
-<span id="cb6-5"><a href="measurement.html#cb6-5" tabindex="-1"></a>}</span>
-<span id="cb6-6"><a href="measurement.html#cb6-6" tabindex="-1"></a><span class="fu">distractors</span>(raw, total, <span class="st">&quot;Item.32&quot;</span>)</span>
-<span id="cb6-7"><a href="measurement.html#cb6-7" tabindex="-1"></a><span class="co">#&gt;          option</span></span>
-<span id="cb6-8"><a href="measurement.html#cb6-8" tabindex="-1"></a><span class="co">#&gt; band         1    2    3    4    5    8</span></span>
-<span id="cb6-9"><a href="measurement.html#cb6-9" tabindex="-1"></a><span class="co">#&gt;   lowest  0.12 0.26 0.35 0.09 0.14 0.04</span></span>
-<span id="cb6-10"><a href="measurement.html#cb6-10" tabindex="-1"></a><span class="co">#&gt;   band 2  0.10 0.31 0.36 0.07 0.14 0.02</span></span>
-<span id="cb6-11"><a href="measurement.html#cb6-11" tabindex="-1"></a><span class="co">#&gt;   band 3  0.19 0.16 0.42 0.08 0.15 0.00</span></span>
-<span id="cb6-12"><a href="measurement.html#cb6-12" tabindex="-1"></a><span class="co">#&gt;   band 4  0.16 0.12 0.48 0.08 0.16 0.00</span></span>
-<span id="cb6-13"><a href="measurement.html#cb6-13" tabindex="-1"></a><span class="co">#&gt;   highest 0.06 0.07 0.62 0.04 0.22 0.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="measurement.html#cb7-1" tabindex="-1"></a>distractors <span class="ot">&lt;-</span> <span class="cf">function</span>(raw, total, item, <span class="at">groups =</span> <span class="dv">5</span>) {</span>
+<span id="cb7-2"><a href="measurement.html#cb7-2" tabindex="-1"></a>  band <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">rank</span>(total, <span class="at">ties.method =</span> <span class="st">&quot;first&quot;</span>), groups,</span>
+<span id="cb7-3"><a href="measurement.html#cb7-3" tabindex="-1"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;lowest&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;band &quot;</span>, <span class="dv">2</span><span class="sc">:</span>(groups <span class="sc">-</span> <span class="dv">1</span>)), <span class="st">&quot;highest&quot;</span>))</span>
+<span id="cb7-4"><a href="measurement.html#cb7-4" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(band, <span class="at">option =</span> raw[[item]]), <span class="dv">1</span>), <span class="dv">2</span>)</span>
+<span id="cb7-5"><a href="measurement.html#cb7-5" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="measurement.html#cb7-6" tabindex="-1"></a><span class="fu">distractors</span>(raw, total, <span class="st">&quot;Item.32&quot;</span>)</span>
+<span id="cb7-7"><a href="measurement.html#cb7-7" tabindex="-1"></a><span class="co">#&gt;          option</span></span>
+<span id="cb7-8"><a href="measurement.html#cb7-8" tabindex="-1"></a><span class="co">#&gt; band         1    2    3    4    5    8</span></span>
+<span id="cb7-9"><a href="measurement.html#cb7-9" tabindex="-1"></a><span class="co">#&gt;   lowest  0.12 0.26 0.35 0.09 0.14 0.04</span></span>
+<span id="cb7-10"><a href="measurement.html#cb7-10" tabindex="-1"></a><span class="co">#&gt;   band 2  0.10 0.31 0.36 0.07 0.14 0.02</span></span>
+<span id="cb7-11"><a href="measurement.html#cb7-11" tabindex="-1"></a><span class="co">#&gt;   band 3  0.19 0.16 0.42 0.08 0.15 0.00</span></span>
+<span id="cb7-12"><a href="measurement.html#cb7-12" tabindex="-1"></a><span class="co">#&gt;   band 4  0.16 0.12 0.48 0.08 0.16 0.00</span></span>
+<span id="cb7-13"><a href="measurement.html#cb7-13" tabindex="-1"></a><span class="co">#&gt;   highest 0.06 0.07 0.62 0.04 0.22 0.00</span></span></code></pre></div>
 <p>The keyed answer to item 32 is option 5, yet option 3 is the most popular
 choice in every band, and its share climbs steeply from the lowest band to
 the highest. Option 5 gains far less. When an “unkeyed” option behaves the
 way a correct answer should, suspect the key. The
 help page for <code>SAT12</code> agrees: the key for item 32 is probably wrong and should
 be 3. Re-scoring fixes the item:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="measurement.html#cb7-1" tabindex="-1"></a>key_fixed <span class="ot">&lt;-</span> <span class="fu">replace</span>(key, <span class="dv">32</span>, <span class="dv">3</span>)</span>
-<span id="cb7-2"><a href="measurement.html#cb7-2" tabindex="-1"></a>resp_fixed <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(raw, key_fixed)</span>
-<span id="cb7-3"><a href="measurement.html#cb7-3" tabindex="-1"></a>st_fixed <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp_fixed)</span>
-<span id="cb7-4"><a href="measurement.html#cb7-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">old_r =</span> items[<span class="st">&quot;Item.32&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>],</span>
-<span id="cb7-5"><a href="measurement.html#cb7-5" tabindex="-1"></a>  <span class="at">new_r =</span> st_fixed<span class="sc">$</span>itemstats[<span class="st">&quot;Item.32&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>],</span>
-<span id="cb7-6"><a href="measurement.html#cb7-6" tabindex="-1"></a>  <span class="at">old_alpha =</span> st<span class="sc">$</span>overall<span class="sc">$</span>alpha, <span class="at">new_alpha =</span> st_fixed<span class="sc">$</span>overall<span class="sc">$</span>alpha)</span>
-<span id="cb7-7"><a href="measurement.html#cb7-7" tabindex="-1"></a><span class="co">#&gt;     old_r     new_r old_alpha new_alpha </span></span>
-<span id="cb7-8"><a href="measurement.html#cb7-8" tabindex="-1"></a><span class="co">#&gt;    0.0371    0.2026    0.7979    0.8023</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="measurement.html#cb8-1" tabindex="-1"></a>key_fixed <span class="ot">&lt;-</span> <span class="fu">replace</span>(key, <span class="dv">32</span>, <span class="dv">3</span>)</span>
+<span id="cb8-2"><a href="measurement.html#cb8-2" tabindex="-1"></a>resp_fixed <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(raw, key_fixed)</span>
+<span id="cb8-3"><a href="measurement.html#cb8-3" tabindex="-1"></a>st_fixed <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp_fixed)</span>
+<span id="cb8-4"><a href="measurement.html#cb8-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">old_r =</span> items[<span class="st">&quot;Item.32&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>],</span>
+<span id="cb8-5"><a href="measurement.html#cb8-5" tabindex="-1"></a>  <span class="at">new_r =</span> st_fixed<span class="sc">$</span>itemstats[<span class="st">&quot;Item.32&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>],</span>
+<span id="cb8-6"><a href="measurement.html#cb8-6" tabindex="-1"></a>  <span class="at">old_alpha =</span> st<span class="sc">$</span>overall<span class="sc">$</span>alpha, <span class="at">new_alpha =</span> st_fixed<span class="sc">$</span>overall<span class="sc">$</span>alpha)</span>
+<span id="cb8-7"><a href="measurement.html#cb8-7" tabindex="-1"></a><span class="co">#&gt;     old_r     new_r old_alpha new_alpha </span></span>
+<span id="cb8-8"><a href="measurement.html#cb8-8" tabindex="-1"></a><span class="co">#&gt;    0.0371    0.2026    0.7979    0.8023</span></span></code></pre></div>
 <p><strong>What to take away.</strong> A low item-total correlation is a symptom, not a
 diagnosis. The distractor table tells you <em>why</em>: a wrong key, two defensible
 answers, an option that confuses strong students, or simply an item that is
@@ -471,67 +475,67 @@ too hard for everyone.</p>
 adults rate eight statements about their wellbeing from 0 (<em>strongly
 disagree</em>) to 3 (<em>strongly agree</em>). Items 3 and 7 are negatively worded (“I
 often feel tense”), so agreeing with them means <em>lower</em> wellbeing.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="measurement.html#cb8-1" tabindex="-1"></a><span class="co"># Simulated 8-item wellbeing scale, 0-3, items W3 and W7 negatively worded.</span></span>
-<span id="cb8-2"><a href="measurement.html#cb8-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb8-3"><a href="measurement.html#cb8-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.6</span>, <span class="fl">1.4</span>, <span class="fl">1.2</span>, <span class="fl">1.8</span>, <span class="fl">1.3</span>, <span class="fl">1.5</span>, <span class="fl">1.1</span>, <span class="fl">0.5</span>))</span>
-<span id="cb8-4"><a href="measurement.html#cb8-4" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="fl">2.0</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">1.5</span>,</span>
-<span id="cb8-5"><a href="measurement.html#cb8-5" tabindex="-1"></a>               <span class="fl">1.8</span>, <span class="fl">0.2</span>, <span class="sc">-</span><span class="fl">1.8</span>,</span>
-<span id="cb8-6"><a href="measurement.html#cb8-6" tabindex="-1"></a>               <span class="fl">2.2</span>, <span class="fl">0.8</span>, <span class="sc">-</span><span class="fl">1.0</span>,</span>
-<span id="cb8-7"><a href="measurement.html#cb8-7" tabindex="-1"></a>               <span class="fl">1.5</span>, <span class="fl">0.0</span>, <span class="sc">-</span><span class="fl">2.0</span>,</span>
-<span id="cb8-8"><a href="measurement.html#cb8-8" tabindex="-1"></a>               <span class="fl">2.5</span>, <span class="fl">1.0</span>, <span class="sc">-</span><span class="fl">0.8</span>,</span>
-<span id="cb8-9"><a href="measurement.html#cb8-9" tabindex="-1"></a>               <span class="fl">1.7</span>, <span class="fl">0.3</span>, <span class="sc">-</span><span class="fl">1.6</span>,</span>
-<span id="cb8-10"><a href="measurement.html#cb8-10" tabindex="-1"></a>               <span class="fl">2.0</span>, <span class="fl">0.6</span>, <span class="sc">-</span><span class="fl">1.2</span>,</span>
-<span id="cb8-11"><a href="measurement.html#cb8-11" tabindex="-1"></a>               <span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="sc">-</span><span class="fl">1.0</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-12"><a href="measurement.html#cb8-12" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">800</span>, <span class="at">itemtype =</span> <span class="st">&quot;graded&quot;</span>)</span>
-<span id="cb8-13"><a href="measurement.html#cb8-13" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;W&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span>
-<span id="cb8-14"><a href="measurement.html#cb8-14" tabindex="-1"></a>resp[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> resp[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)]   <span class="co"># as answered on the form</span></span>
-<span id="cb8-15"><a href="measurement.html#cb8-15" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(resp)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="measurement.html#cb9-1" tabindex="-1"></a><span class="co"># Simulated 8-item wellbeing scale, 0-3, items W3 and W7 negatively worded.</span></span>
+<span id="cb9-2"><a href="measurement.html#cb9-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb9-3"><a href="measurement.html#cb9-3" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.6</span>, <span class="fl">1.4</span>, <span class="fl">1.2</span>, <span class="fl">1.8</span>, <span class="fl">1.3</span>, <span class="fl">1.5</span>, <span class="fl">1.1</span>, <span class="fl">0.5</span>))</span>
+<span id="cb9-4"><a href="measurement.html#cb9-4" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="fl">2.0</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb9-5"><a href="measurement.html#cb9-5" tabindex="-1"></a>               <span class="fl">1.8</span>, <span class="fl">0.2</span>, <span class="sc">-</span><span class="fl">1.8</span>,</span>
+<span id="cb9-6"><a href="measurement.html#cb9-6" tabindex="-1"></a>               <span class="fl">2.2</span>, <span class="fl">0.8</span>, <span class="sc">-</span><span class="fl">1.0</span>,</span>
+<span id="cb9-7"><a href="measurement.html#cb9-7" tabindex="-1"></a>               <span class="fl">1.5</span>, <span class="fl">0.0</span>, <span class="sc">-</span><span class="fl">2.0</span>,</span>
+<span id="cb9-8"><a href="measurement.html#cb9-8" tabindex="-1"></a>               <span class="fl">2.5</span>, <span class="fl">1.0</span>, <span class="sc">-</span><span class="fl">0.8</span>,</span>
+<span id="cb9-9"><a href="measurement.html#cb9-9" tabindex="-1"></a>               <span class="fl">1.7</span>, <span class="fl">0.3</span>, <span class="sc">-</span><span class="fl">1.6</span>,</span>
+<span id="cb9-10"><a href="measurement.html#cb9-10" tabindex="-1"></a>               <span class="fl">2.0</span>, <span class="fl">0.6</span>, <span class="sc">-</span><span class="fl">1.2</span>,</span>
+<span id="cb9-11"><a href="measurement.html#cb9-11" tabindex="-1"></a>               <span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="sc">-</span><span class="fl">1.0</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-12"><a href="measurement.html#cb9-12" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(a, d, <span class="at">N =</span> <span class="dv">800</span>, <span class="at">itemtype =</span> <span class="st">&quot;graded&quot;</span>)</span>
+<span id="cb9-13"><a href="measurement.html#cb9-13" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;W&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb9-14"><a href="measurement.html#cb9-14" tabindex="-1"></a>resp[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> resp[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)]   <span class="co"># as answered on the form</span></span>
+<span id="cb9-15"><a href="measurement.html#cb9-15" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(resp)</span></code></pre></div>
 <p>If we forget to reverse-score, the two negative items correlate <em>negatively</em>
 with the total, and alpha is badly understated.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="measurement.html#cb9-1" tabindex="-1"></a><span class="fu">itemstats</span>(resp)<span class="sc">$</span>itemstats[, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>)]</span>
-<span id="cb9-2"><a href="measurement.html#cb9-2" tabindex="-1"></a><span class="co">#&gt;    mean cor_if_rm</span></span>
-<span id="cb9-3"><a href="measurement.html#cb9-3" tabindex="-1"></a><span class="co">#&gt; W1 1.64     0.348</span></span>
-<span id="cb9-4"><a href="measurement.html#cb9-4" tabindex="-1"></a><span class="co">#&gt; W2 1.49     0.341</span></span>
-<span id="cb9-5"><a href="measurement.html#cb9-5" tabindex="-1"></a><span class="co">#&gt; W3 1.24    -0.412</span></span>
-<span id="cb9-6"><a href="measurement.html#cb9-6" tabindex="-1"></a><span class="co">#&gt; W4 1.44     0.326</span></span>
-<span id="cb9-7"><a href="measurement.html#cb9-7" tabindex="-1"></a><span class="co">#&gt; W5 1.88     0.296</span></span>
-<span id="cb9-8"><a href="measurement.html#cb9-8" tabindex="-1"></a><span class="co">#&gt; W6 1.60     0.356</span></span>
-<span id="cb9-9"><a href="measurement.html#cb9-9" tabindex="-1"></a><span class="co">#&gt; W7 1.29    -0.433</span></span>
-<span id="cb9-10"><a href="measurement.html#cb9-10" tabindex="-1"></a><span class="co">#&gt; W8 1.48     0.122</span></span>
-<span id="cb9-11"><a href="measurement.html#cb9-11" tabindex="-1"></a><span class="fu">itemstats</span>(resp)<span class="sc">$</span>overall<span class="sc">$</span>alpha</span>
-<span id="cb9-12"><a href="measurement.html#cb9-12" tabindex="-1"></a><span class="co">#&gt; [1] 0.224</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="measurement.html#cb10-1" tabindex="-1"></a><span class="fu">itemstats</span>(resp)<span class="sc">$</span>itemstats[, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>)]</span>
+<span id="cb10-2"><a href="measurement.html#cb10-2" tabindex="-1"></a><span class="co">#&gt;    mean cor_if_rm</span></span>
+<span id="cb10-3"><a href="measurement.html#cb10-3" tabindex="-1"></a><span class="co">#&gt; W1 1.64     0.348</span></span>
+<span id="cb10-4"><a href="measurement.html#cb10-4" tabindex="-1"></a><span class="co">#&gt; W2 1.49     0.341</span></span>
+<span id="cb10-5"><a href="measurement.html#cb10-5" tabindex="-1"></a><span class="co">#&gt; W3 1.24    -0.412</span></span>
+<span id="cb10-6"><a href="measurement.html#cb10-6" tabindex="-1"></a><span class="co">#&gt; W4 1.44     0.326</span></span>
+<span id="cb10-7"><a href="measurement.html#cb10-7" tabindex="-1"></a><span class="co">#&gt; W5 1.88     0.296</span></span>
+<span id="cb10-8"><a href="measurement.html#cb10-8" tabindex="-1"></a><span class="co">#&gt; W6 1.60     0.356</span></span>
+<span id="cb10-9"><a href="measurement.html#cb10-9" tabindex="-1"></a><span class="co">#&gt; W7 1.29    -0.433</span></span>
+<span id="cb10-10"><a href="measurement.html#cb10-10" tabindex="-1"></a><span class="co">#&gt; W8 1.48     0.122</span></span>
+<span id="cb10-11"><a href="measurement.html#cb10-11" tabindex="-1"></a><span class="fu">itemstats</span>(resp)<span class="sc">$</span>overall<span class="sc">$</span>alpha</span>
+<span id="cb10-12"><a href="measurement.html#cb10-12" tabindex="-1"></a><span class="co">#&gt; [1] 0.224</span></span></code></pre></div>
 <p>Reverse-scoring maps 0 to 3, 1 to 2 and so on:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="measurement.html#cb10-1" tabindex="-1"></a>scored <span class="ot">&lt;-</span> resp</span>
-<span id="cb10-2"><a href="measurement.html#cb10-2" tabindex="-1"></a>scored[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> scored[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)]</span>
-<span id="cb10-3"><a href="measurement.html#cb10-3" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(scored)</span>
-<span id="cb10-4"><a href="measurement.html#cb10-4" tabindex="-1"></a>st<span class="sc">$</span>itemstats[, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>, <span class="st">&quot;alpha_if_rm&quot;</span>)]</span>
-<span id="cb10-5"><a href="measurement.html#cb10-5" tabindex="-1"></a><span class="co">#&gt;    mean cor_if_rm alpha_if_rm</span></span>
-<span id="cb10-6"><a href="measurement.html#cb10-6" tabindex="-1"></a><span class="co">#&gt; W1 1.64     0.543       0.710</span></span>
-<span id="cb10-7"><a href="measurement.html#cb10-7" tabindex="-1"></a><span class="co">#&gt; W2 1.49     0.459       0.725</span></span>
-<span id="cb10-8"><a href="measurement.html#cb10-8" tabindex="-1"></a><span class="co">#&gt; W3 1.76     0.451       0.727</span></span>
-<span id="cb10-9"><a href="measurement.html#cb10-9" tabindex="-1"></a><span class="co">#&gt; W4 1.44     0.538       0.710</span></span>
-<span id="cb10-10"><a href="measurement.html#cb10-10" tabindex="-1"></a><span class="co">#&gt; W5 1.88     0.443       0.728</span></span>
-<span id="cb10-11"><a href="measurement.html#cb10-11" tabindex="-1"></a><span class="co">#&gt; W6 1.60     0.507       0.716</span></span>
-<span id="cb10-12"><a href="measurement.html#cb10-12" tabindex="-1"></a><span class="co">#&gt; W7 1.71     0.473       0.723</span></span>
-<span id="cb10-13"><a href="measurement.html#cb10-13" tabindex="-1"></a><span class="co">#&gt; W8 1.48     0.210       0.773</span></span>
-<span id="cb10-14"><a href="measurement.html#cb10-14" tabindex="-1"></a>st<span class="sc">$</span>overall<span class="sc">$</span>alpha</span>
-<span id="cb10-15"><a href="measurement.html#cb10-15" tabindex="-1"></a><span class="co">#&gt; [1] 0.753</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="measurement.html#cb11-1" tabindex="-1"></a>scored <span class="ot">&lt;-</span> resp</span>
+<span id="cb11-2"><a href="measurement.html#cb11-2" tabindex="-1"></a>scored[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> scored[, <span class="fu">c</span>(<span class="st">&quot;W3&quot;</span>, <span class="st">&quot;W7&quot;</span>)]</span>
+<span id="cb11-3"><a href="measurement.html#cb11-3" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(scored)</span>
+<span id="cb11-4"><a href="measurement.html#cb11-4" tabindex="-1"></a>st<span class="sc">$</span>itemstats[, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;cor_if_rm&quot;</span>, <span class="st">&quot;alpha_if_rm&quot;</span>)]</span>
+<span id="cb11-5"><a href="measurement.html#cb11-5" tabindex="-1"></a><span class="co">#&gt;    mean cor_if_rm alpha_if_rm</span></span>
+<span id="cb11-6"><a href="measurement.html#cb11-6" tabindex="-1"></a><span class="co">#&gt; W1 1.64     0.543       0.710</span></span>
+<span id="cb11-7"><a href="measurement.html#cb11-7" tabindex="-1"></a><span class="co">#&gt; W2 1.49     0.459       0.725</span></span>
+<span id="cb11-8"><a href="measurement.html#cb11-8" tabindex="-1"></a><span class="co">#&gt; W3 1.76     0.451       0.727</span></span>
+<span id="cb11-9"><a href="measurement.html#cb11-9" tabindex="-1"></a><span class="co">#&gt; W4 1.44     0.538       0.710</span></span>
+<span id="cb11-10"><a href="measurement.html#cb11-10" tabindex="-1"></a><span class="co">#&gt; W5 1.88     0.443       0.728</span></span>
+<span id="cb11-11"><a href="measurement.html#cb11-11" tabindex="-1"></a><span class="co">#&gt; W6 1.60     0.507       0.716</span></span>
+<span id="cb11-12"><a href="measurement.html#cb11-12" tabindex="-1"></a><span class="co">#&gt; W7 1.71     0.473       0.723</span></span>
+<span id="cb11-13"><a href="measurement.html#cb11-13" tabindex="-1"></a><span class="co">#&gt; W8 1.48     0.210       0.773</span></span>
+<span id="cb11-14"><a href="measurement.html#cb11-14" tabindex="-1"></a>st<span class="sc">$</span>overall<span class="sc">$</span>alpha</span>
+<span id="cb11-15"><a href="measurement.html#cb11-15" tabindex="-1"></a><span class="co">#&gt; [1] 0.753</span></span></code></pre></div>
 <p>All items now point the same way. Item W8 still has a low corrected
 correlation, and alpha rises from 0.75 to 0.77 without it: it is a weak item, and an
 IRT model will give it a low discrimination too (Chapter <a href="irt-models.html#irt-models">2</a>).
 For rating scales the category frequencies are worth a look as well. A
 category almost nobody uses carries little information and may need to be
 merged with its neighbour (Chapter <a href="polytomous.html#polytomous">8</a>).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="measurement.html#cb11-1" tabindex="-1"></a><span class="fu">round</span>(st<span class="sc">$</span>proportions, <span class="dv">2</span>)</span>
-<span id="cb11-2"><a href="measurement.html#cb11-2" tabindex="-1"></a><span class="co">#&gt;       0    1    2    3</span></span>
-<span id="cb11-3"><a href="measurement.html#cb11-3" tabindex="-1"></a><span class="co">#&gt; W1 0.19 0.23 0.34 0.24</span></span>
-<span id="cb11-4"><a href="measurement.html#cb11-4" tabindex="-1"></a><span class="co">#&gt; W2 0.24 0.24 0.32 0.20</span></span>
-<span id="cb11-5"><a href="measurement.html#cb11-5" tabindex="-1"></a><span class="co">#&gt; W3 0.16 0.22 0.33 0.30</span></span>
-<span id="cb11-6"><a href="measurement.html#cb11-6" tabindex="-1"></a><span class="co">#&gt; W4 0.26 0.26 0.27 0.21</span></span>
-<span id="cb11-7"><a href="measurement.html#cb11-7" tabindex="-1"></a><span class="co">#&gt; W5 0.12 0.21 0.35 0.32</span></span>
-<span id="cb11-8"><a href="measurement.html#cb11-8" tabindex="-1"></a><span class="co">#&gt; W6 0.20 0.23 0.33 0.23</span></span>
-<span id="cb11-9"><a href="measurement.html#cb11-9" tabindex="-1"></a><span class="co">#&gt; W7 0.17 0.22 0.34 0.27</span></span>
-<span id="cb11-10"><a href="measurement.html#cb11-10" tabindex="-1"></a><span class="co">#&gt; W8 0.27 0.25 0.20 0.28</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="measurement.html#cb12-1" tabindex="-1"></a><span class="fu">round</span>(st<span class="sc">$</span>proportions, <span class="dv">2</span>)</span>
+<span id="cb12-2"><a href="measurement.html#cb12-2" tabindex="-1"></a><span class="co">#&gt;       0    1    2    3</span></span>
+<span id="cb12-3"><a href="measurement.html#cb12-3" tabindex="-1"></a><span class="co">#&gt; W1 0.19 0.23 0.34 0.24</span></span>
+<span id="cb12-4"><a href="measurement.html#cb12-4" tabindex="-1"></a><span class="co">#&gt; W2 0.24 0.24 0.32 0.20</span></span>
+<span id="cb12-5"><a href="measurement.html#cb12-5" tabindex="-1"></a><span class="co">#&gt; W3 0.16 0.22 0.33 0.30</span></span>
+<span id="cb12-6"><a href="measurement.html#cb12-6" tabindex="-1"></a><span class="co">#&gt; W4 0.26 0.26 0.27 0.21</span></span>
+<span id="cb12-7"><a href="measurement.html#cb12-7" tabindex="-1"></a><span class="co">#&gt; W5 0.12 0.21 0.35 0.32</span></span>
+<span id="cb12-8"><a href="measurement.html#cb12-8" tabindex="-1"></a><span class="co">#&gt; W6 0.20 0.23 0.33 0.23</span></span>
+<span id="cb12-9"><a href="measurement.html#cb12-9" tabindex="-1"></a><span class="co">#&gt; W7 0.17 0.22 0.34 0.27</span></span>
+<span id="cb12-10"><a href="measurement.html#cb12-10" tabindex="-1"></a><span class="co">#&gt; W8 0.27 0.25 0.20 0.28</span></span></code></pre></div>
 </div>
 <div id="a-first-look-with-mirtverse" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> A first look with mirtverse<a href="measurement.html#a-first-look-with-mirtverse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -540,17 +544,17 @@ merged with its neighbour (Chapter <a href="polytomous.html#polytomous">8</a>).<
 type, the number of distinct values, the range and the share of missing
 values, and it guesses which columns are items and which are IDs or grouping
 variables.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="measurement.html#cb12-1" tabindex="-1"></a><span class="fu">profile_data</span>(scored)</span>
-<span id="cb12-2"><a href="measurement.html#cb12-2" tabindex="-1"></a><span class="co">#&gt; Data profile: 800 rows, 8 columns (8 look like items)</span></span>
-<span id="cb12-3"><a href="measurement.html#cb12-3" tabindex="-1"></a><span class="co">#&gt;  column    type n_distinct min max prop_missing role levels</span></span>
-<span id="cb12-4"><a href="measurement.html#cb12-4" tabindex="-1"></a><span class="co">#&gt;      W1 integer          4   0   3            0 item       </span></span>
-<span id="cb12-5"><a href="measurement.html#cb12-5" tabindex="-1"></a><span class="co">#&gt;      W2 integer          4   0   3            0 item       </span></span>
-<span id="cb12-6"><a href="measurement.html#cb12-6" tabindex="-1"></a><span class="co">#&gt;      W3 integer          4   0   3            0 item       </span></span>
-<span id="cb12-7"><a href="measurement.html#cb12-7" tabindex="-1"></a><span class="co">#&gt;      W4 integer          4   0   3            0 item       </span></span>
-<span id="cb12-8"><a href="measurement.html#cb12-8" tabindex="-1"></a><span class="co">#&gt;      W5 integer          4   0   3            0 item       </span></span>
-<span id="cb12-9"><a href="measurement.html#cb12-9" tabindex="-1"></a><span class="co">#&gt;      W6 integer          4   0   3            0 item       </span></span>
-<span id="cb12-10"><a href="measurement.html#cb12-10" tabindex="-1"></a><span class="co">#&gt;      W7 integer          4   0   3            0 item       </span></span>
-<span id="cb12-11"><a href="measurement.html#cb12-11" tabindex="-1"></a><span class="co">#&gt;      W8 integer          4   0   3            0 item</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="measurement.html#cb13-1" tabindex="-1"></a><span class="fu">profile_data</span>(scored)</span>
+<span id="cb13-2"><a href="measurement.html#cb13-2" tabindex="-1"></a><span class="co">#&gt; Data profile: 800 rows, 8 columns (8 look like items)</span></span>
+<span id="cb13-3"><a href="measurement.html#cb13-3" tabindex="-1"></a><span class="co">#&gt;  column    type n_distinct min max prop_missing role levels</span></span>
+<span id="cb13-4"><a href="measurement.html#cb13-4" tabindex="-1"></a><span class="co">#&gt;      W1 integer          4   0   3            0 item       </span></span>
+<span id="cb13-5"><a href="measurement.html#cb13-5" tabindex="-1"></a><span class="co">#&gt;      W2 integer          4   0   3            0 item       </span></span>
+<span id="cb13-6"><a href="measurement.html#cb13-6" tabindex="-1"></a><span class="co">#&gt;      W3 integer          4   0   3            0 item       </span></span>
+<span id="cb13-7"><a href="measurement.html#cb13-7" tabindex="-1"></a><span class="co">#&gt;      W4 integer          4   0   3            0 item       </span></span>
+<span id="cb13-8"><a href="measurement.html#cb13-8" tabindex="-1"></a><span class="co">#&gt;      W5 integer          4   0   3            0 item       </span></span>
+<span id="cb13-9"><a href="measurement.html#cb13-9" tabindex="-1"></a><span class="co">#&gt;      W6 integer          4   0   3            0 item       </span></span>
+<span id="cb13-10"><a href="measurement.html#cb13-10" tabindex="-1"></a><span class="co">#&gt;      W7 integer          4   0   3            0 item       </span></span>
+<span id="cb13-11"><a href="measurement.html#cb13-11" tabindex="-1"></a><span class="co">#&gt;      W8 integer          4   0   3            0 item</span></span></code></pre></div>
 </div>
 <div id="your-turn" class="section level2 hasAnchor" number="1.5">
 <h2><span class="header-section-number">1.5</span> Your turn<a href="measurement.html#your-turn" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -571,12 +575,12 @@ statistics of those items?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="measurement.html#cb13-1" tabindex="-1"></a>resp_fixed <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, <span class="fu">replace</span>(key, <span class="dv">32</span>, <span class="dv">3</span>))</span>
-<span id="cb13-2"><a href="measurement.html#cb13-2" tabindex="-1"></a>it <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp_fixed)<span class="sc">$</span>itemstats</span>
-<span id="cb13-3"><a href="measurement.html#cb13-3" tabindex="-1"></a><span class="fu">rownames</span>(it)[<span class="fu">order</span>(it<span class="sc">$</span>mean)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]                 <span class="co"># hardest</span></span>
-<span id="cb13-4"><a href="measurement.html#cb13-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item.6&quot; &quot;Item.8&quot; &quot;Item.3&quot;</span></span>
-<span id="cb13-5"><a href="measurement.html#cb13-5" tabindex="-1"></a><span class="fu">rownames</span>(it)[<span class="fu">order</span>(it<span class="sc">$</span>cor_if_rm)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]        <span class="co"># weakest</span></span>
-<span id="cb13-6"><a href="measurement.html#cb13-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item.12&quot; &quot;Item.9&quot;  &quot;Item.21&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="measurement.html#cb14-1" tabindex="-1"></a>resp_fixed <span class="ot">&lt;-</span> <span class="fu">key2binary</span>(SAT12, <span class="fu">replace</span>(key, <span class="dv">32</span>, <span class="dv">3</span>))</span>
+<span id="cb14-2"><a href="measurement.html#cb14-2" tabindex="-1"></a>it <span class="ot">&lt;-</span> <span class="fu">itemstats</span>(resp_fixed)<span class="sc">$</span>itemstats</span>
+<span id="cb14-3"><a href="measurement.html#cb14-3" tabindex="-1"></a><span class="fu">rownames</span>(it)[<span class="fu">order</span>(it<span class="sc">$</span>mean)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]                 <span class="co"># hardest</span></span>
+<span id="cb14-4"><a href="measurement.html#cb14-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item.6&quot; &quot;Item.8&quot; &quot;Item.3&quot;</span></span>
+<span id="cb14-5"><a href="measurement.html#cb14-5" tabindex="-1"></a><span class="fu">rownames</span>(it)[<span class="fu">order</span>(it<span class="sc">$</span>cor_if_rm)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]        <span class="co"># weakest</span></span>
+<span id="cb14-6"><a href="measurement.html#cb14-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item.12&quot; &quot;Item.9&quot;  &quot;Item.21&quot;</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Use <code>distractors(SAT12, rowSums(resp_fixed), "&lt;item&gt;")</code>. If no option is
 preferred by the top band and the correct option rises only slowly, the
@@ -622,7 +626,7 @@ Crocker, Linda, and James Algina. 1986. <em>Introduction to Classical and Modern
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="about-the-author.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="irt-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -655,7 +659,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

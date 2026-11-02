@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 10 Linking and equating | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 10 Linking and equating | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -385,85 +389,90 @@ drift</strong>, and it must be removed from the anchor set before linking.</p>
 anchor items. We simulate 1,000 students on each. The new cohort is stronger
 (mean 0.4, standard deviation 1.1), and anchor A06 was leaked and became
 easier on the new form.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="linking.html#cb111-1" tabindex="-1"></a><span class="co"># Simulated NEAT design: old form (O01-O20 + anchors A01-A10) and new form</span></span>
-<span id="cb111-2"><a href="linking.html#cb111-2" tabindex="-1"></a><span class="co"># (N01-N20 + the same anchors); anchor A06 drifts on the new form.</span></span>
-<span id="cb111-3"><a href="linking.html#cb111-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1010</span>)</span>
-<span id="cb111-4"><a href="linking.html#cb111-4" tabindex="-1"></a>anchors <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;A%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb111-5"><a href="linking.html#cb111-5" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors),</span>
-<span id="cb111-6"><a href="linking.html#cb111-6" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">50</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb111-7"><a href="linking.html#cb111-7" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="cf">function</span>(items, n, mean, sd, <span class="at">shift =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb111-8"><a href="linking.html#cb111-8" tabindex="-1"></a>  p <span class="ot">&lt;-</span> pars[<span class="fu">match</span>(items, pars<span class="sc">$</span>item), ]</span>
-<span id="cb111-9"><a href="linking.html#cb111-9" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(shift)) p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="ot">&lt;-</span> p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="sc">+</span> shift</span>
-<span id="cb111-10"><a href="linking.html#cb111-10" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">matrix</span>(p<span class="sc">$</span>a), <span class="fu">matrix</span>(<span class="sc">-</span>p<span class="sc">$</span>a <span class="sc">*</span> p<span class="sc">$</span>b), <span class="at">N =</span> n, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
-<span id="cb111-11"><a href="linking.html#cb111-11" tabindex="-1"></a>                 <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n, mean, sd)))</span>
-<span id="cb111-12"><a href="linking.html#cb111-12" tabindex="-1"></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> items</span>
-<span id="cb111-13"><a href="linking.html#cb111-13" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(out)</span>
-<span id="cb111-14"><a href="linking.html#cb111-14" tabindex="-1"></a>}</span>
-<span id="cb111-15"><a href="linking.html#cb111-15" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb111-16"><a href="linking.html#cb111-16" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="fl">0.4</span>, <span class="fl">1.1</span>, <span class="at">shift =</span> <span class="fu">c</span>(<span class="at">A06 =</span> <span class="sc">-</span><span class="fl">1.2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="linking.html#cb112-1" tabindex="-1"></a><span class="co"># Simulated NEAT design: old form (O01-O20 + anchors A01-A10) and new form</span></span>
+<span id="cb112-2"><a href="linking.html#cb112-2" tabindex="-1"></a><span class="co"># (N01-N20 + the same anchors); anchor A06 drifts on the new form.</span></span>
+<span id="cb112-3"><a href="linking.html#cb112-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1010</span>)</span>
+<span id="cb112-4"><a href="linking.html#cb112-4" tabindex="-1"></a>anchors <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;A%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb112-5"><a href="linking.html#cb112-5" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors),</span>
+<span id="cb112-6"><a href="linking.html#cb112-6" tabindex="-1"></a>                   <span class="at">a =</span> <span class="fu">rlnorm</span>(<span class="dv">50</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb112-7"><a href="linking.html#cb112-7" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="cf">function</span>(items, n, mean, sd, <span class="at">shift =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb112-8"><a href="linking.html#cb112-8" tabindex="-1"></a>  p <span class="ot">&lt;-</span> pars[<span class="fu">match</span>(items, pars<span class="sc">$</span>item), ]</span>
+<span id="cb112-9"><a href="linking.html#cb112-9" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(shift)) p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="ot">&lt;-</span> p<span class="sc">$</span>b[p<span class="sc">$</span>item <span class="sc">%in%</span> <span class="fu">names</span>(shift)] <span class="sc">+</span> shift</span>
+<span id="cb112-10"><a href="linking.html#cb112-10" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="fu">matrix</span>(p<span class="sc">$</span>a), <span class="fu">matrix</span>(<span class="sc">-</span>p<span class="sc">$</span>a <span class="sc">*</span> p<span class="sc">$</span>b), <span class="at">N =</span> n, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,</span>
+<span id="cb112-11"><a href="linking.html#cb112-11" tabindex="-1"></a>                 <span class="at">Theta =</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n, mean, sd)))</span>
+<span id="cb112-12"><a href="linking.html#cb112-12" tabindex="-1"></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> items</span>
+<span id="cb112-13"><a href="linking.html#cb112-13" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(out)</span>
+<span id="cb112-14"><a href="linking.html#cb112-14" tabindex="-1"></a>}</span>
+<span id="cb112-15"><a href="linking.html#cb112-15" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb112-16"><a href="linking.html#cb112-16" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">gen</span>(<span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors), <span class="dv">1000</span>, <span class="fl">0.4</span>, <span class="fl">1.1</span>, <span class="at">shift =</span> <span class="fu">c</span>(<span class="at">A06 =</span> <span class="sc">-</span><span class="fl">1.2</span>))</span></code></pre></div>
 <p>Calibrate each form on its own:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="linking.html#cb112-1" tabindex="-1"></a>fit_old <span class="ot">&lt;-</span> <span class="fu">mirt</span>(old, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb112-2"><a href="linking.html#cb112-2" tabindex="-1"></a>fit_new <span class="ot">&lt;-</span> <span class="fu">mirt</span>(new, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb112-3"><a href="linking.html#cb112-3" tabindex="-1"></a>p_old <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_old, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
-<span id="cb112-4"><a href="linking.html#cb112-4" tabindex="-1"></a>p_new <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_new, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
-<span id="cb112-5"><a href="linking.html#cb112-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">b_old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">b_new =</span> p_new[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
-<span id="cb112-6"><a href="linking.html#cb112-6" tabindex="-1"></a><span class="co">#&gt;     b_old b_new</span></span>
-<span id="cb112-7"><a href="linking.html#cb112-7" tabindex="-1"></a><span class="co">#&gt; A01 -0.49 -0.90</span></span>
-<span id="cb112-8"><a href="linking.html#cb112-8" tabindex="-1"></a><span class="co">#&gt; A02  0.69  0.18</span></span>
-<span id="cb112-9"><a href="linking.html#cb112-9" tabindex="-1"></a><span class="co">#&gt; A03 -1.44 -1.74</span></span>
-<span id="cb112-10"><a href="linking.html#cb112-10" tabindex="-1"></a><span class="co">#&gt; A04 -0.13 -0.38</span></span>
-<span id="cb112-11"><a href="linking.html#cb112-11" tabindex="-1"></a><span class="co">#&gt; A05 -1.05 -1.53</span></span>
-<span id="cb112-12"><a href="linking.html#cb112-12" tabindex="-1"></a><span class="co">#&gt; A06 -0.43 -2.10</span></span>
-<span id="cb112-13"><a href="linking.html#cb112-13" tabindex="-1"></a><span class="co">#&gt; A07 -1.10 -1.51</span></span>
-<span id="cb112-14"><a href="linking.html#cb112-14" tabindex="-1"></a><span class="co">#&gt; A08 -0.62 -1.02</span></span>
-<span id="cb112-15"><a href="linking.html#cb112-15" tabindex="-1"></a><span class="co">#&gt; A09  1.14  0.65</span></span>
-<span id="cb112-16"><a href="linking.html#cb112-16" tabindex="-1"></a><span class="co">#&gt; A10 -1.82 -2.15</span></span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="linking.html#cb113-1" tabindex="-1"></a>fit_old <span class="ot">&lt;-</span> <span class="fu">mirt</span>(old, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb113-2"><a href="linking.html#cb113-2" tabindex="-1"></a>fit_new <span class="ot">&lt;-</span> <span class="fu">mirt</span>(new, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb113-3"><a href="linking.html#cb113-3" tabindex="-1"></a>p_old <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_old, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
+<span id="cb113-4"><a href="linking.html#cb113-4" tabindex="-1"></a>p_new <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_new, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[anchors, <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
+<span id="cb113-5"><a href="linking.html#cb113-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">b_old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">b_new =</span> p_new[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
+<span id="cb113-6"><a href="linking.html#cb113-6" tabindex="-1"></a><span class="co">#&gt;     b_old b_new</span></span>
+<span id="cb113-7"><a href="linking.html#cb113-7" tabindex="-1"></a><span class="co">#&gt; A01 -0.49 -0.90</span></span>
+<span id="cb113-8"><a href="linking.html#cb113-8" tabindex="-1"></a><span class="co">#&gt; A02  0.69  0.18</span></span>
+<span id="cb113-9"><a href="linking.html#cb113-9" tabindex="-1"></a><span class="co">#&gt; A03 -1.44 -1.74</span></span>
+<span id="cb113-10"><a href="linking.html#cb113-10" tabindex="-1"></a><span class="co">#&gt; A04 -0.13 -0.38</span></span>
+<span id="cb113-11"><a href="linking.html#cb113-11" tabindex="-1"></a><span class="co">#&gt; A05 -1.05 -1.53</span></span>
+<span id="cb113-12"><a href="linking.html#cb113-12" tabindex="-1"></a><span class="co">#&gt; A06 -0.43 -2.10</span></span>
+<span id="cb113-13"><a href="linking.html#cb113-13" tabindex="-1"></a><span class="co">#&gt; A07 -1.10 -1.51</span></span>
+<span id="cb113-14"><a href="linking.html#cb113-14" tabindex="-1"></a><span class="co">#&gt; A08 -0.62 -1.02</span></span>
+<span id="cb113-15"><a href="linking.html#cb113-15" tabindex="-1"></a><span class="co">#&gt; A09  1.14  0.65</span></span>
+<span id="cb113-16"><a href="linking.html#cb113-16" tabindex="-1"></a><span class="co">#&gt; A10 -1.82 -2.15</span></span></code></pre></div>
 <p>The anchors look easier on the new calibration, because the new students are
 stronger and their calibration puts them at mean 0. Before linking, check
 for drift. On a common scale the anchor difficulties should lie on a straight
 line:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="linking.html#cb113-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb113-2"><a href="linking.html#cb113-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">new =</span> p_new[, <span class="st">&quot;b&quot;</span>], <span class="at">item =</span> anchors),</span>
-<span id="cb113-3"><a href="linking.html#cb113-3" tabindex="-1"></a>       <span class="fu">aes</span>(new, old)) <span class="sc">+</span></span>
-<span id="cb113-4"><a href="linking.html#cb113-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">&quot;grey70&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
-<span id="cb113-5"><a href="linking.html#cb113-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> item), <span class="at">nudge_y =</span> <span class="fl">0.15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb113-6"><a href="linking.html#cb113-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Difficulty, new calibration&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Difficulty, old calibration&quot;</span>) <span class="sc">+</span></span>
-<span id="cb113-7"><a href="linking.html#cb113-7" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-103-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="linking.html#cb114-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb114-2"><a href="linking.html#cb114-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">old =</span> p_old[, <span class="st">&quot;b&quot;</span>], <span class="at">new =</span> p_new[, <span class="st">&quot;b&quot;</span>], <span class="at">item =</span> anchors),</span>
+<span id="cb114-3"><a href="linking.html#cb114-3" tabindex="-1"></a>       <span class="fu">aes</span>(new, old)) <span class="sc">+</span></span>
+<span id="cb114-4"><a href="linking.html#cb114-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">&quot;grey70&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb114-5"><a href="linking.html#cb114-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> item), <span class="at">nudge_y =</span> <span class="fl">0.15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb114-6"><a href="linking.html#cb114-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Difficulty, new calibration&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Difficulty, old calibration&quot;</span>) <span class="sc">+</span></span>
+<span id="cb114-7"><a href="linking.html#cb114-7" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:anchor-drift"></span>
+<img src="mirtverse-book_files/figure-html/anchor-drift-1.png" alt="Anchor difficulties in the old and new calibrations; items off the line may have drifted." width="60%" />
+<p class="caption">
+Figure 10.1: Anchor difficulties in the old and new calibrations; items off the line may have drifted.
+</p>
+</div>
 <p>A06 sits well off the line formed by the others. A simple rule is to flag
 anchors whose difference in difficulty is far from the typical difference:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="linking.html#cb114-1" tabindex="-1"></a>diff_b <span class="ot">&lt;-</span> p_old[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> p_new[, <span class="st">&quot;b&quot;</span>]</span>
-<span id="cb114-2"><a href="linking.html#cb114-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sort</span>((diff_b <span class="sc">-</span> <span class="fu">median</span>(diff_b)) <span class="sc">/</span> <span class="fu">mad</span>(diff_b)), <span class="dv">1</span>)</span>
-<span id="cb114-3"><a href="linking.html#cb114-3" tabindex="-1"></a><span class="co">#&gt;  A04  A03  A10  A08  A01  A07  A09  A05  A02  A06 </span></span>
-<span id="cb114-4"><a href="linking.html#cb114-4" tabindex="-1"></a><span class="co">#&gt; -1.3 -0.9 -0.7 -0.1  0.0  0.0  0.7  0.7  0.9 10.8</span></span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="linking.html#cb115-1" tabindex="-1"></a>diff_b <span class="ot">&lt;-</span> p_old[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> p_new[, <span class="st">&quot;b&quot;</span>]</span>
+<span id="cb115-2"><a href="linking.html#cb115-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sort</span>((diff_b <span class="sc">-</span> <span class="fu">median</span>(diff_b)) <span class="sc">/</span> <span class="fu">mad</span>(diff_b)), <span class="dv">1</span>)</span>
+<span id="cb115-3"><a href="linking.html#cb115-3" tabindex="-1"></a><span class="co">#&gt;  A04  A03  A10  A08  A01  A07  A09  A05  A02  A06 </span></span>
+<span id="cb115-4"><a href="linking.html#cb115-4" tabindex="-1"></a><span class="co">#&gt; -1.3 -0.9 -0.7 -0.1  0.0  0.0  0.7  0.7  0.9 10.8</span></span></code></pre></div>
 <p>We drop A06 from the anchor set and compute the mean-sigma constants from the
 remaining nine:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="linking.html#cb115-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>)</span>
-<span id="cb115-2"><a href="linking.html#cb115-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
-<span id="cb115-3"><a href="linking.html#cb115-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
-<span id="cb115-4"><a href="linking.html#cb115-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A, <span class="at">B =</span> B)</span>
-<span id="cb115-5"><a href="linking.html#cb115-5" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
-<span id="cb115-6"><a href="linking.html#cb115-6" tabindex="-1"></a><span class="co">#&gt; 1.04 0.44</span></span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="linking.html#cb116-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>)</span>
+<span id="cb116-2"><a href="linking.html#cb116-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb116-3"><a href="linking.html#cb116-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb116-4"><a href="linking.html#cb116-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A, <span class="at">B =</span> B)</span>
+<span id="cb116-5"><a href="linking.html#cb116-5" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
+<span id="cb116-6"><a href="linking.html#cb116-6" tabindex="-1"></a><span class="co">#&gt; 1.04 0.44</span></span></code></pre></div>
 <p><span class="math inline">\(B\)</span> estimates how much stronger the new cohort is on the old scale (we
 simulated 0.4), and <span class="math inline">\(A\)</span> how much more spread out (1.1). Stocking-Lord finds
 the constants that make the two anchor characteristic curves agree:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="linking.html#cb116-1" tabindex="-1"></a>tcc <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, theta) <span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b))))</span>
-<span id="cb116-2"><a href="linking.html#cb116-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">41</span>)</span>
-<span id="cb116-3"><a href="linking.html#cb116-3" tabindex="-1"></a>sl_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
-<span id="cb116-4"><a href="linking.html#cb116-4" tabindex="-1"></a>  A <span class="ot">&lt;-</span> k[<span class="dv">1</span>]; B <span class="ot">&lt;-</span> k[<span class="dv">2</span>]</span>
-<span id="cb116-5"><a href="linking.html#cb116-5" tabindex="-1"></a>  <span class="fu">sum</span>((<span class="fu">tcc</span>(p_old[keep, <span class="st">&quot;a&quot;</span>], p_old[keep, <span class="st">&quot;b&quot;</span>], grid) <span class="sc">-</span></span>
-<span id="cb116-6"><a href="linking.html#cb116-6" tabindex="-1"></a>       <span class="fu">tcc</span>(p_new[keep, <span class="st">&quot;a&quot;</span>] <span class="sc">/</span> A, A <span class="sc">*</span> p_new[keep, <span class="st">&quot;b&quot;</span>] <span class="sc">+</span> B, grid))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">dnorm</span>(grid))</span>
-<span id="cb116-7"><a href="linking.html#cb116-7" tabindex="-1"></a>}</span>
-<span id="cb116-8"><a href="linking.html#cb116-8" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), sl_loss)<span class="sc">$</span>par</span>
-<span id="cb116-9"><a href="linking.html#cb116-9" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> sl[<span class="dv">1</span>], <span class="at">B =</span> sl[<span class="dv">2</span>])</span>
-<span id="cb116-10"><a href="linking.html#cb116-10" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
-<span id="cb116-11"><a href="linking.html#cb116-11" tabindex="-1"></a><span class="co">#&gt; 1.05 0.41</span></span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="linking.html#cb117-1" tabindex="-1"></a>tcc <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, theta) <span class="fu">sapply</span>(theta, <span class="cf">function</span>(t) <span class="fu">sum</span>(<span class="fu">plogis</span>(a <span class="sc">*</span> (t <span class="sc">-</span> b))))</span>
+<span id="cb117-2"><a href="linking.html#cb117-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">41</span>)</span>
+<span id="cb117-3"><a href="linking.html#cb117-3" tabindex="-1"></a>sl_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb117-4"><a href="linking.html#cb117-4" tabindex="-1"></a>  A <span class="ot">&lt;-</span> k[<span class="dv">1</span>]; B <span class="ot">&lt;-</span> k[<span class="dv">2</span>]</span>
+<span id="cb117-5"><a href="linking.html#cb117-5" tabindex="-1"></a>  <span class="fu">sum</span>((<span class="fu">tcc</span>(p_old[keep, <span class="st">&quot;a&quot;</span>], p_old[keep, <span class="st">&quot;b&quot;</span>], grid) <span class="sc">-</span></span>
+<span id="cb117-6"><a href="linking.html#cb117-6" tabindex="-1"></a>       <span class="fu">tcc</span>(p_new[keep, <span class="st">&quot;a&quot;</span>] <span class="sc">/</span> A, A <span class="sc">*</span> p_new[keep, <span class="st">&quot;b&quot;</span>] <span class="sc">+</span> B, grid))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">dnorm</span>(grid))</span>
+<span id="cb117-7"><a href="linking.html#cb117-7" tabindex="-1"></a>}</span>
+<span id="cb117-8"><a href="linking.html#cb117-8" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), sl_loss)<span class="sc">$</span>par</span>
+<span id="cb117-9"><a href="linking.html#cb117-9" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> sl[<span class="dv">1</span>], <span class="at">B =</span> sl[<span class="dv">2</span>])</span>
+<span id="cb117-10"><a href="linking.html#cb117-10" tabindex="-1"></a><span class="co">#&gt;    A    B </span></span>
+<span id="cb117-11"><a href="linking.html#cb117-11" tabindex="-1"></a><span class="co">#&gt; 1.05 0.41</span></span></code></pre></div>
 <p>Both methods recover the cohort difference well. What would have happened
 if we had kept the drifted anchor?</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="linking.html#cb117-1" tabindex="-1"></a>A_all <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[, <span class="st">&quot;b&quot;</span>])</span>
-<span id="cb117-2"><a href="linking.html#cb117-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_all, <span class="at">B =</span> <span class="fu">mean</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_all <span class="sc">*</span> <span class="fu">mean</span>(p_new[, <span class="st">&quot;b&quot;</span>]))</span>
-<span id="cb117-3"><a href="linking.html#cb117-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
-<span id="cb117-4"><a href="linking.html#cb117-4" tabindex="-1"></a><span class="co">#&gt; 0.963 0.487</span></span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="linking.html#cb118-1" tabindex="-1"></a>A_all <span class="ot">&lt;-</span> <span class="fu">sd</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">/</span> <span class="fu">sd</span>(p_new[, <span class="st">&quot;b&quot;</span>])</span>
+<span id="cb118-2"><a href="linking.html#cb118-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_all, <span class="at">B =</span> <span class="fu">mean</span>(p_old[, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_all <span class="sc">*</span> <span class="fu">mean</span>(p_new[, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb118-3"><a href="linking.html#cb118-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
+<span id="cb118-4"><a href="linking.html#cb118-4" tabindex="-1"></a><span class="co">#&gt; 0.963 0.487</span></span></code></pre></div>
 <p>One leaked item is enough to distort the link, and with it every score on
 the new form.</p>
 </div>
@@ -471,30 +480,30 @@ the new form.</p>
 <h2><span class="header-section-number">10.3</span> Example 2: concurrent calibration and equating a pass mark<a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Concurrent calibration fits both forms at once. We stack the two datasets;
 each student has <code>NA</code> for the items they did not take.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="linking.html#cb118-1" tabindex="-1"></a><span class="co"># The same NEAT data stacked: NA for items not on a student&#39;s form.</span></span>
-<span id="cb118-2"><a href="linking.html#cb118-2" tabindex="-1"></a><span class="co"># A06 is renamed on the new form, so it is not treated as an anchor.</span></span>
-<span id="cb118-3"><a href="linking.html#cb118-3" tabindex="-1"></a>new_a <span class="ot">&lt;-</span> new; <span class="fu">names</span>(new_a)[<span class="fu">names</span>(new_a) <span class="sc">==</span> <span class="st">&quot;A06&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;A06_new&quot;</span></span>
-<span id="cb118-4"><a href="linking.html#cb118-4" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
-<span id="cb118-5"><a href="linking.html#cb118-5" tabindex="-1"></a>              <span class="fu">transform</span>(new_a, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new_a))),</span>
-<span id="cb118-6"><a href="linking.html#cb118-6" tabindex="-1"></a>              <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb118-7"><a href="linking.html#cb118-7" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
-<span id="cb118-8"><a href="linking.html#cb118-8" tabindex="-1"></a>resp <span class="ot">&lt;-</span> resp[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="linking.html#cb119-1" tabindex="-1"></a><span class="co"># The same NEAT data stacked: NA for items not on a student&#39;s form.</span></span>
+<span id="cb119-2"><a href="linking.html#cb119-2" tabindex="-1"></a><span class="co"># A06 is renamed on the new form, so it is not treated as an anchor.</span></span>
+<span id="cb119-3"><a href="linking.html#cb119-3" tabindex="-1"></a>new_a <span class="ot">&lt;-</span> new; <span class="fu">names</span>(new_a)[<span class="fu">names</span>(new_a) <span class="sc">==</span> <span class="st">&quot;A06&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;A06_new&quot;</span></span>
+<span id="cb119-4"><a href="linking.html#cb119-4" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
+<span id="cb119-5"><a href="linking.html#cb119-5" tabindex="-1"></a>              <span class="fu">transform</span>(new_a, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new_a))),</span>
+<span id="cb119-6"><a href="linking.html#cb119-6" tabindex="-1"></a>              <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb119-7"><a href="linking.html#cb119-7" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
+<span id="cb119-8"><a href="linking.html#cb119-8" tabindex="-1"></a>resp <span class="ot">&lt;-</span> resp[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span></code></pre></div>
 <p>Renaming A06 on the new form turns it into two separate items, one per form,
 which is the usual way to drop a drifted anchor from the link without
 discarding its responses. <code>multipleGroup()</code> constrains every item to have the
 same parameters in both groups (each unique item is only seen by one group
 anyway) and frees the new group’s mean and variance:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="linking.html#cb119-1" tabindex="-1"></a>mg <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
-<span id="cb119-2"><a href="linking.html#cb119-2" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp, <span class="dv">1</span>, <span class="at">group =</span> form, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb119-3"><a href="linking.html#cb119-3" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
-<span id="cb119-4"><a href="linking.html#cb119-4" tabindex="-1"></a><span class="fu">coef</span>(mg, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new[<span class="fu">c</span>(<span class="st">&quot;means&quot;</span>, <span class="st">&quot;cov&quot;</span>)]</span>
-<span id="cb119-5"><a href="linking.html#cb119-5" tabindex="-1"></a><span class="co">#&gt; $means</span></span>
-<span id="cb119-6"><a href="linking.html#cb119-6" tabindex="-1"></a><span class="co">#&gt;    F1 </span></span>
-<span id="cb119-7"><a href="linking.html#cb119-7" tabindex="-1"></a><span class="co">#&gt; 0.411 </span></span>
-<span id="cb119-8"><a href="linking.html#cb119-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb119-9"><a href="linking.html#cb119-9" tabindex="-1"></a><span class="co">#&gt; $cov</span></span>
-<span id="cb119-10"><a href="linking.html#cb119-10" tabindex="-1"></a><span class="co">#&gt;      F1</span></span>
-<span id="cb119-11"><a href="linking.html#cb119-11" tabindex="-1"></a><span class="co">#&gt; F1 1.12</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="linking.html#cb120-1" tabindex="-1"></a>mg <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
+<span id="cb120-2"><a href="linking.html#cb120-2" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp, <span class="dv">1</span>, <span class="at">group =</span> form, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb120-3"><a href="linking.html#cb120-3" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
+<span id="cb120-4"><a href="linking.html#cb120-4" tabindex="-1"></a><span class="fu">coef</span>(mg, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new[<span class="fu">c</span>(<span class="st">&quot;means&quot;</span>, <span class="st">&quot;cov&quot;</span>)]</span>
+<span id="cb120-5"><a href="linking.html#cb120-5" tabindex="-1"></a><span class="co">#&gt; $means</span></span>
+<span id="cb120-6"><a href="linking.html#cb120-6" tabindex="-1"></a><span class="co">#&gt;    F1 </span></span>
+<span id="cb120-7"><a href="linking.html#cb120-7" tabindex="-1"></a><span class="co">#&gt; 0.411 </span></span>
+<span id="cb120-8"><a href="linking.html#cb120-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb120-9"><a href="linking.html#cb120-9" tabindex="-1"></a><span class="co">#&gt; $cov</span></span>
+<span id="cb120-10"><a href="linking.html#cb120-10" tabindex="-1"></a><span class="co">#&gt;      F1</span></span>
+<span id="cb120-11"><a href="linking.html#cb120-11" tabindex="-1"></a><span class="co">#&gt; F1 1.12</span></span></code></pre></div>
 <p>The new group’s mean and variance are estimated on the old group’s scale, and
 are close to the values we simulated (0.4 and <span class="math inline">\(1.1^2 = 1.21\)</span>).</p>
 <p>Now the pass mark. The old form’s pass mark was 18 correct out of 30. What
@@ -502,24 +511,29 @@ score on the new form corresponds to the same ability? <strong>IRT true-score
 equating</strong> finds the <span class="math inline">\(\theta\)</span> at which the old form’s expected score (its test
 characteristic curve) equals 18, then reads off the new form’s expected score
 at that <span class="math inline">\(\theta\)</span>.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="linking.html#cb120-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">coef</span>(mg, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>old<span class="sc">$</span>items</span>
-<span id="cb120-2"><a href="linking.html#cb120-2" tabindex="-1"></a>old_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors)</span>
-<span id="cb120-3"><a href="linking.html#cb120-3" tabindex="-1"></a>new_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>), <span class="st">&quot;A06_new&quot;</span>)</span>
-<span id="cb120-4"><a href="linking.html#cb120-4" tabindex="-1"></a>tcc_form <span class="ot">&lt;-</span> <span class="cf">function</span>(ids, theta) <span class="fu">tcc</span>(items[ids, <span class="st">&quot;a&quot;</span>], items[ids, <span class="st">&quot;b&quot;</span>], theta)</span>
-<span id="cb120-5"><a href="linking.html#cb120-5" tabindex="-1"></a>theta_cut <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">18</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
-<span id="cb120-6"><a href="linking.html#cb120-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">new_form_cut =</span> <span class="fu">tcc_form</span>(new_items, theta_cut))</span>
-<span id="cb120-7"><a href="linking.html#cb120-7" tabindex="-1"></a><span class="co">#&gt;    theta_cut new_form_cut </span></span>
-<span id="cb120-8"><a href="linking.html#cb120-8" tabindex="-1"></a><span class="co">#&gt;        0.419       19.763</span></span></code></pre></div>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="linking.html#cb121-1" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> <span class="fu">rep</span>(grid, <span class="dv">2</span>),</span>
-<span id="cb121-2"><a href="linking.html#cb121-2" tabindex="-1"></a>                     <span class="at">score =</span> <span class="fu">c</span>(<span class="fu">tcc_form</span>(old_items, grid), <span class="fu">tcc_form</span>(new_items, grid)),</span>
-<span id="cb121-3"><a href="linking.html#cb121-3" tabindex="-1"></a>                     <span class="at">form =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Old form&quot;</span>, <span class="st">&quot;New form&quot;</span>), <span class="at">each =</span> <span class="fu">length</span>(grid)))</span>
-<span id="cb121-4"><a href="linking.html#cb121-4" tabindex="-1"></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(theta, score, <span class="at">colour =</span> form)) <span class="sc">+</span></span>
-<span id="cb121-5"><a href="linking.html#cb121-5" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb121-6"><a href="linking.html#cb121-6" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> theta_cut, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb121-7"><a href="linking.html#cb121-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">18</span>, <span class="at">linetype =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb121-8"><a href="linking.html#cb121-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Expected number correct&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb121-9"><a href="linking.html#cb121-9" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-110-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="linking.html#cb121-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">coef</span>(mg, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>old<span class="sc">$</span>items</span>
+<span id="cb121-2"><a href="linking.html#cb121-2" tabindex="-1"></a>old_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;O%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), anchors)</span>
+<span id="cb121-3"><a href="linking.html#cb121-3" tabindex="-1"></a>new_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">&quot;N%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">setdiff</span>(anchors, <span class="st">&quot;A06&quot;</span>), <span class="st">&quot;A06_new&quot;</span>)</span>
+<span id="cb121-4"><a href="linking.html#cb121-4" tabindex="-1"></a>tcc_form <span class="ot">&lt;-</span> <span class="cf">function</span>(ids, theta) <span class="fu">tcc</span>(items[ids, <span class="st">&quot;a&quot;</span>], items[ids, <span class="st">&quot;b&quot;</span>], theta)</span>
+<span id="cb121-5"><a href="linking.html#cb121-5" tabindex="-1"></a>theta_cut <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">18</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
+<span id="cb121-6"><a href="linking.html#cb121-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">theta_cut =</span> theta_cut, <span class="at">new_form_cut =</span> <span class="fu">tcc_form</span>(new_items, theta_cut))</span>
+<span id="cb121-7"><a href="linking.html#cb121-7" tabindex="-1"></a><span class="co">#&gt;    theta_cut new_form_cut </span></span>
+<span id="cb121-8"><a href="linking.html#cb121-8" tabindex="-1"></a><span class="co">#&gt;        0.419       19.763</span></span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="linking.html#cb122-1" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> <span class="fu">rep</span>(grid, <span class="dv">2</span>),</span>
+<span id="cb122-2"><a href="linking.html#cb122-2" tabindex="-1"></a>                     <span class="at">score =</span> <span class="fu">c</span>(<span class="fu">tcc_form</span>(old_items, grid), <span class="fu">tcc_form</span>(new_items, grid)),</span>
+<span id="cb122-3"><a href="linking.html#cb122-3" tabindex="-1"></a>                     <span class="at">form =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Old form&quot;</span>, <span class="st">&quot;New form&quot;</span>), <span class="at">each =</span> <span class="fu">length</span>(grid)))</span>
+<span id="cb122-4"><a href="linking.html#cb122-4" tabindex="-1"></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(theta, score, <span class="at">colour =</span> form)) <span class="sc">+</span></span>
+<span id="cb122-5"><a href="linking.html#cb122-5" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb122-6"><a href="linking.html#cb122-6" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> theta_cut, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb122-7"><a href="linking.html#cb122-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">18</span>, <span class="at">linetype =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb122-8"><a href="linking.html#cb122-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;Expected number correct&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb122-9"><a href="linking.html#cb122-9" tabindex="-1"></a>  <span class="fu">theme_mirtverse</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:tcc-forms"></span>
+<img src="mirtverse-book_files/figure-html/tcc-forms-1.png" alt="Test characteristic curves of the old and new forms on the common scale, with the cut score." width="90%" />
+<p class="caption">
+Figure 10.2: Test characteristic curves of the old and new forms on the common scale, with the cut score.
+</p>
+</div>
 <p>If the new form is easier, its curve lies above the old form’s and the pass
 mark on the new form is higher; if it is harder, the pass mark is lower.
 Here the new form is a little easier, so the old pass mark of 18 corresponds
@@ -546,26 +560,26 @@ How much does the estimated mean of the new group change?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="linking.html#cb122-1" tabindex="-1"></a>A_mm <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;a&quot;</span>]) <span class="sc">/</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;a&quot;</span>])</span>
-<span id="cb122-2"><a href="linking.html#cb122-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_mm, <span class="at">B =</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_mm <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>]))</span>
-<span id="cb122-3"><a href="linking.html#cb122-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
-<span id="cb122-4"><a href="linking.html#cb122-4" tabindex="-1"></a><span class="co">#&gt; 1.025 0.422</span></span>
-<span id="cb122-5"><a href="linking.html#cb122-5" tabindex="-1"></a></span>
-<span id="cb122-6"><a href="linking.html#cb122-6" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
-<span id="cb122-7"><a href="linking.html#cb122-7" tabindex="-1"></a>                  <span class="fu">transform</span>(new, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new))),</span>
-<span id="cb122-8"><a href="linking.html#cb122-8" tabindex="-1"></a>                  <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb122-9"><a href="linking.html#cb122-9" tabindex="-1"></a>form_all <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp_all<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
-<span id="cb122-10"><a href="linking.html#cb122-10" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> resp_all[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp_all), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span>
-<span id="cb122-11"><a href="linking.html#cb122-11" tabindex="-1"></a>mg_all <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
-<span id="cb122-12"><a href="linking.html#cb122-12" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp_all, <span class="dv">1</span>, <span class="at">group =</span> form_all, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb122-13"><a href="linking.html#cb122-13" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp_all), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
-<span id="cb122-14"><a href="linking.html#cb122-14" tabindex="-1"></a><span class="fu">coef</span>(mg_all, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new<span class="sc">$</span>means</span>
-<span id="cb122-15"><a href="linking.html#cb122-15" tabindex="-1"></a><span class="co">#&gt;   F1 </span></span>
-<span id="cb122-16"><a href="linking.html#cb122-16" tabindex="-1"></a><span class="co">#&gt; 0.54</span></span>
-<span id="cb122-17"><a href="linking.html#cb122-17" tabindex="-1"></a></span>
-<span id="cb122-18"><a href="linking.html#cb122-18" tabindex="-1"></a>theta22 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">22</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
-<span id="cb122-19"><a href="linking.html#cb122-19" tabindex="-1"></a><span class="fu">tcc_form</span>(new_items, theta22)</span>
-<span id="cb122-20"><a href="linking.html#cb122-20" tabindex="-1"></a><span class="co">#&gt; [1] 23.1</span></span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="linking.html#cb123-1" tabindex="-1"></a>A_mm <span class="ot">&lt;-</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;a&quot;</span>]) <span class="sc">/</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;a&quot;</span>])</span>
+<span id="cb123-2"><a href="linking.html#cb123-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">A =</span> A_mm, <span class="at">B =</span> <span class="fu">mean</span>(p_old[keep, <span class="st">&quot;b&quot;</span>]) <span class="sc">-</span> A_mm <span class="sc">*</span> <span class="fu">mean</span>(p_new[keep, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb123-3"><a href="linking.html#cb123-3" tabindex="-1"></a><span class="co">#&gt;     A     B </span></span>
+<span id="cb123-4"><a href="linking.html#cb123-4" tabindex="-1"></a><span class="co">#&gt; 1.025 0.422</span></span>
+<span id="cb123-5"><a href="linking.html#cb123-5" tabindex="-1"></a></span>
+<span id="cb123-6"><a href="linking.html#cb123-6" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">transform</span>(old, <span class="at">form =</span> <span class="st">&quot;old&quot;</span>, <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(old))),</span>
+<span id="cb123-7"><a href="linking.html#cb123-7" tabindex="-1"></a>                  <span class="fu">transform</span>(new, <span class="at">form =</span> <span class="st">&quot;new&quot;</span>, <span class="at">id =</span> <span class="fu">nrow</span>(old) <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(new))),</span>
+<span id="cb123-8"><a href="linking.html#cb123-8" tabindex="-1"></a>                  <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb123-9"><a href="linking.html#cb123-9" tabindex="-1"></a>form_all <span class="ot">&lt;-</span> <span class="fu">factor</span>(resp_all<span class="sc">$</span>form, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;new&quot;</span>))</span>
+<span id="cb123-10"><a href="linking.html#cb123-10" tabindex="-1"></a>resp_all <span class="ot">&lt;-</span> resp_all[, <span class="fu">setdiff</span>(<span class="fu">names</span>(resp_all), <span class="fu">c</span>(<span class="st">&quot;form&quot;</span>, <span class="st">&quot;id&quot;</span>))]</span>
+<span id="cb123-11"><a href="linking.html#cb123-11" tabindex="-1"></a>mg_all <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
+<span id="cb123-12"><a href="linking.html#cb123-12" tabindex="-1"></a>  <span class="fu">multipleGroup</span>(resp_all, <span class="dv">1</span>, <span class="at">group =</span> form_all, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb123-13"><a href="linking.html#cb123-13" tabindex="-1"></a>                <span class="at">invariance =</span> <span class="fu">c</span>(<span class="fu">colnames</span>(resp_all), <span class="st">&quot;free_means&quot;</span>, <span class="st">&quot;free_var&quot;</span>)))</span>
+<span id="cb123-14"><a href="linking.html#cb123-14" tabindex="-1"></a><span class="fu">coef</span>(mg_all, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>new<span class="sc">$</span>means</span>
+<span id="cb123-15"><a href="linking.html#cb123-15" tabindex="-1"></a><span class="co">#&gt;   F1 </span></span>
+<span id="cb123-16"><a href="linking.html#cb123-16" tabindex="-1"></a><span class="co">#&gt; 0.54</span></span>
+<span id="cb123-17"><a href="linking.html#cb123-17" tabindex="-1"></a></span>
+<span id="cb123-18"><a href="linking.html#cb123-18" tabindex="-1"></a>theta22 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(<span class="cf">function</span>(t) <span class="fu">tcc_form</span>(old_items, t) <span class="sc">-</span> <span class="dv">22</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))<span class="sc">$</span>root</span>
+<span id="cb123-19"><a href="linking.html#cb123-19" tabindex="-1"></a><span class="fu">tcc_form</span>(new_items, theta22)</span>
+<span id="cb123-20"><a href="linking.html#cb123-20" tabindex="-1"></a><span class="co">#&gt; [1] 23.1</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>With A06 treated as an anchor, the new group’s mean rises well above the
 simulated 0.4. The model has to explain why the new students do so much
@@ -641,7 +655,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

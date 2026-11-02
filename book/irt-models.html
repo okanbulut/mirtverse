@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 2 The Rasch, 2PL and 3PL models | Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Chapter 2 The Rasch, 2PL and 3PL models | Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -387,62 +391,72 @@ mirtverse’s <code>tidy()</code> (which uses <code>IRTpars = TRUE</code> by def
 <p><code>LSAT7</code> holds the response patterns of 1,000 people to five items from a
 section of the Law School Admission Test, stored as a frequency table.
 <code>expand.table()</code> turns it into one row per person.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="irt-models.html#cb14-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
-<span id="cb14-2"><a href="irt-models.html#cb14-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT7)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="irt-models.html#cb15-1" tabindex="-1"></a><span class="co"># Five dichotomous LSAT items, one row per test taker.</span></span>
+<span id="cb15-2"><a href="irt-models.html#cb15-2" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">expand.table</span>(LSAT7)</span></code></pre></div>
 <p>We fit the three models. <code>itemtype</code> chooses the model and <code>verbose = FALSE</code>
 hides the iteration history.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="irt-models.html#cb15-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-2"><a href="irt-models.html#cb15-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,   <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-3"><a href="irt-models.html#cb15-3" tabindex="-1"></a>threepl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="irt-models.html#cb16-1" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="irt-models.html#cb16-2" tabindex="-1"></a>twopl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>,   <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-3"><a href="irt-models.html#cb16-3" tabindex="-1"></a>threepl <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>The item parameters in the IRT metric:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="irt-models.html#cb16-1" tabindex="-1"></a><span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb16-2"><a href="irt-models.html#cb16-2" tabindex="-1"></a><span class="co">#&gt;            a      b g u</span></span>
-<span id="cb16-3"><a href="irt-models.html#cb16-3" tabindex="-1"></a><span class="co">#&gt; Item.1 0.988 -1.879 0 1</span></span>
-<span id="cb16-4"><a href="irt-models.html#cb16-4" tabindex="-1"></a><span class="co">#&gt; Item.2 1.081 -0.748 0 1</span></span>
-<span id="cb16-5"><a href="irt-models.html#cb16-5" tabindex="-1"></a><span class="co">#&gt; Item.3 1.706 -1.058 0 1</span></span>
-<span id="cb16-6"><a href="irt-models.html#cb16-6" tabindex="-1"></a><span class="co">#&gt; Item.4 0.765 -0.635 0 1</span></span>
-<span id="cb16-7"><a href="irt-models.html#cb16-7" tabindex="-1"></a><span class="co">#&gt; Item.5 0.736 -2.520 0 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="irt-models.html#cb17-1" tabindex="-1"></a><span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb17-2"><a href="irt-models.html#cb17-2" tabindex="-1"></a><span class="co">#&gt;            a      b g u</span></span>
+<span id="cb17-3"><a href="irt-models.html#cb17-3" tabindex="-1"></a><span class="co">#&gt; Item.1 0.988 -1.879 0 1</span></span>
+<span id="cb17-4"><a href="irt-models.html#cb17-4" tabindex="-1"></a><span class="co">#&gt; Item.2 1.081 -0.748 0 1</span></span>
+<span id="cb17-5"><a href="irt-models.html#cb17-5" tabindex="-1"></a><span class="co">#&gt; Item.3 1.706 -1.058 0 1</span></span>
+<span id="cb17-6"><a href="irt-models.html#cb17-6" tabindex="-1"></a><span class="co">#&gt; Item.4 0.765 -0.635 0 1</span></span>
+<span id="cb17-7"><a href="irt-models.html#cb17-7" tabindex="-1"></a><span class="co">#&gt; Item.5 0.736 -2.520 0 1</span></span></code></pre></div>
 <p>The columns <code>g</code> and <code>u</code> are the lower and upper asymptotes, fixed at 0 and 1
 for the 2PL. The same information as a tidy table, ready for a report:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="irt-models.html#cb17-1" tabindex="-1"></a><span class="fu">tidy</span>(twopl)</span>
-<span id="cb17-2"><a href="irt-models.html#cb17-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 5</span></span>
-<span id="cb17-3"><a href="irt-models.html#cb17-3" tabindex="-1"></a><span class="co">#&gt;    item   itemtype term  estimate std.error</span></span>
-<span id="cb17-4"><a href="irt-models.html#cb17-4" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb17-5"><a href="irt-models.html#cb17-5" tabindex="-1"></a><span class="co">#&gt;  1 Item.1 2PL      a        0.988        NA</span></span>
-<span id="cb17-6"><a href="irt-models.html#cb17-6" tabindex="-1"></a><span class="co">#&gt;  2 Item.1 2PL      b       -1.88         NA</span></span>
-<span id="cb17-7"><a href="irt-models.html#cb17-7" tabindex="-1"></a><span class="co">#&gt;  3 Item.2 2PL      a        1.08         NA</span></span>
-<span id="cb17-8"><a href="irt-models.html#cb17-8" tabindex="-1"></a><span class="co">#&gt;  4 Item.2 2PL      b       -0.748        NA</span></span>
-<span id="cb17-9"><a href="irt-models.html#cb17-9" tabindex="-1"></a><span class="co">#&gt;  5 Item.3 2PL      a        1.71         NA</span></span>
-<span id="cb17-10"><a href="irt-models.html#cb17-10" tabindex="-1"></a><span class="co">#&gt;  6 Item.3 2PL      b       -1.06         NA</span></span>
-<span id="cb17-11"><a href="irt-models.html#cb17-11" tabindex="-1"></a><span class="co">#&gt;  7 Item.4 2PL      a        0.765        NA</span></span>
-<span id="cb17-12"><a href="irt-models.html#cb17-12" tabindex="-1"></a><span class="co">#&gt;  8 Item.4 2PL      b       -0.635        NA</span></span>
-<span id="cb17-13"><a href="irt-models.html#cb17-13" tabindex="-1"></a><span class="co">#&gt;  9 Item.5 2PL      a        0.736        NA</span></span>
-<span id="cb17-14"><a href="irt-models.html#cb17-14" tabindex="-1"></a><span class="co">#&gt; 10 Item.5 2PL      b       -2.52         NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="irt-models.html#cb18-1" tabindex="-1"></a><span class="fu">tidy</span>(twopl)</span>
+<span id="cb18-2"><a href="irt-models.html#cb18-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 5</span></span>
+<span id="cb18-3"><a href="irt-models.html#cb18-3" tabindex="-1"></a><span class="co">#&gt;    item   itemtype term  estimate std.error</span></span>
+<span id="cb18-4"><a href="irt-models.html#cb18-4" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb18-5"><a href="irt-models.html#cb18-5" tabindex="-1"></a><span class="co">#&gt;  1 Item.1 2PL      a        0.988        NA</span></span>
+<span id="cb18-6"><a href="irt-models.html#cb18-6" tabindex="-1"></a><span class="co">#&gt;  2 Item.1 2PL      b       -1.88         NA</span></span>
+<span id="cb18-7"><a href="irt-models.html#cb18-7" tabindex="-1"></a><span class="co">#&gt;  3 Item.2 2PL      a        1.08         NA</span></span>
+<span id="cb18-8"><a href="irt-models.html#cb18-8" tabindex="-1"></a><span class="co">#&gt;  4 Item.2 2PL      b       -0.748        NA</span></span>
+<span id="cb18-9"><a href="irt-models.html#cb18-9" tabindex="-1"></a><span class="co">#&gt;  5 Item.3 2PL      a        1.71         NA</span></span>
+<span id="cb18-10"><a href="irt-models.html#cb18-10" tabindex="-1"></a><span class="co">#&gt;  6 Item.3 2PL      b       -1.06         NA</span></span>
+<span id="cb18-11"><a href="irt-models.html#cb18-11" tabindex="-1"></a><span class="co">#&gt;  7 Item.4 2PL      a        0.765        NA</span></span>
+<span id="cb18-12"><a href="irt-models.html#cb18-12" tabindex="-1"></a><span class="co">#&gt;  8 Item.4 2PL      b       -0.635        NA</span></span>
+<span id="cb18-13"><a href="irt-models.html#cb18-13" tabindex="-1"></a><span class="co">#&gt;  9 Item.5 2PL      a        0.736        NA</span></span>
+<span id="cb18-14"><a href="irt-models.html#cb18-14" tabindex="-1"></a><span class="co">#&gt; 10 Item.5 2PL      b       -2.52         NA</span></span></code></pre></div>
 <p>All five items have negative difficulties: this is an easy section for this
 group. Item 3 has the steepest slope, items 4 and 5 the flattest. The curves
 show it at a glance.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="irt-models.html#cb18-1" tabindex="-1"></a><span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-18-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="irt-models.html#cb19-1" tabindex="-1"></a><span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:trace-2pl"></span>
+<img src="mirtverse-book_files/figure-html/trace-2pl-1.png" alt="Item characteristic curves of the 2PL model for the five LSAT7 items." width="90%" />
+<p class="caption">
+Figure 2.1: Item characteristic curves of the 2PL model for the five LSAT7 items.
+</p>
+</div>
 <p>Compare the Rasch curves, which are parallel by construction, with the 2PL
 curves, which are not:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="irt-models.html#cb19-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb19-2"><a href="irt-models.html#cb19-2" tabindex="-1"></a>(<span class="fu">gg_trace</span>(rasch, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;Rasch&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="irt-models.html#cb19-3" tabindex="-1"></a>  (<span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;2PL&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb19-4"><a href="irt-models.html#cb19-4" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-19-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="irt-models.html#cb20-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb20-2"><a href="irt-models.html#cb20-2" tabindex="-1"></a>(<span class="fu">gg_trace</span>(rasch, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;Rasch&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="irt-models.html#cb20-3" tabindex="-1"></a>  (<span class="fu">gg_trace</span>(twopl, <span class="at">facet =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;2PL&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="irt-models.html#cb20-4" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:trace-rasch-2pl"></span>
+<img src="mirtverse-book_files/figure-html/trace-rasch-2pl-1.png" alt="Rasch curves (left) are parallel by construction; 2PL curves (right) can differ in slope." width="90%" />
+<p class="caption">
+Figure 2.2: Rasch curves (left) are parallel by construction; 2PL curves (right) can differ in slope.
+</p>
+</div>
 <p>The 3PL adds a lower asymptote for each item. With only five easy items there
 is very little information about what low-ability people do. Look at the <span class="math inline">\(c\)</span>
 estimates (<code>g</code>) and their confidence intervals:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="irt-models.html#cb20-1" tabindex="-1"></a>threepl_se <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">SE =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-2"><a href="irt-models.html#cb20-2" tabindex="-1"></a><span class="fu">tidy</span>(threepl_se, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(term <span class="sc">==</span> <span class="st">&quot;g&quot;</span>)</span>
-<span id="cb20-3"><a href="irt-models.html#cb20-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
-<span id="cb20-4"><a href="irt-models.html#cb20-4" tabindex="-1"></a><span class="co">#&gt;   item   itemtype term   estimate std.error conf.low conf.high</span></span>
-<span id="cb20-5"><a href="irt-models.html#cb20-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb20-6"><a href="irt-models.html#cb20-6" tabindex="-1"></a><span class="co">#&gt; 1 Item.1 3PL      g     0.0000703   0.00930 -0.0182    0.0183 </span></span>
-<span id="cb20-7"><a href="irt-models.html#cb20-7" tabindex="-1"></a><span class="co">#&gt; 2 Item.2 3PL      g     0.295       0.140    0.0209    0.569  </span></span>
-<span id="cb20-8"><a href="irt-models.html#cb20-8" tabindex="-1"></a><span class="co">#&gt; 3 Item.3 3PL      g     0.000258    0.0278  -0.0543    0.0548 </span></span>
-<span id="cb20-9"><a href="irt-models.html#cb20-9" tabindex="-1"></a><span class="co">#&gt; 4 Item.4 3PL      g     0.0000506   0.00435 -0.00847   0.00857</span></span>
-<span id="cb20-10"><a href="irt-models.html#cb20-10" tabindex="-1"></a><span class="co">#&gt; 5 Item.5 3PL      g     0.000155    0.0209  -0.0408    0.0411</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="irt-models.html#cb21-1" tabindex="-1"></a>threepl_se <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">SE =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-2"><a href="irt-models.html#cb21-2" tabindex="-1"></a><span class="fu">tidy</span>(threepl_se, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(term <span class="sc">==</span> <span class="st">&quot;g&quot;</span>)</span>
+<span id="cb21-3"><a href="irt-models.html#cb21-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
+<span id="cb21-4"><a href="irt-models.html#cb21-4" tabindex="-1"></a><span class="co">#&gt;   item   itemtype term   estimate std.error conf.low conf.high</span></span>
+<span id="cb21-5"><a href="irt-models.html#cb21-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb21-6"><a href="irt-models.html#cb21-6" tabindex="-1"></a><span class="co">#&gt; 1 Item.1 3PL      g     0.0000703   0.00930 -0.0182    0.0183 </span></span>
+<span id="cb21-7"><a href="irt-models.html#cb21-7" tabindex="-1"></a><span class="co">#&gt; 2 Item.2 3PL      g     0.295       0.140    0.0209    0.569  </span></span>
+<span id="cb21-8"><a href="irt-models.html#cb21-8" tabindex="-1"></a><span class="co">#&gt; 3 Item.3 3PL      g     0.000258    0.0278  -0.0543    0.0548 </span></span>
+<span id="cb21-9"><a href="irt-models.html#cb21-9" tabindex="-1"></a><span class="co">#&gt; 4 Item.4 3PL      g     0.0000506   0.00435 -0.00847   0.00857</span></span>
+<span id="cb21-10"><a href="irt-models.html#cb21-10" tabindex="-1"></a><span class="co">#&gt; 5 Item.5 3PL      g     0.000155    0.0209  -0.0408    0.0411</span></span></code></pre></div>
 <p>Four of the five lower asymptotes sit at essentially zero, on the boundary
 of the parameter space, and the one that does not (Item 2) has a confidence
 interval that runs from almost 0 to well over 0.5. The data say very little
@@ -451,49 +465,49 @@ about guessing. Which model should we report? That is a question for Chapter
 automatically better: it has to be supported by the data.</p>
 <p><code>interpret()</code> describes the fitted model in plain language. Its <em>Items</em>
 section is a useful check on your own reading of the curves.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="irt-models.html#cb21-1" tabindex="-1"></a><span class="fu">interpret</span>(twopl)</span>
-<span id="cb21-2"><a href="irt-models.html#cb21-2" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
-<span id="cb21-3"><a href="irt-models.html#cb21-3" tabindex="-1"></a><span class="co">#&gt; --------</span></span>
-<span id="cb21-4"><a href="irt-models.html#cb21-4" tabindex="-1"></a><span class="co">#&gt; * A 2PL model with 1 dimension was fitted to 1000 respondents and 5 items (EM</span></span>
-<span id="cb21-5"><a href="irt-models.html#cb21-5" tabindex="-1"></a><span class="co">#&gt;   estimation). </span></span>
-<span id="cb21-6"><a href="irt-models.html#cb21-6" tabindex="-1"></a><span class="co">#&gt; * The estimation converged normally. </span></span>
-<span id="cb21-7"><a href="irt-models.html#cb21-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-8"><a href="irt-models.html#cb21-8" tabindex="-1"></a><span class="co">#&gt; Model fit</span></span>
-<span id="cb21-9"><a href="irt-models.html#cb21-9" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
-<span id="cb21-10"><a href="irt-models.html#cb21-10" tabindex="-1"></a><span class="co">#&gt; * Overall model fit is close: M2 = 11.94, df = 5, RMSEA = 0.037, CFI = 0.968,</span></span>
-<span id="cb21-11"><a href="irt-models.html#cb21-11" tabindex="-1"></a><span class="co">#&gt;   SRMSR = 0.032. </span></span>
-<span id="cb21-12"><a href="irt-models.html#cb21-12" tabindex="-1"></a><span class="co">#&gt; * The chi-square test is significant, but with large samples this is common;</span></span>
-<span id="cb21-13"><a href="irt-models.html#cb21-13" tabindex="-1"></a><span class="co">#&gt;   the RMSEA indicates the misfit is small in practical terms. </span></span>
-<span id="cb21-14"><a href="irt-models.html#cb21-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-15"><a href="irt-models.html#cb21-15" tabindex="-1"></a><span class="co">#&gt; Reliability</span></span>
-<span id="cb21-16"><a href="irt-models.html#cb21-16" tabindex="-1"></a><span class="co">#&gt; -----------</span></span>
-<span id="cb21-17"><a href="irt-models.html#cb21-17" tabindex="-1"></a><span class="co">#&gt; * Marginal reliability is 0.44 (low). </span></span>
-<span id="cb21-18"><a href="irt-models.html#cb21-18" tabindex="-1"></a><span class="co">#&gt; * Scores are too imprecise for decisions about individuals; consider adding</span></span>
-<span id="cb21-19"><a href="irt-models.html#cb21-19" tabindex="-1"></a><span class="co">#&gt;   items or using the scores only for group-level summaries. </span></span>
-<span id="cb21-20"><a href="irt-models.html#cb21-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-21"><a href="irt-models.html#cb21-21" tabindex="-1"></a><span class="co">#&gt; Targeting</span></span>
-<span id="cb21-22"><a href="irt-models.html#cb21-22" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
-<span id="cb21-23"><a href="irt-models.html#cb21-23" tabindex="-1"></a><span class="co">#&gt; * The average item location is -1.37 and the average person score is 0.00, so</span></span>
-<span id="cb21-24"><a href="irt-models.html#cb21-24" tabindex="-1"></a><span class="co">#&gt;   the test is relatively easy for this group. </span></span>
-<span id="cb21-25"><a href="irt-models.html#cb21-25" tabindex="-1"></a><span class="co">#&gt; * Measurement is most precise around theta = -1.08 (information = 1.47, SE =</span></span>
-<span id="cb21-26"><a href="irt-models.html#cb21-26" tabindex="-1"></a><span class="co">#&gt;   0.83). </span></span>
-<span id="cb21-27"><a href="irt-models.html#cb21-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-28"><a href="irt-models.html#cb21-28" tabindex="-1"></a><span class="co">#&gt; Items</span></span>
-<span id="cb21-29"><a href="irt-models.html#cb21-29" tabindex="-1"></a><span class="co">#&gt; -----</span></span>
-<span id="cb21-30"><a href="irt-models.html#cb21-30" tabindex="-1"></a><span class="co">#&gt; * Low item-total correlation: Item.5 (r = 0.17). These items relate weakly to</span></span>
-<span id="cb21-31"><a href="irt-models.html#cb21-31" tabindex="-1"></a><span class="co">#&gt;   the rest of the test. </span></span>
-<span id="cb21-32"><a href="irt-models.html#cb21-32" tabindex="-1"></a><span class="co">#&gt; * Misfit: Item.2 (S-X2 p &lt; .001). The model does not describe responses to</span></span>
-<span id="cb21-33"><a href="irt-models.html#cb21-33" tabindex="-1"></a><span class="co">#&gt;   these items well (alpha = 0.01); inspect them with gg_empirical() or</span></span>
-<span id="cb21-34"><a href="irt-models.html#cb21-34" tabindex="-1"></a><span class="co">#&gt;   item_card(). </span></span>
-<span id="cb21-35"><a href="irt-models.html#cb21-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-36"><a href="irt-models.html#cb21-36" tabindex="-1"></a><span class="co">#&gt; Local dependence</span></span>
-<span id="cb21-37"><a href="irt-models.html#cb21-37" tabindex="-1"></a><span class="co">#&gt; ----------------</span></span>
-<span id="cb21-38"><a href="irt-models.html#cb21-38" tabindex="-1"></a><span class="co">#&gt; * No item pairs show signs of local dependence (Q3). </span></span>
-<span id="cb21-39"><a href="irt-models.html#cb21-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb21-40"><a href="irt-models.html#cb21-40" tabindex="-1"></a><span class="co">#&gt; Person fit</span></span>
-<span id="cb21-41"><a href="irt-models.html#cb21-41" tabindex="-1"></a><span class="co">#&gt; ----------</span></span>
-<span id="cb21-42"><a href="irt-models.html#cb21-42" tabindex="-1"></a><span class="co">#&gt; * 2.1% of respondents have unusual response patterns (Zh &lt; -1.96), which is</span></span>
-<span id="cb21-43"><a href="irt-models.html#cb21-43" tabindex="-1"></a><span class="co">#&gt;   within what chance alone would produce.</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="irt-models.html#cb22-1" tabindex="-1"></a><span class="fu">interpret</span>(twopl)</span>
+<span id="cb22-2"><a href="irt-models.html#cb22-2" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
+<span id="cb22-3"><a href="irt-models.html#cb22-3" tabindex="-1"></a><span class="co">#&gt; --------</span></span>
+<span id="cb22-4"><a href="irt-models.html#cb22-4" tabindex="-1"></a><span class="co">#&gt; * A 2PL model with 1 dimension was fitted to 1000 respondents and 5 items (EM</span></span>
+<span id="cb22-5"><a href="irt-models.html#cb22-5" tabindex="-1"></a><span class="co">#&gt;   estimation). </span></span>
+<span id="cb22-6"><a href="irt-models.html#cb22-6" tabindex="-1"></a><span class="co">#&gt; * The estimation converged normally. </span></span>
+<span id="cb22-7"><a href="irt-models.html#cb22-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-8"><a href="irt-models.html#cb22-8" tabindex="-1"></a><span class="co">#&gt; Model fit</span></span>
+<span id="cb22-9"><a href="irt-models.html#cb22-9" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb22-10"><a href="irt-models.html#cb22-10" tabindex="-1"></a><span class="co">#&gt; * Overall model fit is close: M2 = 11.94, df = 5, RMSEA = 0.037, CFI = 0.968,</span></span>
+<span id="cb22-11"><a href="irt-models.html#cb22-11" tabindex="-1"></a><span class="co">#&gt;   SRMSR = 0.032. </span></span>
+<span id="cb22-12"><a href="irt-models.html#cb22-12" tabindex="-1"></a><span class="co">#&gt; * The chi-square test is significant, but with large samples this is common;</span></span>
+<span id="cb22-13"><a href="irt-models.html#cb22-13" tabindex="-1"></a><span class="co">#&gt;   the RMSEA indicates the misfit is small in practical terms. </span></span>
+<span id="cb22-14"><a href="irt-models.html#cb22-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-15"><a href="irt-models.html#cb22-15" tabindex="-1"></a><span class="co">#&gt; Reliability</span></span>
+<span id="cb22-16"><a href="irt-models.html#cb22-16" tabindex="-1"></a><span class="co">#&gt; -----------</span></span>
+<span id="cb22-17"><a href="irt-models.html#cb22-17" tabindex="-1"></a><span class="co">#&gt; * Marginal reliability is 0.44 (low). </span></span>
+<span id="cb22-18"><a href="irt-models.html#cb22-18" tabindex="-1"></a><span class="co">#&gt; * Scores are too imprecise for decisions about individuals; consider adding</span></span>
+<span id="cb22-19"><a href="irt-models.html#cb22-19" tabindex="-1"></a><span class="co">#&gt;   items or using the scores only for group-level summaries. </span></span>
+<span id="cb22-20"><a href="irt-models.html#cb22-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-21"><a href="irt-models.html#cb22-21" tabindex="-1"></a><span class="co">#&gt; Targeting</span></span>
+<span id="cb22-22"><a href="irt-models.html#cb22-22" tabindex="-1"></a><span class="co">#&gt; ---------</span></span>
+<span id="cb22-23"><a href="irt-models.html#cb22-23" tabindex="-1"></a><span class="co">#&gt; * The average item location is -1.37 and the average person score is 0.00, so</span></span>
+<span id="cb22-24"><a href="irt-models.html#cb22-24" tabindex="-1"></a><span class="co">#&gt;   the test is relatively easy for this group. </span></span>
+<span id="cb22-25"><a href="irt-models.html#cb22-25" tabindex="-1"></a><span class="co">#&gt; * Measurement is most precise around theta = -1.08 (information = 1.47, SE =</span></span>
+<span id="cb22-26"><a href="irt-models.html#cb22-26" tabindex="-1"></a><span class="co">#&gt;   0.83). </span></span>
+<span id="cb22-27"><a href="irt-models.html#cb22-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-28"><a href="irt-models.html#cb22-28" tabindex="-1"></a><span class="co">#&gt; Items</span></span>
+<span id="cb22-29"><a href="irt-models.html#cb22-29" tabindex="-1"></a><span class="co">#&gt; -----</span></span>
+<span id="cb22-30"><a href="irt-models.html#cb22-30" tabindex="-1"></a><span class="co">#&gt; * Low item-total correlation: Item.5 (r = 0.17). These items relate weakly to</span></span>
+<span id="cb22-31"><a href="irt-models.html#cb22-31" tabindex="-1"></a><span class="co">#&gt;   the rest of the test. </span></span>
+<span id="cb22-32"><a href="irt-models.html#cb22-32" tabindex="-1"></a><span class="co">#&gt; * Misfit: Item.2 (S-X2 p &lt; .001). The model does not describe responses to</span></span>
+<span id="cb22-33"><a href="irt-models.html#cb22-33" tabindex="-1"></a><span class="co">#&gt;   these items well (alpha = 0.01); inspect them with gg_empirical() or</span></span>
+<span id="cb22-34"><a href="irt-models.html#cb22-34" tabindex="-1"></a><span class="co">#&gt;   item_card(). </span></span>
+<span id="cb22-35"><a href="irt-models.html#cb22-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-36"><a href="irt-models.html#cb22-36" tabindex="-1"></a><span class="co">#&gt; Local dependence</span></span>
+<span id="cb22-37"><a href="irt-models.html#cb22-37" tabindex="-1"></a><span class="co">#&gt; ----------------</span></span>
+<span id="cb22-38"><a href="irt-models.html#cb22-38" tabindex="-1"></a><span class="co">#&gt; * No item pairs show signs of local dependence (Q3). </span></span>
+<span id="cb22-39"><a href="irt-models.html#cb22-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-40"><a href="irt-models.html#cb22-40" tabindex="-1"></a><span class="co">#&gt; Person fit</span></span>
+<span id="cb22-41"><a href="irt-models.html#cb22-41" tabindex="-1"></a><span class="co">#&gt; ----------</span></span>
+<span id="cb22-42"><a href="irt-models.html#cb22-42" tabindex="-1"></a><span class="co">#&gt; * 2.1% of respondents have unusual response patterns (Zh &lt; -1.96), which is</span></span>
+<span id="cb22-43"><a href="irt-models.html#cb22-43" tabindex="-1"></a><span class="co">#&gt;   within what chance alone would produce.</span></span></code></pre></div>
 </div>
 <div id="example-2-a-driving-theory-test-with-guessing" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Example 2: a driving theory test with guessing<a href="irt-models.html#example-2-a-driving-theory-test-with-guessing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -501,46 +515,51 @@ section is a useful check on your own reading of the curves.</p>
 four options per question, taken by 3,000 learner drivers. Because we
 simulate, we know the true parameters and can check how well each model
 recovers them.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="irt-models.html#cb22-1" tabindex="-1"></a><span class="co"># Simulated 20-item, four-option test with real guessing (c around 0.2).</span></span>
-<span id="cb22-2"><a href="irt-models.html#cb22-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
-<span id="cb22-3"><a href="irt-models.html#cb22-3" tabindex="-1"></a>n_items <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb22-4"><a href="irt-models.html#cb22-4" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rlnorm</span>(n_items, <span class="fl">0.2</span>, <span class="fl">0.25</span>),</span>
-<span id="cb22-5"><a href="irt-models.html#cb22-5" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="dv">2</span>, <span class="at">length.out =</span> n_items),</span>
-<span id="cb22-6"><a href="irt-models.html#cb22-6" tabindex="-1"></a>                   <span class="at">c =</span> <span class="fu">rbeta</span>(n_items, <span class="dv">5</span>, <span class="dv">17</span>))</span>
-<span id="cb22-7"><a href="irt-models.html#cb22-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="at">a =</span> <span class="fu">matrix</span>(true<span class="sc">$</span>a), <span class="at">d =</span> <span class="fu">matrix</span>(<span class="sc">-</span>true<span class="sc">$</span>a <span class="sc">*</span> true<span class="sc">$</span>b),</span>
-<span id="cb22-8"><a href="irt-models.html#cb22-8" tabindex="-1"></a>                <span class="at">N =</span> <span class="dv">3000</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">guess =</span> true<span class="sc">$</span>c)</span>
-<span id="cb22-9"><a href="irt-models.html#cb22-9" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;D%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_items)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="irt-models.html#cb23-1" tabindex="-1"></a><span class="co"># Simulated 20-item, four-option test with real guessing (c around 0.2).</span></span>
+<span id="cb23-2"><a href="irt-models.html#cb23-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
+<span id="cb23-3"><a href="irt-models.html#cb23-3" tabindex="-1"></a>n_items <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb23-4"><a href="irt-models.html#cb23-4" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rlnorm</span>(n_items, <span class="fl">0.2</span>, <span class="fl">0.25</span>),</span>
+<span id="cb23-5"><a href="irt-models.html#cb23-5" tabindex="-1"></a>                   <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="dv">2</span>, <span class="at">length.out =</span> n_items),</span>
+<span id="cb23-6"><a href="irt-models.html#cb23-6" tabindex="-1"></a>                   <span class="at">c =</span> <span class="fu">rbeta</span>(n_items, <span class="dv">5</span>, <span class="dv">17</span>))</span>
+<span id="cb23-7"><a href="irt-models.html#cb23-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">simdata</span>(<span class="at">a =</span> <span class="fu">matrix</span>(true<span class="sc">$</span>a), <span class="at">d =</span> <span class="fu">matrix</span>(<span class="sc">-</span>true<span class="sc">$</span>a <span class="sc">*</span> true<span class="sc">$</span>b),</span>
+<span id="cb23-8"><a href="irt-models.html#cb23-8" tabindex="-1"></a>                <span class="at">N =</span> <span class="dv">3000</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">guess =</span> true<span class="sc">$</span>c)</span>
+<span id="cb23-9"><a href="irt-models.html#cb23-9" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;D%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_items)</span></code></pre></div>
 <p>The data chunk converts the true <span class="math inline">\(b\)</span> into an intercept with <span class="math inline">\(d = -ab\)</span>,
 because <code>simdata()</code> uses the slope-intercept form.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="irt-models.html#cb23-1" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-2"><a href="irt-models.html#cb23-2" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-3"><a href="irt-models.html#cb23-3" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit2, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb23-4"><a href="irt-models.html#cb23-4" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit3, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb23-5"><a href="irt-models.html#cb23-5" tabindex="-1"></a>recovery <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb23-6"><a href="irt-models.html#cb23-6" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;2PL&quot;</span>, <span class="st">&quot;3PL&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
-<span id="cb23-7"><a href="irt-models.html#cb23-7" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>), <span class="dv">2</span>),</span>
-<span id="cb23-8"><a href="irt-models.html#cb23-8" tabindex="-1"></a>  <span class="at">bias =</span> <span class="fu">c</span>(<span class="fu">mean</span>(est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b),</span>
-<span id="cb23-9"><a href="irt-models.html#cb23-9" tabindex="-1"></a>           <span class="fu">mean</span>(est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)),</span>
-<span id="cb23-10"><a href="irt-models.html#cb23-10" tabindex="-1"></a>  <span class="at">rmse =</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>)),</span>
-<span id="cb23-11"><a href="irt-models.html#cb23-11" tabindex="-1"></a>           <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>))))</span>
-<span id="cb23-12"><a href="irt-models.html#cb23-12" tabindex="-1"></a>recovery</span>
-<span id="cb23-13"><a href="irt-models.html#cb23-13" tabindex="-1"></a><span class="co">#&gt;   model parameter    bias  rmse</span></span>
-<span id="cb23-14"><a href="irt-models.html#cb23-14" tabindex="-1"></a><span class="co">#&gt; 1   2PL         a -0.4681 0.583</span></span>
-<span id="cb23-15"><a href="irt-models.html#cb23-15" tabindex="-1"></a><span class="co">#&gt; 2   2PL         b -0.5731 0.698</span></span>
-<span id="cb23-16"><a href="irt-models.html#cb23-16" tabindex="-1"></a><span class="co">#&gt; 3   3PL         a  0.0622 0.338</span></span>
-<span id="cb23-17"><a href="irt-models.html#cb23-17" tabindex="-1"></a><span class="co">#&gt; 4   3PL         b -0.0188 0.379</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="irt-models.html#cb24-1" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-2"><a href="irt-models.html#cb24-2" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-3"><a href="irt-models.html#cb24-3" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit2, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb24-4"><a href="irt-models.html#cb24-4" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit3, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb24-5"><a href="irt-models.html#cb24-5" tabindex="-1"></a>recovery <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-6"><a href="irt-models.html#cb24-6" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;2PL&quot;</span>, <span class="st">&quot;3PL&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb24-7"><a href="irt-models.html#cb24-7" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb24-8"><a href="irt-models.html#cb24-8" tabindex="-1"></a>  <span class="at">bias =</span> <span class="fu">c</span>(<span class="fu">mean</span>(est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b),</span>
+<span id="cb24-9"><a href="irt-models.html#cb24-9" tabindex="-1"></a>           <span class="fu">mean</span>(est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a), <span class="fu">mean</span>(est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)),</span>
+<span id="cb24-10"><a href="irt-models.html#cb24-10" tabindex="-1"></a>  <span class="at">rmse =</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est2[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb24-11"><a href="irt-models.html#cb24-11" tabindex="-1"></a>           <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;a&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>a)<span class="sc">^</span><span class="dv">2</span>)), <span class="fu">sqrt</span>(<span class="fu">mean</span>((est3[, <span class="st">&quot;b&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>))))</span>
+<span id="cb24-12"><a href="irt-models.html#cb24-12" tabindex="-1"></a>recovery</span>
+<span id="cb24-13"><a href="irt-models.html#cb24-13" tabindex="-1"></a><span class="co">#&gt;   model parameter    bias  rmse</span></span>
+<span id="cb24-14"><a href="irt-models.html#cb24-14" tabindex="-1"></a><span class="co">#&gt; 1   2PL         a -0.4681 0.583</span></span>
+<span id="cb24-15"><a href="irt-models.html#cb24-15" tabindex="-1"></a><span class="co">#&gt; 2   2PL         b -0.5731 0.698</span></span>
+<span id="cb24-16"><a href="irt-models.html#cb24-16" tabindex="-1"></a><span class="co">#&gt; 3   3PL         a  0.0622 0.338</span></span>
+<span id="cb24-17"><a href="irt-models.html#cb24-17" tabindex="-1"></a><span class="co">#&gt; 4   3PL         b -0.0188 0.379</span></span></code></pre></div>
 <p>When people really do guess, the 2PL absorbs the guessing into the other
 parameters: it <strong>underestimates discrimination</strong> and makes hard items look
 <strong>easier</strong> than they are. The 3PL recovers the parameters much better, and its
 lower asymptotes are close to the truth on average:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="irt-models.html#cb24-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_true_c =</span> <span class="fu">mean</span>(true<span class="sc">$</span>c), <span class="at">mean_estimated_c =</span> <span class="fu">mean</span>(est3[, <span class="st">&quot;g&quot;</span>]))</span>
-<span id="cb24-2"><a href="irt-models.html#cb24-2" tabindex="-1"></a><span class="co">#&gt;      mean_true_c mean_estimated_c </span></span>
-<span id="cb24-3"><a href="irt-models.html#cb24-3" tabindex="-1"></a><span class="co">#&gt;            0.239            0.226</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="irt-models.html#cb25-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_true_c =</span> <span class="fu">mean</span>(true<span class="sc">$</span>c), <span class="at">mean_estimated_c =</span> <span class="fu">mean</span>(est3[, <span class="st">&quot;g&quot;</span>]))</span>
+<span id="cb25-2"><a href="irt-models.html#cb25-2" tabindex="-1"></a><span class="co">#&gt;      mean_true_c mean_estimated_c </span></span>
+<span id="cb25-3"><a href="irt-models.html#cb25-3" tabindex="-1"></a><span class="co">#&gt;            0.239            0.226</span></span></code></pre></div>
 <p>The empirical item curve makes the problem visible. For the hardest item,
 the observed proportions correct for low-ability groups sit well above the
 2PL curve, which heads towards zero:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="irt-models.html#cb25-1" tabindex="-1"></a><span class="fu">gg_empirical</span>(fit2, <span class="st">&quot;D20&quot;</span>) <span class="sc">+</span> <span class="fu">gg_empirical</span>(fit3, <span class="st">&quot;D20&quot;</span>)</span></code></pre></div>
-<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-24-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="irt-models.html#cb26-1" tabindex="-1"></a><span class="fu">gg_empirical</span>(fit2, <span class="st">&quot;D20&quot;</span>) <span class="sc">+</span> <span class="fu">gg_empirical</span>(fit3, <span class="st">&quot;D20&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:empirical-d20"></span>
+<img src="mirtverse-book_files/figure-html/empirical-d20-1.png" alt="Empirical item curve of the hardest driving-test item, D20, under the 2PL (left) and the 3PL (right)." width="90%" />
+<p class="caption">
+Figure 2.3: Empirical item curve of the hardest driving-test item, D20, under the 2PL (left) and the 3PL (right).
+</p>
+</div>
 <p><strong>What to take away.</strong> The 3PL is worth its extra parameters when items can
 be answered by guessing <em>and</em> there are enough low-ability test takers to
 estimate the lower asymptote: here 3,000 people and a range of difficulties.
@@ -566,26 +585,26 @@ keep this item on a test used to award licences?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="irt-models.html#cb26-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb26-2"><a href="irt-models.html#cb26-2" tabindex="-1"></a><span class="fu">plogis</span>(p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;a&quot;</span>] <span class="sc">*</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">-</span> p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;b&quot;</span>]))</span>
-<span id="cb26-3"><a href="irt-models.html#cb26-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.525</span></span>
-<span id="cb26-4"><a href="irt-models.html#cb26-4" tabindex="-1"></a><span class="fu">probtrace</span>(<span class="fu">extract.item</span>(twopl, <span class="dv">3</span>), <span class="fu">matrix</span>(<span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb26-5"><a href="irt-models.html#cb26-5" tabindex="-1"></a><span class="co">#&gt;        P.0   P.1</span></span>
-<span id="cb26-6"><a href="irt-models.html#cb26-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.475 0.525</span></span>
-<span id="cb26-7"><a href="irt-models.html#cb26-7" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="irt-models.html#cb26-8" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">coef</span>(rasch, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
-<span id="cb26-9"><a href="irt-models.html#cb26-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">rasch =</span> pr[, <span class="st">&quot;b&quot;</span>], <span class="at">twopl =</span> p[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
-<span id="cb26-10"><a href="irt-models.html#cb26-10" tabindex="-1"></a><span class="co">#&gt;        rasch twopl</span></span>
-<span id="cb26-11"><a href="irt-models.html#cb26-11" tabindex="-1"></a><span class="co">#&gt; Item.1 -1.87 -1.88</span></span>
-<span id="cb26-12"><a href="irt-models.html#cb26-12" tabindex="-1"></a><span class="co">#&gt; Item.2 -0.79 -0.75</span></span>
-<span id="cb26-13"><a href="irt-models.html#cb26-13" tabindex="-1"></a><span class="co">#&gt; Item.3 -1.46 -1.06</span></span>
-<span id="cb26-14"><a href="irt-models.html#cb26-14" tabindex="-1"></a><span class="co">#&gt; Item.4 -0.52 -0.64</span></span>
-<span id="cb26-15"><a href="irt-models.html#cb26-15" tabindex="-1"></a><span class="co">#&gt; Item.5 -1.99 -2.52</span></span>
-<span id="cb26-16"><a href="irt-models.html#cb26-16" tabindex="-1"></a></span>
-<span id="cb26-17"><a href="irt-models.html#cb26-17" tabindex="-1"></a>small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>, ], <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-18"><a href="irt-models.html#cb26-18" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>c)</span>
-<span id="cb26-19"><a href="irt-models.html#cb26-19" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb26-20"><a href="irt-models.html#cb26-20" tabindex="-1"></a><span class="co">#&gt; -0.3425 -0.0895  0.0558  0.0270  0.1615  0.3461</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="irt-models.html#cb27-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">coef</span>(twopl, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb27-2"><a href="irt-models.html#cb27-2" tabindex="-1"></a><span class="fu">plogis</span>(p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;a&quot;</span>] <span class="sc">*</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">-</span> p[<span class="st">&quot;Item.3&quot;</span>, <span class="st">&quot;b&quot;</span>]))</span>
+<span id="cb27-3"><a href="irt-models.html#cb27-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.525</span></span>
+<span id="cb27-4"><a href="irt-models.html#cb27-4" tabindex="-1"></a><span class="fu">probtrace</span>(<span class="fu">extract.item</span>(twopl, <span class="dv">3</span>), <span class="fu">matrix</span>(<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb27-5"><a href="irt-models.html#cb27-5" tabindex="-1"></a><span class="co">#&gt;        P.0   P.1</span></span>
+<span id="cb27-6"><a href="irt-models.html#cb27-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.475 0.525</span></span>
+<span id="cb27-7"><a href="irt-models.html#cb27-7" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="irt-models.html#cb27-8" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">coef</span>(rasch, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items</span>
+<span id="cb27-9"><a href="irt-models.html#cb27-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">rasch =</span> pr[, <span class="st">&quot;b&quot;</span>], <span class="at">twopl =</span> p[, <span class="st">&quot;b&quot;</span>]), <span class="dv">2</span>)</span>
+<span id="cb27-10"><a href="irt-models.html#cb27-10" tabindex="-1"></a><span class="co">#&gt;        rasch twopl</span></span>
+<span id="cb27-11"><a href="irt-models.html#cb27-11" tabindex="-1"></a><span class="co">#&gt; Item.1 -1.87 -1.88</span></span>
+<span id="cb27-12"><a href="irt-models.html#cb27-12" tabindex="-1"></a><span class="co">#&gt; Item.2 -0.79 -0.75</span></span>
+<span id="cb27-13"><a href="irt-models.html#cb27-13" tabindex="-1"></a><span class="co">#&gt; Item.3 -1.46 -1.06</span></span>
+<span id="cb27-14"><a href="irt-models.html#cb27-14" tabindex="-1"></a><span class="co">#&gt; Item.4 -0.52 -0.64</span></span>
+<span id="cb27-15"><a href="irt-models.html#cb27-15" tabindex="-1"></a><span class="co">#&gt; Item.5 -1.99 -2.52</span></span>
+<span id="cb27-16"><a href="irt-models.html#cb27-16" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="irt-models.html#cb27-17" tabindex="-1"></a>small <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>, ], <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-18"><a href="irt-models.html#cb27-18" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">coef</span>(small, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;g&quot;</span>] <span class="sc">-</span> true<span class="sc">$</span>c)</span>
+<span id="cb27-19"><a href="irt-models.html#cb27-19" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb27-20"><a href="irt-models.html#cb27-20" tabindex="-1"></a><span class="co">#&gt; -0.3425 -0.0895  0.0558  0.0270  0.1615  0.3461</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Items whose 2PL slope is far from the common Rasch slope move most, here
 Item 3 (the steepest) and Item 5 (one of the flattest). A flat
@@ -672,7 +691,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null

@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Item Response Theory with mirt and mirtverse" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
   <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
   <meta name="github-repo" content="okanbulut/mirtverse" />
 
@@ -18,9 +18,8 @@
   <meta name="twitter:title" content="Item Response Theory with mirt and mirtverse" />
   
   <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
-  
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
 
-<meta name="author" content="Okan Bulut" />
 
 
 
@@ -30,7 +29,7 @@
   
   
 
-<link rel="next" href="measurement.html"/>
+<link rel="next" href="about-the-author.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -168,7 +167,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
@@ -326,11 +330,16 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Item Response Theory with mirt and mirtverse</h1>
 <h2 class="subtitle"><em>Notes for teaching and learning</em></h2>
-<p class="author"><em>Okan Bulut</em></p>
+<p class="author"><em><p>Okan Bulut
+<span class="author-info">Measurement, Evaluation, and Data Science<br>
+University of Alberta<br>
+E-mail: <a href="mailto:bulut@ualberta.ca">bulut@ualberta.ca</a><br>
+Website: <a href="http://www.okanbulut.com">www.okanbulut.com</a></span></p></em></p>
 <p class="date"><em>November 2026</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered hasAnchor">
 <h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="cover/cover.png" alt="Book cover: an engraved owl on a branch above the title Item Response Theory with mirt and mirtverse" width="260px" style="float: right; margin: 0 0 1em 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,.25);" style="display: block; margin: auto;" /></p>
 <p>This book is a set of extended course notes on item response theory (IRT). It
 is written for instructors who teach measurement with R and for the students
 in their courses. Every chapter mixes a short explanation of the ideas with
@@ -344,6 +353,7 @@ choice, tidy tables, graphics and plain-language interpretation.</p>
 map</a>, so an
 instructor can assign one chapter a week and pair it with the matching lab.</p>
 <table>
+<caption><span id="tab:chapters">Table 0.1: </span> The twelve chapters and their matching labs.</caption>
 <colgroup>
 <col width="33%" />
 <col width="33%" />
@@ -427,7 +437,8 @@ instructor can assign one chapter a week and pair it with the matching lab.</p>
 <li><strong>The ideas:</strong> a short explanation, with formulas only where they help.</li>
 <li><strong>Example 1 and Example 2:</strong> two worked analyses on different data, so you
 see the same method in two settings.</li>
-<li><strong>Your turn:</strong> exercises. Solutions are folded away; click to open them.</li>
+<li><strong>Your turn:</strong> exercises with solutions. In the online edition the
+solutions are folded away; click to open them.</li>
 <li><strong>In the lab:</strong> the interactive mirtverse lab that goes with the chapter.</li>
 <li><strong>Further reading.</strong></li>
 </ul>
@@ -475,8 +486,50 @@ a test’s full life cycle from blueprint to bank monitoring.</li>
 mirtverse repository. Each example loads its data in one clearly labelled
 chunk, so you can swap in your own data and rebuild the chapter. Appendix
 <a href="adapting.html#adapting">B</a> explains how.</p>
-<p>The book is licensed under the same terms as mirtverse (GPL-3). Please cite
-mirtverse with <code>citation("mirtverse")</code> if you use the book in a course.</p>
+</div>
+<div id="other-formats" class="section level2 unnumbered hasAnchor">
+<h2>Other formats<a href="index.html#other-formats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The book is free to read online at <a href="https://www.okanbulut.com/mirtverse/book/" class="uri">https://www.okanbulut.com/mirtverse/book/</a>.
+It is also available as a
+<a href="https://www.okanbulut.com/mirtverse/book/mirtverse-book.pdf">PDF</a> for
+printing and an
+<a href="https://www.okanbulut.com/mirtverse/book/mirtverse-book.epub">EPUB</a> for
+e-readers; in the online edition, use the download button in the toolbar.
+All three are built from the same source each time the book changes.</p>
+</div>
+<div id="how-to-cite-this-book" class="section level2 unnumbered hasAnchor">
+<h2>How to cite this book<a href="index.html#how-to-cite-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If you use the book in a course or in your work, please cite it as:</p>
+<blockquote>
+<p>Bulut, O. (2026). <em>Item response theory with mirt and mirtverse: Notes for
+teaching and learning</em>. <a href="https://www.okanbulut.com/mirtverse/book/" class="uri">https://www.okanbulut.com/mirtverse/book/</a></p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">bulut2026irt</span>,</span>
+<span id="cb2-2"><a href="index.html#cb2-2" tabindex="-1"></a>  <span class="dt">author</span> = {Okan Bulut},</span>
+<span id="cb2-3"><a href="index.html#cb2-3" tabindex="-1"></a>  <span class="dt">title</span>  = {Item Response Theory with mirt and mirtverse: Notes for Teaching and Learning},</span>
+<span id="cb2-4"><a href="index.html#cb2-4" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
+<span id="cb2-5"><a href="index.html#cb2-5" tabindex="-1"></a>  <span class="dt">url</span>    = {https://www.okanbulut.com/mirtverse/book/}</span>
+<span id="cb2-6"><a href="index.html#cb2-6" tabindex="-1"></a>}</span></code></pre></div>
+<p>Please also cite the software you use: mirt <span class="citation">(<a href="#ref-chalmers2012">Chalmers 2012</a>)</span> and mirtverse
+(<code>citation("mirtverse")</code> gives the reference with its DOI).</p>
+</div>
+<div id="licence" class="section level2 unnumbered hasAnchor">
+<h2>Licence<a href="index.html#licence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>© 2026 Okan Bulut. The text and figures of this book are licensed under a
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+licence</a> (CC BY-NC-SA
+4.0): you may share and adapt them for non-commercial purposes, such as
+teaching, as long as you give credit and share your adaptations under the
+same licence. The R code in the book is licensed under GPL-3, like
+mirtverse, so you can reuse it freely in your own analyses.</p>
+</div>
+<div id="acknowledgements" class="section level2 unnumbered hasAnchor">
+<h2>Acknowledgements<a href="index.html#acknowledgements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This book stands on the work of many people. Phil Chalmers wrote and
+maintains mirt, which does all of the estimation in these pages. The book
+was written with R Markdown and bookdown, by Yihui Xie and colleagues, and
+the figures were drawn with ggplot2. My thanks to all of them, and to the
+R community that makes open teaching materials like this possible.</p>
 
 </div>
 </div>
@@ -492,7 +545,7 @@ Chalmers, R. Philip. 2012. <span>“<span class="nocase">mirt</span>: A Multidim
         </div>
       </div>
 
-<a href="measurement.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="about-the-author.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -524,7 +577,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
   "search": {
     "engine": "fuse",
     "options": null
