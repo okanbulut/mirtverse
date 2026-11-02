@@ -57,7 +57,7 @@ names the question it answers, what to read and what to try in R.
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](../book/aig.html); [assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `item_model()`, `generate_isomorphs()`, `calibrate_families()`, `generate_items()`, `verify_items()`; [Lab 9](teaching-labs.html#lab-9) |
-| 7. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](ai-reading.html#validity) | `dif()`; audit tools coming soon |
+| 7. Validity and fairness | What evidence does an AI component need before it is used? | Book: [Validity, fairness and governance of AI](../book/ai-validity.html); [reading list: Validity](ai-reading.html#validity) | `ai_audit()`, `validity_argument()`, `dif()`; [Lab 10](teaching-labs.html#lab-10) |
 
 ## What you can do with AI in mirtverse today {#today}
 
@@ -150,6 +150,27 @@ an error in the model can be caught for all its items at once.
 isomorphs are equally difficult, and how large a field test the family mean
 can replace for a new item.
 
+### Audit an AI component, and draft the validity argument
+
+```{r}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group",
+                  item = "item", period = "year")   # agreement, fairness, drift
+audit                                               # block / review / info flags
+autoplot(audit)
+va <- validity_argument(audit, construct = "Grade 8 science",
+                        use = "school accountability")
+va                                                  # claims, threats, evidence by inference
+mv_report(fit, extra = list("Validity argument" = va))
+```
+
+`ai_audit()` checks a scoring engine against human scores overall, within
+groups at the same human score, and across administrations or engine
+versions; with `responses` it adds DIF on the test as scored, and with
+`components` it checks difficulty models and item families too.
+`validity_argument()` maps the results to the inferences of a validity
+argument and lists the evidence still owed, such as human oversight and
+appeals.
+
 ### Score open-ended responses, and check the scores
 
 ```{r}
@@ -193,7 +214,8 @@ low-confidence responses routed back to human raters.
   numeracy items from 12 item families with field-test difficulties;
   `essays` has 1,600 short science explanations scored by raters, written
   so that fluent writers' answers are longer at the same score; `aigfield`
-  is a field test of 60 items generated from six item models.
+  is a field test of 60 items generated from six item models; `aiscored`
+  is a test whose written answers an engine scored for two years.
 
 ## For instructors {#instructors}
 
@@ -208,12 +230,15 @@ a leaky feature, and decide how far predictions can replace a field test.
 [Lab 9](teaching-labs.html#lab-9) builds an item factory: Students fix an
 item model, calibrate a field test of generated items, find the two
 families that are not isomorphic and why, and decide when a family mean
-can stand in for a field test.
+can stand in for a field test. In [Lab 10](teaching-labs.html#lab-10)
+they audit an AI-scored test before its scores are released, and turn the
+audit into a validity argument for a technical advisory committee.
 The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
-readings. More AI labs, chapters and an optional AI module for the [course
-map](course-map.html) are being written; they will be listed on this page
-and in the AI Hub menu as they are released.
+readings. Toolkit section types for building AI labs on your own data and
+an optional AI module for the [course map](course-map.html) are being
+written; they will be listed on this page and in the AI Hub menu as they
+are released.
 
 ## Read more {#read-more}
 

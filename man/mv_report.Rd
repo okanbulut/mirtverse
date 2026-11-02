@@ -42,7 +42,7 @@ reproducibility section (the workbench fills this in automatically).}
 \item{extra}{optional named list of extra sections, each a piece of HTML
 built with htmltools, placed before the reproducibility section; the
 names are the section titles. \code{\link[=pipeline_report]{pipeline_report()}} uses this for its
-decisions section.}
+decisions section. A \code{\link[=validity_argument]{validity_argument()}} can be given directly.}
 
 \item{open}{logical; open the report in a browser afterwards.}
 }

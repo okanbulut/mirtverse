@@ -39,6 +39,8 @@ them.
 | `data-item-text-1` | 70 science classification items with text features and the responses of 1,000 students | Simulated | `sci`, `resp`, `rasch` |
 | `data-aig-1` | Three item models for Grade 7 items: Average speed, a fraction of a number and the mean | Simulated | `speed`, `frac`, `avg`, `fams` |
 | `data-aig-2` | A field test of the 36 generated items, answered by 800 students | Simulated | `resp`, `rasch`, `items` |
+| `data-ai-validity-1` | Machine and human scores of two writing prompts, by device and testing window | Simulated | `writing` |
+| `data-ai-validity-2` | Field-test difficulties and features of 45 items from three item models | Simulated | `items` |
 | `data-auto-scoring-1` | Short answers to a science question, scored 0 to 3 by one or two raters | Simulated | `bread` |
 | `data-auto-scoring-2` | Four answers with a known correct score | Simulated | `probe` |
 | `data-llms-1` | `Science` | Real | `resp` |

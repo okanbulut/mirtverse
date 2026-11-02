@@ -6,14 +6,14 @@
 \usage{
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield")
+    "essays", "aigfield", "aiscored")
 )
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
 (Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5), \code{"openended"}
-(Lab 6), or one of the AI Hub datasets, \code{"itemtext"}, \code{"essays"} and
-\code{"aigfield"}.}
+(Lab 6), or one of the AI Hub datasets, \code{"itemtext"}, \code{"essays"},
+\code{"aigfield"} and \code{"aiscored"}.}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -45,7 +45,11 @@ the \code{prompts}. For \code{"aigfield"}, a list with the true difficulty \code
 and discrimination \code{a} of every item, each item model's difficulty
 (\code{model_b}), the true within-model SD (\code{sd_within}), which subtraction
 items need regrouping (\code{regroup}) and its effect, the \code{flawed} items and
-the \code{planted} problems.
+the \code{planted} problems. For \code{"aiscored"}, a list with each student's
+ability \code{theta}, the true constructed-response scores \code{true_cr}, the
+item parameters, the group \code{impact}, the item with real DIF
+(\code{dif_item}) and its size, the rates of rater and engine error, and the
+\code{planted} problems.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

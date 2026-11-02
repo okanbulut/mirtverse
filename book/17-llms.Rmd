@@ -226,6 +226,8 @@ shows the AI features of mirtverse in one place. Lab 7,
 Lab 8, `run_lab("item-text")`, predicts item difficulty from the text;
 Lab 9, `run_lab("aig")`, generates items from item models and calibrates
 their families;
+Lab 10, `run_lab("ai-audit")`, audits an AI-scored test before its scores
+are released;
 and the [mv_ask()
 guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
 explains what `mv_ask()` sends and how it was benchmarked.

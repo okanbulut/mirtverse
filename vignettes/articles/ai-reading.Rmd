@@ -199,7 +199,10 @@ an addition, open an issue on
   *Journal of Educational Measurement, 59*(3), 338–361.
   [doi:10.1111/jedm.12335](https://doi.org/10.1111/jedm.12335) \
   Separates bias in what the engine measures from bias in how it predicts,
-  using tools a psychometrician already knows.
+  using tools a psychometrician already knows. In mirtverse: The
+  differential scoring check of `ai_audit()`, the book's chapter
+  [Validity, fairness and governance of AI](../book/ai-validity.html) and
+  [Lab 10](teaching-labs.html#lab-10).
 - International Test Commission & Association of Test Publishers. (2022).
   *Guidelines for technology-based assessment.* \
   Practical guidance on scoring, security, accessibility and fairness for
