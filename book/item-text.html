@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 What item text tells us | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 What item text tells us | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 What item text tells us | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ml-lens.html"/>
+<link rel="next" href="auto-scoring.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: A multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: A wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: The LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: A driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: A test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: When the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: A mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: A reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: The same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: Finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: Where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: Designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: Four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: A proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: Attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: A rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: Paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: Separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: Concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: A vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: A CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: Setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: Telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: The 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: Forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="item-text.html"><a href="item-text.html"><i class="fa fa-check"></i><b>14</b> What item text tells us</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="item-text.html"><a href="item-text.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="item-text.html"><a href="item-text.html#example-1-features-and-an-explanatory-model"><i class="fa fa-check"></i><b>14.2</b> Example 1: Features and an explanatory model</a></li>
+<li class="chapter" data-level="14.3" data-path="item-text.html"><a href="item-text.html#example-2-the-one-step-lltm-in-mirt"><i class="fa fa-check"></i><b>14.3</b> Example 2: The one-step LLTM in mirt</a></li>
+<li class="chapter" data-level="14.4" data-path="item-text.html"><a href="item-text.html#example-3-new-items-or-new-kinds-of-items"><i class="fa fa-check"></i><b>14.4</b> Example 3: New items or new kinds of items?</a></li>
+<li class="chapter" data-level="14.5" data-path="item-text.html"><a href="item-text.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>15</b> Automated scoring</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>15.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="15.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>15.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="15.4" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-14"><i class="fa fa-check"></i><b>15.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-13"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>16</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="llms.html"><a href="llms.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
+<li class="chapter" data-level="16.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>16.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="16.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>16.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="16.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>16.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="16.5" data-path="llms.html"><a href="llms.html#your-turn-15"><i class="fa fa-check"></i><b>16.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="item-text" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">Chapter 14</span> What item text tells us<a href="item-text.html#item-text" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain why predicting item difficulty from text is useful, and what it
+can and cannot replace;</li>
+<li>describe items by <strong>text features</strong> with <code>item_features()</code>, and connect
+them to the item covariates of the <strong>linear logistic test model</strong> (LLTM);</li>
+<li>predict difficulty with an explanatory model, a lasso and a random forest
+using <code>predict_difficulty()</code>, and compare them by <strong>cross-validation</strong>;</li>
+<li>fit the one-step LLTM to responses in mirt;</li>
+<li>recognize <strong>leakage</strong>, choose the right unit to hold out, and know the
+limit set by the error in estimated difficulties.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#feature">Feature</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#lltm">LLTM</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation">overfitting and cross-validation</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#embedding">embedding</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/ai-translation.html#data-leakage">data leakage</a>.</p>
+<div id="the-ideas-13" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">14.1</span> The ideas<a href="item-text.html#the-ideas-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Every new item needs a difficulty before it can be used for scoring, and
+the usual way to get one is a <strong>field test</strong>: The item is given to hundreds
+of test takers and calibrated (Chapter <a href="estimation.html#estimation">3</a>). Field testing is
+slow and expensive, and it exposes items before they count. Item writers
+also know that some features make items harder: More reading, an extra
+step, a negation, decimals instead of whole numbers. If difficulty could be
+<strong>predicted from the text</strong>, a program could target field-test forms, use
+smaller field-test samples, steer item writing towards the difficulties the
+bank lacks, and judge items written by a generator (Chapter <a href="llms.html#llms">16</a>).</p>
+<p>Psychometrics and machine learning both have a way of doing this.</p>
+<ul>
+<li><strong>Explanatory IRT.</strong> The linear logistic test model <span class="citation">(<a href="#ref-fischer1973">Fischer 1973</a>)</span>
+replaces each item’s difficulty with a weighted sum of its features:
+<span class="math display">\[b_i = \eta_0 + \sum_k \eta_k q_{ik},\]</span>
+where <span class="math inline">\(q_{ik}\)</span> is the value of feature <span class="math inline">\(k\)</span> for item <span class="math inline">\(i\)</span> (the item’s
+covariates) and <span class="math inline">\(\eta_k\)</span> is how much the feature adds to difficulty, in
+logits. The weights are read as evidence about <em>what makes items hard</em>,
+which is a claim about the construct <span class="citation">(<a href="#ref-deboeck2004">De Boeck and Wilson 2004</a>)</span>. The model can be
+fitted to the responses in one step, or in two steps by regressing
+estimated difficulties on the features.</li>
+<li><strong>Prediction.</strong> Machine learning treats difficulty as a label to predict
+from as many features as are useful: Counts and readability measures,
+word frequencies, or <strong>embeddings</strong> of the text from a language model.
+Models such as the lasso or a random forest are judged by how well they
+predict items they were not trained on <span class="citation">(<a href="#ref-alkhuzaey2024">AlKhuzaey et al. 2024</a>; <a href="#ref-benedetto2023">Benedetto et al. 2023</a>)</span>.</li>
+</ul>
+<p>The two are less different than they look. The two-step LLTM <em>is</em> a linear
+regression, and the lasso is the same regression with its weights shrunk.
+What differs is the goal: Explaining difficulty, or predicting it as
+accurately as possible. Three cautions apply to both.</p>
+<ul>
+<li><strong>Leakage.</strong> A feature computed from the same responses as the
+difficulty, such as the proportion correct in the field test, predicts
+difficulty almost perfectly and is useless, because it is not available
+until the item has been field-tested.</li>
+<li><strong>What is held out.</strong> Items written from the same template (an <a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#item-model">item
+model</a>) share most of their difficulty. A model
+that has seen other items from an item’s template predicts it well; a
+model asked about a new kind of item usually does much worse. Cross-validation
+must hold out the unit you will predict for.</li>
+<li><strong>The noise floor.</strong> Estimated difficulties have standard errors, and
+features never capture everything that makes an item hard. No model can
+predict <span class="math inline">\(b\)</span> more closely than its estimation error, and an LLTM rarely
+fits as well as giving every item its own difficulty. Real benchmarks
+show modest gains over simple baselines <span class="citation">(<a href="#ref-yaneva2024">Yaneva et al. 2024</a>)</span>.</li>
+</ul>
+</div>
+<div id="example-1-features-and-an-explanatory-model" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">14.2</span> Example 1: Features and an explanatory model<a href="item-text.html#example-1-features-and-an-explanatory-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A science program has 70 multiple-choice items of the form <em>“Which of these
+is a mammal?”</em>, on seven topics. Half the items are negated (<em>“Which of these
+is NOT a mammal?”</em>), half start with a context sentence that adds reading
+but no content, and in some the key happens to be the longest option, a
+cue that test-wise students use. We simulate the items and the responses of
+1,000 students, and calibrate the Rasch model.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="item-text.html#cb153-1" tabindex="-1"></a><span class="co"># Simulated science classification items, with responses of 1,000 students.</span></span>
+<span id="cb153-2"><a href="item-text.html#cb153-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1414</span>)</span>
+<span id="cb153-3"><a href="item-text.html#cb153-3" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">list</span>(   <span class="co"># members, non-members and base difficulty of each topic</span></span>
+<span id="cb153-4"><a href="item-text.html#cb153-4" tabindex="-1"></a>  <span class="at">mammal =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;whale&quot;</span>, <span class="st">&quot;bat&quot;</span>, <span class="st">&quot;dolphin&quot;</span>, <span class="st">&quot;rabbit&quot;</span>, <span class="st">&quot;horse&quot;</span>, <span class="st">&quot;squirrel&quot;</span>),</span>
+<span id="cb153-5"><a href="item-text.html#cb153-5" tabindex="-1"></a>                <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;shark&quot;</span>, <span class="st">&quot;penguin&quot;</span>, <span class="st">&quot;frog&quot;</span>, <span class="st">&quot;crocodile&quot;</span>, <span class="st">&quot;salmon&quot;</span>, <span class="st">&quot;eagle&quot;</span>), <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.8</span>),</span>
+<span id="cb153-6"><a href="item-text.html#cb153-6" tabindex="-1"></a>  <span class="at">reptile =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;lizard&quot;</span>, <span class="st">&quot;turtle&quot;</span>, <span class="st">&quot;snake&quot;</span>, <span class="st">&quot;crocodile&quot;</span>, <span class="st">&quot;gecko&quot;</span>, <span class="st">&quot;tortoise&quot;</span>),</span>
+<span id="cb153-7"><a href="item-text.html#cb153-7" tabindex="-1"></a>                 <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;frog&quot;</span>, <span class="st">&quot;salamander&quot;</span>, <span class="st">&quot;newt&quot;</span>, <span class="st">&quot;toad&quot;</span>, <span class="st">&quot;eel&quot;</span>, <span class="st">&quot;seal&quot;</span>), <span class="at">b =</span> <span class="fl">0.2</span>),</span>
+<span id="cb153-8"><a href="item-text.html#cb153-8" tabindex="-1"></a>  <span class="at">insect =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;ant&quot;</span>, <span class="st">&quot;beetle&quot;</span>, <span class="st">&quot;butterfly&quot;</span>, <span class="st">&quot;grasshopper&quot;</span>, <span class="st">&quot;bee&quot;</span>, <span class="st">&quot;dragonfly&quot;</span>),</span>
+<span id="cb153-9"><a href="item-text.html#cb153-9" tabindex="-1"></a>                <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;spider&quot;</span>, <span class="st">&quot;scorpion&quot;</span>, <span class="st">&quot;centipede&quot;</span>, <span class="st">&quot;tick&quot;</span>, <span class="st">&quot;crab&quot;</span>, <span class="st">&quot;snail&quot;</span>), <span class="at">b =</span> <span class="dv">0</span>),</span>
+<span id="cb153-10"><a href="item-text.html#cb153-10" tabindex="-1"></a>  <span class="at">metal =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;copper&quot;</span>, <span class="st">&quot;iron&quot;</span>, <span class="st">&quot;aluminium&quot;</span>, <span class="st">&quot;zinc&quot;</span>, <span class="st">&quot;silver&quot;</span>, <span class="st">&quot;tin&quot;</span>),</span>
+<span id="cb153-11"><a href="item-text.html#cb153-11" tabindex="-1"></a>               <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;glass&quot;</span>, <span class="st">&quot;wood&quot;</span>, <span class="st">&quot;plastic&quot;</span>, <span class="st">&quot;rubber&quot;</span>, <span class="st">&quot;sulfur&quot;</span>, <span class="st">&quot;carbon&quot;</span>), <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.3</span>),</span>
+<span id="cb153-12"><a href="item-text.html#cb153-12" tabindex="-1"></a>  <span class="at">conductor =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;copper wire&quot;</span>, <span class="st">&quot;a steel nail&quot;</span>, <span class="st">&quot;an aluminium can&quot;</span>, <span class="st">&quot;salt water&quot;</span>,</span>
+<span id="cb153-13"><a href="item-text.html#cb153-13" tabindex="-1"></a>                           <span class="st">&quot;graphite&quot;</span>, <span class="st">&quot;a silver spoon&quot;</span>),</span>
+<span id="cb153-14"><a href="item-text.html#cb153-14" tabindex="-1"></a>                   <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;a rubber band&quot;</span>, <span class="st">&quot;dry wood&quot;</span>, <span class="st">&quot;a glass rod&quot;</span>, <span class="st">&quot;a plastic ruler&quot;</span>, <span class="st">&quot;air&quot;</span>,</span>
+<span id="cb153-15"><a href="item-text.html#cb153-15" tabindex="-1"></a>                          <span class="st">&quot;pure water&quot;</span>), <span class="at">b =</span> <span class="fl">0.5</span>),</span>
+<span id="cb153-16"><a href="item-text.html#cb153-16" tabindex="-1"></a>  <span class="at">renewable =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;wind&quot;</span>, <span class="st">&quot;sunlight&quot;</span>, <span class="st">&quot;tides&quot;</span>, <span class="st">&quot;geothermal heat&quot;</span>, <span class="st">&quot;moving water&quot;</span>, <span class="st">&quot;biomass&quot;</span>),</span>
+<span id="cb153-17"><a href="item-text.html#cb153-17" tabindex="-1"></a>                   <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;coal&quot;</span>, <span class="st">&quot;oil&quot;</span>, <span class="st">&quot;natural gas&quot;</span>, <span class="st">&quot;uranium&quot;</span>, <span class="st">&quot;peat&quot;</span>, <span class="st">&quot;diesel&quot;</span>), <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.4</span>),</span>
+<span id="cb153-18"><a href="item-text.html#cb153-18" tabindex="-1"></a>  <span class="at">physical =</span> <span class="fu">list</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="st">&quot;ice melting&quot;</span>, <span class="st">&quot;sugar dissolving in water&quot;</span>, <span class="st">&quot;glass breaking&quot;</span>,</span>
+<span id="cb153-19"><a href="item-text.html#cb153-19" tabindex="-1"></a>                          <span class="st">&quot;water boiling&quot;</span>, <span class="st">&quot;wax melting&quot;</span>, <span class="st">&quot;salt crystals forming as water evaporates&quot;</span>),</span>
+<span id="cb153-20"><a href="item-text.html#cb153-20" tabindex="-1"></a>                  <span class="at">no =</span> <span class="fu">c</span>(<span class="st">&quot;wood burning&quot;</span>, <span class="st">&quot;iron rusting&quot;</span>, <span class="st">&quot;milk souring&quot;</span>, <span class="st">&quot;bread baking&quot;</span>,</span>
+<span id="cb153-21"><a href="item-text.html#cb153-21" tabindex="-1"></a>                         <span class="st">&quot;a match burning&quot;</span>, <span class="st">&quot;baking soda fizzing in vinegar&quot;</span>), <span class="at">b =</span> <span class="fl">0.9</span>))</span>
+<span id="cb153-22"><a href="item-text.html#cb153-22" tabindex="-1"></a>label <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">mammal =</span> <span class="st">&quot;a mammal&quot;</span>, <span class="at">reptile =</span> <span class="st">&quot;a reptile&quot;</span>, <span class="at">insect =</span> <span class="st">&quot;an insect&quot;</span>, <span class="at">metal =</span> <span class="st">&quot;a metal&quot;</span>,</span>
+<span id="cb153-23"><a href="item-text.html#cb153-23" tabindex="-1"></a>           <span class="at">conductor =</span> <span class="st">&quot;a good conductor of electricity&quot;</span>, <span class="at">renewable =</span> <span class="st">&quot;a renewable energy source&quot;</span>,</span>
+<span id="cb153-24"><a href="item-text.html#cb153-24" tabindex="-1"></a>           <span class="at">physical =</span> <span class="st">&quot;an example of a physical change&quot;</span>)</span>
+<span id="cb153-25"><a href="item-text.html#cb153-25" tabindex="-1"></a>contexts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A class is sorting cards for a science display.&quot;</span>,</span>
+<span id="cb153-26"><a href="item-text.html#cb153-26" tabindex="-1"></a>              <span class="st">&quot;Ms Okafor gives her students a quick review question.&quot;</span>,</span>
+<span id="cb153-27"><a href="item-text.html#cb153-27" tabindex="-1"></a>              <span class="st">&quot;Students are making a poster for the school science fair.&quot;</span>)</span>
+<span id="cb153-28"><a href="item-text.html#cb153-28" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb153-29"><a href="item-text.html#cb153-29" tabindex="-1"></a><span class="cf">for</span> (g <span class="cf">in</span> <span class="fu">names</span>(groups)) <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb153-30"><a href="item-text.html#cb153-30" tabindex="-1"></a>  neg <span class="ot">&lt;-</span> i <span class="sc">&gt;</span> <span class="dv">5</span></span>
+<span id="cb153-31"><a href="item-text.html#cb153-31" tabindex="-1"></a>  gr <span class="ot">&lt;-</span> groups[[g]]</span>
+<span id="cb153-32"><a href="item-text.html#cb153-32" tabindex="-1"></a>  key <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="cf">if</span> (neg) gr<span class="sc">$</span>no <span class="cf">else</span> gr<span class="sc">$</span>yes, <span class="dv">1</span>)</span>
+<span id="cb153-33"><a href="item-text.html#cb153-33" tabindex="-1"></a>  opts <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(key, <span class="fu">sample</span>(<span class="cf">if</span> (neg) gr<span class="sc">$</span>yes <span class="cf">else</span> gr<span class="sc">$</span>no, <span class="dv">3</span>)))</span>
+<span id="cb153-34"><a href="item-text.html#cb153-34" tabindex="-1"></a>  stem <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;Which of these is %s%s?&quot;</span>, <span class="cf">if</span> (neg) <span class="st">&quot;NOT &quot;</span> <span class="cf">else</span> <span class="st">&quot;&quot;</span>, label[[g]])</span>
+<span id="cb153-35"><a href="item-text.html#cb153-35" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) stem <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">sample</span>(contexts, <span class="dv">1</span>), stem)</span>
+<span id="cb153-36"><a href="item-text.html#cb153-36" tabindex="-1"></a>  rows[[<span class="fu">length</span>(rows) <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb153-37"><a href="item-text.html#cb153-37" tabindex="-1"></a>    <span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">&quot;S%s%02d&quot;</span>, <span class="fu">toupper</span>(<span class="fu">substr</span>(g, <span class="dv">1</span>, <span class="dv">3</span>)), i), <span class="at">topic =</span> g, <span class="at">stem =</span> stem,</span>
+<span id="cb153-38"><a href="item-text.html#cb153-38" tabindex="-1"></a>    <span class="at">A =</span> opts[<span class="dv">1</span>], <span class="at">B =</span> opts[<span class="dv">2</span>], <span class="at">C =</span> opts[<span class="dv">3</span>], <span class="at">D =</span> opts[<span class="dv">4</span>], <span class="at">key =</span> LETTERS[<span class="fu">match</span>(key, opts)])</span>
+<span id="cb153-39"><a href="item-text.html#cb153-39" tabindex="-1"></a>}</span>
+<span id="cb153-40"><a href="item-text.html#cb153-40" tabindex="-1"></a>sci <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, rows)</span>
+<span id="cb153-41"><a href="item-text.html#cb153-41" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">item_features</span>(sci)</span>
+<span id="cb153-42"><a href="item-text.html#cb153-42" tabindex="-1"></a>b_true <span class="ot">&lt;-</span> <span class="fu">sapply</span>(sci<span class="sc">$</span>topic, <span class="cf">function</span>(g) groups[[g]]<span class="sc">$</span>b) <span class="sc">+</span> <span class="fl">0.7</span> <span class="sc">*</span> f<span class="sc">$</span>negation <span class="sc">+</span></span>
+<span id="cb153-43"><a href="item-text.html#cb153-43" tabindex="-1"></a>  <span class="fl">0.25</span> <span class="sc">*</span> (f<span class="sc">$</span>sentences <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> <span class="fl">0.3</span> <span class="sc">*</span> f<span class="sc">$</span>key_longest <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(sci), <span class="dv">0</span>, <span class="fl">0.25</span>)</span>
+<span id="cb153-44"><a href="item-text.html#cb153-44" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
+<span id="cb153-45"><a href="item-text.html#cb153-45" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(b_true, <span class="cf">function</span>(b) <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fu">plogis</span>(theta <span class="sc">-</span> b)))</span>
+<span id="cb153-46"><a href="item-text.html#cb153-46" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> sci<span class="sc">$</span>id</span>
+<span id="cb153-47"><a href="item-text.html#cb153-47" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(<span class="fu">as.data.frame</span>(resp), <span class="dv">1</span>, <span class="st">&quot;Rasch&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb153-48"><a href="item-text.html#cb153-48" tabindex="-1"></a>sci<span class="sc">$</span>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">coef</span>(rasch, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items[, <span class="st">&quot;d&quot;</span>]   <span class="co"># Rasch difficulty</span></span></code></pre></div>
+<p><code>item_features()</code> reads the stem and the options and returns one row of
+features per item: Length, sentences, readability (<code>grade</code>), numbers,
+negation, the length of the options, whether the key is the longest option,
+and each item’s most similar other item.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="item-text.html#cb154-1" tabindex="-1"></a>feats <span class="ot">&lt;-</span> <span class="fu">item_features</span>(sci)</span>
+<span id="cb154-2"><a href="item-text.html#cb154-2" tabindex="-1"></a>feats[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;words&quot;</span>, <span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;grade&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>)]</span>
+<span id="cb154-3"><a href="item-text.html#cb154-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 6</span></span>
+<span id="cb154-4"><a href="item-text.html#cb154-4" tabindex="-1"></a><span class="co">#&gt;   id     words sentences grade negation key_longest</span></span>
+<span id="cb154-5"><a href="item-text.html#cb154-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;    &lt;int&gt;       &lt;int&gt;</span></span>
+<span id="cb154-6"><a href="item-text.html#cb154-6" tabindex="-1"></a><span class="co">#&gt; 1 SMAM01     6         1   0.5        0           0</span></span>
+<span id="cb154-7"><a href="item-text.html#cb154-7" tabindex="-1"></a><span class="co">#&gt; 2 SMAM02    15         2   1.5        0           0</span></span>
+<span id="cb154-8"><a href="item-text.html#cb154-8" tabindex="-1"></a><span class="co">#&gt; 3 SMAM06    16         2   4.5        1           1</span></span>
+<span id="cb154-9"><a href="item-text.html#cb154-9" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">merge</span>(sci, feats)</span>
+<span id="cb154-10"><a href="item-text.html#cb154-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(items[, <span class="fu">c</span>(<span class="st">&quot;words&quot;</span>, <span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;grade&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>)], items<span class="sc">$</span>b), <span class="dv">2</span>)</span>
+<span id="cb154-11"><a href="item-text.html#cb154-11" tabindex="-1"></a><span class="co">#&gt;              [,1]</span></span>
+<span id="cb154-12"><a href="item-text.html#cb154-12" tabindex="-1"></a><span class="co">#&gt; words        0.44</span></span>
+<span id="cb154-13"><a href="item-text.html#cb154-13" tabindex="-1"></a><span class="co">#&gt; sentences    0.24</span></span>
+<span id="cb154-14"><a href="item-text.html#cb154-14" tabindex="-1"></a><span class="co">#&gt; grade        0.33</span></span>
+<span id="cb154-15"><a href="item-text.html#cb154-15" tabindex="-1"></a><span class="co">#&gt; negation     0.58</span></span>
+<span id="cb154-16"><a href="item-text.html#cb154-16" tabindex="-1"></a><span class="co">#&gt; key_longest -0.16</span></span></code></pre></div>
+<p>Negated items are harder, and so are longer ones; a longest key goes with
+easier items. Now predict difficulty from four text features with three
+models. <code>predict_difficulty()</code> fits each model five times, each time
+predicting the fifth of the items it did not see:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="item-text.html#cb155-1" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;option_words&quot;</span>, <span class="st">&quot;key_longest&quot;</span>)</span>
+<span id="cb155-2"><a href="item-text.html#cb155-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, text)</span>
+<span id="cb155-3"><a href="item-text.html#cb155-3" tabindex="-1"></a>m1</span>
+<span id="cb155-4"><a href="item-text.html#cb155-4" tabindex="-1"></a><span class="co">#&gt; &lt;mv_difficulty&gt; 70 items, 4 features, 5-fold cross-validation (random folds)</span></span>
+<span id="cb155-5"><a href="item-text.html#cb155-5" tabindex="-1"></a><span class="co">#&gt;         method RMSE  MAE    r   R2</span></span>
+<span id="cb155-6"><a href="item-text.html#cb155-6" tabindex="-1"></a><span class="co">#&gt;           LLTM 0.42 0.35 0.76 0.57</span></span>
+<span id="cb155-7"><a href="item-text.html#cb155-7" tabindex="-1"></a><span class="co">#&gt;          Lasso 0.42 0.35 0.76 0.57</span></span>
+<span id="cb155-8"><a href="item-text.html#cb155-8" tabindex="-1"></a><span class="co">#&gt;  Random forest 0.50 0.40 0.73 0.41</span></span>
+<span id="cb155-9"><a href="item-text.html#cb155-9" tabindex="-1"></a><span class="co">#&gt; Use tidy() for the coefficients, autoplot() for the predictions.</span></span></code></pre></div>
+<p>On items they have not seen, the two linear models explain a little under
+60% of the variance in difficulty (<span class="math inline">\(R^2\)</span>), with a typical error (RMSE) of
+about 0.4 logits. The random forest does worse: With 70 items and effects
+that simply add up, its flexibility buys nothing. The LLTM’s weights say
+what the features do:</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="item-text.html#cb156-1" tabindex="-1"></a><span class="fu">tidy</span>(m1)[<span class="fu">tidy</span>(m1)<span class="sc">$</span>method <span class="sc">==</span> <span class="st">&quot;lltm&quot;</span>, ]</span>
+<span id="cb156-2"><a href="item-text.html#cb156-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span id="cb156-3"><a href="item-text.html#cb156-3" tabindex="-1"></a><span class="co">#&gt;   method term         estimate std_error</span></span>
+<span id="cb156-4"><a href="item-text.html#cb156-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb156-5"><a href="item-text.html#cb156-5" tabindex="-1"></a><span class="co">#&gt; 1 lltm   (Intercept)    -0.835    0.171 </span></span>
+<span id="cb156-6"><a href="item-text.html#cb156-6" tabindex="-1"></a><span class="co">#&gt; 2 lltm   sentences       0.181    0.0968</span></span>
+<span id="cb156-7"><a href="item-text.html#cb156-7" tabindex="-1"></a><span class="co">#&gt; 3 lltm   negation        0.670    0.100 </span></span>
+<span id="cb156-8"><a href="item-text.html#cb156-8" tabindex="-1"></a><span class="co">#&gt; 4 lltm   option_words    0.478    0.0619</span></span>
+<span id="cb156-9"><a href="item-text.html#cb156-9" tabindex="-1"></a><span class="co">#&gt; 5 lltm   key_longest    -0.292    0.128</span></span></code></pre></div>
+<p>A negation adds about two thirds of a logit, a context sentence about 0.2,
+and a longest key makes an item easier, as item writers would expect.
+<code>option_words</code> has a large weight too, which is less plausible as a cause:
+Long options belong to the harder topics, such as physical changes. The
+features know nothing about topic, so they stand in for it where they can.
+Adding the topic as a feature brings the error down to about 0.29 logits
+(Exercise 1), close to the 0.25 of item-specific variation built into the
+simulation, and the weight of <code>option_words</code> shrinks to almost nothing.</p>
+</div>
+<div id="example-2-the-one-step-lltm-in-mirt" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Example 2: The one-step LLTM in mirt<a href="item-text.html#example-2-the-one-step-lltm-in-mirt" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The two-step LLTM treats the estimated difficulties as known. The one-step
+LLTM fits the features to the responses directly: Each item’s difficulty is
+constrained to the weighted sum of its features. In mirt, the features are
+passed as <code>itemdesign</code> and the model for them as <code>item.formula</code>. Here each
+topic gets its own intercept:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="item-text.html#cb157-1" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">topic =</span> <span class="fu">factor</span>(sci<span class="sc">$</span>topic), feats[, <span class="fu">c</span>(<span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>)])</span>
+<span id="cb157-2"><a href="item-text.html#cb157-2" tabindex="-1"></a>lltm <span class="ot">&lt;-</span> <span class="fu">mirt</span>(<span class="fu">as.data.frame</span>(resp), <span class="dv">1</span>, <span class="st">&quot;Rasch&quot;</span>, <span class="at">itemdesign =</span> design,</span>
+<span id="cb157-3"><a href="item-text.html#cb157-3" tabindex="-1"></a>             <span class="at">item.formula =</span> <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> topic <span class="sc">+</span> sentences <span class="sc">+</span> negation <span class="sc">+</span> key_longest, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb157-4"><a href="item-text.html#cb157-4" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">mod2values</span>(lltm)</span>
+<span id="cb157-5"><a href="item-text.html#cb157-5" tabindex="-1"></a>eta <span class="ot">&lt;-</span> v[v<span class="sc">$</span>item <span class="sc">==</span> sci<span class="sc">$</span>id[<span class="dv">1</span>] <span class="sc">&amp;</span> v<span class="sc">$</span>name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>),</span>
+<span id="cb157-6"><a href="item-text.html#cb157-6" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;value&quot;</span>)]</span>
+<span id="cb157-7"><a href="item-text.html#cb157-7" tabindex="-1"></a>eta<span class="sc">$</span>difficulty <span class="ot">&lt;-</span> <span class="sc">-</span>eta<span class="sc">$</span>value   <span class="co"># mirt models easiness; reverse the sign for difficulty</span></span>
+<span id="cb157-8"><a href="item-text.html#cb157-8" tabindex="-1"></a>eta</span>
+<span id="cb157-9"><a href="item-text.html#cb157-9" tabindex="-1"></a><span class="co">#&gt;           name value difficulty</span></span>
+<span id="cb157-10"><a href="item-text.html#cb157-10" tabindex="-1"></a><span class="co">#&gt; 8    sentences -0.21       0.21</span></span>
+<span id="cb157-11"><a href="item-text.html#cb157-11" tabindex="-1"></a><span class="co">#&gt; 9     negation -0.62       0.62</span></span>
+<span id="cb157-12"><a href="item-text.html#cb157-12" tabindex="-1"></a><span class="co">#&gt; 10 key_longest  0.32      -0.32</span></span></code></pre></div>
+<p>A context sentence adds about 0.2 logits, a negation about 0.6, and a
+longest key makes an item about 0.3 logits easier: Close to the two-step
+weights and to the values used to simulate the data. The classic test of
+an LLTM compares it with the Rasch model, which gives every item its own
+difficulty:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="item-text.html#cb158-1" tabindex="-1"></a><span class="fu">anova</span>(lltm, rasch)</span>
+<span id="cb158-2"><a href="item-text.html#cb158-2" tabindex="-1"></a><span class="co">#&gt;         AIC SABIC    HQ   BIC logLik      X2 df p</span></span>
+<span id="cb158-3"><a href="item-text.html#cb158-3" tabindex="-1"></a><span class="co">#&gt; lltm  81315 81334 81336 81369 -40647             </span></span>
+<span id="cb158-4"><a href="item-text.html#cb158-4" tabindex="-1"></a><span class="co">#&gt; rasch 80664 80787 80797 81013 -40261 770.603 60 0</span></span></code></pre></div>
+<p>Ten parameters cannot replace 70 free difficulties, and the likelihood
+ratio test says so loudly; with 1,000 test takers it nearly always does.
+The LLTM is still useful: It shows which features matter and by how much.
+Explanatory IRT models that add a random item effect, so that each item may
+differ from its features’ prediction, combine the two views
+<span class="citation">(<a href="#ref-deboeck2004">De Boeck and Wilson 2004</a>)</span>. They are generalized linear mixed models, and the eirm
+package <span class="citation">(<a href="#ref-bulut2021">Bulut et al. 2021</a>)</span> fits them with lme4 from data in long format, one row
+per person and item. The model below keeps the LLTM’s features and adds a
+random effect for items, whose variance is the difficulty the features
+leave unexplained (eirm reports easiness, so the signs are reversed again):</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="item-text.html#cb159-1" tabindex="-1"></a><span class="co"># install.packages(&quot;eirm&quot;)</span></span>
+<span id="cb159-2"><a href="item-text.html#cb159-2" tabindex="-1"></a><span class="fu">library</span>(eirm)</span>
+<span id="cb159-3"><a href="item-text.html#cb159-3" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">person =</span> <span class="fu">rep</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(resp)), <span class="fu">ncol</span>(resp)),</span>
+<span id="cb159-4"><a href="item-text.html#cb159-4" tabindex="-1"></a>                   <span class="at">item =</span> <span class="fu">rep</span>(<span class="fu">colnames</span>(resp), <span class="at">each =</span> <span class="fu">nrow</span>(resp)),</span>
+<span id="cb159-5"><a href="item-text.html#cb159-5" tabindex="-1"></a>                   <span class="at">resp =</span> <span class="fu">as.vector</span>(resp))</span>
+<span id="cb159-6"><a href="item-text.html#cb159-6" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">merge</span>(long, <span class="fu">data.frame</span>(<span class="at">item =</span> sci<span class="sc">$</span>id, design))</span>
+<span id="cb159-7"><a href="item-text.html#cb159-7" tabindex="-1"></a>m_eirm <span class="ot">&lt;-</span> <span class="fu">eirm</span>(<span class="st">&quot;resp ~ -1 + topic + sentences + negation + key_longest + (1|person) + (1|item)&quot;</span>,</span>
+<span id="cb159-8"><a href="item-text.html#cb159-8" tabindex="-1"></a>               <span class="at">data =</span> long)</span>
+<span id="cb159-9"><a href="item-text.html#cb159-9" tabindex="-1"></a><span class="fu">print</span>(m_eirm, <span class="at">difficulty =</span> <span class="cn">TRUE</span>)   <span class="co"># fixed effects as difficulties</span></span>
+<span id="cb159-10"><a href="item-text.html#cb159-10" tabindex="-1"></a>lme4<span class="sc">::</span><span class="fu">VarCorr</span>(m_eirm<span class="sc">$</span>model)       <span class="co"># person and residual item variance</span></span></code></pre></div>
+<p>The same framework adds person covariates, such as language status, and
+their interactions with item features, which is DIF explained by features
+rather than item by item.</p>
+</div>
+<div id="example-3-new-items-or-new-kinds-of-items" class="section level2 hasAnchor" number="14.4">
+<h2><span class="header-section-number">14.4</span> Example 3: New items or new kinds of items?<a href="item-text.html#example-3-new-items-or-new-kinds-of-items" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So far each fold held out random items, so every topic was in training. A
+new item on a known topic is one question; a topic the model has never seen
+is another. Hold out whole topics with <code>group</code>:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="item-text.html#cb160-1" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;topic&quot;</span>, <span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>),</span>
+<span id="cb160-2"><a href="item-text.html#cb160-2" tabindex="-1"></a>                         <span class="at">group =</span> <span class="st">&quot;topic&quot;</span>, <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
+<span id="cb160-3"><a href="item-text.html#cb160-3" tabindex="-1"></a>m3<span class="sc">$</span>accuracy</span>
+<span id="cb160-4"><a href="item-text.html#cb160-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span id="cb160-5"><a href="item-text.html#cb160-5" tabindex="-1"></a><span class="co">#&gt;   method  rmse   mae     r    r2</span></span>
+<span id="cb160-6"><a href="item-text.html#cb160-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb160-7"><a href="item-text.html#cb160-7" tabindex="-1"></a><span class="co">#&gt; 1 lltm   0.592 0.473 0.445 0.153</span></span></code></pre></div>
+<p>With its topic held out, an item is predicted as if it belonged to an
+average topic, and the error doubles to about 0.6 logits; <span class="math inline">\(R^2\)</span> falls to
+about 0.15. The features still capture negation, the context sentence and
+the longest key, but the topic, the largest part of an item’s difficulty,
+cannot be read off the text. This is the usual finding: Text features place
+items within a family much better than they predict how hard a new kind of
+item will be. That is why automatic item generation calibrates item models
+rather than single items. Figure <a href="item-text.html#fig:item-text-cv">14.1</a> shows the
+predictions of Example 1, with random folds.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="item-text.html#cb161-1" tabindex="-1"></a><span class="fu">autoplot</span>(m1)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:item-text-cv"></span>
+<img src="mirtverse-book_files/figure-html/item-text-cv-1.png" alt="Cross-validated predicted against estimated difficulty for the three models of Example 1. Points on the dashed line are predicted exactly; labels mark the worst-predicted items." width="90%" />
+<p class="caption">
+Figure 14.1: Cross-validated predicted against estimated difficulty for the three models of Example 1. Points on the dashed line are predicted exactly; labels mark the worst-predicted items.
+</p>
+</div>
+</div>
+<div id="your-turn-13" class="section level2 hasAnchor" number="14.5">
+<h2><span class="header-section-number">14.5</span> Your turn<a href="item-text.html#your-turn-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Add <code>topic</code> to the features of Example 1, with random folds. How much
+does the error drop, and how do the LLTM weights of <code>negation</code>,
+<code>key_longest</code> and <code>option_words</code> change?</li>
+<li>A colleague adds <code>p_pilot</code>, the proportion correct in this year’s field
+test, to the features. Compute it from <code>resp</code>, add it to <code>items</code>, and
+run <code>predict_difficulty()</code>. What does the output warn you about, and
+why is the model useless for new items?</li>
+<li>Without <code>topic</code>, the two-step LLTM with <code>sentences</code>, <code>negation</code> and
+<code>key_longest</code> gives <code>key_longest</code> a weight near zero. Why? Look at
+<code>table(items$key_longest, items$topic)</code>.</li>
+<li>Look at the <code>similarity</code> and <code>nearest</code> columns of <code>feats</code>. Which items
+are most alike, and are any of them near-duplicates?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="item-text.html#cb162-1" tabindex="-1"></a><span class="co"># 1. topic as a feature</span></span>
+<span id="cb162-2"><a href="item-text.html#cb162-2" tabindex="-1"></a>m_topic <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;topic&quot;</span>, text))</span>
+<span id="cb162-3"><a href="item-text.html#cb162-3" tabindex="-1"></a>m_topic<span class="sc">$</span>accuracy</span>
+<span id="cb162-4"><a href="item-text.html#cb162-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb162-5"><a href="item-text.html#cb162-5" tabindex="-1"></a><span class="co">#&gt;   method  rmse   mae     r    r2</span></span>
+<span id="cb162-6"><a href="item-text.html#cb162-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb162-7"><a href="item-text.html#cb162-7" tabindex="-1"></a><span class="co">#&gt; 1 lltm   0.291 0.240 0.893 0.796</span></span>
+<span id="cb162-8"><a href="item-text.html#cb162-8" tabindex="-1"></a><span class="co">#&gt; 2 lasso  0.288 0.235 0.895 0.800</span></span>
+<span id="cb162-9"><a href="item-text.html#cb162-9" tabindex="-1"></a><span class="co">#&gt; 3 forest 0.410 0.343 0.842 0.593</span></span>
+<span id="cb162-10"><a href="item-text.html#cb162-10" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(m_topic)</span>
+<span id="cb162-11"><a href="item-text.html#cb162-11" tabindex="-1"></a>w[w<span class="sc">$</span>method <span class="sc">==</span> <span class="st">&quot;lltm&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;topic&quot;</span>, w<span class="sc">$</span>term), ]</span>
+<span id="cb162-12"><a href="item-text.html#cb162-12" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span id="cb162-13"><a href="item-text.html#cb162-13" tabindex="-1"></a><span class="co">#&gt;   method term         estimate std_error</span></span>
+<span id="cb162-14"><a href="item-text.html#cb162-14" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb162-15"><a href="item-text.html#cb162-15" tabindex="-1"></a><span class="co">#&gt; 1 lltm   (Intercept)    -0.135    0.179 </span></span>
+<span id="cb162-16"><a href="item-text.html#cb162-16" tabindex="-1"></a><span class="co">#&gt; 2 lltm   sentences       0.214    0.0664</span></span>
+<span id="cb162-17"><a href="item-text.html#cb162-17" tabindex="-1"></a><span class="co">#&gt; 3 lltm   negation        0.633    0.0689</span></span>
+<span id="cb162-18"><a href="item-text.html#cb162-18" tabindex="-1"></a><span class="co">#&gt; 4 lltm   option_words    0.120    0.142 </span></span>
+<span id="cb162-19"><a href="item-text.html#cb162-19" tabindex="-1"></a><span class="co">#&gt; 5 lltm   key_longest    -0.337    0.0996</span></span>
+<span id="cb162-20"><a href="item-text.html#cb162-20" tabindex="-1"></a></span>
+<span id="cb162-21"><a href="item-text.html#cb162-21" tabindex="-1"></a><span class="co"># 2. a leaky feature</span></span>
+<span id="cb162-22"><a href="item-text.html#cb162-22" tabindex="-1"></a>items<span class="sc">$</span>p_pilot <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(resp)[items<span class="sc">$</span>id]</span>
+<span id="cb162-23"><a href="item-text.html#cb162-23" tabindex="-1"></a><span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(text, <span class="st">&quot;p_pilot&quot;</span>), <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
+<span id="cb162-24"><a href="item-text.html#cb162-24" tabindex="-1"></a><span class="co">#&gt; &lt;mv_difficulty&gt; 70 items, 5 features, 5-fold cross-validation (random folds)</span></span>
+<span id="cb162-25"><a href="item-text.html#cb162-25" tabindex="-1"></a><span class="co">#&gt;  method RMSE  MAE r   R2</span></span>
+<span id="cb162-26"><a href="item-text.html#cb162-26" tabindex="-1"></a><span class="co">#&gt;    LLTM 0.05 0.03 1 0.99</span></span>
+<span id="cb162-27"><a href="item-text.html#cb162-27" tabindex="-1"></a><span class="co">#&gt; Check: `p_pilot` alone has a rank correlation of -1.00 with b. Is it known before field testing, or computed from the same responses?</span></span>
+<span id="cb162-28"><a href="item-text.html#cb162-28" tabindex="-1"></a><span class="co">#&gt; Use tidy() for the coefficients, autoplot() for the predictions.</span></span>
+<span id="cb162-29"><a href="item-text.html#cb162-29" tabindex="-1"></a></span>
+<span id="cb162-30"><a href="item-text.html#cb162-30" tabindex="-1"></a><span class="co"># 3. key_longest without topic</span></span>
+<span id="cb162-31"><a href="item-text.html#cb162-31" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;sentences&quot;</span>, <span class="st">&quot;negation&quot;</span>, <span class="st">&quot;key_longest&quot;</span>), <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>))</span>
+<span id="cb162-32"><a href="item-text.html#cb162-32" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 4</span></span>
+<span id="cb162-33"><a href="item-text.html#cb162-33" tabindex="-1"></a><span class="co">#&gt;   method term        estimate std_error</span></span>
+<span id="cb162-34"><a href="item-text.html#cb162-34" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb162-35"><a href="item-text.html#cb162-35" tabindex="-1"></a><span class="co">#&gt; 1 lltm   (Intercept)  -0.173      0.204</span></span>
+<span id="cb162-36"><a href="item-text.html#cb162-36" tabindex="-1"></a><span class="co">#&gt; 2 lltm   sentences     0.172      0.133</span></span>
+<span id="cb162-37"><a href="item-text.html#cb162-37" tabindex="-1"></a><span class="co">#&gt; 3 lltm   negation      0.704      0.137</span></span>
+<span id="cb162-38"><a href="item-text.html#cb162-38" tabindex="-1"></a><span class="co">#&gt; 4 lltm   key_longest  -0.0329     0.170</span></span>
+<span id="cb162-39"><a href="item-text.html#cb162-39" tabindex="-1"></a><span class="fu">table</span>(items<span class="sc">$</span>key_longest, items<span class="sc">$</span>topic)</span>
+<span id="cb162-40"><a href="item-text.html#cb162-40" tabindex="-1"></a><span class="co">#&gt;    </span></span>
+<span id="cb162-41"><a href="item-text.html#cb162-41" tabindex="-1"></a><span class="co">#&gt;     conductor insect mammal metal physical renewable reptile</span></span>
+<span id="cb162-42"><a href="item-text.html#cb162-42" tabindex="-1"></a><span class="co">#&gt;   0        10      9      9     9        5         8       6</span></span>
+<span id="cb162-43"><a href="item-text.html#cb162-43" tabindex="-1"></a><span class="co">#&gt;   1         0      1      1     1        5         2       4</span></span>
+<span id="cb162-44"><a href="item-text.html#cb162-44" tabindex="-1"></a></span>
+<span id="cb162-45"><a href="item-text.html#cb162-45" tabindex="-1"></a><span class="co"># 4. the most similar items</span></span>
+<span id="cb162-46"><a href="item-text.html#cb162-46" tabindex="-1"></a><span class="fu">head</span>(feats[<span class="fu">order</span>(<span class="sc">-</span>feats<span class="sc">$</span>similarity), <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;nearest&quot;</span>, <span class="st">&quot;similarity&quot;</span>)])</span>
+<span id="cb162-47"><a href="item-text.html#cb162-47" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb162-48"><a href="item-text.html#cb162-48" tabindex="-1"></a><span class="co">#&gt;   id     nearest similarity</span></span>
+<span id="cb162-49"><a href="item-text.html#cb162-49" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt;</span></span>
+<span id="cb162-50"><a href="item-text.html#cb162-50" tabindex="-1"></a><span class="co">#&gt; 1 SCON06 SCON10       0.759</span></span>
+<span id="cb162-51"><a href="item-text.html#cb162-51" tabindex="-1"></a><span class="co">#&gt; 2 SCON10 SCON06       0.759</span></span>
+<span id="cb162-52"><a href="item-text.html#cb162-52" tabindex="-1"></a><span class="co">#&gt; 3 SREN07 SREN09       0.733</span></span>
+<span id="cb162-53"><a href="item-text.html#cb162-53" tabindex="-1"></a><span class="co">#&gt; 4 SREN09 SREN07       0.733</span></span>
+<span id="cb162-54"><a href="item-text.html#cb162-54" tabindex="-1"></a><span class="co">#&gt; 5 SMET06 SMET10       0.727</span></span>
+<span id="cb162-55"><a href="item-text.html#cb162-55" tabindex="-1"></a><span class="co">#&gt; 6 SMET10 SMET06       0.727</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>The RMSE drops from about 0.42 to 0.29 and <span class="math inline">\(R^2\)</span> rises to about 0.8 for
+the linear models; the forest stays behind (about 0.41). <code>negation</code>
+(about 0.63) and <code>key_longest</code> (about -0.34) are close to the simulated
+0.7 and -0.3, while <code>option_words</code> falls from about 0.5 to 0.1 with a
+large standard error: It was standing in for the topic.</li>
+<li>The model predicts almost perfectly, and the printout flags <code>p_pilot</code>:
+Its rank correlation with <span class="math inline">\(b\)</span> is -1. The proportion correct and the
+Rasch difficulty are computed from the same responses, so the feature
+<em>is</em> the label in disguise. A new item has no field-test data, so the
+model cannot be used for it.</li>
+<li>Five of the 16 items with a longest key are on physical changes, the
+hardest topic, whose options are long. Without the topic in the model,
+the easiness that a longest key brings is cancelled by the difficulty of
+the topic it comes with. An LLTM weight is only as good as the features
+left out of the model, as in any regression.</li>
+<li>The most alike pairs (similarity about 0.75) are items on the same topic
+with the same stem and context sentence and one or two shared options.
+They are different items written from one template. A similarity close
+to 1, with the same options, would mark a near-duplicate that should not
+appear on the same form.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-12" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="item-text.html#in-the-lab-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 8, <code>run_lab("item-text")</code>, uses <code>item_features()</code> and
+<code>predict_difficulty()</code> on 192 numeracy items, finds what the data hide, and
+asks how far predicted difficulties can replace a field test. The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI
+Hub</a> collects the
+other AI tools in mirtverse.</p>
+</div>
+</div>
+<div id="further-reading-13" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="item-text.html#further-reading-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Fischer <span class="citation">(<a href="#ref-fischer1973">1973</a>)</span> introduced the LLTM, and De Boeck and Wilson
+<span class="citation">(<a href="#ref-deboeck2004">2004</a>)</span> place it in the family of explanatory item response models.
+AlKhuzaey et al. <span class="citation">(<a href="#ref-alkhuzaey2024">2024</a>)</span> and Benedetto et al. <span class="citation">(<a href="#ref-benedetto2023">2023</a>)</span>
+review difficulty prediction from text, from the education and the
+computer science sides. Yaneva et al. <span class="citation">(<a href="#ref-yaneva2024">2024</a>)</span> report a shared task
+on real licensing-exam items, a useful reality check. Bulut, Gorgun and
+Yildirim-Erbasli <span class="citation">(<a href="#ref-bulut2021">2021</a>)</span> show how to fit explanatory extensions of
+dichotomous and polytomous Rasch models in R with eirm.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-alkhuzaey2024" class="csl-entry">
+AlKhuzaey, Samah, Floriana Grasso, Terry R. Payne, and Valentina Tamma. 2024. <span>“Text-Based Question Difficulty Prediction: A Systematic Review of Automatic Approaches.”</span> <em>International Journal of Artificial Intelligence in Education</em> 34 (3): 862–914. <a href="https://doi.org/10.1007/s40593-023-00362-1">https://doi.org/10.1007/s40593-023-00362-1</a>.
+</div>
+<div id="ref-benedetto2023" class="csl-entry">
+Benedetto, Luca, Paolo Cremonesi, Andrew Caines, et al. 2023. <span>“A Survey on Recent Approaches to Question Difficulty Estimation from Text.”</span> <em>ACM Computing Surveys</em> 55 (9): Article 178. <a href="https://doi.org/10.1145/3556538">https://doi.org/10.1145/3556538</a>.
+</div>
+<div id="ref-bulut2021" class="csl-entry">
+Bulut, Okan, Guher Gorgun, and Seyma Nur Yildirim-Erbasli. 2021. <span>“Estimating Explanatory Extensions of Dichotomous and Polytomous <span>Rasch</span> Models: The Eirm Package in <span>R</span>.”</span> <em>Psych</em> 3 (3): 308–21. <a href="https://doi.org/10.3390/psych3030023">https://doi.org/10.3390/psych3030023</a>.
+</div>
+<div id="ref-deboeck2004" class="csl-entry">
+De Boeck, Paul, and Mark Wilson, eds. 2004. <em>Explanatory Item Response Models: A Generalized Linear and Nonlinear Approach</em>. Springer. <a href="https://doi.org/10.1007/978-1-4757-3990-9">https://doi.org/10.1007/978-1-4757-3990-9</a>.
+</div>
+<div id="ref-fischer1973" class="csl-entry">
+Fischer, Gerhard H. 1973. <span>“The Linear Logistic Test Model as an Instrument in Educational Research.”</span> <em>Acta Psychologica</em> 37 (6): 359–74. <a href="https://doi.org/10.1016/0001-6918(73)90003-6">https://doi.org/10.1016/0001-6918(73)90003-6</a>.
+</div>
+<div id="ref-yaneva2024" class="csl-entry">
+Yaneva, Victoria, Kai North, Peter Baldwin, et al. 2024. <span>“Findings from the First Shared Task on Automated Prediction of Difficulty and Response Time for Multiple-Choice Questions.”</span> <em>Proceedings of the 19th Workshop on Innovative Use of NLP for Building Educational Applications</em>, 470–82. <a href="https://aclanthology.org/2024.bea-1.39">https://aclanthology.org/2024.bea-1.39</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ml-lens.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="auto-scoring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/14-item-text.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

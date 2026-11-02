@@ -98,14 +98,22 @@ checks and flags to consider before each next stage.
 
 ## AI in measurement
 
-Run the language model features offline from recorded responses, train
-and check an automated scoring engine, and teaching datasets with item
-text and written answers.
+Run the language model features offline from recorded responses,
+describe items by their text and predict their difficulty, train and
+check an automated scoring engine, and teaching datasets with item text
+and written answers.
 
 - [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_recordings()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   : Replay or record language model responses
+- [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md)
+  : Text features of test items
+- [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  [`tidy(`*`<mv_difficulty>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  [`autoplot(`*`<mv_difficulty>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  [`predict(`*`<mv_difficulty>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  : Predict item difficulty from item features
 - [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
   [`tidy(`*`<mv_scorer>`*`)`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
   : Train an automated scorer on human-scored text

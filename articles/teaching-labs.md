@@ -120,6 +120,27 @@ Lab 7 is part of the [AI
 Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) and fits
 well after Lab 6.
 
+### Lab 8: Predicting difficulty before field testing
+
+You are the psychometrician for the fictional **Prairie Grade 7 Numeracy
+Assessment**, which field-tests every new item. Its 192 items were
+written from 12 item models, and their text and field-test results are
+in `itemtext`. A vendor says difficulty can be predicted from the text.
+Students describe the items with
+[`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md)
+and test the claim with
+[`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md).
+
+| Lab | Run it with | You will |
+|----|----|----|
+| **8. Predicting difficulty before field testing** (about 75 minutes) | `run_lab("item-text")` | Turn item text into features, find near-duplicates and miskeyed items, compare an LLTM with a lasso and a random forest by cross-validation, catch a leaky feature, hold out whole item models, read what makes items harder, and decide what predictions can replace |
+
+Lab 8 is part of the [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) and stands
+on its own; Chapter [What item text tells
+us](https://www.okanbulut.com/mirtverse/book/item-text.md) of the book
+is the reading that goes with it.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -257,6 +278,23 @@ few seconds.
 | The memo | Free-text memo to the board |  |
 | The reveal | `lab_truth("essays")` |  |
 
+### Lab 8: Predicting difficulty before field testing
+
+`run_lab("item-text")`, about 75 minutes. Each model comparison takes
+about 5 to 10 seconds.
+
+| Section | Students do | Decision |
+|----|----|----|
+| The brief | Meet the director’s question and `itemtext` |  |
+| Features from the text | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md); list the most similar pairs | What to do with near-duplicates |
+| A first model | [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md) on all items; inspect the three worst-predicted items | What is wrong with them |
+| The vendor’s model | Set aside the miskeyed items; add `p_field` | Why the vendor’s model cannot be used |
+| Text alone | The three models on text features only | Why the forest wins |
+| Item models | Add the family; hold out whole families with `group` | What predictions can claim |
+| What makes items harder? | Read the LLTM weights | The context sentence |
+| The recommendation | Recommendation and free-text memo to the director |  |
+| The reveal | `lab_truth("itemtext")` |  |
+
 ### Tips for running the labs
 
 - **Before class:** Ask students to install mirtverse and learnr and run
@@ -267,7 +305,8 @@ few seconds.
   good warm-up for it. Lab 4 fits a unit on linking and equating, Lab 5
   a unit on item banks and adaptive testing, and Lab 6 a unit on
   polytomous models or performance assessment. Lab 7 follows Lab 6 in a
-  unit on automated scoring or AI in measurement.
+  unit on automated scoring or AI in measurement, and Lab 8 fits a unit
+  on item development, explanatory IRT or AI in measurement.
 - **Speed:** Most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
@@ -620,3 +659,55 @@ The planted problems in `essays` (`lab_truth("essays")` returns them):
   parents?
 - A real engine uses thousands of features you cannot read. Which of the
   lab’s checks still work, and which become harder?
+
+### Lab 8
+
+The planted problems in `itemtext` (`lab_truth("itemtext")` returns
+them):
+
+| Planted problem | What a good analyst does |
+|----|----|
+| `p_field` is computed from the same field test as `b` | Recognizes leakage behind an R² of 0.97 and leaves the feature out |
+| N05-07, N08-11 and N11-03 are miskeyed | Investigates the worst-predicted items, finds a negative discrimination and an absurd `b`, and removes them until they are rescored |
+| N01-02 and N01-14, and N06-05 and N06-12, are near-duplicates (a changed name) | Uses `similarity` to find them and marks each pair as enemy items |
+| Difficulty is mostly the family’s (-1.25 to 1.0 logits) | Holds out whole families and limits the claims to calibrated item models |
+| Decimals or fractions +0.35, each extra digit +0.12, a context sentence +0.15, item noise SD 0.20 | Reads the LLTM weights as evidence about the construct, and treats the context effect as construct-irrelevant |
+
+- **Near-duplicates:** The two pairs have a similarity of 0.92 and 0.87;
+  the next most similar items are at about 0.6.
+- **First model (all items, text features):** R² of 0.13 for the LLTM,
+  about 0 for the lasso and 0.47 for the forest. The three miskeyed
+  items are predicted 3 to 5 logits harder than their estimates.
+- **Vendor’s model (clean items, with `p_field`):** R² of 0.97 and an
+  RMSE of 0.12, and the printout flags `p_field` (rank correlation
+  -0.98).
+- **Text alone (clean items):** R² of about 0.2 for the LLTM and the
+  lasso, 0.78 for the forest, which recognizes the families from their
+  wording.
+- **With the family:** R² of 0.86 to 0.90 and an RMSE of about 0.22,
+  close to the floor set by the item noise (0.20) and the estimation
+  error (0.07). With whole families held out, R² is below 0 for every
+  model.
+- **LLTM weights (family, `sentences`, `max_digits`, `decimals`):**
+  About 0.14 per extra sentence, 0.21 for decimals or fractions and 0.04
+  per digit. The text features are proxies for what the item writers
+  built in, so they recover the context effect best.
+- **Recommendation:** Use predictions for new items from calibrated item
+  models to target field-test forms and cut field-test samples; keep a
+  smaller field test for every item and a full one for new item models.
+
+#### Discussion prompts
+
+- The forest beat the LLTM on text alone, and lost its lead once the
+  family was added. What does that tell you about what each model
+  learned?
+- Which of the lab’s text features are construct-relevant for a numeracy
+  test, and which are not? How would you check the irrelevant ones for
+  DIF?
+- An item-writing team uses an LLM to write new items from the item
+  models. How would you use
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  and a small field test to check the new items?
+- What features beyond the text, such as an item writer’s count of
+  solution steps, would you add, and how would you know whether they
+  help?

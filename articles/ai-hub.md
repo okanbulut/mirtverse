@@ -39,7 +39,7 @@ step names the question it answers, what to read and what to try in R.
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md) |
 | 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
-| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
+| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](https://www.okanbulut.com/mirtverse/book/item-text.md); [reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md), [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md); [Lab 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8) |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
 
@@ -101,6 +101,27 @@ without seeing the key; disagreements are flagged before any person
 reviews the items. `review_packet(p, ai_screen = TRUE)` then prepares
 the human review.
 
+### Predict item difficulty from the text
+
+``` r
+
+feats <- item_features(itemtext)          # length, readability, numbers, options, near-duplicates
+items <- merge(itemtext, feats)
+m <- predict_difficulty(items, c("family", "sentences", "decimals", "max_digits"),
+                        se = "b_se")      # LLTM, lasso and random forest, cross-validated
+m
+tidy(m)                                   # what each feature adds to difficulty
+predict_difficulty(items, c("family", "sentences", "decimals"),
+                   group = "family")      # hold out whole item families
+```
+
+The LLTM’s weights say what makes items harder; the lasso and the random
+forest show how much more a flexible model can predict.
+[`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+warns when a feature looks like it was computed from the field test
+itself, and `group` checks whether predictions hold for a new kind of
+item rather than a new item of a known kind.
+
 ### Score open-ended responses, and check the scores
 
 ``` r
@@ -160,7 +181,11 @@ raters and fits well at the end of an IRT course. [Lab
 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7)
 goes further: Students train their own engine, judge it on new students,
 find why it underscores English language learners, and decide how much
-of the scoring it should do. The [online
+of the scoring it should do. In [Lab
+8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8)
+they predict item difficulty from the text of 192 numeracy items, find
+miskeyed items and near-duplicates, catch a leaky feature, and decide
+how far predictions can replace a field test. The [online
 book](https://www.okanbulut.com/mirtverse/book/index.md) has a part on
 AI in measurement whose chapters work offline, so they can be assigned
 as readings. More AI labs, chapters and an optional AI module for the

@@ -3,6 +3,35 @@
 ## mirtverse (development version)
 
 - New
+  [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md)
+  describes items by features of their text: Length, sentences and
+  readability of the stem, its numbers, decimals and negations, the
+  length of the options, whether the key is the longest option, how far
+  numeric distractors are from the key, and each item’s most similar
+  other item, to find near-duplicates. Everything runs in base
+
+  18. 
+
+- New
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  predicts item difficulty from features with an LLTM (two-step
+  explanatory IRT), a lasso and a random forest, all in base R, and
+  compares them by cross-validation, with random folds or whole groups
+  (such as item families) held out. It flags features that look leaked
+  from the field test, shows the estimation error in `b` as a floor, and
+  has [`tidy()`](https://generics.r-lib.org/reference/tidy.html),
+  [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+  and [`predict()`](https://rdrr.io/r/stats/predict.html) methods.
+
+- New Lab 8, `run_lab("item-text")`: Students predict the difficulty of
+  the 192 `itemtext` items from their text, find miskeyed items and
+  near-duplicates, catch a leaky feature, hold out whole item models,
+  and decide what predictions can replace. The book has a new chapter,
+  “What item text tells us” (`item-text` in
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)),
+  with the one-step LLTM in mirt.
+
+- New
   [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
   trains an automated scoring engine on human-scored text: A ridge
   regression on words and two-word phrases, in base R, with the penalty

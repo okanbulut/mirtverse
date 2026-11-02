@@ -3,19 +3,19 @@
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam). Labs 3 to 7
+storyline, a certification board's 32-item exam (certexam). Labs 3 to 8
 each have their own: a provincial numeracy test (numeracy), a licensure
 exam with two forms (linking), a placement test's item bank
-(catbank), rater-scored science tasks (openended) and written science
-explanations (essays)."><meta property="og:description" content="mirtverse ships interactive learnr
+(catbank), rater-scored science tasks (openended), written science
+explanations (essays) and the text of numeracy items (itemtext)."><meta property="og:description" content="mirtverse ships interactive learnr
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam). Labs 3 to 7
+storyline, a certification board's 32-item exam (certexam). Labs 3 to 8
 each have their own: a provincial numeracy test (numeracy), a licensure
 exam with two forms (linking), a placement test's item bank
-(catbank), rater-scored science tasks (openended) and written science
-explanations (essays)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg"></head><body>
+(catbank), rater-scored science tasks (openended), written science
+explanations (essays) and the text of numeracy items (itemtext)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -61,6 +61,7 @@ explanations (essays)."><meta property="og:image" content="https://www.okanbulut
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -86,11 +87,11 @@ explanations (essays)."><meta property="og:image" content="https://www.okanbulut
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>). Labs 3 to 7
+storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>). Labs 3 to 8
 each have their own: a provincial numeracy test (<a href="numeracy.html">numeracy</a>), a licensure
 exam with two forms (<a href="linking.html">linking</a>), a placement test's item bank
-(<a href="catbank.html">catbank</a>), rater-scored science tasks (<a href="openended.html">openended</a>) and written science
-explanations (<a href="essays.html">essays</a>).</p>
+(<a href="catbank.html">catbank</a>), rater-scored science tasks (<a href="openended.html">openended</a>), written science
+explanations (<a href="essays.html">essays</a>) and the text of numeracy items (<a href="itemtext.html">itemtext</a>).</p>
     </div>
 
     <div class="section level2">
@@ -151,6 +152,11 @@ science explanations on its own? Train an engine with <code><a href="train_score
 judge it on new students with <code><a href="agreement_report.html">agreement_report()</a></code>, check it for
 English language learners, find what drives the difference, and choose
 the engine's role.</p></li>
+<li><p><code>"item-text"</code> (Lab 8): Can item difficulty be predicted from the text
+before field testing? Describe items with <code><a href="item_features.html">item_features()</a></code>, find
+near-duplicates and miskeyed items, compare an LLTM with a lasso and a
+random forest in <code><a href="predict_difficulty.html">predict_difficulty()</a></code>, catch a leaky feature, hold out
+whole item models, and decide what predictions can replace.</p></li>
 </ul><p><code>run_lab()</code> opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and come
@@ -160,16 +166,17 @@ back later.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">list_labs</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name         title                                        description         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto-scoring Lab 7: Can the engine score alone?           A science program w…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> cat-design   Lab 5: Designing an adaptive test            A college wants to …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> decisions    Lab 2: From parameters to decisions          The certification b…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> linking      Lab 4: Linking two forms                     A licensure exam ha…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> model-choice Lab 1: Choosing a model the board can defend You are the new psy…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> open-ended   Lab 6: Scoring open-ended responses          A science assessmen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name         title                                             description    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto-scoring Lab 7: Can the engine score alone?                A science prog…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> cat-design   Lab 5: Designing an adaptive test                 A college want…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> decisions    Lab 2: From parameters to decisions               The certificat…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy gr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> item-text    Lab 8: Predicting difficulty before field testing A numeracy pro…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> linking      Lab 4: Linking two forms                          A licensure ex…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> model-choice Lab 1: Choosing a model the board can defend      You are the ne…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> open-ended   Lab 6: Scoring open-ended responses               A science asse…</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">run_lab</span><span class="op">(</span><span class="st">"model-choice"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

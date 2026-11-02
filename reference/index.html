@@ -45,6 +45,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -333,7 +334,7 @@
       </dl></div><div class="section level2">
       <h2 id="ai-in-measurement">AI in measurement<a class="anchor" aria-label="anchor" href="#ai-in-measurement"></a></h2>
 
-      <div class="section-desc"><p>Run the language model features offline from recorded responses, train and check an automated scoring engine, and teaching datasets with item text and written answers.</p></div>
+      <div class="section-desc"><p>Run the language model features offline from recorded responses, describe items by their text and predict their difficulty, train and check an automated scoring engine, and teaching datasets with item text and written answers.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -346,6 +347,20 @@
 
         </dt>
         <dd>Replay or record language model responses</dd>
+
+        <dt>
+
+          <code><a href="item_features.html">item_features()</a></code>
+
+        </dt>
+        <dd>Text features of test items</dd>
+
+        <dt>
+
+          <code><a href="predict_difficulty.html">predict_difficulty()</a></code> <code><a href="predict_difficulty.html">tidy(<i>&lt;mv_difficulty&gt;</i>)</a></code> <code><a href="predict_difficulty.html">autoplot(<i>&lt;mv_difficulty&gt;</i>)</a></code> <code><a href="predict_difficulty.html">predict(<i>&lt;mv_difficulty&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Predict item difficulty from item features</dd>
 
         <dt>
 

@@ -6,16 +6,18 @@ testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
 ([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
-Labs 3 to 7 each have their own: a provincial numeracy test
+Labs 3 to 8 each have their own: a provincial numeracy test
 ([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
 a licensure exam with two forms
 ([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)), a
 placement test's item bank
 ([catbank](https://www.okanbulut.com/mirtverse/reference/catbank.md)),
 rater-scored science tasks
-([openended](https://www.okanbulut.com/mirtverse/reference/openended.md))
-and written science explanations
-([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)).
+([openended](https://www.okanbulut.com/mirtverse/reference/openended.md)),
+written science explanations
+([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)) and
+the text of numeracy items
+([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md)).
 
 ## Usage
 
@@ -82,6 +84,15 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
   check it for English language learners, find what drives the
   difference, and choose the engine's role.
 
+- `"item-text"` (Lab 8): Can item difficulty be predicted from the text
+  before field testing? Describe items with
+  [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md),
+  find near-duplicates and miskeyed items, compare an LLTM with a lasso
+  and a random forest in
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md),
+  catch a leaky feature, hold out whole item models, and decide what
+  predictions can replace.
+
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and
@@ -91,15 +102,16 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 7 × 3
-#>   name         title                                        description         
-#>   <chr>        <chr>                                        <chr>               
-#> 1 auto-scoring Lab 7: Can the engine score alone?           A science program w…
-#> 2 cat-design   Lab 5: Designing an adaptive test            A college wants to …
-#> 3 decisions    Lab 2: From parameters to decisions          The certification b…
-#> 4 fairness     Lab 3: Is the test fair? Detecting DIF       An advocacy group s…
-#> 5 linking      Lab 4: Linking two forms                     A licensure exam ha…
-#> 6 model-choice Lab 1: Choosing a model the board can defend You are the new psy…
-#> 7 open-ended   Lab 6: Scoring open-ended responses          A science assessmen…
+#> # A tibble: 8 × 3
+#>   name         title                                             description    
+#>   <chr>        <chr>                                             <chr>          
+#> 1 auto-scoring Lab 7: Can the engine score alone?                A science prog…
+#> 2 cat-design   Lab 5: Designing an adaptive test                 A college want…
+#> 3 decisions    Lab 2: From parameters to decisions               The certificat…
+#> 4 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy gr…
+#> 5 item-text    Lab 8: Predicting difficulty before field testing A numeracy pro…
+#> 6 linking      Lab 4: Linking two forms                          A licensure ex…
+#> 7 model-choice Lab 1: Choosing a model the board can defend      You are the ne…
+#> 8 open-ended   Lab 6: Scoring open-ended responses               A science asse…
 if (interactive()) run_lab("model-choice")
 ```
