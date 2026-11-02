@@ -146,7 +146,7 @@ If you use the book in a course or in your work, please cite it as:
 > Bulut, O. (2026). *Item response theory with mirt and mirtverse: Notes for
 > teaching and learning*. Zenodo. https://doi.org/10.5281/zenodo.23885605
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23885605.svg)](https://doi.org/10.5281/zenodo.23885605)
+<a href="https://doi.org/10.5281/zenodo.23885605"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.23885605.svg" alt="DOI"></a>
 
 The DOI above always points to the latest edition of the book. Each archived
 edition also has its own DOI, listed on the
