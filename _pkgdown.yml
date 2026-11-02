@@ -10,9 +10,26 @@ redirects:
 
 navbar:
   structure:
-    left: [intro, reference, articles, book, cheatsheet, news]
+    left: [intro, reference, articles, aihub, book, cheatsheet, news]
     right: [search, github]
   components:
+    aihub:
+      text: AI Hub
+      menu:
+      - text: Start here
+        href: articles/ai-hub.html
+      - text: Machine learning for psychometricians
+        href: articles/ai-translation.html
+      - text: Reading list
+        href: articles/ai-reading.html
+      - text: -------
+      - text: AI tools in mirtverse
+      - text: Write analysis code from plain language
+        href: articles/mv-ask-guide.html
+      - text: Generate and verify items
+        href: reference/generate_items.html
+      - text: Score open-ended responses
+        href: reference/score_open.html
     book:
       text: Book
       href: book/index.html
@@ -39,6 +56,14 @@ articles:
   - articles/instructor-toolkit
   - articles/instructor-mcp
   - articles/glossary
+- title: AI in measurement
+  desc: >
+    Artificial intelligence and machine learning for psychometricians. These
+    articles are also in the AI Hub menu.
+  contents:
+  - articles/ai-hub
+  - articles/ai-translation
+  - articles/ai-reading
 
 reference:
 - title: Workbench
