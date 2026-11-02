@@ -41,7 +41,7 @@ table(essays$prompt, essays$human1)
 with(essays, mean(human1 == human2, na.rm = TRUE))
 }
 \seealso{
-\link{itemtext}, the other AI Hub dataset; \code{\link[=score_open]{score_open()}} to score
+\link{itemtext} and \link{aigfield}, the other AI Hub datasets; \code{\link[=score_open]{score_open()}} to score
 responses and check them against human scores.
 }
 \keyword{datasets}

@@ -47,7 +47,7 @@ sort(tapply(itemtext$b, itemtext$family, mean))
 summary(lm(b ~ family + decimal + digits + context, data = itemtext))
 }
 \seealso{
-\link{essays}, the other AI Hub dataset; the
+\link{essays} and \link{aigfield}, the other AI Hub datasets; the
 \href{https://www.okanbulut.com/mirtverse/articles/ai-hub.html}{AI Hub}.
 }
 \keyword{datasets}

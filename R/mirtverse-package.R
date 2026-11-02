@@ -38,5 +38,5 @@ utils::globalVariables(c(
   "expected", "lower", "upper", "label", "n", "tau", "rt", "rapid", "beta",
   "alpha", "log_rt", "density", "series", "lo", "hi", "RMSEA.S_X2",
   "status", "best", "delta", "top", "first", "prop", "component", "speed", "residual", "flagged", "criterion", "prop_rapid", "rte",
-  "esd", "group", "qwk", "qwk_human", "smd", "predicted", "b", "id"
+  "esd", "group", "qwk", "qwk_human", "smd", "predicted", "b", "id", "lower", "upper", "mean_b", "family"
 ))

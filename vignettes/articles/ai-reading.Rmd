@@ -148,6 +148,19 @@ an addition, open an issue on
   247–261. [doi:10.1177/0146621603027004001](https://doi.org/10.1177/0146621603027004001) \
   How to calibrate item families instead of single items, so generated
   isomorphs can be used without each one being field tested.
+- Sinharay, S., Johnson, M. S., & Williamson, D. M. (2003). Calibrating
+  item families and summarizing the results using family expected
+  response functions. *Journal of Educational and Behavioral Statistics,
+  28*(4), 295–313. \
+  A hierarchical model for item families, with a way to report a family
+  as a whole.
+- Geerlings, H., Glas, C. A. W., & van der Linden, W. J. (2011). Modeling
+  rule-based item generation. *Psychometrika, 76*(2), 337–359.
+  [doi:10.1007/s11336-011-9204-x](https://doi.org/10.1007/s11336-011-9204-x) \
+  Explains family difficulties by the rules used to generate the items: The
+  LLTM idea applied to item models. In mirtverse: `calibrate_families()`,
+  the book's chapter [Generating items](../book/aig.html) and
+  [Lab 9](teaching-labs.html#lab-9).
 - von Davier, M. (2018). Automated item generation with recurrent neural
   networks. *Psychometrika, 83*(4), 847–857.
   [doi:10.1007/s11336-018-9608-y](https://doi.org/10.1007/s11336-018-9608-y) \

@@ -143,6 +143,9 @@ are lost in review and field testing, so a pool needs more items than the
 blueprint asks for. Notice what the checks do *not* do: They do not show
 that the items measure Grade 7 numeracy, that they are fair, or that their
 difficulty suits the test. Content review and a field test still do that.
+Items written one by one also have no family: Each needs its own field
+test. Template-based generation from item models (Chapter \@ref(aig))
+trades variety for items that can be calibrated as a family.
 
 ## Example 3: Is a recording reproducible?
 
@@ -221,6 +224,8 @@ The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
 shows the AI features of mirtverse in one place. Lab 7,
 `run_lab("auto-scoring")`, trains and checks an automated scoring engine;
 Lab 8, `run_lab("item-text")`, predicts item difficulty from the text;
+Lab 9, `run_lab("aig")`, generates items from item models and calibrates
+their families;
 and the [mv_ask()
 guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
 explains what `mv_ask()` sends and how it was benchmarked.

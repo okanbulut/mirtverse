@@ -126,12 +126,12 @@ swap_chapter_data <- function(chapter, chunk = NULL, code) {
 book_chapters <- function() {
   as_tbl(data.frame(
     id = c("measurement", "irt-models", "estimation", "dimensionality", "fit", "information",
-           "scoring", "polytomous", "dif", "linking", "banks-cat", "reporting", "ml-lens", "item-text", "auto-scoring", "llms",
+           "scoring", "polytomous", "dif", "linking", "banks-cat", "reporting", "ml-lens", "item-text", "aig", "auto-scoring", "llms",
            "datasets", "adapting"),
     file = c("01-measurement.Rmd", "02-irt-models.Rmd", "03-estimation.Rmd",
              "04-dimensionality.Rmd", "05-fit.Rmd", "06-information.Rmd", "07-scoring.Rmd",
              "08-polytomous.Rmd", "09-dif.Rmd", "10-linking.Rmd", "11-banks-cat.Rmd",
-             "12-reporting.Rmd", "13-ml-lens.Rmd", "14-item-text.Rmd", "16-auto-scoring.Rmd", "17-llms.Rmd", "90-datasets.Rmd",
+             "12-reporting.Rmd", "13-ml-lens.Rmd", "14-item-text.Rmd", "15-aig.Rmd", "16-auto-scoring.Rmd", "17-llms.Rmd", "90-datasets.Rmd",
              "91-adapting.Rmd"),
     title = c("Measurement, scoring and classical item analysis",
               "From classical test theory to IRT", "Estimation and comparing models",
@@ -141,7 +141,7 @@ book_chapters <- function() {
               "Differential item functioning and fairness", "Linking and equating",
               "Item banks, test assembly and adaptive testing",
               "Cut scores, reporting and communicating results",
-              "Machine learning through an IRT lens", "What item text tells us", "Automated scoring",
+              "Machine learning through an IRT lens", "What item text tells us", "Generating items", "Automated scoring",
               "Large language models as a colleague",
               "Appendix: the datasets", "Appendix: adapting the book"),
     stringsAsFactors = FALSE))

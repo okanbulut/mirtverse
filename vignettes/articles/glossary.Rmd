@@ -1124,6 +1124,8 @@ A template for a family of items: A parent item with elements that can vary
 from one model are *isomorphs*, and often, but not always, have similar
 difficulty.
 
+**In R:** `item_model()`, `generate_isomorphs()` and `calibrate_families()`.
+
 ### Automated scoring {#automated-scoring}
 
 Scoring constructed responses, such as essays or short answers, with a

@@ -1,0 +1,348 @@
+# Generating items {#aig}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain **automatic item generation** (AIG) from **item models**, and how
+  it differs from asking a language model for items;
+* write an item model with `item_model()`, with distractors built from
+  misconceptions and constraints that rule out flawed items, and generate
+  **isomorphs** with `generate_isomorphs()`;
+* check after field testing whether a family of isomorphs is equally
+  difficult with `calibrate_families()`, and find the variable that makes
+  a family spread;
+* fit a one-step model with a random item effect in mirt, or with eirm,
+  and say when a family mean can stand in for a field test.
+</div>
+
+**Key terms:**
+[Item model](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-model),
+[LLTM](https://www.okanbulut.com/mirtverse/articles/glossary.html#lltm),
+[calibration](https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration).
+
+## The ideas
+
+Testing programs need many items: For new forms each year, for adaptive
+tests that must not expose the same items too often (Chapter
+\@ref(banks-cat)), and for practice. Writing and field-testing each item by
+hand is the slowest and most expensive part of test development.
+**Automatic item generation** (AIG) writes items from a template
+[@gierl2013; @gierllai2013]. An **item model** is a parent item with
+variable parts: A stem, a key and distractors, each written as a template,
+the values each variable can take, and constraints that every generated
+item must meet. Filling in the values gives **isomorphs**: Items that test
+the same thing in the same way and differ only in their surface, such as
+the numbers.
+
+Two promises come with item models. The first is quality at scale: If the
+model is right, every item it generates is right, and an error in the model
+shows up in every item, where an automatic check can catch it. The second
+is **calibration at the level of the family**. If isomorphs are equally
+difficult, the item model can be calibrated once, and its new items can use
+the family's difficulty without a field test of their own
+[@glas2003; @sinharay2003]. That promise is an empirical claim, and this
+chapter is about checking it.
+
+A family's items are never exactly equally difficult. The model for a
+family $f$ is
+$$b_i = \mu_f + \varepsilon_i, \qquad \varepsilon_i \sim N(0, \sigma_f^2),$$
+where $\mu_f$ is the family's mean difficulty and $\sigma_f$, the
+**within-family SD**, says how much its isomorphs differ. A new item's
+difficulty is predicted by $\mu_f$ with an error of about $\sigma_f$. When
+$\sigma_f$ is small, the family mean is as good as a field test of a few
+hundred test takers; when it is large, some variable in the item model
+changes what the items demand, and the model must be split or the variable
+added as a feature, as in the LLTM of Chapter \@ref(item-text). Explanatory
+IRT treats this as one model with item features and a random item effect
+[@deboeck2004; @geerlings2011].
+
+Language models offer a second route: Ask for items in a prompt
+(`generate_items()`, Chapter \@ref(llms)). They write more varied items,
+but each is a one-off, with no template to calibrate and no guarantee that
+two items with the same prompt are isomorphs. Template-based AIG is
+predictable and traceable; every item can be rebuilt from its values. In
+practice the two meet: Language models can help write item models, and
+their items can be reviewed with the same checks.
+
+## Example 1: Writing an item model
+
+An average speed item has two variables, the speed `v` and the time `t`.
+Writing the distance as `v * t` keeps the answer a whole number. Each
+distractor is the answer of a misconception:
+
+```{r data-aig-1}
+# Item models for a simulated Grade 7 field test.
+speed <- item_model(
+  stem = "A train travels {v * t} km in {t} hours. What is its average speed?",
+  key = "{v} km/h",
+  distractors = c(multiplied = "{v * t * t} km/h", subtracted = "{v * t - t} km/h",
+                  added = "{v * t + t} km/h"),
+  values = list(v = seq(40, 120, 10), t = 2:6), name = "SPD")
+frac <- item_model(
+  stem = "A class of {n} students voted. {num}/{den} of them chose soccer. How many students chose soccer?",
+  key = "{n * num / den}",
+  distractors = c(multiplied_only = "{n * num}", rest = "{n - n * num / den}",
+                  one_part_too_many = "{n / den * (num + 1)}"),
+  values = list(n = c(12, 18, 20, 24, 30, 36, 40), num = 1:3, den = 2:6),
+  constraints = c("num < den", "n %% den == 0"), name = "FRA")
+avg <- item_model(
+  stem = "The heights of {k} plants are {paste(seq(a, by = s, length.out = k), collapse = ', ')} cm. What is their mean height?",
+  key = "{a + s * (k - 1) / 2} cm",
+  distractors = c(sum = "{k * a + s * k * (k - 1) / 2} cm", largest = "{a + s * (k - 1)} cm",
+                  divided_by_wrong_n = "{(k * a + s * k * (k - 1) / 2) / (k - 1)} cm"),
+  values = list(k = 3:5, a = c(10, 12, 14, 20), s = c(2, 4)),
+  constraints = "(s * (k - 1)) %% 2 == 0", name = "AVG")
+speed
+```
+
+Printing a model checks it: All 45 combinations of speed and time give
+four different options. `generate_isomorphs()` draws items from the
+combinations and puts the options in random order:
+
+```{r}
+x <- generate_isomorphs(speed, n = 3, seed = 15)
+x$stem
+as.data.frame(x[, c("id", "A", "B", "C", "D", "key")])
+```
+
+The fraction model is less safe. With $\frac{1}{2}$, the students who chose
+soccer and those who did not are the same number, so the key and the `rest`
+distractor are identical. `generate_isomorphs()` leaves such combinations
+out, and says so:
+
+```{r, message = TRUE}
+fams <- generate_isomorphs(list(speed, frac, avg), n = 12, seed = 151)
+table(fams$model)
+```
+
+Almost half of the fraction model's combinations were dropped, and two of
+the mean model's. The message is a request to fix the model with a constraint, so that the next
+person who uses it, or the software, does not depend on the check
+(Exercise 1).
+
+## Example 2: Calibrating the families
+
+The 36 items were field-tested on 800 students. We simulate the responses:
+Each family has its own difficulty, each item adds item-specific noise with
+an SD of 0.2 logits, and fractions with a numerator above 1, which take
+two steps, are 0.8 logits harder than unit fractions. Then we calibrate the
+Rasch model.
+
+```{r data-aig-2}
+# Simulated field test of the generated items: 800 students.
+set.seed(1515)
+two_step <- !is.na(fams$num) & fams$num > 1
+b_true <- c(SPD = -0.2, FRA = -0.4, AVG = 0.4)[fams$model] + 0.8 * two_step +
+  rnorm(nrow(fams), 0, 0.2)
+theta <- rnorm(800)
+resp <- sapply(b_true, function(b) rbinom(800, 1, plogis(theta - b)))
+colnames(resp) <- fams$id
+rasch <- mirt(as.data.frame(resp), 1, "Rasch", SE = TRUE, verbose = FALSE)
+pars <- tidy(rasch)
+items <- as.data.frame(fams)
+b <- pars[pars$term == "b", ]
+items$b <- b$estimate[match(items$id, b$item)]
+items$b_se <- b$std.error[match(items$id, b$item)]
+```
+
+`calibrate_families()` summarizes each family. Its observed SD includes
+the estimation error of each $b$; with `se`, the error variance is
+subtracted, which leaves the within-family SD. The 95% interval is where a
+new isomorph's difficulty is expected to fall, and `field_n` translates the
+prediction error into the size of a field test that would estimate the
+item as precisely.
+
+```{r}
+cal <- calibrate_families(items, family = "model", se = "b_se")
+cal
+```
+
+The speed and mean families are isomorphic, with within-family SDs of
+about 0.2 and 0.3 logits: Their family means are worth a field test of
+70 to 140 students. The fraction family spreads over almost two logits.
+Sorting its items by difficulty shows why:
+
+```{r}
+fr <- items[items$model == "FRA", c("id", "num", "den", "b")]
+fr[order(fr$b), ]
+```
+
+All five unit fractions are easier than all seven others. Splitting the
+family by that variable gives four isomorphic families (Figure
+\@ref(fig:aig-families)):
+
+```{r}
+items$family <- ifelse(items$model == "FRA",
+                       ifelse(items$num == 1, "FRA-unit", "FRA-nonunit"), items$model)
+cal2 <- calibrate_families(items, family = "family", se = "b_se")
+cal2
+```
+
+```{r aig-families, fig.height = 3.2, fig.cap = "Item families after splitting the fraction model. Dots are items, diamonds family means, and bars the 95% interval for a new isomorph."}
+autoplot(cal2)
+```
+
+The split is a substantive finding, not a statistical repair: Finding
+$\frac{2}{3}$ of a number takes one step more than finding $\frac{1}{3}$
+of it. The item writers can keep one model and treat `num > 1` as a
+feature, or write two models; either way, the family mean of the original
+model would have misled.
+
+## Example 3: One step, with a random item effect
+
+The two-step approach treats the estimated difficulties as data. A
+one-step model fits the responses directly: The family is a fixed effect,
+and each item's departure from its family mean is a random effect whose
+variance is $\sigma^2$, pooled over families. mirt's `mixedmirt()` fits
+it (the estimation takes about a minute):
+
+```{r}
+design <- data.frame(family = factor(items$family))
+mm <- mixedmirt(as.data.frame(resp), model = 1, itemdesign = design,
+                fixed = ~ 0 + family, random = ~ 1 | items, verbose = FALSE)
+fixed <- summary(mm, verbose = FALSE)$fixed
+data.frame(family = sub("family", "", rownames(fixed)),
+           difficulty = -fixed[, "Estimate"])   # mirt models easiness; reverse the sign
+sqrt(coef(mm)$items)                              # within-family SD
+```
+
+The family difficulties match the two-step means, and the within-family SD
+is about 0.24 logits, close to the 0.2 that was simulated. This is the
+LLTM of Chapter \@ref(item-text) with a random item effect, and the same
+model fits as a generalized linear mixed model with the eirm package
+[@bulut2021], from data in long format. Item features such as `num > 1`
+can go into the same formula:
+
+```{r, eval = FALSE}
+# install.packages("eirm")
+library(eirm)
+long <- data.frame(person = rep(seq_len(nrow(resp)), ncol(resp)),
+                   id = rep(colnames(resp), each = nrow(resp)),
+                   resp = as.vector(resp))
+long <- merge(long, items[, c("id", "model", "family")])
+long$two_step <- as.integer(long$family == "FRA-nonunit")
+m_eirm <- eirm("resp ~ -1 + model + two_step + (1|person) + (1|id)", data = long)
+print(m_eirm, difficulty = TRUE)   # family difficulties and the two-step effect
+lme4::VarCorr(m_eirm$model)       # person and within-family item variance
+```
+
+With the feature in the model, the original three item models stay, and
+the fixed effect of `two_step` estimates how much the second step adds.
+Hierarchical models of this kind can also give each family its own
+variance and its own discrimination [@sinharay2003; @geerlings2011].
+
+## Example 4: Does the family mean predict new items?
+
+The real test of family calibration is a held-out one: Calibrate each
+family on some of its items and predict the others as if they were new.
+
+```{r}
+number <- as.integer(sub(".*-", "", items$id))
+old <- items[number <= 6, ]
+new <- items[number > 6, ]
+cal_old <- calibrate_families(old, family = "family", se = "b_se")
+new$predicted <- cal_old$mean_b[match(new$family, cal_old$family)]
+sqrt(mean((new$predicted - new$b)^2))
+```
+
+The family means miss the new items by about a quarter of a logit, about
+what the within-family SDs promised, and three times the standard error of
+an item calibrated on 800 students. That is precise enough to assemble
+field-test or practice forms, and to start online calibration, where new
+items are given as unscored pretest items and their own estimates replace
+the family mean as responses come in. Whether it is precise enough for
+scored items on a high-stakes test is a judgment about the decisions the
+scores support, not a property of the data.
+
+## Your turn
+
+<div class="yourturn">
+1. Add a constraint to `frac` so that no combination gives identical
+   options, and print the model. Which fractions does your constraint rule
+   out?
+2. Without splitting the fraction family, fit
+   `predict_difficulty(items, c("model", "num"), se = "b_se", methods = "lltm")`.
+   What does the weight of `num` say, and how does its cross-validated
+   error compare with that of the split families (`c("family")`)?
+3. Widen the values of the speed model: Change `t` to `2:10` and `v` to
+   `seq(5, 120, 5)`. Print the model. Are all items still flawless,
+   and are they still isomorphs?
+4. In Example 2, raise `max_sd` to 0.5. Which families now count as
+   isomorphic, and what would that hide?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+# 1. a constraint for distinct options
+frac2 <- item_model(
+  stem = frac$stem, key = frac$key, distractors = frac$distractors, values = frac$values,
+  constraints = c(frac$constraints,
+                  "length(unique(c(n * num / den, n * num, n - n * num / den, n / den * (num + 1)))) == 4"),
+  name = "FRA")
+frac2
+g <- expand.grid(num = 1:3, den = 2:6)
+g <- g[g$num < g$den, ]
+g$distinct <- with(g, num / den != 1 / 2 & den != 2 * num + 1)
+g[!g$distinct, ]
+
+# 2. the numerator as a feature
+m_num <- predict_difficulty(items, c("model", "num"), se = "b_se", methods = "lltm")
+tidy(m_num)
+m_num$accuracy
+predict_difficulty(items, "family", se = "b_se", methods = "lltm")$accuracy
+
+# 3. wider values for the speed model
+speed3 <- item_model(stem = speed$stem, key = speed$key, distractors = speed$distractors,
+                     values = list(v = seq(5, 120, 5), t = 2:10), name = "SPD")
+speed3
+
+# 4. a looser threshold
+calibrate_families(items, family = "model", se = "b_se", max_sd = 0.5)
+```
+
+1. The constraint that the four answers are all different leaves 31
+   combinations. It rules out $\frac{1}{2}$ (also written
+   $\frac{2}{4}$ and $\frac{3}{6}$), where the rest equals the key, and
+   $\frac{1}{3}$ and $\frac{2}{5}$, where the rest equals one part too
+   many. Writing the general constraint is safer than listing the
+   fractions, because it also holds after someone adds new values.
+2. Each unit of the numerator adds about 0.4 logits, and the LLTM's
+   cross-validated error (about 0.28 logits) is close to that of the split
+   families (0.25): The feature does most of the work of the split. It
+   does a little worse because the simulated effect is a step from unit to
+   non-unit fractions, which a straight line in `num` only approximates.
+3. All 216 combinations still give four different options, so the check
+   passes. But a distance of 10 km in 2 hours and one of 1,200 km in 10
+   hours are not the same task for a Grade 7 student: Larger numbers and
+   less friendly divisions make items harder. Whether they are isomorphs is
+   an empirical question that only a field test answers, and extending the
+   values is a change to the item model that needs one.
+4. With 0.5, the original fraction family (0.46) counts as isomorphic.
+   Its interval for a new item then spans almost two logits: Every unit
+   fraction item would be predicted about 0.45 logits too hard, and every
+   other one about a third of a logit too easy.
+   The threshold should come from how precise the family mean must be for
+   its use, not be loosened to pass a family.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 9, `run_lab("aig")`, writes an item model, calibrates a field test of
+60 generated items, and finds the families that are not isomorphic, and
+why. The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
+collects the other AI tools in mirtverse.
+</div>
+
+## Further reading {-}
+
+Gierl and Haladyna [-@gierl2013] collect the theory and practice of AIG,
+and Gierl and Lai [-@gierllai2013] give a short introduction to item
+models. Glas and van der Linden [-@glas2003] and Sinharay, Johnson and
+Williamson [-@sinharay2003] model item families with random item
+parameters, and Geerlings, Glas and van der Linden [-@geerlings2011] add
+the rules used to generate the items as explanatory variables. Bulut,
+Gorgun and Yildirim-Erbasli [-@bulut2021] show how to fit such
+explanatory models in R with eirm.
