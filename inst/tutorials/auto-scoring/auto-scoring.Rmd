@@ -1,0 +1,469 @@
+---
+title: "Lab 7: Can the engine score alone?"
+description: >
+  A science program wants an automated scoring engine to cut its scoring
+  costs. Train an engine on 1,600 human-scored explanations, judge it on
+  students it has never seen, check it for English language learners, find
+  out what drives the difference, and decide how much of the scoring it
+  should do. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 3.5)
+```
+
+```{r setup-split, include = FALSE}
+train <- essays[essays$student <= "S300", ]
+test <- essays[essays$student > "S300", ]
+```
+
+```{r setup-engine, include = FALSE}
+train <- essays[essays$student <= "S300", ]
+test <- essays[essays$student > "S300", ]
+engine <- train_scorer(train, by = "prompt")
+test$machine <- predict(engine, test)
+```
+
+## The brief
+
+### Four questions, two readers, one budget
+
+You are the psychometrician for the fictional **Lakeshore Grade 8 Science
+Explanations**, a short written test. This year 400 students answered four
+prompts:
+
+* **E1** Explain why ice floats on liquid water.
+* **E2** Explain why Earth has seasons.
+* **E3** Explain how a green plant makes its own food.
+* **E4** Explain why a metal spoon feels colder than a wooden one in the
+  same room.
+
+Each answer is scored from 0 to 4, one point for each of four key ideas in
+the rubric. Every answer was read by a trained rater, and 40% were read
+again by a second rater to monitor agreement. A quarter of the students are
+**English language learners** (ELL).
+
+Scoring is the program's biggest cost. A vendor has offered an automated
+scoring engine, and the board asks you:
+
+> *Can a machine score these answers on its own next year? If not, can it at
+> least do part of the work?*
+
+You will build the engine yourself with `train_scorer()`, so you can see
+exactly how it works.
+
+### Meet the data
+
+`essays` has one row per answer: The `student`, their `group` (`Fluent` or
+`ELL`), the `prompt`, the `response` text, its length in `words`, and the
+two human scores `human1` and `human2` (`NA` when the answer was read once).
+
+```{r look, exercise = TRUE}
+head(essays[, c("student", "group", "prompt", "words", "human1", "human2")])
+essays$response[c(1, 5, 9)]
+table(essays$group) / 4
+round(tapply(essays$words, essays$group, mean))
+```
+
+```{r look-check}
+"1,600 answers from 400 students, 100 of them English language learners. ELL students' answers are about half as long on average."
+```
+
+## How good are the raters?
+
+### The bar for the engine
+
+An engine learns from human scores and is judged against them, so first
+find out how well two humans agree. `agreement_report(machine, human1)`
+compares any two sets of scores; here the "machine" is the second rater.
+Complete the call so that it reports agreement separately `by` prompt.
+
+```{r humans, exercise = TRUE, exercise.lines = 5}
+dbl <- !is.na(essays$human2)
+humans <- agreement_report(essays$human2[dbl], essays$human1[dbl], by = )
+humans[, c("by", "n", "exact", "adjacent", "qwk", "smd")]
+```
+
+```{r humans-hint}
+humans <- agreement_report(essays$human2[dbl], essays$human1[dbl], by = essays$prompt[___])
+```
+
+```{r humans-solution}
+dbl <- !is.na(essays$human2)
+humans <- agreement_report(essays$human2[dbl], essays$human1[dbl], by = essays$prompt[dbl])
+humans[, c("by", "n", "exact", "adjacent", "qwk", "smd")]
+```
+
+```{r humans-check}
+lab_need(exists("humans") && inherits(humans, "mv_agreement"),
+         "Keep the name `humans` and use agreement_report().")
+lab_need("by" %in% names(humans) && setequal(humans$by, c("E1", "E2", "E3", "E4")),
+         "Give `by` the prompt of each double-scored answer: essays$prompt[dbl].")
+q <- humans$qwk[humans$group == "All"]
+sprintf("Two raters agree exactly on about %.0f%% of answers, and their QWK is %.2f to %.2f: Good, but not perfect. That is the bar for the engine.",
+        100 * mean(humans$exact[humans$group == "All"]), min(q), max(q))
+```
+
+## Training the engine
+
+### Keep students the engine has never seen
+
+An engine always looks better on the answers it was trained on. To judge it
+honestly, keep a **test set** aside. The setup has put the answers of
+students S001 to S300 in `train`. Put the other 100 students in `test`.
+
+```{r split, exercise = TRUE}
+train <- essays[essays$student <= "S300", ]
+test <-
+c(train = nrow(train), test = nrow(test))
+```
+
+```{r split-hint}
+test <- essays[essays$student ___ "S300", ]
+```
+
+```{r split-solution}
+train <- essays[essays$student <= "S300", ]
+test <- essays[essays$student > "S300", ]
+c(train = nrow(train), test = nrow(test))
+```
+
+```{r split-check}
+lab_need(exists("test") && is.data.frame(test) && nrow(test) == 400,
+         "The test set should hold the 400 answers of students S301 to S400.")
+lab_need(!any(test$student %in% train$student),
+         "No student may be in both `train` and `test`.")
+"1,200 answers to train on and 400 to test with, from different students."
+```
+
+```{r q-split}
+question_radio("Why split by student rather than picking 400 answers at random?",
+  answer("A student's four answers share their writing style and spelling. If some of a student's answers were in training, the engine would partly know the student and look better than it will on next year's students.",
+         correct = TRUE,
+         message = "Right. The engine will meet new students next year, so it has to be judged on students it has never seen. The same logic applies to schools or test forms: Split at the level you will generalize to."),
+  answer("Random splits are not allowed for text data.",
+         message = "They are allowed; they are just too optimistic here, because answers from the same student are not independent."),
+  answer("So that the test set has the same number of ELL students as the training set.",
+         message = "Splitting by student does not guarantee that. The reason is that one student's answers are alike."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### What the engine learns
+
+`train_scorer()` turns each answer into counts of its words and two-word
+phrases and fits a ridge regression of the human score on them, one model
+per prompt. Train it, then look at the words with the largest weights for
+E1 (why ice floats).
+
+```{r train, exercise = TRUE, exercise.setup = "setup-split", exercise.timelimit = 180}
+engine <- train_scorer(train, by = "prompt")
+engine
+w <- tidy(engine)
+head(w[w$by == "E1", ], 15)
+```
+
+```{r q-words}
+question_radio("The top E1 weights include words from the key ideas (less, dense, molecules, frozen), but also with, are, on, it, and misspellings such as wtaer. What does that tell you about the engine?",
+  answer("It has learned which words go with high human scores, whatever the reason. Some are the rubric's ideas; others just go with longer or particular answers. It learned them from the scores, not from the rubric, and it will credit them whether or not the answer is right.",
+         correct = TRUE,
+         message = "Yes. The engine predicts the raters; it does not understand the answers. Its weights are the first thing to read when you are asked to trust it."),
+  answer("It understands the science, so it can score on its own.",
+         message = "It counts words. Words that usually come with a correct idea get weight, and so do words that merely come with long answers."),
+  answer("Nothing; the weights of a machine learning model cannot be interpreted.",
+         message = "Many can't, but this one is a linear model, and its weights are worth reading."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Judging the engine
+
+### Overall agreement
+
+Score the test answers with `predict()` and compare the machine scores with
+the human scores. Add the second rater's scores so that the report can
+compute human-human agreement and PRMSE on the same answers.
+
+```{r overall, exercise = TRUE, exercise.setup = "setup-split", exercise.timelimit = 180}
+engine <- train_scorer(train, by = "prompt")
+test$machine <- predict(engine, test)
+overall <- agreement_report(test$machine, test$human1, )
+overall
+```
+
+```{r overall-hint}
+overall <- agreement_report(test$machine, test$human1, test$___)
+```
+
+```{r overall-solution}
+engine <- train_scorer(train, by = "prompt")
+test$machine <- predict(engine, test)
+overall <- agreement_report(test$machine, test$human1, test$human2)
+overall
+```
+
+```{r overall-check}
+lab_need(exists("overall") && inherits(overall, "mv_agreement"),
+         "Keep the name `overall` and use agreement_report().")
+lab_need(!is.na(overall$qwk_human[1]),
+         "Give the second rater's scores as the third argument, test$human2.")
+sprintf("QWK %.2f against %.2f between two humans, SMD %+.2f, PRMSE %.2f. By the usual standards the engine is ready.",
+        overall$qwk, overall$qwk_human, overall$smd, overall$prmse)
+```
+
+```{r q-overall}
+question_radio("The engine agrees with the first rater at least as well as the second rater does, and its PRMSE is about 0.9. What does PRMSE add?",
+  answer("It compares the machine with the true score, the average of many raters, after allowing for rater error. Raters disagree with each other, so agreement with one rater undersells a good engine.",
+         correct = TRUE,
+         message = "Right. A PRMSE of 0.9 means the machine scores explain about 90% of the variance of the true scores, more than a single rater's scores do here."),
+  answer("It is the same as the QWK, on a different scale.",
+         message = "QWK compares the machine with one rater, errors and all. PRMSE uses the double-scored answers to estimate and remove rater error."),
+  answer("It shows the engine is fair to every group.",
+         message = "PRMSE overall says nothing about groups. That is the next step."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Within groups
+
+An engine can match the raters overall and still score a group of students
+differently. Add the students' `group` to the report.
+
+```{r groups, exercise = TRUE, exercise.setup = "setup-engine", exercise.lines = 5}
+by_group <- agreement_report(test$machine, test$human1, test$human2, group = )
+by_group
+autoplot(by_group)
+```
+
+```{r groups-hint}
+by_group <- agreement_report(test$machine, test$human1, test$human2, group = test$___)
+```
+
+```{r groups-solution}
+by_group <- agreement_report(test$machine, test$human1, test$human2, group = test$group)
+by_group
+autoplot(by_group)
+```
+
+```{r groups-check}
+lab_need(exists("by_group") && inherits(by_group, "mv_agreement"),
+         "Keep the name `by_group` and use agreement_report().")
+lab_need(all(c("Fluent", "ELL") %in% by_group$group),
+         "Give the group of each test answer: group = test$group.")
+ell <- by_group[by_group$group == "ELL", ]
+flu <- by_group[by_group$group == "Fluent", ]
+sprintf("For fluent students the engine is spot on (SMD %+.2f, PRMSE %.2f). For ELL students it scores lower than the raters (SMD %+.2f, beyond the usual ±0.10 for groups) and tracks their true scores less well (PRMSE %.2f).",
+        flu$smd, flu$prmse, ell$smd, ell$prmse)
+```
+
+```{r q-groups}
+question_radio("ELL students get lower human scores too. Is the engine's lower score for them a problem?",
+  answer("Yes. The SMD compares machine and human scores for the same ELL answers. The raters already show the real difference between the groups; the engine adds an extra gap on top, and it is also less accurate for ELL students.",
+         correct = TRUE,
+         message = "Right: Impact versus bias, as in a DIF analysis. A lower human mean is impact. A machine-human gap within a group is the engine treating that group differently from the raters."),
+  answer("No. ELL students know less science, so lower machine scores are expected.",
+         message = "That is impact, and it shows in the human scores. The SMD within the group asks whether the machine agrees with the humans for those same students, and it does not."),
+  answer("No, because the overall SMD is close to zero.",
+         message = "ELL students are a quarter of the test set, so a gap for them hardly moves the overall SMD. That is exactly why programs check groups separately."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Where does the gap come from?
+
+### Read the answers
+
+Statistics tell you *that* the engine differs; the answers tell you *why*.
+Look at ELL answers that the engine scored below the first rater.
+
+```{r read, exercise = TRUE, exercise.setup = "setup-engine"}
+low <- test[test$group == "ELL" & test$machine < test$human1, ]
+nrow(low)
+head(low[, c("prompt", "human1", "machine", "response")], 6)
+```
+
+```{r read-check}
+"Read the responses: What do they have in common?"
+```
+
+### Test a hypothesis
+
+Two explanations are common. Engines often reward **length**, and ELL
+answers are shorter. Or the engine misses ideas written with **misspellings
+and simpler grammar**, because each misspelled word is rare in the
+training answers. Score the same E1 idea written four ways.
+
+```{r probe, exercise = TRUE, exercise.setup = "setup-engine"}
+probe <- data.frame(prompt = "E1", response = c(
+  "Ice is less dense than water, so the water pushes it up and it floats.",
+  "Ice is les dens than watr, so the watr pushs it up and it flots.",
+  "This is a really interesting question. Ice is less dense than water, so the water pushes it up and it floats. I hope this explains it clearly."))
+probe$raw <- round(predict(engine, probe, type = "raw"), 2)
+probe
+```
+
+```{r probe-check}
+raw <- predict(engine, probe, type = "raw")
+sprintf("The same two ideas get %.2f points when spelled correctly and %.2f when misspelled. Padding the answer with filler changes the score by only %+.2f.",
+        raw[1], raw[2], raw[3] - raw[1])
+```
+
+You can also test the length explanation directly: Retrain with
+`length = TRUE`, which adds the number of words as a feature, and see
+whether the gap for ELL students grows.
+
+```{r length, exercise = TRUE, exercise.setup = "setup-engine", exercise.timelimit = 180}
+engine_len <- train_scorer(train, by = "prompt", length = TRUE)
+agreement_report(predict(engine_len, test), test$human1, test$human2,
+                 group = test$group)[, c("group", "qwk", "smd", "prmse")]
+```
+
+```{r q-cause}
+question_radio("What best explains why the engine underscores ELL students?",
+  answer("It misses key ideas written with misspellings or simpler grammar, which are much more common in ELL answers. Each misspelled word is rare, so it gets little or no weight. Length is not the cause here: This engine barely uses it.",
+         correct = TRUE,
+         message = "Right. Spelling is not in the rubric, so the engine is penalizing construct-irrelevant features of ELL writing. Fixes include spelling correction or character-level features, more ELL answers in the training data, and re-checking the subgroup statistics after each change."),
+  answer("ELL answers are shorter, and the engine rewards length.",
+         message = "A sensible first guess, and true of many real engines, but not of this one: Filler hardly changed the probe score, and adding length as a feature did not widen the gap."),
+  answer("The raters are too generous to ELL students.",
+         message = "Then the engine would agree with the second rater better than with the first for ELL students, and the human-human SMD would show it. The gap is between the engine and both raters."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## How much should the engine do?
+
+### A check scorer
+
+A middle way is the **check scorer**: Every answer gets one human read and
+a machine score, and a second person reads only the answers where the two
+disagree. The final score always comes from people, so a biased engine
+cannot lower a student's score; at worst it sends more answers to a second
+reader. Today 40% of answers get a second read, picked at random. How many
+would get one if "disagree" means a difference of two points or more, the
+usual rule for calling in a third reader?
+
+```{r check, exercise = TRUE, exercise.setup = "setup-engine", exercise.lines = 5}
+disagree <- abs(test$machine - test$human1) >= 
+round(c(all = mean(disagree), tapply(disagree, test$group, mean)), 3)
+# for comparison: a difference of one point or more
+round(mean(abs(test$machine - test$human1) >= 1), 2)
+```
+
+```{r check-hint}
+disagree <- abs(test$machine - test$human1) >= ___
+```
+
+```{r check-solution}
+disagree <- abs(test$machine - test$human1) >= 2
+round(c(all = mean(disagree), tapply(disagree, test$group, mean)), 3)
+# for comparison: a difference of one point or more
+round(mean(abs(test$machine - test$human1) >= 1), 2)
+```
+
+```{r check-check}
+lab_need(exists("disagree") && is.logical(disagree) && length(disagree) == nrow(test),
+         "Keep the name `disagree`, one TRUE or FALSE per test answer.")
+lab_need(abs(mean(disagree) - mean(abs(test$machine - test$human1) >= 2)) < 1e-8,
+         "A disagreement here is a difference of 2 points or more: >= 2.")
+sprintf("Only about %.0f%% of answers would get a second read, against 40%% now, and each of them is an answer where something may have gone wrong, not a random one. Even a one-point rule would send about %.0f%%.",
+        100 * mean(disagree), 100 * mean(abs(test$machine - test$human1) >= 1))
+```
+
+```{r q-deploy}
+question_radio("What do you recommend to the board for next year?",
+  answer("Use the engine as a check scorer next to one human read, with second reads where they disagree. Do not let it score alone until it no longer underscores ELL students, and re-check the subgroup statistics on next year's answers.",
+         correct = TRUE,
+         message = "A defensible choice: It saves money, every final score comes from a person, and the engine's known weakness costs extra reads rather than lower scores for ELL students."),
+  answer("Let the engine score alone: It meets every overall standard and its PRMSE beats a single rater.",
+         message = "It fails the subgroup check for ELL students, and as sole scorer it would lower their scores. Overall statistics are not enough."),
+  answer("Do not use the engine at all.",
+         message = "That is safe, but it gives up a design in which the engine's weakness does no harm to students and still cuts scoring costs."),
+  answer("Let the engine score fluent students alone and have people score ELL students.",
+         message = "Scoring groups by different methods raises its own fairness and comparability questions, and depends on knowing every student's language status. A check scorer treats everyone the same way."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The memo
+
+### Write to the board
+
+Write a short memo (four to six sentences): How good the engine is overall,
+what you found for English language learners and why, and what role you
+recommend for it next year.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover overall agreement, the ELL finding and your recommendation."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the board: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the answers
+
+`essays` was simulated: Each answer was assembled from phrasings of the
+prompt's key ideas, wrong statements and filler, and its true score is the
+number of key ideas it states. `lab_truth("essays")` lists what was built in.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("essays")
+truth$planted
+truth$rater_sd
+```
+
+| What was planted | What you found |
+|---|---|
+| ELL students misspell about 60% of their longer words and drop articles | Misspelled ideas get less credit; SMD for ELL beyond -0.10, PRMSE lower |
+| Fluent writers add filler, so their answers are twice as long | Not a problem for this engine, which barely uses length |
+| Some answers state an idea the wrong way round with the same words | The engine learned the common ones (try "Ice is more dense than liquid water.") |
+| Raters are good but not perfect (SD 0.5) | Human-human QWK about 0.8; PRMSE corrects for it |
+| ELL students are 0.25 SD lower in ability | Real impact, visible in the human scores |
+
+Engines used in testing programs are far more sophisticated than a ridge
+regression on words, but they are evaluated in exactly this way, and the
+same questions apply: What does the engine reward, is it the construct, and
+is it the same for every group? In the assessment pipeline, `score_open()`
+applies these checks automatically to a trained engine like this one, or to
+a language model.
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-split" = "Splitting by student",
+    "q-words" = "What the engine learns",
+    "q-overall" = "What PRMSE adds",
+    "q-groups" = "The gap for ELL students",
+    "q-cause" = "Where the gap comes from",
+    "q-deploy" = "Recommendation",
+    "q-memo" = "Memo to the board"
+  ))
+})
+```
+
+You have evaluated an automated scoring engine the way a testing program
+should: Against human agreement, on new students, within groups, and by
+reading what it rewards before deciding how much to trust it.

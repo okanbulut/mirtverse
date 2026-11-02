@@ -106,6 +106,20 @@ trusted, and could the engine replace the second human reader?
 
 Lab 6 stands on its own.
 
+### Lab 7: Can the engine score alone? {#lab-7}
+
+You are the psychometrician for the fictional **Lakeshore Grade 8 Science
+Explanations**. 400 students wrote short answers to four prompts, each
+scored 0 to 4 by a rater, and 40% by a second rater (`essays`). A vendor
+offers an automated scoring engine. Students build the engine themselves
+with `train_scorer()` and decide whether it can score on its own.
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **7. Can the engine score alone?** (about 75 minutes) | `run_lab("auto-scoring")` | Measure human agreement, split the data by student, train an engine and read its word weights, judge it with QWK, SMD and PRMSE overall and for English language learners, test why it differs, and choose its role |
+
+Lab 7 is part of the [AI Hub](ai-hub.html) and fits well after Lab 6.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -223,6 +237,22 @@ seconds; `select_model()` fits three.
 | The memo | Free-text memo to the director | |
 | The reveal | `lab_truth("openended")` | |
 
+### Lab 7: Can the engine score alone?
+
+`run_lab("auto-scoring")`, about 75 minutes. Training the engine takes a few
+seconds.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the board's question and `essays` | |
+| How good are the raters? | Human-human agreement by prompt with `agreement_report()` | |
+| Training the engine | Split by student; train with `train_scorer()`; read the word weights | Why split by student; what the engine learns |
+| Judging the engine | Agreement, SMD and PRMSE on the test students, then by group | What PRMSE adds; is the gap for ELL students a problem? |
+| Where does the gap come from? | Read under-scored answers; probe the engine with misspelled and padded answers; retrain with length | What drives the gap |
+| How much should the engine do? | Share of answers a check scorer sends to a second reader | Recommendation to the board |
+| The memo | Free-text memo to the board | |
+| The reveal | `lab_truth("essays")` | |
+
 ### Tips for running the labs
 
 * **Before class:** Ask students to install mirtverse and learnr and run
@@ -231,7 +261,8 @@ seconds; `select_model()` fits three.
   unit on fairness or validity; Lab 2's short DIF section is a good warm-up
   for it. Lab 4 fits a unit on linking and equating, Lab 5 a unit on
   item banks and adaptive testing, and Lab 6 a unit on polytomous models or
-  performance assessment.
+  performance assessment. Lab 7 follows Lab 6 in a unit on automated
+  scoring or AI in measurement.
 * **Speed:** Most exercises run in under about 15 seconds on a laptop; the
   two-factor model uses fewer quadrature points so it stays quick. The full
   DIF analyses in Labs 2 and 3 take up to a minute.
@@ -524,3 +555,43 @@ The planted problems in `openended` (`lab_truth("openended")` returns them):
 * Collapsing categories changes the score scale for T4. What has to happen
   before next year's administration, and how would you explain the change
   to teachers?
+
+### Lab 7
+
+The planted problems in `essays` (`lab_truth("essays")` returns them):
+
+| Planted problem | What a good analyst does |
+|---|---|
+| ELL students misspell about 60% of their longer words and drop articles | Looks past the overall statistics to the subgroup SMD and PRMSE, reads the under-scored answers, and traces the gap to misspelled key words |
+| Fluent writers add filler, so their answers are about twice as long | Tests the length explanation (padding, `length = TRUE`) and rules it out for this engine |
+| Some answers state an idea the wrong way round with the right words | Probes the engine with such answers rather than trusting agreement alone |
+| Raters are good but not perfect | Uses human-human agreement as the bar and PRMSE to allow for rater error |
+| ELL students are 0.25 SD lower in ability | Separates this real difference (impact) from the engine's gap |
+
+* **Raters:** Two raters agree exactly on about 56% of answers; QWK 0.81 to
+  0.85 by prompt.
+* **Overall:** On the 100 test students the engine's QWK is 0.87 against
+  0.83 between two humans, SMD -0.01 and PRMSE 0.90. It passes every
+  overall check.
+* **Groups:** For fluent students SMD +0.03 and PRMSE 0.93; for ELL students
+  SMD -0.13 (beyond ±0.10) and PRMSE 0.77. With `length = TRUE` the ELL
+  SMD is about the same (-0.12).
+* **Probe:** The same E1 answer gets 1.54 points spelled correctly and 0.98
+  misspelled; filler changes it by about -0.1.
+* **Check scorer:** With a two-point rule about 2% of answers get a second
+  read (35% with a one-point rule), against 40% today. Final scores stay
+  human, so the engine's gap for ELL students cannot lower their scores.
+* **Recommendation:** A check scorer next to one human read, not a sole
+  scorer, until the gap for ELL students is fixed and re-checked.
+
+#### Discussion prompts
+
+* The engine agrees with the first rater better than the second rater
+  does. Why is that comparison flattering to the engine, and how does PRMSE
+  avoid it?
+* How would you fix the engine's weakness with misspellings, and what would
+  you need to check after the fix?
+* If the board insists on a sole scorer for budget reasons, what evidence
+  and safeguards would you require, and what would you tell parents?
+* A real engine uses thousands of features you cannot read. Which of the
+  lab's checks still work, and which become harder?

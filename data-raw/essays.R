@@ -11,14 +11,21 @@
 #
 # Every response was scored by one rater (`human1`); a random 40% were scored
 # again by a second rater (`human2`), so agreement and PRMSE can be checked.
-# Raters are accurate (SD 0.35 around the true score). Planted on purpose:
+# Raters are good but not perfect (SD 0.5 around the true score). Planted
+# on purpose:
 #   * Fluent writers add more filler (restating the question, hedges,
 #     personal asides) and use longer phrasings, so at the same score their
 #     answers are about twice as long as ELL students' answers. A scorer
 #     that rewards length will score ELL students too low although humans
 #     do not.
-#   * ELL students use simpler phrasings and make some grammar slips that a
-#     scorer trained on word choice may punish.
+#   * ELL students use simpler phrasings, make some grammar slips and
+#     misspell content words more often (about 60% of their words of five
+#     letters or more, against 5% for fluent writers). A scorer trained on
+#     word choice sees each misspelling rarely, so it can miss ideas that a
+#     person credits.
+#   * Some answers state a key idea the wrong way round with the same
+#     vocabulary ("Ice is more dense than liquid water."). People give no
+#     credit; a scorer that counts words may.
 #   * About 2% of responses are off topic or not a real attempt (score 0).
 #   * Prompt E2 (seasons) has a common misconception ("Earth is closer to the
 #     Sun in summer"); an answer that states it loses a point.
@@ -28,6 +35,10 @@
 # Run from the package root: source("data-raw/essays.R")
 
 set.seed(1029)
+P_ELL <- 0.6      # chance an ELL student misspells a content word
+P_FLU <- 0.05     # the same for fluent writers
+P_REV <- 1.2      # scale of the chance of a reversed statement, times plogis(-theta)
+RATER_SD <- 0.5   # rater error SD around the true score
 N <- 400L
 ell <- sample(rep(c("ELL", "Fluent"), c(100, 300)))
 theta <- stats::rnorm(N, ifelse(ell == "ELL", -0.25, 0), 1)
@@ -119,6 +130,56 @@ weak <- list(
   E2 = c("Seasons happen because the weather changes.", "The Sun gets hotter in summer.", "It is because of the clouds."),
   E3 = c("Plants get food from the soil.", "Plants eat dirt and water.", "The plant grows and makes food."),
   E4 = c("Metal is always colder than wood.", "Metal spoons are cold because they are metal.", "Wood is warm."))
+# wrong statements that reuse the key vocabulary; they earn no credit
+reversed <- list(
+  E1 = c("Ice is more dense than liquid water.", "When water freezes the molecules pack closer together.",
+         "Ice takes up less space than the same mass of water."),
+  E2 = c("The Sun's rays are more direct in winter.", "Days are shorter in summer than in winter.",
+         "The tilt of the axis changes during the year."),
+  E3 = c("Plants take in oxygen and give off carbon dioxide when they make food.",
+         "The leaves turn sunlight into water.", "Photosynthesis happens in the roots, not the leaves."),
+  E4 = c("The metal spoon is colder than the wooden spoon.", "Cold flows from the spoon into your hand.",
+         "Wood is a good conductor of heat and metal is not."))
+
+# a typo in a word: drop, double or swap letters, or swap a vowel
+typo <- function(w) {
+  n <- nchar(w)
+  ch <- strsplit(w, "")[[1]]
+  op <- sample(4, 1)
+  i <- sample(2:(n - 1), 1)
+  if (op == 1) ch <- ch[-i]
+  else if (op == 2) ch <- append(ch, ch[i], after = i)
+  else if (op == 3) ch[c(i, i + 1)] <- ch[c(i + 1, i)]
+  else {
+    v <- which(ch[-1] %in% c("a", "e", "i", "o", "u")) + 1
+    if (length(v)) { j <- if (length(v) == 1) v else sample(v, 1)
+      ch[j] <- sample(setdiff(c("a", "e", "i", "o", "u"), ch[j]), 1) }
+    else ch <- ch[-i]
+  }
+  paste(ch, collapse = "")
+}
+# misspell each content word (5 or more letters) with probability `rate`
+misspell <- function(sentence, rate) {
+  w <- strsplit(sentence, " ", fixed = TRUE)[[1]]
+  for (k in seq_along(w)) {
+    core <- gsub("[^A-Za-z]", "", w[k])
+    if (nchar(core) >= 5 && core == tolower(core) && stats::runif(1) < rate)
+      w[k] <- sub(core, typo(core), w[k], fixed = TRUE)
+  }
+  paste(w, collapse = " ")
+}
+
+# grammar slips of language learners: dropped articles, is/are mixed up
+slip_grammar <- function(sentence) {
+  w <- strsplit(sentence, " ", fixed = TRUE)[[1]]
+  drop <- tolower(w) %in% c("the", "a", "an") & stats::runif(length(w)) < 0.6
+  w <- w[!drop]
+  swap <- w %in% c("is", "are") & stats::runif(length(w)) < 0.4
+  w[swap] <- ifelse(w[swap] == "is", "are", "is")
+  out <- paste(w, collapse = " ")
+  paste0(toupper(substr(out, 1, 1)), substring(out, 2))
+}
+
 off_topic <- c("I don't know.", "idk", "This question is boring.", "My favourite subject is art.", "?", "no")
 
 b_idea <- rbind(E1 = c(-1.2, 0.4, 0.9, -0.3), E2 = c(-1.5, -0.2, 0.6, 1.1),
@@ -130,10 +191,14 @@ make_response <- function(pr, th, is_ell) {
   parts <- character()
   for (k in which(has)) {
     simple <- is_ell && stats::runif(1) < 0.75
-    parts <- c(parts, sample(if (simple) ideas[[pr]][[k]]$s else ideas[[pr]][[k]]$f, 1))
+    sentence <- misspell(sample(if (simple) ideas[[pr]][[k]]$s else ideas[[pr]][[k]]$f, 1),
+                         if (is_ell) P_ELL else P_FLU)
+    parts <- c(parts, if (is_ell) slip_grammar(sentence) else sentence)
   }
   if (!length(parts)) parts <- sample(weak[[pr]], 1)
   else if (stats::runif(1) < 0.3) parts <- c(parts, sample(weak[[pr]], 1))
+ if (stats::runif(1) < P_REV * stats::plogis(-th))
+    parts <- append(parts, sample(reversed[[pr]], 1), after = sample(0:length(parts), 1))
   mis <- pr == "E2" && stats::runif(1) < 0.25 * stats::plogis(-th)  * 2
   if (mis) parts <- append(parts, sample(misconception_e2, 1), after = sample(0:length(parts), 1))
   n_fill <- if (is_ell) stats::rbinom(1, 1, 0.25) else stats::rbinom(1, 3, 0.55)
@@ -151,7 +216,7 @@ for (s in seq_len(N)) for (pr in names(prompts)) {
                                          misconception = r$mis, stringsAsFactors = FALSE)
 }
 essays <- do.call(rbind, rows)
-rate <- function(x) as.integer(pmin(4, pmax(0, round(x + stats::rnorm(length(x), 0, 0.35)))))
+rate <- function(x) as.integer(pmin(4, pmax(0, round(x + stats::rnorm(length(x), 0, RATER_SD)))))
 essays$human1 <- rate(essays$true)
 double <- stats::runif(nrow(essays)) < 0.4
 essays$human2 <- ifelse(double, rate(essays$true), NA_integer_)
@@ -163,11 +228,13 @@ essays_truth <- list(
   true_score = stats::setNames(essays$true, essays$id),
   theta = stats::setNames(round(theta, 3), sprintf("S%03d", seq_len(N))),
   idea_difficulty = b_idea,
-  rater_sd = 0.35,
+  rater_sd = 0.5,
   off_topic = essays$id[essays$off_topic],
   misconception = essays$id[essays$misconception],
   planted = c(length = "Fluent writers add filler; at the same score their answers are about twice as long.",
               simple_language = "ELL students use simpler phrasings with some grammar slips.",
+              misspelling = "ELL students misspell about 60% of their longer content words, fluent writers 5%.",
+              reversed = "Some answers state an idea the wrong way round with the key words; no credit.",
               impact = "ELL students are 0.25 SD lower in ability."),
   prompts = prompts)
 essays <- essays[, c("id", "student", "prompt", "group", "response", "words", "human1", "human2")]

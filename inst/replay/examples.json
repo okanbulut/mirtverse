@@ -249,83 +249,83 @@
       }
     },
     {
-      "key": "becfae482791e7c762c48b713df76927",
+      "key": "22cd7ebb69c2c040a9d198e1a857b5d7",
       "function_name": "score_open",
       "provider": "authored",
       "model": "",
       "recorded": "2026-11-02",
       "structured": true,
       "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
-      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. That is why this happens.\n[2] To answer this question, we need to think about what is happening. I learned about this in class last year. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. In conclusion, this is how it works.\n[3] Water get bigger when it freeze. Ice is cold and water is not.\n[4] To answer this question, we need to think about what is happening. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice.\n[5] Let me explain what I think is going on here. I learned about this in class last year. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.\n[6] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is cold and water is not. Overall, it is a combination of these things.\n[7] I learned about this in class last year. This is something that we can see in everyday life. Ice is cold and water is not. I think this is the main reason, but there could be other reasons too.\n[8] Many people wonder about this. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat.\n[9] Let me explain what I think is going on here. This is something that we can see in everyday life. The density of ice is lower than the density of liquid water. In conclusion, this is how it works.\n[10] Ice have less density than water. When water freeze, the molecules make a pattern with space inside. Water get bigger when it freeze. Less dense things float on more dense things. Ice is cold and water is not.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] I learned about this in class last year. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.\n[2] I learned about this in class last year. There are a few reasons why this happens. The density of ice is lower than the density of liquid water. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. Anything less dennse than the liquid it is in is pushed up by buoyancy and floats. Ice is solid so it is light. I think this is the main reason, but there could be other reasons too.\n[3] Ice floats because it has air in it like a boat. Ice is more dense than liquid water.\n[4] Many people wonder about this. This is a really interesting question about science. The density of ice is lower than the density of liquid wateer. In ice the water molecules are locked into a crystal structure with lots of empty spae. The wter pushes up on the ice more than gravoty pulls it down, so it floats. Ice is cold and water is not. Overall, it is a combination of these things.\n[5] This is a really interesting question about science. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space.\n[6] Let me explain what I think is going on here. Many people wonder about this. Hydrogen bonds hold the molecules in ice in a rigid, open laattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. The water pushes up on the ice more than gravity pulls it down, so it floats. Ice is solid so it is light. This shows that science can explain things we see every day.\n[7] There are a few reasons why this happens. This is a really interesting question about science. Ice is more dense than liquid water. Ice is cold and water is not. Overall, it is a combination of these things.\n[8] This is something that we can see in everyday life. I learned about this in class last year. Frozen water has a lower density than the water around it. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. This shows that science can explain things we see every day.\n[9] I learned about this in class last year. This is something that we can see in everyday life. Ice floats because it has air in it like a boat. Ice takes up less space than the same mass of water. Overall, it is a combination of these things.\n[10] Ice is less dense than water. Water get bugger when it freeze. Ice takes up less space than the same mass of water. Less dese thins float on more desne thinngs.",
       "response": {
         "scores": [
           {
             "index": 1,
             "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 2,
             "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 3,
             "score": 0,
-            "rationale": "States no key idea from the rubric.",
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 4,
-            "score": 2,
-            "rationale": "States ice is less dense than water; molecules form an open structure.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 5,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "score": 2,
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 6,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 7,
             "score": 0,
-            "rationale": "States no key idea from the rubric.",
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 8,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "score": 2,
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 9,
-            "score": 1,
-            "rationale": "States ice is less dense than water.",
+            "score": 0,
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 10,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 2,
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.7,
             "off_topic": false
           }
@@ -333,83 +333,83 @@
       }
     },
     {
-      "key": "75751938033c325c43e39afb83598ad7",
+      "key": "7d49676a7bb6fa868517987178a7e865",
       "function_name": "score_open",
       "provider": "authored",
       "model": "",
       "recorded": "2026-11-02",
       "structured": true,
       "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
-      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] This is something that we can see in everyday life. Many people wonder about this. Ice floats because it has air in it like a boat. I think this is the main reason, but there could be other reasons too.\n[2] This is a really interesting question about science. Ice is less dense than liquid water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat.\n[3] There are a few reasons why this happens. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. The water pushes up on the ice more than gravity pulls it down, so it floats.\n[4] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. That is why this happens.\n[5] This is a really interesting question about science. There are a few reasons why this happens. Ice is less dense than liquid water. In conclusion, this is how it works.\n[6] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. I think this is the main reason, but there could be other reasons too.\n[7] Frozen water has a lower density than the water around it.\n[8] This is a really interesting question about science. Ice is less dense than liquid water. In ice the water molecules are locked into a crystal structure with lots of empty space. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. Objects that are less dense than a fluid float because the buoyant force is greater than their weight.\n[9] This is something that we can see in everyday life. Many people wonder about this. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. That is why this happens.\n[10] Many people wonder about this. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] I learned about this in class last year. Many people wonder about this. Ice floats because it has air in it like a boat. When water freezes the molecules pack closer together. This shows that science can explain things we see every day.\n[2] This is a really interesting question about science. Ice takes up less space than the same mass of water. Ice is less dense than liquid water.\n[3] I learned about this in class last year. Many people wonder about this. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. That is why this happens.\n[4] This is a really interesting question about science. There are a few reasons why this happens. When water freezes the molecules pack closer together. Ice is less dense than liquid water. Ice floats because it has air in it like a boat. I hope this explains it clearly.\n[5] Many people wonder about this. To answer this question, we need to think about what is happening. The density of ice is lower than the density of liquid water. Ice takes up less space than the same mass of water. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. I hope this explains it clearly.\n[6] This is something that we can see in everyday life. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. Ice is more dense than liquid water.\n[7] This is something that we can see in everyday life. Ice have less desnity than watter. When water freezes the molecules pack closer together. In ice watar moleculees is lockeed into crystal strutcure with lots of empty space.\n[8] I learned about this in class last year. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. Water expands when it freezes, so a kologram of ice takes more space than a kilogram of water. The water pushes up on the ice more than gravity pulls it down, so it floats. Ice floats because it has air in it like a boat. Overall, it is a combination of these things.\n[9] This is a really interesting question about science. There are a few reasons why this happens. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat. Ice is more dense than liquid water. I hope this explains it clearly.\n[10] I learned about this in class last year. Let me explain what I think is going on here. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.",
       "response": {
         "scores": [
           {
             "index": 1,
             "score": 0,
-            "rationale": "States no key idea from the rubric.",
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 2,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 1,
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 3,
             "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "rationale": "States 4 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 4,
             "score": 1,
-            "rationale": "States ice is less dense than water.",
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 5,
-            "score": 1,
-            "rationale": "States ice is less dense than water.",
+            "score": 2,
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 6,
             "score": 1,
-            "rationale": "States ice is less dense than water.",
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 7,
             "score": 1,
-            "rationale": "States ice is less dense than water.",
-            "confidence": 0.9,
+            "rationale": "States 1 of the rubric's four key ideas.",
+            "confidence": 0.7,
             "off_topic": false
           },
           {
             "index": 8,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 9,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "score": 4,
+            "rationale": "States 4 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 10,
-            "score": 2,
-            "rationale": "States molecules form an open structure; less dense things float.",
+            "score": 4,
+            "rationale": "States 4 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           }
@@ -417,83 +417,83 @@
       }
     },
     {
-      "key": "041abd3c2790a71da346066ff2e9e475",
+      "key": "fb80b9c53acdcdf45d0b5c69c60da7e4",
       "function_name": "score_open",
       "provider": "authored",
       "model": "",
       "recorded": "2026-11-02",
       "structured": true,
       "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
-      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] Let me explain what I think is going on here. Ice have less density than water. When water freeze, the molecules make a pattern with space inside. The water push the ice up so it float. Ice is solid so it is light.\n[2] Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The water pushes up on the ice more than gravity pulls it down, so it floats. Ice floats because it has air in it like a boat.\n[3] Frozen water has a lower density than the water around it. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The same number of molecules fills a bigger volume once they are frozen. Anything less dense than the liquid it is in is pushed up by buoyancy and floats.\n[4] This is a really interesting question about science. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. Ice is cold and water is not. I hope this explains it clearly.\n[5] Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.\n[6] Frozen water has a lower density than the water around it.\n[7] Ice have less density than water. Ice take more space than the same water.\n[8] There are a few reasons why this happens. The density of ice is lower than the density of liquid water. Because the molecules are spread out, the same mass of water takes up more volume as ice. Objects that are less dense than a fluid float because the buoyant force is greater than their weight.\n[9] Let me explain what I think is going on here. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats.\n[10] To answer this question, we need to think about what is happening. I learned about this in class last year. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat. In conclusion, this is how it works.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] Many people wonder about this. Ice have less density than watre. When water freezes the molecules pack closer together. When weter freizes, its molecules line up in open, hexagoanl patttern held by hydrogen bnods. Anything less dene than the liquid it are in are pushad up by buyancy and floas. Ice is solid so it is light.\n[2] Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of wter. Anything less dense than the liquid it is in is pushed up by buoyancy and floats.\n[3] This is something that we can see in everyday life. Many people wonder about this. Ice is less dense than liquid water. The same number of molecules fills a bigger volume once they are frozen. Objects that are less dense than a fluid float because the buoyant foce is greater than their weight. I hope this explains it clearly.\n[4] There are a few reasons why this happens. This is something that we can see in everyday life. The dnsity of ice is lowr than the density of liquid water. In ice the water moelcules are locekd into a crystal structure with lots of empty space. In conclusion, this is how it works.\n[5] Many people wonder about this. Let me explain what I think is going on here. When water freezes the molecules pack closer together. The water pushes up on the ice more than gravity pulls it down, so it floats. This shows that science can explain things we see every day.\n[6] Ice is more dense than liquid water. Ice is less dnese than watre.\n[7] My favourite subject is art.\n[8] Ice is solid so it is light.\n[9] ?\n[10] This is something that we can see in everyday life. Let me explain what I think is going on here. Ice is more dense than liquid water. Ice is solid so it is light. In conclusion, this is how it works.",
       "response": {
         "scores": [
           {
             "index": 1,
             "score": 2,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.7,
             "off_topic": false
           },
           {
             "index": 2,
             "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 3,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 4,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume.",
+            "score": 2,
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 5,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 1,
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 6,
             "score": 1,
-            "rationale": "States ice is less dense than water.",
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 7,
-            "score": 1,
-            "rationale": "States ice is less dense than water; the same mass takes more volume.",
-            "confidence": 0.7,
-            "off_topic": false
+            "score": 0,
+            "rationale": "Not an attempt to answer the question.",
+            "confidence": 0.95,
+            "off_topic": true
           },
           {
             "index": 8,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
-            "confidence": 0.9,
+            "score": 0,
+            "rationale": "States no key idea from the rubric correctly.",
+            "confidence": 0.55,
             "off_topic": false
           },
           {
             "index": 9,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
-            "confidence": 0.9,
-            "off_topic": false
+            "score": 0,
+            "rationale": "Not an attempt to answer the question.",
+            "confidence": 0.95,
+            "off_topic": true
           },
           {
             "index": 10,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 0,
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           }
@@ -501,83 +501,83 @@
       }
     },
     {
-      "key": "c08b94e25d39e8151f713acec03cbc62",
+      "key": "af74f9afc8a3fda7bce76465ec1f8339",
       "function_name": "score_open",
       "provider": "authored",
       "model": "",
       "recorded": "2026-11-02",
       "structured": true,
       "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
-      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] This is something that we can see in everyday life. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. In conclusion, this is how it works.\n[2] This is something that we can see in everyday life. Many people wonder about this. The density of ice is lower than the density of liquid water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Overall, it is a combination of these things.\n[3] Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The same number of molecules fills a bigger volume once they are frozen. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is solid so it is light.\n[4] There are a few reasons why this happens. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats. This shows that science can explain things we see every day.\n[5] This is a really interesting question about science. There are a few reasons why this happens. Ice is less dense than liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is solid so it is light. I hope this explains it clearly.\n[6] I learned about this in class last year. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. The same number of molecules fills a bigger volume once they are frozen. The water pushes up on the ice more than gravity pulls it down, so it floats. I think this is the main reason, but there could be other reasons too.\n[7] I learned about this in class last year. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats.\n[8] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. This shows that science can explain things we see every day.\n[9] Let me explain what I think is going on here. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Ice floats because it has air in it like a boat.\n[10] The density of ice is lower than the density of liquid water. Ice is cold and water is not.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] This is something that we can see in everyday life. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. Ice is solid so it is light. Ice is more dense than liquid water.\n[2] Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Ice is solid so it is light. Ice is more dense than liquid water.\n[3] There are a few reasons why this happens. Frozen water has a lower density than the water around it. Ice is more dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is solid so it is light.\n[4] This is a really interesting question about science. Ice is more dense than liquid water. Ice is less dense than liquid water.\n[5] The density of ice is lower than the density of liquid water. In ice the weter molecules are locked into a crystal structure with lots of empty space. The same number of molecules fills a bigger volume once they are frozen. The water pushes up on the ice more than gravity pulls it down, so it floats.\n[6] This is a really interesting question about science. Ice is more dense than liquid water. Ice is solid so it is light.\n[7] To answer this question, we need to think about what is happening. This is a really interesting question about science. Ice is less dense than liquid weter. Because the molecules are spread out, the same mass of water takes up more volume as ice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Overall, it is a combination of these things.\n[8] This is something that we can see in everyday life. This is a really interesting question about science. The density of ice is lower than the density of liquid water. The same number of molecules fills a bigger volume once they are frozen. Anything less dense than the liuqid it is in is pushed up by buoyancy and floats. Ice is solid so it is light. Ice is more dense than liquid water. In conclusion, this is how it works.\n[9] Let me explain what I think is going on here. There are a few reasons why this happens. Ice is less dense than liquid wateer. Anything less dense than the liquid it is in is pushed up by buoancy and floats. Ice takes up less space than the same mass of water. Ice is cold and water is not. That is why this happens.\n[10] This is something that we can see in everyday life. Objects that are less dense than a fluid float because the buoyant force is greater than their weight.",
       "response": {
         "scores": [
           {
             "index": 1,
             "score": 2,
-            "rationale": "States ice is less dense than water; molecules form an open structure.",
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 2,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 1,
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 3,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 4,
-            "score": 2,
-            "rationale": "States ice is less dense than water; less dense things float.",
+            "score": 1,
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 5,
-            "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "score": 4,
+            "rationale": "States 4 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 6,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 0,
+            "rationale": "States no key idea from the rubric correctly.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 7,
-            "score": 4,
-            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "score": 3,
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 8,
             "score": 3,
-            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "rationale": "States 3 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 9,
             "score": 2,
-            "rationale": "States molecules form an open structure; less dense things float.",
+            "rationale": "States 2 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           },
           {
             "index": 10,
-            "score": 0,
-            "rationale": "States no key idea from the rubric.",
+            "score": 1,
+            "rationale": "States 1 of the rubric's four key ideas.",
             "confidence": 0.9,
             "off_topic": false
           }

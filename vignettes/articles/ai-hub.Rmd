@@ -54,7 +54,7 @@ names the question it answers, what to read and what to try in R.
 | 1. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](ai-translation.html); the AI section of the [glossary](glossary.html#ai) | — |
 | 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
 | 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()` |
-| 4. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: Automated scoring](ai-reading.html#automated-scoring) | `score_open()`; [Lab 6](teaching-labs.html) |
+| 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: Item text](ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `generate_items()`, `verify_items()` |
 | 7. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](ai-reading.html#validity) | `dif()`; audit tools coming soon |
@@ -120,6 +120,18 @@ flags(q)                                        # agreement and fairness gates
 The full example in `examples.R` scores 40 answers from the `essays` data
 against a four-point rubric.
 
+To train your own engine instead of calling a language model, use
+`train_scorer()`. It learns from human-scored answers, runs offline, and
+works with `score_open()` like any other trained model:
+
+```{r}
+e1 <- essays[essays$prompt == "E1", ]
+engine <- train_scorer(e1[1:300, ])                 # words and phrases -> human score
+test <- e1[301:400, ]
+agreement_report(predict(engine, test), test$human1, test$human2,
+                 group = test$group)                # QWK, SMD and PRMSE by group
+```
+
 Machine scores pass the same gates whether they come from a language model
 or from a model you trained yourself: Quadratic weighted kappa against human
 scores, standardized mean differences overall and within groups, and
@@ -143,9 +155,11 @@ low-confidence responses routed back to human raters.
 
 ## For instructors {#instructors}
 
-[Lab 6](teaching-labs.html), on scoring open-ended responses, already
-compares an automated engine with human raters and fits well at the end of
-an IRT course. The [online book](../book/index.html) has a part on AI in
+[Lab 6](teaching-labs.html), on scoring open-ended responses, compares an
+automated engine with human raters and fits well at the end of an IRT
+course. [Lab 7](teaching-labs.html#lab-7) goes further: Students train their
+own engine, judge it on new students, find why it underscores English
+language learners, and decide how much of the scoring it should do. The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. More AI labs, chapters and an optional AI module for the [course
 map](course-map.html) are being written; they will be listed on this page

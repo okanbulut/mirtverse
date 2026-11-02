@@ -9,7 +9,7 @@
 #     answer is B (the perimeter, 38 m); the verifying pass answers B
 #   * generated item 4 (millilitres) has an implausible distractor
 #     ("2.5 cm", a length, not a volume)
-#   * the rater model scores two ELL answers with grammar slips one point
+#   * the rater model scores two ELL answers one point
 #     below the rubric, and is unsure about very short answers
 #
 # The calls are in inst/replay/examples.R. To rebuild, install the package
@@ -77,32 +77,28 @@ verify_answer <- function(stem) {
   stop("No authored verification for: ", stem)
 }
 
-# rubric scoring for E1: one point per key idea found, with planted slips
-idea_patterns <- c(density = "dens", structure = "molecul|crystal|pattern|lattice|hydrogen",
-                   volume = "volume|more space|takes? more space|bigger|expand",
-                   floats = "buoy|push|float")
-idea_names <- c(density = "ice is less dense than water",
-                structure = "molecules form an open structure",
-                volume = "the same mass takes more volume",
-                floats = "less dense things float")
-score_answer <- function(texts) {
+# rubric scoring for E1: the true number of key ideas (a careful rater sees
+# through misspellings and gives no credit to reversed statements), with
+# planted slips
+e1_truth <- local({
   e1 <- essays[essays$prompt == "E1", ]
-  grp <- as.character(e1$group[match(texts, e1$response)])
+  tr <- mirtverse::lab_truth("essays")
+  list(text = e1$response, group = as.character(e1$group),
+       score = unname(tr$true_score[e1$id]), off = e1$id %in% tr$off_topic)
+})
+score_answer <- function(texts) {
   slips <- 0L
   lapply(seq_along(texts), function(k) {
-    x <- tolower(texts[k])
-    off <- lengths(strsplit(x, "\\s+")) < 4 && !grepl("dens|float", x)
-    found <- vapply(idea_patterns, grepl, NA, x = x)
-    # "Ice floats because it has air in it" mentions floating without the reason
-    if (grepl("air in it|is cold|is solid", x) && sum(found) == 1L) found[] <- FALSE
-    s <- sum(found)
-    slip <- identical(grp[k], "ELL") && s >= 2L && grepl("\\b(have|get|take|push|freeze)\\b", x) &&
-      slips < 2L
+    j <- match(texts[k], e1_truth$text)
+    s <- e1_truth$score[j]
+    off <- e1_truth$off[j]
+    words <- lengths(strsplit(texts[k], "\\s+"))
+    # the rater model marks down the first two ELL answers with two or more ideas
+    slip <- identical(e1_truth$group[j], "ELL") && s >= 2L && slips < 2L
     if (slip) { s <- s - 1L; slips <<- slips + 1L }
-    words <- lengths(strsplit(x, "\\s+"))
-    why <- if (off) "Not an attempt to answer the question." else if (!any(found))
-      "States no key idea from the rubric." else
-      sprintf("States %s.", paste(idea_names[found], collapse = "; "))
+    why <- if (off) "Not an attempt to answer the question." else if (s == 0)
+      "States no key idea from the rubric correctly." else
+      sprintf("States %d of the rubric's four key ideas.", s)
     list(index = k, score = if (off) 0L else s, rationale = why,
          confidence = if (off) 0.95 else if (words < 8) 0.55 else if (slip) 0.7 else 0.9,
          off_topic = off)

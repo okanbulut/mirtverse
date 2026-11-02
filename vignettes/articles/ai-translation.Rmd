@@ -98,4 +98,5 @@ measurement workflow.
 - The [reading list](ai-reading.html) has an annotated set of papers and
   books for each topic.
 - [Lab 6](teaching-labs.html) puts an automated scoring engine next to human
-  raters on the same responses.
+  raters on the same responses, and [Lab 7](teaching-labs.html#lab-7) has
+  students train an engine with `train_scorer()` and check it for fairness.
