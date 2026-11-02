@@ -48,7 +48,9 @@ another model) once, and nothing ever leaves your machine.
 }
 
 Use \code{provider = "none"} to always use the built-in keyword parser, which
-needs no AI model and no internet connection.
+needs no AI model and no internet connection. To answer from recorded
+model responses instead of a live model, for teaching or examples, see
+\code{\link[=mv_llm_replay]{mv_llm_replay()}}.
 
 Only a summary of your columns (see \code{\link[=profile_data]{profile_data()}}) and your request are
 sent; never individual responses. Keys are never written into scripts,

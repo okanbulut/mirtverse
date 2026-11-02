@@ -4,12 +4,15 @@
 \alias{lab_truth}
 \title{Answer key and true values for the lab datasets}
 \usage{
-lab_truth(data = c("certexam", "numeracy", "linking", "catbank", "openended"))
+lab_truth(
+  data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
+    "essays")
+)
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
-(Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5) or \code{"openended"}
-(Lab 6).}
+(Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5), \code{"openended"}
+(Lab 6), or one of the AI Hub datasets, \code{"itemtext"} and \code{"essays"}.}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -29,7 +32,15 @@ For \code{"openended"}, a list with the true \code{model}, the \code{severe_rate
 its severity, the \code{inconsistent_rater}, the task with a \code{vague_rubric},
 the categories to \code{collapse}, the scoring engine's bias against ELL
 students (\code{engine_bias}), the group \code{impact} and the generating task
-parameters \code{pars}.
+parameters \code{pars}. For \code{"itemtext"}, a list with the true difficulty \code{b}
+and discrimination \code{a} of every item, each family's difficulty
+(\code{family_b}), the size of the feature \code{effects}, the \code{miskeyed} items
+with their listed and correct keys, the \code{near_duplicates} and the
+\code{leaky} column. For \code{"essays"}, a list with each response's
+\code{true_score}, each student's ability \code{theta}, the difficulty of every
+key idea (\code{idea_difficulty}), the raters' error \code{rater_sd}, the
+\code{off_topic} and \code{misconception} responses, the \code{planted} problems and
+the \code{prompts}.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

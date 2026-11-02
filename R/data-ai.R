@@ -1,0 +1,69 @@
+#' Numeracy items with their text, for the AI Hub
+#'
+#' The text and field-test statistics of 192 simulated Grade 7 numeracy
+#' multiple-choice items, written from 12 item models (families) of 16 items
+#' each, such as unit rates, percents, elapsed time and simple equations.
+#' Within a family the items differ in their numbers, names and contexts, so
+#' the data show how far surface features move item difficulty. The items
+#' were calibrated with the 2PL on a simulated field test of 1,500 test
+#' takers.
+#'
+#' The dataset is for learning to predict item difficulty from item text and
+#' to calibrate item families from automatic item generation. Some problems
+#' were planted on purpose; `lab_truth("itemtext")` lists them and the true
+#' item parameters. Some families repeat a stem with different options (for
+#' example "Which number is the greatest?"); the extra context sentences are
+#' deliberately unrelated to the question, to add reading load.
+#'
+#' @format A data frame with 192 rows (one per item) and 17 columns:
+#'   `id` (`N01-01` to `N12-16`: family and item number), `family` (the item
+#'   model), `domain` (content area), `stem` (the question), `A` to `D` (the
+#'   options), `key` (the keyed option), `decimal` (1 if the item uses
+#'   decimals or fractions), `digits` (digits in the largest number),
+#'   `context` (1 if the stem starts with a context sentence), `a` and `b`
+#'   (2PL discrimination and difficulty from the field test), `a_se` and
+#'   `b_se` (their standard errors) and `p_field` (share correct in the field
+#'   test).
+#' @source Simulated; the script is `data-raw/itemtext.R` in the package's
+#'   GitHub repository.
+#' @seealso [essays], the other AI Hub dataset; the
+#'   [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html).
+#' @examples
+#' head(itemtext[, c("id", "family", "stem", "key", "b")])
+#' # family means of difficulty
+#' sort(tapply(itemtext$b, itemtext$family, mean))
+#' # surface features and difficulty
+#' summary(lm(b ~ family + decimal + digits + context, data = itemtext))
+"itemtext"
+
+#' Short science explanations scored by raters, for the AI Hub
+#'
+#' 1,600 simulated written answers of 400 Grade 8 students (100 of them
+#' English language learners, ELL) to four science prompts, each scored 0 to
+#' 4 by trained raters. A response's true score is the number of the prompt's
+#' four key ideas it states correctly. The prompts are E1 (why ice floats),
+#' E2 (why Earth has seasons), E3 (how plants make food) and E4 (why a metal
+#' spoon feels colder than a wooden one).
+#'
+#' The dataset is for learning automated scoring: training a scorer on the
+#' text, checking machine-human agreement, and checking that the scorer is
+#' fair to ELL students. Some problems were planted on purpose;
+#' `lab_truth("essays")` lists them and the true scores. Every response has
+#' one human score (`human1`); 40% were scored again (`human2`) so that
+#' human-human agreement can be compared with machine-human agreement.
+#'
+#' @format A data frame with 1,600 rows (one per response) and 8 columns:
+#'   `id` (response ID), `student` (student ID), `prompt` (`E1` to `E4`),
+#'   `group` (factor, `Fluent` or `ELL`), `response` (the text), `words`
+#'   (number of words), `human1` (first rater's score, 0 to 4) and `human2`
+#'   (second rater's score, `NA` when the response was read once).
+#' @source Simulated; the script is `data-raw/essays.R` in the package's
+#'   GitHub repository.
+#' @seealso [itemtext], the other AI Hub dataset; [score_open()] to score
+#'   responses and check them against human scores.
+#' @examples
+#' essays$response[1:3]
+#' table(essays$prompt, essays$human1)
+#' # human-human agreement on the double-scored responses
+#' with(essays, mean(human1 == human2, na.rm = TRUE))
+"essays"
