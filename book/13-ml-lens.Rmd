@@ -37,7 +37,7 @@ data arose and its parameters mean something.
 An IRT model makes such a claim. The 2PL says that the chance of a correct
 answer depends on one unobserved trait through a logistic curve whose slope
 and location are properties of the item. That is a logistic regression, with
-one twist: the predictor θ is never observed. Everything that makes IRT
+one twist: the predictor $\theta$ is never observed. Everything that makes IRT
 useful follows from taking that claim seriously: item parameters that do not
 depend on who took the test, a standard error for every score, information
 to design tests with, and checks of fit that can reject the model.
@@ -52,7 +52,7 @@ network:
   better than new data, and a flexible model can fit noise. This is
   **overfitting**, and the cure is to judge a model on data it did not see.
   **Cross-validation** splits the data into *k* parts (folds), fits the
-  model on *k* − 1 of them, predicts the one left out, and repeats until
+  model on $k - 1$ of them, predicts the one left out, and repeats until
   every case has been predicted once [@james2021].
 * **Shrink.** Penalizing large coefficients (ridge, lasso) trades a little
   bias for a large cut in variance. It is the same idea as a prior on item
@@ -63,11 +63,11 @@ Yarkoni and Westfall [-@yarkoni2017] make the case that psychology should
 care more about prediction. The examples below show the reverse lesson as
 well: a good measurement model is itself a very effective way to predict.
 
-## Example 1: the 2PL is a logistic regression on θ
+## Example 1: the 2PL is a logistic regression on theta
 
 We simulate 20 items answered by 2,000 test takers whose true abilities we
 keep, so we can do something impossible with real data: regress each item on
-the true θ.
+the true $\theta$.
 
 ```{r data-ml-lens-1}
 # Simulated 20-item test with known abilities and item parameters.
@@ -81,8 +81,8 @@ resp <- as.data.frame((matrix(runif(n * 20), n) < p) * 1L)
 names(resp) <- sprintf("Q%02d", 1:20)
 ```
 
-A logistic regression of item 5 on the true θ estimates its slope and
-intercept directly; on the logit scale the intercept is −*ab*:
+A logistic regression of item 5 on the true $\theta$ estimates its slope and
+intercept directly; on the logit scale the intercept is $-ab$:
 
 ```{r}
 fit5 <- glm(resp$Q05 ~ theta, family = binomial)
@@ -90,11 +90,11 @@ c(slope = unname(coef(fit5)[2]), b = unname(-coef(fit5)[1] / coef(fit5)[2]),
   true_a = a[5], true_b = b[5])
 ```
 
-With real data we do not have θ. The obvious stand-in is the sum score.
+With real data we do not have $\theta$. The obvious stand-in is the sum score.
 Doing the same regression on the standardized rest score (the sum of the
 other 19 items) gives slopes that are on average about a fifth too flat,
-because the rest score measures θ with error (Figure \@ref(fig:ml-attenuation)). IRT
-avoids this by estimating θ and the item parameters together:
+because the rest score measures $\theta$ with error (Figure \@ref(fig:ml-attenuation)). IRT
+avoids this by estimating $\theta$ and the item parameters together:
 
 ```{r}
 mod <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
@@ -216,10 +216,10 @@ cv(passed ~ prop)
 ```
 
 1. Now the slopes are too *steep* on average. EAP scores are shrunk toward
-   the mean, so their spread is smaller than θ's and each unit of EAP
-   corresponds to more than one unit of θ; and each item's own response
+   the mean, so their spread is smaller than $\theta$'s and each unit of EAP
+   corresponds to more than one unit of $\theta$; and each item's own response
    helped compute the EAP score it is regressed on. An estimated score is
-   not θ, whichever way you compute it; that is why IRT estimates the item
+   not $\theta$, whichever way you compute it; that is why IRT estimates the item
    parameters and the trait distribution together.
 2. With 2,000 students the 40-item model has more data per coefficient, so it
    overfits less and the cross-validated gap narrows. It still rarely beats
