@@ -68,6 +68,19 @@ instructor can assign one chapter a week and pair it with the matching lab.
 
 Table: (\#tab:chapters) The twelve chapters and their matching labs.
 
+A second part, *AI in measurement*, is for readers who know IRT and want to
+learn how machine learning and large language models fit into
+psychometrics. It goes with the mirtverse [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) and grows as
+the hub does.
+
+| Chapter | Topic |
+|---|---|
+| \@ref(ml-lens) | Machine learning through an IRT lens |
+| \@ref(llms) | Large language models as a colleague |
+
+Table: (\#tab:ai-chapters) The chapters on AI in measurement.
+
 Every chapter has the same parts:
 
 * **Learning goals:** what you should be able to do after the chapter.

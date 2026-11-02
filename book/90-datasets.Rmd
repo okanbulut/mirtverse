@@ -34,12 +34,17 @@ them.
 | `data-banks-cat-2` | 300 simulated test takers for the CAT | Simulated | `true_theta` |
 | `data-reporting-1` | 36-item Grade 6 science test | Simulated | `resp` |
 | `data-reporting-2` | `Science` | Real | `resp` |
+| `data-ml-lens-1` | 20-item test with known abilities and item parameters | Simulated | `resp`, `theta`, `a`, `b` |
+| `data-ml-lens-2` | 40-item placement test and a pass/fail course result | Simulated | `resp`, `ability`, `passed` |
+| `data-llms-1` | `Science` | Real | `resp` |
+| `data-llms-2` | A two-cell blueprint for a numeracy quiz | Simulated | `cells` |
 
 Table: (\#tab:datasets) Data chunks in the book and the objects each defines.
 
 The book deliberately does not analyse the mirtverse lab datasets
 (`certexam`, `numeracy`, `linking`, `catbank` and `openended`), because the
-labs ask students to discover problems hidden in them. They are described in
+labs ask students to discover problems hidden in them. The same goes for the
+AI Hub datasets `itemtext` and `essays`. They are described in
 the [teaching labs
 article](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html) and
 on their help pages, for example `?certexam`.
