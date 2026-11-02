@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -101,7 +101,7 @@
     
 <p>mirtverse comes with six <a href="teaching-labs.html">teaching
 labs</a>, a <a href="course-map.html">course map</a> and a <a href="glossary.html">glossary</a>. They are written around the package’s
-own datasets. The instructor toolkit is for the next step: teaching with
+own datasets. The instructor toolkit is for the next step: Teaching with
 <strong>your</strong> data, <strong>your</strong> examples and
 <strong>your</strong> course’s order of topics, without writing a learnr
 tutorial from scratch.</p>
@@ -190,7 +190,7 @@ time, including labs and chapters you add by hand:</p>
 <div class="section level2">
 <h2 id="build-a-lab-on-your-own-data">2. Build a lab on your own data<a class="anchor" aria-label="anchor" href="#build-a-lab-on-your-own-data"></a>
 </h2>
-<p>Give <code><a href="../reference/new_lab.html">new_lab()</a></code> a name and your responses: a data frame,
+<p>Give <code><a href="../reference/new_lab.html">new_lab()</a></code> a name and your responses: A data frame,
 or a file (<code>.csv</code>, <code>.xlsx</code>, <code>.sav</code>,
 <code>.dta</code>, <code>.sas7bdat</code> or <code>.rds</code>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -367,7 +367,7 @@ check-all-that-apply question instead.</p>
 </h3>
 <p>The lab is an ordinary learnr tutorial
 (<code>labs/midterm/midterm.Rmd</code>), so you can open it in RStudio
-and change anything: reword the text, add images, move sections. The
+and change anything: Reword the text, add images, move sections. The
 learnr documentation (<a href="https://pkgs.rstudio.com/learnr/" class="external-link uri">https://pkgs.rstudio.com/learnr/</a>) covers exercises and
 questions in detail. Two rules keep the toolkit functions working:</p>
 <ul>
@@ -389,7 +389,7 @@ they are not).</li>
 any exercises you added keep working as long as their checks compute
 their answers from <code>resp</code>. Settings you leave out are kept
 (for example the <code>group</code> column and the story).</p>
-<p>The six built-in labs are different: each tells the story of its own
+<p>The six built-in labs are different: Each tells the story of its own
 dataset, with problems planted on purpose (a miskeyed item, a drifted
 anchor, a severe rater), and the feedback talks about them. To teach the
 same topic on your data, build a toolkit lab with the matching sections.
@@ -441,7 +441,7 @@ the course folder to check everything at once:
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/preview_lab.html">preview_lab</a></span><span class="op">(</span><span class="st">"labs/midterm"</span><span class="op">)</span></span></code></pre></div>
 <p>To give the lab to students, either</p>
 <ul>
-<li>share the lab folder: students open it with
+<li>share the lab folder: Students open it with
 <code>learnr::run_tutorial("path/to/midterm")</code> (they need
 mirtverse and learnr); or</li>
 <li>host it, so students need nothing but a browser:

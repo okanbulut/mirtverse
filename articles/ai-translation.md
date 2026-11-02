@@ -1,4 +1,4 @@
-# Machine learning for psychometricians: a translation table
+# Machine learning for psychometricians: A translation table
 
 Machine learning papers often describe ideas a psychometrician already
 knows under other names, and sometimes use a familiar word for something
@@ -21,7 +21,7 @@ these ideas fit into the measurement workflow.
 | Model | A function that maps inputs to a prediction | A measurement model, such as the 2PL | A measurement model claims to describe how responses arise from a latent trait; a prediction model only has to predict well |
 | [Feature](https://www.okanbulut.com/mirtverse/articles/glossary.html#feature) | A measured input to a model | A covariate, or an item property in an explanatory IRT model | ML models may use thousands of features with no theory behind them |
 | Label, target | The outcome a model learns to predict | The criterion, or a human score | In scoring, the “label” is a human rating that contains its own error |
-| Supervised learning | Learning to predict a known label from features | Regression on a criterion | IRT is closer to *unsupervised* learning: the trait is never observed |
+| Supervised learning | Learning to predict a known label from features | Regression on a criterion | IRT is closer to *unsupervised* learning: The trait is never observed |
 | Unsupervised learning | Finding structure in data without labels | Factor analysis, latent class analysis | ML clustering rarely tests whether the structure fits or replicates |
 | Latent representation | Hidden variables a model builds to summarize inputs | The latent trait θ | Latent dimensions in a neural network have no intended meaning and are not identified |
 | Classification | Predicting a category | Mastery decisions, latent class membership, pass/fail at a cut score | ML reports accuracy against labels; psychometrics also asks how consistent the decision would be on a retest |
@@ -39,11 +39,11 @@ these ideas fit into the measurement workflow.
 | [Overfitting](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation) | Fitting noise, so new data are predicted worse | Capitalizing on chance in item selection or model modification | The cure in ML is held-out data; in IRT it is often a simpler model or a priori constraints |
 | [Cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation) | Rotating which part of the data is held out | Cross-validation of a regression, double cross-validation in test construction | Fold-to-fold variation shows how unstable the estimate is |
 | Regularization (lasso, ridge) | Shrinking parameters toward zero to reduce overfitting | Priors on item parameters, as in Bayesian or MAP estimation | The amount of shrinkage is tuned for prediction, not chosen on substantive grounds |
-| Hyperparameter | A setting chosen before training, such as tree depth | Estimation settings: number of quadrature points, prior variances | Hyperparameters are tuned on validation data and can change results a lot |
+| Hyperparameter | A setting chosen before training, such as tree depth | Estimation settings: Number of quadrature points, prior variances | Hyperparameters are tuned on validation data and can change results a lot |
 | Bias-variance trade-off | Simpler models err systematically; complex ones vary a lot | Choosing between 1PL, 2PL and 3PL with AIC or BIC | Same idea; ML usually settles it with held-out error instead of information criteria |
 | Accuracy, precision, recall, F1 | Ways to count correct and incorrect classifications | Classification accuracy, sensitivity and specificity at a cut score | ML “precision” is a share of positive predictions, not measurement precision |
 | AUC | How well a score ranks positives above negatives | The probability a master outscores a non-master; a discrimination index | AUC ignores calibration, the match between predicted and observed rates |
-| Calibration (ML sense) | Predicted probabilities match observed rates | Item fit: model-implied versus observed proportions | Same word, different meaning: in IRT “calibration” is estimating item parameters |
+| Calibration (ML sense) | Predicted probabilities match observed rates | Item fit: Model-implied versus observed proportions | Same word, different meaning: In IRT “calibration” is estimating item parameters |
 | Data leakage | Information in the features that would not be available in use | Item exposure or contaminated anchor items | Leakage makes a model look accurate in testing and fail in use |
 | Distribution shift | New data differ from training data | Parameter drift, population invariance | ML models rarely state the population they are valid for |
 | Explainability (SHAP, feature importance) | Methods that describe what drove a prediction | Item parameters, which are interpretable by design | Explanations of a black box are approximations of it, not the model itself |
@@ -61,7 +61,7 @@ these ideas fit into the measurement workflow.
 | Temperature | How random a language model’s output is | None close | At temperature 0 output is more repeatable but still not guaranteed identical |
 | Zero-shot and few-shot | Asking a model to do a task with no examples, or a few in the prompt | Rater training with anchor papers | The anchors chosen change the scores, as they do for human raters |
 | Fine-tuning | Further training a pretrained model on your own labelled data | Training raters on local anchor sets | Needs many human-scored responses and must be repeated when the model changes |
-| [Hallucination](https://www.okanbulut.com/mirtverse/articles/glossary.html#hallucination) | Fluent but false output | Item-writing flaws: a wrong key, two keys, an implausible distractor | Errors look confident, so they are found only by checking |
+| [Hallucination](https://www.okanbulut.com/mirtverse/articles/glossary.html#hallucination) | Fluent but false output | Item-writing flaws: A wrong key, two keys, an implausible distractor | Errors look confident, so they are found only by checking |
 | Retrieval-augmented generation | Giving the model source documents to answer from | Writing items from a specified content source | Reduces, but does not remove, invented content |
 | Agent | A language model that calls tools and takes several steps on its own | An automated test assembly or scoring pipeline | Each step can fail, so checks are needed between steps |
 

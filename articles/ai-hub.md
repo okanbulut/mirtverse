@@ -1,4 +1,4 @@
-# AI Hub: artificial intelligence for psychometricians
+# AI Hub: Artificial intelligence for psychometricians
 
 Artificial intelligence (AI) now writes test items, scores essays,
 predicts item difficulty and drafts analysis code. If you were trained
@@ -7,7 +7,7 @@ theory, you already have the tools to judge these systems. What is
 usually missing is the vocabulary, a sense of how the methods work, and
 practice checking them.
 
-The AI Hub is for that reader: a psychometrician, graduate student or
+The AI Hub is for that reader: A psychometrician, graduate student or
 testing-program analyst who knows IRT and some R, but has not trained a
 machine learning model or called a large language model (LLM). Every
 topic starts from a job you already do and puts the AI method beside the
@@ -15,7 +15,7 @@ classical one.
 
 ## What changes and what does not
 
-AI changes **how** some parts of a test are produced: items can be
+AI changes **how** some parts of a test are produced: Items can be
 drafted in minutes, constructed responses can be scored as they arrive,
 and item properties can be estimated before a field test. It does not
 change **what** a test has to show. The scores still need evidence that
@@ -24,7 +24,7 @@ they mean what we say they mean, for the people we use them with. The
 AI-scored test just as they apply to any other.
 
 That is why every AI feature in mirtverse sits behind a psychometric
-check: generated items are verified and calibrated, machine scores must
+check: Generated items are verified and calibrated, machine scores must
 agree with human scores overall and within groups, and anything
 uncertain goes back to a person.
 
@@ -38,10 +38,10 @@ step names the question it answers, what to read and what to try in R.
 | 1\. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md); the AI section of the [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html#ai) | — |
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md) |
-| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) |
-| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
+| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) |
+| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md) |
-| 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
+| 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
 
 ## What you can do with AI in mirtverse today
 
@@ -114,7 +114,7 @@ The full example in `examples.R` scores 40 answers from the `essays`
 data against a four-point rubric.
 
 Machine scores pass the same gates whether they come from a language
-model or from a model you trained yourself: quadratic weighted kappa
+model or from a model you trained yourself: Quadratic weighted kappa
 against human scores, standardized mean differences overall and within
 groups, and low-confidence responses routed back to human raters.
 

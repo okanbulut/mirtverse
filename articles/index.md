@@ -11,7 +11,7 @@
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):
 
-- [mv_ask(): from a sentence to a tested R
+- [mv_ask(): From a sentence to a tested R
   script](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md):
 
   How mv_ask() turns a plain-language request into a complete IRT
@@ -79,20 +79,20 @@
 Artificial intelligence and machine learning for psychometricians. These
 articles are also in the AI Hub menu.
 
-- [AI Hub: artificial intelligence for
+- [AI Hub: Artificial intelligence for
   psychometricians](https://www.okanbulut.com/mirtverse/articles/ai-hub.md):
 
   Start here to learn how artificial intelligence and machine learning
-  fit into psychometrics and educational measurement: a learning path,
+  fit into psychometrics and educational measurement: A learning path,
   what mirtverse can already do with AI, and where to read more.
 
-- [Machine learning for psychometricians: a translation
+- [Machine learning for psychometricians: A translation
   table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md):
 
   More than 40 machine learning and AI terms, each with what it means,
   the psychometric idea closest to it, and where the two part ways.
 
-- [AI in measurement: a reading
+- [AI in measurement: A reading
   list](https://www.okanbulut.com/mirtverse/articles/ai-reading.md):
 
   An annotated list of books, papers and guidelines on artificial

@@ -4,11 +4,11 @@ Computer-based tests record how long each response took. mirtverse uses
 those times together with a fitted mirt model, following van der
 Linden’s (2007) hierarchical framework:
 
-- **Time intensity** ($`\beta_j`$): how long item *j* takes on average
+- **Time intensity** ($`\beta_j`$): How long item *j* takes on average
   (log scale).
-- **Time discrimination** ($`\alpha_j`$): how consistently the item’s
+- **Time discrimination** ($`\alpha_j`$): How consistently the item’s
   times reflect a person’s speed.
-- **Speed** ($`\tau_i`$): how fast person *i* works, correlated with
+- **Speed** ($`\tau_i`$): How fast person *i* works, correlated with
   ability $`\theta_i`$.
 
 ``` r

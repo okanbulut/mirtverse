@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -188,7 +188,7 @@ away:</p>
 <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> to get it as a string.</p>
 </div>
 <div class="section level2">
-<h2 id="erm-conditional-and-marginal-likelihood">eRm: conditional and marginal likelihood<a class="anchor" aria-label="anchor" href="#erm-conditional-and-marginal-likelihood"></a>
+<h2 id="erm-conditional-and-marginal-likelihood">eRm: Conditional and marginal likelihood<a class="anchor" aria-label="anchor" href="#erm-conditional-and-marginal-likelihood"></a>
 </h2>
 <p>eRm estimates Rasch models by conditional maximum likelihood (CML),
 while mirt uses marginal maximum likelihood (MML) with a normal latent
@@ -242,7 +242,7 @@ calls convert mirt’s difficulties to the same form.</p>
 <span><span class="co">#&gt; # gg_wright() draws the person-item map with ggplot2.</span></span>
 <span><span class="co">#&gt; gg_wright(fit)</span></span></code></pre></div>
 <p>Andersen’s likelihood-ratio test (<code><a href="https://rdrr.io/pkg/eRm/man/LRtest.html" class="external-link">LRtest()</a></code>) becomes the
-same comparison in mirt: a model with equal item parameters in the low
+same comparison in mirt: A model with equal item parameters in the low
 and high score groups against one with separate parameters. On
 <code>raschdat1</code> eRm gives LR = 32.5 with 29 df (p = .30) and the
 translation gives 32.8 with 29 df (p = .29).</p>
@@ -251,7 +251,7 @@ translation gives 32.8 with 29 df (p = .29).</p>
 <h2 id="tam-q-matrices-groups-and-latent-regression">TAM: Q matrices, groups and latent regression<a class="anchor" aria-label="anchor" href="#tam-q-matrices-groups-and-latent-regression"></a>
 </h2>
 <p><code>tam.mml()</code> and <code>tam.mml.2pl()</code> translate with
-their most used arguments: a Q matrix becomes a
+their most used arguments: A Q matrix becomes a
 <code><a href="https://philchalmers.github.io/mirt/reference/mirt.model.html" class="external-link">mirt.model()</a></code> with correlated dimensions, <code>group</code>
 becomes <code><a href="https://philchalmers.github.io/mirt/reference/multipleGroup.html" class="external-link">multipleGroup()</a></code> with equal item parameters and free
 group means and variances, <code>Y</code> becomes mirt’s latent
@@ -298,7 +298,7 @@ regression (<code>covdata</code> and <code>formula</code>), and
 <span><span class="co">#&gt; anova(mod, mod2)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="irtq-the-scaling-constant-d-and-priors">irtQ: the scaling constant D and priors<a class="anchor" aria-label="anchor" href="#irtq-the-scaling-constant-d-and-priors"></a>
+<h2 id="irtq-the-scaling-constant-d-and-priors">irtQ: The scaling constant D and priors<a class="anchor" aria-label="anchor" href="#irtq-the-scaling-constant-d-and-priors"></a>
 </h2>
 <p>irtQ often uses <code>D = 1.702</code>, which multiplies every slope.
 mirt has no <code>D</code>, so its slopes equal irtQ’s times 1.702. The
@@ -417,7 +417,7 @@ differ more, and the notes say so:</p>
 (<code><a href="https://rdrr.io/pkg/eRm/man/PCM.html" class="external-link">PCM()</a></code>): eRm centres the item parameters and mirt centres
 the persons, so compare thresholds after subtracting their mean.</li>
 <li>
-<strong>3PL models with a guessing prior in irtQ</strong>: the
+<strong>3PL models with a guessing prior in irtQ</strong>: The
 likelihood can have more than one peak, so the two packages may stop at
 slightly different estimates. Compare the log-likelihoods if the
 estimates differ.</li>

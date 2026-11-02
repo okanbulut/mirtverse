@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -99,7 +99,7 @@
 
     
     
-<p>Most people who need IRT results never open R: teachers who want to
+<p>Most people who need IRT results never open R: Teachers who want to
 know which questions worked, a client who commissioned a survey, a
 committee reviewing a test form, or students in a measurement course. A
 results dashboard gives them the findings in a form they can explore on
@@ -122,7 +122,7 @@ reader:</p>
 <td>
 <a href="../articles/workbench.html">Workbench</a>
 (<code><a href="../reference/launch_workbench.html">launch_workbench()</a></code>)</td>
-<td>Doing an analysis: load data, fit and compare models, score
+<td>Doing an analysis: Load data, fit and compare models, score
 people</td>
 <td>You, the analyst</td>
 </tr>
@@ -134,7 +134,7 @@ people</td>
 <tr class="odd">
 <td>
 <strong>Dashboard</strong> (<code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>)</td>
-<td>Exploring finished results: click items, move a slider, look someone
+<td>Exploring finished results: Click items, move a slider, look someone
 up</td>
 <td>People who do not use R</td>
 </tr>
@@ -162,11 +162,11 @@ unidimensional <code><a href="https://philchalmers.github.io/mirt/reference/mirt
 shown. Assign the result (<code>app &lt;- mv_dashboard(...)</code>) to
 keep it without opening it.</p>
 <div class="float">
-<img src="../dashboard/summary.png" alt="The summary panel: headline numbers and the plain-language interpretation."><div class="figcaption">The summary panel: headline numbers and the
+<img src="../dashboard/summary.png" alt="The summary panel: Headline numbers and the plain-language interpretation."><div class="figcaption">The summary panel: Headline numbers and the
 plain-language interpretation.</div>
 </div>
 <p>The summary panel puts the numbers people ask for first at the top:
-respondents, items, reliability and how many items need review. The text
+Respondents, items, reliability and how many items need review. The text
 below them is the same plain-language summary you get from
 <code><a href="../reference/interpret.html">interpret()</a></code>, so a reader does not need to know what an M2
 statistic is to understand the results.</p>
@@ -352,7 +352,7 @@ lookup</td>
 </h2>
 <p>Everything a dashboard shows is computed once, when you build it. The
 app never refits or rescores anything, so it opens quickly, and the
-saved dashboard holds only summaries: item statistics and parameters,
+saved dashboard holds only summaries: Item statistics and parameters,
 curves, the binned score distribution and pictures of the item cards.
 <strong>It never contains the item responses</strong>, in either
 format.</p>
@@ -362,7 +362,7 @@ reminds you to check that you may share them. Use <code>ids</code> to
 show your own identifiers instead of row numbers:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"summary"</span>, <span class="st">"scores"</span>, <span class="st">"persons"</span><span class="op">)</span>, ids <span class="op">=</span> <span class="va">students</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
-<p>Leave the persons panel out of anything you post publicly: the scores
+<p>Leave the persons panel out of anything you post publicly: The scores
 panel already shows the score distribution and the sum-score conversion
 table without identifying anyone.</p>
 </div>

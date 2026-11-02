@@ -6,7 +6,7 @@ item response theory (IRT) models; mirtverse helps you choose a model,
 understand the results, make publication-ready figures, and share
 everything, with or without writing R code.
 
-> **New: interactive teaching labs.** Six browser-based labs let
+> **New: Interactive teaching labs.** Six browser-based labs let
 > students fit live mirt models and make real testing decisions, from
 > choosing a model to advising a certification board, investigating a
 > fairness complaint, linking two forms of an exam, designing an
@@ -27,12 +27,12 @@ measurement.
 
 mirt can:
 
-- **Estimate a wide range of models:** unidimensional and
+- **Estimate a wide range of models:** Unidimensional and
   multidimensional, exploratory and confirmatory, bifactor and two-tier,
   with more than 30 item types (Rasch, 2PL to 4PL, graded response,
   (generalized) partial credit, nominal, ideal-point, nonparametric
   spline items and more), plus user-defined items.
-- **Handle complex designs:** multiple-group analysis and measurement
+- **Handle complex designs:** Multiple-group analysis and measurement
   invariance, mixed-effects and explanatory IRT
   ([`mixedmirt()`](https://philchalmers.github.io/mirt/reference/mixedmirt.html)),
   and latent class and diagnostic classification models
@@ -40,7 +40,7 @@ mirt can:
 - **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
   quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm
   for high-dimensional models, with several standard-error methods.
-- **Check and use the models:** item and person fit, limited-information
+- **Check and use the models:** Item and person fit, limited-information
   fit (M2), local dependence, DIF and differential test functioning, and
   ability estimation (EAP, MAP, ML, WLE, plausible values).
 
@@ -63,7 +63,7 @@ interpretation and reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
 | Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
 | Interactive teaching labs for measurement courses (learnr) | [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md), [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md) |
-| Instructor toolkit: labs on your own data, editable labs and chapters | [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md), [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md), [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md), [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md) |
+| Instructor toolkit: Labs on your own data, editable labs and chapters | [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md), [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md), [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md), [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md) |
 | Translate ltm, eRm, TAM and irtQ code into mirt code | [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md), [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md) |
 | Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server) | [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md), [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md) |
 
@@ -136,7 +136,7 @@ sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png
 
 A printable two-page [cheat sheet
 (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-covers the main functions by task: page 1 for analysis and sharing, page
+covers the main functions by task: Page 1 for analysis and sharing, page
 2 for the assessment pipeline.
 
 ## Coming from ltm, eRm, TAM or irtQ?

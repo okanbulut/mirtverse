@@ -1,10 +1,10 @@
-# mv_ask(): from a sentence to a tested R script
+# mv_ask(): From a sentence to a tested R script
 
 Many people who need an IRT analysis know what they want to find out but
 not which functions, arguments and checks get them there.
 [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
 closes that gap. You describe the analysis in a sentence, and mirtverse
-writes the full, commented R script: reading the data, recoding missing
+writes the full, commented R script: Reading the data, recoding missing
 values, fitting and checking the model, testing for DIF, scoring,
 plotting and reporting. You read the script, change it if you like, and
 then run or save it.
@@ -31,12 +31,12 @@ the R script, which you run or
 save.](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjAgNTcwIiB3aWR0aD0iNzYwIiBoZWlnaHQ9IjU3MCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIHJvbGU9ImltZyIgYXJpYS1sYWJlbGxlZGJ5PSJ0IGQiPgogIDx0aXRsZSBpZD0idCI+SG93IG12X2FzaygpIHR1cm5zIGEgcmVxdWVzdCBpbnRvIGFuIFIgc2NyaXB0PC90aXRsZT4KICA8ZGVzYyBpZD0iZCI+WW91ciByZXF1ZXN0IGFuZCBhIHN1bW1hcnkgb2YgeW91ciBkYXRhIGdvIHRvIHRoZSBidWlsdC1pbiBrZXl3b3JkIHBhcnNlciBvciwgb3B0aW9uYWxseSwgYW4gQUkgbW9kZWwsIHdoaWNoIGZpbGxzIGluIGFuIGFuYWx5c2lzIHBsYW4uIFRoZSBwbGFuIGlzIGNoZWNrZWQgYWdhaW5zdCB0aGUgZGF0YSwgYW5kIHRlc3RlZCB0ZW1wbGF0ZXMgdHVybiBpdCBpbnRvIGFuIFIgc2NyaXB0IHRoYXQgeW91IHJldmlldywgcnVuIG9yIHNhdmUuIEluZGl2aWR1YWwgcmVzcG9uc2VzIG5ldmVyIGxlYXZlIHlvdXIgY29tcHV0ZXIuPC9kZXNjPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj4KICAgICAgPHBhdGggZD0iTTAsMCBMMTAsNSBMMCwxMCB6IiBmaWxsPSIjNWI2NzcwIi8+CiAgICA8L21hcmtlcj4KICAgIDxzdHlsZT4KICAgICAgLmJveHtmaWxsOiNmZmZmZmY7c3Ryb2tlOiMyQzVGOEE7c3Ryb2tlLXdpZHRoOjEuNX0KICAgICAgLmtleXtmaWxsOiMyQzVGOEF9CiAgICAgIC5haXtmaWxsOiNmZmY3ZTY7c3Ryb2tlOiNjOThhMWI7c3Ryb2tlLXdpZHRoOjEuNTtzdHJva2UtZGFzaGFycmF5OjUgNH0KICAgICAgLmh7Zm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzFmMmEzM30KICAgICAgLmhre2ZvbnQtc2l6ZToxNXB4O2ZvbnQtd2VpZ2h0OjcwMDtmaWxsOiNmZmZmZmZ9CiAgICAgIC5ze2ZvbnQtc2l6ZToxMi41cHg7ZmlsbDojNDY1MjVjfQogICAgICAuc2t7Zm9udC1zaXplOjEyLjVweDtmaWxsOiNkYmU3ZjF9CiAgICAgIC5je2ZvbnQtZmFtaWx5Ok1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMi41cHg7ZmlsbDojMkM1RjhBfQogICAgICAuY2t7Zm9udC1mYW1pbHk6TWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2U7Zm9udC1zaXplOjEyLjVweDtmaWxsOiNmZmZmZmZ9CiAgICAgIC5sYW5le2ZpbGw6I2YzZjZmOX0KICAgICAgLmxhbmUye2ZpbGw6I2ZiZjZlY30KICAgICAgLmxhbmV0e2ZvbnQtc2l6ZToxMS41cHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzdhODc5MTtsZXR0ZXItc3BhY2luZzouMDZlbX0KICAgICAgLmxue3N0cm9rZTojNWI2NzcwO3N0cm9rZS13aWR0aDoxLjY7ZmlsbDpub25lfQogICAgICAubGFie2ZvbnQtc2l6ZToxMS41cHg7ZmlsbDojOGE1YTAwO2ZvbnQtc3R5bGU6aXRhbGljfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CgogIDxyZWN0IGNsYXNzPSJsYW5lIiB4PSIxMCIgeT0iMTAiIHdpZHRoPSI1MTAiIGhlaWdodD0iNTUwIiByeD0iMTAiLz4KICA8dGV4dCBjbGFzcz0ibGFuZXQiIHg9IjI4IiB5PSIzMyI+T04gWU9VUiBDT01QVVRFUjwvdGV4dD4KICA8cmVjdCBjbGFzcz0ibGFuZTIiIHg9IjUzNSIgeT0iMTAiIHdpZHRoPSIyMTUiIGhlaWdodD0iNTUwIiByeD0iMTAiLz4KICA8dGV4dCBjbGFzcz0ibGFuZXQiIHg9IjU1MSIgeT0iMzMiPk9QVElPTkFMIEFJIE1PREVMPC90ZXh0PgoKICA8IS0tIDEgaW5wdXRzIC0tPgogIDxyZWN0IGNsYXNzPSJib3giIHg9IjMwIiB5PSI0OCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSI2NCIgcng9IjgiLz4KICA8dGV4dCBjbGFzcz0iaCIgeD0iNDYiIHk9IjczIj5Zb3VyIHJlcXVlc3Q8L3RleHQ+CiAgPHRleHQgY2xhc3M9InMiIHg9IjQ2IiB5PSI5NSI+IkZpdCBhIDJQTCwgRElGIGJ5IGdlbmRlciI8L3RleHQ+CiAgPHJlY3QgY2xhc3M9ImJveCIgeD0iMjgwIiB5PSI0OCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSI2NCIgcng9IjgiLz4KICA8dGV4dCBjbGFzcz0iaCIgeD0iMjk2IiB5PSI3MyI+WW91ciBkYXRhPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJzIiB4PSIyOTYiIHk9Ijk1Ij5OZXZlciBsZWF2ZXMgeW91ciBjb21wdXRlcjwvdGV4dD4KCiAgPCEtLSAyIHN1bW1hcnkgLS0+CiAgPHJlY3QgY2xhc3M9ImJveCIgeD0iMzAiIHk9IjE0OCIgd2lkdGg9IjQ3MCIgaGVpZ2h0PSI2MCIgcng9IjgiLz4KICA8dGV4dCBjbGFzcz0iaCIgeD0iNDYiIHk9IjE3MyI+MS4gU3VtbWFyaXNlIHRoZSBkYXRhPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJjIiB4PSI0NiIgeT0iMTk1Ij5wcm9maWxlX2RhdGEoKTwvdGV4dD4KICA8dGV4dCBjbGFzcz0icyIgeD0iMTYwIiB5PSIxOTUiPmNvbHVtbiB0eXBlcywgcmFuZ2VzLCBsaWtlbHkgcm9sZXM7IG5vIHJlc3BvbnNlczwvdGV4dD4KICA8bGluZSBjbGFzcz0ibG4iIHgxPSIxNDAiIHkxPSIxMTIiIHgyPSIxNDAiIHkyPSIxNDQiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgogIDxsaW5lIGNsYXNzPSJsbiIgeDE9IjM5MCIgeTE9IjExMiIgeDI9IjM5MCIgeTI9IjE0NCIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CgogIDwhLS0gMyB1bmRlcnN0YW5kIC0tPgogIDxyZWN0IGNsYXNzPSJib3giIHg9IjMwIiB5PSIyNDQiIHdpZHRoPSI0NzAiIGhlaWdodD0iNjQiIHJ4PSI4Ii8+CiAgPHRleHQgY2xhc3M9ImgiIHg9IjQ2IiB5PSIyNjkiPjIuIFVuZGVyc3RhbmQgdGhlIHJlcXVlc3Q8L3RleHQ+CiAgPHRleHQgY2xhc3M9InMiIHg9IjQ2IiB5PSIyOTEiPktleXdvcmQgcGFyc2VyIChidWlsdCBpbiwgb2ZmbGluZSkgb3IgYW4gQUkgbW9kZWw8L3RleHQ+CiAgPGxpbmUgY2xhc3M9ImxuIiB4MT0iMjY1IiB5MT0iMjA4IiB4Mj0iMjY1IiB5Mj0iMjQwIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KCiAgPHJlY3QgY2xhc3M9ImFpIiB4PSI1NTIiIHk9IjE0OCIgd2lkdGg9IjE4MiIgaGVpZ2h0PSIxNzgiIHJ4PSI4Ii8+CiAgPHRleHQgY2xhc3M9ImgiIHg9IjU2NiIgeT0iMTczIj5DbGF1ZGUgb3IgR1BUPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJzIiB4PSI1NjYiIHk9IjE5MyI+d2l0aCB5b3VyIG93biBrZXksPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJoIiB4PSI1NjYiIHk9IjIxOSI+b3IgT2xsYW1hPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJzIiB4PSI1NjYiIHk9IjIzOSI+cnVubmluZyBsb2NhbGx5PC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJzIiB4PSI1NjYiIHk9IjI2NyI+U2VlcyB0aGUgcmVxdWVzdCBhbmQgdGhlPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJzIiB4PSI1NjYiIHk9IjI4NSI+c3VtbWFyeTsgcmV0dXJucyBhIHBsYW4sPC90ZXh0PgogIDxwYXRoIGNsYXNzPSJsbiIgZD0iTTUwMCwyNzYgTDUyNiwyNzYgTDUyNiwyMDAgTDU0OCwyMDAiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgogIDx0ZXh0IGNsYXNzPSJzIiB4PSI1NjYiIHk9IjMwMyI+bmV2ZXIgY29kZTwvdGV4dD4KICA8cGF0aCBjbGFzcz0ibG4iIGQ9Ik02NDMsMzI2IEw2NDMsMzg3IEw1MDQsMzg3IiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KICA8dGV4dCBjbGFzcz0ibGFiIiB4PSI1NjAiIHk9IjQwNCI+dGhlIHBsYW48L3RleHQ+CgogIDwhLS0gNCBwbGFuIC0tPgogIDxyZWN0IGNsYXNzPSJrZXkiIHg9IjMwIiB5PSIzNTAiIHdpZHRoPSI0NzAiIGhlaWdodD0iNzAiIHJ4PSI4Ii8+CiAgPHRleHQgY2xhc3M9ImhrIiB4PSI0NiIgeT0iMzc3Ij4zLiBBbmFseXNpcyBwbGFuPC90ZXh0PgogIDx0ZXh0IGNsYXNzPSJjayIgeD0iMTgyIiB5PSIzNzciPm12X3BsYW4oKTwvdGV4dD4KICA8dGV4dCBjbGFzcz0ic2siIHg9IjQ2IiB5PSI0MDEiPkNoZWNrZWQgYWdhaW5zdCB5b3VyIGRhdGEgYmVmb3JlIGFueSBjb2RlIGlzIHdyaXR0ZW48L3RleHQ+CiAgPGxpbmUgY2xhc3M9ImxuIiB4MT0iMjY1IiB5MT0iMzA4IiB4Mj0iMjY1IiB5Mj0iMzQ2IiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KCiAgPCEtLSA1IHNjcmlwdCAvIHJ1biAtLT4KICA8cmVjdCBjbGFzcz0iYm94IiB4PSIzMCIgeT0iNDU4IiB3aWR0aD0iMjIwIiBoZWlnaHQ9Ijg2IiByeD0iOCIvPgogIDx0ZXh0IGNsYXNzPSJoIiB4PSI0NiIgeT0iNDgzIj40LiBSIHNjcmlwdDwvdGV4dD4KICA8dGV4dCBjbGFzcz0icyIgeD0iNDYiIHk9IjUwNSI+RnJvbSB0ZXN0ZWQgdGVtcGxhdGVzLjwvdGV4dD4KICA8dGV4dCBjbGFzcz0icyIgeD0iNDYiIHk9IjUyMyI+UmVmaW5lOiBtdl9hc2soc2NyLCAiLi4uIik8L3RleHQ+CiAgPHJlY3QgY2xhc3M9ImJveCIgeD0iMjgwIiB5PSI0NTgiIHdpZHRoPSIyMjAiIGhlaWdodD0iODYiIHJ4PSI4Ii8+CiAgPHRleHQgY2xhc3M9ImgiIHg9IjI5NiIgeT0iNDgzIj41LiBSdW4gb3Igc2F2ZTwvdGV4dD4KICA8dGV4dCBjbGFzcz0iYyIgeD0iMjk2IiB5PSI1MDUiPnJ1bl9zY3JpcHQoc2NyLDwvdGV4dD4KICA8dGV4dCBjbGFzcz0iYyIgeD0iMjk2IiB5PSI1MjEiPiAgY2hlY2sgPSBUUlVFKTwvdGV4dD4KICA8dGV4dCBjbGFzcz0iYyIgeD0iMjk2IiB5PSI1MzciPnNhdmVfc2NyaXB0KHNjcik8L3RleHQ+CiAgPGxpbmUgY2xhc3M9ImxuIiB4MT0iMTQwIiB5MT0iNDIwIiB4Mj0iMTQwIiB5Mj0iNDU0IiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KICA8bGluZSBjbGFzcz0ibG4iIHgxPSIyNTAiIHkxPSI1MDEiIHgyPSIyNzYiIHkyPSI1MDEiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgo8L3N2Zz4K)
 
 [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
-follows a **hybrid design**: a language model (or a built-in keyword
+follows a **hybrid design**: A language model (or a built-in keyword
 parser) decides *what* to do, and mirtverse decides *how* to do it.
 
 1.  **Summarise the data.**
     [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md)
-    describes each column: its type, number of distinct values, range,
+    describes each column: Its type, number of distinct values, range,
     share missing and likely role (item, grouping variable, ID or
     response time). Individual responses are never part of this summary.
 2.  **Understand the request.** The request and the summary go to the
@@ -45,7 +45,7 @@ parser) decides *what* to do, and mirtverse decides *how* to do it.
     [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md),
     Claude, GPT or a local Ollama model does this step instead. The
     model never writes code. It fills in a structured form with a fixed
-    set of choices: which columns are items, which model, how many
+    set of choices: Which columns are items, which model, how many
     dimensions, which grouping variable, which missing-value codes and
     which outputs.
 3.  **Check the plan.** The filled-in form becomes an
@@ -110,7 +110,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-11-02 16:27
+#> # 2026-11-02 17:07
 #> # Request: Fit a 2PL, check DIF by gender and make a report
 #> # Assumptions:
 #> #  - Used the 12 columns that look like item responses as items.
@@ -136,7 +136,7 @@ scr
 #> mv_report(mod, file = "mirtverse-report.html", dif = dif_res)
 ```
 
-The printout has three parts: the plan (what will be done), the
+The printout has three parts: The plan (what will be done), the
 assumptions mirtverse made (here, that `Q1` to `Q12` are the items
 because they look like item responses), and the script itself.
 
@@ -184,7 +184,7 @@ mv_ask("Which IRT model fits my data best? Explain the results in plain language
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-11-02 16:27
+#> # 2026-11-02 17:07
 #> # Request: Which IRT model fits my data best? Explain the results in
 #> #   plain language.
 #> # Assumptions:
@@ -306,7 +306,7 @@ mv_ask(data = mydata, plan = pl)
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-11-02 16:27
+#> # 2026-11-02 17:07
 #> library(mirtverse)
 #> 
 #> # Data
@@ -343,7 +343,7 @@ columns), and the right response to these is to ask a question rather
 than guess. The requests and expected plans are in
 [`inst/benchmark/ask-requests.csv`](https://github.com/okanbulut/mirtverse/blob/main/inst/benchmark/ask-requests.csv).
 
-A plan counts as **fully correct** only if every field matches: whether
+A plan counts as **fully correct** only if every field matches: Whether
 a question was needed, the model, the number of dimensions, the grouping
 variable, the missing-value codes, the items and the analysis steps.
 
@@ -368,7 +368,7 @@ What the results show:
   below 96%. Its misses were mostly about whether to ask a clarifying
   question and which outputs to include.
 - **GPT** reached 90%. Its weakest field was the analysis steps (94%):
-  it added or left out outputs, such as a report or plots, more often
+  It added or left out outputs, such as a report or plots, more often
   than Claude.
 - **Local models (Ollama)** keep everything on your computer and cost
   nothing per request, and model size matters a great deal. Qwen 3.8 27B
@@ -401,7 +401,7 @@ mirtverse:::ask_benchmark("ollama", model = "qwen3.8:27b")
 
 Each run sends the 100 requests with the column summary of a simulated
 data set. With Claude or GPT this costs roughly one or two US dollars. A
-local model costs nothing but takes much longer: on a recent Mac, Qwen
+local model costs nothing but takes much longer: On a recent Mac, Qwen
 3.8 27B needed more than an hour for the 100 requests.
 
 ## Privacy in brief

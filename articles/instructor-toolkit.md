@@ -6,7 +6,7 @@ labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md), a
 and a
 [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md).
 They are written around the package’s own datasets. The instructor
-toolkit is for the next step: teaching with **your** data, **your**
+toolkit is for the next step: Teaching with **your** data, **your**
 examples and **your** course’s order of topics, without writing a learnr
 tutorial from scratch.
 
@@ -88,7 +88,7 @@ course_materials()
 
 Give
 [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
-a name and your responses: a data frame, or a file (`.csv`, `.xlsx`,
+a name and your responses: A data frame, or a file (`.csv`, `.xlsx`,
 `.sav`, `.dta`, `.sas7bdat` or `.rds`).
 
 ``` r
@@ -227,7 +227,7 @@ check-all-that-apply question instead.
 ### Editing by hand
 
 The lab is an ordinary learnr tutorial (`labs/midterm/midterm.Rmd`), so
-you can open it in RStudio and change anything: reword the text, add
+you can open it in RStudio and change anything: Reword the text, add
 images, move sections. The learnr documentation
 (<https://pkgs.rstudio.com/learnr/>) covers exercises and questions in
 detail. Two rules keep the toolkit functions working:
@@ -252,7 +252,7 @@ exercises you added keep working as long as their checks compute their
 answers from `resp`. Settings you leave out are kept (for example the
 `group` column and the story).
 
-The six built-in labs are different: each tells the story of its own
+The six built-in labs are different: Each tells the story of its own
 dataset, with problems planted on purpose (a miskeyed item, a drifted
 anchor, a severe rater), and the feedback talks about them. To teach the
 same topic on your data, build a toolkit lab with the matching sections.
@@ -320,7 +320,7 @@ preview_lab("labs/midterm")
 
 To give the lab to students, either
 
-- share the lab folder: students open it with
+- share the lab folder: Students open it with
   `learnr::run_tutorial("path/to/midterm")` (they need mirtverse and
   learnr); or
 - host it, so students need nothing but a browser:

@@ -1,4 +1,4 @@
-# AI in measurement: a reading list
+# AI in measurement: A reading list
 
 This list is a starting point for a psychometrician who wants to read
 about artificial intelligence (AI) in testing. Each entry says in one or
@@ -8,11 +8,11 @@ Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) learning
 path, and the first group is the place to start. Links point to the
 publisher’s page or a free copy where one exists.
 
-The field moves quickly: this list was checked in November 2026. To
+The field moves quickly: This list was checked in November 2026. To
 suggest an addition, open an issue on
 [GitHub](https://github.com/okanbulut/mirtverse/issues).
 
-## Start here: overviews
+## Start here: Overviews
 
 - Bulut, O., Beiting-Parrish, M., Casabianca, J. M., Slater, S. C.,
   Jiao, H., Song, D., Ormerod, C. M., Fabiyi, D. G., Ivan, R., Walsh,
@@ -75,7 +75,7 @@ suggest an addition, open an issue on
   uses. Read this before any scoring project.
 - Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). *Handbook of
   automated scoring: Theory into practice.* CRC Press.  
-  The reference book: scoring engines, evaluation, operational use and
+  The reference book: Scoring engines, evaluation, operational use and
   validity.
 - Loukina, A., Madnani, N., Cahill, A., Yao, L., Johnson, M. S.,
   Riordan, B., & McCaffrey, D. F. (2020). Using PRMSE to evaluate
@@ -92,12 +92,12 @@ suggest an addition, open an issue on
   An early and clear demonstration that an engine can agree well with
   humans overall and still score some groups differently.
 
-## What item text tells us: difficulty prediction
+## What item text tells us: Difficulty prediction
 
 - Fischer, G. H. (1973). The linear logistic test model as an instrument
   in educational research. *Acta Psychologica, 37*(6), 359–374.
   [doi:10.1016/0001-6918(73)90003-6](https://doi.org/10.1016/0001-6918(73)90003-6)  
-  The psychometric ancestor of difficulty prediction: item difficulty as
+  The psychometric ancestor of difficulty prediction: Item difficulty as
   a sum of the cognitive operations an item requires.
 - De Boeck, P., & Wilson, M. (Eds.). (2004). *Explanatory item response
   models: A generalized linear and nonlinear approach.* Springer.
@@ -124,7 +124,7 @@ suggest an addition, open an issue on
   Workshop on Innovative Use of NLP for Building Educational
   Applications* (pp. 470–482). [ACL
   Anthology](https://aclanthology.org/2024.bea-1.39)  
-  A sobering benchmark on real licensing-exam items: many teams, modest
+  A sobering benchmark on real licensing-exam items: Many teams, modest
   gains over a simple baseline.
 
 ## Automatic item generation
@@ -137,7 +137,7 @@ suggest an addition, open an issue on
   measurement (ITEMS) module: Using automated processes to generate test
   items. *Educational Measurement: Issues and Practice, 32*(3), 36–50.
   [doi:10.1111/emip.12018](https://doi.org/10.1111/emip.12018)  
-  A short teaching module on the three-step method: cognitive model,
+  A short teaching module on the three-step method: Cognitive model,
   item model, generation.
 - Glas, C. A. W., & van der Linden, W. J. (2003). Computerized adaptive
   testing with item cloning. *Applied Psychological Measurement, 27*(4),

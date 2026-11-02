@@ -44,10 +44,10 @@ It also offers three ready-made requests (MCP “prompts”), which appear
 in clients that show them, such as the `+` menu in Claude Desktop or `/`
 in Claude Code:
 
-- **Revise a teaching material**: give a file and say what to change.
-- **Adapt my materials to mirtverse**: give an existing lab, notes file
+- **Revise a teaching material**: Give a file and say what to change.
+- **Adapt my materials to mirtverse**: Give an existing lab, notes file
   or script.
-- **Build a lab on my data**: give a data file and a topic.
+- **Build a lab on my data**: Give a data file and a topic.
 
 ## Safety
 
@@ -66,7 +66,7 @@ in Claude Code:
   It is on by default for desktop clients and off for ChatGPT (see
   below).
 - **Your data.** The assistant’s AI provider sees what the tools return:
-  file contents, and summaries of datasets (column names, value ranges
+  File contents, and summaries of datasets (column names, value ranges
   and counts, not the full data). Do not put identifiable student data
   in the course folder, or check your institution’s rules on AI tools
   first.
@@ -156,7 +156,7 @@ Apps & Connectors \> Advanced), which is available on some plans only.
     ```
 
     It prints a URL such as `http://127.0.0.1:8765/mcp/k3v9...`. The
-    random last part is a secret: only people who know it can reach the
+    random last part is a secret: Only people who know it can reach the
     server.
 
 2.  Make the port reachable with a tunnel, for example `ngrok http 8765`
@@ -172,13 +172,13 @@ done.
 
 ## Tips
 
-- **Start each conversation with the big picture**: which course, which
+- **Start each conversation with the big picture**: Which course, which
   students, what they already know. The assistant keeps your voice
   better when it knows your audience.
 - **Ask for a plan first** for large changes (“tell me what you would
   change before you do it”).
 - **Check its work.** The assistant runs `check_material` after every
-  change, but you know your course: preview a changed lab with
+  change, but you know your course: Preview a changed lab with
   [`learnr::run_tutorial()`](https://pkgs.rstudio.com/learnr/reference/run_tutorial.html)
   or the Run Document button before your students see it.
 - **Let it look things up.** If the assistant seems unsure about a

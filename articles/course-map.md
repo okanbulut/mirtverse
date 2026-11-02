@@ -5,9 +5,9 @@ item response theory (IRT), for graduate students in education,
 psychology or the health sciences. Each week lists what students should
 be able to do by the end of it, what to read on this site, what to run
 in R, and which lab and dataset to use. Take it as a starting point:
-drop weeks, merge them, or swap in your own readings. The [instructor
+Drop weeks, merge them, or swap in your own readings. The [instructor
 toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md)
-helps with that: it builds labs on your own datasets and lets you edit
+helps with that: It builds labs on your own datasets and lets you edit
 the built-in labs and add your own exercises.
 
 The online book [*Item Response Theory with mirt and
@@ -47,7 +47,7 @@ writing code by hand later in the term.
 | Week | Topic | Lab | Main data |
 |----|----|----|----|
 | 1 | Measurement, scoring and classical item analysis | Lab 1, first two sections | `certexam` |
-| 2 | From classical test theory to IRT: the Rasch, 2PL and 3PL models |  | `LSAT7` |
+| 2 | From classical test theory to IRT: The Rasch, 2PL and 3PL models |  | `LSAT7` |
 | 3 | Estimation and comparing models |  | `LSAT7`, `SAT12` |
 | 4 | Dimensionality and local independence | [Lab 1](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) in class | `certexam` |
 | 5 | Item fit, person fit and item quality |  | `SAT12` |
@@ -74,7 +74,7 @@ handouts from week 1.
 against a key, compute proportion correct and item-total correlations,
 and read a distractor analysis.
 
-- **Key terms:** [classical test
+- **Key terms:** [Classical test
   theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#classical-test-theory),
   [sum
   score](https://www.okanbulut.com/mirtverse/articles/glossary.html#sum-score),
@@ -90,11 +90,11 @@ and read a distractor analysis.
   [`itemstats()`](https://philchalmers.github.io/mirt/reference/itemstats.html)
   (mirt),
   [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md).
-- **Lab:** the first two sections of Lab 1 (`run_lab("model-choice")`),
+- **Lab:** The first two sections of Lab 1 (`run_lab("model-choice")`),
   “Score the responses” and “Screen the items”. Students meet a miskeyed
   item without being told it is there.
 - **Data:** `certexam`, `certexam_key`.
-- **Discuss:** what a number-correct score can and cannot tell us.
+- **Discuss:** What a number-correct score can and cannot tell us.
 
 ### Week 2. From classical test theory to IRT
 
@@ -103,7 +103,7 @@ models, fit them with
 [`mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html), and
 read an item characteristic curve.
 
-- **Key terms:** [item response
+- **Key terms:** [Item response
   theory](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-response-theory),
   [latent
   trait](https://www.okanbulut.com/mirtverse/articles/glossary.html#latent-trait),
@@ -116,7 +116,7 @@ read an item characteristic curve.
   [difficulty](https://www.okanbulut.com/mirtverse/articles/glossary.html#difficulty),
   [discrimination](https://www.okanbulut.com/mirtverse/articles/glossary.html#discrimination),
   [guessing](https://www.okanbulut.com/mirtverse/articles/glossary.html#guessing).
-- **Read:** sections 1 to 4 of [Getting
+- **Read:** Sections 1 to 4 of [Getting
   started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
 - **Run:**
   [`mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
@@ -126,7 +126,7 @@ read an item characteristic curve.
   [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md).
 - **Data:** `LSAT7` (expand it with
   [`expand.table()`](https://philchalmers.github.io/mirt/reference/expand.table.html)).
-- **Activity:** ask students to sketch trace lines for items they invent
+- **Activity:** Ask students to sketch trace lines for items they invent
   (an easy item, a hard item, a flat item) and then find the closest
   real item in the data.
 
@@ -138,7 +138,7 @@ compare nested models with likelihood-ratio tests and information
 criteria.
 
 - **Key terms:**
-  [calibration](https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration),
+  [Calibration](https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration),
   [marginal maximum
   likelihood](https://www.okanbulut.com/mirtverse/articles/glossary.html#marginal-maximum-likelihood),
   [convergence](https://www.okanbulut.com/mirtverse/articles/glossary.html#convergence),
@@ -158,7 +158,7 @@ criteria.
   [`tidy_mirt()`](https://www.okanbulut.com/mirtverse/reference/tidy_mirt.md).
 - **Data:** `LSAT7` and `SAT12` (scored with
   [`key2binary()`](https://philchalmers.github.io/mirt/reference/key2binary.html)).
-- **Discuss:** why AIC and BIC can disagree, and what sample size has to
+- **Discuss:** Why AIC and BIC can disagree, and what sample size has to
   do with fitting a 3PL.
 
 ### Week 4. Dimensionality and local independence
@@ -168,21 +168,21 @@ enough, read standardized residuals and the Q3 statistic, and tell local
 dependence from a second trait.
 
 - **Key terms:**
-  [dimensionality](https://www.okanbulut.com/mirtverse/articles/glossary.html#dimensionality),
+  [Dimensionality](https://www.okanbulut.com/mirtverse/articles/glossary.html#dimensionality),
   [local
   independence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-independence),
   [local
   dependence](https://www.okanbulut.com/mirtverse/articles/glossary.html#local-dependence),
   [Q3](https://www.okanbulut.com/mirtverse/articles/glossary.html#q3).
-- **Run:** a one- vs two-factor model with
+- **Run:** A one- vs two-factor model with
   [`anova()`](https://rdrr.io/r/stats/anova.html),
   [`summary()`](https://rdrr.io/r/base/summary.html) for rotated
   loadings, `residuals(mod, type = "Q3")` and
   [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md).
-- **Lab:** all of Lab 1 (`run_lab("model-choice")`, about 75 minutes).
+- **Lab:** All of Lab 1 (`run_lab("model-choice")`, about 75 minutes).
   It ends with a model choice the student has to justify in writing.
 - **Data:** `certexam` (the passage pair Q21 and Q22).
-- **Assignment:** hand in the decision table and justification from the
+- **Assignment:** Hand in the decision table and justification from the
   end of Lab 1.
 
 ### Week 5. Item fit, person fit and item quality
@@ -191,7 +191,7 @@ dependence from a second trait.
 empirical and a model-implied curve, and flag aberrant response
 patterns.
 
-- **Key terms:** [item
+- **Key terms:** [Item
   fit](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-fit),
   [S-X²](https://www.okanbulut.com/mirtverse/articles/glossary.html#s-x2),
   [empirical item
@@ -210,7 +210,7 @@ patterns.
   and
   [`item_cards()`](https://www.okanbulut.com/mirtverse/reference/item_cards.md).
 - **Data:** `SAT12`.
-- **Activity:** students pick the three weakest items from the item
+- **Activity:** Students pick the three weakest items from the item
   cards and write one sentence each on what an item writer should
   change.
 
@@ -220,7 +220,7 @@ patterns.
 curves, convert information to a standard error, and explain why
 reliability depends on where on the scale you look.
 
-- **Key terms:** [item
+- **Key terms:** [Item
   information](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-information),
   [test
   information](https://www.okanbulut.com/mirtverse/articles/glossary.html#test-information),
@@ -236,7 +236,7 @@ reliability depends on where on the scale you look.
   and
   [`empirical_rxx()`](https://philchalmers.github.io/mirt/reference/empirical_rxx.html)
   (mirt).
-- **Lab:** the “Precision at the pass mark” section of Lab 2 previews
+- **Lab:** The “Precision at the pass mark” section of Lab 2 previews
   next week.
 - **Data:** `certexam`.
 
@@ -260,12 +260,12 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
   [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md),
   [`gg_wright()`](https://www.okanbulut.com/mirtverse/reference/gg_wright.md),
   [`augment_mirt()`](https://www.okanbulut.com/mirtverse/reference/augment_mirt.md).
-- **Lab:** all of Lab 2 (`run_lab("decisions")`, about 75 minutes).
+- **Lab:** All of Lab 2 (`run_lab("decisions")`, about 75 minutes).
   Students choose a scoring method, estimate classification accuracy,
   look for DIF and write a memo to the board. Lab 2 fits its own model,
   so students who missed Lab 1 can still do it.
 - **Data:** `certexam`.
-- **Assignment:** the memo from the end of Lab 2.
+- **Assignment:** The memo from the end of Lab 2.
 
 ### Week 8. Polytomous items and open-ended responses
 
@@ -273,7 +273,7 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
 generalized partial credit and graded response models, read category
 curves, and say when categories should be collapsed.
 
-- **Key terms:** [polytomous
+- **Key terms:** [Polytomous
   item](https://www.okanbulut.com/mirtverse/articles/glossary.html#polytomous-item),
   [graded response
   model](https://www.okanbulut.com/mirtverse/articles/glossary.html#graded-response-model),
@@ -290,7 +290,7 @@ curves, and say when categories should be collapsed.
   on polytomous data,
   [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md),
   [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md).
-- **Lab:** Lab 6 (`run_lab("open-ended")`, about 75 minutes): rater
+- **Lab:** Lab 6 (`run_lab("open-ended")`, about 75 minutes): Rater
   agreement and quadratic weighted kappa, rater severity and
   consistency, resolving two reads, PCM versus GPCM versus GRM,
   collapsing categories with disordered steps, and checking an automated
@@ -325,13 +325,13 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
   [`multipleGroup()`](https://philchalmers.github.io/mirt/reference/multipleGroup.html)
   and [`DIF()`](https://philchalmers.github.io/mirt/reference/DIF.html)
   (mirt) for the model behind it.
-- **Lab:** the “Fairness across languages” section of Lab 2 for a short
+- **Lab:** The “Fairness across languages” section of Lab 2 for a short
   version; Lab 3 (`run_lab("fairness")`, about 75 minutes) for a full
   session, with Mantel-Haenszel, anchor purification and differential
   test functioning.
 - **Data:** `numeracy` (English language learners and fluent students)
   in Lab 3; `certexam` (English and French candidates) in Lab 2.
-- **Discuss:** what a content review panel should do with a flagged
+- **Discuss:** What a content review panel should do with a flagged
   item.
 
 ### Week 10. Linking and equating
@@ -341,7 +341,7 @@ common scale, describe anchor-item and common-person designs, and link a
 new calibration to an existing one.
 
 - **Key terms:**
-  [linking](https://www.okanbulut.com/mirtverse/articles/glossary.html#linking),
+  [Linking](https://www.okanbulut.com/mirtverse/articles/glossary.html#linking),
   [anchor
   items](https://www.okanbulut.com/mirtverse/articles/glossary.html#anchor-items),
   [moment
@@ -360,7 +360,7 @@ new calibration to an existing one.
   with anchors and
   [`fixedCalib()`](https://philchalmers.github.io/mirt/reference/fixedCalib.html)
   (mirt).
-- **Lab:** Lab 4 (`run_lab("linking")`, about 75 minutes): separate and
+- **Lab:** Lab 4 (`run_lab("linking")`, about 75 minutes): Separate and
   concurrent calibration, mean-sigma linking, anchor drift and IRT
   true-score equating of a pass mark.
 - **Data:** `linking` (two forms with common items) in Lab 4;
@@ -374,7 +374,7 @@ new calibration to an existing one.
 a form to a target information curve, and explain how a computerized
 adaptive test picks items and when it stops.
 
-- **Key terms:** [item
+- **Key terms:** [Item
   bank](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-bank),
   [automated test
   assembly](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-test-assembly),
@@ -392,7 +392,7 @@ adaptive test picks items and when it stops.
   [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md),
   [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md),
   [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md).
-- **Lab:** Lab 5 (`run_lab("cat-design")`, about 75 minutes): bank
+- **Lab:** Lab 5 (`run_lab("cat-design")`, about 75 minutes): Bank
   information, a CAT by hand, simulation, exposure control, content
   balancing and stopping rules.
 - **Data:** `catbank` (a 180-item placement bank) in Lab 5; the
@@ -405,7 +405,7 @@ adaptive test picks items and when it stops.
 setting, estimate classification accuracy at a cut score, and explain
 IRT results to someone who does not use R.
 
-- **Key terms:** [cut
+- **Key terms:** [Cut
   score](https://www.okanbulut.com/mirtverse/articles/glossary.html#cut-score),
   [standard
   setting](https://www.okanbulut.com/mirtverse/articles/glossary.html#standard-setting),
@@ -424,7 +424,7 @@ IRT results to someone who does not use R.
   [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md),
   [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md),
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md).
-- **Final project:** see below.
+- **Final project:** See below.
 
 ## Assessment ideas
 
@@ -433,7 +433,7 @@ IRT results to someone who does not use R.
 | 20% | Lab 1 decision table and model justification | Week 4 |
 | 20% | Lab 2 memo to the board | Week 7 |
 | 20% | Two short problem sets (one on fit and precision, one on DIF or linking) | Weeks 6 and 10 |
-| 40% | Final project: a full analysis of a dataset of the student’s choice, handed in as an [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) or a dashboard plus a two-page memo | Week 12 |
+| 40% | Final project: A full analysis of a dataset of the student’s choice, handed in as an [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) or a dashboard plus a two-page memo | Week 12 |
 
 For the final project, students can follow the [assessment
 pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md)
@@ -442,12 +442,12 @@ each next step, which works well as a checklist for the write-up.
 
 ## Adapting the course
 
-- **A shorter course (8 weeks):** combine weeks 2 and 3, and weeks 5 and
+- **A shorter course (8 weeks):** Combine weeks 2 and 3, and weeks 5 and
   6; drop week 10 and treat week 11 as a lecture without a lab.
-- **An undergraduate course:** spend two weeks on week 1, use the
+- **An undergraduate course:** Spend two weeks on week 1, use the
   [workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md)
   instead of code until week 4, and end at week 9.
-- **A second course:** add multidimensional and bifactor models
+- **A second course:** Add multidimensional and bifactor models
   ([`mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html)
   with more factors,
   [`bfactor()`](https://philchalmers.github.io/mirt/reference/bfactor.html)),
@@ -466,11 +466,11 @@ when they are released.
 
 | Resource | Used in | Status |
 |----|----|----|
-| Online book with a chapter per week | All weeks | Available: [book](https://www.okanbulut.com/mirtverse/book/index.md) |
-| Glossary of IRT terms on this site | All weeks | Available: [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
+| Online book with a chapter per week | All weeks | Available: [Book](https://www.okanbulut.com/mirtverse/book/index.md) |
+| Glossary of IRT terms on this site | All weeks | Available: [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
 | Two-page cheat sheet of the main functions | All weeks | Available: [PDF](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |
-| Instructor toolkit: labs on your own data, editable copies of the labs | All weeks | Available: [guide](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |
+| Instructor toolkit: Labs on your own data, editable copies of the labs | All weeks | Available: [Guide](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |

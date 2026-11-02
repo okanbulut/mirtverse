@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -110,8 +110,8 @@ in item response theory (IRT), for graduate students in education,
 psychology or the health sciences. Each week lists what students should
 be able to do by the end of it, what to read on this site, what to run
 in R, and which lab and dataset to use. Take it as a starting point:
-drop weeks, merge them, or swap in your own readings. The <a href="instructor-toolkit.html">instructor toolkit</a> helps with that:
-it builds labs on your own datasets and lets you edit the built-in labs
+Drop weeks, merge them, or swap in your own readings. The <a href="instructor-toolkit.html">instructor toolkit</a> helps with that:
+It builds labs on your own datasets and lets you edit the built-in labs
 and add your own exercises.</p>
 <p>The online book <a href="../book/index.html"><em>Item Response Theory
 with mirt and mirtverse</em></a> has one chapter for each week below,
@@ -162,7 +162,7 @@ later in the term.</p>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>From classical test theory to IRT: the Rasch, 2PL and 3PL
+<td>From classical test theory to IRT: The Rasch, 2PL and 3PL
 models</td>
 <td></td>
 <td><code>LSAT7</code></td>
@@ -260,7 +260,7 @@ multiple-choice responses against a key, compute proportion correct and
 item-total correlations, and read a distractor analysis.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#classical-test-theory">classical test theory</a>, <a href="glossary.html#sum-score">sum score</a>, <a href="glossary.html#p-value">p-value</a>, <a href="glossary.html#item-total-correlation">item-total
+<strong>Key terms:</strong> <a href="glossary.html#classical-test-theory">Classical test theory</a>, <a href="glossary.html#sum-score">sum score</a>, <a href="glossary.html#p-value">p-value</a>, <a href="glossary.html#item-total-correlation">item-total
 correlation</a>.</li>
 <li>
 <strong>Read:</strong> <a href="mirtverse.html">Getting started</a>;
@@ -270,7 +270,7 @@ labs</a>.</li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/key2binary.html" class="external-link">key2binary()</a></code>,
 <code><a href="https://philchalmers.github.io/mirt/reference/itemstats.html" class="external-link">itemstats()</a></code> (mirt), <code><a href="../reference/profile_data.html">profile_data()</a></code>.</li>
 <li>
-<strong>Lab:</strong> the first two sections of Lab 1
+<strong>Lab:</strong> The first two sections of Lab 1
 (<code>run_lab("model-choice")</code>), “Score the responses” and
 “Screen the items”. Students meet a miskeyed item without being told it
 is there.</li>
@@ -278,7 +278,7 @@ is there.</li>
 <strong>Data:</strong> <code>certexam</code>,
 <code>certexam_key</code>.</li>
 <li>
-<strong>Discuss:</strong> what a number-correct score can and cannot
+<strong>Discuss:</strong> What a number-correct score can and cannot
 tell us.</li>
 </ul>
 </div>
@@ -290,10 +290,10 @@ Rasch, 2PL and 3PL models, fit them with <code><a href="https://philchalmers.git
 an item characteristic curve.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#item-response-theory">item response theory</a>, <a href="glossary.html#latent-trait">latent trait</a>, <a href="glossary.html#rasch-model">Rasch model</a>, <a href="glossary.html#two-pl">2PL</a>, <a href="glossary.html#three-pl">3PL</a>, <a href="glossary.html#item-characteristic-curve">item characteristic
+<strong>Key terms:</strong> <a href="glossary.html#item-response-theory">Item response theory</a>, <a href="glossary.html#latent-trait">latent trait</a>, <a href="glossary.html#rasch-model">Rasch model</a>, <a href="glossary.html#two-pl">2PL</a>, <a href="glossary.html#three-pl">3PL</a>, <a href="glossary.html#item-characteristic-curve">item characteristic
 curve</a>, <a href="glossary.html#difficulty">difficulty</a>, <a href="glossary.html#discrimination">discrimination</a>, <a href="glossary.html#guessing">guessing</a>.</li>
 <li>
-<strong>Read:</strong> sections 1 to 4 of <a href="mirtverse.html">Getting started</a>.</li>
+<strong>Read:</strong> Sections 1 to 4 of <a href="mirtverse.html">Getting started</a>.</li>
 <li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt()</a></code>,
 <code>coef(mod, IRTpars = TRUE)</code>, <code><a href="../reference/gg_trace.html">gg_trace()</a></code>,
@@ -302,7 +302,7 @@ curve</a>, <a href="glossary.html#difficulty">difficulty</a>, <a href="glossary.
 <strong>Data:</strong> <code>LSAT7</code> (expand it with
 <code><a href="https://philchalmers.github.io/mirt/reference/expand.table.html" class="external-link">expand.table()</a></code>).</li>
 <li>
-<strong>Activity:</strong> ask students to sketch trace lines for
+<strong>Activity:</strong> Ask students to sketch trace lines for
 items they invent (an easy item, a hard item, a flat item) and then find
 the closest real item in the data.</li>
 </ul>
@@ -316,7 +316,7 @@ converged, and compare nested models with likelihood-ratio tests and
 information criteria.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#calibration">calibration</a>, <a href="glossary.html#marginal-maximum-likelihood">marginal maximum
+<strong>Key terms:</strong> <a href="glossary.html#calibration">Calibration</a>, <a href="glossary.html#marginal-maximum-likelihood">marginal maximum
 likelihood</a>, <a href="glossary.html#convergence">convergence</a>, <a href="glossary.html#likelihood-ratio-test">likelihood-ratio test</a>, <a href="glossary.html#information-criteria">information criteria</a>, <a href="glossary.html#m2">M2</a>, <a href="glossary.html#rmsea">RMSEA</a>.</li>
 <li>
 <strong>Read:</strong> “Let mirtverse pick a model” in <a href="mirtverse.html">Getting started</a>.</li>
@@ -328,7 +328,7 @@ likelihood</a>, <a href="glossary.html#convergence">convergence</a>, <a href="gl
 <strong>Data:</strong> <code>LSAT7</code> and <code>SAT12</code>
 (scored with <code><a href="https://philchalmers.github.io/mirt/reference/key2binary.html" class="external-link">key2binary()</a></code>).</li>
 <li>
-<strong>Discuss:</strong> why AIC and BIC can disagree, and what
+<strong>Discuss:</strong> Why AIC and BIC can disagree, and what
 sample size has to do with fitting a 3PL.</li>
 </ul>
 </div>
@@ -340,20 +340,20 @@ one dimension is enough, read standardized residuals and the Q3
 statistic, and tell local dependence from a second trait.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#dimensionality">dimensionality</a>, <a href="glossary.html#local-independence">local independence</a>, <a href="glossary.html#local-dependence">local dependence</a>, <a href="glossary.html#q3">Q3</a>.</li>
+<strong>Key terms:</strong> <a href="glossary.html#dimensionality">Dimensionality</a>, <a href="glossary.html#local-independence">local independence</a>, <a href="glossary.html#local-dependence">local dependence</a>, <a href="glossary.html#q3">Q3</a>.</li>
 <li>
-<strong>Run:</strong> a one- vs two-factor model with
+<strong>Run:</strong> A one- vs two-factor model with
 <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> for rotated loadings,
 <code>residuals(mod, type = "Q3")</code> and <code><a href="../reference/gg_q3.html">gg_q3()</a></code>.</li>
 <li>
-<strong>Lab:</strong> all of Lab 1
+<strong>Lab:</strong> All of Lab 1
 (<code>run_lab("model-choice")</code>, about 75 minutes). It ends with a
 model choice the student has to justify in writing.</li>
 <li>
 <strong>Data:</strong> <code>certexam</code> (the passage pair Q21
 and Q22).</li>
 <li>
-<strong>Assignment:</strong> hand in the decision table and
+<strong>Assignment:</strong> Hand in the decision table and
 justification from the end of Lab 1.</li>
 </ul>
 </div>
@@ -365,7 +365,7 @@ fit, compare an empirical and a model-implied curve, and flag aberrant
 response patterns.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#item-fit">item
+<strong>Key terms:</strong> <a href="glossary.html#item-fit">Item
 fit</a>, <a href="glossary.html#s-x2">S-X²</a>, <a href="glossary.html#empirical-item-curve">empirical item curve</a>, <a href="glossary.html#person-fit">person fit</a>, <a href="glossary.html#zh">Zh</a>.</li>
 <li>
 <strong>Run:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/itemfit.html" class="external-link">itemfit()</a></code> and
@@ -375,7 +375,7 @@ fit</a>, <a href="glossary.html#s-x2">S-X²</a>, <a href="glossary.html#empirica
 <li>
 <strong>Data:</strong> <code>SAT12</code>.</li>
 <li>
-<strong>Activity:</strong> students pick the three weakest items
+<strong>Activity:</strong> Students pick the three weakest items
 from the item cards and write one sentence each on what an item writer
 should change.</li>
 </ul>
@@ -388,7 +388,7 @@ test information curves, convert information to a standard error, and
 explain why reliability depends on where on the scale you look.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#item-information">item information</a>, <a href="glossary.html#test-information">test information</a>, <a href="glossary.html#standard-error-of-measurement">standard error of
+<strong>Key terms:</strong> <a href="glossary.html#item-information">Item information</a>, <a href="glossary.html#test-information">test information</a>, <a href="glossary.html#standard-error-of-measurement">standard error of
 measurement</a>, <a href="glossary.html#marginal-reliability">marginal
 reliability</a>, <a href="glossary.html#targeting">targeting</a>.</li>
 <li>
@@ -396,7 +396,7 @@ reliability</a>, <a href="glossary.html#targeting">targeting</a>.</li>
 <code><a href="https://philchalmers.github.io/mirt/reference/testinfo.html" class="external-link">testinfo()</a></code>, <code><a href="https://philchalmers.github.io/mirt/reference/marginal_rxx.html" class="external-link">marginal_rxx()</a></code> and
 <code><a href="https://philchalmers.github.io/mirt/reference/empirical_rxx.html" class="external-link">empirical_rxx()</a></code> (mirt).</li>
 <li>
-<strong>Lab:</strong> the “Precision at the pass mark” section of
+<strong>Lab:</strong> The “Precision at the pass mark” section of
 Lab 2 previews next week.</li>
 <li>
 <strong>Data:</strong> <code>certexam</code>.</li>
@@ -417,7 +417,7 @@ accuracy</a>.</li>
 <code><a href="../reference/gg_scores.html">gg_scores()</a></code>, <code><a href="../reference/gg_wright.html">gg_wright()</a></code>,
 <code><a href="../reference/augment_mirt.html">augment_mirt()</a></code>.</li>
 <li>
-<strong>Lab:</strong> all of Lab 2
+<strong>Lab:</strong> All of Lab 2
 (<code>run_lab("decisions")</code>, about 75 minutes). Students choose a
 scoring method, estimate classification accuracy, look for DIF and write
 a memo to the board. Lab 2 fits its own model, so students who missed
@@ -425,7 +425,7 @@ Lab 1 can still do it.</li>
 <li>
 <strong>Data:</strong> <code>certexam</code>.</li>
 <li>
-<strong>Assignment:</strong> the memo from the end of Lab 2.</li>
+<strong>Assignment:</strong> The memo from the end of Lab 2.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -436,7 +436,7 @@ credit, generalized partial credit and graded response models, read
 category curves, and say when categories should be collapsed.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#polytomous-item">polytomous item</a>, <a href="glossary.html#graded-response-model">graded response model</a>, <a href="glossary.html#gpcm">GPCM</a>, <a href="glossary.html#category-response-curve">category response
+<strong>Key terms:</strong> <a href="glossary.html#polytomous-item">Polytomous item</a>, <a href="glossary.html#graded-response-model">graded response model</a>, <a href="glossary.html#gpcm">GPCM</a>, <a href="glossary.html#category-response-curve">category response
 curve</a>, <a href="glossary.html#qwk">QWK</a>.</li>
 <li>
 <strong>Read:</strong> <a href="assessment-pipeline.html">Assessment
@@ -447,7 +447,7 @@ with <code><a href="../reference/score_open.html">score_open()</a></code>.</li>
 data, <code><a href="../reference/gg_trace.html">gg_trace()</a></code>, <code><a href="../reference/gg_info.html">gg_info()</a></code>.</li>
 <li>
 <strong>Lab:</strong> Lab 6 (<code>run_lab("open-ended")</code>,
-about 75 minutes): rater agreement and quadratic weighted kappa, rater
+about 75 minutes): Rater agreement and quadratic weighted kappa, rater
 severity and consistency, resolving two reads, PCM versus GPCM versus
 GRM, collapsing categories with disordered steps, and checking an
 automated scoring engine, including for subgroups.</li>
@@ -477,7 +477,7 @@ size</a>, <a href="glossary.html#anchor-items">anchor items</a>.</li>
 <code><a href="../reference/interpret.html">interpret()</a></code> on the result; <code><a href="https://philchalmers.github.io/mirt/reference/multipleGroup.html" class="external-link">multipleGroup()</a></code> and
 <code><a href="https://philchalmers.github.io/mirt/reference/DIF.html" class="external-link">DIF()</a></code> (mirt) for the model behind it.</li>
 <li>
-<strong>Lab:</strong> the “Fairness across languages” section of Lab
+<strong>Lab:</strong> The “Fairness across languages” section of Lab
 2 for a short version; Lab 3 (<code>run_lab("fairness")</code>, about 75
 minutes) for a full session, with Mantel-Haenszel, anchor purification
 and differential test functioning.</li>
@@ -486,7 +486,7 @@ and differential test functioning.</li>
 learners and fluent students) in Lab 3; <code>certexam</code> (English
 and French candidates) in Lab 2.</li>
 <li>
-<strong>Discuss:</strong> what a content review panel should do with
+<strong>Discuss:</strong> What a content review panel should do with
 a flagged item.</li>
 </ul>
 </div>
@@ -498,7 +498,7 @@ forms need a common scale, describe anchor-item and common-person
 designs, and link a new calibration to an existing one.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#linking">linking</a>, <a href="glossary.html#anchor-items">anchor items</a>, <a href="glossary.html#moment-linking">moment linking</a>, <a href="glossary.html#characteristic-curve-linking">characteristic curve
+<strong>Key terms:</strong> <a href="glossary.html#linking">Linking</a>, <a href="glossary.html#anchor-items">anchor items</a>, <a href="glossary.html#moment-linking">moment linking</a>, <a href="glossary.html#characteristic-curve-linking">characteristic curve
 linking</a>, <a href="glossary.html#parameter-drift">parameter
 drift</a>.</li>
 <li>
@@ -511,7 +511,7 @@ bank”.</li>
 and <code><a href="https://philchalmers.github.io/mirt/reference/fixedCalib.html" class="external-link">fixedCalib()</a></code> (mirt).</li>
 <li>
 <strong>Lab:</strong> Lab 4 (<code>run_lab("linking")</code>, about
-75 minutes): separate and concurrent calibration, mean-sigma linking,
+75 minutes): Separate and concurrent calibration, mean-sigma linking,
 anchor drift and IRT true-score equating of a pass mark.</li>
 <li>
 <strong>Data:</strong> <code>linking</code> (two forms with common
@@ -527,7 +527,7 @@ item bank, assemble a form to a target information curve, and explain
 how a computerized adaptive test picks items and when it stops.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#item-bank">item
+<strong>Key terms:</strong> <a href="glossary.html#item-bank">Item
 bank</a>, <a href="glossary.html#automated-test-assembly">automated test
 assembly</a>, <a href="glossary.html#computerized-adaptive-test">computerized adaptive
 test</a>, <a href="glossary.html#multistage-test">multistage test</a>,
@@ -542,7 +542,7 @@ multistage tests”.</li>
 <code><a href="../reference/assemble_mst.html">assemble_mst()</a></code>.</li>
 <li>
 <strong>Lab:</strong> Lab 5 (<code>run_lab("cat-design")</code>,
-about 75 minutes): bank information, a CAT by hand, simulation, exposure
+about 75 minutes): Bank information, a CAT by hand, simulation, exposure
 control, content balancing and stopping rules.</li>
 <li>
 <strong>Data:</strong> <code>catbank</code> (a 180-item placement
@@ -558,7 +558,7 @@ Bookmark standard setting, estimate classification accuracy at a cut
 score, and explain IRT results to someone who does not use R.</p>
 <ul>
 <li>
-<strong>Key terms:</strong> <a href="glossary.html#cut-score">cut
+<strong>Key terms:</strong> <a href="glossary.html#cut-score">Cut
 score</a>, <a href="glossary.html#standard-setting">standard
 setting</a>, <a href="glossary.html#response-probability">response
 probability</a>, <a href="glossary.html#classification-accuracy">classification
@@ -572,7 +572,7 @@ pipeline</a>, sections “8. Cut scores” and “11. The report”; <a href="da
 <code><a href="../reference/set_cuts.html">set_cuts()</a></code>, <code><a href="../reference/mv_report.html">mv_report()</a></code>,
 <code><a href="../reference/mv_dashboard.html">mv_dashboard()</a></code>.</li>
 <li>
-<strong>Final project:</strong> see below.</li>
+<strong>Final project:</strong> See below.</li>
 </ul>
 </div>
 </div>
@@ -609,7 +609,7 @@ linking)</td>
 </tr>
 <tr class="even">
 <td>40%</td>
-<td>Final project: a full analysis of a dataset of the student’s choice,
+<td>Final project: A full analysis of a dataset of the student’s choice,
 handed in as an <code><a href="../reference/mv_report.html">mv_report()</a></code> or a dashboard plus a two-page
 memo</td>
 <td>Week 12</td>
@@ -625,15 +625,15 @@ which works well as a checklist for the write-up.</p>
 </h2>
 <ul>
 <li>
-<strong>A shorter course (8 weeks):</strong> combine weeks 2 and 3,
+<strong>A shorter course (8 weeks):</strong> Combine weeks 2 and 3,
 and weeks 5 and 6; drop week 10 and treat week 11 as a lecture without a
 lab.</li>
 <li>
-<strong>An undergraduate course:</strong> spend two weeks on week 1,
+<strong>An undergraduate course:</strong> Spend two weeks on week 1,
 use the <a href="workbench.html">workbench</a> instead of code until
 week 4, and end at week 9.</li>
 <li>
-<strong>A second course:</strong> add multidimensional and bifactor
+<strong>A second course:</strong> Add multidimensional and bifactor
 models (<code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt()</a></code> with more factors, <code><a href="https://philchalmers.github.io/mirt/reference/bfactor.html" class="external-link">bfactor()</a></code>),
 <a href="response-times.html">response-time models</a>
 (<code><a href="../reference/fit_rt.html">fit_rt()</a></code>, <code><a href="../reference/sim_rt.html">sim_rt()</a></code>), and the remaining stages
@@ -661,13 +661,13 @@ above when they are released.</p>
 <tr class="odd">
 <td>Online book with a chapter per week</td>
 <td>All weeks</td>
-<td>Available: <a href="../book/index.html">book</a>
+<td>Available: <a href="../book/index.html">Book</a>
 </td>
 </tr>
 <tr class="even">
 <td>Glossary of IRT terms on this site</td>
 <td>All weeks</td>
-<td>Available: <a href="glossary.html">glossary</a>
+<td>Available: <a href="glossary.html">Glossary</a>
 </td>
 </tr>
 <tr class="odd">
@@ -701,10 +701,10 @@ above when they are released.</p>
 </td>
 </tr>
 <tr class="even">
-<td>Instructor toolkit: labs on your own data, editable copies of the
+<td>Instructor toolkit: Labs on your own data, editable copies of the
 labs</td>
 <td>All weeks</td>
-<td>Available: <a href="instructor-toolkit.html">guide</a>
+<td>Available: <a href="instructor-toolkit.html">Guide</a>
 </td>
 </tr>
 </tbody>

@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -190,13 +190,13 @@ appear in clients that show them, such as the <code>+</code> menu in
 Claude Desktop or <code>/</code> in Claude Code:</p>
 <ul>
 <li>
-<strong>Revise a teaching material</strong>: give a file and say
+<strong>Revise a teaching material</strong>: Give a file and say
 what to change.</li>
 <li>
-<strong>Adapt my materials to mirtverse</strong>: give an existing
+<strong>Adapt my materials to mirtverse</strong>: Give an existing
 lab, notes file or script.</li>
 <li>
-<strong>Build a lab on my data</strong>: give a data file and a
+<strong>Build a lab on my data</strong>: Give a data file and a
 topic.</li>
 </ul>
 </div>
@@ -225,7 +225,7 @@ when knitting them. It is on by default for desktop clients and off for
 ChatGPT (see below).</li>
 <li>
 <strong>Your data.</strong> The assistant’s AI provider sees what
-the tools return: file contents, and summaries of datasets (column
+the tools return: File contents, and summaries of datasets (column
 names, value ranges and counts, not the full data). Do not put
 identifiable student data in the course folder, or check your
 institution’s rules on AI tools first.</li>
@@ -312,7 +312,7 @@ is available on some plans only.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_mcp_server.html">mv_mcp_server</a></span><span class="op">(</span><span class="st">"~/courses/edpy507"</span>, transport <span class="op">=</span> <span class="st">"http"</span>, port <span class="op">=</span> <span class="fl">8765</span><span class="op">)</span></span></code></pre></div>
 <p>It prints a URL such as
 <code>http://127.0.0.1:8765/mcp/k3v9...</code>. The random last part is
-a secret: only people who know it can reach the server.</p>
+a secret: Only people who know it can reach the server.</p>
 </li>
 <li><p>Make the port reachable with a tunnel, for example
 <code>ngrok http 8765</code> or
@@ -331,7 +331,7 @@ Ctrl+C in R) when you are done.</p>
 </h2>
 <ul>
 <li>
-<strong>Start each conversation with the big picture</strong>: which
+<strong>Start each conversation with the big picture</strong>: Which
 course, which students, what they already know. The assistant keeps your
 voice better when it knows your audience.</li>
 <li>
@@ -340,7 +340,7 @@ what you would change before you do it”).</li>
 <li>
 <strong>Check its work.</strong> The assistant runs
 <code>check_material</code> after every change, but you know your
-course: preview a changed lab with <code><a href="https://pkgs.rstudio.com/learnr/reference/run_tutorial.html" class="external-link">learnr::run_tutorial()</a></code>
+course: Preview a changed lab with <code><a href="https://pkgs.rstudio.com/learnr/reference/run_tutorial.html" class="external-link">learnr::run_tutorial()</a></code>
 or the Run Document button before your students see it.</li>
 <li>
 <strong>Let it look things up.</strong> If the assistant seems

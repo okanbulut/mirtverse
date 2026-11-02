@@ -1,6 +1,6 @@
 # Sharing results with a dashboard
 
-Most people who need IRT results never open R: teachers who want to know
+Most people who need IRT results never open R: Teachers who want to know
 which questions worked, a client who commissioned a survey, a committee
 reviewing a test form, or students in a measurement course. A results
 dashboard gives them the findings in a form they can explore on their
@@ -11,9 +11,9 @@ reader:
 
 | Tool | What it is for | Who uses it |
 |----|----|----|
-| [Workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md) ([`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md)) | Doing an analysis: load data, fit and compare models, score people | You, the analyst |
+| [Workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md) ([`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md)) | Doing an analysis: Load data, fit and compare models, score people | You, the analyst |
 | Report ([`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)) | A complete, static record of the analysis | Reviewers, appendices, archives |
-| **Dashboard** ([`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)) | Exploring finished results: click items, move a slider, look someone up | People who do not use R |
+| **Dashboard** ([`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md)) | Exploring finished results: Click items, move a slider, look someone up | People who do not use R |
 
 **[Open a live example
 dashboard](https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.md)**.
@@ -44,14 +44,14 @@ model, or the result of
 in which case the recommended model is shown. Assign the result
 (`app <- mv_dashboard(...)`) to keep it without opening it.
 
-![The summary panel: headline numbers and the plain-language
+![The summary panel: Headline numbers and the plain-language
 interpretation.](../dashboard/summary.png)
 
-The summary panel: headline numbers and the plain-language
+The summary panel: Headline numbers and the plain-language
 interpretation.
 
 The summary panel puts the numbers people ask for first at the top:
-respondents, items, reliability and how many items need review. The text
+Respondents, items, reliability and how many items need review. The text
 below them is the same plain-language summary you get from
 [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md),
 so a reader does not need to know what an M2 statistic is to understand
@@ -177,7 +177,7 @@ r-universe or GitHub, not from a local copy, before you deploy.
 
 Everything a dashboard shows is computed once, when you build it. The
 app never refits or rescores anything, so it opens quickly, and the
-saved dashboard holds only summaries: item statistics and parameters,
+saved dashboard holds only summaries: Item statistics and parameters,
 curves, the binned score distribution and pictures of the item cards.
 **It never contains the item responses**, in either format.
 
@@ -192,7 +192,7 @@ your own identifiers instead of row numbers:
 mv_dashboard(mod, panels = c("summary", "scores", "persons"), ids = students$id)
 ```
 
-Leave the persons panel out of anything you post publicly: the scores
+Leave the persons panel out of anything you post publicly: The scores
 panel already shows the score distribution and the sum-score conversion
 table without identifying anyone.
 

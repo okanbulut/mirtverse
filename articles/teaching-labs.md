@@ -27,7 +27,7 @@ computer, so you can close the lab and pick up where you left off.
 
 ## The labs
 
-### Labs 1 and 2: the certification exam
+### Labs 1 and 2: The certification exam
 
 You are the new psychometrician for the fictional **Northfield
 Certification Board**. Its 32-item, five-option exam was taken by 1,200
@@ -43,7 +43,7 @@ you to find.
 
 Lab 2 fits its own model at the start, so it can be done on its own.
 
-### Lab 3: is the test fair?
+### Lab 3: Is the test fair?
 
 You work for the fictional **Westvale Ministry of Education**. A parent
 group says the Grade 6 numeracy test is biased against English language
@@ -58,7 +58,7 @@ on 30 items, and `numeracy_items` describes each item.
 Lab 3 has its own storyline, so it can be done before or after Labs 1
 and 2.
 
-### Lab 4: linking two forms
+### Lab 4: Linking two forms
 
 You are the psychometrician for the fictional **Prairie Nursing
 Council**. Its licensure exam has a new form, and the pass rate jumped
@@ -72,7 +72,7 @@ easier? The data (`linking`) cover 1,000 candidates on each of two
 
 Lab 4 also stands on its own.
 
-### Lab 5: designing an adaptive test
+### Lab 5: Designing an adaptive test
 
 You work in the testing office of the fictional **Lakeshore College**,
 whose 40-item math placement test is too long. Could a computerized
@@ -84,10 +84,10 @@ needs.
 |----|----|----|
 | **5. Designing an adaptive test** (about 75 minutes) | `run_lab("cat-design")` | Look at where the bank is informative, run one CAT by hand, simulate 500 students, and choose a stopping rule, exposure control and content balancing |
 
-Lab 5 stands on its own and needs no extra packages: the CAT is a short
+Lab 5 stands on its own and needs no extra packages: The CAT is a short
 function written out in the lab.
 
-### Lab 6: scoring open-ended responses
+### Lab 6: Scoring open-ended responses
 
 You are the psychometrician for the fictional **Northfield Grade 9
 Science Assessment**. Six open-ended tasks were each scored 0 to 4 by
@@ -225,7 +225,7 @@ fits three.
 
 ### Tips for running the labs
 
-- **Before class:** ask students to install mirtverse and learnr and run
+- **Before class:** Ask students to install mirtverse and learnr and run
   [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md).
   Fitting the models needs no internet connection.
 - **Order:** Labs 1 and 2 belong together. Lab 3 works on its own and
@@ -233,23 +233,23 @@ fits three.
   good warm-up for it. Lab 4 fits a unit on linking and equating, Lab 5
   a unit on item banks and adaptive testing, and Lab 6 a unit on
   polytomous models or performance assessment.
-- **Speed:** most exercises run in under about 15 seconds on a laptop;
+- **Speed:** Most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
-- **Hosting:** to run a lab in the browser without any installation,
+- **Hosting:** To run a lab in the browser without any installation,
   deploy the tutorial folder
   (`system.file("tutorials", "model-choice", package = "mirtverse")`) to
   shinyapps.io or Posit Connect. learnr’s event recorder
   (`options(tutorial.event_recorder = ...)`) can log students’ answers
   there.
-- **Your own data:** the [instructor
+- **Your own data:** The [instructor
   toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md)
   builds a lab on any response dataset with
   [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md),
   and
   [`copy_lab()`](https://www.okanbulut.com/mirtverse/reference/copy_lab.md)
   gives you an editable copy of any of these labs to reword or extend.
-- **Assessment:** the free-text justification at the end of each lab
+- **Assessment:** The free-text justification at the end of each lab
   makes a good short assignment. Ask students to paste it, together with
   their decision table, into your course site.
 
@@ -277,21 +277,21 @@ returns the generating values for instructors.
 
 ### Lab 1
 
-- **Why score first:** the 2PL and 3PL model the probability of a
+- **Why score first:** The 2PL and 3PL model the probability of a
   correct answer.
-- **Negative item-total correlation:** check the key before anything
+- **Negative item-total correlation:** Check the key before anything
   else.
 - **Real key for Q14:** A. About 90% of the top 20% of candidates chose
   it; the published key says C.
-- **Dimensions:** one. The likelihood-ratio test and AIC favour two
+- **Dimensions:** One. The likelihood-ratio test and AIC favour two
   factors, BIC favours one, and the second factor is made only of Q21
   and Q22.
-- **Model:** the 2PL (lowest BIC, converges, M2 RMSEA about 0.015) or
+- **Model:** The 2PL (lowest BIC, converges, M2 RMSEA about 0.015) or
   the 3PL (lowest AIC, but it does not converge with default settings
   and its guessing parameters are poorly determined at N = 1,200). Both
   are accepted; the feedback names the trade-off. Rasch is rejected by
   every criterion.
-- **Item fit:** a couple of items have p \< .01, but after a
+- **Item fit:** A couple of items have p \< .01, but after a
   false-discovery-rate correction none is flagged at that level, and the
   misfit is small (RMSEA about 0.03).
 - **Q21 and Q22:** Q3 of about 0.27, more than twice any other pair.
@@ -317,25 +317,25 @@ choices:
 
 - **Hardest item:** Q32 (b about 3), with Q12 close behind. Both have
   low slopes (about 0.45), the 2PL’s way of absorbing guessing.
-- **Trace line:** at theta = 0, Q32’s probability is about 0.2.
-- **Pass mark:** raw 18 corresponds to theta of about 0.05. Information
+- **Trace line:** At theta = 0, Q32’s probability is about 0.2.
+- **Pass mark:** Raw 18 corresponds to theta of about 0.05. Information
   there is about 6 (SE about 0.41), close to the exam’s peak at theta of
   about -0.5. Medium-difficulty, highly discriminating items would help
   most.
-- **Scoring:** scale scores from the sum-score table (every candidate
+- **Scoring:** Scale scores from the sum-score table (every candidate
   with the same raw score gets the same score) are the most defensible
   for certification; pattern EAP is accepted with the caveat about
   explaining it. ML is undefined for perfect and zero scores.
-- **Classification:** about 145 of 1,200 candidates (12%) are expected
+- **Classification:** About 145 of 1,200 candidates (12%) are expected
   to be misclassified, and about 364 (30%) are within one SE of the cut.
   Report it, and consider a retest policy or more items near the cut;
   don’t move the cut.
 - **Impact:** French candidates are estimated 0.38 SD lower (true value
   0.35). That is a group difference, not item bias.
-- **DIF:** only Q09 (uniform; about 15 percentage points harder for
+- **DIF:** Only Q09 (uniform; about 15 percentage points harder for
   French candidates at the same ability) and Q27 (non-uniform; the
   curves cross) are flagged. Send both to bilingual content review.
-- **Truth:** the 2PL departs most from the true difficulties for the
+- **Truth:** The 2PL departs most from the true difficulties for the
   hardest items, where guessing matters.
 
 ![DIF item curves by group in Lab 2: Q09 is uniformly harder for French
@@ -361,7 +361,7 @@ them):
 
 | Planted problem | What a good analyst does |
 |----|----|
-| ELL students are 0.5 SD lower on average | Treats it as impact, not bias: the clean-anchor model estimates it at 0.55 SD |
+| ELL students are 0.5 SD lower on average | Treats it as impact, not bias: The clean-anchor model estimates it at 0.55 SD |
 | N07, N18, N20, N25 and N30, long word problems, are harder for ELL students at the same ability (uniform DIF) | Flags them with both methods and sends them to content review |
 | N02, a word problem with an idiom, discriminates poorly for ELL students (non-uniform DIF) | Notices that Mantel-Haenszel misses it and the IRT test catches it |
 | N21, a symbolic item, is easier for ELL students | Flags it for review too, rather than keeping it to offset the others |
@@ -375,26 +375,26 @@ them):
 - **Mantel-Haenszel:** D for N07 is about -2.2. Category C: N07, N20,
   N25 and N30 (negative) and N21 (positive, about +2.6). Category B: N18
   and N15. N02 is in category A, because its curves cross.
-- **N21:** large DIF that favours ELL students. It needs review like the
+- **N21:** Large DIF that favours ELL students. It needs review like the
   others.
 - **First IRT pass
   ([`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)):**
-  ten items flagged: the seven planted ones plus N05, N15 and N16, which
+  Ten items flagged: The seven planted ones plus N05, N15 and N16, which
   have small positive effects. N02’s esd is near 0 but its uesd is about
-  0.15: non-uniform DIF.
-- **Clean anchor:** with the 20 unflagged items as anchors, the ELL mean
+  0.15: Non-uniform DIF.
+- **Clean anchor:** With the 20 unflagged items as anchors, the ELL mean
   moves from -0.68 to -0.55 SD (true value -0.5), and N05, N15 and N16
   are no longer flagged. They were artefacts of a contaminated anchor.
-- **How much it matters:** for an ELL and a fluent student of the same
+- **How much it matters:** For an ELL and a fluent student of the same
   ability, the DIF costs the ELL student about 0.7 of a point out of 30.
   The five word problems cost about 0.8; N21 gives back about 0.2. Most
   of the 3.5-point gap is impact. Cancellation does not make the items
   fair.
-- **Content review:** send all seven items to a panel with ELL and
+- **Content review:** Send all seven items to a panel with ELL and
   numeracy specialists, and revise wording in plain language. Length
   alone is not the explanation, since N10, N12 and N28 are just as long.
   Field-test the revised items and check them for DIF again.
-- **Gender:** no item is flagged and the means are almost equal. Report
+- **Gender:** No item is flagged and the means are almost equal. Report
   “no evidence of gender DIF” with the sample size; it is not proof of
   none.
 
@@ -419,19 +419,19 @@ The planted problems in `linking` (`lab_truth("linking")` returns them):
 
 | Planted problem | What a good analyst does |
 |----|----|
-| The 2026 candidates are more able: mean 0.3, SD 1.1 on the Form A scale | Recovers it from the anchors: about 0.36 and 1.12 (mean-sigma) or 0.37 and 1.15 (concurrent) |
+| The 2026 candidates are more able: Mean 0.3, SD 1.1 on the Form A scale | Recovers it from the anchors: About 0.36 and 1.12 (mean-sigma) or 0.37 and 1.15 (concurrent) |
 | Form B’s unique items are easier | Finds Form B about 4 points easier at the pass mark |
 | Anchor C07 leaked and is 1.3 easier on Form B | Spots it in the plot of anchor difficulties and by its displacement, and links without it |
 
 - **Raw scores:** Form B candidates score 5.9 points higher on the form
   but only 1.1 higher on the 12 anchors, so both the group and the form
   differ.
-- **Why the anchors shift:** each separate calibration puts its own
+- **Why the anchors shift:** Each separate calibration puts its own
   group’s mean at 0, and the 2026 group is more able.
 - **Drift:** C07 is about 1.5 easier on the Form B scale; the other
   anchors shift by 0.6 or less. After linking, C07’s displacement is
   about -1.2 and every other anchor is within ±0.4.
-- **Mean-sigma:** with the 11 clean anchors, A is about 1.12 and B about
+- **Mean-sigma:** With the 11 clean anchors, A is about 1.12 and B about
   0.36. With C07, B rises to about 0.45, making the 2026 group look more
   able than it is.
 - **Concurrent calibration:** Form B group mean 0.37 and SD 1.15, close
@@ -440,7 +440,7 @@ The planted problems in `linking` (`lab_truth("linking")` returns them):
 - **Pass mark:** 22 on Form A is theta of about 0.10, which corresponds
   to 26.1 on Form B, so the Form B pass mark is 26 (60% pass, compared
   with 72% at 22). The remaining rise from 50% is real.
-- **The cost of drift:** with C07 in the anchor, the equated pass mark
+- **The cost of drift:** With C07 in the anchor, the equated pass mark
   is 25.0, and 38 more candidates would pass.
 
 #### Discussion prompts
@@ -464,12 +464,12 @@ The planted problems in `catbank` (`lab_truth("catbank")` returns them):
 | Algebra items discriminate better than the others | Notices that an unconstrained CAT is about 70% Algebra and adds content balancing |
 | Five exceptional Algebra items near the middle (M012, M024, M051, M076, M082) | Spots their exposure; sees that randomesque alone cannot fix it, and recommends more items like them and a stronger exposure control |
 
-- **Where the bank is weak:** above theta of about 1.5.
+- **Where the bank is weak:** Above theta of about 1.5.
 - **First item:** M012, the most informative item at theta = 0, which
   every student gets.
-- **One CAT by hand:** the average student finishes in 9 items; the
+- **One CAT by hand:** The average student finishes in 9 items; the
   strong student (theta 1.8) uses all 30 and ends with SE 0.35.
-- **CAT versus the fixed test:** about 15 items on average against 40,
+- **CAT versus the fixed test:** About 15 items on average against 40,
   with about the same overall precision (RMSE 0.32 against 0.30). The
   CAT is more precise for weak and strong students (SE 0.30 and 0.35
   against 0.35 and 0.43), but students above theta 1.5 take about 29
@@ -479,7 +479,7 @@ The planted problems in `catbank` (`lab_truth("catbank")` returns them):
   the maximum down to about 75% at almost no cost; the long-term fix is
   more items of similar quality, plus a probabilistic cap such as
   Sympson-Hetter.
-- **Content:** about 70% of an unconstrained CAT is Algebra. Cycling
+- **Content:** About 70% of an unconstrained CAT is Algebra. Cycling
   through the areas brings Algebra to 27% and adds about 5 items per
   student, which is worth it.
 - **Stopping rule:** SE 0.30 with at most 30 items (about 21 items with
@@ -520,14 +520,14 @@ them):
   others, and R5 is 0.53 below their partners on the same responses.
   R8’s mean is normal but their exact agreement is 46% against about
   61%.
-- **Final scores:** about 5% of responses needed a third read.
-- **Model:** the GPCM has the lowest BIC (20454), then the GRM (20487)
+- **Final scores:** About 5% of responses needed a third read.
+- **Model:** The GPCM has the lowest BIC (20454), then the GRM (20487)
   and the PCM (20496); the likelihood-ratio test also prefers the GPCM
   over the PCM. Discriminations range from about 0.7 (T2) to 1.5 (T3).
 - **T4:** b1 = -0.11 is above b2 = -1.00, so a score of 1 is never the
   most likely. After collapsing 1 and 2 the steps are -0.95, 0.43 and
   1.34.
-- **Engine:** engine-human QWK is 0.81 to 0.89 and the SMD -0.08 to
+- **Engine:** Engine-human QWK is 0.81 to 0.89 and the SMD -0.08 to
   -0.14, so it passes the overall checks. Within ELL students the SMD is
   about -0.33 (fluent students about -0.04), well beyond ±0.10. It is
   not ready to replace a human reader.

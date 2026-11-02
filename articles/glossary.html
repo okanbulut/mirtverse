@@ -40,7 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
-    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): from a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -101,7 +101,7 @@
     
 <p>This page explains the words you will meet in item response theory
 (IRT) courses, papers and mirtverse output. Each entry gives a
-plain-language definition, then <strong>In R</strong>: the mirtverse or
+plain-language definition, then <strong>In R</strong>: The mirtverse or
 mirt function that computes or shows it. Function names link to their
 help pages.</p>
 <p>The entries are grouped in the order a course usually meets them,
@@ -206,7 +206,7 @@ True/false and scored multiple-choice items are dichotomous.</p>
 <p>An item with more than two ordered score categories, such as a rating
 scale (strongly disagree to strongly agree) or an essay scored 0 to
 4.</p>
-<p><strong>In R:</strong> fit with <code>itemtype = "graded"</code> or
+<p><strong>In R:</strong> Fit with <code>itemtype = "graded"</code> or
 <code>"gpcm"</code> in <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt::mirt()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -237,26 +237,26 @@ side.</p>
 item score for polytomous items). Despite the name, a <em>high</em>
 p-value means an <em>easy</em> item. It is not the same as the p-value
 of a significance test.</p>
-<p><strong>In R:</strong> the <code>mean</code> column of
+<p><strong>In R:</strong> The <code>mean</code> column of
 <code><a href="../reference/item_table.html">item_table()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="item-total-correlation">Item-total correlation<a class="anchor" aria-label="anchor" href="#item-total-correlation"></a>
 </h3>
 <p>The correlation between an item score and the sum of the other items.
-It is the classical index of discrimination: low or negative values
+It is the classical index of discrimination: Low or negative values
 (below about 0.2) suggest a miskeyed, confusing or off-topic item.</p>
-<p><strong>In R:</strong> the <code>item_total_r</code> column of
+<p><strong>In R:</strong> The <code>item_total_r</code> column of
 <code><a href="../reference/item_table.html">item_table()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="dimensionality">Dimensionality and unidimensionality<a class="anchor" aria-label="anchor" href="#dimensionality"></a>
 </h3>
 <p>The number of distinct traits a test measures. Most IRT models used
-in practice are <em>unidimensional</em>: they assume one trait explains
+in practice are <em>unidimensional</em>: They assume one trait explains
 how people answer. If a math test also measures reading speed, a
 one-dimensional model may misfit.</p>
-<p><strong>In R:</strong> compare <code>mirt(data, 1)</code> with
+<p><strong>In R:</strong> Compare <code>mirt(data, 1)</code> with
 <code>mirt(data, 2)</code> using <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>;
 <code><a href="../reference/select_model.html">select_model()</a></code> can include a two-factor candidate with
 <code>dims = 1:2</code>.</p>
@@ -265,7 +265,7 @@ one-dimensional model may misfit.</p>
 <h3 id="local-independence">Local independence<a class="anchor" aria-label="anchor" href="#local-independence"></a>
 </h3>
 <p>The assumption that, for people at the same theta, answers to
-different items are unrelated: once ability is known, getting item 3
+different items are unrelated: Once ability is known, getting item 3
 right tells you nothing more about item 4. It is what lets the model
 multiply item probabilities together. See <a href="#local-dependence">local dependence</a> for how it fails.</p>
 </div>
@@ -348,7 +348,7 @@ a confirmatory structure.</p>
 <div class="section level3">
 <h3 id="item-parameters">Item parameters<a class="anchor" aria-label="anchor" href="#item-parameters"></a>
 </h3>
-<p>The numbers that describe how an item behaves: discrimination,
+<p>The numbers that describe how an item behaves: Discrimination,
 difficulty and, in some models, guessing and an upper asymptote. They
 are estimated once, during <a href="#calibration">calibration</a>, and
 then reused to score anyone who takes the item.</p>
@@ -376,20 +376,20 @@ with <em>b</em> = 1 is answered correctly by half the people whose
 ability is one standard deviation above average. Higher <em>b</em> means
 a harder item. For polytomous items the location is usually the mean of
 the <a href="#threshold">thresholds</a>.</p>
-<p><strong>In R:</strong> the <code>b</code> rows of
+<p><strong>In R:</strong> The <code>b</code> rows of
 <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, or the <code>location</code> column of
 <code><a href="../reference/item_table.html">item_table()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="discrimination">Discrimination (slope, <em>a</em>)<a class="anchor" aria-label="anchor" href="#discrimination"></a>
 </h3>
-<p>How steeply the item characteristic curve rises: how sharply the item
+<p>How steeply the item characteristic curve rises: How sharply the item
 separates people just below its difficulty from people just above it.
 Values around 1 to 2 are typical. Values below about 0.5 mean the item
 tells you little about ability; negative values usually mean a miskeyed
 item.</p>
 <p><img src="glossary_files/figure-html/discrimination-1.png" class="r-plt" alt="Two curves with the same difficulty: a steep curve with high discrimination and a flat curve with low discrimination." width="85%" style="display: block; margin: auto;"></p>
-<p><strong>In R:</strong> the <code>a</code> rows of
+<p><strong>In R:</strong> The <code>a</code> rows of
 <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, or the <code>discrimination</code> column of
 <code><a href="../reference/item_table.html">item_table()</a></code>, which flags low values.</p>
 </div>
@@ -401,7 +401,7 @@ correctly, the height of the curve’s left tail. For a four-option
 multiple-choice item it is often near 0.20 to 0.25. Only the 3PL and 4PL
 models estimate it.</p>
 <p><img src="glossary_files/figure-html/guessing-1.png" class="r-plt" alt="A 3PL curve that levels off at 0.2 on the left, compared with a 2PL curve that goes down to zero." width="85%" style="display: block; margin: auto;"></p>
-<p><strong>In R:</strong> the <code>g</code> rows of <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>
+<p><strong>In R:</strong> The <code>g</code> rows of <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>
 for a 3PL model.</p>
 </div>
 <div class="section level3">
@@ -416,7 +416,7 @@ example when able test takers sometimes slip on an item.</p>
 <div class="section level3">
 <h3 id="slope-intercept">Slope-intercept form<a class="anchor" aria-label="anchor" href="#slope-intercept"></a>
 </h3>
-<p>The way mirt stores parameters internally: the 2PL is written as 1 /
+<p>The way mirt stores parameters internally: The 2PL is written as 1 /
 (1 + exp(−(<em>a</em>θ + <em>d</em>))), where <em>d</em> is an
 intercept, rather than with the difficulty <em>b</em>. The two are
 related by <em>b</em> = −<em>d</em> / <em>a</em>. Multidimensional
@@ -433,7 +433,7 @@ values, <code>coef(mod, IRTpars = TRUE)</code> the traditional ones;
 becomes more likely to score in a higher category than in the one below
 (GPCM), or has a 50% chance of scoring in or above a category (graded
 model). An item with five categories has four thresholds.</p>
-<p><strong>In R:</strong> the <code>b1</code>, <code>b2</code>, … rows
+<p><strong>In R:</strong> The <code>b1</code>, <code>b2</code>, … rows
 of <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -451,7 +451,7 @@ data).</p>
 <div class="section level3">
 <h3 id="expected-score">Expected score<a class="anchor" aria-label="anchor" href="#expected-score"></a>
 </h3>
-<p>The average score a person at a given theta would get on an item: the
+<p>The average score a person at a given theta would get on an item: The
 probability of success for a 0/1 item, or the probability-weighted
 average category for a polytomous one. Summed over items it gives the <a href="#test-characteristic-curve">test characteristic curve</a>.</p>
 <p><strong>In R:</strong> <code><a href="https://philchalmers.github.io/mirt/reference/expected.item.html" class="external-link">mirt::expected.item()</a></code>;
@@ -489,17 +489,17 @@ parameters that make the observed responses most likely, averaging over
 the unknown abilities instead of estimating them at the same time. The
 EM (expectation-maximization) algorithm does this in cycles until the
 estimates stop changing.</p>
-<p><strong>In R:</strong> the default <code>method = "EM"</code> in
+<p><strong>In R:</strong> The default <code>method = "EM"</code> in
 <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt::mirt()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="convergence">Convergence<a class="anchor" aria-label="anchor" href="#convergence"></a>
 </h3>
 <p>Whether the estimation algorithm reached a stable solution. A model
-that has not converged should not be used: try more cycles
+that has not converged should not be used: Try more cycles
 (<code>technical = list(NCYCLES = 2000)</code>), a simpler model or
 better starting values.</p>
-<p><strong>In R:</strong> the <code>converged</code> column of
+<p><strong>In R:</strong> The <code>converged</code> column of
 <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>; <code>extract.mirt(mod, "converged")</code>.</p>
 </div>
 <div class="section level3">
@@ -507,7 +507,7 @@ better starting values.</p>
 </h3>
 <p>How uncertain an estimated item parameter is. Small samples, extreme
 items and complex models give large standard errors.</p>
-<p><strong>In R:</strong> fit with <code>SE = TRUE</code>, then
+<p><strong>In R:</strong> Fit with <code>SE = TRUE</code>, then
 <code>tidy(mod, conf.int = TRUE)</code> adds the standard errors and
 confidence limits.</p>
 </div>
@@ -565,7 +565,7 @@ large-scale assessments and Rasch work.</p>
 <p>How much an item reduces uncertainty about theta at each ability
 level. An item is most informative near its difficulty, and more
 discriminating items give more information. Information is what makes
-items “work” for some people and not others: a hard item tells you a lot
+items “work” for some people and not others: A hard item tells you a lot
 about strong students and almost nothing about weak ones.</p>
 <p><strong>In R:</strong> <code>gg_info(mod, type = "items")</code>;
 <code><a href="https://philchalmers.github.io/mirt/reference/iteminfo.html" class="external-link">mirt::iteminfo()</a></code>.</p>
@@ -573,7 +573,7 @@ about strong students and almost nothing about weak ones.</p>
 <div class="section level3">
 <h3 id="test-information">Test information<a class="anchor" aria-label="anchor" href="#test-information"></a>
 </h3>
-<p>The sum of the item informations: how precisely the whole test
+<p>The sum of the item informations: How precisely the whole test
 measures at each theta. A test built to make pass/fail decisions should
 have its peak near the <a href="#cut-score">cut score</a>.</p>
 </div>
@@ -596,11 +596,11 @@ errors of individual scores come from
 <h3 id="marginal-reliability">Marginal reliability<a class="anchor" aria-label="anchor" href="#marginal-reliability"></a>
 </h3>
 <p>A single summary of precision for a whole population, on the familiar
-0-to-1 reliability scale: the share of the variance in theta estimates
+0-to-1 reliability scale: The share of the variance in theta estimates
 that is true differences between people rather than measurement error.
 Above 0.90 is excellent, 0.80 good and 0.70 acceptable for most
 uses.</p>
-<p><strong>In R:</strong> the <code>reliability</code> column of
+<p><strong>In R:</strong> The <code>reliability</code> column of
 <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>; <code><a href="https://philchalmers.github.io/mirt/reference/marginal_rxx.html" class="external-link">mirt::marginal_rxx()</a></code>;
 <code><a href="https://philchalmers.github.io/mirt/reference/empirical_rxx.html" class="external-link">mirt::empirical_rxx()</a></code> for reliability of the estimated
 scores.</p>
@@ -645,27 +645,27 @@ details.</p>
 each pair is answered correctly together). With large samples it almost
 always rejects, so the effect-size indices below matter more. For
 polytomous items mirtverse uses the related C2 statistic.</p>
-<p><strong>In R:</strong> the <code>M2</code>, <code>df</code> and
+<p><strong>In R:</strong> The <code>M2</code>, <code>df</code> and
 <code>p.value</code> columns of <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="rmsea">RMSEA<a class="anchor" aria-label="anchor" href="#rmsea"></a>
 </h3>
-<p>Root mean square error of approximation: misfit per degree of
+<p>Root mean square error of approximation: Misfit per degree of
 freedom, where 0 is perfect. Common guidelines are below 0.05 for close
 fit and below 0.08 for reasonable fit. The same index is reported for
 each item from the <a href="#s-x2">S-X2</a> statistic.</p>
-<p><strong>In R:</strong> the <code>RMSEA</code> column of
+<p><strong>In R:</strong> The <code>RMSEA</code> column of
 <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> (model) and of <code><a href="../reference/item_table.html">item_table()</a></code>
 (items).</p>
 </div>
 <div class="section level3">
 <h3 id="srmsr">SRMSR<a class="anchor" aria-label="anchor" href="#srmsr"></a>
 </h3>
-<p>Standardized root mean square residual: the average difference
+<p>Standardized root mean square residual: The average difference
 between the observed and model-implied correlations between items.
 Values below about 0.05 indicate good fit.</p>
-<p><strong>In R:</strong> the <code>SRMSR</code> column of
+<p><strong>In R:</strong> The <code>SRMSR</code> column of
 <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -674,17 +674,17 @@ Values below about 0.05 indicate good fit.</p>
 <p>Comparative fit indices that compare the model with a baseline in
 which the items are unrelated. Values of 0.95 or above are usually taken
 as good fit.</p>
-<p><strong>In R:</strong> the <code>CFI</code> and <code>TLI</code>
+<p><strong>In R:</strong> The <code>CFI</code> and <code>TLI</code>
 columns of <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="information-criteria">Information criteria (AIC, BIC, SABIC)<a class="anchor" aria-label="anchor" href="#information-criteria"></a>
 </h3>
-<p>Numbers for comparing models fitted to the same data: they reward fit
+<p>Numbers for comparing models fitted to the same data: They reward fit
 and penalise extra parameters. <em>Smaller is better</em>. BIC penalises
 complexity more than AIC and tends to choose simpler models; SABIC is in
 between.</p>
-<p><strong>In R:</strong> the <code>AIC</code>, <code>BIC</code> and
+<p><strong>In R:</strong> The <code>AIC</code>, <code>BIC</code> and
 <code>SABIC</code> columns of <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>;
 <code><a href="../reference/select_model.html">select_model()</a></code> uses BIC by default;
 <code>anova(mod1, mod2)</code>.</p>
@@ -717,7 +717,7 @@ Thissen). It groups people by sum score and compares the observed
 proportion correct in each group with the model’s prediction. A small
 p-value signals misfit; with many items, adjust the p-values for
 multiple testing.</p>
-<p><strong>In R:</strong> the <code>S_X2</code>, <code>p.value</code>
+<p><strong>In R:</strong> The <code>S_X2</code>, <code>p.value</code>
 and <code>RMSEA</code> columns of <code><a href="../reference/item_table.html">item_table()</a></code>;
 <code><a href="../reference/gg_itemfit.html">gg_itemfit()</a></code> plots them.</p>
 </div>
@@ -744,7 +744,7 @@ than it is.</p>
 <div class="section level3">
 <h3 id="q3">Q3<a class="anchor" aria-label="anchor" href="#q3"></a>
 </h3>
-<p>Yen’s Q3 statistic: the correlation between two items’ residuals
+<p>Yen’s Q3 statistic: The correlation between two items’ residuals
 (observed minus expected score) after the trait is taken out. Pairs
 whose Q3 is more than 0.2 above the average Q3 are worth a look.</p>
 <p><strong>In R:</strong> <code>gg_q3(mod)</code> draws a heatmap and
@@ -762,10 +762,10 @@ Misfit can mean guessing, cheating, carelessness or a scoring error.</p>
 <div class="section level3">
 <h3 id="zh">Zh (or lz)<a class="anchor" aria-label="anchor" href="#zh"></a>
 </h3>
-<p>The usual person-fit statistic: a standardized log-likelihood of the
+<p>The usual person-fit statistic: A standardized log-likelihood of the
 person’s answers. Large negative values (below −1.96) flag unusual
 patterns.</p>
-<p><strong>In R:</strong> the <code>Zh</code> column of
+<p><strong>In R:</strong> The <code>Zh</code> column of
 <code>mirt::personfit(mod)</code>.</p>
 </div>
 </div>
@@ -777,7 +777,7 @@ patterns.</p>
 </h3>
 <p>An item has DIF when people from different groups who have the
 <em>same</em> ability have different chances of answering it correctly.
-DIF is not the same as a group difference in average scores: groups can
+DIF is not the same as a group difference in average scores: Groups can
 truly differ in ability. DIF means the item itself behaves differently,
 for example because of a word that is harder in translation.</p>
 <p><strong>In R:</strong> <code>dif(data, group = "language")</code>
@@ -790,7 +790,7 @@ them; <code><a href="https://philchalmers.github.io/mirt/reference/DIF.html" cla
 <p>In a DIF study, the reference group is the comparison group (often
 the majority) and the focal group is the one whose fairness is in
 question.</p>
-<p><strong>In R:</strong> the <code>reference</code> and
+<p><strong>In R:</strong> The <code>reference</code> and
 <code>focal</code> elements of <code><a href="../reference/dif.html">dif()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -815,7 +815,7 @@ averaged over the focal group: <code>esd</code> is signed (positive
 means the item favours the focal group) and <code>uesd</code> unsigned.
 For 0/1 items these are differences in probability, so 0.05 means five
 percentage points.</p>
-<p><strong>In R:</strong> the <code>esd</code> and <code>uesd</code>
+<p><strong>In R:</strong> The <code>esd</code> and <code>uesd</code>
 columns of <code><a href="../reference/dif.html">dif()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -824,7 +824,7 @@ columns of <code><a href="../reference/dif.html">dif()</a></code>.</p>
 <p>Items assumed to be free of DIF (in a DIF study) or shared by two
 forms (in <a href="#linking">linking</a>). They hold the scale in place
 while other items are compared.</p>
-<p><strong>In R:</strong> the <code>items</code> argument of
+<p><strong>In R:</strong> The <code>items</code> argument of
 <code><a href="../reference/dif.html">dif()</a></code> (untested items act as anchors);
 <code><a href="../reference/link_to_bank.html">link_to_bank()</a></code> finds the anchors shared with a bank.</p>
 </div>
@@ -915,7 +915,7 @@ cuts.</p>
 <p>The chance of success used to place items on the scale for a Bookmark
 booklet. With RP67, each item is located where a person has a
 two-in-three chance of answering correctly.</p>
-<p><strong>In R:</strong> the <code>rp</code> argument of
+<p><strong>In R:</strong> The <code>rp</code> argument of
 <code><a href="../reference/item_map.html">item_map()</a></code> (0.67 by default).</p>
 </div>
 <div class="section level3">
@@ -981,7 +981,7 @@ runs real ones.</p>
 <h3 id="multistage-test">Multistage test (MST)<a class="anchor" aria-label="anchor" href="#multistage-test"></a>
 </h3>
 <p>A test that adapts between blocks of items (modules) instead of after
-every item: everyone starts with the same routing module, then moves to
+every item: Everyone starts with the same routing module, then moves to
 an easier or harder module depending on their score.</p>
 <p><strong>In R:</strong> <code><a href="../reference/assemble_mst.html">assemble_mst()</a></code>.</p>
 </div>
@@ -1002,7 +1002,7 @@ tracks it over time.</p>
 <div class="section level3">
 <h3 id="time-intensity">Time intensity<a class="anchor" aria-label="anchor" href="#time-intensity"></a>
 </h3>
-<p>How long an item typically takes, on a log-seconds scale: the
+<p>How long an item typically takes, on a log-seconds scale: The
 response-time counterpart of difficulty. In van der Linden’s lognormal
 model it is written β (beta).</p>
 <p><strong>In R:</strong> <code><a href="../reference/fit_rt.html">fit_rt()</a></code>; see the <a href="../articles/response-times.html">response times article</a>.</p>
@@ -1031,7 +1031,7 @@ threshold, such as 10% of the item’s average time.</p>
 <p>The share of a person’s responses that are <em>not</em> rapid
 guesses. People with low RTE (often below 0.90) may have scores that
 understate their ability.</p>
-<p><strong>In R:</strong> the <code>rte</code> column of
+<p><strong>In R:</strong> The <code>rte</code> column of
 <code>fit_rt()$persons</code>; <code>autoplot(fit, type = "rte")</code>
 plots it.</p>
 </div>
@@ -1134,7 +1134,7 @@ prompts are part of the method and should be reported.</p>
 <div class="section level3">
 <h3 id="hallucination">Hallucination<a class="anchor" aria-label="anchor" href="#hallucination"></a>
 </h3>
-<p>Fluent output from a language model that is false: an invented fact,
+<p>Fluent output from a language model that is false: An invented fact,
 a wrong key, a citation that does not exist. In item writing it shows up
 as items with no correct option or two correct options.</p>
 <p><strong>In R:</strong> <code><a href="../reference/generate_items.html">verify_items()</a></code> has a second model
@@ -1162,7 +1162,7 @@ still need review and calibration.</p>
 <div class="section level3">
 <h3 id="item-model">Item model<a class="anchor" aria-label="anchor" href="#item-model"></a>
 </h3>
-<p>A template for a family of items: a parent item with elements that
+<p>A template for a family of items: A parent item with elements that
 can vary (numbers, names, contexts) and rules that keep each variant
 correct. Items from one model are <em>isomorphs</em>, and often, but not
 always, have similar difficulty.</p>
@@ -1179,7 +1179,7 @@ subgroups.</p>
 <div class="section level3">
 <h3 id="prmse">PRMSE<a class="anchor" aria-label="anchor" href="#prmse"></a>
 </h3>
-<p>Proportional reduction in mean squared error: how much of the
+<p>Proportional reduction in mean squared error: How much of the
 variance of the <em>true</em> human score a machine score explains,
 after allowing for the disagreement between human raters. Unlike
 agreement with one rater, it does not penalize a machine for the noise

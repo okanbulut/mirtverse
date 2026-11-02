@@ -1,11 +1,11 @@
 # An assessment pipeline from blueprint to bank monitoring
 
-A test passes through many hands before a score reaches a test taker: a
+A test passes through many hands before a score reaches a test taker: A
 blueprint, item writing, review, a field test, calibration, form
 assembly, standard setting, scoring, security checks, a report and,
 after each administration, a look at the health of the item bank. The
 **assessment pipeline** in mirtverse puts these steps in one object.
-Each stage does its work, then runs a *gate*: a set of checks that
+Each stage does its work, then runs a *gate*: A set of checks that
 records what it finds as **flags** for you to consider before the next
 stage.
 
@@ -73,9 +73,9 @@ pilot study with `mv_rules(preset = "lenient")`.
 
 Flags have three levels:
 
-- **info**: for awareness.
-- **review**: something a psychometrician should look at.
-- **block**: a problem that makes later stages unsafe.
+- **info**: For awareness.
+- **review**: Something a psychometrician should look at.
+- **block**: A problem that makes later stages unsafe.
 
 By default flags only warn, so every stage still runs. With
 `mv_pipeline(strict = TRUE)`, a stage refuses to start while an earlier
@@ -83,7 +83,7 @@ stage has open review or block flags.
 
 ## 0. Blueprint
 
-The blueprint is the contract that later stages check against: what the
+The blueprint is the contract that later stages check against: What the
 test measures, how scores will be used, and how many items each content
 area needs on a form.
 
@@ -137,7 +137,7 @@ The certexam items already exist, so we skip these steps here.
 
 Before calibration data exist,
 [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
-plans the field test: how many forms, which anchor items they share, and
+plans the field test: How many forms, which anchor items they share, and
 how many candidates each form needs. It then simulates parameter
 recovery under that plan.
 
@@ -288,7 +288,7 @@ p$forms$info
 ```
 
 The two forms meet the blueprint, keep Q21 and Q22 apart and are
-parallel: their information differs by less than 10% at each ability
+parallel: Their information differs by less than 10% at each ability
 level. The forms gate also checks measurement precision:
 
 ``` r
@@ -462,7 +462,7 @@ p$monitoring$cells
 #> 3 Law          10       6
 ```
 
-The cell minimums come from the blueprint: by default the bank should
+The cell minimums come from the blueprint: By default the bank should
 hold at least `cell_depth` (2) times each cell’s count on a form. Items
 that a check flags can be retired or sent back to review with
 [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md);

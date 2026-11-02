@@ -2,7 +2,7 @@
 
 This page explains the words you will meet in item response theory (IRT)
 courses, papers and mirtverse output. Each entry gives a plain-language
-definition, then **In R**: the mirtverse or mirt function that computes
+definition, then **In R**: The mirtverse or mirt function that computes
 or shows it. Function names link to their help pages.
 
 The entries are grouped in the order a course usually meets them, from
@@ -157,7 +157,7 @@ True/false and scored multiple-choice items are dichotomous.
 An item with more than two ordered score categories, such as a rating
 scale (strongly disagree to strongly agree) or an essay scored 0 to 4.
 
-**In R:** fit with `itemtype = "graded"` or `"gpcm"` in
+**In R:** Fit with `itemtype = "graded"` or `"gpcm"` in
 [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html).
 
 ### Sum score
@@ -190,26 +190,26 @@ item score for polytomous items). Despite the name, a *high* p-value
 means an *easy* item. It is not the same as the p-value of a
 significance test.
 
-**In R:** the `mean` column of
+**In R:** The `mean` column of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md).
 
 ### Item-total correlation
 
 The correlation between an item score and the sum of the other items. It
-is the classical index of discrimination: low or negative values (below
+is the classical index of discrimination: Low or negative values (below
 about 0.2) suggest a miskeyed, confusing or off-topic item.
 
-**In R:** the `item_total_r` column of
+**In R:** The `item_total_r` column of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md).
 
 ### Dimensionality and unidimensionality
 
 The number of distinct traits a test measures. Most IRT models used in
-practice are *unidimensional*: they assume one trait explains how people
+practice are *unidimensional*: They assume one trait explains how people
 answer. If a math test also measures reading speed, a one-dimensional
 model may misfit.
 
-**In R:** compare `mirt(data, 1)` with `mirt(data, 2)` using
+**In R:** Compare `mirt(data, 1)` with `mirt(data, 2)` using
 [`anova()`](https://rdrr.io/r/stats/anova.html);
 [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
 can include a two-factor candidate with `dims = 1:2`.
@@ -217,7 +217,7 @@ can include a two-factor candidate with `dims = 1:2`.
 ### Local independence
 
 The assumption that, for people at the same theta, answers to different
-items are unrelated: once ability is known, getting item 3 right tells
+items are unrelated: Once ability is known, getting item 3 right tells
 you nothing more about item 4. It is what lets the model multiply item
 probabilities together. See [local dependence](#local-dependence) for
 how it fails.
@@ -300,7 +300,7 @@ specification for a confirmatory structure.
 
 ### Item parameters
 
-The numbers that describe how an item behaves: discrimination,
+The numbers that describe how an item behaves: Discrimination,
 difficulty and, in some models, guessing and an upper asymptote. They
 are estimated once, during [calibration](#calibration), and then reused
 to score anyone who takes the item.
@@ -333,14 +333,14 @@ standard deviation above average. Higher *b* means a harder item. For
 polytomous items the location is usually the mean of the
 [thresholds](#threshold).
 
-**In R:** the `b` rows of
+**In R:** The `b` rows of
 [`tidy()`](https://generics.r-lib.org/reference/tidy.html), or the
 `location` column of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md).
 
 ### Discrimination (slope, *a*)
 
-How steeply the item characteristic curve rises: how sharply the item
+How steeply the item characteristic curve rises: How sharply the item
 separates people just below its difficulty from people just above it.
 Values around 1 to 2 are typical. Values below about 0.5 mean the item
 tells you little about ability; negative values usually mean a miskeyed
@@ -350,7 +350,7 @@ item.
 discrimination and a flat curve with low
 discrimination.](glossary_files/figure-html/discrimination-1.png)
 
-**In R:** the `a` rows of
+**In R:** The `a` rows of
 [`tidy()`](https://generics.r-lib.org/reference/tidy.html), or the
 `discrimination` column of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md),
@@ -367,7 +367,7 @@ it.
 curve that goes down to
 zero.](glossary_files/figure-html/guessing-1.png)
 
-**In R:** the `g` rows of
+**In R:** The `g` rows of
 [`tidy()`](https://generics.r-lib.org/reference/tidy.html) for a 3PL
 model.
 
@@ -382,7 +382,7 @@ when able test takers sometimes slip on an item.
 
 ### Slope-intercept form
 
-The way mirt stores parameters internally: the 2PL is written as 1 /
+The way mirt stores parameters internally: The 2PL is written as 1 /
 (1 + exp(−(*a*θ + *d*))), where *d* is an intercept, rather than with
 the difficulty *b*. The two are related by *b* = −*d* / *a*.
 Multidimensional models are always reported this way, because one
@@ -399,7 +399,7 @@ becomes more likely to score in a higher category than in the one below
 (GPCM), or has a 50% chance of scoring in or above a category (graded
 model). An item with five categories has four thresholds.
 
-**In R:** the `b1`, `b2`, … rows of
+**In R:** The `b1`, `b2`, … rows of
 [`tidy()`](https://generics.r-lib.org/reference/tidy.html).
 
 ### Category response curve
@@ -418,7 +418,7 @@ first item of the `Science` data).
 
 ### Expected score
 
-The average score a person at a given theta would get on an item: the
+The average score a person at a given theta would get on an item: The
 probability of success for a 0/1 item, or the probability-weighted
 average category for a polytomous one. Summed over items it gives the
 [test characteristic curve](#test-characteristic-curve).
@@ -460,17 +460,17 @@ the unknown abilities instead of estimating them at the same time. The
 EM (expectation-maximization) algorithm does this in cycles until the
 estimates stop changing.
 
-**In R:** the default `method = "EM"` in
+**In R:** The default `method = "EM"` in
 [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html).
 
 ### Convergence
 
 Whether the estimation algorithm reached a stable solution. A model that
-has not converged should not be used: try more cycles
+has not converged should not be used: Try more cycles
 (`technical = list(NCYCLES = 2000)`), a simpler model or better starting
 values.
 
-**In R:** the `converged` column of
+**In R:** The `converged` column of
 [`glance()`](https://generics.r-lib.org/reference/glance.html);
 `extract.mirt(mod, "converged")`.
 
@@ -479,7 +479,7 @@ values.
 How uncertain an estimated item parameter is. Small samples, extreme
 items and complex models give large standard errors.
 
-**In R:** fit with `SE = TRUE`, then `tidy(mod, conf.int = TRUE)` adds
+**In R:** Fit with `SE = TRUE`, then `tidy(mod, conf.int = TRUE)` adds
 the standard errors and confidence limits.
 
 ### Person score (ability estimate)
@@ -536,7 +536,7 @@ large-scale assessments and Rasch work.
 How much an item reduces uncertainty about theta at each ability level.
 An item is most informative near its difficulty, and more discriminating
 items give more information. Information is what makes items “work” for
-some people and not others: a hard item tells you a lot about strong
+some people and not others: A hard item tells you a lot about strong
 students and almost nothing about weak ones.
 
 **In R:** `gg_info(mod, type = "items")`;
@@ -544,7 +544,7 @@ students and almost nothing about weak ones.
 
 ### Test information
 
-The sum of the item informations: how precisely the whole test measures
+The sum of the item informations: How precisely the whole test measures
 at each theta. A test built to make pass/fail decisions should have its
 peak near the [cut score](#cut-score).
 
@@ -568,11 +568,11 @@ standard errors of individual scores come from
 ### Marginal reliability
 
 A single summary of precision for a whole population, on the familiar
-0-to-1 reliability scale: the share of the variance in theta estimates
+0-to-1 reliability scale: The share of the variance in theta estimates
 that is true differences between people rather than measurement error.
 Above 0.90 is excellent, 0.80 good and 0.70 acceptable for most uses.
 
-**In R:** the `reliability` column of
+**In R:** The `reliability` column of
 [`glance()`](https://generics.r-lib.org/reference/glance.html);
 [`mirt::marginal_rxx()`](https://philchalmers.github.io/mirt/reference/marginal_rxx.html);
 [`mirt::empirical_rxx()`](https://philchalmers.github.io/mirt/reference/empirical_rxx.html)
@@ -622,17 +622,17 @@ each pair is answered correctly together). With large samples it almost
 always rejects, so the effect-size indices below matter more. For
 polytomous items mirtverse uses the related C2 statistic.
 
-**In R:** the `M2`, `df` and `p.value` columns of
+**In R:** The `M2`, `df` and `p.value` columns of
 [`glance()`](https://generics.r-lib.org/reference/glance.html).
 
 ### RMSEA
 
-Root mean square error of approximation: misfit per degree of freedom,
+Root mean square error of approximation: Misfit per degree of freedom,
 where 0 is perfect. Common guidelines are below 0.05 for close fit and
 below 0.08 for reasonable fit. The same index is reported for each item
 from the [S-X2](#s-x2) statistic.
 
-**In R:** the `RMSEA` column of
+**In R:** The `RMSEA` column of
 [`glance()`](https://generics.r-lib.org/reference/glance.html) (model)
 and of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md)
@@ -640,11 +640,11 @@ and of
 
 ### SRMSR
 
-Standardized root mean square residual: the average difference between
+Standardized root mean square residual: The average difference between
 the observed and model-implied correlations between items. Values below
 about 0.05 indicate good fit.
 
-**In R:** the `SRMSR` column of
+**In R:** The `SRMSR` column of
 [`glance()`](https://generics.r-lib.org/reference/glance.html).
 
 ### CFI and TLI
@@ -653,17 +653,17 @@ Comparative fit indices that compare the model with a baseline in which
 the items are unrelated. Values of 0.95 or above are usually taken as
 good fit.
 
-**In R:** the `CFI` and `TLI` columns of
+**In R:** The `CFI` and `TLI` columns of
 [`glance()`](https://generics.r-lib.org/reference/glance.html).
 
 ### Information criteria (AIC, BIC, SABIC)
 
-Numbers for comparing models fitted to the same data: they reward fit
+Numbers for comparing models fitted to the same data: They reward fit
 and penalise extra parameters. *Smaller is better*. BIC penalises
 complexity more than AIC and tends to choose simpler models; SABIC is in
 between.
 
-**In R:** the `AIC`, `BIC` and `SABIC` columns of
+**In R:** The `AIC`, `BIC` and `SABIC` columns of
 [`glance()`](https://generics.r-lib.org/reference/glance.html);
 [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
 uses BIC by default; `anova(mod1, mod2)`.
@@ -698,7 +698,7 @@ correct in each group with the model’s prediction. A small p-value
 signals misfit; with many items, adjust the p-values for multiple
 testing.
 
-**In R:** the `S_X2`, `p.value` and `RMSEA` columns of
+**In R:** The `S_X2`, `p.value` and `RMSEA` columns of
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md);
 [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md)
 plots them.
@@ -725,7 +725,7 @@ near-duplicate wording. It makes the test look more reliable than it is.
 
 ### Q3
 
-Yen’s Q3 statistic: the correlation between two items’ residuals
+Yen’s Q3 statistic: The correlation between two items’ residuals
 (observed minus expected score) after the trait is taken out. Pairs
 whose Q3 is more than 0.2 above the average Q3 are worth a look.
 
@@ -744,11 +744,11 @@ reports the share of people flagged.
 
 ### Zh (or lz)
 
-The usual person-fit statistic: a standardized log-likelihood of the
+The usual person-fit statistic: A standardized log-likelihood of the
 person’s answers. Large negative values (below −1.96) flag unusual
 patterns.
 
-**In R:** the `Zh` column of `mirt::personfit(mod)`.
+**In R:** The `Zh` column of `mirt::personfit(mod)`.
 
 ## Fairness
 
@@ -756,7 +756,7 @@ patterns.
 
 An item has DIF when people from different groups who have the *same*
 ability have different chances of answering it correctly. DIF is not the
-same as a group difference in average scores: groups can truly differ in
+same as a group difference in average scores: Groups can truly differ in
 ability. DIF means the item itself behaves differently, for example
 because of a word that is harder in translation.
 
@@ -772,7 +772,7 @@ gives more control.
 In a DIF study, the reference group is the comparison group (often the
 majority) and the focal group is the one whose fairness is in question.
 
-**In R:** the `reference` and `focal` elements of
+**In R:** The `reference` and `focal` elements of
 [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md).
 
 ### Uniform and non-uniform DIF
@@ -800,7 +800,7 @@ averaged over the focal group: `esd` is signed (positive means the item
 favours the focal group) and `uesd` unsigned. For 0/1 items these are
 differences in probability, so 0.05 means five percentage points.
 
-**In R:** the `esd` and `uesd` columns of
+**In R:** The `esd` and `uesd` columns of
 [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md).
 
 ### Anchor items
@@ -809,7 +809,7 @@ Items assumed to be free of DIF (in a DIF study) or shared by two forms
 (in [linking](#linking)). They hold the scale in place while other items
 are compared.
 
-**In R:** the `items` argument of
+**In R:** The `items` argument of
 [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md)
 (untested items act as anchors);
 [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
@@ -905,7 +905,7 @@ The chance of success used to place items on the scale for a Bookmark
 booklet. With RP67, each item is located where a person has a
 two-in-three chance of answering correctly.
 
-**In R:** the `rp` argument of
+**In R:** The `rp` argument of
 [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
 (0.67 by default).
 
@@ -981,7 +981,7 @@ mirtCAT package runs real ones.
 ### Multistage test (MST)
 
 A test that adapts between blocks of items (modules) instead of after
-every item: everyone starts with the same routing module, then moves to
+every item: Everyone starts with the same routing module, then moves to
 an easier or harder module depending on their score.
 
 **In R:**
@@ -1003,7 +1003,7 @@ tracks it over time.
 
 ### Time intensity
 
-How long an item typically takes, on a log-seconds scale: the
+How long an item typically takes, on a log-seconds scale: The
 response-time counterpart of difficulty. In van der Linden’s lognormal
 model it is written β (beta).
 
@@ -1036,7 +1036,7 @@ The share of a person’s responses that are *not* rapid guesses. People
 with low RTE (often below 0.90) may have scores that understate their
 ability.
 
-**In R:** the `rte` column of `fit_rt()$persons`;
+**In R:** The `rte` column of `fit_rt()$persons`;
 `autoplot(fit, type = "rte")` plots it.
 
 ## Open-ended responses and security
@@ -1137,7 +1137,7 @@ prompts are part of the method and should be reported.
 
 ### Hallucination
 
-Fluent output from a language model that is false: an invented fact, a
+Fluent output from a language model that is false: An invented fact, a
 wrong key, a citation that does not exist. In item writing it shows up
 as items with no correct option or two correct options.
 
@@ -1168,7 +1168,7 @@ need review and calibration.
 
 ### Item model
 
-A template for a family of items: a parent item with elements that can
+A template for a family of items: A parent item with elements that can
 vary (numbers, names, contexts) and rules that keep each variant
 correct. Items from one model are *isomorphs*, and often, but not
 always, have similar difficulty.
@@ -1185,7 +1185,7 @@ against human scores with agreement statistics such as [QWK](#qwk) and
 
 ### PRMSE
 
-Proportional reduction in mean squared error: how much of the variance
+Proportional reduction in mean squared error: How much of the variance
 of the *true* human score a machine score explains, after allowing for
 the disagreement between human raters. Unlike agreement with one rater,
 it does not penalize a machine for the noise in human scores.

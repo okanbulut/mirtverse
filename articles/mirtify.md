@@ -101,7 +101,7 @@ Use `file = "analysis-mirt.R"` to save the script, or
 [`as.character()`](https://rdrr.io/r/base/character.html) to get it as a
 string.
 
-## eRm: conditional and marginal likelihood
+## eRm: Conditional and marginal likelihood
 
 eRm estimates Rasch models by conditional maximum likelihood (CML),
 while mirt uses marginal maximum likelihood (MML) with a normal latent
@@ -161,7 +161,7 @@ mirtify({
 
 Andersen’s likelihood-ratio test
 ([`LRtest()`](https://rdrr.io/pkg/eRm/man/LRtest.html)) becomes the same
-comparison in mirt: a model with equal item parameters in the low and
+comparison in mirt: A model with equal item parameters in the low and
 high score groups against one with separate parameters. On `raschdat1`
 eRm gives LR = 32.5 with 29 df (p = .30) and the translation gives 32.8
 with 29 df (p = .29).
@@ -169,7 +169,7 @@ with 29 df (p = .29).
 ## TAM: Q matrices, groups and latent regression
 
 `tam.mml()` and `tam.mml.2pl()` translate with their most used
-arguments: a Q matrix becomes a
+arguments: A Q matrix becomes a
 [`mirt.model()`](https://philchalmers.github.io/mirt/reference/mirt.model.html)
 with correlated dimensions, `group` becomes
 [`multipleGroup()`](https://philchalmers.github.io/mirt/reference/multipleGroup.html)
@@ -219,7 +219,7 @@ mirtify("library(TAM)
 #> anova(mod, mod2)
 ```
 
-## irtQ: the scaling constant D and priors
+## irtQ: The scaling constant D and priors
 
 irtQ often uses `D = 1.702`, which multiplies every slope. mirt has no
 `D`, so its slopes equal irtQ’s times 1.702. The translated
@@ -292,7 +292,7 @@ differ more, and the notes say so:
   ([`PCM()`](https://rdrr.io/pkg/eRm/man/PCM.html)): eRm centres the
   item parameters and mirt centres the persons, so compare thresholds
   after subtracting their mean.
-- **3PL models with a guessing prior in irtQ**: the likelihood can have
+- **3PL models with a guessing prior in irtQ**: The likelihood can have
   more than one peak, so the two packages may stop at slightly different
   estimates. Compare the log-likelihoods if the estimates differ.
 
