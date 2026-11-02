@@ -13,9 +13,14 @@ description: >
   exercises and links to the mirtverse teaching labs.
 url: https://www.okanbulut.com/mirtverse/book/
 github-repo: okanbulut/mirtverse
+cover-image: "cover/cover.png"
 ---
 
 # Preface {-}
+
+```{r cover, echo = FALSE, out.width = "260px", fig.alt = "Book cover: an engraved owl on a branch above the title Item Response Theory with mirt and mirtverse", out.extra = 'style="float: right; margin: 0 0 1em 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,.25);"'}
+knitr::include_graphics("cover/cover.png")
+```
 
 This book is a set of extended course notes on item response theory (IRT). It
 is written for instructors who teach measurement with R and for the students
