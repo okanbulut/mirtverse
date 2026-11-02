@@ -3,6 +3,32 @@
 ## mirtverse (development version)
 
 - New
+  [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md)
+  writes an item model for automatic item generation: A stem, key and
+  distractors as templates with R expressions in braces, the values of
+  each variable and constraints. Printing it shows how many combinations
+  meet the constraints and how many give four different options. New
+  [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md)
+  fills one or more models, leaves out (or flags) combinations with
+  identical options, and returns the items with the values they came
+  from. New
+  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  summarizes the calibrated difficulties of each family: Mean,
+  within-family SD corrected for estimation error, a 95% interval for a
+  new isomorph, the field-test size the family mean can replace, and
+  whether the family is isomorphic.
+
+- New Lab 9, `run_lab("aig")`: Students fix an item model, calibrate a
+  field test of 60 generated items (the new `aigfield` and
+  `aigfield_items` data), find a family split by regrouping and two
+  items with identical options, and test family means on held-out items.
+  The book has a new chapter, “Generating items” (`aig` in
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)),
+  with one-step family calibration in mirt
+  ([`mixedmirt()`](https://philchalmers.github.io/mirt/reference/mixedmirt.html))
+  and eirm.
+
+- New
   [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md)
   describes items by features of their text: Length, sentences and
   readability of the stem, its numbers, decimals and negations, the

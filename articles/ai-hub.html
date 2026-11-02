@@ -66,6 +66,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul>
@@ -208,11 +209,13 @@ it?</td>
 <tr class="even">
 <td>6. Automatic item generation</td>
 <td>How do I generate items and know which ones to keep?</td>
-<td>
-<a href="assessment-pipeline.html">Assessment pipeline</a>; <a href="ai-reading.html#aig">reading list: AIG</a>
+<td>Book: <a href="../book/aig.html">Generating items</a>; <a href="assessment-pipeline.html">assessment pipeline</a>; <a href="ai-reading.html#aig">reading list: AIG</a>
 </td>
 <td>
-<code><a href="../reference/generate_items.html">generate_items()</a></code>, <code><a href="../reference/generate_items.html">verify_items()</a></code>
+<code><a href="../reference/item_model.html">item_model()</a></code>, <code><a href="../reference/generate_isomorphs.html">generate_isomorphs()</a></code>,
+<code><a href="../reference/calibrate_families.html">calibrate_families()</a></code>, <code><a href="../reference/generate_items.html">generate_items()</a></code>,
+<code><a href="../reference/generate_items.html">verify_items()</a></code>; <a href="teaching-labs.html#lab-9">Lab
+9</a>
 </td>
 </tr>
 <tr class="odd">
@@ -290,9 +293,30 @@ whether predictions hold for a new kind of item rather than a new item
 of a known kind.</p>
 </div>
 <div class="section level3">
-<h3 id="score-open-ended-responses-and-check-the-scores">Score open-ended responses, and check the scores<a class="anchor" aria-label="anchor" href="#score-open-ended-responses-and-check-the-scores"></a>
+<h3 id="generate-items-from-item-models-and-calibrate-their-families">Generate items from item models, and calibrate their families<a class="anchor" aria-label="anchor" href="#generate-items-from-item-models-and-calibrate-their-families"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">area</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item_model.html">item_model</a></span><span class="op">(</span></span>
+<span>  stem <span class="op">=</span> <span class="st">"A rectangle is {l} cm long and {w} cm wide. What is its area?"</span>,</span>
+<span>  key <span class="op">=</span> <span class="st">"{l * w} square cm"</span>,</span>
+<span>  distractors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>perimeter <span class="op">=</span> <span class="st">"{2 * (l + w)} square cm"</span>, added <span class="op">=</span> <span class="st">"{l + w} square cm"</span>,</span>
+<span>                  half <span class="op">=</span> <span class="st">"{l * w / 2} square cm"</span><span class="op">)</span>,</span>
+<span>  values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">12</span>, w <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, constraints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l &gt; w"</span>, <span class="st">"(l * w) %% 2 == 0"</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"ARE"</span><span class="op">)</span></span>
+<span><span class="va">area</span>                                       <span class="co"># how many items it can make, and how many are flawed</span></span>
+<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_isomorphs.html">generate_isomorphs</a></span><span class="op">(</span><span class="va">area</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>  <span class="co"># isomorphs, with the values they came from</span></span>
+<span><span class="co"># after the field test, with b and its standard error for each item:</span></span>
+<span><span class="fu"><a href="../reference/calibrate_families.html">calibrate_families</a></span><span class="op">(</span><span class="va">calibrated</span>, family <span class="op">=</span> <span class="st">"model"</span>, se <span class="op">=</span> <span class="st">"b_se"</span><span class="op">)</span></span></code></pre></div>
+<p>An item model generates items whose every option comes from a
+template, so an error in the model can be caught for all its items at
+once. <code><a href="../reference/calibrate_families.html">calibrate_families()</a></code> then checks after the field test
+whether the isomorphs are equally difficult, and how large a field test
+the family mean can replace for a new item.</p>
+</div>
+<div class="section level3">
+<h3 id="score-open-ended-responses-and-check-the-scores">Score open-ended responses, and check the scores<a class="anchor" aria-label="anchor" href="#score-open-ended-responses-and-check-the-scores"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_open.html">score_open</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">responses</span>, scorer <span class="op">=</span> <span class="st">"llm"</span><span class="op">)</span>   <span class="co"># or a trained model</span></span>
 <span><span class="va">q</span><span class="op">$</span><span class="va">agreement</span>                                     <span class="co"># machine-human agreement</span></span>
 <span><span class="fu"><a href="../reference/flags.html">flags</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>                                        <span class="co"># agreement and fairness gates</span></span></code></pre></div>
@@ -302,7 +326,7 @@ the <code>essays</code> data against a four-point rubric.</p>
 <code><a href="../reference/train_scorer.html">train_scorer()</a></code>. It learns from human-scored answers, runs
 offline, and works with <code><a href="../reference/score_open.html">score_open()</a></code> like any other trained
 model:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="va">essays</span><span class="op">[</span><span class="va">essays</span><span class="op">$</span><span class="va">prompt</span> <span class="op">==</span> <span class="st">"E1"</span>, <span class="op">]</span></span>
 <span><span class="va">engine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train_scorer.html">train_scorer</a></span><span class="op">(</span><span class="va">e1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">300</span>, <span class="op">]</span><span class="op">)</span>                 <span class="co"># words and phrases -&gt; human score</span></span>
 <span><span class="va">test</span> <span class="op">&lt;-</span> <span class="va">e1</span><span class="op">[</span><span class="fl">301</span><span class="op">:</span><span class="fl">400</span>, <span class="op">]</span></span>
@@ -337,7 +361,8 @@ datasets are simulated with planted problems, and
 numeracy items from 12 item families with field-test difficulties;
 <code>essays</code> has 1,600 short science explanations scored by
 raters, written so that fluent writers’ answers are longer at the same
-score.</li>
+score; <code>aigfield</code> is a field test of 60 items generated from
+six item models.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -351,12 +376,14 @@ students, find why it underscores English language learners, and decide
 how much of the scoring it should do. In <a href="teaching-labs.html#lab-8">Lab 8</a> they predict item difficulty
 from the text of 192 numeracy items, find miskeyed items and
 near-duplicates, catch a leaky feature, and decide how far predictions
-can replace a field test. The <a href="../book/index.html">online
-book</a> has a part on AI in measurement whose chapters work offline, so
-they can be assigned as readings. More AI labs, chapters and an optional
-AI module for the <a href="course-map.html">course map</a> are being
-written; they will be listed on this page and in the AI Hub menu as they
-are released.</p>
+can replace a field test. <a href="teaching-labs.html#lab-9">Lab 9</a>
+builds an item factory: Students fix an item model, calibrate a field
+test of generated items, find the two families that are not isomorphic
+and why, and decide when a family mean can stand in for a field test.
+The <a href="../book/index.html">online book</a> has a part on AI in
+measurement whose chapters work offline, so they can be assigned as
+readings. More AI labs, chapters and an optional AI module for the <a href="course-map.html">course map</a> are being written; they will be
+listed on this page and in the AI Hub menu as they are released.</p>
 </div>
 <div class="section level2">
 <h2 id="read-more">Read more<a class="anchor" aria-label="anchor" href="#read-more"></a>

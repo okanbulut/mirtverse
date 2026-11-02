@@ -291,9 +291,10 @@ checks and flags to consider before each next stage.
 ## AI in measurement
 
 Run the language model features offline from recorded responses,
-describe items by their text and predict their difficulty, train and
-check an automated scoring engine, and teaching datasets with item text
-and written answers.
+describe items by their text and predict their difficulty, generate
+items from item models and calibrate their families, train and check an
+automated scoring engine, and teaching datasets with item text, written
+answers and a field test of generated items.
 
 - [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
@@ -306,6 +307,13 @@ and written answers.
   [`autoplot(`*`<mv_difficulty>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
   [`predict(`*`<mv_difficulty>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
   : Predict item difficulty from item features
+- [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md)
+  : Write an item model for automatic item generation
+- [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md)
+  : Generate isomorphs from item models
+- [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  [`autoplot(`*`<mv_families>`*`)`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  : Calibrate item families
 - [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
   [`tidy(`*`<mv_scorer>`*`)`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
   : Train an automated scorer on human-scored text
@@ -318,6 +326,10 @@ and written answers.
   : Numeracy items with their text, for the AI Hub
 - [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :
   Short science explanations scored by raters, for the AI Hub
+- [`aigfield`](https://www.okanbulut.com/mirtverse/reference/aigfield.md)
+  : A field test of generated mathematics items, for the AI Hub
+- [`aigfield_items`](https://www.okanbulut.com/mirtverse/reference/aigfield_items.md)
+  : The generated items of the AIG field test
 
 ## Choosing and understanding a model
 

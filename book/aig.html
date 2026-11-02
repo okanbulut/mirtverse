@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 15 Generating items | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 15 Generating items | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 15 Generating items | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="item-text.html"/>
+<link rel="next" href="auto-scoring.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: A multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: A wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: The LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: A driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: A test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: When the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: A mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: A reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: The same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: Finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: Where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: Designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: Four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: A proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: Attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: A rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: Paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: Separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: Concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: A vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: A CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: Setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: Telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: The 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: Forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="item-text.html"><a href="item-text.html"><i class="fa fa-check"></i><b>14</b> What item text tells us</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="item-text.html"><a href="item-text.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="item-text.html"><a href="item-text.html#example-1-features-and-an-explanatory-model"><i class="fa fa-check"></i><b>14.2</b> Example 1: Features and an explanatory model</a></li>
+<li class="chapter" data-level="14.3" data-path="item-text.html"><a href="item-text.html#example-2-the-one-step-lltm-in-mirt"><i class="fa fa-check"></i><b>14.3</b> Example 2: The one-step LLTM in mirt</a></li>
+<li class="chapter" data-level="14.4" data-path="item-text.html"><a href="item-text.html#example-3-new-items-or-new-kinds-of-items"><i class="fa fa-check"></i><b>14.4</b> Example 3: New items or new kinds of items?</a></li>
+<li class="chapter" data-level="14.5" data-path="item-text.html"><a href="item-text.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="aig.html"><a href="aig.html"><i class="fa fa-check"></i><b>15</b> Generating items</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="aig.html"><a href="aig.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="aig.html"><a href="aig.html#example-1-writing-an-item-model"><i class="fa fa-check"></i><b>15.2</b> Example 1: Writing an item model</a></li>
+<li class="chapter" data-level="15.3" data-path="aig.html"><a href="aig.html#example-2-calibrating-the-families"><i class="fa fa-check"></i><b>15.3</b> Example 2: Calibrating the families</a></li>
+<li class="chapter" data-level="15.4" data-path="aig.html"><a href="aig.html#example-3-one-step-with-a-random-item-effect"><i class="fa fa-check"></i><b>15.4</b> Example 3: One step, with a random item effect</a></li>
+<li class="chapter" data-level="15.5" data-path="aig.html"><a href="aig.html#example-4-does-the-family-mean-predict-new-items"><i class="fa fa-check"></i><b>15.5</b> Example 4: Does the family mean predict new items?</a></li>
+<li class="chapter" data-level="15.6" data-path="aig.html"><a href="aig.html#your-turn-14"><i class="fa fa-check"></i><b>15.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#in-the-lab-13"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>16</b> Automated scoring</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
+<li class="chapter" data-level="16.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>16.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="16.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>16.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-14"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>17</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="llms.html"><a href="llms.html#the-ideas-16"><i class="fa fa-check"></i><b>17.1</b> The ideas</a></li>
+<li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="aig" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">Chapter 15</span> Generating items<a href="aig.html#aig" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain <strong>automatic item generation</strong> (AIG) from <strong>item models</strong>, and how
+it differs from asking a language model for items;</li>
+<li>write an item model with <code>item_model()</code>, with distractors built from
+misconceptions and constraints that rule out flawed items, and generate
+<strong>isomorphs</strong> with <code>generate_isomorphs()</code>;</li>
+<li>check after field testing whether a family of isomorphs is equally
+difficult with <code>calibrate_families()</code>, and find the variable that makes
+a family spread;</li>
+<li>fit a one-step model with a random item effect in mirt, or with eirm,
+and say when a family mean can stand in for a field test.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#item-model">Item model</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#lltm">LLTM</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#calibration">calibration</a>.</p>
+<div id="the-ideas-14" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> The ideas<a href="aig.html#the-ideas-14" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Testing programs need many items: For new forms each year, for adaptive
+tests that must not expose the same items too often (Chapter
+<a href="banks-cat.html#banks-cat">11</a>), and for practice. Writing and field-testing each item by
+hand is the slowest and most expensive part of test development.
+<strong>Automatic item generation</strong> (AIG) writes items from a template
+<span class="citation">(<a href="#ref-gierl2013">Gierl and Haladyna 2013</a>; <a href="#ref-gierllai2013">Gierl and Lai 2013</a>)</span>. An <strong>item model</strong> is a parent item with
+variable parts: A stem, a key and distractors, each written as a template,
+the values each variable can take, and constraints that every generated
+item must meet. Filling in the values gives <strong>isomorphs</strong>: Items that test
+the same thing in the same way and differ only in their surface, such as
+the numbers.</p>
+<p>Two promises come with item models. The first is quality at scale: If the
+model is right, every item it generates is right, and an error in the model
+shows up in every item, where an automatic check can catch it. The second
+is <strong>calibration at the level of the family</strong>. If isomorphs are equally
+difficult, the item model can be calibrated once, and its new items can use
+the family’s difficulty without a field test of their own
+<span class="citation">(<a href="#ref-glas2003"><span class="nocase">Glas and van der Linden</span> 2003</a>; <a href="#ref-sinharay2003">Sinharay et al. 2003</a>)</span>. That promise is an empirical claim, and this
+chapter is about checking it.</p>
+<p>A family’s items are never exactly equally difficult. The model for a
+family <span class="math inline">\(f\)</span> is
+<span class="math display">\[b_i = \mu_f + \varepsilon_i, \qquad \varepsilon_i \sim N(0, \sigma_f^2),\]</span>
+where <span class="math inline">\(\mu_f\)</span> is the family’s mean difficulty and <span class="math inline">\(\sigma_f\)</span>, the
+<strong>within-family SD</strong>, says how much its isomorphs differ. A new item’s
+difficulty is predicted by <span class="math inline">\(\mu_f\)</span> with an error of about <span class="math inline">\(\sigma_f\)</span>. When
+<span class="math inline">\(\sigma_f\)</span> is small, the family mean is as good as a field test of a few
+hundred test takers; when it is large, some variable in the item model
+changes what the items demand, and the model must be split or the variable
+added as a feature, as in the LLTM of Chapter <a href="item-text.html#item-text">14</a>. Explanatory
+IRT treats this as one model with item features and a random item effect
+<span class="citation">(<a href="#ref-deboeck2004">De Boeck and Wilson 2004</a>; <a href="#ref-geerlings2011"><span class="nocase">Geerlings et al.</span> 2011</a>)</span>.</p>
+<p>Language models offer a second route: Ask for items in a prompt
+(<code>generate_items()</code>, Chapter <a href="llms.html#llms">17</a>). They write more varied items,
+but each is a one-off, with no template to calibrate and no guarantee that
+two items with the same prompt are isomorphs. Template-based AIG is
+predictable and traceable; every item can be rebuilt from its values. In
+practice the two meet: Language models can help write item models, and
+their items can be reviewed with the same checks.</p>
+</div>
+<div id="example-1-writing-an-item-model" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> Example 1: Writing an item model<a href="aig.html#example-1-writing-an-item-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An average speed item has two variables, the speed <code>v</code> and the time <code>t</code>.
+Writing the distance as <code>v * t</code> keeps the answer a whole number. Each
+distractor is the answer of a misconception:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="aig.html#cb163-1" tabindex="-1"></a><span class="co"># Item models for a simulated Grade 7 field test.</span></span>
+<span id="cb163-2"><a href="aig.html#cb163-2" tabindex="-1"></a>speed <span class="ot">&lt;-</span> <span class="fu">item_model</span>(</span>
+<span id="cb163-3"><a href="aig.html#cb163-3" tabindex="-1"></a>  <span class="at">stem =</span> <span class="st">&quot;A train travels {v * t} km in {t} hours. What is its average speed?&quot;</span>,</span>
+<span id="cb163-4"><a href="aig.html#cb163-4" tabindex="-1"></a>  <span class="at">key =</span> <span class="st">&quot;{v} km/h&quot;</span>,</span>
+<span id="cb163-5"><a href="aig.html#cb163-5" tabindex="-1"></a>  <span class="at">distractors =</span> <span class="fu">c</span>(<span class="at">multiplied =</span> <span class="st">&quot;{v * t * t} km/h&quot;</span>, <span class="at">subtracted =</span> <span class="st">&quot;{v * t - t} km/h&quot;</span>,</span>
+<span id="cb163-6"><a href="aig.html#cb163-6" tabindex="-1"></a>                  <span class="at">added =</span> <span class="st">&quot;{v * t + t} km/h&quot;</span>),</span>
+<span id="cb163-7"><a href="aig.html#cb163-7" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">list</span>(<span class="at">v =</span> <span class="fu">seq</span>(<span class="dv">40</span>, <span class="dv">120</span>, <span class="dv">10</span>), <span class="at">t =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">name =</span> <span class="st">&quot;SPD&quot;</span>)</span>
+<span id="cb163-8"><a href="aig.html#cb163-8" tabindex="-1"></a>frac <span class="ot">&lt;-</span> <span class="fu">item_model</span>(</span>
+<span id="cb163-9"><a href="aig.html#cb163-9" tabindex="-1"></a>  <span class="at">stem =</span> <span class="st">&quot;A class of {n} students voted. {num}/{den} of them chose soccer. How many students chose soccer?&quot;</span>,</span>
+<span id="cb163-10"><a href="aig.html#cb163-10" tabindex="-1"></a>  <span class="at">key =</span> <span class="st">&quot;{n * num / den}&quot;</span>,</span>
+<span id="cb163-11"><a href="aig.html#cb163-11" tabindex="-1"></a>  <span class="at">distractors =</span> <span class="fu">c</span>(<span class="at">multiplied_only =</span> <span class="st">&quot;{n * num}&quot;</span>, <span class="at">rest =</span> <span class="st">&quot;{n - n * num / den}&quot;</span>,</span>
+<span id="cb163-12"><a href="aig.html#cb163-12" tabindex="-1"></a>                  <span class="at">one_part_too_many =</span> <span class="st">&quot;{n / den * (num + 1)}&quot;</span>),</span>
+<span id="cb163-13"><a href="aig.html#cb163-13" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">30</span>, <span class="dv">36</span>, <span class="dv">40</span>), <span class="at">num =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">den =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>),</span>
+<span id="cb163-14"><a href="aig.html#cb163-14" tabindex="-1"></a>  <span class="at">constraints =</span> <span class="fu">c</span>(<span class="st">&quot;num &lt; den&quot;</span>, <span class="st">&quot;n %% den == 0&quot;</span>), <span class="at">name =</span> <span class="st">&quot;FRA&quot;</span>)</span>
+<span id="cb163-15"><a href="aig.html#cb163-15" tabindex="-1"></a>avg <span class="ot">&lt;-</span> <span class="fu">item_model</span>(</span>
+<span id="cb163-16"><a href="aig.html#cb163-16" tabindex="-1"></a>  <span class="at">stem =</span> <span class="st">&quot;The heights of {k} plants are {paste(seq(a, by = s, length.out = k), collapse = &#39;, &#39;)} cm. What is their mean height?&quot;</span>,</span>
+<span id="cb163-17"><a href="aig.html#cb163-17" tabindex="-1"></a>  <span class="at">key =</span> <span class="st">&quot;{a + s * (k - 1) / 2} cm&quot;</span>,</span>
+<span id="cb163-18"><a href="aig.html#cb163-18" tabindex="-1"></a>  <span class="at">distractors =</span> <span class="fu">c</span>(<span class="at">sum =</span> <span class="st">&quot;{k * a + s * k * (k - 1) / 2} cm&quot;</span>, <span class="at">largest =</span> <span class="st">&quot;{a + s * (k - 1)} cm&quot;</span>,</span>
+<span id="cb163-19"><a href="aig.html#cb163-19" tabindex="-1"></a>                  <span class="at">divided_by_wrong_n =</span> <span class="st">&quot;{(k * a + s * k * (k - 1) / 2) / (k - 1)} cm&quot;</span>),</span>
+<span id="cb163-20"><a href="aig.html#cb163-20" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">list</span>(<span class="at">k =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">a =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">20</span>), <span class="at">s =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)),</span>
+<span id="cb163-21"><a href="aig.html#cb163-21" tabindex="-1"></a>  <span class="at">constraints =</span> <span class="st">&quot;(s * (k - 1)) %% 2 == 0&quot;</span>, <span class="at">name =</span> <span class="st">&quot;AVG&quot;</span>)</span>
+<span id="cb163-22"><a href="aig.html#cb163-22" tabindex="-1"></a>speed</span>
+<span id="cb163-23"><a href="aig.html#cb163-23" tabindex="-1"></a><span class="co">#&gt; &lt;mv_item_model&gt; SPD</span></span>
+<span id="cb163-24"><a href="aig.html#cb163-24" tabindex="-1"></a><span class="co">#&gt;   Stem: A train travels {v * t} km in {t} hours. What is its average speed?</span></span>
+<span id="cb163-25"><a href="aig.html#cb163-25" tabindex="-1"></a><span class="co">#&gt;   Key:  {v} km/h</span></span>
+<span id="cb163-26"><a href="aig.html#cb163-26" tabindex="-1"></a><span class="co">#&gt;   Distractor 1: {v * t * t} km/h  (multiplied)</span></span>
+<span id="cb163-27"><a href="aig.html#cb163-27" tabindex="-1"></a><span class="co">#&gt;   Distractor 2: {v * t - t} km/h  (subtracted)</span></span>
+<span id="cb163-28"><a href="aig.html#cb163-28" tabindex="-1"></a><span class="co">#&gt;   Distractor 3: {v * t + t} km/h  (added)</span></span>
+<span id="cb163-29"><a href="aig.html#cb163-29" tabindex="-1"></a><span class="co">#&gt;   v: 40, 50, 60, ..., 110, 120</span></span>
+<span id="cb163-30"><a href="aig.html#cb163-30" tabindex="-1"></a><span class="co">#&gt;   t: 2, 3, 4, 5, 6</span></span>
+<span id="cb163-31"><a href="aig.html#cb163-31" tabindex="-1"></a><span class="co">#&gt;   45 combinations of values meet the constraints; 45 give items whose options all differ.</span></span></code></pre></div>
+<p>Printing a model checks it: All 45 combinations of speed and time give
+four different options. <code>generate_isomorphs()</code> draws items from the
+combinations and puts the options in random order:</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="aig.html#cb164-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">generate_isomorphs</span>(speed, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">15</span>)</span>
+<span id="cb164-2"><a href="aig.html#cb164-2" tabindex="-1"></a>x<span class="sc">$</span>stem</span>
+<span id="cb164-3"><a href="aig.html#cb164-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A train travels 500 km in 5 hours. What is its average speed?&quot;</span></span>
+<span id="cb164-4"><a href="aig.html#cb164-4" tabindex="-1"></a><span class="co">#&gt; [2] &quot;A train travels 240 km in 6 hours. What is its average speed?&quot;</span></span>
+<span id="cb164-5"><a href="aig.html#cb164-5" tabindex="-1"></a><span class="co">#&gt; [3] &quot;A train travels 540 km in 6 hours. What is its average speed?&quot;</span></span>
+<span id="cb164-6"><a href="aig.html#cb164-6" tabindex="-1"></a><span class="fu">as.data.frame</span>(x[, <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;key&quot;</span>)])</span>
+<span id="cb164-7"><a href="aig.html#cb164-7" tabindex="-1"></a><span class="co">#&gt;       id        A          B          C        D key</span></span>
+<span id="cb164-8"><a href="aig.html#cb164-8" tabindex="-1"></a><span class="co">#&gt; 1 SPD-01 100 km/h 2,500 km/h   505 km/h 495 km/h   A</span></span>
+<span id="cb164-9"><a href="aig.html#cb164-9" tabindex="-1"></a><span class="co">#&gt; 2 SPD-02 234 km/h    40 km/h 1,440 km/h 246 km/h   B</span></span>
+<span id="cb164-10"><a href="aig.html#cb164-10" tabindex="-1"></a><span class="co">#&gt; 3 SPD-03 546 km/h 3,240 km/h    90 km/h 534 km/h   C</span></span></code></pre></div>
+<p>The fraction model is less safe. With <span class="math inline">\(\frac{1}{2}\)</span>, the students who chose
+soccer and those who did not are the same number, so the key and the <code>rest</code>
+distractor are identical. <code>generate_isomorphs()</code> leaves such combinations
+out, and says so:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="aig.html#cb165-1" tabindex="-1"></a>fams <span class="ot">&lt;-</span> <span class="fu">generate_isomorphs</span>(<span class="fu">list</span>(speed, frac, avg), <span class="at">n =</span> <span class="dv">12</span>, <span class="at">seed =</span> <span class="dv">151</span>)</span>
+<span id="cb165-2"><a href="aig.html#cb165-2" tabindex="-1"></a><span class="co">#&gt; FRA: 25 of 56 combinations of values give two identical options or cannot be computed, and were left out. Add a constraint to rule them out.</span></span>
+<span id="cb165-3"><a href="aig.html#cb165-3" tabindex="-1"></a><span class="co">#&gt; AVG: 2 of 24 combinations of values give two identical options or cannot be computed, and were left out. Add a constraint to rule them out.</span></span>
+<span id="cb165-4"><a href="aig.html#cb165-4" tabindex="-1"></a><span class="fu">table</span>(fams<span class="sc">$</span>model)</span>
+<span id="cb165-5"><a href="aig.html#cb165-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb165-6"><a href="aig.html#cb165-6" tabindex="-1"></a><span class="co">#&gt; AVG FRA SPD </span></span>
+<span id="cb165-7"><a href="aig.html#cb165-7" tabindex="-1"></a><span class="co">#&gt;  12  12  12</span></span></code></pre></div>
+<p>Almost half of the fraction model’s combinations were dropped, and two of
+the mean model’s. The message is a request to fix the model with a constraint, so that the next
+person who uses it, or the software, does not depend on the check
+(Exercise 1).</p>
+</div>
+<div id="example-2-calibrating-the-families" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> Example 2: Calibrating the families<a href="aig.html#example-2-calibrating-the-families" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The 36 items were field-tested on 800 students. We simulate the responses:
+Each family has its own difficulty, each item adds item-specific noise with
+an SD of 0.2 logits, and fractions with a numerator above 1, which take
+two steps, are 0.8 logits harder than unit fractions. Then we calibrate the
+Rasch model.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="aig.html#cb166-1" tabindex="-1"></a><span class="co"># Simulated field test of the generated items: 800 students.</span></span>
+<span id="cb166-2"><a href="aig.html#cb166-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1515</span>)</span>
+<span id="cb166-3"><a href="aig.html#cb166-3" tabindex="-1"></a>two_step <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(fams<span class="sc">$</span>num) <span class="sc">&amp;</span> fams<span class="sc">$</span>num <span class="sc">&gt;</span> <span class="dv">1</span></span>
+<span id="cb166-4"><a href="aig.html#cb166-4" tabindex="-1"></a>b_true <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">SPD =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">FRA =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">AVG =</span> <span class="fl">0.4</span>)[fams<span class="sc">$</span>model] <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> two_step <span class="sc">+</span></span>
+<span id="cb166-5"><a href="aig.html#cb166-5" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="fu">nrow</span>(fams), <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb166-6"><a href="aig.html#cb166-6" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">800</span>)</span>
+<span id="cb166-7"><a href="aig.html#cb166-7" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(b_true, <span class="cf">function</span>(b) <span class="fu">rbinom</span>(<span class="dv">800</span>, <span class="dv">1</span>, <span class="fu">plogis</span>(theta <span class="sc">-</span> b)))</span>
+<span id="cb166-8"><a href="aig.html#cb166-8" tabindex="-1"></a><span class="fu">colnames</span>(resp) <span class="ot">&lt;-</span> fams<span class="sc">$</span>id</span>
+<span id="cb166-9"><a href="aig.html#cb166-9" tabindex="-1"></a>rasch <span class="ot">&lt;-</span> <span class="fu">mirt</span>(<span class="fu">as.data.frame</span>(resp), <span class="dv">1</span>, <span class="st">&quot;Rasch&quot;</span>, <span class="at">SE =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb166-10"><a href="aig.html#cb166-10" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">tidy</span>(rasch)</span>
+<span id="cb166-11"><a href="aig.html#cb166-11" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fams)</span>
+<span id="cb166-12"><a href="aig.html#cb166-12" tabindex="-1"></a>b <span class="ot">&lt;-</span> pars[pars<span class="sc">$</span>term <span class="sc">==</span> <span class="st">&quot;b&quot;</span>, ]</span>
+<span id="cb166-13"><a href="aig.html#cb166-13" tabindex="-1"></a>items<span class="sc">$</span>b <span class="ot">&lt;-</span> b<span class="sc">$</span>estimate[<span class="fu">match</span>(items<span class="sc">$</span>id, b<span class="sc">$</span>item)]</span>
+<span id="cb166-14"><a href="aig.html#cb166-14" tabindex="-1"></a>items<span class="sc">$</span>b_se <span class="ot">&lt;-</span> b<span class="sc">$</span>std.error[<span class="fu">match</span>(items<span class="sc">$</span>id, b<span class="sc">$</span>item)]</span></code></pre></div>
+<p><code>calibrate_families()</code> summarizes each family. Its observed SD includes
+the estimation error of each <span class="math inline">\(b\)</span>; with <code>se</code>, the error variance is
+subtracted, which leaves the within-family SD. The 95% interval is where a
+new isomorph’s difficulty is expected to fall, and <code>field_n</code> translates the
+prediction error into the size of a field test that would estimate the
+item as precisely.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="aig.html#cb167-1" tabindex="-1"></a>cal <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;model&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
+<span id="cb167-2"><a href="aig.html#cb167-2" tabindex="-1"></a>cal</span>
+<span id="cb167-3"><a href="aig.html#cb167-3" tabindex="-1"></a><span class="co">#&gt; Item families: 3 families, 36 items; SD within corrected for estimation error</span></span>
+<span id="cb167-4"><a href="aig.html#cb167-4" tabindex="-1"></a><span class="co">#&gt;  family items mean_b sd_within 95% for new item field_n isomorphic</span></span>
+<span id="cb167-5"><a href="aig.html#cb167-5" tabindex="-1"></a><span class="co">#&gt;     SPD    12  -0.25      0.19    -0.64 to 0.14     135        yes</span></span>
+<span id="cb167-6"><a href="aig.html#cb167-6" tabindex="-1"></a><span class="co">#&gt;     FRA    12   0.04      0.46    -0.89 to 0.97      23         NO</span></span>
+<span id="cb167-7"><a href="aig.html#cb167-7" tabindex="-1"></a><span class="co">#&gt;     AVG    12   0.51      0.27    -0.04 to 1.07      69        yes</span></span>
+<span id="cb167-8"><a href="aig.html#cb167-8" tabindex="-1"></a><span class="co">#&gt; field_n: Test takers a field test would need to estimate a new isomorph&#39;s b as precisely</span></span>
+<span id="cb167-9"><a href="aig.html#cb167-9" tabindex="-1"></a><span class="co">#&gt; as its family mean predicts it. Isomorphic: SD within at most 0.30.</span></span></code></pre></div>
+<p>The speed and mean families are isomorphic, with within-family SDs of
+about 0.2 and 0.3 logits: Their family means are worth a field test of
+70 to 140 students. The fraction family spreads over almost two logits.
+Sorting its items by difficulty shows why:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="aig.html#cb168-1" tabindex="-1"></a>fr <span class="ot">&lt;-</span> items[items<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;FRA&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;num&quot;</span>, <span class="st">&quot;den&quot;</span>, <span class="st">&quot;b&quot;</span>)]</span>
+<span id="cb168-2"><a href="aig.html#cb168-2" tabindex="-1"></a>fr[<span class="fu">order</span>(fr<span class="sc">$</span>b), ]</span>
+<span id="cb168-3"><a href="aig.html#cb168-3" tabindex="-1"></a><span class="co">#&gt;        id num den       b</span></span>
+<span id="cb168-4"><a href="aig.html#cb168-4" tabindex="-1"></a><span class="co">#&gt; 22 FRA-10   1   6 -0.6857</span></span>
+<span id="cb168-5"><a href="aig.html#cb168-5" tabindex="-1"></a><span class="co">#&gt; 18 FRA-06   1   5 -0.6532</span></span>
+<span id="cb168-6"><a href="aig.html#cb168-6" tabindex="-1"></a><span class="co">#&gt; 19 FRA-07   1   5 -0.4371</span></span>
+<span id="cb168-7"><a href="aig.html#cb168-7" tabindex="-1"></a><span class="co">#&gt; 15 FRA-03   1   4 -0.1901</span></span>
+<span id="cb168-8"><a href="aig.html#cb168-8" tabindex="-1"></a><span class="co">#&gt; 21 FRA-09   1   6 -0.0803</span></span>
+<span id="cb168-9"><a href="aig.html#cb168-9" tabindex="-1"></a><span class="co">#&gt; 17 FRA-05   3   4  0.0779</span></span>
+<span id="cb168-10"><a href="aig.html#cb168-10" tabindex="-1"></a><span class="co">#&gt; 24 FRA-12   2   6  0.1389</span></span>
+<span id="cb168-11"><a href="aig.html#cb168-11" tabindex="-1"></a><span class="co">#&gt; 13 FRA-01   2   3  0.1877</span></span>
+<span id="cb168-12"><a href="aig.html#cb168-12" tabindex="-1"></a><span class="co">#&gt; 23 FRA-11   2   6  0.4410</span></span>
+<span id="cb168-13"><a href="aig.html#cb168-13" tabindex="-1"></a><span class="co">#&gt; 20 FRA-08   3   5  0.4661</span></span>
+<span id="cb168-14"><a href="aig.html#cb168-14" tabindex="-1"></a><span class="co">#&gt; 16 FRA-04   3   4  0.5483</span></span>
+<span id="cb168-15"><a href="aig.html#cb168-15" tabindex="-1"></a><span class="co">#&gt; 14 FRA-02   2   3  0.6966</span></span></code></pre></div>
+<p>All five unit fractions are easier than all seven others. Splitting the
+family by that variable gives four isomorphic families (Figure
+<a href="aig.html#fig:aig-families">15.1</a>):</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="aig.html#cb169-1" tabindex="-1"></a>items<span class="sc">$</span>family <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(items<span class="sc">$</span>model <span class="sc">==</span> <span class="st">&quot;FRA&quot;</span>,</span>
+<span id="cb169-2"><a href="aig.html#cb169-2" tabindex="-1"></a>                       <span class="fu">ifelse</span>(items<span class="sc">$</span>num <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;FRA-unit&quot;</span>, <span class="st">&quot;FRA-nonunit&quot;</span>), items<span class="sc">$</span>model)</span>
+<span id="cb169-3"><a href="aig.html#cb169-3" tabindex="-1"></a>cal2 <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
+<span id="cb169-4"><a href="aig.html#cb169-4" tabindex="-1"></a>cal2</span>
+<span id="cb169-5"><a href="aig.html#cb169-5" tabindex="-1"></a><span class="co">#&gt; Item families: 4 families, 36 items; SD within corrected for estimation error</span></span>
+<span id="cb169-6"><a href="aig.html#cb169-6" tabindex="-1"></a><span class="co">#&gt;       family items mean_b sd_within 95% for new item field_n isomorphic</span></span>
+<span id="cb169-7"><a href="aig.html#cb169-7" tabindex="-1"></a><span class="co">#&gt;     FRA-unit     5  -0.41      0.26    -0.96 to 0.15      76        yes</span></span>
+<span id="cb169-8"><a href="aig.html#cb169-8" tabindex="-1"></a><span class="co">#&gt;          SPD    12  -0.25      0.19    -0.64 to 0.14     135        yes</span></span>
+<span id="cb169-9"><a href="aig.html#cb169-9" tabindex="-1"></a><span class="co">#&gt;  FRA-nonunit     7   0.37      0.22    -0.09 to 0.82     106        yes</span></span>
+<span id="cb169-10"><a href="aig.html#cb169-10" tabindex="-1"></a><span class="co">#&gt;          AVG    12   0.51      0.27    -0.04 to 1.07      69        yes</span></span>
+<span id="cb169-11"><a href="aig.html#cb169-11" tabindex="-1"></a><span class="co">#&gt; field_n: Test takers a field test would need to estimate a new isomorph&#39;s b as precisely</span></span>
+<span id="cb169-12"><a href="aig.html#cb169-12" tabindex="-1"></a><span class="co">#&gt; as its family mean predicts it. Isomorphic: SD within at most 0.30.</span></span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="aig.html#cb170-1" tabindex="-1"></a><span class="fu">autoplot</span>(cal2)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:aig-families"></span>
+<img src="mirtverse-book_files/figure-html/aig-families-1.png" alt="Item families after splitting the fraction model. Dots are items, diamonds family means, and bars the 95% interval for a new isomorph." width="90%" />
+<p class="caption">
+Figure 15.1: Item families after splitting the fraction model. Dots are items, diamonds family means, and bars the 95% interval for a new isomorph.
+</p>
+</div>
+<p>The split is a substantive finding, not a statistical repair: Finding
+<span class="math inline">\(\frac{2}{3}\)</span> of a number takes one step more than finding <span class="math inline">\(\frac{1}{3}\)</span>
+of it. The item writers can keep one model and treat <code>num &gt; 1</code> as a
+feature, or write two models; either way, the family mean of the original
+model would have misled.</p>
+</div>
+<div id="example-3-one-step-with-a-random-item-effect" class="section level2 hasAnchor" number="15.4">
+<h2><span class="header-section-number">15.4</span> Example 3: One step, with a random item effect<a href="aig.html#example-3-one-step-with-a-random-item-effect" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The two-step approach treats the estimated difficulties as data. A
+one-step model fits the responses directly: The family is a fixed effect,
+and each item’s departure from its family mean is a random effect whose
+variance is <span class="math inline">\(\sigma^2\)</span>, pooled over families. mirt’s <code>mixedmirt()</code> fits
+it (the estimation takes about a minute):</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="aig.html#cb171-1" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">family =</span> <span class="fu">factor</span>(items<span class="sc">$</span>family))</span>
+<span id="cb171-2"><a href="aig.html#cb171-2" tabindex="-1"></a>mm <span class="ot">&lt;-</span> <span class="fu">mixedmirt</span>(<span class="fu">as.data.frame</span>(resp), <span class="at">model =</span> <span class="dv">1</span>, <span class="at">itemdesign =</span> design,</span>
+<span id="cb171-3"><a href="aig.html#cb171-3" tabindex="-1"></a>                <span class="at">fixed =</span> <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> family, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> items, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb171-4"><a href="aig.html#cb171-4" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">summary</span>(mm, <span class="at">verbose =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>fixed</span>
+<span id="cb171-5"><a href="aig.html#cb171-5" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">family =</span> <span class="fu">sub</span>(<span class="st">&quot;family&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">rownames</span>(fixed)),</span>
+<span id="cb171-6"><a href="aig.html#cb171-6" tabindex="-1"></a>           <span class="at">difficulty =</span> <span class="sc">-</span>fixed[, <span class="st">&quot;Estimate&quot;</span>])   <span class="co"># mirt models easiness; reverse the sign</span></span>
+<span id="cb171-7"><a href="aig.html#cb171-7" tabindex="-1"></a><span class="co">#&gt;        family difficulty</span></span>
+<span id="cb171-8"><a href="aig.html#cb171-8" tabindex="-1"></a><span class="co">#&gt; 1         AVG      0.503</span></span>
+<span id="cb171-9"><a href="aig.html#cb171-9" tabindex="-1"></a><span class="co">#&gt; 2 FRA-nonunit      0.357</span></span>
+<span id="cb171-10"><a href="aig.html#cb171-10" tabindex="-1"></a><span class="co">#&gt; 3    FRA-unit     -0.370</span></span>
+<span id="cb171-11"><a href="aig.html#cb171-11" tabindex="-1"></a><span class="co">#&gt; 4         SPD     -0.253</span></span>
+<span id="cb171-12"><a href="aig.html#cb171-12" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">coef</span>(mm)<span class="sc">$</span>items)                              <span class="co"># within-family SD</span></span>
+<span id="cb171-13"><a href="aig.html#cb171-13" tabindex="-1"></a><span class="co">#&gt;         COV_items_items</span></span>
+<span id="cb171-14"><a href="aig.html#cb171-14" tabindex="-1"></a><span class="co">#&gt; par               0.240</span></span>
+<span id="cb171-15"><a href="aig.html#cb171-15" tabindex="-1"></a><span class="co">#&gt; CI_2.5            0.145</span></span>
+<span id="cb171-16"><a href="aig.html#cb171-16" tabindex="-1"></a><span class="co">#&gt; CI_97.5           0.306</span></span></code></pre></div>
+<p>The family difficulties match the two-step means, and the within-family SD
+is about 0.24 logits, close to the 0.2 that was simulated. This is the
+LLTM of Chapter <a href="item-text.html#item-text">14</a> with a random item effect, and the same
+model fits as a generalized linear mixed model with the eirm package
+<span class="citation">(<a href="#ref-bulut2021">Bulut et al. 2021</a>)</span>, from data in long format. Item features such as <code>num &gt; 1</code>
+can go into the same formula:</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="aig.html#cb172-1" tabindex="-1"></a><span class="co"># install.packages(&quot;eirm&quot;)</span></span>
+<span id="cb172-2"><a href="aig.html#cb172-2" tabindex="-1"></a><span class="fu">library</span>(eirm)</span>
+<span id="cb172-3"><a href="aig.html#cb172-3" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">person =</span> <span class="fu">rep</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(resp)), <span class="fu">ncol</span>(resp)),</span>
+<span id="cb172-4"><a href="aig.html#cb172-4" tabindex="-1"></a>                   <span class="at">id =</span> <span class="fu">rep</span>(<span class="fu">colnames</span>(resp), <span class="at">each =</span> <span class="fu">nrow</span>(resp)),</span>
+<span id="cb172-5"><a href="aig.html#cb172-5" tabindex="-1"></a>                   <span class="at">resp =</span> <span class="fu">as.vector</span>(resp))</span>
+<span id="cb172-6"><a href="aig.html#cb172-6" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">merge</span>(long, items[, <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;model&quot;</span>, <span class="st">&quot;family&quot;</span>)])</span>
+<span id="cb172-7"><a href="aig.html#cb172-7" tabindex="-1"></a>long<span class="sc">$</span>two_step <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(long<span class="sc">$</span>family <span class="sc">==</span> <span class="st">&quot;FRA-nonunit&quot;</span>)</span>
+<span id="cb172-8"><a href="aig.html#cb172-8" tabindex="-1"></a>m_eirm <span class="ot">&lt;-</span> <span class="fu">eirm</span>(<span class="st">&quot;resp ~ -1 + model + two_step + (1|person) + (1|id)&quot;</span>, <span class="at">data =</span> long)</span>
+<span id="cb172-9"><a href="aig.html#cb172-9" tabindex="-1"></a><span class="fu">print</span>(m_eirm, <span class="at">difficulty =</span> <span class="cn">TRUE</span>)   <span class="co"># family difficulties and the two-step effect</span></span>
+<span id="cb172-10"><a href="aig.html#cb172-10" tabindex="-1"></a>lme4<span class="sc">::</span><span class="fu">VarCorr</span>(m_eirm<span class="sc">$</span>model)       <span class="co"># person and within-family item variance</span></span></code></pre></div>
+<p>With the feature in the model, the original three item models stay, and
+the fixed effect of <code>two_step</code> estimates how much the second step adds.
+Hierarchical models of this kind can also give each family its own
+variance and its own discrimination <span class="citation">(<a href="#ref-sinharay2003">Sinharay et al. 2003</a>; <a href="#ref-geerlings2011"><span class="nocase">Geerlings et al.</span> 2011</a>)</span>.</p>
+</div>
+<div id="example-4-does-the-family-mean-predict-new-items" class="section level2 hasAnchor" number="15.5">
+<h2><span class="header-section-number">15.5</span> Example 4: Does the family mean predict new items?<a href="aig.html#example-4-does-the-family-mean-predict-new-items" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The real test of family calibration is a held-out one: Calibrate each
+family on some of its items and predict the others as if they were new.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="aig.html#cb173-1" tabindex="-1"></a>number <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">sub</span>(<span class="st">&quot;.*-&quot;</span>, <span class="st">&quot;&quot;</span>, items<span class="sc">$</span>id))</span>
+<span id="cb173-2"><a href="aig.html#cb173-2" tabindex="-1"></a>old <span class="ot">&lt;-</span> items[number <span class="sc">&lt;=</span> <span class="dv">6</span>, ]</span>
+<span id="cb173-3"><a href="aig.html#cb173-3" tabindex="-1"></a>new <span class="ot">&lt;-</span> items[number <span class="sc">&gt;</span> <span class="dv">6</span>, ]</span>
+<span id="cb173-4"><a href="aig.html#cb173-4" tabindex="-1"></a>cal_old <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(old, <span class="at">family =</span> <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
+<span id="cb173-5"><a href="aig.html#cb173-5" tabindex="-1"></a>new<span class="sc">$</span>predicted <span class="ot">&lt;-</span> cal_old<span class="sc">$</span>mean_b[<span class="fu">match</span>(new<span class="sc">$</span>family, cal_old<span class="sc">$</span>family)]</span>
+<span id="cb173-6"><a href="aig.html#cb173-6" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((new<span class="sc">$</span>predicted <span class="sc">-</span> new<span class="sc">$</span>b)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb173-7"><a href="aig.html#cb173-7" tabindex="-1"></a><span class="co">#&gt; [1] 0.251</span></span></code></pre></div>
+<p>The family means miss the new items by about a quarter of a logit, about
+what the within-family SDs promised, and three times the standard error of
+an item calibrated on 800 students. That is precise enough to assemble
+field-test or practice forms, and to start online calibration, where new
+items are given as unscored pretest items and their own estimates replace
+the family mean as responses come in. Whether it is precise enough for
+scored items on a high-stakes test is a judgment about the decisions the
+scores support, not a property of the data.</p>
+</div>
+<div id="your-turn-14" class="section level2 hasAnchor" number="15.6">
+<h2><span class="header-section-number">15.6</span> Your turn<a href="aig.html#your-turn-14" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Add a constraint to <code>frac</code> so that no combination gives identical
+options, and print the model. Which fractions does your constraint rule
+out?</li>
+<li>Without splitting the fraction family, fit
+<code>predict_difficulty(items, c("model", "num"), se = "b_se", methods = "lltm")</code>.
+What does the weight of <code>num</code> say, and how does its cross-validated
+error compare with that of the split families (<code>c("family")</code>)?</li>
+<li>Widen the values of the speed model: Change <code>t</code> to <code>2:10</code> and <code>v</code> to
+<code>seq(5, 120, 5)</code>. Print the model. Are all items still flawless,
+and are they still isomorphs?</li>
+<li>In Example 2, raise <code>max_sd</code> to 0.5. Which families now count as
+isomorphic, and what would that hide?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="aig.html#cb174-1" tabindex="-1"></a><span class="co"># 1. a constraint for distinct options</span></span>
+<span id="cb174-2"><a href="aig.html#cb174-2" tabindex="-1"></a>frac2 <span class="ot">&lt;-</span> <span class="fu">item_model</span>(</span>
+<span id="cb174-3"><a href="aig.html#cb174-3" tabindex="-1"></a>  <span class="at">stem =</span> frac<span class="sc">$</span>stem, <span class="at">key =</span> frac<span class="sc">$</span>key, <span class="at">distractors =</span> frac<span class="sc">$</span>distractors, <span class="at">values =</span> frac<span class="sc">$</span>values,</span>
+<span id="cb174-4"><a href="aig.html#cb174-4" tabindex="-1"></a>  <span class="at">constraints =</span> <span class="fu">c</span>(frac<span class="sc">$</span>constraints,</span>
+<span id="cb174-5"><a href="aig.html#cb174-5" tabindex="-1"></a>                  <span class="st">&quot;length(unique(c(n * num / den, n * num, n - n * num / den, n / den * (num + 1)))) == 4&quot;</span>),</span>
+<span id="cb174-6"><a href="aig.html#cb174-6" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;FRA&quot;</span>)</span>
+<span id="cb174-7"><a href="aig.html#cb174-7" tabindex="-1"></a>frac2</span>
+<span id="cb174-8"><a href="aig.html#cb174-8" tabindex="-1"></a><span class="co">#&gt; &lt;mv_item_model&gt; FRA</span></span>
+<span id="cb174-9"><a href="aig.html#cb174-9" tabindex="-1"></a><span class="co">#&gt;   Stem: A class of {n} students voted. {num}/{den} of them chose soccer. How many students chose soccer?</span></span>
+<span id="cb174-10"><a href="aig.html#cb174-10" tabindex="-1"></a><span class="co">#&gt;   Key:  {n * num / den}</span></span>
+<span id="cb174-11"><a href="aig.html#cb174-11" tabindex="-1"></a><span class="co">#&gt;   Distractor 1: {n * num}  (multiplied only)</span></span>
+<span id="cb174-12"><a href="aig.html#cb174-12" tabindex="-1"></a><span class="co">#&gt;   Distractor 2: {n - n * num / den}  (rest)</span></span>
+<span id="cb174-13"><a href="aig.html#cb174-13" tabindex="-1"></a><span class="co">#&gt;   Distractor 3: {n / den * (num + 1)}  (one part too many)</span></span>
+<span id="cb174-14"><a href="aig.html#cb174-14" tabindex="-1"></a><span class="co">#&gt;   n: 12, 18, 20, ..., 36, 40</span></span>
+<span id="cb174-15"><a href="aig.html#cb174-15" tabindex="-1"></a><span class="co">#&gt;   num: 1, 2, 3</span></span>
+<span id="cb174-16"><a href="aig.html#cb174-16" tabindex="-1"></a><span class="co">#&gt;   den: 2, 3, 4, 5, 6</span></span>
+<span id="cb174-17"><a href="aig.html#cb174-17" tabindex="-1"></a><span class="co">#&gt;   Constraints: num &lt; den; n %% den == 0; length(unique(c(n * num / den, n * num, n - n * num / den, n / den * (num + 1)))) == 4 </span></span>
+<span id="cb174-18"><a href="aig.html#cb174-18" tabindex="-1"></a><span class="co">#&gt;   31 combinations of values meet the constraints; 31 give items whose options all differ.</span></span>
+<span id="cb174-19"><a href="aig.html#cb174-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">num =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">den =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb174-20"><a href="aig.html#cb174-20" tabindex="-1"></a>g <span class="ot">&lt;-</span> g[g<span class="sc">$</span>num <span class="sc">&lt;</span> g<span class="sc">$</span>den, ]</span>
+<span id="cb174-21"><a href="aig.html#cb174-21" tabindex="-1"></a>g<span class="sc">$</span>distinct <span class="ot">&lt;-</span> <span class="fu">with</span>(g, num <span class="sc">/</span> den <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span> <span class="sc">&amp;</span> den <span class="sc">!=</span> <span class="dv">2</span> <span class="sc">*</span> num <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb174-22"><a href="aig.html#cb174-22" tabindex="-1"></a>g[<span class="sc">!</span>g<span class="sc">$</span>distinct, ]</span>
+<span id="cb174-23"><a href="aig.html#cb174-23" tabindex="-1"></a><span class="co">#&gt;    num den distinct</span></span>
+<span id="cb174-24"><a href="aig.html#cb174-24" tabindex="-1"></a><span class="co">#&gt; 1    1   2    FALSE</span></span>
+<span id="cb174-25"><a href="aig.html#cb174-25" tabindex="-1"></a><span class="co">#&gt; 4    1   3    FALSE</span></span>
+<span id="cb174-26"><a href="aig.html#cb174-26" tabindex="-1"></a><span class="co">#&gt; 8    2   4    FALSE</span></span>
+<span id="cb174-27"><a href="aig.html#cb174-27" tabindex="-1"></a><span class="co">#&gt; 11   2   5    FALSE</span></span>
+<span id="cb174-28"><a href="aig.html#cb174-28" tabindex="-1"></a><span class="co">#&gt; 15   3   6    FALSE</span></span>
+<span id="cb174-29"><a href="aig.html#cb174-29" tabindex="-1"></a></span>
+<span id="cb174-30"><a href="aig.html#cb174-30" tabindex="-1"></a><span class="co"># 2. the numerator as a feature</span></span>
+<span id="cb174-31"><a href="aig.html#cb174-31" tabindex="-1"></a>m_num <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;num&quot;</span>), <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>, <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
+<span id="cb174-32"><a href="aig.html#cb174-32" tabindex="-1"></a><span class="fu">tidy</span>(m_num)</span>
+<span id="cb174-33"><a href="aig.html#cb174-33" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span id="cb174-34"><a href="aig.html#cb174-34" tabindex="-1"></a><span class="co">#&gt;   method term        estimate std_error</span></span>
+<span id="cb174-35"><a href="aig.html#cb174-35" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb174-36"><a href="aig.html#cb174-36" tabindex="-1"></a><span class="co">#&gt; 1 lltm   (Intercept)   -1.01     0.194 </span></span>
+<span id="cb174-37"><a href="aig.html#cb174-37" tabindex="-1"></a><span class="co">#&gt; 2 lltm   model: AVG     0.753    0.110 </span></span>
+<span id="cb174-38"><a href="aig.html#cb174-38" tabindex="-1"></a><span class="co">#&gt; 3 lltm   model: FRA     0.292    0.109 </span></span>
+<span id="cb174-39"><a href="aig.html#cb174-39" tabindex="-1"></a><span class="co">#&gt; 4 lltm   model: SPD     0       NA     </span></span>
+<span id="cb174-40"><a href="aig.html#cb174-40" tabindex="-1"></a><span class="co">#&gt; 5 lltm   num            0.415    0.0970</span></span>
+<span id="cb174-41"><a href="aig.html#cb174-41" tabindex="-1"></a>m_num<span class="sc">$</span>accuracy</span>
+<span id="cb174-42"><a href="aig.html#cb174-42" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span id="cb174-43"><a href="aig.html#cb174-43" tabindex="-1"></a><span class="co">#&gt;   method  rmse   mae     r    r2</span></span>
+<span id="cb174-44"><a href="aig.html#cb174-44" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb174-45"><a href="aig.html#cb174-45" tabindex="-1"></a><span class="co">#&gt; 1 lltm   0.276 0.214 0.791 0.625</span></span>
+<span id="cb174-46"><a href="aig.html#cb174-46" tabindex="-1"></a><span class="fu">predict_difficulty</span>(items, <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>, <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)<span class="sc">$</span>accuracy</span>
+<span id="cb174-47"><a href="aig.html#cb174-47" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span id="cb174-48"><a href="aig.html#cb174-48" tabindex="-1"></a><span class="co">#&gt;   method  rmse   mae     r    r2</span></span>
+<span id="cb174-49"><a href="aig.html#cb174-49" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb174-50"><a href="aig.html#cb174-50" tabindex="-1"></a><span class="co">#&gt; 1 lltm   0.249 0.205 0.833 0.694</span></span>
+<span id="cb174-51"><a href="aig.html#cb174-51" tabindex="-1"></a></span>
+<span id="cb174-52"><a href="aig.html#cb174-52" tabindex="-1"></a><span class="co"># 3. wider values for the speed model</span></span>
+<span id="cb174-53"><a href="aig.html#cb174-53" tabindex="-1"></a>speed3 <span class="ot">&lt;-</span> <span class="fu">item_model</span>(<span class="at">stem =</span> speed<span class="sc">$</span>stem, <span class="at">key =</span> speed<span class="sc">$</span>key, <span class="at">distractors =</span> speed<span class="sc">$</span>distractors,</span>
+<span id="cb174-54"><a href="aig.html#cb174-54" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">list</span>(<span class="at">v =</span> <span class="fu">seq</span>(<span class="dv">5</span>, <span class="dv">120</span>, <span class="dv">5</span>), <span class="at">t =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">name =</span> <span class="st">&quot;SPD&quot;</span>)</span>
+<span id="cb174-55"><a href="aig.html#cb174-55" tabindex="-1"></a>speed3</span>
+<span id="cb174-56"><a href="aig.html#cb174-56" tabindex="-1"></a><span class="co">#&gt; &lt;mv_item_model&gt; SPD</span></span>
+<span id="cb174-57"><a href="aig.html#cb174-57" tabindex="-1"></a><span class="co">#&gt;   Stem: A train travels {v * t} km in {t} hours. What is its average speed?</span></span>
+<span id="cb174-58"><a href="aig.html#cb174-58" tabindex="-1"></a><span class="co">#&gt;   Key:  {v} km/h</span></span>
+<span id="cb174-59"><a href="aig.html#cb174-59" tabindex="-1"></a><span class="co">#&gt;   Distractor 1: {v * t * t} km/h  (multiplied)</span></span>
+<span id="cb174-60"><a href="aig.html#cb174-60" tabindex="-1"></a><span class="co">#&gt;   Distractor 2: {v * t - t} km/h  (subtracted)</span></span>
+<span id="cb174-61"><a href="aig.html#cb174-61" tabindex="-1"></a><span class="co">#&gt;   Distractor 3: {v * t + t} km/h  (added)</span></span>
+<span id="cb174-62"><a href="aig.html#cb174-62" tabindex="-1"></a><span class="co">#&gt;   v: 5, 10, 15, ..., 115, 120</span></span>
+<span id="cb174-63"><a href="aig.html#cb174-63" tabindex="-1"></a><span class="co">#&gt;   t: 2, 3, 4, ..., 9, 10</span></span>
+<span id="cb174-64"><a href="aig.html#cb174-64" tabindex="-1"></a><span class="co">#&gt;   216 combinations of values meet the constraints; 216 give items whose options all differ.</span></span>
+<span id="cb174-65"><a href="aig.html#cb174-65" tabindex="-1"></a></span>
+<span id="cb174-66"><a href="aig.html#cb174-66" tabindex="-1"></a><span class="co"># 4. a looser threshold</span></span>
+<span id="cb174-67"><a href="aig.html#cb174-67" tabindex="-1"></a><span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;model&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>, <span class="at">max_sd =</span> <span class="fl">0.5</span>)</span>
+<span id="cb174-68"><a href="aig.html#cb174-68" tabindex="-1"></a><span class="co">#&gt; Item families: 3 families, 36 items; SD within corrected for estimation error</span></span>
+<span id="cb174-69"><a href="aig.html#cb174-69" tabindex="-1"></a><span class="co">#&gt;  family items mean_b sd_within 95% for new item field_n isomorphic</span></span>
+<span id="cb174-70"><a href="aig.html#cb174-70" tabindex="-1"></a><span class="co">#&gt;     SPD    12  -0.25      0.19    -0.64 to 0.14     135        yes</span></span>
+<span id="cb174-71"><a href="aig.html#cb174-71" tabindex="-1"></a><span class="co">#&gt;     FRA    12   0.04      0.46    -0.89 to 0.97      23        yes</span></span>
+<span id="cb174-72"><a href="aig.html#cb174-72" tabindex="-1"></a><span class="co">#&gt;     AVG    12   0.51      0.27    -0.04 to 1.07      69        yes</span></span>
+<span id="cb174-73"><a href="aig.html#cb174-73" tabindex="-1"></a><span class="co">#&gt; field_n: Test takers a field test would need to estimate a new isomorph&#39;s b as precisely</span></span>
+<span id="cb174-74"><a href="aig.html#cb174-74" tabindex="-1"></a><span class="co">#&gt; as its family mean predicts it. Isomorphic: SD within at most 0.50.</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>The constraint that the four answers are all different leaves 31
+combinations. It rules out <span class="math inline">\(\frac{1}{2}\)</span> (also written
+<span class="math inline">\(\frac{2}{4}\)</span> and <span class="math inline">\(\frac{3}{6}\)</span>), where the rest equals the key, and
+<span class="math inline">\(\frac{1}{3}\)</span> and <span class="math inline">\(\frac{2}{5}\)</span>, where the rest equals one part too
+many. Writing the general constraint is safer than listing the
+fractions, because it also holds after someone adds new values.</li>
+<li>Each unit of the numerator adds about 0.4 logits, and the LLTM’s
+cross-validated error (about 0.28 logits) is close to that of the split
+families (0.25): The feature does most of the work of the split. It
+does a little worse because the simulated effect is a step from unit to
+non-unit fractions, which a straight line in <code>num</code> only approximates.</li>
+<li>All 216 combinations still give four different options, so the check
+passes. But a distance of 10 km in 2 hours and one of 1,200 km in 10
+hours are not the same task for a Grade 7 student: Larger numbers and
+less friendly divisions make items harder. Whether they are isomorphs is
+an empirical question that only a field test answers, and extending the
+values is a change to the item model that needs one.</li>
+<li>With 0.5, the original fraction family (0.46) counts as isomorphic.
+Its interval for a new item then spans almost two logits: Every unit
+fraction item would be predicted about 0.45 logits too hard, and every
+other one about a third of a logit too easy.
+The threshold should come from how precise the family mean must be for
+its use, not be loosened to pass a family.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-13" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="aig.html#in-the-lab-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 9, <code>run_lab("aig")</code>, writes an item model, calibrates a field test of
+60 generated items, and finds the families that are not isomorphic, and
+why. The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI Hub</a>
+collects the other AI tools in mirtverse.</p>
+</div>
+</div>
+<div id="further-reading-14" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="aig.html#further-reading-14" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Gierl and Haladyna <span class="citation">(<a href="#ref-gierl2013">2013</a>)</span> collect the theory and practice of AIG,
+and Gierl and Lai <span class="citation">(<a href="#ref-gierllai2013">2013</a>)</span> give a short introduction to item
+models. Glas and van der Linden <span class="citation">(<a href="#ref-glas2003">2003</a>)</span> and Sinharay, Johnson and
+Williamson <span class="citation">(<a href="#ref-sinharay2003">2003</a>)</span> model item families with random item
+parameters, and Geerlings, Glas and van der Linden <span class="citation">(<a href="#ref-geerlings2011">2011</a>)</span> add
+the rules used to generate the items as explanatory variables. Bulut,
+Gorgun and Yildirim-Erbasli <span class="citation">(<a href="#ref-bulut2021">2021</a>)</span> show how to fit such
+explanatory models in R with eirm.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bulut2021" class="csl-entry">
+Bulut, Okan, Guher Gorgun, and Seyma Nur Yildirim-Erbasli. 2021. <span>“Estimating Explanatory Extensions of Dichotomous and Polytomous <span>Rasch</span> Models: The Eirm Package in <span>R</span>.”</span> <em>Psych</em> 3 (3): 308–21. <a href="https://doi.org/10.3390/psych3030023">https://doi.org/10.3390/psych3030023</a>.
+</div>
+<div id="ref-deboeck2004" class="csl-entry">
+De Boeck, Paul, and Mark Wilson, eds. 2004. <em>Explanatory Item Response Models: A Generalized Linear and Nonlinear Approach</em>. Springer. <a href="https://doi.org/10.1007/978-1-4757-3990-9">https://doi.org/10.1007/978-1-4757-3990-9</a>.
+</div>
+<div id="ref-geerlings2011" class="csl-entry">
+<span class="nocase">Geerlings, Hanneke, Cees A. W. Glas, and Wim J. van der Linden</span>. 2011. <span>“Modeling Rule-Based Item Generation.”</span> <em>Psychometrika</em> 76 (2): 337–59. <a href="https://doi.org/10.1007/s11336-011-9204-x">https://doi.org/10.1007/s11336-011-9204-x</a>.
+</div>
+<div id="ref-gierl2013" class="csl-entry">
+Gierl, Mark J., and Thomas M. Haladyna, eds. 2013. <em>Automatic Item Generation: Theory and Practice</em>. Routledge.
+</div>
+<div id="ref-gierllai2013" class="csl-entry">
+Gierl, Mark J., and Hollis Lai. 2013. <span>“Instructional Topics in Educational Measurement (<span>ITEMS</span>) Module: Using Automated Processes to Generate Test Items.”</span> <em>Educational Measurement: Issues and Practice</em> 32 (3): 36–50. <a href="https://doi.org/10.1111/emip.12018">https://doi.org/10.1111/emip.12018</a>.
+</div>
+<div id="ref-glas2003" class="csl-entry">
+<span class="nocase">Glas, Cees A. W., and Wim J. van der Linden</span>. 2003. <span>“Computerized Adaptive Testing with Item Cloning.”</span> <em>Applied Psychological Measurement</em> 27 (4): 247–61. <a href="https://doi.org/10.1177/0146621603027004001">https://doi.org/10.1177/0146621603027004001</a>.
+</div>
+<div id="ref-sinharay2003" class="csl-entry">
+Sinharay, Sandip, Matthew S. Johnson, and David M. Williamson. 2003. <span>“Calibrating Item Families and Summarizing the Results Using Family Expected Response Functions.”</span> <em>Journal of Educational and Behavioral Statistics</em> 28 (4): 295–313.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="item-text.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="auto-scoring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/15-aig.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

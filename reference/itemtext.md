@@ -43,8 +43,9 @@ load.
 
 ## See also
 
-[essays](https://www.okanbulut.com/mirtverse/reference/essays.md), the
-other AI Hub dataset; the [AI
+[essays](https://www.okanbulut.com/mirtverse/reference/essays.md) and
+[aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md),
+the other AI Hub datasets; the [AI
 Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html).
 
 ## Examples

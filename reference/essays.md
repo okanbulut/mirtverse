@@ -37,8 +37,10 @@ human-human agreement can be compared with machine-human agreement.
 
 ## See also
 
-[itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md),
-the other AI Hub dataset;
+[itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
+and
+[aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md),
+the other AI Hub datasets;
 [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
 to score responses and check them against human scores.
 

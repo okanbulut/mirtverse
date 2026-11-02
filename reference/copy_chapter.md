@@ -94,7 +94,7 @@ the easiest way is `swap_chapter_data()`.
 
 ``` r
 book_chapters()
-#> # A tibble: 18 × 3
+#> # A tibble: 19 × 3
 #>    id             file                  title                                   
 #>    <chr>          <chr>                 <chr>                                   
 #>  1 measurement    01-measurement.Rmd    Measurement, scoring and classical item…
@@ -111,10 +111,11 @@ book_chapters()
 #> 12 reporting      12-reporting.Rmd      Cut scores, reporting and communicating…
 #> 13 ml-lens        13-ml-lens.Rmd        Machine learning through an IRT lens    
 #> 14 item-text      14-item-text.Rmd      What item text tells us                 
-#> 15 auto-scoring   16-auto-scoring.Rmd   Automated scoring                       
-#> 16 llms           17-llms.Rmd           Large language models as a colleague    
-#> 17 datasets       90-datasets.Rmd       Appendix: the datasets                  
-#> 18 adapting       91-adapting.Rmd       Appendix: adapting the book             
+#> 15 aig            15-aig.Rmd            Generating items                        
+#> 16 auto-scoring   16-auto-scoring.Rmd   Automated scoring                       
+#> 17 llms           17-llms.Rmd           Large language models as a colleague    
+#> 18 datasets       90-datasets.Rmd       Appendix: the datasets                  
+#> 19 adapting       91-adapting.Rmd       Appendix: adapting the book             
 course <- file.path(tempdir(), "chapter-demo")
 ch <- new_chapter("my-week", course, title = "Our own data",
                   data_code = "resp <- expand.table(LSAT7)")

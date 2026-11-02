@@ -126,7 +126,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-11-02 19:37
+#> # 2026-11-02 21:05
 #> # Request: fit a graded response model, plot the curves and summarise
 #> # Assumptions:
 #> #  - Used the 4 columns that look like item responses as items.

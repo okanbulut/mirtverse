@@ -141,6 +141,27 @@ on its own; Chapter [What item text tells
 us](https://www.okanbulut.com/mirtverse/book/item-text.md) of the book
 is the reading that goes with it.
 
+### Lab 9: Building an item factory
+
+The Prairie program now generates items automatically from six item
+models, and 60 generated items were field-tested on 1,000 students
+(`aigfield`, with the items in `aigfield_items`). Can a calibrated item
+model’s family mean stand in for the field test of each new item?
+Students write and fix an item model with
+[`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md)
+and check the families with
+[`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md).
+
+| Lab | Run it with | You will |
+|----|----|----|
+| **9. Building an item factory** (about 75 minutes) | `run_lab("aig")` | Write an item model and fix a constraint that lets two options coincide, calibrate the field test, find the families that are not isomorphic, trace one to two flawed items and the other to regrouping, recalibrate, and test family means on held-out items |
+
+Lab 9 is part of the [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) and fits
+well after Lab 8; Chapter [Generating
+items](https://www.okanbulut.com/mirtverse/book/aig.md) of the book is
+the reading that goes with it.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -295,6 +316,22 @@ about 5 to 10 seconds.
 | The recommendation | Recommendation and free-text memo to the director |  |
 | The reveal | `lab_truth("itemtext")` |  |
 
+### Lab 9: Building an item factory
+
+`run_lab("aig")`, about 75 minutes. Calibrating the field test takes
+about 5 seconds.
+
+| Section | Students do | Decision |
+|----|----|----|
+| The brief | Meet the director’s question, `aigfield` and `aigfield_items` |  |
+| An item model | Write the triangle model with [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md); list the flawed combinations with [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md); add a constraint that keeps the options different |  |
+| The field test | Fit the 2PL; [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md) | What the within-family SD and `field_n` mean |
+| The triangle family | Read TRI’s items; find the items with identical options | Why TRI-02 and TRI-06 look hard |
+| The subtraction family | Sort SUB by difficulty; mark the items that need regrouping | What to do with the SUB model |
+| The factory, fixed | Recalibrate without the flawed items and with SUB split; predict items 6 to 10 from items 1 to 5 | When a family mean can stand in |
+| The recommendation | Recommendation and free-text memo to the director |  |
+| The reveal | `lab_truth("aigfield")` |  |
+
 ### Tips for running the labs
 
 - **Before class:** Ask students to install mirtverse and learnr and run
@@ -306,7 +343,8 @@ about 5 to 10 seconds.
   a unit on item banks and adaptive testing, and Lab 6 a unit on
   polytomous models or performance assessment. Lab 7 follows Lab 6 in a
   unit on automated scoring or AI in measurement, and Lab 8 fits a unit
-  on item development, explanatory IRT or AI in measurement.
+  on item development, explanatory IRT or AI in measurement. Lab 9
+  follows Lab 8.
 - **Speed:** Most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
@@ -711,3 +749,45 @@ them):
 - What features beyond the text, such as an item writer’s count of
   solution steps, would you add, and how would you know whether they
   help?
+
+### Lab 9
+
+The planted problems in `aigfield` (`lab_truth("aigfield")` returns
+them):
+
+| Planted problem | What a good analyst does |
+|----|----|
+| The TRI model has no constraint that keeps the options different; TRI-02 and TRI-06 each show the correct area twice, and half of the students who know it pick the unkeyed copy | Notices the two outliers (b above 1.7, about a fifth correct), checks the options, drops the items and fixes the model |
+| Subtraction items that need regrouping are 1.0 logit harder | Reads the SUB items in order of difficulty, finds the regrouping pattern and splits the model |
+| Model difficulties from -1.0 (PER) to 0.8 (PCT), item noise SD 0.15 | Accepts the four isomorphic families and states the size of the prediction error |
+
+- **Item model:** The triangle model as written has 79 combinations, of
+  which 73 give four different options. A constraint that the four
+  answers are all different leaves exactly the 73.
+- **Families (2PL, standard errors subtracted):** PER, OOO, EQN and PCT
+  have within-family SDs of 0.02 to 0.12; SUB 0.50 and TRI 0.75 are not
+  isomorphic. `field_n` is about 420 for PER, OOO and EQN, and above
+  5,000 for PCT.
+- **SUB:** Five items need regrouping; their mean b is 0.08 against
+  -0.80 for the others.
+- **Fixed:** Without TRI-02 and TRI-06 and with SUB split, all seven
+  families are isomorphic (SDs of 0.02 to 0.25). Family means from items
+  1 to 5 predict items 6 to 10 with an RMSE of 0.22, against standard
+  errors of about 0.08.
+- **Recommendation:** Adopt the factory with an automatic check for
+  distinct options, a calibration of every model on a first batch of
+  isomorphs, and unscored pretest slots so that each item’s own estimate
+  replaces the family mean over time.
+
+#### Discussion prompts
+
+- Regrouping was visible in the numbers. What kinds of variables in an
+  item model (names, contexts, units) might change difficulty in ways
+  the values do not show, and how would you find them?
+- The lab split SUB into two models. When would you rather keep one
+  model and add regrouping as a feature (Chapter 15 of the book shows
+  both)?
+- A language model writes item models for you. Which checks in this lab
+  would you run on its output before any field test?
+- How large a within-family SD would you accept for a high-stakes
+  licensure test, and how would you justify the number?

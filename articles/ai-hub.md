@@ -40,7 +40,7 @@ step names the question it answers, what to read and what to try in R.
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md) |
 | 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
 | 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](https://www.okanbulut.com/mirtverse/book/item-text.md); [reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md), [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md); [Lab 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8) |
-| 6\. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md) |
+| 6\. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](https://www.okanbulut.com/mirtverse/book/aig.md); [assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md), [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md), [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md), [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md); [Lab 9](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-9) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
 
 ## What you can do with AI in mirtverse today
@@ -122,6 +122,30 @@ warns when a feature looks like it was computed from the field test
 itself, and `group` checks whether predictions hold for a new kind of
 item rather than a new item of a known kind.
 
+### Generate items from item models, and calibrate their families
+
+``` r
+
+area <- item_model(
+  stem = "A rectangle is {l} cm long and {w} cm wide. What is its area?",
+  key = "{l * w} square cm",
+  distractors = c(perimeter = "{2 * (l + w)} square cm", added = "{l + w} square cm",
+                  half = "{l * w / 2} square cm"),
+  values = list(l = 4:12, w = 2:8), constraints = c("l > w", "(l * w) %% 2 == 0"),
+  name = "ARE")
+area                                       # how many items it can make, and how many are flawed
+items <- generate_isomorphs(area, n = 10)  # isomorphs, with the values they came from
+# after the field test, with b and its standard error for each item:
+calibrate_families(calibrated, family = "model", se = "b_se")
+```
+
+An item model generates items whose every option comes from a template,
+so an error in the model can be caught for all its items at once.
+[`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+then checks after the field test whether the isomorphs are equally
+difficult, and how large a field test the family mean can replace for a
+new item.
+
 ### Score open-ended responses, and check the scores
 
 ``` r
@@ -171,7 +195,8 @@ groups, and low-confidence responses routed back to human raters.
   reveals them. `itemtext` has 192 numeracy items from 12 item families
   with field-test difficulties; `essays` has 1,600 short science
   explanations scored by raters, written so that fluent writers’ answers
-  are longer at the same score.
+  are longer at the same score; `aigfield` is a field test of 60 items
+  generated from six item models.
 
 ## For instructors
 
@@ -185,13 +210,18 @@ of the scoring it should do. In [Lab
 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8)
 they predict item difficulty from the text of 192 numeracy items, find
 miskeyed items and near-duplicates, catch a leaky feature, and decide
-how far predictions can replace a field test. The [online
-book](https://www.okanbulut.com/mirtverse/book/index.md) has a part on
-AI in measurement whose chapters work offline, so they can be assigned
-as readings. More AI labs, chapters and an optional AI module for the
-[course map](https://www.okanbulut.com/mirtverse/articles/course-map.md)
-are being written; they will be listed on this page and in the AI Hub
-menu as they are released.
+how far predictions can replace a field test. [Lab
+9](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-9)
+builds an item factory: Students fix an item model, calibrate a field
+test of generated items, find the two families that are not isomorphic
+and why, and decide when a family mean can stand in for a field test.
+The [online book](https://www.okanbulut.com/mirtverse/book/index.md) has
+a part on AI in measurement whose chapters work offline, so they can be
+assigned as readings. More AI labs, chapters and an optional AI module
+for the [course
+map](https://www.okanbulut.com/mirtverse/articles/course-map.md) are
+being written; they will be listed on this page and in the AI Hub menu
+as they are released.
 
 ## Read more
 

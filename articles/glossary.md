@@ -1173,6 +1173,12 @@ vary (numbers, names, contexts) and rules that keep each variant
 correct. Items from one model are *isomorphs*, and often, but not
 always, have similar difficulty.
 
+**In R:**
+[`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md),
+[`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md)
+and
+[`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md).
+
 ### Automated scoring
 
 Scoring constructed responses, such as essays or short answers, with a

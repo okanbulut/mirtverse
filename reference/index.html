@@ -45,6 +45,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
@@ -334,7 +335,7 @@
       </dl></div><div class="section level2">
       <h2 id="ai-in-measurement">AI in measurement<a class="anchor" aria-label="anchor" href="#ai-in-measurement"></a></h2>
 
-      <div class="section-desc"><p>Run the language model features offline from recorded responses, describe items by their text and predict their difficulty, train and check an automated scoring engine, and teaching datasets with item text and written answers.</p></div>
+      <div class="section-desc"><p>Run the language model features offline from recorded responses, describe items by their text and predict their difficulty, generate items from item models and calibrate their families, train and check an automated scoring engine, and teaching datasets with item text, written answers and a field test of generated items.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -361,6 +362,27 @@
 
         </dt>
         <dd>Predict item difficulty from item features</dd>
+
+        <dt>
+
+          <code><a href="item_model.html">item_model()</a></code>
+
+        </dt>
+        <dd>Write an item model for automatic item generation</dd>
+
+        <dt>
+
+          <code><a href="generate_isomorphs.html">generate_isomorphs()</a></code>
+
+        </dt>
+        <dd>Generate isomorphs from item models</dd>
+
+        <dt>
+
+          <code><a href="calibrate_families.html">calibrate_families()</a></code> <code><a href="calibrate_families.html">autoplot(<i>&lt;mv_families&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Calibrate item families</dd>
 
         <dt>
 
@@ -396,6 +418,20 @@
 
         </dt>
         <dd>Short science explanations scored by raters, for the AI Hub</dd>
+
+        <dt>
+
+          <code><a href="aigfield.html">aigfield</a></code>
+
+        </dt>
+        <dd>A field test of generated mathematics items, for the AI Hub</dd>
+
+        <dt>
+
+          <code><a href="aigfield_items.html">aigfield_items</a></code>
+
+        </dt>
+        <dd>The generated items of the AIG field test</dd>
       </dl></div><div class="section level2">
       <h2 id="choosing-and-understanding-a-model">Choosing and understanding a model<a class="anchor" aria-label="anchor" href="#choosing-and-understanding-a-model"></a></h2>
 

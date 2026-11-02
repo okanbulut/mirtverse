@@ -9,7 +9,7 @@ reveal at the end of the labs.
 ``` r
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays")
+    "essays", "aigfield")
 )
 ```
 
@@ -19,7 +19,7 @@ lab_truth(
 
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
   `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"` (Lab 6), or
-  one of the AI Hub datasets, `"itemtext"` and `"essays"`.
+  one of the AI Hub datasets, `"itemtext"`, `"essays"` and `"aigfield"`.
 
 ## Value
 
@@ -48,7 +48,11 @@ with their listed and correct keys, the `near_duplicates` and the
 `true_score`, each student's ability `theta`, the difficulty of every
 key idea (`idea_difficulty`), the raters' error `rater_sd`, the
 `off_topic` and `misconception` responses, the `planted` problems and
-the `prompts`.
+the `prompts`. For `"aigfield"`, a list with the true difficulty `b` and
+discrimination `a` of every item, each item model's difficulty
+(`model_b`), the true within-model SD (`sd_within`), which subtraction
+items need regrouping (`regroup`) and its effect, the `flawed` items and
+the `planted` problems.
 
 ## Examples
 

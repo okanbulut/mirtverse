@@ -6,7 +6,7 @@ testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
 ([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
-Labs 3 to 8 each have their own: a provincial numeracy test
+Labs 3 to 9 each have their own: a provincial numeracy test
 ([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
 a licensure exam with two forms
 ([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)), a
@@ -15,9 +15,11 @@ placement test's item bank
 rater-scored science tasks
 ([openended](https://www.okanbulut.com/mirtverse/reference/openended.md)),
 written science explanations
-([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)) and
-the text of numeracy items
-([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md)).
+([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)), the
+text of numeracy items
+([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md))
+and a field test of generated items
+([aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md)).
 
 ## Usage
 
@@ -93,6 +95,14 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
   catch a leaky feature, hold out whole item models, and decide what
   predictions can replace.
 
+- `"aig"` (Lab 9): Can a family mean replace the field test of a
+  generated item? Write an item model with
+  [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md)
+  and fix its constraints, calibrate a field test of 60 isomorphs, find
+  the families that are not isomorphic with
+  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  and why, and test the family means on held-out items.
+
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and
@@ -102,16 +112,17 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 8 × 3
+#> # A tibble: 9 × 3
 #>   name         title                                             description    
 #>   <chr>        <chr>                                             <chr>          
-#> 1 auto-scoring Lab 7: Can the engine score alone?                A science prog…
-#> 2 cat-design   Lab 5: Designing an adaptive test                 A college want…
-#> 3 decisions    Lab 2: From parameters to decisions               The certificat…
-#> 4 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy gr…
-#> 5 item-text    Lab 8: Predicting difficulty before field testing A numeracy pro…
-#> 6 linking      Lab 4: Linking two forms                          A licensure ex…
-#> 7 model-choice Lab 1: Choosing a model the board can defend      You are the ne…
-#> 8 open-ended   Lab 6: Scoring open-ended responses               A science asse…
+#> 1 aig          Lab 9: Building an item factory                   A numeracy pro…
+#> 2 auto-scoring Lab 7: Can the engine score alone?                A science prog…
+#> 3 cat-design   Lab 5: Designing an adaptive test                 A college want…
+#> 4 decisions    Lab 2: From parameters to decisions               The certificat…
+#> 5 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy gr…
+#> 6 item-text    Lab 8: Predicting difficulty before field testing A numeracy pro…
+#> 7 linking      Lab 4: Linking two forms                          A licensure ex…
+#> 8 model-choice Lab 1: Choosing a model the board can defend      You are the ne…
+#> 9 open-ended   Lab 6: Scoring open-ended responses               A science asse…
 if (interactive()) run_lab("model-choice")
 ```

@@ -66,6 +66,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul>
@@ -369,6 +370,41 @@ replace</td>
 <p>Lab 8 is part of the <a href="ai-hub.html">AI Hub</a> and stands on
 its own; Chapter <a href="../book/item-text.html">What item text tells
 us</a> of the book is the reading that goes with it.</p>
+</div>
+<div class="section level3">
+<h3 id="lab-9">Lab 9: Building an item factory<a class="anchor" aria-label="anchor" href="#lab-9"></a>
+</h3>
+<p>The Prairie program now generates items automatically from six item
+models, and 60 generated items were field-tested on 1,000 students
+(<code>aigfield</code>, with the items in <code>aigfield_items</code>).
+Can a calibrated item model’s family mean stand in for the field test of
+each new item? Students write and fix an item model with
+<code><a href="../reference/item_model.html">item_model()</a></code> and check the families with
+<code><a href="../reference/calibrate_families.html">calibrate_families()</a></code>.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>9. Building an item factory</strong> (about 75 minutes)</td>
+<td><code>run_lab("aig")</code></td>
+<td>Write an item model and fix a constraint that lets two options
+coincide, calibrate the field test, find the families that are not
+isomorphic, trace one to two flawed items and the other to regrouping,
+recalibrate, and test family means on held-out items</td>
+</tr></tbody>
+</table>
+<p>Lab 9 is part of the <a href="ai-hub.html">AI Hub</a> and fits well
+after Lab 8; Chapter <a href="../book/aig.html">Generating items</a> of
+the book is the reading that goes with it.</p>
 </div>
 </div>
 <div class="section level2">
@@ -924,6 +960,72 @@ worst-predicted items</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-9-building-an-item-factory">Lab 9: Building an item factory<a class="anchor" aria-label="anchor" href="#lab-9-building-an-item-factory"></a>
+</h3>
+<p><code>run_lab("aig")</code>, about 75 minutes. Calibrating the field
+test takes about 5 seconds.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the director’s question, <code>aigfield</code> and
+<code>aigfield_items</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>An item model</td>
+<td>Write the triangle model with <code><a href="../reference/item_model.html">item_model()</a></code>; list the
+flawed combinations with <code><a href="../reference/generate_isomorphs.html">generate_isomorphs()</a></code>; add a
+constraint that keeps the options different</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>The field test</td>
+<td>Fit the 2PL; <code><a href="../reference/calibrate_families.html">calibrate_families()</a></code>
+</td>
+<td>What the within-family SD and <code>field_n</code> mean</td>
+</tr>
+<tr class="even">
+<td>The triangle family</td>
+<td>Read TRI’s items; find the items with identical options</td>
+<td>Why TRI-02 and TRI-06 look hard</td>
+</tr>
+<tr class="odd">
+<td>The subtraction family</td>
+<td>Sort SUB by difficulty; mark the items that need regrouping</td>
+<td>What to do with the SUB model</td>
+</tr>
+<tr class="even">
+<td>The factory, fixed</td>
+<td>Recalibrate without the flawed items and with SUB split; predict
+items 6 to 10 from items 1 to 5</td>
+<td>When a family mean can stand in</td>
+</tr>
+<tr class="odd">
+<td>The recommendation</td>
+<td>Recommendation and free-text memo to the director</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td><code>lab_truth("aigfield")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -938,7 +1040,8 @@ section is a good warm-up for it. Lab 4 fits a unit on linking and
 equating, Lab 5 a unit on item banks and adaptive testing, and Lab 6 a
 unit on polytomous models or performance assessment. Lab 7 follows Lab 6
 in a unit on automated scoring or AI in measurement, and Lab 8 fits a
-unit on item development, explanatory IRT or AI in measurement.</li>
+unit on item development, explanatory IRT or AI in measurement. Lab 9
+follows Lab 8.</li>
 <li>
 <strong>Speed:</strong> Most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -1664,6 +1767,82 @@ field test to check the new items?</li>
 <li>What features beyond the text, such as an item writer’s count of
 solution steps, would you add, and how would you know whether they
 help?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-9-1">Lab 9<a class="anchor" aria-label="anchor" href="#lab-9-1"></a>
+</h3>
+<p>The planted problems in <code>aigfield</code>
+(<code>lab_truth("aigfield")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The TRI model has no constraint that keeps the options different;
+TRI-02 and TRI-06 each show the correct area twice, and half of the
+students who know it pick the unkeyed copy</td>
+<td>Notices the two outliers (b above 1.7, about a fifth correct),
+checks the options, drops the items and fixes the model</td>
+</tr>
+<tr class="even">
+<td>Subtraction items that need regrouping are 1.0 logit harder</td>
+<td>Reads the SUB items in order of difficulty, finds the regrouping
+pattern and splits the model</td>
+</tr>
+<tr class="odd">
+<td>Model difficulties from -1.0 (PER) to 0.8 (PCT), item noise SD
+0.15</td>
+<td>Accepts the four isomorphic families and states the size of the
+prediction error</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Item model:</strong> The triangle model as written has 79
+combinations, of which 73 give four different options. A constraint that
+the four answers are all different leaves exactly the 73.</li>
+<li>
+<strong>Families (2PL, standard errors subtracted):</strong> PER,
+OOO, EQN and PCT have within-family SDs of 0.02 to 0.12; SUB 0.50 and
+TRI 0.75 are not isomorphic. <code>field_n</code> is about 420 for PER,
+OOO and EQN, and above 5,000 for PCT.</li>
+<li>
+<strong>SUB:</strong> Five items need regrouping; their mean b is
+0.08 against -0.80 for the others.</li>
+<li>
+<strong>Fixed:</strong> Without TRI-02 and TRI-06 and with SUB
+split, all seven families are isomorphic (SDs of 0.02 to 0.25). Family
+means from items 1 to 5 predict items 6 to 10 with an RMSE of 0.22,
+against standard errors of about 0.08.</li>
+<li>
+<strong>Recommendation:</strong> Adopt the factory with an automatic
+check for distinct options, a calibration of every model on a first
+batch of isomorphs, and unscored pretest slots so that each item’s own
+estimate replaces the family mean over time.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-8">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-8"></a>
+</h4>
+<ul>
+<li>Regrouping was visible in the numbers. What kinds of variables in an
+item model (names, contexts, units) might change difficulty in ways the
+values do not show, and how would you find them?</li>
+<li>The lab split SUB into two models. When would you rather keep one
+model and add regrouping as a feature (Chapter 15 of the book shows
+both)?</li>
+<li>A language model writes item models for you. Which checks in this
+lab would you run on its output before any field test?</li>
+<li>How large a within-family SD would you accept for a high-stakes
+licensure test, and how would you justify the number?</li>
 </ul>
 </div>
 </div>

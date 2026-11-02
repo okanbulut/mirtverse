@@ -45,6 +45,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
+    <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
   </ul></li>
@@ -67,7 +68,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mirtverse-development-version">mirtverse (development version)<a class="anchor" aria-label="anchor" href="#mirtverse-development-version"></a></h2>
-<ul><li>
+<ul><li><p>New <code><a href="../reference/item_model.html">item_model()</a></code> writes an item model for automatic item generation: A stem, key and distractors as templates with R expressions in braces, the values of each variable and constraints. Printing it shows how many combinations meet the constraints and how many give four different options. New <code><a href="../reference/generate_isomorphs.html">generate_isomorphs()</a></code> fills one or more models, leaves out (or flags) combinations with identical options, and returns the items with the values they came from. New <code><a href="../reference/calibrate_families.html">calibrate_families()</a></code> summarizes the calibrated difficulties of each family: Mean, within-family SD corrected for estimation error, a 95% interval for a new isomorph, the field-test size the family mean can replace, and whether the family is isomorphic.</p></li>
+<li><p>New Lab 9, <code>run_lab("aig")</code>: Students fix an item model, calibrate a field test of 60 generated items (the new <code>aigfield</code> and <code>aigfield_items</code> data), find a family split by regrouping and two items with identical options, and test family means on held-out items. The book has a new chapter, “Generating items” (<code>aig</code> in <code><a href="../reference/copy_chapter.html">book_chapters()</a></code>), with one-step family calibration in mirt (<code><a href="https://philchalmers.github.io/mirt/reference/mixedmirt.html" class="external-link">mixedmirt()</a></code>) and eirm.</p></li>
+<li>
 <p>New <code><a href="../reference/item_features.html">item_features()</a></code> describes items by features of their text: Length, sentences and readability of the stem, its numbers, decimals and negations, the length of the options, whether the key is the longest option, how far numeric distractors are from the key, and each item’s most similar other item, to find near-duplicates. Everything runs in base</p>
 <ol start="18" style="list-style-type: upper-alpha"><li>
 </li></ol></li>
