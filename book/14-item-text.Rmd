@@ -206,7 +206,28 @@ ratio test says so loudly; with 1,000 test takers it nearly always does.
 The LLTM is still useful: It shows which features matter and by how much.
 Explanatory IRT models that add a random item effect, so that each item may
 differ from its features' prediction, combine the two views
-[@deboeck2004].
+[@deboeck2004]. They are generalized linear mixed models, and the eirm
+package [@bulut2021] fits them with lme4 from data in long format, one row
+per person and item. The model below keeps the LLTM's features and adds a
+random effect for items, whose variance is the difficulty the features
+leave unexplained (eirm reports easiness, so the signs are reversed again):
+
+```{r, eval = FALSE}
+# install.packages("eirm")
+library(eirm)
+long <- data.frame(person = rep(seq_len(nrow(resp)), ncol(resp)),
+                   item = rep(colnames(resp), each = nrow(resp)),
+                   resp = as.vector(resp))
+long <- merge(long, data.frame(item = sci$id, design))
+m_eirm <- eirm("resp ~ -1 + topic + sentences + negation + key_longest + (1|person) + (1|item)",
+               data = long)
+print(m_eirm, difficulty = TRUE)   # fixed effects as difficulties
+lme4::VarCorr(m_eirm$model)       # person and residual item variance
+```
+
+The same framework adds person covariates, such as language status, and
+their interactions with item features, which is DIF explained by features
+rather than item by item.
 
 ## Example 3: New items or new kinds of items?
 
@@ -312,4 +333,6 @@ Fischer [-@fischer1973] introduced the LLTM, and De Boeck and Wilson
 AlKhuzaey et al. [-@alkhuzaey2024] and Benedetto et al. [-@benedetto2023]
 review difficulty prediction from text, from the education and the
 computer science sides. Yaneva et al. [-@yaneva2024] report a shared task
-on real licensing-exam items, a useful reality check.
+on real licensing-exam items, a useful reality check. Bulut, Gorgun and
+Yildirim-Erbasli [-@bulut2021] show how to fit explanatory extensions of
+dichotomous and polytomous Rasch models in R with eirm.

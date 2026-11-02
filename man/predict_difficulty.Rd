@@ -131,5 +131,6 @@ instrument in educational research. \emph{Acta Psychologica, 37}(6),
 }
 \seealso{
 \code{\link[=item_features]{item_features()}}; for the one-step LLTM fitted to responses,
-the \code{itemdesign} and \code{item.formula} arguments of \code{\link[mirt:mirt]{mirt::mirt()}}.
+the \code{itemdesign} and \code{item.formula} arguments of \code{\link[mirt:mirt]{mirt::mirt()}}, or the
+eirm package for explanatory IRT models with random item effects.
 }

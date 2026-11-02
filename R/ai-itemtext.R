@@ -237,7 +237,8 @@ nearest_item <- function(tok) {
 #'   instrument in educational research. *Acta Psychologica, 37*(6),
 #'   359-374.
 #' @seealso [item_features()]; for the one-step LLTM fitted to responses,
-#'   the `itemdesign` and `item.formula` arguments of [mirt::mirt()].
+#'   the `itemdesign` and `item.formula` arguments of [mirt::mirt()], or the
+#'   eirm package for explanatory IRT models with random item effects.
 #' @examples
 #' d <- merge(itemtext, item_features(itemtext))
 #' m <- predict_difficulty(d, c("words", "sentences", "max_digits", "decimals"),
