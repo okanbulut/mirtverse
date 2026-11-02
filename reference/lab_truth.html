@@ -76,7 +76,10 @@ reveal at the end of the labs.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lab_truth</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"certexam"</span>, <span class="st">"numeracy"</span>, <span class="st">"linking"</span>, <span class="st">"catbank"</span>, <span class="st">"openended"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lab_truth</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"certexam"</span>, <span class="st">"numeracy"</span>, <span class="st">"linking"</span>, <span class="st">"catbank"</span>, <span class="st">"openended"</span>, <span class="st">"itemtext"</span>,</span>
+<span>    <span class="st">"essays"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,8 +88,8 @@ reveal at the end of the labs.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>the dataset: <code>"certexam"</code> (Labs 1 and 2), <code>"numeracy"</code>
-(Lab 3), <code>"linking"</code> (Lab 4), <code>"catbank"</code> (Lab 5) or <code>"openended"</code>
-(Lab 6).</p></dd>
+(Lab 3), <code>"linking"</code> (Lab 4), <code>"catbank"</code> (Lab 5), <code>"openended"</code>
+(Lab 6), or one of the AI Hub datasets, <code>"itemtext"</code> and <code>"essays"</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -108,7 +111,15 @@ For <code>"openended"</code>, a list with the true <code>model</code>, the <code
 its severity, the <code>inconsistent_rater</code>, the task with a <code>vague_rubric</code>,
 the categories to <code>collapse</code>, the scoring engine's bias against ELL
 students (<code>engine_bias</code>), the group <code>impact</code> and the generating task
-parameters <code>pars</code>.</p>
+parameters <code>pars</code>. For <code>"itemtext"</code>, a list with the true difficulty <code>b</code>
+and discrimination <code>a</code> of every item, each family's difficulty
+(<code>family_b</code>), the size of the feature <code>effects</code>, the <code>miskeyed</code> items
+with their listed and correct keys, the <code>near_duplicates</code> and the
+<code>leaky</code> column. For <code>"essays"</code>, a list with each response's
+<code>true_score</code>, each student's ability <code>theta</code>, the difficulty of every
+key idea (<code>idea_difficulty</code>), the raters' error <code>rater_sd</code>, the
+<code>off_topic</code> and <code>misconception</code> responses, the <code>planted</code> problems and
+the <code>prompts</code>.</p>
     </div>
 
     <div class="section level2">

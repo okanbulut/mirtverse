@@ -39,7 +39,7 @@ step names the question it answers, what to read and what to try in R.
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book chapter on machine learning (coming soon) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book chapter on LLMs (coming soon) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md) |
 | 4\. Automated scoring | Can a machine score constructed responses as well as raters? | [Reading list: automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 6](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) |
-| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | coming soon |
+| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); audit tools coming soon |
 
@@ -51,13 +51,31 @@ These functions use a language model through the
 Claude or OpenAI with your own API key, or a local model through Ollama
 if your data must stay on your computer.
 
-### Write analysis code from a plain-language request
+To try them with no key and no internet connection, turn on replay mode
+first. Every request is then answered from a file of recorded responses,
+so the same call always gives the same answer:
 
 ``` r
 
 library(mirtverse)
-mv_ask_setup()                       # choose a provider, store the key
-mv_ask("fit a 2PL to SAT12 and plot item information", data = SAT12)
+mv_llm_replay()      # answer from the example recordings
+mv_llm_recordings()  # which requests they cover
+```
+
+The example recordings answer the calls in
+`system.file("replay", "examples.R", package = "mirtverse")`, which
+include the three examples below. Their responses were written by hand
+to show what a model returns, with a few deliberate mistakes for
+mirtverse’s checks to catch. To capture your own session with a live
+model and replay it in class, use
+[`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+
+### Write analysis code from a plain-language request
+
+``` r
+
+mv_ask("Fit a graded response model to these attitude items, check the fit and explain the results.",
+       data = Science, ask = FALSE)
 ```
 
 [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
@@ -87,9 +105,13 @@ the human review.
 
 ``` r
 
-p <- score_open(p, responses, scorer = "llm")   # or a trained model
-flags(p)                                        # agreement and fairness gates
+q <- score_open(q, responses, scorer = "llm")   # or a trained model
+q$agreement                                     # machine-human agreement
+flags(q)                                        # agreement and fairness gates
 ```
+
+The full example in `examples.R` scores 40 answers from the `essays`
+data against a four-point rubric.
 
 Machine scores pass the same gates whether they come from a language
 model or from a model you trained yourself: quadratic weighted kappa
@@ -102,13 +124,18 @@ groups, and low-confidence responses routed back to human raters.
   and shows the AI method next to the classical one, on the same data.
 - **Evidence before adoption.** Every AI output passes a psychometric
   check before it counts.
-- **Offline by default.** Labs and book examples will run without an API
-  key or an internet connection, using recorded model outputs, so a
-  classroom never depends on a provider being up. Live models are an
-  optional extra.
+- **Offline by default.** Labs and book examples run without an API key
+  or an internet connection, using recorded model outputs
+  ([`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)),
+  so a classroom never depends on a provider being up. Live models are
+  an optional extra.
 - **Known answers.** As in the teaching labs, the AI datasets are
-  simulated with planted problems, such as a scorer that is harsher on
-  one group, and each lab ends by revealing them.
+  simulated with planted problems, and
+  [`lab_truth()`](https://www.okanbulut.com/mirtverse/reference/lab_truth.md)
+  reveals them. `itemtext` has 192 numeracy items from 12 item families
+  with field-test difficulties; `essays` has 1,600 short science
+  explanations scored by raters, written so that fluent writers’ answers
+  are longer at the same score.
 
 ## For instructors
 

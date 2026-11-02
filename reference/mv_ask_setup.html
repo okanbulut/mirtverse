@@ -129,7 +129,9 @@ with a masked prompt.</p></dd>
 (<a href="https://ollama.com" class="external-link">https://ollama.com</a>). Install Ollama, run <code>ollama pull qwen2.5</code> (or
 another model) once, and nothing ever leaves your machine.</p></li>
 </ul><p>Use <code>provider = "none"</code> to always use the built-in keyword parser, which
-needs no AI model and no internet connection.</p>
+needs no AI model and no internet connection. To answer from recorded
+model responses instead of a live model, for teaching or examples, see
+<code><a href="mv_llm_replay.html">mv_llm_replay()</a></code>.</p>
 <p>Only a summary of your columns (see <code><a href="profile_data.html">profile_data()</a></code>) and your request are
 sent; never individual responses. Keys are never written into scripts,
 reports or <code>mv_script</code> objects.</p>

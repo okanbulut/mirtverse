@@ -39,6 +39,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/design_field_test.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/dif.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/drop_items.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/essays.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/export_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fit_rt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/flags.html</loc></url>
@@ -59,6 +60,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_cards.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_map.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/item_table.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/itemtext.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/lab_checker.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/lab_data.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/lab_decisions.html</loc></url>
@@ -76,6 +78,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_bank.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_pipeline.html</loc></url>

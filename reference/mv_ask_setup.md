@@ -62,7 +62,9 @@ The provider and model, invisibly.
   another model) once, and nothing ever leaves your machine.
 
 Use `provider = "none"` to always use the built-in keyword parser, which
-needs no AI model and no internet connection.
+needs no AI model and no internet connection. To answer from recorded
+model responses instead of a live model, for teaching or examples, see
+[`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
 
 Only a summary of your columns (see
 [`profile_data()`](https://www.okanbulut.com/mirtverse/reference/profile_data.md))

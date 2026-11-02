@@ -7,7 +7,10 @@ reveal at the end of the labs.
 ## Usage
 
 ``` r
-lab_truth(data = c("certexam", "numeracy", "linking", "catbank", "openended"))
+lab_truth(
+  data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
+    "essays")
+)
 ```
 
 ## Arguments
@@ -15,7 +18,8 @@ lab_truth(data = c("certexam", "numeracy", "linking", "catbank", "openended"))
 - data:
 
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
-  `"linking"` (Lab 4), `"catbank"` (Lab 5) or `"openended"` (Lab 6).
+  `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"` (Lab 6), or
+  one of the AI Hub datasets, `"itemtext"` and `"essays"`.
 
 ## Value
 
@@ -36,7 +40,15 @@ For `"openended"`, a list with the true `model`, the `severe_rater` and
 its severity, the `inconsistent_rater`, the task with a `vague_rubric`,
 the categories to `collapse`, the scoring engine's bias against ELL
 students (`engine_bias`), the group `impact` and the generating task
-parameters `pars`.
+parameters `pars`. For `"itemtext"`, a list with the true difficulty `b`
+and discrimination `a` of every item, each family's difficulty
+(`family_b`), the size of the feature `effects`, the `miskeyed` items
+with their listed and correct keys, the `near_duplicates` and the
+`leaky` column. For `"essays"`, a list with each response's
+`true_score`, each student's ability `theta`, the difficulty of every
+key idea (`idea_difficulty`), the raters' error `rater_sd`, the
+`off_topic` and `misconception` responses, the `planted` problems and
+the `prompts`.
 
 ## Examples
 

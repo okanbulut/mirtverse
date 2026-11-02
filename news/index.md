@@ -2,6 +2,32 @@
 
 ## mirtverse (development version)
 
+- New
+  [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  answers every language model request
+  ([`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md),
+  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
+  [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
+  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md),
+  `review_packet(ai_screen = TRUE)`) from a file of recorded responses,
+  so lessons and examples run with no API key or internet connection and
+  give the same result every time.
+  [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  records a live session for later replay and
+  [`mv_llm_recordings()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  lists what a file covers. The package ships example recordings for the
+  calls in `system.file("replay", "examples.R", package = "mirtverse")`;
+  their responses were written by hand and include deliberate mistakes
+  for the checks to catch.
+
+- Two new teaching datasets for the AI Hub. `itemtext` has the text and
+  2PL field-test statistics of 192 simulated numeracy items from 12 item
+  families, for predicting difficulty from item text and calibrating
+  item families. `essays` has 1,600 short science explanations by 400
+  students, scored 0 to 4 by raters, for automated scoring. Both have
+  planted problems that `lab_truth("itemtext")` and
+  `lab_truth("essays")` reveal.
+
 - New AI Hub for psychometricians who want to learn how artificial
   intelligence fits into measurement, with its own menu in the site
   navbar. It has a landing page with a learning path and examples of the

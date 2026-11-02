@@ -288,6 +288,20 @@ checks and flags to consider before each next stage.
 - [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)
   : Thresholds for the pipeline checks
 
+## AI in measurement
+
+Run the language model features offline from recorded responses, and
+teaching datasets with item text and written answers.
+
+- [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  [`mv_llm_recordings()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  : Replay or record language model responses
+- [`itemtext`](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
+  : Numeracy items with their text, for the AI Hub
+- [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :
+  Short science explanations scored by raters, for the AI Hub
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)

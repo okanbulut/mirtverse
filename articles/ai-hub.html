@@ -189,7 +189,7 @@ scoring</a></td>
 <td>What does the wording of an item tell us before anyone answers
 it?</td>
 <td><a href="ai-reading.html#item-text">Reading list: item text</a></td>
-<td>coming soon</td>
+<td>the <code>itemtext</code> data; modelling tools coming soon</td>
 </tr>
 <tr class="even">
 <td>6. Automatic item generation</td>
@@ -218,13 +218,25 @@ it?</td>
 with <code><a href="../reference/mv_ask_setup.html">mv_ask_setup()</a></code>: Claude or OpenAI with your own API
 key, or a local model through Ollama if your data must stay on your
 computer.</p>
+<p>To try them with no key and no internet connection, turn on replay
+mode first. Every request is then answered from a file of recorded
+responses, so the same call always gives the same answer:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mv_llm_replay.html">mv_llm_replay</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># answer from the example recordings</span></span>
+<span><span class="fu"><a href="../reference/mv_llm_replay.html">mv_llm_recordings</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># which requests they cover</span></span></code></pre></div>
+<p>The example recordings answer the calls in
+<code>system.file("replay", "examples.R", package = "mirtverse")</code>,
+which include the three examples below. Their responses were written by
+hand to show what a model returns, with a few deliberate mistakes for
+mirtverse’s checks to catch. To capture your own session with a live
+model and replay it in class, use <code><a href="../reference/mv_llm_replay.html">mv_llm_record()</a></code>.</p>
 <div class="section level3">
 <h3 id="write-analysis-code-from-a-plain-language-request">Write analysis code from a plain-language request<a class="anchor" aria-label="anchor" href="#write-analysis-code-from-a-plain-language-request"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/mv_ask_setup.html">mv_ask_setup</a></span><span class="op">(</span><span class="op">)</span>                       <span class="co"># choose a provider, store the key</span></span>
-<span><span class="fu"><a href="../reference/mv_ask.html">mv_ask</a></span><span class="op">(</span><span class="st">"fit a 2PL to SAT12 and plot item information"</span>, data <span class="op">=</span> <span class="va">SAT12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_ask.html">mv_ask</a></span><span class="op">(</span><span class="st">"Fit a graded response model to these attitude items, check the fit and explain the results."</span>,</span>
+<span>       data <span class="op">=</span> <span class="va">Science</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/mv_ask.html">mv_ask()</a></code> turns the request into a plan, fills tested
 code templates and shows you the script before anything runs. Without a
 provider it falls back to an offline keyword parser. The <a href="mv-ask-guide.html">guide</a> explains what is sent to the model
@@ -233,7 +245,7 @@ and how to keep column names private.</p>
 <div class="section level3">
 <h3 id="generate-and-verify-items">Generate and verify items<a class="anchor" aria-label="anchor" href="#generate-and-verify-items"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mv_pipeline.html">mv_pipeline</a></span><span class="op">(</span><span class="st">"Grade 6 numeracy"</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/set_blueprint.html">set_blueprint</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">blueprint</span><span class="op">)</span>     <span class="co"># content areas x cognitive levels</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_items.html">generate_items</a></span><span class="op">(</span><span class="va">p</span>, n <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>       <span class="co"># drafts with keys and rationales</span></span>
@@ -247,9 +259,12 @@ prepares the human review.</p>
 <div class="section level3">
 <h3 id="score-open-ended-responses-and-check-the-scores">Score open-ended responses, and check the scores<a class="anchor" aria-label="anchor" href="#score-open-ended-responses-and-check-the-scores"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_open.html">score_open</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">responses</span>, scorer <span class="op">=</span> <span class="st">"llm"</span><span class="op">)</span>   <span class="co"># or a trained model</span></span>
-<span><span class="fu"><a href="../reference/flags.html">flags</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>                                        <span class="co"># agreement and fairness gates</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_open.html">score_open</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">responses</span>, scorer <span class="op">=</span> <span class="st">"llm"</span><span class="op">)</span>   <span class="co"># or a trained model</span></span>
+<span><span class="va">q</span><span class="op">$</span><span class="va">agreement</span>                                     <span class="co"># machine-human agreement</span></span>
+<span><span class="fu"><a href="../reference/flags.html">flags</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>                                        <span class="co"># agreement and fairness gates</span></span></code></pre></div>
+<p>The full example in <code>examples.R</code> scores 40 answers from
+the <code>essays</code> data against a four-point rubric.</p>
 <p>Machine scores pass the same gates whether they come from a language
 model or from a model you trained yourself: quadratic weighted kappa
 against human scores, standardized mean differences overall and within
@@ -268,14 +283,18 @@ same data.</li>
 <strong>Evidence before adoption.</strong> Every AI output passes a
 psychometric check before it counts.</li>
 <li>
-<strong>Offline by default.</strong> Labs and book examples will run
+<strong>Offline by default.</strong> Labs and book examples run
 without an API key or an internet connection, using recorded model
-outputs, so a classroom never depends on a provider being up. Live
-models are an optional extra.</li>
+outputs (<code><a href="../reference/mv_llm_replay.html">mv_llm_replay()</a></code>), so a classroom never depends on
+a provider being up. Live models are an optional extra.</li>
 <li>
 <strong>Known answers.</strong> As in the teaching labs, the AI
-datasets are simulated with planted problems, such as a scorer that is
-harsher on one group, and each lab ends by revealing them.</li>
+datasets are simulated with planted problems, and
+<code><a href="../reference/lab_truth.html">lab_truth()</a></code> reveals them. <code>itemtext</code> has 192
+numeracy items from 12 item families with field-test difficulties;
+<code>essays</code> has 1,600 short science explanations scored by
+raters, written so that fluent writers’ answers are longer at the same
+score.</li>
 </ul>
 </div>
 <div class="section level2">
