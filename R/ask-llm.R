@@ -13,7 +13,9 @@
 #'   another model) once, and nothing ever leaves your machine.
 #'
 #' Use `provider = "none"` to always use the built-in keyword parser, which
-#' needs no AI model and no internet connection.
+#' needs no AI model and no internet connection. To answer from recorded
+#' model responses instead of a live model, for teaching or examples, see
+#' [mv_llm_replay()].
 #'
 #' Only a summary of your columns (see [profile_data()]) and your request are
 #' sent; never individual responses. Keys are never written into scripts,
@@ -104,13 +106,15 @@ mv_ask_setup <- function(provider = c("claude", "openai", "ollama", "none"), mod
   invisible(list(provider = provider, model = model))
 }
 
-key_vars <- c(claude = "ANTHROPIC_API_KEY", openai = "OPENAI_API_KEY", ollama = NA, none = NA)
+key_vars <- c(claude = "ANTHROPIC_API_KEY", openai = "OPENAI_API_KEY", ollama = NA, none = NA,
+              replay = NA)
 
 `%||%` <- function(x, y) if (is.null(x) || (length(x) == 1L && is.na(x))) y else x
 
 provider_label <- function(provider, model = NULL) {
   lab <- switch(provider, claude = "Claude", openai = "OpenAI GPT", ollama = "Ollama",
-                none = , rules = "the built-in keyword parser")
+                none = , rules = "the built-in keyword parser",
+                replay = "recorded responses")
   if (!is.null(model) && nzchar(model) && provider %in% c("claude", "openai", "ollama"))
     sprintf("%s (%s)", lab, model) else lab
 }
@@ -156,7 +160,7 @@ ask_provider <- function(provider = NULL) {
     p <- if (nzchar(Sys.getenv("ANTHROPIC_API_KEY"))) "claude" else
       if (nzchar(Sys.getenv("OPENAI_API_KEY"))) "openai" else "rules"
   }
-  p <- match.arg(p, c("claude", "openai", "ollama", "none", "rules"))
+  p <- match.arg(p, c("claude", "openai", "ollama", "none", "rules", "replay"))
   if (p == "none") p <- "rules"
   if (p != "rules" && !requireNamespace("ellmer", quietly = TRUE)) {
     message("The ellmer package is not installed, so the built-in keyword parser is used.")
@@ -179,6 +183,14 @@ ask_model <- function(provider, model = NULL) {
 }
 
 make_chat <- function(provider, model, system_prompt) {
+  if (provider == "replay") return(replay_chat(system_prompt))
+  chat <- provider_chat(provider, model, system_prompt)
+  rec <- getOption("mirtverse.record")
+  if (!is.null(rec)) chat <- record_chat(chat, provider, model, system_prompt, rec)
+  chat
+}
+
+provider_chat <- function(provider, model, system_prompt) {
   key <- provider_key(provider)
   var <- key_vars[[provider]]
   if (!is.na(var) && !nzchar(key))

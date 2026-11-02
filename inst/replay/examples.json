@@ -1,0 +1,588 @@
+{
+  "version": 1,
+  "source": "Example responses written by the mirtverse authors to show what a language model returns, with deliberate mistakes for the checks to catch. Not output from a live model. The calls are in examples.R.",
+  "recordings": [
+    {
+      "key": "f4bcc2a5e7a0e2675b92c53fd9868303",
+      "function_name": "mv_ask",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You turn a researcher's plain-language request into an analysis plan for item response theory (IRT) in R.\nYou never see the data, only a summary of its columns. Fill in the plan; do not write code.\n\nRules:\n- Use column names exactly as listed. Never invent columns.\n- items: the item columns. Leave empty to use every column whose guessed role is 'item'. A grouping column is never an item.\n- model: 'auto' compares candidate models; use it unless the request names a model. Rasch = 1PL. 2PL and 3PL need items scored 0/1; for items with more than two categories use 'graded' (graded response) or 'gpcm' (generalized partial credit).\n- nfact: number of dimensions; 1 unless the request asks for more.\n- group: the column to compare for differential item functioning (DIF, bias, fairness, invariance). Only set it when DIF is requested.\n- missing: numeric codes that the request says mean missing.\n- rt: response-time columns, one per item in item order, only if response times are requested.\n- steps: describe (item statistics), fitcheck (model and item fit, local dependence), dif, scores (person ability estimates), plots (item and test curves, Wright map), interpret (plain-language summary), cards (item health cards), report (HTML report), rt (response-time model). If the request does not say what output it wants, use describe, fitcheck and interpret. A model is always fitted, so it is not a step.\n- When a current plan is given, the request is a change to it: return the whole updated plan, changing only what the request asks.\n- assumptions: one short sentence for each choice the request did not state explicitly, e.g. which column you took as the group.\n- questions: anything essential you could not determine (for example DIF is requested but no column could be the group). Do not guess in that case.",
+      "prompt": "Request: Fit a graded response model to these attitude items, check the fit and explain the results.\n\nData: 392 rows, 4 columns.\nColumns (name | type | distinct values | min | max | share missing | guessed role | categories):\n- Comfort | integer | 4 | 1 | 4 | 0.00 | item | \n- Work | integer | 4 | 1 | 4 | 0.00 | item | \n- Future | integer | 4 | 1 | 4 | 0.00 | item | \n- Benefit | integer | 4 | 1 | 4 | 0.00 | item | ",
+      "response": {
+        "items": [],
+        "model": "graded",
+        "nfact": 1,
+        "steps": [
+          "describe",
+          "fitcheck",
+          "plots",
+          "interpret"
+        ],
+        "assumptions": [
+          "All four columns (Comfort, Work, Future, Benefit) are items scored 1 to 4.",
+          "No grouping column was mentioned, so no DIF analysis is included."
+        ],
+        "questions": []
+      }
+    },
+    {
+      "key": "0eaf78bc14398c62650a0e9e6bde03ff",
+      "function_name": "generate_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are an experienced assessment developer writing items for a test.\nWrite original items that measure the stated construct and content cell, at the stated cognitive level, for the stated population.\nFollow item-writing guidelines: one clear problem per stem; no clues to the answer; no 'all of the above' or 'none of the above'; options of similar length and form; exactly one correct option; distractors that reflect real misconceptions; fair, accessible and free of cultural, gender or regional bias.\nFor open-ended items, write a rubric with a descriptor and a short anchor response for every score point from 0 to the maximum.\nDo not repeat items you are shown as existing.",
+      "prompt": "Construct: Grade 7 numeracy\nTest takers: Grade 7 students\nScore use: classroom diagnostic\nContent: Ratios and rates\nCognitive level: Apply\nWrite 2 multiple-choice (4 options) item(s).",
+      "response": {
+        "items": [
+          {
+            "stem": "A recipe uses 3 cups of flour for every 2 cups of milk. How many cups of flour are needed with 8 cups of milk?",
+            "options": [
+              "12 cups",
+              "9 cups",
+              "16 cups",
+              "5 cups"
+            ],
+            "key": "A",
+            "rationales": [
+              "Correct: 8 cups of milk is 4 times 2 cups, so 4 times 3 cups of flour is 12 cups.",
+              "Adds 1 to 8, treating the ratio as a difference of 1 cup.",
+              "Doubles 8, using 2 as the multiplier instead of 3/2.",
+              "Subtracts the ratio terms from 8 instead of scaling."
+            ]
+          },
+          {
+            "stem": "A cyclist rides 45 km in 3 hours at a steady speed. How far does the cyclist ride in 5 hours at the same speed?",
+            "options": [
+              "15 km",
+              "135 km",
+              "75 km",
+              "50 km"
+            ],
+            "key": "C",
+            "rationales": [
+              "Gives the speed per hour, not the distance in 5 hours.",
+              "Multiplies 45 by 3 instead of finding the rate first.",
+              "Correct: 45 / 3 = 15 km per hour, and 15 x 5 = 75 km.",
+              "Adds 5 to 45, treating the extra time as extra kilometres."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "7649a02af8393c621524c0e0ade3f933",
+      "function_name": "generate_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are an experienced assessment developer writing items for a test.\nWrite original items that measure the stated construct and content cell, at the stated cognitive level, for the stated population.\nFollow item-writing guidelines: one clear problem per stem; no clues to the answer; no 'all of the above' or 'none of the above'; options of similar length and form; exactly one correct option; distractors that reflect real misconceptions; fair, accessible and free of cultural, gender or regional bias.\nFor open-ended items, write a rubric with a descriptor and a short anchor response for every score point from 0 to the maximum.\nDo not repeat items you are shown as existing.",
+      "prompt": "Construct: Grade 7 numeracy\nTest takers: Grade 7 students\nScore use: classroom diagnostic\nContent: Measurement\nCognitive level: Apply\nWrite 2 multiple-choice (4 options) item(s).\n\nExisting items (do not repeat):\n- A recipe uses 3 cups of flour for every 2 cups of milk. How many cups of flour are needed with 8 cups of milk?\n- A cyclist rides 45 km in 3 hours at a steady speed. How far does the cyclist ride in 5 hours at the same speed?",
+      "response": {
+        "items": [
+          {
+            "stem": "A garden is 12 m long and 7 m wide. How many metres of fencing are needed to go all the way around it?",
+            "options": [
+              "84 m",
+              "38 m",
+              "19 m",
+              "24 m"
+            ],
+            "key": "A",
+            "rationales": [
+              "Correct: the fence covers the garden, 12 x 7 = 84.",
+              "Adds all four sides but is not the area.",
+              "Adds only one length and one width.",
+              "Doubles the length only."
+            ]
+          },
+          {
+            "stem": "A water bottle holds 2.5 litres. How many millilitres does it hold?",
+            "options": [
+              "250 mL",
+              "2,500 mL",
+              "25,000 mL",
+              "2.5 cm"
+            ],
+            "key": "B",
+            "rationales": [
+              "Multiplies by 100 instead of 1,000.",
+              "Correct: 1 litre is 1,000 mL, so 2.5 litres is 2,500 mL.",
+              "Multiplies by 10,000 instead of 1,000.",
+              "Confuses the unit of volume with a unit of length."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "38d33c69b2fba67ad969d3fe688b1752",
+      "function_name": "verify_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a careful subject-matter expert checking a multiple-choice test item. Answer it yourself, then judge every option. Be strict: an option is defensible if a knowledgeable test taker could argue it is correct.",
+      "prompt": "A recipe uses 3 cups of flour for every 2 cups of milk. How many cups of flour are needed with 8 cups of milk?\nA. 12 cups\nB. 9 cups\nC. 16 cups\nD. 5 cups",
+      "response": {
+        "answer": "A",
+        "defensible": "A",
+        "distractors": [
+          {
+            "option": "B",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "C",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "D",
+            "plausible": true,
+            "partly_correct": false
+          }
+        ],
+        "note": ""
+      }
+    },
+    {
+      "key": "fde56a3cf3f61aec830e477bda08bc71",
+      "function_name": "verify_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a careful subject-matter expert checking a multiple-choice test item. Answer it yourself, then judge every option. Be strict: an option is defensible if a knowledgeable test taker could argue it is correct.",
+      "prompt": "A cyclist rides 45 km in 3 hours at a steady speed. How far does the cyclist ride in 5 hours at the same speed?\nA. 15 km\nB. 135 km\nC. 75 km\nD. 50 km",
+      "response": {
+        "answer": "C",
+        "defensible": "C",
+        "distractors": [
+          {
+            "option": "A",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "B",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "D",
+            "plausible": true,
+            "partly_correct": false
+          }
+        ],
+        "note": ""
+      }
+    },
+    {
+      "key": "6f74f1d4c144b79a6122b497952099a2",
+      "function_name": "verify_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a careful subject-matter expert checking a multiple-choice test item. Answer it yourself, then judge every option. Be strict: an option is defensible if a knowledgeable test taker could argue it is correct.",
+      "prompt": "A garden is 12 m long and 7 m wide. How many metres of fencing are needed to go all the way around it?\nA. 84 m\nB. 38 m\nC. 19 m\nD. 24 m",
+      "response": {
+        "answer": "B",
+        "defensible": "B",
+        "distractors": [
+          {
+            "option": "A",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "C",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "D",
+            "plausible": true,
+            "partly_correct": false
+          }
+        ],
+        "note": "Fencing around the garden is the perimeter, 2 x (12 + 7) = 38 m (option B); 84 m is the area, so the key appears to be wrong."
+      }
+    },
+    {
+      "key": "a2b81cd52fccd3ae793534b685bd32fe",
+      "function_name": "verify_items",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a careful subject-matter expert checking a multiple-choice test item. Answer it yourself, then judge every option. Be strict: an option is defensible if a knowledgeable test taker could argue it is correct.",
+      "prompt": "A water bottle holds 2.5 litres. How many millilitres does it hold?\nA. 250 mL\nB. 2,500 mL\nC. 25,000 mL\nD. 2.5 cm",
+      "response": {
+        "answer": "B",
+        "defensible": "B",
+        "distractors": [
+          {
+            "option": "A",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "C",
+            "plausible": true,
+            "partly_correct": false
+          },
+          {
+            "option": "D",
+            "plausible": false,
+            "partly_correct": false
+          }
+        ],
+        "note": "Option D gives a length (cm), which no test taker would choose for a volume."
+      }
+    },
+    {
+      "key": "becfae482791e7c762c48b713df76927",
+      "function_name": "score_open",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. That is why this happens.\n[2] To answer this question, we need to think about what is happening. I learned about this in class last year. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. In conclusion, this is how it works.\n[3] Water get bigger when it freeze. Ice is cold and water is not.\n[4] To answer this question, we need to think about what is happening. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice.\n[5] Let me explain what I think is going on here. I learned about this in class last year. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.\n[6] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is cold and water is not. Overall, it is a combination of these things.\n[7] I learned about this in class last year. This is something that we can see in everyday life. Ice is cold and water is not. I think this is the main reason, but there could be other reasons too.\n[8] Many people wonder about this. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat.\n[9] Let me explain what I think is going on here. This is something that we can see in everyday life. The density of ice is lower than the density of liquid water. In conclusion, this is how it works.\n[10] Ice have less density than water. When water freeze, the molecules make a pattern with space inside. Water get bigger when it freeze. Less dense things float on more dense things. Ice is cold and water is not.",
+      "response": {
+        "scores": [
+          {
+            "index": 1,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 2,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 3,
+            "score": 0,
+            "rationale": "States no key idea from the rubric.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 4,
+            "score": 2,
+            "rationale": "States ice is less dense than water; molecules form an open structure.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 5,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 6,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 7,
+            "score": 0,
+            "rationale": "States no key idea from the rubric.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 8,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 9,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 10,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.7,
+            "off_topic": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "75751938033c325c43e39afb83598ad7",
+      "function_name": "score_open",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] This is something that we can see in everyday life. Many people wonder about this. Ice floats because it has air in it like a boat. I think this is the main reason, but there could be other reasons too.\n[2] This is a really interesting question about science. Ice is less dense than liquid water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat.\n[3] There are a few reasons why this happens. The density of ice is lower than the density of liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. The water pushes up on the ice more than gravity pulls it down, so it floats.\n[4] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. That is why this happens.\n[5] This is a really interesting question about science. There are a few reasons why this happens. Ice is less dense than liquid water. In conclusion, this is how it works.\n[6] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. I think this is the main reason, but there could be other reasons too.\n[7] Frozen water has a lower density than the water around it.\n[8] This is a really interesting question about science. Ice is less dense than liquid water. In ice the water molecules are locked into a crystal structure with lots of empty space. Water expands when it freezes, so a kilogram of ice takes more space than a kilogram of water. Objects that are less dense than a fluid float because the buoyant force is greater than their weight.\n[9] This is something that we can see in everyday life. Many people wonder about this. The density of ice is lower than the density of liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats. That is why this happens.\n[10] Many people wonder about this. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. The water pushes up on the ice more than gravity pulls it down, so it floats.",
+      "response": {
+        "scores": [
+          {
+            "index": 1,
+            "score": 0,
+            "rationale": "States no key idea from the rubric.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 2,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 3,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 4,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 5,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 6,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 7,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 8,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 9,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 10,
+            "score": 2,
+            "rationale": "States molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "041abd3c2790a71da346066ff2e9e475",
+      "function_name": "score_open",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] Let me explain what I think is going on here. Ice have less density than water. When water freeze, the molecules make a pattern with space inside. The water push the ice up so it float. Ice is solid so it is light.\n[2] Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The water pushes up on the ice more than gravity pulls it down, so it floats. Ice floats because it has air in it like a boat.\n[3] Frozen water has a lower density than the water around it. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The same number of molecules fills a bigger volume once they are frozen. Anything less dense than the liquid it is in is pushed up by buoyancy and floats.\n[4] This is a really interesting question about science. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. Ice is cold and water is not. I hope this explains it clearly.\n[5] Let me explain what I think is going on here. I learned about this in class last year. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats. In conclusion, this is how it works.\n[6] Frozen water has a lower density than the water around it.\n[7] Ice have less density than water. Ice take more space than the same water.\n[8] There are a few reasons why this happens. The density of ice is lower than the density of liquid water. Because the molecules are spread out, the same mass of water takes up more volume as ice. Objects that are less dense than a fluid float because the buoyant force is greater than their weight.\n[9] Let me explain what I think is going on here. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats.\n[10] To answer this question, we need to think about what is happening. I learned about this in class last year. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Ice floats because it has air in it like a boat. In conclusion, this is how it works.",
+      "response": {
+        "scores": [
+          {
+            "index": 1,
+            "score": 2,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.7,
+            "off_topic": false
+          },
+          {
+            "index": 2,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 3,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 4,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 5,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 6,
+            "score": 1,
+            "rationale": "States ice is less dense than water.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 7,
+            "score": 1,
+            "rationale": "States ice is less dense than water; the same mass takes more volume.",
+            "confidence": 0.7,
+            "off_topic": false
+          },
+          {
+            "index": 8,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 9,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 10,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "c08b94e25d39e8151f713acec03cbc62",
+      "function_name": "score_open",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are a trained rater scoring test takers' answers to an open-ended item with a rubric. Score each response against the rubric only, as a careful human rater would. Do not reward length or style that the rubric does not mention. For each response give the score, a one-sentence rationale citing the rubric, your confidence from 0 to 1, and whether it is off topic or not a real attempt.",
+      "prompt": "Item: Explain why ice floats on liquid water.\n\nRubric:\n0 points: No correct key idea. Example: Ice is cold so it floats.\n1 points: One key idea: ice is less dense; molecules form an open structure; ice takes more volume; less dense things float. Example: Ice is less dense than water.\n2 points: Two key ideas. Example: Ice is less dense than water, so the water pushes it up and it floats.\n3 points: Three key ideas. Example: Water expands when it freezes, so ice is less dense than water and floats.\n4 points: All four key ideas, linked into one explanation. Example: When water freezes its molecules form an open crystal, so the same mass takes more volume. Ice is therefore less dense than water, and less dense things float.\n\nResponses:\n[1] This is something that we can see in everyday life. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. In conclusion, this is how it works.\n[2] This is something that we can see in everyday life. Many people wonder about this. The density of ice is lower than the density of liquid water. Anything less dense than the liquid it is in is pushed up by buoyancy and floats. Overall, it is a combination of these things.\n[3] Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. The same number of molecules fills a bigger volume once they are frozen. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is solid so it is light.\n[4] There are a few reasons why this happens. This is something that we can see in everyday life. Frozen water has a lower density than the water around it. The water pushes up on the ice more than gravity pulls it down, so it floats. This shows that science can explain things we see every day.\n[5] This is a really interesting question about science. There are a few reasons why this happens. Ice is less dense than liquid water. When water freezes, its molecules line up in an open, hexagonal pattern held by hydrogen bonds. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. Ice is solid so it is light. I hope this explains it clearly.\n[6] I learned about this in class last year. To answer this question, we need to think about what is happening. Ice is less dense than liquid water. The same number of molecules fills a bigger volume once they are frozen. The water pushes up on the ice more than gravity pulls it down, so it floats. I think this is the main reason, but there could be other reasons too.\n[7] I learned about this in class last year. Ice is less dense than liquid water. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Because the molecules are spread out, the same mass of water takes up more volume as ice. Anything less dense than the liquid it is in is pushed up by buoyancy and floats.\n[8] There are a few reasons why this happens. To answer this question, we need to think about what is happening. Frozen water has a lower density than the water around it. In ice the water molecules are locked into a crystal structure with lots of empty space. Objects that are less dense than a fluid float because the buoyant force is greater than their weight. This shows that science can explain things we see every day.\n[9] Let me explain what I think is going on here. Hydrogen bonds hold the molecules in ice in a rigid, open lattice. Ice floats because it has air in it like a boat.\n[10] The density of ice is lower than the density of liquid water. Ice is cold and water is not.",
+      "response": {
+        "scores": [
+          {
+            "index": 1,
+            "score": 2,
+            "rationale": "States ice is less dense than water; molecules form an open structure.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 2,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 3,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 4,
+            "score": 2,
+            "rationale": "States ice is less dense than water; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 5,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 6,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 7,
+            "score": 4,
+            "rationale": "States ice is less dense than water; molecules form an open structure; the same mass takes more volume; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 8,
+            "score": 3,
+            "rationale": "States ice is less dense than water; molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 9,
+            "score": 2,
+            "rationale": "States molecules form an open structure; less dense things float.",
+            "confidence": 0.9,
+            "off_topic": false
+          },
+          {
+            "index": 10,
+            "score": 0,
+            "rationale": "States no key idea from the rubric.",
+            "confidence": 0.9,
+            "off_topic": false
+          }
+        ]
+      }
+    }
+  ]
+}

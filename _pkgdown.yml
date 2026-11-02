@@ -113,6 +113,14 @@ reference:
   - acknowledge
   - drop_items
   - mv_rules
+- title: AI in measurement
+  desc: >
+    Run the language model features offline from recorded responses, and
+    teaching datasets with item text and written answers.
+  contents:
+  - mv_llm_replay
+  - itemtext
+  - essays
 - title: Choosing and understanding a model
   contents:
   - select_model
