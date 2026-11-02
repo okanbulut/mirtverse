@@ -144,14 +144,24 @@ All three are built from the same source each time the book changes.
 If you use the book in a course or in your work, please cite it as:
 
 > Bulut, O. (2026). *Item response theory with mirt and mirtverse: Notes for
-> teaching and learning*. https://www.okanbulut.com/mirtverse/book/
+> teaching and learning*. Zenodo. https://doi.org/10.5281/zenodo.23885605
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23885605.svg)](https://doi.org/10.5281/zenodo.23885605)
+
+The DOI above always points to the latest edition of the book. Each archived
+edition also has its own DOI, listed on the
+[Zenodo record](https://doi.org/10.5281/zenodo.23885605); cite that one if you need to
+refer to the exact text you read (version 1.0 is
+[10.5281/zenodo.23885606](https://doi.org/10.5281/zenodo.23885606)).
 
 ```bibtex
 @book{bulut2026irt,
-  author = {Okan Bulut},
-  title  = {Item Response Theory with mirt and mirtverse: Notes for Teaching and Learning},
-  year   = {2026},
-  url    = {https://www.okanbulut.com/mirtverse/book/}
+  author    = {Okan Bulut},
+  title     = {Item Response Theory with mirt and mirtverse: Notes for Teaching and Learning},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23885605},
+  url       = {https://www.okanbulut.com/mirtverse/book/}
 }
 ```
 

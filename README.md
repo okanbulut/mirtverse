@@ -111,7 +111,9 @@ lab in which students work through a realistic testing scenario with live
 models (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 The online book [*Item Response Theory with mirt and
 mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended notes for
-each week of a course, with worked examples and exercises.
+each week of a course, with worked examples and exercises. It is also
+available as a PDF and EPUB and can be cited with its own DOI,
+[10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605).
 To teach with your own data, `new_lab()` builds a lab on any response
 dataset (see [The instructor toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html)).
 
