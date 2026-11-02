@@ -83,15 +83,15 @@ Table: (\#tab:ai-chapters) The chapters on AI in measurement.
 
 Every chapter has the same parts:
 
-* **Learning goals:** what you should be able to do after the chapter.
-* **Key terms:** links to the mirtverse
+* **Learning goals:** What you should be able to do after the chapter.
+* **Key terms:** Links to the mirtverse
   [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html).
-* **The ideas:** a short explanation, with formulas only where they help.
-* **Example 1 and Example 2:** two worked analyses on different data, so you
+* **The ideas:** A short explanation, with formulas only where they help.
+* **Example 1 and Example 2:** Two worked analyses on different data, so you
   see the same method in two settings.
-* **Your turn:** exercises with solutions. In the online edition the
+* **Your turn:** Exercises with solutions. In the online edition the
   solutions are folded away; click to open them.
-* **In the lab:** the interactive mirtverse lab that goes with the chapter.
+* **In the lab:** The interactive mirtverse lab that goes with the chapter.
 * **Further reading.**
 
 The examples deliberately use different data from the labs. The labs hide
@@ -124,15 +124,15 @@ writes a script from a plain-language request.
 ## Other teaching materials {-}
 
 * [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html):
-  six interactive learnr labs with an instructor guide and answer key.
+  Six interactive learnr labs with an instructor guide and answer key.
 * [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.html):
-  a 12-week syllabus with readings, functions, labs and assessment ideas.
+  A 12-week syllabus with readings, functions, labs and assessment ideas.
 * [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html) of
   IRT terms.
 * [Cheat sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
   of the main functions, on two printable pages.
 * [Assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html):
-  a test's full life cycle from blueprint to bank monitoring.
+  A test's full life cycle from blueprint to bank monitoring.
 
 ## Using and adapting the book {-}
 
@@ -186,7 +186,7 @@ Please also cite the software you use: mirt [@chalmers2012] and mirtverse
 © 2026 Okan Bulut. The text and figures of this book are licensed under a
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 licence](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA
-4.0): you may share and adapt them for non-commercial purposes, such as
+4.0): You may share and adapt them for non-commercial purposes, such as
 teaching, as long as you give credit and share your adaptations under the
 same licence. The R code in the book is licensed under GPL-3, like
 mirtverse, so you can reuse it freely in your own analyses.

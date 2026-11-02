@@ -53,14 +53,14 @@ on their help pages, for example `?certexam`.
 
 mirt ships more datasets that work well for exercises:
 
-* `LSAT6` and `LSAT7`: short dichotomous tests (expand them with
+* `LSAT6` and `LSAT7`: Short dichotomous tests (expand them with
   `expand.table()`).
-* `deAyala`: five dichotomous mathematics items from de Ayala's textbook, as
+* `deAyala`: Five dichotomous mathematics items from de Ayala's textbook, as
   a frequency table.
-* `SLF`: five dichotomous statements about social life feelings, answered by
+* `SLF`: Five dichotomous statements about social life feelings, answered by
   1,490 respondents.
-* `Bock1997`: a three-item polytomous test, as a frequency table.
-* `ASVAB`: four arithmetic reasoning items with response counts for four
+* `Bock1997`: A three-item polytomous test, as a frequency table.
+* `ASVAB`: Four arithmetic reasoning items with response counts for four
   groups defined by sex and race, a ready-made exercise for multiple-group
   models and DIF.
 

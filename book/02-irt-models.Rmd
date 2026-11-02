@@ -28,11 +28,11 @@
 ## The ideas
 
 IRT assumes that a person's responses depend on an unobserved **latent
-trait** $\theta$ (theta): ability, knowledge, an attitude. By convention
+trait** $\theta$ (theta): Ability, knowledge, an attitude. By convention
 $\theta$ has mean 0 and standard deviation 1 in the calibration group, so a
 person at $\theta = 1$ is one standard deviation above average.
 
-Each item gets an **item characteristic curve** (ICC): the probability of a
+Each item gets an **item characteristic curve** (ICC): The probability of a
 correct answer as a function of $\theta$. The three classic models differ in
 how many parameters shape that curve [@hambleton1991; @embretson2000].
 
@@ -48,7 +48,7 @@ contains all the information about $\theta$.
 
 $$P(X_{ij} = 1 \mid \theta_i) = \frac{\exp[a_j(\theta_i - b_j)]}{1 + \exp[a_j(\theta_i - b_j)]}.$$
 
-A larger $a_j$ gives a steeper curve: the item separates people just below
+A larger $a_j$ gives a steeper curve: The item separates people just below
 $b_j$ from people just above it more sharply. Values between about 0.8 and 2.5
 are typical for good achievement items; values below about 0.5 mean the item
 hardly tells people apart.
@@ -69,7 +69,7 @@ related by $b_j = -d_j / a_j$. Use `coef(mod, IRTpars = TRUE)`, or
 mirtverse's `tidy()` (which uses `IRTpars = TRUE` by default), to see $a$ and
 $b$.
 
-## Example 1: the LSAT section 7 items
+## Example 1: The LSAT section 7 items
 
 `LSAT7` holds the response patterns of 1,000 people to five items from a
 section of the Law School Admission Test, stored as a frequency table.
@@ -102,7 +102,7 @@ for the 2PL. The same information as a tidy table, ready for a report:
 tidy(twopl)
 ```
 
-All five items have negative difficulties: this is an easy section for this
+All five items have negative difficulties: This is an easy section for this
 group. Item 3 has the steepest slope, items 4 and 5 the flattest. The curves
 show it at a glance.
 
@@ -134,7 +134,7 @@ of the parameter space, and the one that does not (Item 2) has a confidence
 interval that runs from almost 0 to well over 0.5. The data say very little
 about guessing. Which model should we report? That is a question for Chapter
 \@ref(estimation). For now, notice that a model with more parameters is not
-automatically better: it has to be supported by the data.
+automatically better: It has to be supported by the data.
 
 `interpret()` describes the fitted model in plain language. Its *Items*
 section is a useful check on your own reading of the curves.
@@ -143,7 +143,7 @@ section is a useful check on your own reading of the curves.
 interpret(twopl)
 ```
 
-## Example 2: a driving theory test with guessing
+## Example 2: A driving theory test with guessing
 
 To see when the 3PL matters, we simulate a 20-item driving theory test with
 four options per question, taken by 3,000 learner drivers. Because we
@@ -181,7 +181,7 @@ recovery
 ```
 
 When people really do guess, the 2PL absorbs the guessing into the other
-parameters: it **underestimates discrimination** and makes hard items look
+parameters: It **underestimates discrimination** and makes hard items look
 **easier** than they are. The 3PL recovers the parameters much better, and its
 lower asymptotes are close to the truth on average:
 
@@ -199,7 +199,7 @@ gg_empirical(fit2, "D20") + gg_empirical(fit3, "D20")
 
 **What to take away.** The 3PL is worth its extra parameters when items can
 be answered by guessing *and* there are enough low-ability test takers to
-estimate the lower asymptote: here 3,000 people and a range of difficulties.
+estimate the lower asymptote: Here 3,000 people and a range of difficulties.
 With small samples or easy tests, $c$ is poorly determined, and a 2PL (or a
 3PL with a prior on $c$) is often the safer choice.
 
@@ -236,11 +236,11 @@ summary(coef(small, IRTpars = TRUE, simplify = TRUE)$items[, "g"] - true$c)
    item (small $a$) has a 2PL difficulty further from zero, because its curve
    only reaches 0.5 far out on the scale.
 3. You may first see a warning that the EM algorithm stopped after 500
-   cycles: the 3PL is hard to estimate in small samples (Chapter
+   cycles: The 3PL is hard to estimate in small samples (Chapter
    \@ref(estimation)). With 300 people the $c$ estimates scatter much more widely around the
    truth, and some may be close to 0 or implausibly large. The estimates of
    $a$ and $b$ get worse too, because the three parameters trade off.
-4. The curve is almost flat: the chance of a correct answer barely depends on
+4. The curve is almost flat: The chance of a correct answer barely depends on
    ability. Such an item adds little information and some noise; it should
    go back to the item writers.
 

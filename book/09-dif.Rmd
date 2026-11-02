@@ -21,7 +21,7 @@
 ## The ideas
 
 Groups often differ in their average scores. That alone says nothing about
-whether a test is fair: the groups may simply differ in what the test
+whether a test is fair: The groups may simply differ in what the test
 measures, which is called **impact**. An item shows **differential item
 functioning** (DIF) when people from different groups *with the same ability*
 have different chances of answering it correctly [@holland1993]. DIF is a
@@ -33,14 +33,14 @@ We compare a **reference group** (often the majority group) with a **focal
 group**. In IRT terms, DIF means the item has different parameters in the two
 groups.
 
-* **Uniform DIF:** the item is harder for one group at every ability level
+* **Uniform DIF:** The item is harder for one group at every ability level
   (the difficulty differs, the curves are parallel).
-* **Non-uniform DIF:** the size or direction of the difference changes with
+* **Non-uniform DIF:** The size or direction of the difference changes with
   ability (the slopes differ and the curves cross).
 
 To compare groups we must first put them on a common scale, and that needs
-items we trust to work the same way in both: the **anchors**. mirtverse's
-`dif()` uses a *constrained-baseline* approach: it fits a multiple-group
+items we trust to work the same way in both: The **anchors**. mirtverse's
+`dif()` uses a *constrained-baseline* approach: It fits a multiple-group
 model in which all item parameters are equal across groups while the group
 means and variances are free, then frees each item's parameters in turn and
 tests the change with a likelihood-ratio test. Items you do not test serve as
@@ -49,7 +49,7 @@ well when DIF is confined to a few items; when many items have DIF, a
 *purification* step (testing, removing flagged items from the anchor set, and
 testing again) is safer.
 
-A significant test is not enough: with large samples tiny differences are
+A significant test is not enough: With large samples tiny differences are
 significant. `dif()` therefore reports effect sizes on the item score scale.
 The signed version (`esd`) is the average difference in the probability of a
 correct answer between the focal and the reference group at the same
@@ -61,7 +61,7 @@ alternative. It matches people on their sum score, builds a 2 × 2 table
 correct answer differ between groups across the tables. ETS classifies the
 size of MH DIF as A (negligible), B (moderate) or C (large).
 
-## Example 1: paper versus tablet
+## Example 1: Paper versus tablet
 
 A district moved its Grade 5 reading test from paper to tablets. We simulate
 25 items answered by 1,200 students on paper (reference) and 800 on tablets
@@ -105,7 +105,7 @@ res
 The flagged items are the three we planted. The signed effect sizes of R07
 and R18 are negative, meaning the items are harder for tablet users of the
 same ability. R22's signed effect is small but its unsigned effect is
-larger: the curves cross, so the advantages and disadvantages partly cancel
+larger: The curves cross, so the advantages and disadvantages partly cancel
 out on average.
 
 ```{r dif-effects, fig.height = 5.5, fig.cap = "DIF effect sizes for the 25 reading items, paper versus tablet."}
@@ -122,7 +122,7 @@ gg_dif(res, type = "curves", which.items = c("R07", "R22"))
 interpret(res)
 ```
 
-The baseline model also estimates the impact: the latent mean of the tablet
+The baseline model also estimates the impact: The latent mean of the tablet
 group relative to the paper group (fixed at 0).
 
 ```{r}
@@ -131,7 +131,7 @@ coef(res$baseline, simplify = TRUE)$Tablet$means
 
 ### Choosing anchors
 
-If we already know some items are clean, we can test only the others: the
+If we already know some items are clean, we can test only the others: The
 untested items become anchors. Here, as a check, we test only the three
 flagged items against the other 22:
 

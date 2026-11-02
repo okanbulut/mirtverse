@@ -21,9 +21,9 @@ This page is a suggested 12-week syllabus for an introductory course in item
 response theory (IRT), for graduate students in education, psychology or the
 health sciences. Each week lists what students should be able to do by the
 end of it, what to read on this site, what to run in R, and which lab and
-dataset to use. Take it as a starting point: drop weeks, merge them, or swap
+dataset to use. Take it as a starting point: Drop weeks, merge them, or swap
 in your own readings. The [instructor toolkit](instructor-toolkit.html)
-helps with that: it builds labs on your own datasets and lets you edit the
+helps with that: It builds labs on your own datasets and lets you edit the
 built-in labs and add your own exercises.
 
 The online book [*Item Response Theory with mirt and
@@ -57,7 +57,7 @@ Both make good bridges to writing code by hand later in the term.
 | Week | Topic | Lab | Main data |
 |---|---|---|---|
 | 1 | Measurement, scoring and classical item analysis | Lab 1, first two sections | `certexam` |
-| 2 | From classical test theory to IRT: the Rasch, 2PL and 3PL models | | `LSAT7` |
+| 2 | From classical test theory to IRT: The Rasch, 2PL and 3PL models | | `LSAT7` |
 | 3 | Estimation and comparing models | | `LSAT7`, `SAT12` |
 | 4 | Dimensionality and local independence | [Lab 1](teaching-labs.html) in class | `certexam` |
 | 5 | Item fit, person fit and item quality | | `SAT12` |
@@ -82,24 +82,24 @@ two printable pages; both work well as handouts from week 1.
 against a key, compute proportion correct and item-total correlations, and
 read a distractor analysis.
 
-* **Key terms:** [classical test theory](glossary.html#classical-test-theory),
+* **Key terms:** [Classical test theory](glossary.html#classical-test-theory),
   [sum score](glossary.html#sum-score), [p-value](glossary.html#p-value),
   [item-total correlation](glossary.html#item-total-correlation).
 * **Read:** [Getting started](mirtverse.html); "The story" and "Start a lab"
   in [Teaching labs](teaching-labs.html).
 * **Run:** `key2binary()`, `itemstats()` (mirt), `profile_data()`.
-* **Lab:** the first two sections of Lab 1 (`run_lab("model-choice")`),
+* **Lab:** The first two sections of Lab 1 (`run_lab("model-choice")`),
   "Score the responses" and "Screen the items". Students meet a miskeyed
   item without being told it is there.
 * **Data:** `certexam`, `certexam_key`.
-* **Discuss:** what a number-correct score can and cannot tell us.
+* **Discuss:** What a number-correct score can and cannot tell us.
 
 ### Week 2. From classical test theory to IRT
 
 **By the end of the week, students can** explain the Rasch, 2PL and 3PL
 models, fit them with `mirt()`, and read an item characteristic curve.
 
-* **Key terms:** [item response theory](glossary.html#item-response-theory),
+* **Key terms:** [Item response theory](glossary.html#item-response-theory),
   [latent trait](glossary.html#latent-trait), [Rasch
   model](glossary.html#rasch-model), [2PL](glossary.html#two-pl),
   [3PL](glossary.html#three-pl), [item characteristic
@@ -107,11 +107,11 @@ models, fit them with `mirt()`, and read an item characteristic curve.
   [difficulty](glossary.html#difficulty),
   [discrimination](glossary.html#discrimination),
   [guessing](glossary.html#guessing).
-* **Read:** sections 1 to 4 of [Getting started](mirtverse.html).
+* **Read:** Sections 1 to 4 of [Getting started](mirtverse.html).
 * **Run:** `mirt()`, `coef(mod, IRTpars = TRUE)`, `gg_trace()`,
   `item_table()`, `interpret()`.
 * **Data:** `LSAT7` (expand it with `expand.table()`).
-* **Activity:** ask students to sketch trace lines for items they invent
+* **Activity:** Ask students to sketch trace lines for items they invent
   (an easy item, a hard item, a flat item) and then find the closest real
   item in the data.
 
@@ -121,7 +121,7 @@ models, fit them with `mirt()`, and read an item characteristic curve.
 in words, recognise a model that has not converged, and compare nested models
 with likelihood-ratio tests and information criteria.
 
-* **Key terms:** [calibration](glossary.html#calibration), [marginal maximum
+* **Key terms:** [Calibration](glossary.html#calibration), [marginal maximum
   likelihood](glossary.html#marginal-maximum-likelihood),
   [convergence](glossary.html#convergence), [likelihood-ratio
   test](glossary.html#likelihood-ratio-test), [information
@@ -131,7 +131,7 @@ with likelihood-ratio tests and information criteria.
 * **Run:** `select_model()`, `anova()`, `M2()`, `glance_mirt()`,
   `tidy_mirt()`.
 * **Data:** `LSAT7` and `SAT12` (scored with `key2binary()`).
-* **Discuss:** why AIC and BIC can disagree, and what sample size has to do
+* **Discuss:** Why AIC and BIC can disagree, and what sample size has to do
   with fitting a 3PL.
 
 ### Week 4. Dimensionality and local independence
@@ -140,15 +140,15 @@ with likelihood-ratio tests and information criteria.
 enough, read standardized residuals and the Q3 statistic, and tell local
 dependence from a second trait.
 
-* **Key terms:** [dimensionality](glossary.html#dimensionality), [local
+* **Key terms:** [Dimensionality](glossary.html#dimensionality), [local
   independence](glossary.html#local-independence), [local
   dependence](glossary.html#local-dependence), [Q3](glossary.html#q3).
-* **Run:** a one- vs two-factor model with `anova()`, `summary()` for rotated
+* **Run:** A one- vs two-factor model with `anova()`, `summary()` for rotated
   loadings, `residuals(mod, type = "Q3")` and `gg_q3()`.
-* **Lab:** all of Lab 1 (`run_lab("model-choice")`, about 75 minutes). It
+* **Lab:** All of Lab 1 (`run_lab("model-choice")`, about 75 minutes). It
   ends with a model choice the student has to justify in writing.
 * **Data:** `certexam` (the passage pair Q21 and Q22).
-* **Assignment:** hand in the decision table and justification from the end
+* **Assignment:** Hand in the decision table and justification from the end
   of Lab 1.
 
 ### Week 5. Item fit, person fit and item quality
@@ -156,14 +156,14 @@ dependence from a second trait.
 **By the end of the week, students can** read S-X² item fit, compare an
 empirical and a model-implied curve, and flag aberrant response patterns.
 
-* **Key terms:** [item fit](glossary.html#item-fit),
+* **Key terms:** [Item fit](glossary.html#item-fit),
   [S-X²](glossary.html#s-x2), [empirical item
   curve](glossary.html#empirical-item-curve), [person
   fit](glossary.html#person-fit), [Zh](glossary.html#zh).
 * **Run:** `itemfit()` and `gg_itemfit()`, `gg_empirical()`, `personfit()`
   (mirt), `item_card()` and `item_cards()`.
 * **Data:** `SAT12`.
-* **Activity:** students pick the three weakest items from the item cards and
+* **Activity:** Students pick the three weakest items from the item cards and
   write one sentence each on what an item writer should change.
 
 ### Week 6. Information, precision and reliability
@@ -172,14 +172,14 @@ empirical and a model-implied curve, and flag aberrant response patterns.
 curves, convert information to a standard error, and explain why reliability
 depends on where on the scale you look.
 
-* **Key terms:** [item information](glossary.html#item-information), [test
+* **Key terms:** [Item information](glossary.html#item-information), [test
   information](glossary.html#test-information), [standard error of
   measurement](glossary.html#standard-error-of-measurement), [marginal
   reliability](glossary.html#marginal-reliability),
   [targeting](glossary.html#targeting).
 * **Run:** `gg_info()`, `testinfo()`, `marginal_rxx()` and `empirical_rxx()`
   (mirt).
-* **Lab:** the "Precision at the pass mark" section of Lab 2 previews next
+* **Lab:** The "Precision at the pass mark" section of Lab 2 previews next
   week.
 * **Data:** `certexam`.
 
@@ -194,12 +194,12 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
   accuracy](glossary.html#classification-accuracy).
 * **Run:** `fscores()` (mirt), `gg_scores()`, `gg_wright()`,
   `augment_mirt()`.
-* **Lab:** all of Lab 2 (`run_lab("decisions")`, about 75 minutes). Students
+* **Lab:** All of Lab 2 (`run_lab("decisions")`, about 75 minutes). Students
   choose a scoring method, estimate classification accuracy, look for DIF
   and write a memo to the board. Lab 2 fits its own model, so students who
   missed Lab 1 can still do it.
 * **Data:** `certexam`.
-* **Assignment:** the memo from the end of Lab 2.
+* **Assignment:** The memo from the end of Lab 2.
 
 ### Week 8. Polytomous items and open-ended responses
 
@@ -207,14 +207,14 @@ scores, explain why ML fails for perfect scores, and read a Wright map.
 partial credit and graded response models, read category curves, and say
 when categories should be collapsed.
 
-* **Key terms:** [polytomous item](glossary.html#polytomous-item), [graded
+* **Key terms:** [Polytomous item](glossary.html#polytomous-item), [graded
   response model](glossary.html#graded-response-model),
   [GPCM](glossary.html#gpcm), [category response
   curve](glossary.html#category-response-curve), [QWK](glossary.html#qwk).
 * **Read:** [Assessment pipeline](assessment-pipeline.html), section "9.
   Scoring", for scoring open-ended responses with `score_open()`.
 * **Run:** `select_model()` on polytomous data, `gg_trace()`, `gg_info()`.
-* **Lab:** Lab 6 (`run_lab("open-ended")`, about 75 minutes): rater
+* **Lab:** Lab 6 (`run_lab("open-ended")`, about 75 minutes): Rater
   agreement and quadratic weighted kappa, rater severity and consistency,
   resolving two reads, PCM versus GPCM versus GRM, collapsing categories
   with disordered steps, and checking an automated scoring engine, including
@@ -236,13 +236,13 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
   items](glossary.html#anchor-items).
 * **Run:** `dif()`, `gg_dif()`, `interpret()` on the result; `multipleGroup()`
   and `DIF()` (mirt) for the model behind it.
-* **Lab:** the "Fairness across languages" section of Lab 2 for a short
+* **Lab:** The "Fairness across languages" section of Lab 2 for a short
   version; Lab 3 (`run_lab("fairness")`, about 75 minutes) for a full
   session, with Mantel-Haenszel, anchor purification and differential test
   functioning.
 * **Data:** `numeracy` (English language learners and fluent students) in
   Lab 3; `certexam` (English and French candidates) in Lab 2.
-* **Discuss:** what a content review panel should do with a flagged item.
+* **Discuss:** What a content review panel should do with a flagged item.
 
 ### Week 10. Linking and equating
 
@@ -250,7 +250,7 @@ analysis with anchor items, and explain uniform and non-uniform DIF.
 scale, describe anchor-item and common-person designs, and link a new
 calibration to an existing one.
 
-* **Key terms:** [linking](glossary.html#linking), [anchor
+* **Key terms:** [Linking](glossary.html#linking), [anchor
   items](glossary.html#anchor-items), [moment
   linking](glossary.html#moment-linking), [characteristic curve
   linking](glossary.html#characteristic-curve-linking), [parameter
@@ -259,7 +259,7 @@ calibration to an existing one.
   Field-test design" and "6. The item bank".
 * **Run:** `design_field_test()`, `link_to_bank()`; `multipleGroup()` with
   anchors and `fixedCalib()` (mirt).
-* **Lab:** Lab 4 (`run_lab("linking")`, about 75 minutes): separate and
+* **Lab:** Lab 4 (`run_lab("linking")`, about 75 minutes): Separate and
   concurrent calibration, mean-sigma linking, anchor drift and IRT
   true-score equating of a pass mark.
 * **Data:** `linking` (two forms with common items) in Lab 4; `certexam`,
@@ -272,7 +272,7 @@ calibration to an existing one.
 form to a target information curve, and explain how a computerized adaptive
 test picks items and when it stops.
 
-* **Key terms:** [item bank](glossary.html#item-bank), [automated test
+* **Key terms:** [Item bank](glossary.html#item-bank), [automated test
   assembly](glossary.html#automated-test-assembly), [computerized adaptive
   test](glossary.html#computerized-adaptive-test), [multistage
   test](glossary.html#multistage-test), [exposure](glossary.html#exposure).
@@ -280,7 +280,7 @@ test picks items and when it stops.
   item bank" and "7. Forms, adaptive and multistage tests".
 * **Run:** `mv_bank()`, `assemble_forms()`, `simulate_cat()`,
   `assemble_mst()`.
-* **Lab:** Lab 5 (`run_lab("cat-design")`, about 75 minutes): bank
+* **Lab:** Lab 5 (`run_lab("cat-design")`, about 75 minutes): Bank
   information, a CAT by hand, simulation, exposure control, content
   balancing and stopping rules.
 * **Data:** `catbank` (a 180-item placement bank) in Lab 5; the `certexam`
@@ -292,7 +292,7 @@ test picks items and when it stops.
 setting, estimate classification accuracy at a cut score, and explain IRT
 results to someone who does not use R.
 
-* **Key terms:** [cut score](glossary.html#cut-score), [standard
+* **Key terms:** [Cut score](glossary.html#cut-score), [standard
   setting](glossary.html#standard-setting), [response
   probability](glossary.html#response-probability), [classification
   accuracy](glossary.html#classification-accuracy), [classification
@@ -301,7 +301,7 @@ results to someone who does not use R.
   scores" and "11. The report"; [Sharing results with a
   dashboard](dashboards.html).
 * **Run:** `item_map()`, `set_cuts()`, `mv_report()`, `mv_dashboard()`.
-* **Final project:** see below.
+* **Final project:** See below.
 
 ## Assessment ideas
 
@@ -310,7 +310,7 @@ results to someone who does not use R.
 | 20% | Lab 1 decision table and model justification | Week 4 |
 | 20% | Lab 2 memo to the board | Week 7 |
 | 20% | Two short problem sets (one on fit and precision, one on DIF or linking) | Weeks 6 and 10 |
-| 40% | Final project: a full analysis of a dataset of the student's choice, handed in as an `mv_report()` or a dashboard plus a two-page memo | Week 12 |
+| 40% | Final project: A full analysis of a dataset of the student's choice, handed in as an `mv_report()` or a dashboard plus a two-page memo | Week 12 |
 
 For the final project, students can follow the [assessment
 pipeline](assessment-pipeline.html) from calibration to the report. Its flags
@@ -319,12 +319,12 @@ checklist for the write-up.
 
 ## Adapting the course
 
-* **A shorter course (8 weeks):** combine weeks 2 and 3, and weeks 5 and 6;
+* **A shorter course (8 weeks):** Combine weeks 2 and 3, and weeks 5 and 6;
   drop week 10 and treat week 11 as a lecture without a lab.
-* **An undergraduate course:** spend two weeks on week 1, use the
+* **An undergraduate course:** Spend two weeks on week 1, use the
   [workbench](workbench.html) instead of code until week 4, and end at
   week 9.
-* **A second course:** add multidimensional and bifactor models (`mirt()`
+* **A second course:** Add multidimensional and bifactor models (`mirt()`
   with more factors, `bfactor()`), [response-time models](response-times.html)
   (`fit_rt()`, `sim_rt()`), and the remaining stages of the [assessment
   pipeline](assessment-pipeline.html), such as test security and bank
@@ -337,11 +337,11 @@ they are released.
 
 | Resource | Used in | Status |
 |---|---|---|
-| Online book with a chapter per week | All weeks | Available: [book](../book/index.html) |
-| Glossary of IRT terms on this site | All weeks | Available: [glossary](glossary.html) |
+| Online book with a chapter per week | All weeks | Available: [Book](../book/index.html) |
+| Glossary of IRT terms on this site | All weeks | Available: [Glossary](glossary.html) |
 | Two-page cheat sheet of the main functions | All weeks | Available: [PDF](../cheatsheet/mirtverse-cheatsheet.pdf) |
 | DIF and fairness lab | Week 9 | Available: `run_lab("fairness")` |
 | Linking two forms lab | Week 10 | Available: `run_lab("linking")` |
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |
-| Instructor toolkit: labs on your own data, editable copies of the labs | All weeks | Available: [guide](instructor-toolkit.html) |
+| Instructor toolkit: Labs on your own data, editable copies of the labs | All weeks | Available: [Guide](instructor-toolkit.html) |

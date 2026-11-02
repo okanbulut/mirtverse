@@ -1,5 +1,5 @@
 ---
-title: "mv_ask(): from a sentence to a tested R script"
+title: "mv_ask(): From a sentence to a tested R script"
 description: >
   How mv_ask() turns a plain-language request into a complete IRT analysis
   script, with worked examples and benchmark results for Claude, GPT and
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 Many people who need an IRT analysis know what they want to find out but not
 which functions, arguments and checks get them there. `mv_ask()` closes that
 gap. You describe the analysis in a sentence, and mirtverse writes the full,
-commented R script: reading the data, recoding missing values, fitting and
+commented R script: Reading the data, recoding missing values, fitting and
 checking the model, testing for DIF, scoring, plotting and reporting. You read
 the script, change it if you like, and then run or save it.
 
@@ -37,10 +37,10 @@ htmltools::img(
               "write the R script, which you run or save."))
 ```
 
-`mv_ask()` follows a **hybrid design**: a language model (or a built-in
+`mv_ask()` follows a **hybrid design**: A language model (or a built-in
 keyword parser) decides *what* to do, and mirtverse decides *how* to do it.
 
-1. **Summarise the data.** `profile_data()` describes each column: its type,
+1. **Summarise the data.** `profile_data()` describes each column: Its type,
    number of distinct values, range, share missing and likely role (item,
    grouping variable, ID or response time). Individual responses are never
    part of this summary.
@@ -48,7 +48,7 @@ keyword parser) decides *what* to do, and mirtverse decides *how* to do it.
    understanding step. By default this is a keyword parser that runs offline
    and needs no setup. If you connect a model with `mv_ask_setup()`, Claude,
    GPT or a local Ollama model does this step instead. The model never writes
-   code. It fills in a structured form with a fixed set of choices: which
+   code. It fills in a structured form with a fixed set of choices: Which
    columns are items, which model, how many dimensions, which grouping
    variable, which missing-value codes and which outputs.
 3. **Check the plan.** The filled-in form becomes an `mv_plan()` object, which
@@ -94,7 +94,7 @@ scr <- mv_ask("Fit a 2PL, check DIF by gender and make a report",
 scr
 ```
 
-The printout has three parts: the plan (what will be done), the assumptions
+The printout has three parts: The plan (what will be done), the assumptions
 mirtverse made (here, that `Q1` to `Q12` are the items because they look like
 item responses), and the script itself.
 
@@ -181,7 +181,7 @@ right response to these is to ask a question rather than guess. The requests
 and expected plans are in
 [`inst/benchmark/ask-requests.csv`](https://github.com/okanbulut/mirtverse/blob/main/inst/benchmark/ask-requests.csv).
 
-A plan counts as **fully correct** only if every field matches: whether a
+A plan counts as **fully correct** only if every field matches: Whether a
 question was needed, the model, the number of dimensions, the grouping
 variable, the missing-value codes, the items and the analysis steps.
 
@@ -212,7 +212,7 @@ What the results show:
 * **Claude** understood 95 of 100 requests completely, and no field fell
   below 96%. Its misses were mostly about whether to ask a clarifying question
   and which outputs to include.
-* **GPT** reached 90%. Its weakest field was the analysis steps (94%): it
+* **GPT** reached 90%. Its weakest field was the analysis steps (94%): It
   added or left out outputs, such as a report or plots, more often than
   Claude.
 * **Local models (Ollama)** keep everything on your computer and cost
@@ -243,7 +243,7 @@ mirtverse:::ask_benchmark("ollama", model = "qwen3.8:27b")
 
 Each run sends the 100 requests with the column summary of a simulated data
 set. With Claude or GPT this costs roughly one or two US dollars. A local
-model costs nothing but takes much longer: on a recent Mac, Qwen 3.8 27B
+model costs nothing but takes much longer: On a recent Mac, Qwen 3.8 27B
 needed more than an hour for the 100 requests.
 
 ## Privacy in brief

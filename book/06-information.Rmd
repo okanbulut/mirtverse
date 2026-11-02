@@ -22,7 +22,7 @@
 
 In classical test theory a test has one standard error of measurement for
 everyone. In IRT, precision depends on where you are on the scale. An item
-tells us most about people whose ability is close to its difficulty: for
+tells us most about people whose ability is close to its difficulty: For
 them the outcome is most uncertain, so observing it is most informative. The
 **item information function** of a 2PL item is
 
@@ -55,7 +55,7 @@ Both are useful single numbers, but a test can have a respectable overall
 reliability and still be imprecise exactly where an important decision is
 made. That is why we look at the curves.
 
-## Example 1: where does the science test measure well?
+## Example 1: Where does the science test measure well?
 
 ```{r data-information-1}
 # SAT12 science items, scored with the corrected key (item 32 keyed 3).
@@ -113,12 +113,12 @@ about half a standard deviation. A student estimated at 1.5 could easily
 have a true ability of 1.0 or 2.0. The overall reliability of about 0.84
 gives a much rosier picture than the precision at the decision point.
 
-## Example 2: designing a test for a decision
+## Example 2: Designing a test for a decision
 
 Information curves are also a design tool. Imagine a calibrated pool of 90
 2PL items for a nursing entrance test, with a pass mark at $\theta = 0.5$.
 We compare three 20-item forms built from the pool, without collecting any
-new data: the information function only needs the item parameters.
+new data: The information function only needs the item parameters.
 
 ```{r data-information-2}
 # A pool of 90 calibrated 2PL items (a, b), as stored in an item bank.
@@ -170,7 +170,7 @@ sapply(forms, function(f) c(info = info_2pl(f, 0.5), se = 1 / sqrt(info_2pl(f, 0
 
 The targeted form has more than twice as much information at the pass mark as the
 random one, with the same number of items. The price is precision far from
-the cut: the spread form is better for reporting scores across the whole
+the cut: The spread form is better for reporting scores across the whole
 range. Which is better depends on what the scores are for. A licensing test
 cares about the pass mark; a progress test cares about everyone. Chapter
 \@ref(banks-cat) builds on this idea with automated test assembly and

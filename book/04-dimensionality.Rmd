@@ -23,7 +23,7 @@
 The models in Chapter \@ref(irt-models) make two related assumptions.
 **Unidimensionality** says that one latent trait accounts for the
 relationships among the items. **Local independence** says that once we know
-a person's $\theta$, their responses to different items are independent: the
+a person's $\theta$, their responses to different items are independent: The
 only reason two items correlate is that both depend on $\theta$.
 
 Both can fail, in different ways.
@@ -32,7 +32,7 @@ Both can fail, in different ways.
   arithmetic in a set of mathematics word problems. Then a one-factor model
   forces two traits into one score, and the items of the smaller dimension
   look poorly discriminating.
-* A **small cluster of items** may share something beyond the trait: a
+* A **small cluster of items** may share something beyond the trait: A
   common reading passage, a shared stimulus, near-identical wording, or an
   item whose answer gives away the next. These pairs or clusters are *locally
   dependent*. They look like extra-good items, they inflate reliability, and
@@ -40,12 +40,12 @@ Both can fail, in different ways.
 
 The tools differ too. For the first problem we compare models with one and
 two factors and look at the factor loadings. For the second we look at what
-is left over after fitting a one-factor model: if local independence holds,
+is left over after fitting a one-factor model: If local independence holds,
 the residual correlations between item pairs should be close to zero. Yen's
 **Q3** statistic [@yen1984] is the correlation between two items' residuals.
 Values well above the average Q3 (often by 0.2 or more) flag dependent pairs.
 
-## Example 1: a mathematics test with a reading dimension
+## Example 1: A mathematics test with a reading dimension
 
 We simulate a 24-item mathematics test taken by 1,500 Grade 8 students.
 Items M01 to M12 are calculation items. Items W01 to W12 are word problems
@@ -82,7 +82,7 @@ summary(f2, rotate = "oblimin", suppress = 0.25)
 
 The calculation items load on one factor and the word problems on the
 other. The factor correlation is higher than the 0.5 we simulated between
-the two traits, because the word problems also need calculation skill: the
+the two traits, because the word problems also need calculation skill: The
 rotation cannot separate that shared part cleanly, so some of it shows up as
 correlation between the factors. The one-factor fit statistics give the same
 message from the other side:
@@ -112,7 +112,7 @@ That depends on use. Two subscores are defensible if each is reliable
 enough (Chapter \@ref(information)); a single total score mixes two skills,
 and students with weak reading will look weaker at mathematics than they are.
 
-## Example 2: a reading passage that ties four items together
+## Example 2: A reading passage that ties four items together
 
 In this test of 20 items, items R05 to R08 all refer to the same passage.
 Students who happen to understand the passage well do better on all four
@@ -138,7 +138,7 @@ gg_q3(uni)
 ```
 
 The six pairs among R05 to R08 stand out. Most other Q3 values are slightly
-negative, which is normal: residuals are a little negatively correlated on
+negative, which is normal: Residuals are a little negatively correlated on
 average, so we judge a pair against the average Q3 rather than against zero.
 The numbers behind the plot:
 

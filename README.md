@@ -11,7 +11,7 @@
 theory (IRT) models; mirtverse helps you choose a model, understand the results,
 make publication-ready figures, and share everything, with or without writing R code.
 
-> **New: interactive teaching labs.** Six browser-based labs let students fit
+> **New: Interactive teaching labs.** Six browser-based labs let students fit
 > live mirt models and make real testing decisions, from choosing a model to
 > advising a certification board, investigating a fairness complaint, linking
 > two forms of an exam, designing an adaptive test and checking rater-scored
@@ -29,17 +29,17 @@ and psychological measurement.
 
 mirt can:
 
-- **Estimate a wide range of models:** unidimensional and multidimensional,
+- **Estimate a wide range of models:** Unidimensional and multidimensional,
   exploratory and confirmatory, bifactor and two-tier, with more than 30 item types
   (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal,
   ideal-point, nonparametric spline items and more), plus user-defined items.
-- **Handle complex designs:** multiple-group analysis and measurement invariance,
+- **Handle complex designs:** Multiple-group analysis and measurement invariance,
   mixed-effects and explanatory IRT (`mixedmirt()`), and latent class and
   diagnostic classification models (`mdirt()`).
 - **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
   quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for
   high-dimensional models, with several standard-error methods.
-- **Check and use the models:** item and person fit, limited-information fit (M2),
+- **Check and use the models:** Item and person fit, limited-information fit (M2),
   local dependence, DIF and differential test functioning, and ability estimation
   (EAP, MAP, ML, WLE, plausible values).
 
@@ -62,7 +62,7 @@ reporting tools around it.
 | Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | `mv_dashboard()`, `export_dashboard()` |
 | Response-time modelling and rapid-guessing detection | `fit_rt()`, `sim_rt()` |
 | Interactive teaching labs for measurement courses (learnr) | `run_lab()`, `list_labs()` |
-| Instructor toolkit: labs on your own data, editable labs and chapters | `new_course()`, `new_lab()`, `swap_lab_data()`, `check_material()` |
+| Instructor toolkit: Labs on your own data, editable labs and chapters | `new_course()`, `new_lab()`, `swap_lab_data()`, `check_material()` |
 | Translate ltm, eRm, TAM and irtQ code into mirt code | `mirtify()`, `mirtify_crosswalk()` |
 | Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server) | `mv_mcp_server()`, `mv_mcp_config()` |
 
@@ -122,7 +122,7 @@ dataset (see [The instructor toolkit](https://www.okanbulut.com/mirtverse/articl
 <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-1.png" width="49%" alt="Page 1 of the mirtverse cheat sheet"></a> <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png" width="49%" alt="Page 2 of the mirtverse cheat sheet"></a>
 
 A printable two-page [cheat sheet (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-covers the main functions by task: page 1 for analysis and sharing, page 2 for
+covers the main functions by task: Page 1 for analysis and sharing, page 2 for
 the assessment pipeline.
 
 ## Coming from ltm, eRm, TAM or irtQ?

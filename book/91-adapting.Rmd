@@ -22,7 +22,7 @@ the mirtverse repository:
 | `_output.yml` | Look of the HTML, PDF and EPUB editions |
 | `latex/` | Title page, preamble and box styles of the PDF edition |
 | `cover/` | Cover artwork and how to regenerate it |
-| `_common.R` | Code run before every chapter: loads mirtverse and sets chunk options |
+| `_common.R` | Code run before every chapter: Loads mirtverse and sets chunk options |
 | `references.bib` | References cited in the book |
 
 Table: (\#tab:files) Source files of the book.

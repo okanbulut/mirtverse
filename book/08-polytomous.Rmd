@@ -21,7 +21,7 @@
 
 ## The ideas
 
-Many items have more than two score categories: rating scales (*strongly
+Many items have more than two score categories: Rating scales (*strongly
 disagree* to *strongly agree*), partial-credit mathematics problems, essays
 scored 0 to 4 against a rubric. Three families of models are used most.
 
@@ -39,7 +39,7 @@ scored 0 to 4 against a rubric. Three families of models are used most.
 In the PCM and GPCM the step difficulties are the points where adjacent
 category curves cross. They do *not* have to be in order. **Disordered
 steps** (for example $b_2 < b_1$) mean that a middle category is never the
-most likely response at any ability: respondents skip over it. That is often
+most likely response at any ability: Respondents skip over it. That is often
 a sign of a category label that is unclear or a rubric level that raters
 cannot distinguish, and a common remedy is to merge the category with a
 neighbour.
@@ -48,7 +48,7 @@ Each item's **expected score** curve, the average score as a function of
 $\theta$, summarizes the categories in one line and is often the easiest plot
 to explain.
 
-## Example 1: attitudes to science
+## Example 1: Attitudes to science
 
 `Science` holds the responses of 392 people to four statements about science
 and technology, each rated on a four-point scale (1 = *strongly disagree* to
@@ -89,7 +89,7 @@ and the expected score curves summarize them:
 gg_trace(grm, type = "expected", facet = FALSE)
 ```
 
-The lowest category is rare for every item: its first threshold is far below
+The lowest category is rare for every item: Its first threshold is far below
 average, so the curve for "strongly disagree" only rises for people far out
 in the left tail. The Wright map shows every threshold next to the
 distribution of people:
@@ -98,7 +98,7 @@ distribution of people:
 gg_wright(grm)
 ```
 
-## Example 2: a rating category nobody uses
+## Example 2: A rating category nobody uses
 
 We simulate a six-item job satisfaction scale with five categories (0 to 4),
 answered by 1,500 employees. On item J3 the middle label was badly worded,
@@ -133,7 +133,7 @@ coef(gpcm, IRTpars = TRUE, simplify = TRUE)$items
 ```
 
 For J3 the second step ($b_2$) is larger than the third ($b_3$), unlike every
-other item. The category curves make it plain: category 2 of J3 is never the
+other item. The category curves make it plain: Category 2 of J3 is never the
 most likely response.
 
 ```{r trace-gpcm, fig.height = 3.4, fig.cap = "Category response curves of J2 and J3; category 2 of J3 is never the most likely response."}
@@ -154,7 +154,7 @@ coef(gpcm_c, IRTpars = TRUE, simplify = TRUE)$items["J3", ]
 ```
 
 The steps of the collapsed item are now in order. The GRM would never have
-shown the problem, because its thresholds are ordered by definition: this is
+shown the problem, because its thresholds are ordered by definition: This is
 one reason to fit a PCM or GPCM when you are developing a rating scale.
 
 ## Open-ended responses and raters

@@ -23,7 +23,7 @@
 ## The ideas
 
 A test is a sample of tasks that we use to make an inference about something
-we cannot see directly: a student's reading ability, a nurse's clinical
+we cannot see directly: A student's reading ability, a nurse's clinical
 knowledge, a patient's level of anxiety. Before any model is fitted, raw
 responses have to be turned into **item scores**. For a multiple-choice item
 that means comparing the option chosen with the key (1 = right, 0 = wrong).
@@ -36,29 +36,29 @@ total of the item scores. **Classical test theory** (CTT) models the sum score
 as a true score plus error, $X = T + E$, and gives us a small toolkit for
 judging items [@crocker1986]:
 
-* **Item difficulty** ($p$): the proportion of people who answer correctly
+* **Item difficulty** ($p$): The proportion of people who answer correctly
   (for rating items, the item mean). Confusingly, a *high* $p$ means an *easy*
   item.
-* **Item discrimination**: the correlation between the item score and the
+* **Item discrimination**: The correlation between the item score and the
   total score. Items that good performers get right and weak performers get
   wrong have high item-total correlations. The *corrected* correlation
   removes the item from the total first, which matters for short tests.
-* **Coefficient alpha**: an estimate of reliability, the proportion of
+* **Coefficient alpha**: An estimate of reliability, the proportion of
   sum-score variance that is true-score variance.
-* **Distractor analysis**: for multiple-choice items, how often each wrong
+* **Distractor analysis**: For multiple-choice items, how often each wrong
   option is chosen, and by whom. A good distractor attracts low scorers. An
-  option that attracts high scorers is a warning sign: it may be a second
+  option that attracts high scorers is a warning sign: It may be a second
   correct answer, or the key may be wrong.
 
 CTT statistics are easy to compute and to explain, and you should always
 start with them. But they have two limits that motivate the rest of this
 book. First, $p$ and the item-total correlation depend on the group that took
-the test: the same item looks easy in a strong group and hard in a weak one.
+the test: The same item looks easy in a strong group and hard in a weak one.
 Second, the sum score treats every item as equally informative and gives one
 standard error for everybody, even though a test measures some people more
 precisely than others. Item response theory addresses both.
 
-## Example 1: a multiple-choice science test
+## Example 1: A multiple-choice science test
 
 The `SAT12` data in mirt hold the answers of 600 high-school students to 32
 multiple-choice science items with five options (8 marks an omitted item).
@@ -115,7 +115,7 @@ The keyed answer to item 32 is option 5, yet option 3 is the most popular
 choice in every band, and its share climbs steeply from the lowest band to
 the highest. Option 5 gains far less. When an "unkeyed" option behaves the
 way a correct answer should, suspect the key. The
-help page for `SAT12` agrees: the key for item 32 is probably wrong and should
+help page for `SAT12` agrees: The key for item 32 is probably wrong and should
 be 3. Re-scoring fixes the item:
 
 ```{r}
@@ -128,11 +128,11 @@ c(old_r = items["Item.32", "cor_if_rm"],
 ```
 
 **What to take away.** A low item-total correlation is a symptom, not a
-diagnosis. The distractor table tells you *why*: a wrong key, two defensible
+diagnosis. The distractor table tells you *why*: A wrong key, two defensible
 answers, an option that confuses strong students, or simply an item that is
 too hard for everyone.
 
-## Example 2: a wellbeing questionnaire
+## Example 2: A wellbeing questionnaire
 
 Rating scales need the same care. Here we simulate a short questionnaire: 800
 adults rate eight statements about their wellbeing from 0 (*strongly
@@ -176,7 +176,7 @@ st$overall$alpha
 ```
 
 All items now point the same way. Item W8 still has a low corrected
-correlation, and alpha rises from 0.75 to 0.77 without it: it is a weak item, and an
+correlation, and alpha rises from 0.75 to 0.77 without it: It is a weak item, and an
 IRT model will give it a low discrimination too (Chapter \@ref(irt-models)).
 For rating scales the category frequencies are worth a look as well. A
 category almost nobody uses carries little information and may need to be
