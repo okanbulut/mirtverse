@@ -119,7 +119,9 @@ scenario with live models (see [Teaching
 labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 The online book [*Item Response Theory with mirt and
 mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended
-notes for each week of a course, with worked examples and exercises. To
+notes for each week of a course, with worked examples and exercises. It
+is also available as a PDF and EPUB and can be cited with its own DOI,
+[10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605). To
 teach with your own data,
 [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
 builds a lab on any response dataset (see [The instructor
@@ -513,3 +515,28 @@ Connect Claude or an OpenAI assistant to your course materials.
   Plain-language definitions of the terms used in item response theory,
   each with the mirtverse or mirt function that computes it, and
   pictures where a picture helps.
+
+### AI in measurement
+
+Artificial intelligence and machine learning for psychometricians. These
+articles are also in the AI Hub menu.
+
+- [AI Hub: artificial intelligence for
+  psychometricians](https://www.okanbulut.com/mirtverse/articles/ai-hub.md):
+
+  Start here to learn how artificial intelligence and machine learning
+  fit into psychometrics and educational measurement: a learning path,
+  what mirtverse can already do with AI, and where to read more.
+
+- [Machine learning for psychometricians: a translation
+  table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md):
+
+  More than 40 machine learning and AI terms, each with what it means,
+  the psychometric idea closest to it, and where the two part ways.
+
+- [AI in measurement: a reading
+  list](https://www.okanbulut.com/mirtverse/articles/ai-reading.md):
+
+  An annotated list of books, papers and guidelines on artificial
+  intelligence in psychometrics and educational measurement, grouped by
+  topic, for psychometricians who are new to the area.

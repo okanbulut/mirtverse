@@ -2,6 +2,16 @@
 
 ## mirtverse (development version)
 
+- New AI Hub for psychometricians who want to learn how artificial
+  intelligence fits into measurement, with its own menu in the site
+  navbar. It has a landing page with a learning path and examples of the
+  AI features already in mirtverse (“AI Hub: artificial intelligence for
+  psychometricians”), a table that translates more than 40 machine
+  learning terms into their closest psychometric ideas (“Machine
+  learning for psychometricians: a translation table”), and an annotated
+  reading list. The glossary has a new “AI in measurement” section with
+  13 terms.
+
 - New online book, *Item Response Theory with mirt and mirtverse*, at
   <https://www.okanbulut.com/mirtverse/book/>. Twelve chapters follow
   the weeks of the course map, from classical item analysis to cut

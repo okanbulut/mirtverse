@@ -73,3 +73,28 @@
   Plain-language definitions of the terms used in item response theory,
   each with the mirtverse or mirt function that computes it, and
   pictures where a picture helps.
+
+### AI in measurement
+
+Artificial intelligence and machine learning for psychometricians. These
+articles are also in the AI Hub menu.
+
+- [AI Hub: artificial intelligence for
+  psychometricians](https://www.okanbulut.com/mirtverse/articles/ai-hub.md):
+
+  Start here to learn how artificial intelligence and machine learning
+  fit into psychometrics and educational measurement: a learning path,
+  what mirtverse can already do with AI, and where to read more.
+
+- [Machine learning for psychometricians: a translation
+  table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md):
+
+  More than 40 machine learning and AI terms, each with what it means,
+  the psychometric idea closest to it, and where the two part ways.
+
+- [AI in measurement: a reading
+  list](https://www.okanbulut.com/mirtverse/articles/ai-reading.md):
+
+  An annotated list of books, papers and guidelines on artificial
+  intelligence in psychometrics and educational measurement, grouped by
+  topic, for psychometricians who are new to the area.

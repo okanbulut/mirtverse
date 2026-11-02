@@ -22,7 +22,8 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 
 **A** [Ability](#ability) · [AIC, BIC and SABIC](#information-criteria)
 · [Anchor items](#anchor-items) · [Angoff method](#standard-setting) ·
-[Answer copying](#answer-copying) · [Automated test
+[Answer copying](#answer-copying) · [Automated item generation](#aig) ·
+[Automated scoring](#automated-scoring) · [Automated test
 assembly](#automated-test-assembly) **B** [Bookmark
 method](#standard-setting) **C** [Calibration](#calibration) · [Category
 response curve](#category-response-curve) · [CFI and TLI](#cfi-tli) ·
@@ -31,59 +32,62 @@ accuracy](#classification-accuracy) · [Classification
 consistency](#classification-consistency) · [Computerized adaptive
 test](#computerized-adaptive-test) · [Conditional standard
 error](#standard-error-of-measurement) · [Convergence](#convergence) ·
-[Cut score](#cut-score) **D** [Dichotomous item](#dichotomous-item) ·
-[Difficulty](#difficulty) · [Differential item functioning](#dif) · [DIF
-effect size](#dif-effect-size) · [Dimensionality](#dimensionality) ·
+[Cross-validation](#cross-validation) · [Cut score](#cut-score) **D**
+[Dichotomous item](#dichotomous-item) · [DIF effect
+size](#dif-effect-size) · [Differential item functioning](#dif) ·
+[Difficulty](#difficulty) · [Dimensionality](#dimensionality) ·
 [Discrimination](#discrimination) **E** [EAP](#eap) · [EM
-algorithm](#marginal-maximum-likelihood) · [Empirical item
-curve](#empirical-item-curve) · [Equating](#linking) · [Expected
-score](#expected-score) · [Exposure](#exposure) **F** [Factor
-score](#person-score) · [Fixed form](#automated-test-assembly) · [Focal
-group](#reference-focal-group) **G** [Generalized partial credit
-model](#gpcm) · [Graded response model](#graded-response-model) ·
-[Guessing](#guessing) **H** [Haebara
-method](#characteristic-curve-linking) **I** [Information
-criteria](#information-criteria) · [Item](#item) · [Item
-bank](#item-bank) · [Item characteristic
-curve](#item-characteristic-curve) · [Item difficulty
+algorithm](#marginal-maximum-likelihood) · [Embedding](#embedding) ·
+[Empirical item curve](#empirical-item-curve) · [Equating](#linking) ·
+[Expected score](#expected-score) · [Exposure](#exposure) **F** [Factor
+score](#person-score) · [Feature](#feature) · [Fixed
+form](#automated-test-assembly) · [Focal group](#reference-focal-group)
+**G** [Generalized partial credit model](#gpcm) · [Graded response
+model](#graded-response-model) · [Guessing](#guessing) **H** [Haebara
+method](#characteristic-curve-linking) · [Hallucination](#hallucination)
+· [Human-in-the-loop](#human-in-the-loop) **I** [Information
+criteria](#information-criteria) · [Item bank](#item-bank) · [Item
+characteristic curve](#item-characteristic-curve) · [Item difficulty
 (classical)](#p-value) · [Item fit](#item-fit) · [Item
-information](#item-information) · [Item parameters](#item-parameters) ·
-[Item response theory](#item-response-theory) · [Item-total
-correlation](#item-total-correlation) **K** [Kappa](#kappa) **L**
-[Latent trait](#latent-trait) · [Likelihood-ratio
-test](#likelihood-ratio-test) · [Linking](#linking) · [Local
-dependence](#local-dependence) · [Local
+information](#item-information) · [Item model](#item-model) · [Item
+parameters](#item-parameters) · [Item response
+theory](#item-response-theory) · [Item](#item) · [Item-total
+correlation](#item-total-correlation) **K** [Kappa](#kappa) **L** [Large
+language model](#llm) · [Latent trait](#latent-trait) ·
+[Likelihood-ratio test](#likelihood-ratio-test) · [Linking](#linking) ·
+[LLTM](#lltm) · [Local dependence](#local-dependence) · [Local
 independence](#local-independence) · [Logit](#logit) · [Lower
-asymptote](#guessing) **M** [M2](#m2) · [MAP](#map) · [Marginal maximum
+asymptote](#guessing) **M** [M2](#m2) · [Machine
+learning](#machine-learning) · [MAP](#map) · [Marginal maximum
 likelihood](#marginal-maximum-likelihood) · [Marginal
 reliability](#marginal-reliability) · [Maximum likelihood
 scoring](#ml-scoring) · [Mean-sigma and mean-mean](#moment-linking) ·
 [Model fit](#model-fit) · [Multidimensional IRT](#multidimensional-irt)
 · [Multistage test](#multistage-test) **N** [Non-uniform
 DIF](#uniform-nonuniform-dif) **O** [One-parameter logistic
-model](#rasch-model) **P** [Parallel forms](#parallel-forms) ·
-[Parameter drift](#parameter-drift) · [Person fit](#person-fit) ·
-[Person score](#person-score) · [Polytomous item](#polytomous-item) ·
-[Preknowledge](#preknowledge) · [p-value (item)](#p-value) **Q**
+model](#rasch-model) · [Overfitting](#cross-validation) **P** [Parallel
+forms](#parallel-forms) · [Parameter drift](#parameter-drift) · [Person
+fit](#person-fit) · [Person score](#person-score) · [Polytomous
+item](#polytomous-item) · [Preknowledge](#preknowledge) ·
+[PRMSE](#prmse) · [Prompt](#prompt) · [p-value (item)](#p-value) **Q**
 [Q3](#q3) · [Quadratic weighted kappa](#qwk) **R** [Rapid
 guessing](#rapid-guessing) · [Rasch model](#rasch-model) · [Reference
 group](#reference-focal-group) · [Reliability](#marginal-reliability) ·
 [Response probability](#response-probability) · [Response time
-effort](#response-time-effort) · [RMSEA](#rmsea) **S** [S-X2](#s-x2) ·
-[Slope-intercept form](#slope-intercept) · [Speed](#speed) ·
-[SRMSR](#srmsr) · [Standard error (of a parameter)](#standard-error) ·
-[Standard error of measurement](#standard-error-of-measurement) ·
-[Standard setting](#standard-setting) · [Stocking-Lord
-method](#characteristic-curve-linking) · [Sum score](#sum-score) **T**
-[Targeting](#targeting) · [Test characteristic
+effort](#response-time-effort) · [RMSEA](#rmsea) **S** [Slope-intercept
+form](#slope-intercept) · [Speed](#speed) · [SRMSR](#srmsr) · [Standard
+error (of a parameter)](#standard-error) · [Standard error of
+measurement](#standard-error-of-measurement) · [Standard
+setting](#standard-setting) · [Stocking-Lord
+method](#characteristic-curve-linking) · [Sum score](#sum-score) ·
+[S-X2](#s-x2) **T** [Targeting](#targeting) · [Test characteristic
 curve](#test-characteristic-curve) · [Test
 information](#test-information) · [Theta](#latent-trait) ·
 [Three-parameter logistic model](#three-pl) · [Threshold](#threshold) ·
 [Time intensity](#time-intensity) · [Two-parameter logistic
-model](#two-pl) **U** [Uniform DIF](#uniform-nonuniform-dif) ·
-[Unidimensionality](#dimensionality) · [Upper
-asymptote](#upper-asymptote) **W** [WLE](#wle) · [Wright
-map](#wright-map) **Z** [Zh](#zh)
+model](#two-pl) **U** [Unidimensionality](#dimensionality) · [Uniform
+DIF](#uniform-nonuniform-dif) · [Upper asymptote](#upper-asymptote)
+**W** [WLE](#wle) · [Wright map](#wright-map) **Z** [Zh](#zh)
 
 ## The basic ideas
 
@@ -1065,6 +1069,133 @@ investigation, not proof.
 **In R:**
 [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md).
 
+## AI in measurement
+
+These terms come up when artificial intelligence (AI) and machine
+learning meet testing. The [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) collects
+mirtverse’s AI material, and the [translation
+table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md)
+maps many more machine learning words to the psychometric ideas closest
+to them.
+
+### Machine learning
+
+Methods that learn a rule for predicting an outcome from data, judged by
+how well they predict new cases rather than by whether their parameters
+mean something. A logistic regression of item scores on ability is
+already a small machine learning model; IRT adds the claim that the
+latent trait is what is being measured.
+
+**In R:** `score_open(p, responses, scorer = fit)` accepts any trained
+model with a [`predict()`](https://rdrr.io/r/stats/predict.html) method.
+
+### Feature
+
+A measured property of a case that a model uses to predict something.
+For an item, features might be its word count, readability or the number
+of steps it takes; for an essay, its length or vocabulary. Features play
+the role that covariates play in an explanatory IRT model.
+
+### Overfitting and cross-validation
+
+A model *overfits* when it learns the noise in its training data and
+predicts new data worse than it predicted the old. *Cross-validation*
+estimates accuracy honestly by fitting on part of the data and checking
+on the rest, much as a calibration sample and a validation sample are
+kept apart.
+
+### Embedding
+
+A long vector of numbers that a language model uses to represent a word,
+sentence or response, placed so that texts with similar meaning sit
+close together. Embeddings can serve as features for scoring responses
+or predicting item difficulty.
+
+### Large language model (LLM)
+
+A neural network trained on very large amounts of text to predict the
+next word, which lets it write, summarize, answer and score text when
+given instructions. Claude and GPT are examples. Its output varies from
+run to run and can be wrong, so every use in testing needs checks.
+
+**In R:**
+[`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
+[`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
+[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+and
+[`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+can use an LLM set up with
+[`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md).
+
+### Prompt
+
+The instructions and context given to a large language model, such as a
+blueprint cell and an item-writing style guide, or a rubric and a
+student response. Small changes in a prompt can change the output, so
+prompts are part of the method and should be reported.
+
+### Hallucination
+
+Fluent output from a language model that is false: an invented fact, a
+wrong key, a citation that does not exist. In item writing it shows up
+as items with no correct option or two correct options.
+
+**In R:**
+[`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+has a second model answer each item without the key and flags
+disagreements.
+
+### Human-in-the-loop
+
+A design in which people review, correct or approve what an AI system
+produces before it counts, such as content experts reviewing generated
+items or human raters scoring responses the engine is unsure about.
+
+**In R:** `review_packet(p, ai_screen = TRUE)` and the low-confidence
+route in
+[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md).
+
+### Automatic item generation (AIG)
+
+Producing many test items from a model of the item rather than writing
+each one by hand. Classical AIG uses item models with variable parts;
+newer approaches use language models. Either way, generated items still
+need review and calibration.
+
+**In R:**
+[`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md).
+
+### Item model
+
+A template for a family of items: a parent item with elements that can
+vary (numbers, names, contexts) and rules that keep each variant
+correct. Items from one model are *isomorphs*, and often, but not
+always, have similar difficulty.
+
+### Automated scoring
+
+Scoring constructed responses, such as essays or short answers, with a
+computer model trained or instructed to match human raters. It is judged
+against human scores with agreement statistics such as [QWK](#qwk) and
+[PRMSE](#prmse), overall and within subgroups.
+
+**In R:**
+[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md).
+
+### PRMSE
+
+Proportional reduction in mean squared error: how much of the variance
+of the *true* human score a machine score explains, after allowing for
+the disagreement between human raters. Unlike agreement with one rater,
+it does not penalize a machine for the noise in human scores.
+
+### Linear logistic test model (LLTM)
+
+A Rasch model in which each item’s difficulty is a weighted sum of item
+features, such as the cognitive operations the item needs. It is the
+psychometric ancestor of predicting item difficulty from item text.
+
 ## Where to go next
 
 - The [Get
@@ -1073,5 +1204,7 @@ investigation, not proof.
 - The [teaching
   labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md)
   let you practise the decisions behind them on a realistic exam.
+- The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md)
+  shows where AI fits in the measurement workflow and what to read next.
 - `interpret(mod)` explains a fitted model in sentences, and
   `item_card(mod, 1)` shows everything about one item on a single card.
