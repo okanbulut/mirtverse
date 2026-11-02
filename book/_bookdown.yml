@@ -10,6 +10,7 @@ language:
     chapter_name: "Chapter "
 rmd_files:
   - index.Rmd
+  - 00-author.Rmd
   - 01-measurement.Rmd
   - 02-irt-models.Rmd
   - 03-estimation.Rmd

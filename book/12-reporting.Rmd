@@ -118,7 +118,7 @@ just-proficient student is likely to answer correctly (the items below the
 line). Printing the text of a few items on each side of the line is a good
 way to describe what *proficient* means.
 
-```{r, fig.height = 3.8}
+```{r item-map, fig.height = 3.8, fig.cap = "Item map of the ordered item booklet with the proficient cut score."}
 library(ggplot2)
 ggplot(booklet, aes(page, rp67, colour = rp67 <= theta_cut)) +
   geom_hline(yintercept = theta_cut, colour = "#C0392B", linewidth = 0.8) +

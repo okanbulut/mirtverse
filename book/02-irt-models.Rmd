@@ -106,14 +106,14 @@ All five items have negative difficulties: this is an easy section for this
 group. Item 3 has the steepest slope, items 4 and 5 the flattest. The curves
 show it at a glance.
 
-```{r, fig.height = 3.6}
+```{r trace-2pl, fig.height = 3.6, fig.cap = "Item characteristic curves of the 2PL model for the five LSAT7 items."}
 gg_trace(twopl, facet = FALSE)
 ```
 
 Compare the Rasch curves, which are parallel by construction, with the 2PL
 curves, which are not:
 
-```{r, fig.height = 3.6}
+```{r trace-rasch-2pl, fig.height = 3.6, fig.cap = "Rasch curves (left) are parallel by construction; 2PL curves (right) can differ in slope."}
 library(patchwork)
 (gg_trace(rasch, facet = FALSE) + ggplot2::ggtitle("Rasch")) +
   (gg_trace(twopl, facet = FALSE) + ggplot2::ggtitle("2PL")) +
@@ -193,7 +193,7 @@ The empirical item curve makes the problem visible. For the hardest item,
 the observed proportions correct for low-ability groups sit well above the
 2PL curve, which heads towards zero:
 
-```{r, fig.height = 3.4}
+```{r empirical-d20, fig.height = 3.4, fig.cap = "Empirical item curve of the hardest driving-test item, D20, under the 2PL (left) and the 3PL (right)."}
 gg_empirical(fit2, "D20") + gg_empirical(fit3, "D20")
 ```
 

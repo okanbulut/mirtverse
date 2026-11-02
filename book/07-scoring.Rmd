@@ -90,7 +90,7 @@ fscores(mod, method = "EAPsum", full.scores = FALSE)
 the Wright map shows the problem at once: the items sit low on the scale,
 where few people need to be measured.
 
-```{r, fig.height = 3.6}
+```{r scores-wright, fig.height = 3.6, fig.cap = "Distribution of the estimated scores (left) and the Wright map of people and items (right) for LSAT7."}
 gg_scores(mod) + gg_wright(mod)
 ```
 
@@ -152,7 +152,7 @@ expected_accuracy
 The estimate is close to the accuracy we observed against the truth. The
 misclassified students are, of course, the ones near the cut:
 
-```{r, fig.height = 3.4}
+```{r misclassified, fig.height = 3.4, fig.cap = "True and estimated ability on the mathematics test; misclassified students lie near the cut."}
 library(ggplot2)
 ggplot(data.frame(true = true_theta, est = eap[, 1], wrong = truth != observed),
        aes(true, est, colour = wrong)) +
