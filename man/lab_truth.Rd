@@ -6,13 +6,14 @@
 \usage{
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays")
+    "essays", "aigfield")
 )
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
 (Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5), \code{"openended"}
-(Lab 6), or one of the AI Hub datasets, \code{"itemtext"} and \code{"essays"}.}
+(Lab 6), or one of the AI Hub datasets, \code{"itemtext"}, \code{"essays"} and
+\code{"aigfield"}.}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -40,7 +41,11 @@ with their listed and correct keys, the \code{near_duplicates} and the
 \code{true_score}, each student's ability \code{theta}, the difficulty of every
 key idea (\code{idea_difficulty}), the raters' error \code{rater_sd}, the
 \code{off_topic} and \code{misconception} responses, the \code{planted} problems and
-the \code{prompts}.
+the \code{prompts}. For \code{"aigfield"}, a list with the true difficulty \code{b}
+and discrimination \code{a} of every item, each item model's difficulty
+(\code{model_b}), the true within-model SD (\code{sd_within}), which subtraction
+items need regrouping (\code{regroup}) and its effect, the \code{flawed} items and
+the \code{planted} problems.
 }
 \description{
 Instructor helper: returns how a lab dataset was generated, so you can

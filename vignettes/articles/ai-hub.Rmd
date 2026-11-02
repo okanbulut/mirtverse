@@ -56,7 +56,7 @@ names the question it answers, what to read and what to try in R.
 | 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()` |
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
-| 6. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `generate_items()`, `verify_items()` |
+| 6. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](../book/aig.html); [assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `item_model()`, `generate_isomorphs()`, `calibrate_families()`, `generate_items()`, `verify_items()`; [Lab 9](teaching-labs.html#lab-9) |
 | 7. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](ai-reading.html#validity) | `dif()`; audit tools coming soon |
 
 ## What you can do with AI in mirtverse today {#today}
@@ -128,6 +128,28 @@ warns when a feature looks like it was computed from the field test itself,
 and `group` checks whether predictions hold for a new kind of item rather
 than a new item of a known kind.
 
+### Generate items from item models, and calibrate their families
+
+```{r}
+area <- item_model(
+  stem = "A rectangle is {l} cm long and {w} cm wide. What is its area?",
+  key = "{l * w} square cm",
+  distractors = c(perimeter = "{2 * (l + w)} square cm", added = "{l + w} square cm",
+                  half = "{l * w / 2} square cm"),
+  values = list(l = 4:12, w = 2:8), constraints = c("l > w", "(l * w) %% 2 == 0"),
+  name = "ARE")
+area                                       # how many items it can make, and how many are flawed
+items <- generate_isomorphs(area, n = 10)  # isomorphs, with the values they came from
+# after the field test, with b and its standard error for each item:
+calibrate_families(calibrated, family = "model", se = "b_se")
+```
+
+An item model generates items whose every option comes from a template, so
+an error in the model can be caught for all its items at once.
+`calibrate_families()` then checks after the field test whether the
+isomorphs are equally difficult, and how large a field test the family mean
+can replace for a new item.
+
 ### Score open-ended responses, and check the scores
 
 ```{r}
@@ -170,7 +192,8 @@ low-confidence responses routed back to human raters.
   with planted problems, and `lab_truth()` reveals them. `itemtext` has 192
   numeracy items from 12 item families with field-test difficulties;
   `essays` has 1,600 short science explanations scored by raters, written
-  so that fluent writers' answers are longer at the same score.
+  so that fluent writers' answers are longer at the same score; `aigfield`
+  is a field test of 60 items generated from six item models.
 
 ## For instructors {#instructors}
 
@@ -182,6 +205,10 @@ language learners, and decide how much of the scoring it should do. In
 [Lab 8](teaching-labs.html#lab-8) they predict item difficulty from the
 text of 192 numeracy items, find miskeyed items and near-duplicates, catch
 a leaky feature, and decide how far predictions can replace a field test.
+[Lab 9](teaching-labs.html#lab-9) builds an item factory: Students fix an
+item model, calibrate a field test of generated items, find the two
+families that are not isomorphic and why, and decide when a family mean
+can stand in for a field test.
 The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. More AI labs, chapters and an optional AI module for the [course

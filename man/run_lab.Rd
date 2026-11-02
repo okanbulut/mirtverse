@@ -25,11 +25,12 @@ mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 8
+storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 9
 each have their own: a provincial numeracy test (\link{numeracy}), a licensure
 exam with two forms (\link{linking}), a placement test's item bank
 (\link{catbank}), rater-scored science tasks (\link{openended}), written science
-explanations (\link{essays}) and the text of numeracy items (\link{itemtext}).
+explanations (\link{essays}), the text of numeracy items (\link{itemtext}) and a
+field test of generated items (\link{aigfield}).
 }
 \details{
 \itemize{
@@ -67,6 +68,11 @@ before field testing? Describe items with \code{\link[=item_features]{item_featu
 near-duplicates and miskeyed items, compare an LLTM with a lasso and a
 random forest in \code{\link[=predict_difficulty]{predict_difficulty()}}, catch a leaky feature, hold out
 whole item models, and decide what predictions can replace.
+\item \code{"aig"} (Lab 9): Can a family mean replace the field test of a
+generated item? Write an item model with \code{\link[=item_model]{item_model()}} and fix its
+constraints, calibrate a field test of 60 isomorphs, find the families
+that are not isomorphic with \code{\link[=calibrate_families]{calibrate_families()}} and why, and test
+the family means on held-out items.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

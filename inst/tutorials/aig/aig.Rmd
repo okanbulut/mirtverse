@@ -1,0 +1,524 @@
+---
+title: "Lab 9: Building an item factory"
+description: >
+  A numeracy program wants to generate new items from item models instead
+  of writing and field-testing each one. Write an item model, calibrate a
+  field test of 60 generated items, find the families that are not
+  isomorphic and why, and decide when a family mean can stand in for a
+  field test. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 3.5)
+```
+
+```{r setup-tri, include = FALSE}
+tri <- item_model(
+  stem = "A triangle has a base of {base} cm and a height of {height} cm. What is its area?",
+  key = "{base * height / 2} square cm",
+  distractors = c(forgot_half = "{base * height} square cm",
+                  added = "{base + height} square cm",
+                  perimeter_like = "{2 * (base + height)} square cm"),
+  values = list(base = 2:12, height = 2:10),
+  constraints = "(base * height) %% 2 == 0",
+  name = "TRI")
+```
+
+```{r setup-cal, include = FALSE}
+fit <- mirt(aigfield, 1, "2PL", SE = TRUE, verbose = FALSE)
+pars <- tidy(fit)
+items <- aigfield_items
+for (term in c("a", "b")) {
+  p <- pars[pars$term == term, ]
+  items[[term]] <- p$estimate[match(items$id, p$item)]
+}
+p <- pars[pars$term == "b", ]
+items$b_se <- p$std.error[match(items$id, p$item)]
+items$p_field <- colMeans(aigfield)[items$id]
+```
+
+## The brief
+
+### An item factory
+
+You are the psychometrician for the fictional **Prairie Grade 6 Numeracy
+Assessment**. Last year you learned that an item's difficulty can be
+predicted well from its **item model**, the template it was written from,
+but hardly at all from its wording alone (Lab 8). The program now wants to
+go one step further: Generate new items from item models automatically,
+and stop field-testing every one of them.
+
+The item writers turned six item models into software, and the software
+generated 10 **isomorphs** from each: Items that test the same thing in the
+same way and differ only in their numbers. All 60 were field-tested on
+1,000 students. The director asks you:
+
+> *If we calibrate an item model once, can every new item it generates use
+> the model's difficulty, with no field test of its own?*
+
+The responses are in `aigfield` and the items in `aigfield_items`.
+
+### Meet the data
+
+Each row of `aigfield_items` is an item: Its `id` (item model and number),
+its `model`, the `stem`, the options `A` to `D` and the `key`, and the
+values it was generated from, for example `len` and `wid` for the
+perimeter model PER. The column `values` shows them as text.
+
+```{r look, exercise = TRUE}
+aigfield_items[c(1, 11, 21, 31, 41, 51), c("id", "stem", "values")]
+table(aigfield_items$model)
+dim(aigfield)
+```
+
+```{r look-check}
+"Six item models of 10 isomorphs each: Perimeter (PER), a two-step equation (EQN), a percent increase (PCT), subtraction (SUB), order of operations (OOO) and the area of a triangle (TRI). 1,000 students answered all 60 items."
+```
+
+## An item model
+
+### Templates, values and constraints
+
+An item model has a stem, a key and distractors written as templates.
+Parts in braces are R expressions of the variables, so `{base * height / 2}`
+inserts the area. Each distractor is the answer of a specific
+misconception, and the model lists the values each variable can take and
+constraints that every item must meet. Here is the triangle model, TRI, as
+the item writers first wrote it. Its constraint keeps the area a whole
+number.
+
+```{r tri, exercise = TRUE}
+tri <- item_model(
+  stem = "A triangle has a base of {base} cm and a height of {height} cm. What is its area?",
+  key = "{base * height / 2} square cm",
+  distractors = c(forgot_half = "{base * height} square cm",
+                  added = "{base + height} square cm",
+                  perimeter_like = "{2 * (base + height)} square cm"),
+  values = list(base = 2:12, height = 2:10),
+  constraints = "(base * height) %% 2 == 0",
+  name = "TRI")
+tri
+```
+
+```{r tri-check}
+lab_need(exists("tri") && inherits(tri, "mv_item_model"), "Keep the name `tri` and use item_model().")
+"79 combinations of values meet the constraint, but only 73 give items whose four options all differ. In the other six, two options are the same."
+```
+
+### Two identical options
+
+Generate every combination, keeping the flawed ones, and look at those
+whose `flag` is not empty.
+
+```{r flawed, exercise = TRUE, exercise.setup = "setup-tri"}
+all_tri <- generate_isomorphs(tri, n = NULL, shuffle = FALSE, drop_flawed = FALSE)
+all_tri[all_tri$flag != "", c("stem", "A", "B", "C", "D")]
+```
+
+```{r flawed-check}
+"With shuffle = FALSE the key is option A. For a base of 6 and a height of 3 the area, 9, equals base + height, and 18 is both the forgotten half and the 'perimeter'. Values that look harmless can make two misconceptions give the same answer, or a misconception give the right one."
+```
+
+### Fix the model
+
+`generate_isomorphs()` leaves flawed combinations out by default, with a
+message. Better to rule them out in the model itself: Add a constraint
+that the four answers are all different. Fill in the number of options.
+
+```{r fix, exercise = TRUE, exercise.setup = "setup-tri", exercise.lines = 12}
+tri_fixed <- item_model(
+  stem = tri$stem, key = tri$key, distractors = tri$distractors, values = tri$values,
+  constraints = c("(base * height) %% 2 == 0",
+                  "length(unique(c(base * height / 2, base * height, base + height, 2 * (base + height)))) == "),
+  name = "TRI")
+tri_fixed
+generate_isomorphs(tri_fixed, n = 3)
+```
+
+```{r fix-hint}
+# four options: the key and three distractors, so four unique values
+```
+
+```{r fix-solution}
+tri_fixed <- item_model(
+  stem = tri$stem, key = tri$key, distractors = tri$distractors, values = tri$values,
+  constraints = c("(base * height) %% 2 == 0",
+                  "length(unique(c(base * height / 2, base * height, base + height, 2 * (base + height)))) == 4"),
+  name = "TRI")
+tri_fixed
+generate_isomorphs(tri_fixed, n = 3)
+```
+
+```{r fix-check}
+lab_need(exists("tri_fixed") && inherits(tri_fixed, "mv_item_model"),
+         "Keep the name `tri_fixed` and use item_model().")
+g <- suppressMessages(generate_isomorphs(tri_fixed, n = NULL, drop_flawed = FALSE))
+lab_need(all(g$flag == ""), "Some combinations still give identical options: The four answers must have 4 unique values.")
+lab_need(nrow(g) == 73, "Keep the first constraint, which makes the area a whole number.")
+"Now all 73 combinations give four different options. A constraint like this belongs in every item model: It is checked for every item, not just the ones a reviewer happens to read."
+```
+
+## The field test
+
+### Calibrating the 60 items
+
+The software that made the field-test items was an older version without
+this check. Fit the 2PL to the responses and put each item's
+discrimination `a`, difficulty `b` and its standard error next to the
+items. This takes a few seconds.
+
+```{r calib, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 12}
+fit <- mirt(aigfield, 1, "2PL", SE = TRUE, verbose = FALSE)
+pars <- tidy(fit)
+items <- aigfield_items
+for (term in c("a", "b")) {
+  p <- pars[pars$term == term, ]
+  items[[term]] <- p$estimate[match(items$id, p$item)]
+}
+p <- pars[pars$term == "b", ]
+items$b_se <- p$std.error[match(items$id, p$item)]
+items$p_field <- colMeans(aigfield)[items$id]
+round(sort(tapply(items$b, items$model, mean)), 2)
+```
+
+```{r calib-check}
+lab_need(exists("items") && all(c("a", "b", "b_se") %in% names(items)) && nrow(items) == 60,
+         "Keep the name `items`, with columns a, b and b_se.")
+"The item models span about two logits, from PER (easiest) to PCT (hardest). The question is whether the 10 items of each model are as alike as the model promises."
+```
+
+### Are the families isomorphic?
+
+`calibrate_families()` summarizes each family: Its mean difficulty, the SD
+of its items' difficulties after removing estimation error
+(`sd_within`), a 95% interval for a new isomorph, and how many students a
+field test would need to estimate a new item's difficulty as precisely as
+the family mean predicts it. A family counts as isomorphic when
+`sd_within` is at most 0.3 logits. Give the standard errors as `se`.
+
+```{r fam, exercise = TRUE, exercise.setup = "setup-cal"}
+fam <- calibrate_families(items, family = "model", se = )
+fam
+autoplot(fam)
+```
+
+```{r fam-hint}
+fam <- calibrate_families(items, family = "model", se = "___")
+```
+
+```{r fam-solution}
+fam <- calibrate_families(items, family = "model", se = "b_se")
+fam
+autoplot(fam)
+```
+
+```{r fam-check}
+lab_need(exists("fam") && inherits(fam, "mv_families"), "Keep the name `fam` and use calibrate_families().")
+lab_need(isTRUE(attr(fam, "corrected")), "Give the standard errors of b: se = \"b_se\".")
+bad <- fam$family[!fam$isomorphic]
+sprintf("Four families are tight, with SDs of 0.12 or less. Two are not: %s. For them, the family mean is not a good guess for a new item.",
+        paste(bad, collapse = " and "))
+```
+
+```{r q-fam}
+question_radio("PER has an SD within of 0.12 and needs about 400 field-test students to match its prediction. What does that mean for a new PER item?",
+  answer("Its family mean predicts its difficulty about as precisely as a field test of some 400 students would estimate it, so a new PER item can use the family mean instead of a field test of that size.",
+         correct = TRUE,
+         message = "Right. That is the payoff of a calibrated item model. For PCT, whose isomorphs barely differ, the family mean beats any realistic field test."),
+  answer("A new PER item needs a field test of 400 students.",
+         message = "It is the other way round: 400 students is the size of the field test the family mean can replace."),
+  answer("The family mean is exact, because SD within is below 0.3.",
+         message = "No prediction is exact: A new PER item will usually be within about 0.25 logits of the mean, which is what the interval shows."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The triangle family
+
+### Two strange items
+
+Look at the TRI items: Their difficulty, discrimination and share correct.
+
+```{r tri-items, exercise = TRUE, exercise.setup = "setup-cal"}
+t <- items[items$model == "TRI", c("id", "values", "a", "b", "p_field")]
+t$a <- round(t$a, 2); t$b <- round(t$b, 2); t$p_field <- round(t$p_field, 2)
+t
+```
+
+```{r tri-items-check}
+"Two items, TRI-02 and TRI-06, are much harder than the rest (b above 1.7) and only about a fifth of the students got them right. Their base and height do not look unusual."
+```
+
+Find every item in the field test with two identical options.
+
+```{r dups, exercise = TRUE, exercise.setup = "setup-cal"}
+same <- apply(items[, c("A", "B", "C", "D")], 1, anyDuplicated) > 
+items[same, c("id", "stem", "A", "B", "C", "D", "key")]
+```
+
+```{r dups-hint}
+# anyDuplicated() returns 0 when all values differ
+same <- apply(items[, c("A", "B", "C", "D")], 1, anyDuplicated) > 0
+```
+
+```{r dups-solution}
+same <- apply(items[, c("A", "B", "C", "D")], 1, anyDuplicated) > 0
+items[same, c("id", "stem", "A", "B", "C", "D", "key")]
+```
+
+```{r dups-check}
+lab_need(exists("same") && is.logical(same) && length(same) == 60,
+         "Keep the name `same`: One TRUE or FALSE per item.")
+lab_need(sum(same) == 2, "Compare with 0: anyDuplicated() returns 0 when all four options differ.")
+"TRI-02 and TRI-06: In each, the correct area appears twice, and only one of the two is keyed."
+```
+
+```{r q-tri}
+question_radio("Why do TRI-02 and TRI-06 look so hard?",
+  answer("Students who work out the area find it twice among the options and pick either one, but only one is keyed. About half of the students who know the answer are scored wrong.",
+         correct = TRUE,
+         message = "Right. The items are flawed, not hard. Their b says nothing about the item model, so they must be dropped from the family calibration, and their responses should not be reported."),
+  answer("Students find triangles with these dimensions harder.",
+         message = "Their bases and heights are ordinary, and the other eight TRI items are much easier. Look at the options."),
+  answer("The 2PL does not fit these items.",
+         message = "The model fits what the students did. What the students could do was distorted by the options."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The subtraction family
+
+### What makes some isomorphs harder?
+
+SUB's items have no flawed options, yet they spread over more than a
+logit. Sort them by difficulty and read the numbers.
+
+```{r sub, exercise = TRUE, exercise.setup = "setup-cal"}
+s <- items[items$model == "SUB", c("id", "stem", "top", "bottom", "b")]
+s$b <- round(s$b, 2)
+s[order(s$b), ]
+```
+
+```{r sub-check}
+"The easy items, such as 584 - 162 and 679 - 145, can be done digit by digit. The hard ones, such as 507 - 251 and 418 - 236, cannot: A digit of the bottom number is larger than the digit above it."
+```
+
+### Regrouping
+
+Subtraction needs **regrouping** (borrowing) when a digit of the bottom
+number is larger than the digit above it, in the ones or the tens. Mark
+those items and compare the mean difficulty. Fill in the comparison for the
+tens.
+
+```{r regroup, exercise = TRUE, exercise.setup = "setup-cal"}
+s <- items[items$model == "SUB", ]
+ones <- s$top %% 10 < s$bottom %% 10
+tens <- (s$top %/% 10) %% 10  (s$bottom %/% 10) %% 10
+s$regroup <- ones | tens
+round(tapply(s$b, s$regroup, mean), 2)
+```
+
+```{r regroup-hint}
+tens <- (s$top %/% 10) %% 10 < (s$bottom %/% 10) %% 10
+```
+
+```{r regroup-solution}
+s <- items[items$model == "SUB", ]
+ones <- s$top %% 10 < s$bottom %% 10
+tens <- (s$top %/% 10) %% 10 < (s$bottom %/% 10) %% 10
+s$regroup <- ones | tens
+round(tapply(s$b, s$regroup, mean), 2)
+```
+
+```{r regroup-check}
+lab_need(exists("s") && "regroup" %in% names(s) && is.logical(s$regroup),
+         "Keep the names `s` and `regroup`.")
+lab_need(sum(s$regroup) == 5, "Use < for the tens, as for the ones: The bottom digit is larger than the top digit.")
+m <- tapply(s$b, s$regroup, mean)
+sprintf("Five items need regrouping. They are about %.1f logits harder (%.2f against %.2f): Not isomorphs of the others at all.",
+        m[["TRUE"]] - m[["FALSE"]], m[["TRUE"]], m[["FALSE"]])
+```
+
+```{r q-sub}
+question_radio("What should the item writers do with the SUB model?",
+  answer("Split it into two item models, one with and one without regrouping, each with a constraint that fixes it, and calibrate them separately.",
+         correct = TRUE,
+         message = "Right. Regrouping is a different cognitive demand, so it is part of what the item measures, not surface. The alternative is to keep one model and add regrouping as a feature that predicts difficulty, which is what an LLTM does."),
+  answer("Drop the five hardest items.",
+         message = "They are good items; they just test something more. Dropping them would also leave the model generating more of them."),
+  answer("Use the SUB mean anyway: On average it is right.",
+         message = "On average, but every regrouping item would be predicted about 0.9 logits too easy and every other one too hard."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The factory, fixed
+
+### Recalibrating the families
+
+Drop the two flawed TRI items, split SUB by regrouping, and calibrate the
+families again.
+
+```{r refit, exercise = TRUE, exercise.setup = "setup-cal", exercise.lines = 10}
+good <- items[!items$id %in% c("TRI-02", "TRI-06"), ]
+regroup <- (good$top %% 10 < good$bottom %% 10) |
+  ((good$top %/% 10) %% 10 < (good$bottom %/% 10) %% 10)
+good$family <- ifelse(good$model == "SUB",
+                      ifelse(regroup, "SUB-regroup", "SUB-plain"), good$model)
+fam2 <- calibrate_families(good, family = "family", se = "b_se")
+fam2
+```
+
+```{r refit-check}
+lab_need(exists("fam2") && inherits(fam2, "mv_families"), "Keep the name `fam2`.")
+lab_need(nrow(fam2) == 7 && sum(fam2$n_items) == 58,
+         "Use the 58 good items, with SUB split into two families.")
+sprintf("All seven families are now isomorphic, with SDs within of %.2f to %.2f logits.",
+        min(fam2$sd_within), max(fam2$sd_within))
+```
+
+### Does the family mean predict new items?
+
+A fair test of the director's plan: Calibrate each family on its first
+five items, and predict the difficulty of the other items as if they were
+new.
+
+```{r holdout, exercise = TRUE, exercise.setup = "setup-cal", exercise.lines = 14}
+good <- items[!items$id %in% c("TRI-02", "TRI-06"), ]
+regroup <- (good$top %% 10 < good$bottom %% 10) |
+  ((good$top %/% 10) %% 10 < (good$bottom %/% 10) %% 10)
+good$family <- ifelse(good$model == "SUB",
+                      ifelse(regroup, "SUB-regroup", "SUB-plain"), good$model)
+number <- as.integer(sub(".*-", "", good$id))
+old <- good[number <= 5, ]
+new <- good[number > 5, ]
+cal <- calibrate_families(old, family = "family", se = "b_se")
+new$predicted <- cal$mean_b[match(new$family, cal$family)]
+rmse <- sqrt(mean((new$predicted - new$b)^2))
+rmse
+```
+
+```{r holdout-check}
+lab_need(exists("rmse") && is.numeric(rmse) && length(rmse) == 1, "Keep the name `rmse`.")
+lab_need(abs(rmse - 0.22) < 0.03, "Predict the items numbered 6 to 10 from the family means of items 1 to 5.")
+sprintf("The family means predict the new items with an error of %.2f logits. Their own estimates, from 1,000 students each, have a standard error of about 0.08; the rest is real item-to-item difference within a family.",
+        rmse)
+```
+
+```{r q-holdout}
+question_radio("The prediction error is about 0.2 logits. When can a new isomorph use its family mean?",
+  answer("For low-stakes uses, such as building field-test forms, choosing items for practice tests, or as a starting value for online calibration, as long as the item model is isomorphic and its constraints rule out flawed items. Items that count for a pass or fail decision still need responses.",
+         correct = TRUE,
+         message = "Right. The family mean replaces a field test of a few hundred students, which is enough for many uses, but not as precise as a full calibration. Online calibration (pretest items embedded in live forms) closes the gap."),
+  answer("Always: 0.2 logits is small.",
+         message = "Small for many uses. For a high-stakes cut score, 0.2 logits on every item adds up, and a flawed new item would go unnoticed."),
+  answer("Never: Each item must be field-tested.",
+         message = "Then the factory saves nothing. For the isomorphic families the mean is as good as a field test of several hundred students."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### One step instead of two
+
+You calibrated the items first, then summarized the families. A one-step
+alternative fits the responses with the family as a fixed effect and a
+random effect for items, so the within-family SD is estimated directly:
+For example `mirt::mixedmirt()` with `fixed = ~ 0 + family` and
+`random = ~ 1 | items`, or the eirm package, which fits explanatory IRT
+models with lme4. The book's chapter on automatic item generation shows
+both. They take longer than a lab exercise allows.
+
+## The recommendation
+
+```{r q-deploy}
+question_radio("What do you recommend to the director?",
+  answer("Adopt the item factory with three rules: Every item model has constraints that keep all options different; every model is calibrated on a first batch of isomorphs and used only if its family is isomorphic; and generated items still go on live forms as unscored pretest items, so that their own estimates replace the family mean over time. Split SUB by regrouping, fix TRI, and drop TRI-02 and TRI-06.",
+         correct = TRUE,
+         message = "A defensible plan: It saves most of the field test, checks the factory's own assumption, and keeps every scored item backed by responses in the end."),
+  answer("Stop field testing: Every generated item uses its family mean.",
+         message = "Two of six families were not isomorphic, and two items were flawed. Without checks, both problems would have gone straight into scored forms."),
+  answer("Abandon item generation; the triangle items showed it produces flawed items.",
+         message = "The flaw was in one model's constraints, and it can be checked automatically. Four of the six models worked as designed."),
+  answer("Use the item models, but field-test every item as before.",
+         message = "Safe, but it gives up the savings that four isomorphic families have earned."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Write to the director
+
+Write a short memo (four to six sentences): Which item models work, what
+went wrong with the others, how well a family mean predicts a new item,
+and what you recommend.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover the families, the problems, the prediction error and your recommendation."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the director: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the field test
+
+`aigfield` was simulated from six item models. Each item's true difficulty
+is its model's difficulty plus item-specific noise.
+`lab_truth("aigfield")` lists what was built in.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("aigfield")
+truth$model_b
+truth$sd_within
+truth$regroup_effect
+truth$planted
+```
+
+| What was planted | What you found |
+|---|---|
+| Item model difficulties from -1.0 (PER) to 0.8 (PCT) | Family means within about 0.1 logits of them |
+| Item-specific noise, SD 0.15 | SDs within of 0.02 to 0.25 for the isomorphic families |
+| Regrouping adds 1.0 logit to SUB items | A difference of about 0.9 logits; SUB split in two |
+| TRI-02 and TRI-06 have two identical options; half of the students who know the answer pick the unkeyed one | b above 1.7, found by checking for duplicate options |
+
+Four of the six item models were isomorphic as written. That is typical:
+Item models need the same review and tryout as items, and an item factory
+needs quality checks built into it.
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-fam" = "What SD within means",
+    "q-tri" = "The two hard triangle items",
+    "q-sub" = "The subtraction family",
+    "q-holdout" = "When a family mean can stand in",
+    "q-deploy" = "Recommendation",
+    "q-memo" = "Memo to the director"
+  ))
+})
+```
+
+You have run an item factory the way a testing program should: Constraints
+that rule out flawed items, families checked for isomorphism after field
+testing, and claims about new items backed by a held-out test.

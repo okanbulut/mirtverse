@@ -26,7 +26,7 @@
 #'   test).
 #' @source Simulated; the script is `data-raw/itemtext.R` in the package's
 #'   GitHub repository.
-#' @seealso [essays], the other AI Hub dataset; the
+#' @seealso [essays] and [aigfield], the other AI Hub datasets; the
 #'   [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html).
 #' @examples
 #' head(itemtext[, c("id", "family", "stem", "key", "b")])
@@ -59,7 +59,7 @@
 #'   (second rater's score, `NA` when the response was read once).
 #' @source Simulated; the script is `data-raw/essays.R` in the package's
 #'   GitHub repository.
-#' @seealso [itemtext], the other AI Hub dataset; [score_open()] to score
+#' @seealso [itemtext] and [aigfield], the other AI Hub datasets; [score_open()] to score
 #'   responses and check them against human scores.
 #' @examples
 #' essays$response[1:3]
@@ -67,3 +67,48 @@
 #' # human-human agreement on the double-scored responses
 #' with(essays, mean(human1 == human2, na.rm = TRUE))
 "essays"
+
+#' A field test of generated mathematics items, for the AI Hub
+#'
+#' Scored responses (1 correct, 0 incorrect) of 1,000 simulated Grade 6
+#' students to 60 multiple-choice items, generated with [generate_isomorphs()]
+#' from six item models of 10 isomorphs each. The items, their options and the
+#' values they were generated from are in [aigfield_items].
+#'
+#' The dataset is for learning to calibrate item families from automatic
+#' item generation: Checking that the isomorphs of a model are equally
+#' difficult, so that the family mean can stand in for field testing new
+#' items. Some problems were planted on purpose; `lab_truth("aigfield")` lists
+#' them and the true item parameters.
+#'
+#' @format A data frame with 1,000 rows (one per student) and 60 columns
+#'   named by item id, `PER-01` to `TRI-10`.
+#' @source Simulated; the script is `data-raw/aigfield.R` in the package's
+#'   GitHub repository.
+#' @seealso [aigfield_items]; [calibrate_families()].
+#' @examples
+#' dim(aigfield)
+#' # share correct by item model
+#' round(tapply(colMeans(aigfield), sub("-.*", "", names(aigfield)), mean), 2)
+"aigfield"
+
+#' The generated items of the AIG field test
+#'
+#' The 60 items answered in [aigfield], generated from six item models: PER
+#' (perimeter of a rectangle), EQN (a two-step equation), PCT (a percent
+#' increase), SUB (subtracting three-digit numbers), OOO (order of
+#' operations) and TRI (area of a triangle).
+#'
+#' @format A data frame with 60 rows (one per item) and 23 columns: `id`,
+#'   `model`, `stem`, the options `A` to `D`, `key` (the keyed option), the
+#'   values each item was generated from (`len` and `wid` for PER; `coef`,
+#'   `sol` and `sub` for EQN; `price` and `rate` for PCT; `top` and `bottom`
+#'   for SUB; `n1`, `n2` and `n3` for OOO; `base` and `height` for TRI; `NA`
+#'   for the variables of other models) and `values` (the same values as
+#'   text).
+#' @source Simulated; the script is `data-raw/aigfield.R` in the package's
+#'   GitHub repository.
+#' @seealso [aigfield]; [item_model()] and [generate_isomorphs()].
+#' @examples
+#' aigfield_items[c(1, 11, 21), c("id", "stem", "A", "B", "C", "D", "key")]
+"aigfield_items"

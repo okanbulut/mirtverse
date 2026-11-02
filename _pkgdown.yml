@@ -30,6 +30,8 @@ navbar:
         href: articles/mv-ask-guide.html
       - text: Generate and verify items
         href: reference/generate_items.html
+      - text: Generate items from item models
+        href: reference/item_model.html
       - text: Predict item difficulty from text
         href: reference/predict_difficulty.html
       - text: Train and check a scoring engine
@@ -120,18 +122,24 @@ reference:
 - title: AI in measurement
   desc: >
     Run the language model features offline from recorded responses,
-    describe items by their text and predict their difficulty, train and
-    check an automated scoring engine, and teaching datasets with item text
-    and written answers.
+    describe items by their text and predict their difficulty, generate
+    items from item models and calibrate their families, train and check an
+    automated scoring engine, and teaching datasets with item text, written
+    answers and a field test of generated items.
   contents:
   - mv_llm_replay
   - item_features
   - predict_difficulty
+  - item_model
+  - generate_isomorphs
+  - calibrate_families
   - train_scorer
   - predict.mv_scorer
   - agreement_report
   - itemtext
   - essays
+  - aigfield
+  - aigfield_items
 - title: Choosing and understanding a model
   contents:
   - select_model
