@@ -1,7 +1,12 @@
 ---
 title: "Item Response Theory with mirt and mirtverse"
 subtitle: "Notes for teaching and learning"
-author: "Okan Bulut"
+author: |
+  Okan Bulut
+  <span class="author-info">Measurement, Evaluation, and Data Science<br>
+  University of Alberta<br>
+  E-mail: <a href="mailto:bulut@ualberta.ca">bulut@ualberta.ca</a><br>
+  Website: <a href="http://www.okanbulut.com">www.okanbulut.com</a></span>
 date: "`r format(Sys.Date(), '%B %Y')`"
 site: bookdown::bookdown_site
 documentclass: book

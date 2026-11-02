@@ -10,3 +10,7 @@
 .lab { border-left-color: #3C8D5A; background: #EFF7F1; }
 details { margin: 0.5em 0 1em 0; }
 details summary { cursor: pointer; font-weight: 600; color: #2C5F8A; }
+.author-info {
+  display: block; margin-top: 0.4em; font-style: normal;
+  font-size: 0.95em; line-height: 1.5; color: #444;
+}
