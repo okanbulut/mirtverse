@@ -35,6 +35,8 @@ them.
 | `data-reporting-1` | 36-item Grade 6 science test | Simulated | `resp` |
 | `data-reporting-2` | `Science` | Real | `resp` |
 
+Table: (\#tab:datasets) Data chunks in the book and the objects each defines.
+
 The book deliberately does not analyse the mirtverse lab datasets
 (`certexam`, `numeracy`, `linking`, `catbank` and `openended`), because the
 labs ask students to discover problems hidden in them. They are described in

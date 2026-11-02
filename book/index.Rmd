@@ -10,6 +10,16 @@ author: |
 date: "`r format(Sys.Date(), '%B %Y')`"
 site: bookdown::bookdown_site
 documentclass: book
+classoption: oneside
+fontsize: 11pt
+geometry: "top=1in, bottom=1in, left=1.15in, right=1.15in"
+linestretch: 1.1
+lof: true
+lot: true
+colorlinks: true
+linkcolor: "mvnavy"
+urlcolor: "mvnavy"
+citecolor: "mvnavy"
 bibliography: references.bib
 link-citations: true
 description: >
@@ -23,7 +33,7 @@ cover-image: "cover/cover.png"
 
 # Preface {-}
 
-```{r cover, echo = FALSE, out.width = "260px", fig.alt = "Book cover: an engraved owl on a branch above the title Item Response Theory with mirt and mirtverse", out.extra = 'style="float: right; margin: 0 0 1em 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,.25);"'}
+```{r cover, echo = FALSE, include = knitr::is_html_output(excludes = "epub"), out.width = "260px", fig.alt = "Book cover: an engraved owl on a branch above the title Item Response Theory with mirt and mirtverse", out.extra = 'style="float: right; margin: 0 0 1em 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,.25);"'}
 knitr::include_graphics("cover/cover.png")
 ```
 
@@ -56,6 +66,8 @@ instructor can assign one chapter a week and pair it with the matching lab.
 | \@ref(banks-cat) | Item banks, test assembly and adaptive testing | Lab 5 |
 | \@ref(reporting) | Cut scores, reporting and communicating results | Final project |
 
+Table: (\#tab:chapters) The twelve chapters and their matching labs.
+
 Every chapter has the same parts:
 
 * **Learning goals:** what you should be able to do after the chapter.
@@ -64,7 +76,8 @@ Every chapter has the same parts:
 * **The ideas:** a short explanation, with formulas only where they help.
 * **Example 1 and Example 2:** two worked analyses on different data, so you
   see the same method in two settings.
-* **Your turn:** exercises. Solutions are folded away; click to open them.
+* **Your turn:** exercises with solutions. In the online edition the
+  solutions are folded away; click to open them.
 * **In the lab:** the interactive mirtverse lab that goes with the chapter.
 * **Further reading.**
 
@@ -116,5 +129,49 @@ mirtverse repository. Each example loads its data in one clearly labelled
 chunk, so you can swap in your own data and rebuild the chapter. Appendix
 \@ref(adapting) explains how.
 
-The book is licensed under the same terms as mirtverse (GPL-3). Please cite
-mirtverse with `citation("mirtverse")` if you use the book in a course.
+## Other formats {-}
+
+The book is free to read online at <https://www.okanbulut.com/mirtverse/book/>.
+It is also available as a
+[PDF](https://www.okanbulut.com/mirtverse/book/mirtverse-book.pdf) for
+printing and an
+[EPUB](https://www.okanbulut.com/mirtverse/book/mirtverse-book.epub) for
+e-readers; in the online edition, use the download button in the toolbar.
+All three are built from the same source each time the book changes.
+
+## How to cite this book {-}
+
+If you use the book in a course or in your work, please cite it as:
+
+> Bulut, O. (2026). *Item response theory with mirt and mirtverse: Notes for
+> teaching and learning*. https://www.okanbulut.com/mirtverse/book/
+
+```bibtex
+@book{bulut2026irt,
+  author = {Okan Bulut},
+  title  = {Item Response Theory with mirt and mirtverse: Notes for Teaching and Learning},
+  year   = {2026},
+  url    = {https://www.okanbulut.com/mirtverse/book/}
+}
+```
+
+Please also cite the software you use: mirt [@chalmers2012] and mirtverse
+(`citation("mirtverse")` gives the reference with its DOI).
+
+## Licence {-}
+
+© 2026 Okan Bulut. The text and figures of this book are licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+licence](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA
+4.0): you may share and adapt them for non-commercial purposes, such as
+teaching, as long as you give credit and share your adaptations under the
+same licence. The R code in the book is licensed under GPL-3, like
+mirtverse, so you can reuse it freely in your own analyses.
+
+## Acknowledgements {-}
+
+This book stands on the work of many people. Phil Chalmers wrote and
+maintains mirt, which does all of the estimation in these pages. The book
+was written with R Markdown and bookdown, by Yihui Xie and colleagues, and
+the figures were drawn with ggplot2. My thanks to all of them, and to the
+R community that makes open teaching materials like this possible.

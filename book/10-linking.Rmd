@@ -100,7 +100,7 @@ stronger and their calibration puts them at mean 0. Before linking, check
 for drift. On a common scale the anchor difficulties should lie on a straight
 line:
 
-```{r, fig.height = 3.6, fig.width = 4.5, out.width = "60%"}
+```{r anchor-drift, fig.height = 3.6, fig.width = 4.5, out.width = "60%", fig.cap = "Anchor difficulties in the old and new calibrations; items off the line may have drifted."}
 library(ggplot2)
 ggplot(data.frame(old = p_old[, "b"], new = p_new[, "b"], item = anchors),
        aes(new, old)) +
@@ -202,7 +202,7 @@ theta_cut <- uniroot(function(t) tcc_form(old_items, t) - 18, c(-4, 4))$root
 c(theta_cut = theta_cut, new_form_cut = tcc_form(new_items, theta_cut))
 ```
 
-```{r, fig.height = 3.4}
+```{r tcc-forms, fig.height = 3.4, fig.cap = "Test characteristic curves of the old and new forms on the common scale, with the cut score."}
 curves <- data.frame(theta = rep(grid, 2),
                      score = c(tcc_form(old_items, grid), tcc_form(new_items, grid)),
                      form = rep(c("Old form", "New form"), each = length(grid)))

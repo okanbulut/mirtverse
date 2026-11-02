@@ -1,0 +1,39 @@
+% Preamble of the PDF edition (see _output.yml).
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{eso-pic}
+\usepackage[most]{tcolorbox}
+\definecolor{mvnavy}{HTML}{2C5F8A}
+\definecolor{mvdark}{HTML}{1F3F5B}
+\definecolor{mvamber}{HTML}{D99A2B}
+\definecolor{mvgreen}{HTML}{3C8D5A}
+
+% Fonts: TeX Gyre Pagella for text, TeX Gyre Heros for headings, DejaVu Sans
+% Mono for code (it covers Greek letters in R output).
+\setmainfont{texgyrepagella}[Extension = .otf, UprightFont = *-regular,
+  BoldFont = *-bold, ItalicFont = *-italic, BoldItalicFont = *-bolditalic]
+\setsansfont{texgyreheros}[Extension = .otf, UprightFont = *-regular,
+  BoldFont = *-bold, ItalicFont = *-italic, BoldItalicFont = *-bolditalic]
+\setmonofont{DejaVu Sans Mono}[Scale = 0.82]
+
+% Headings in navy sans serif.
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\color{mvdark}}
+\chapterfont{\sffamily\color{mvdark}}
+
+% Boxes for learning goals, exercises and labs (the .goals, .yourturn and
+% .lab divs; see latex/boxes.lua).
+\tcbset{mvbox/.style = {breakable, enhanced, boxrule = 0pt, leftrule = 3pt,
+  arc = 0pt, outer arc = 0pt, left = 8pt, right = 8pt, top = 6pt, bottom = 6pt,
+  before skip = 10pt, after skip = 10pt}}
+\newtcolorbox{goalsbox}{mvbox, colback = mvnavy!6, colframe = mvnavy}
+\newtcolorbox{yourturnbox}{mvbox, colback = mvamber!8, colframe = mvamber}
+\newtcolorbox{labbox}{mvbox, colback = mvgreen!7, colframe = mvgreen}
+
+% Keep figures next to the text that discusses them.
+\floatplacement{figure}{H}
+
+% The title pages are in latex/before_body.tex.
+\let\maketitle\relax
+\AtBeginDocument{\hypersetup{pdfauthor = {Okan Bulut},
+  pdftitle = {Item Response Theory with mirt and mirtverse}}}

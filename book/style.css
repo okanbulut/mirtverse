@@ -14,3 +14,11 @@ details summary { cursor: pointer; font-weight: 600; color: #2C5F8A; }
   display: block; margin-top: 0.4em; font-style: normal;
   font-size: 0.95em; line-height: 1.5; color: #444;
 }
+/* About the author: photo floats beside the text */
+img[alt="Portrait of Okan Bulut"] {
+  float: left; margin: 0.3em 1.5em 1em 0; border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+/* Figure and table captions */
+.caption { font-size: 0.9em; color: #444; text-align: left; margin-top: 0.4em; }
+.caption .math { font-size: 1em; }

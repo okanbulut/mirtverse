@@ -71,7 +71,7 @@ bank <- data.frame(item = sprintf("V%03d", 1:200),
 The bank's information curve, overall and by area, shows where it can
 measure well:
 
-```{r}
+```{r bank-info, fig.cap = "Information of the 200-item vocabulary bank, stacked by content area."}
 item_info <- function(a, b, theta) {
   p <- plogis(a * (theta - b)); a^2 * p * (1 - p)
 }
@@ -184,7 +184,7 @@ items. Test length depends on where a person is: in the middle, where the
 bank is rich, the CAT stops quickly; at the extremes it runs out of
 informative items and goes to the maximum.
 
-```{r, fig.height = 3.2}
+```{r cat-length, fig.height = 3.2, fig.cap = "Number of items administered by the CAT against true ability."}
 ggplot(res, aes(true, n)) + geom_point(alpha = 0.5) +
   labs(x = "True theta", y = "Items administered") + theme_mirtverse()
 ```

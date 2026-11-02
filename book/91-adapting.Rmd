@@ -14,12 +14,17 @@ the mirtverse repository:
 | File | Contents |
 |---|---|
 | `index.Rmd` | Title page and preface |
+| `00-author.Rmd` | About the author |
 | `01-measurement.Rmd` to `12-reporting.Rmd` | The twelve chapters, one per course week |
 | `90-datasets.Rmd`, `91-adapting.Rmd` | The appendices |
 | `_bookdown.yml` | Chapter order (`rmd_files`) and output folder |
-| `_output.yml` | Look of the HTML book |
+| `_output.yml` | Look of the HTML, PDF and EPUB editions |
+| `latex/` | Title page, preamble and box styles of the PDF edition |
+| `cover/` | Cover artwork and how to regenerate it |
 | `_common.R` | Code run before every chapter: loads mirtverse and sets chunk options |
 | `references.bib` | References cited in the book |
+
+Table: (\#tab:files) Source files of the book.
 
 The chapter files and their ids (`{#measurement}`, `{#irt-models}` and so
 on) are kept stable, so links to a chapter keep working across versions.

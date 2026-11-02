@@ -64,7 +64,7 @@ resp <- key2binary(SAT12, key)
 First, the Rasch model. `gg_itemfit()` plots each item's S-X² RMSEA and marks
 the items whose p-value is below `alpha`.
 
-```{r, fig.height = 5}
+```{r itemfit-rasch, fig.height = 5, fig.cap = "S-$X^2$ RMSEA of each SAT12 item under the Rasch model; flagged items are marked."}
 rasch <- mirt(resp, 1, itemtype = "Rasch", verbose = FALSE)
 gg_itemfit(rasch, p_adjust = "BH")
 ```
@@ -97,7 +97,7 @@ An **empirical item curve** shows the misfit directly. People are grouped by
 their estimated $\theta$, and the observed proportion correct in each group
 is plotted against the model curve:
 
-```{r, fig.height = 3.4}
+```{r empirical-worst, fig.height = 3.4, fig.cap = "Empirical item curve of the worst-fitting item under the Rasch model (left) and the 2PL (right)."}
 worst <- tab_r$item[which.min(tab_r$p.value)]
 gg_empirical(rasch, worst) + gg_empirical(twopl, worst)
 ```
@@ -115,7 +115,7 @@ tab_2[tab_2$flag != "", c("item", "mean", "item_total_r", "discrimination",
 An **item health card** collects everything about one item on a page, with a
 traffic-light status, for item review meetings:
 
-```{r, fig.width = 11, fig.height = 6.5}
+```{r item-card, fig.width = 11, fig.height = 6.5, fig.cap = "Item health card of the SAT12 item with the lowest discrimination under the 2PL."}
 weak <- tab_2$item[which.min(tab_2$discrimination)]
 item_card(twopl, weak)
 ```
@@ -158,7 +158,7 @@ head(scores[, c(".F1", ".se_F1", ".Zh", "type")])
 
 How well does Zh separate the groups?
 
-```{r, fig.height = 3.2}
+```{r zh-hist, fig.height = 3.2, fig.cap = "Distribution of the Zh person-fit statistic for regular students, random responders and students with pre-knowledge."}
 library(ggplot2)
 ggplot(scores, aes(.Zh, fill = type)) +
   geom_histogram(bins = 40, position = "identity", alpha = 0.6) +
@@ -212,7 +212,7 @@ removing flagged cases before calibration is common practice.
 
 <details><summary>Solutions</summary>
 
-```{r, fig.height = 3.4}
+```{r empirical-best, fig.height = 3.4, fig.cap = "Empirical item curve of the best-fitting item under the Rasch model."}
 best <- tab_r$item[which.max(tab_r$p.value)]
 gg_empirical(rasch, best)
 sum(item_table(rasch)$p.value < 0.01)

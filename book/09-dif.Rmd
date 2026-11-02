@@ -108,11 +108,11 @@ same ability. R22's signed effect is small but its unsigned effect is
 larger: the curves cross, so the advantages and disadvantages partly cancel
 out on average.
 
-```{r, fig.height = 5.5}
+```{r dif-effects, fig.height = 5.5, fig.cap = "DIF effect sizes for the 25 reading items, paper versus tablet."}
 gg_dif(res)
 ```
 
-```{r, fig.height = 3.4}
+```{r dif-curves, fig.height = 3.4, fig.cap = "Item curves for the paper and tablet groups: uniform DIF in R07, non-uniform DIF in R22."}
 gg_dif(res, type = "curves", which.items = c("R07", "R22"))
 ```
 

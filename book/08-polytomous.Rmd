@@ -79,13 +79,13 @@ Each item has one slope and three thresholds. *Future* has by far
 the steepest slope. The category curves show how the thresholds divide the
 scale:
 
-```{r, fig.height = 4.8}
+```{r trace-grm, fig.height = 4.8, fig.cap = "Category response curves of the graded response model for the four Science items."}
 gg_trace(grm)
 ```
 
 and the expected score curves summarize them:
 
-```{r, fig.height = 3.4}
+```{r expected-grm, fig.height = 3.4, fig.cap = "Expected item score curves of the graded response model for the Science items."}
 gg_trace(grm, type = "expected", facet = FALSE)
 ```
 
@@ -94,7 +94,7 @@ average, so the curve for "strongly disagree" only rises for people far out
 in the left tail. The Wright map shows every threshold next to the
 distribution of people:
 
-```{r, fig.height = 3.8}
+```{r wright-grm, fig.height = 3.8, fig.cap = "Wright map of the Science items: category thresholds next to the distribution of people."}
 gg_wright(grm)
 ```
 
@@ -136,7 +136,7 @@ For J3 the second step ($b_2$) is larger than the third ($b_3$), unlike every
 other item. The category curves make it plain: category 2 of J3 is never the
 most likely response.
 
-```{r, fig.height = 3.4}
+```{r trace-gpcm, fig.height = 3.4, fig.cap = "Category response curves of J2 and J3; category 2 of J3 is never the most likely response."}
 gg_trace(gpcm, which.items = c("J2", "J3"))
 ```
 

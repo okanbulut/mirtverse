@@ -98,7 +98,7 @@ sel <- select_model(resp, verbose = FALSE)
 sel
 ```
 
-```{r, fig.height = 2.6}
+```{r select-plot, fig.height = 2.6, fig.cap = "Model comparison for LSAT6: each model's information criterion relative to the best model (0 = best)."}
 autoplot(sel)
 ```
 

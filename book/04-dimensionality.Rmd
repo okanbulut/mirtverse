@@ -132,7 +132,7 @@ colnames(resp) <- sprintf("R%02d", 1:20)
 We fit an ordinary unidimensional 2PL, as an analyst who did not know about
 the passage would, and look at the Q3 matrix.
 
-```{r, fig.height = 5.5, fig.width = 6.5, out.width = "75%"}
+```{r q3-passage, fig.height = 5.5, fig.width = 6.5, out.width = "75%", fig.cap = "Q3 residual correlations from a unidimensional 2PL fitted to the reading test with a four-item passage."}
 uni <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
 gg_q3(uni)
 ```
