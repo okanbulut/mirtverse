@@ -219,7 +219,8 @@ options(old_llm)
 <div class="lab">
 The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
 shows the AI features of mirtverse in one place. Lab 7,
-`run_lab("auto-scoring")`, trains and checks an automated scoring engine,
+`run_lab("auto-scoring")`, trains and checks an automated scoring engine;
+Lab 8, `run_lab("item-text")`, predicts item difficulty from the text;
 and the [mv_ask()
 guide](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
 explains what `mv_ask()` sends and how it was benchmarked.

@@ -77,6 +77,7 @@ the hub does.
 | Chapter | Topic | Matching lab |
 |---|---|---|
 | \@ref(ml-lens) | Machine learning through an IRT lens | |
+| \@ref(item-text) | What item text tells us | Lab 8 |
 | \@ref(auto-scoring) | Automated scoring | Lab 7 |
 | \@ref(llms) | Large language models as a colleague | |
 
@@ -125,7 +126,7 @@ writes a script from a plain-language request.
 ## Other teaching materials {-}
 
 * [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html):
-  Seven interactive learnr labs with an instructor guide and answer key.
+  Eight interactive learnr labs with an instructor guide and answer key.
 * [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.html):
   A 12-week syllabus with readings, functions, labs and assessment ideas.
 * [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html) of

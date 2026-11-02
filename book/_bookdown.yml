@@ -24,6 +24,7 @@ rmd_files:
   - 11-banks-cat.Rmd
   - 12-reporting.Rmd
   - 13-ml-lens.Rmd
+  - 14-item-text.Rmd
   - 16-auto-scoring.Rmd
   - 17-llms.Rmd
   - 90-datasets.Rmd

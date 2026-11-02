@@ -1,0 +1,315 @@
+# What item text tells us {#item-text}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain why predicting item difficulty from text is useful, and what it
+  can and cannot replace;
+* describe items by **text features** with `item_features()`, and connect
+  them to the item covariates of the **linear logistic test model** (LLTM);
+* predict difficulty with an explanatory model, a lasso and a random forest
+  using `predict_difficulty()`, and compare them by **cross-validation**;
+* fit the one-step LLTM to responses in mirt;
+* recognize **leakage**, choose the right unit to hold out, and know the
+  limit set by the error in estimated difficulties.
+</div>
+
+**Key terms:**
+[Feature](https://www.okanbulut.com/mirtverse/articles/glossary.html#feature),
+[LLTM](https://www.okanbulut.com/mirtverse/articles/glossary.html#lltm),
+[overfitting and cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation),
+[embedding](https://www.okanbulut.com/mirtverse/articles/glossary.html#embedding),
+[data leakage](https://www.okanbulut.com/mirtverse/articles/ai-translation.html#data-leakage).
+
+## The ideas
+
+Every new item needs a difficulty before it can be used for scoring, and
+the usual way to get one is a **field test**: The item is given to hundreds
+of test takers and calibrated (Chapter \@ref(estimation)). Field testing is
+slow and expensive, and it exposes items before they count. Item writers
+also know that some features make items harder: More reading, an extra
+step, a negation, decimals instead of whole numbers. If difficulty could be
+**predicted from the text**, a program could target field-test forms, use
+smaller field-test samples, steer item writing towards the difficulties the
+bank lacks, and judge items written by a generator (Chapter \@ref(llms)).
+
+Psychometrics and machine learning both have a way of doing this.
+
+* **Explanatory IRT.** The linear logistic test model [@fischer1973]
+  replaces each item's difficulty with a weighted sum of its features:
+  $$b_i = \eta_0 + \sum_k \eta_k q_{ik},$$
+  where $q_{ik}$ is the value of feature $k$ for item $i$ (the item's
+  covariates) and $\eta_k$ is how much the feature adds to difficulty, in
+  logits. The weights are read as evidence about *what makes items hard*,
+  which is a claim about the construct [@deboeck2004]. The model can be
+  fitted to the responses in one step, or in two steps by regressing
+  estimated difficulties on the features.
+* **Prediction.** Machine learning treats difficulty as a label to predict
+  from as many features as are useful: Counts and readability measures,
+  word frequencies, or **embeddings** of the text from a language model.
+  Models such as the lasso or a random forest are judged by how well they
+  predict items they were not trained on [@alkhuzaey2024; @benedetto2023].
+
+The two are less different than they look. The two-step LLTM *is* a linear
+regression, and the lasso is the same regression with its weights shrunk.
+What differs is the goal: Explaining difficulty, or predicting it as
+accurately as possible. Three cautions apply to both.
+
+* **Leakage.** A feature computed from the same responses as the
+  difficulty, such as the proportion correct in the field test, predicts
+  difficulty almost perfectly and is useless, because it is not available
+  until the item has been field-tested.
+* **What is held out.** Items written from the same template (an [item
+  model](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-model)) share most of their difficulty. A model
+  that has seen other items from an item's template predicts it well; a
+  model asked about a new kind of item usually does much worse. Cross-validation
+  must hold out the unit you will predict for.
+* **The noise floor.** Estimated difficulties have standard errors, and
+  features never capture everything that makes an item hard. No model can
+  predict $b$ more closely than its estimation error, and an LLTM rarely
+  fits as well as giving every item its own difficulty. Real benchmarks
+  show modest gains over simple baselines [@yaneva2024].
+
+## Example 1: Features and an explanatory model
+
+A science program has 70 multiple-choice items of the form *"Which of these
+is a mammal?"*, on seven topics. Half the items are negated (*"Which of these
+is NOT a mammal?"*), half start with a context sentence that adds reading
+but no content, and in some the key happens to be the longest option, a
+cue that test-wise students use. We simulate the items and the responses of
+1,000 students, and calibrate the Rasch model.
+
+```{r data-item-text-1}
+# Simulated science classification items, with responses of 1,000 students.
+set.seed(1414)
+groups <- list(   # members, non-members and base difficulty of each topic
+  mammal = list(yes = c("whale", "bat", "dolphin", "rabbit", "horse", "squirrel"),
+                no = c("shark", "penguin", "frog", "crocodile", "salmon", "eagle"), b = -0.8),
+  reptile = list(yes = c("lizard", "turtle", "snake", "crocodile", "gecko", "tortoise"),
+                 no = c("frog", "salamander", "newt", "toad", "eel", "seal"), b = 0.2),
+  insect = list(yes = c("ant", "beetle", "butterfly", "grasshopper", "bee", "dragonfly"),
+                no = c("spider", "scorpion", "centipede", "tick", "crab", "snail"), b = 0),
+  metal = list(yes = c("copper", "iron", "aluminium", "zinc", "silver", "tin"),
+               no = c("glass", "wood", "plastic", "rubber", "sulfur", "carbon"), b = -0.3),
+  conductor = list(yes = c("copper wire", "a steel nail", "an aluminium can", "salt water",
+                           "graphite", "a silver spoon"),
+                   no = c("a rubber band", "dry wood", "a glass rod", "a plastic ruler", "air",
+                          "pure water"), b = 0.5),
+  renewable = list(yes = c("wind", "sunlight", "tides", "geothermal heat", "moving water", "biomass"),
+                   no = c("coal", "oil", "natural gas", "uranium", "peat", "diesel"), b = -0.4),
+  physical = list(yes = c("ice melting", "sugar dissolving in water", "glass breaking",
+                          "water boiling", "wax melting", "salt crystals forming as water evaporates"),
+                  no = c("wood burning", "iron rusting", "milk souring", "bread baking",
+                         "a match burning", "baking soda fizzing in vinegar"), b = 0.9))
+label <- c(mammal = "a mammal", reptile = "a reptile", insect = "an insect", metal = "a metal",
+           conductor = "a good conductor of electricity", renewable = "a renewable energy source",
+           physical = "an example of a physical change")
+contexts <- c("A class is sorting cards for a science display.",
+              "Ms Okafor gives her students a quick review question.",
+              "Students are making a poster for the school science fair.")
+rows <- list()
+for (g in names(groups)) for (i in 1:10) {
+  neg <- i > 5
+  gr <- groups[[g]]
+  key <- sample(if (neg) gr$no else gr$yes, 1)
+  opts <- sample(c(key, sample(if (neg) gr$yes else gr$no, 3)))
+  stem <- sprintf("Which of these is %s%s?", if (neg) "NOT " else "", label[[g]])
+  if (i %% 2 == 0) stem <- paste(sample(contexts, 1), stem)
+  rows[[length(rows) + 1]] <- data.frame(
+    id = sprintf("S%s%02d", toupper(substr(g, 1, 3)), i), topic = g, stem = stem,
+    A = opts[1], B = opts[2], C = opts[3], D = opts[4], key = LETTERS[match(key, opts)])
+}
+sci <- do.call(rbind, rows)
+f <- item_features(sci)
+b_true <- sapply(sci$topic, function(g) groups[[g]]$b) + 0.7 * f$negation +
+  0.25 * (f$sentences - 1) - 0.3 * f$key_longest + rnorm(nrow(sci), 0, 0.25)
+theta <- rnorm(1000)
+resp <- sapply(b_true, function(b) rbinom(1000, 1, plogis(theta - b)))
+colnames(resp) <- sci$id
+rasch <- mirt(as.data.frame(resp), 1, "Rasch", verbose = FALSE)
+sci$b <- -coef(rasch, simplify = TRUE)$items[, "d"]   # Rasch difficulty
+```
+
+`item_features()` reads the stem and the options and returns one row of
+features per item: Length, sentences, readability (`grade`), numbers,
+negation, the length of the options, whether the key is the longest option,
+and each item's most similar other item.
+
+```{r}
+feats <- item_features(sci)
+feats[c(1, 2, 6), c("id", "words", "sentences", "grade", "negation", "key_longest")]
+items <- merge(sci, feats)
+round(cor(items[, c("words", "sentences", "grade", "negation", "key_longest")], items$b), 2)
+```
+
+Negated items are harder, and so are longer ones; a longest key goes with
+easier items. Now predict difficulty from four text features with three
+models. `predict_difficulty()` fits each model five times, each time
+predicting the fifth of the items it did not see:
+
+```{r}
+text <- c("sentences", "negation", "option_words", "key_longest")
+m1 <- predict_difficulty(items, text)
+m1
+```
+
+On items they have not seen, the two linear models explain a little under
+60% of the variance in difficulty ($R^2$), with a typical error (RMSE) of
+about 0.4 logits. The random forest does worse: With 70 items and effects
+that simply add up, its flexibility buys nothing. The LLTM's weights say
+what the features do:
+
+```{r}
+tidy(m1)[tidy(m1)$method == "lltm", ]
+```
+
+A negation adds about two thirds of a logit, a context sentence about 0.2,
+and a longest key makes an item easier, as item writers would expect.
+`option_words` has a large weight too, which is less plausible as a cause:
+Long options belong to the harder topics, such as physical changes. The
+features know nothing about topic, so they stand in for it where they can.
+Adding the topic as a feature brings the error down to about 0.29 logits
+(Exercise 1), close to the 0.25 of item-specific variation built into the
+simulation, and the weight of `option_words` shrinks to almost nothing.
+
+## Example 2: The one-step LLTM in mirt
+
+The two-step LLTM treats the estimated difficulties as known. The one-step
+LLTM fits the features to the responses directly: Each item's difficulty is
+constrained to the weighted sum of its features. In mirt, the features are
+passed as `itemdesign` and the model for them as `item.formula`. Here each
+topic gets its own intercept:
+
+```{r}
+design <- data.frame(topic = factor(sci$topic), feats[, c("sentences", "negation", "key_longest")])
+lltm <- mirt(as.data.frame(resp), 1, "Rasch", itemdesign = design,
+             item.formula = ~ 0 + topic + sentences + negation + key_longest, verbose = FALSE)
+v <- mod2values(lltm)
+eta <- v[v$item == sci$id[1] & v$name %in% c("sentences", "negation", "key_longest"),
+         c("name", "value")]
+eta$difficulty <- -eta$value   # mirt models easiness; reverse the sign for difficulty
+eta
+```
+
+A context sentence adds about 0.2 logits, a negation about 0.6, and a
+longest key makes an item about 0.3 logits easier: Close to the two-step
+weights and to the values used to simulate the data. The classic test of
+an LLTM compares it with the Rasch model, which gives every item its own
+difficulty:
+
+```{r}
+anova(lltm, rasch)
+```
+
+Ten parameters cannot replace 70 free difficulties, and the likelihood
+ratio test says so loudly; with 1,000 test takers it nearly always does.
+The LLTM is still useful: It shows which features matter and by how much.
+Explanatory IRT models that add a random item effect, so that each item may
+differ from its features' prediction, combine the two views
+[@deboeck2004].
+
+## Example 3: New items or new kinds of items?
+
+So far each fold held out random items, so every topic was in training. A
+new item on a known topic is one question; a topic the model has never seen
+is another. Hold out whole topics with `group`:
+
+```{r}
+m3 <- predict_difficulty(items, c("topic", "sentences", "negation", "key_longest"),
+                         group = "topic", methods = "lltm")
+m3$accuracy
+```
+
+With its topic held out, an item is predicted as if it belonged to an
+average topic, and the error doubles to about 0.6 logits; $R^2$ falls to
+about 0.15. The features still capture negation, the context sentence and
+the longest key, but the topic, the largest part of an item's difficulty,
+cannot be read off the text. This is the usual finding: Text features place
+items within a family much better than they predict how hard a new kind of
+item will be. That is why automatic item generation calibrates item models
+rather than single items. Figure \@ref(fig:item-text-cv) shows the
+predictions of Example 1, with random folds.
+
+```{r item-text-cv, fig.height = 3.2, fig.cap = "Cross-validated predicted against estimated difficulty for the three models of Example 1. Points on the dashed line are predicted exactly; labels mark the worst-predicted items."}
+autoplot(m1)
+```
+
+## Your turn
+
+<div class="yourturn">
+1. Add `topic` to the features of Example 1, with random folds. How much
+   does the error drop, and how do the LLTM weights of `negation`,
+   `key_longest` and `option_words` change?
+2. A colleague adds `p_pilot`, the proportion correct in this year's field
+   test, to the features. Compute it from `resp`, add it to `items`, and
+   run `predict_difficulty()`. What does the output warn you about, and
+   why is the model useless for new items?
+3. Without `topic`, the two-step LLTM with `sentences`, `negation` and
+   `key_longest` gives `key_longest` a weight near zero. Why? Look at
+   `table(items$key_longest, items$topic)`.
+4. Look at the `similarity` and `nearest` columns of `feats`. Which items
+   are most alike, and are any of them near-duplicates?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+# 1. topic as a feature
+m_topic <- predict_difficulty(items, c("topic", text))
+m_topic$accuracy
+w <- tidy(m_topic)
+w[w$method == "lltm" & !grepl("topic", w$term), ]
+
+# 2. a leaky feature
+items$p_pilot <- colMeans(resp)[items$id]
+predict_difficulty(items, c(text, "p_pilot"), methods = "lltm")
+
+# 3. key_longest without topic
+tidy(predict_difficulty(items, c("sentences", "negation", "key_longest"), methods = "lltm"))
+table(items$key_longest, items$topic)
+
+# 4. the most similar items
+head(feats[order(-feats$similarity), c("id", "nearest", "similarity")])
+```
+
+1. The RMSE drops from about 0.42 to 0.29 and $R^2$ rises to about 0.8 for
+   the linear models; the forest stays behind (about 0.41). `negation`
+   (about 0.63) and `key_longest` (about -0.34) are close to the simulated
+   0.7 and -0.3, while `option_words` falls from about 0.5 to 0.1 with a
+   large standard error: It was standing in for the topic.
+2. The model predicts almost perfectly, and the printout flags `p_pilot`:
+   Its rank correlation with $b$ is -1. The proportion correct and the
+   Rasch difficulty are computed from the same responses, so the feature
+   *is* the label in disguise. A new item has no field-test data, so the
+   model cannot be used for it.
+3. Five of the 16 items with a longest key are on physical changes, the
+   hardest topic, whose options are long. Without the topic in the model,
+   the easiness that a longest key brings is cancelled by the difficulty of
+   the topic it comes with. An LLTM weight is only as good as the features
+   left out of the model, as in any regression.
+4. The most alike pairs (similarity about 0.75) are items on the same topic
+   with the same stem and context sentence and one or two shared options.
+   They are different items written from one template. A similarity close
+   to 1, with the same options, would mark a near-duplicate that should not
+   appear on the same form.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+Lab 8, `run_lab("item-text")`, uses `item_features()` and
+`predict_difficulty()` on 192 numeracy items, finds what the data hide, and
+asks how far predicted difficulties can replace a field test. The [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) collects the
+other AI tools in mirtverse.
+</div>
+
+## Further reading {-}
+
+Fischer [-@fischer1973] introduced the LLTM, and De Boeck and Wilson
+[-@deboeck2004] place it in the family of explanatory item response models.
+AlKhuzaey et al. [-@alkhuzaey2024] and Benedetto et al. [-@benedetto2023]
+review difficulty prediction from text, from the education and the
+computer science sides. Yaneva et al. [-@yaneva2024] report a shared task
+on real licensing-exam items, a useful reality check.
