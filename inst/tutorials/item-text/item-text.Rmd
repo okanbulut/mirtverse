@@ -1,0 +1,472 @@
+---
+title: "Lab 8: Predicting difficulty before field testing"
+description: >
+  A numeracy program field-tests every new item, and wants to know whether
+  item difficulty can be predicted from the text instead. Describe 192
+  items by their text features, compare an explanatory model with machine
+  learning, find what the data hide, and decide what the predictions can
+  and cannot replace. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 3.5)
+```
+
+```{r setup-feat, include = FALSE}
+feats <- item_features(itemtext)
+items <- merge(itemtext, feats)
+text <- c("words", "sentences", "grade", "numbers", "max_digits", "decimals",
+          "option_words", "key_longest", "distractor_distance")
+```
+
+```{r setup-clean, include = FALSE}
+feats <- item_features(itemtext)
+items <- merge(itemtext, feats)
+text <- c("words", "sentences", "grade", "numbers", "max_digits", "decimals",
+          "option_words", "key_longest", "distractor_distance")
+clean <- items[items$a > 0, ]
+```
+
+## The brief
+
+### Two hundred new items a year
+
+You are the psychometrician for the fictional **Prairie Grade 7 Numeracy
+Assessment**. Every year its item writers produce about 200 new
+multiple-choice items, and every item is field-tested on 1,500 students
+before it can be used. Field testing is the program's slowest step, and it
+exposes items a year before they count.
+
+The items are written from **item models**: Templates such as *"What is
+p% of x?"* or *"A car travels d km in t hours. What is its average
+speed?"*, filled with different numbers, names and contexts. A vendor says
+its software can predict an item's difficulty from its text. The director
+asks you:
+
+> *Can we predict how hard an item is before anyone answers it? Could that
+> shrink, or even replace, the field test?*
+
+Last year's 192 field-tested items are in `itemtext`, with their text and
+their 2PL estimates.
+
+### Meet the data
+
+Each row is an item: Its `id` (family and item number), its `family` (the
+item model), the `stem`, the options `A` to `D` and the `key`, and the
+field-test results: Difficulty `b`, discrimination `a`, their standard
+errors, and `p_field`, the share of students who answered correctly.
+
+```{r look, exercise = TRUE}
+head(itemtext[, c("id", "family", "stem", "key", "b")], 4)
+itemtext$stem[c(1, 2, 70)]
+round(sort(tapply(itemtext$b, itemtext$family, mean)), 2)
+```
+
+```{r look-check}
+"192 items from 12 item models. Families differ a lot in difficulty: Converting units is the easiest and Solving equations the hardest."
+```
+
+## Features from the text
+
+### What the text says about an item
+
+`item_features()` reads each stem and its options and returns features:
+Length (`words`, `sentences`), readability (`grade`), the `numbers` and the
+digits of the largest one (`max_digits`), whether the stem or the key uses
+`decimals` or fractions, the length of the options, whether the key is the
+longest option, how far the distractors are from the key, and each item's
+most similar other item. Join them to the items:
+
+```{r feat, exercise = TRUE}
+feats <- item_features(itemtext)
+items <- merge(itemtext, feats)
+items[c(1, 2, 70), c("id", "words", "sentences", "max_digits", "decimals", "similarity", "nearest")]
+```
+
+```{r feat-check}
+lab_need(exists("items") && is.data.frame(items) && nrow(items) == 192 && "similarity" %in% names(items),
+         "Keep the names `feats` and `items`, and merge the features into the items.")
+"Each item now has its text features next to its field-test results."
+```
+
+### Near-duplicates
+
+Items written from the same template look alike, but two items that differ
+only in a name are the same item, and should never appear on the same form.
+List the items whose most similar other item has a `similarity` above 0.8.
+
+```{r dup, exercise = TRUE, exercise.setup = "setup-feat"}
+twins <- feats[feats$similarity > , c("id", "nearest", "similarity")]
+twins
+```
+
+```{r dup-hint}
+twins <- feats[feats$similarity > 0.8, c("id", "nearest", "similarity")]
+```
+
+```{r dup-solution}
+twins <- feats[feats$similarity > 0.8, c("id", "nearest", "similarity")]
+twins
+```
+
+```{r dup-check}
+lab_need(exists("twins") && is.data.frame(twins) && "nearest" %in% names(twins),
+         "Keep the name `twins` and the columns id, nearest and similarity.")
+lab_need(nrow(twins) == 4, "Use a similarity above 0.8: Four items, two pairs.")
+"Two pairs stand out: N01-02 and N01-14, and N06-05 and N06-12. Read their stems: Each pair differs only in a name. The next most similar items are well below, at about 0.6."
+```
+
+```{r q-dup}
+question_radio("What should the program do about the two pairs?",
+  answer("Treat each pair as one item: Mark them as enemies so they never appear on the same form, and keep only one of each in the bank.",
+         correct = TRUE,
+         message = "Right. A changed name does not make a new item. Near-duplicates also flatter a difficulty model: If one twin is in training and the other is predicted, the model looks better than it is."),
+  answer("Nothing; they have different ids, so they are different items.",
+         message = "Their ids differ, but a student who has seen one has seen the other. Different ids are a bookkeeping fact, not evidence of different content."),
+  answer("Delete both items.",
+         message = "There is nothing wrong with either item on its own. Keep one and record the pair."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## A first model
+
+### Predicting difficulty from the text
+
+`predict_difficulty()` predicts `b` from features with three models: An
+**LLTM**, the explanatory linear model of psychometrics; a **lasso**, the
+same model with its weights shrunk; and a **random forest**. Each is judged
+by 5-fold cross-validation: Every item is predicted by a model that did not
+see it. The setup has stored the names of nine text features in `text`.
+Run the models, giving the standard errors of `b` as `se`.
+
+```{r first, exercise = TRUE, exercise.setup = "setup-feat", exercise.timelimit = 180}
+text
+first <- predict_difficulty(items, text, se = )
+first
+autoplot(first)
+```
+
+```{r first-hint}
+first <- predict_difficulty(items, text, se = "___")
+```
+
+```{r first-solution}
+text
+first <- predict_difficulty(items, text, se = "b_se")
+first
+autoplot(first)
+```
+
+```{r first-check}
+lab_need(exists("first") && inherits(first, "mv_difficulty"),
+         "Keep the name `first` and use predict_difficulty().")
+lab_need(identical(first$se, "b_se"), "Give the standard errors of b: se = \"b_se\".")
+acc <- first$accuracy
+sprintf("Not impressive: The LLTM explains %.0f%% of the variance in b, the forest %.0f%%. And three items have estimated difficulties far below anything the models predict, by 3 logits or more. They are labelled in the plot.",
+        100 * acc$r2[acc$method == "lltm"], 100 * acc$r2[acc$method == "forest"])
+```
+
+### The three worst items
+
+Look at the three worst-predicted items: N05-07, N08-11 and N11-03.
+
+```{r worst, exercise = TRUE, exercise.setup = "setup-feat"}
+worst <- items[items$id %in% c("N05-07", "N08-11", "N11-03"), ]
+worst[, c("id", "stem", "A", "B", "C", "D", "key", "a", "b", "p_field")]
+```
+
+```{r worst-check}
+"Look at a, b and p_field, and work out each item's correct answer."
+```
+
+```{r q-worst}
+question_radio("What is wrong with these three items?",
+  answer("They are miskeyed, and because few students choose the listed key, the items are estimated to be very hard.",
+         message = "Read b again: It is very low, as if the items were very easy, although only 11% to 17% are scored correct. The negative discrimination flips the curve."),
+  answer("They are miskeyed: The listed key is wrong, so the strongest students, who choose the correct answer, are marked wrong. The discrimination is negative, which turns the b estimate into nonsense.",
+         correct = TRUE,
+         message = "Right. Check the key, rescore the field test, and recalibrate. A difficulty model is also a quality check: Items it cannot explain at all are worth a second look."),
+  answer("They are simply very hard items that the text features cannot explain.",
+         message = "Only 11% to 17% answered 'correctly', yet b says the items are very easy, and a is negative. That is not difficulty; it is a scoring error."),
+  answer("The model is wrong for these items, so a random forest should be used.",
+         message = "No model should predict these b values: They are not difficulties. The data need fixing first."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The vendor's model
+
+### Too good to be true?
+
+Set the three miskeyed items aside until they are rescored: Keep the items
+with a positive discrimination. The vendor's spreadsheet also uses
+`p_field`. Add it to the text features and see how well the models do now.
+
+```{r vendor, exercise = TRUE, exercise.setup = "setup-feat", exercise.timelimit = 180}
+clean <- items[items$a > , ]
+vendor <- predict_difficulty(clean, c(text, "p_field"), se = "b_se")
+vendor
+```
+
+```{r vendor-hint}
+clean <- items[items$a > 0, ]
+```
+
+```{r vendor-solution}
+clean <- items[items$a > 0, ]
+vendor <- predict_difficulty(clean, c(text, "p_field"), se = "b_se")
+vendor
+```
+
+```{r vendor-check}
+lab_need(exists("clean") && is.data.frame(clean) && nrow(clean) == 189,
+         "`clean` should hold the 189 items with a positive discrimination: items$a > 0.")
+lab_need(exists("vendor") && inherits(vendor, "mv_difficulty"),
+         "Keep the name `vendor` and use predict_difficulty().")
+acc <- vendor$accuracy
+sprintf("Spectacular: R2 of %.2f, an error of %.2f logits. And a warning about p_field.",
+        acc$r2[acc$method == "lltm"], acc$rmse[acc$method == "lltm"])
+```
+
+```{r q-leak}
+question_radio("Why can the program not use the vendor's model?",
+  answer("p_field is the proportion correct in the field test, computed from the same responses as b. A new item has no field-test data, so the model needs the very thing it is supposed to replace.",
+         correct = TRUE,
+         message = "Right: Data leakage. A feature that would not be available when the prediction is needed must not be used to build or judge the model, however well it predicts."),
+  answer("The model overfits: R2 values above 0.9 are impossible.",
+         message = "High R2 values are possible. The problem is where p_field comes from."),
+  answer("The lasso and forest disagree with the LLTM.",
+         message = "They agree closely. The problem is the feature, not the models."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Text alone
+
+### An honest model
+
+Now predict difficulty from the text features alone, on the clean items.
+
+```{r textonly, exercise = TRUE, exercise.setup = "setup-clean", exercise.timelimit = 180}
+honest <- predict_difficulty(clean, text, se = "b_se")
+honest
+```
+
+```{r textonly-check}
+lab_need(exists("honest") && inherits(honest, "mv_difficulty") && !"p_field" %in% honest$features,
+         "Keep the name `honest`, with the text features only.")
+acc <- honest$accuracy
+sprintf("The linear models explain about %.0f%% of the variance; the random forest about %.0f%%, with an error of %.2f logits.",
+        100 * mean(acc$r2[acc$method != "forest"]), 100 * acc$r2[acc$method == "forest"],
+        acc$rmse[acc$method == "forest"])
+```
+
+```{r q-forest}
+question_radio("Why does the forest do so much better than the linear models with the same features?",
+  answer("Items from the same item model share their wording and the size of their numbers, so a combination of features identifies the family. The forest learns which family an item belongs to, and the family carries most of the difficulty.",
+         correct = TRUE,
+         message = "Right. The forest is not reading difficulty off the text; it is recognizing the template. That works only for families it has already seen, which is worth testing."),
+  answer("Random forests are always more accurate than linear models.",
+         message = "Not always: In the book's chapter the linear models win. Here the forest has something to recognize."),
+  answer("The forest overfits, so its cross-validated R2 is wrong.",
+         message = "The R2 is computed on items the forest did not see, so overfitting would lower it, not raise it."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Item models
+
+### Adding the family
+
+If the family carries most of the difficulty, give it to the models
+directly.
+
+```{r family, exercise = TRUE, exercise.setup = "setup-clean", exercise.timelimit = 180}
+fam <- predict_difficulty(clean, c("family", text), se = "b_se")
+fam
+```
+
+```{r family-check}
+lab_need(exists("fam") && inherits(fam, "mv_difficulty") && "family" %in% fam$features,
+         "Keep the name `fam`, with the family and the text features.")
+acc <- fam$accuracy
+sprintf("Now all three models explain about %.0f%% of the variance, with an error of about %.2f logits. The estimation error in b alone is 0.07.",
+        100 * mean(acc$r2), mean(acc$rmse))
+```
+
+### A new family
+
+Random folds always keep some items of every family in training. A new
+item model is a different question. Hold out whole families: Set `group`
+to the family column.
+
+```{r newfam, exercise = TRUE, exercise.setup = "setup-clean", exercise.timelimit = 180}
+newfam <- predict_difficulty(clean, c("family", text), se = "b_se", group = )
+newfam
+```
+
+```{r newfam-hint}
+newfam <- predict_difficulty(clean, c("family", text), se = "b_se", group = "___")
+```
+
+```{r newfam-solution}
+newfam <- predict_difficulty(clean, c("family", text), se = "b_se", group = "family")
+newfam
+```
+
+```{r newfam-check}
+lab_need(exists("newfam") && inherits(newfam, "mv_difficulty"),
+         "Keep the name `newfam` and use predict_difficulty().")
+lab_need(identical(newfam$group, "family"), "Hold out whole families: group = \"family\".")
+acc <- newfam$accuracy
+sprintf("For a family none of the models has seen, R2 is %.2f at best: Worse than predicting the average difficulty for every item.",
+        max(acc$r2))
+```
+
+```{r q-newfam}
+question_radio("What can the program claim about predicted difficulties?",
+  answer("For a new item from an item model that has been calibrated, the prediction is close to what a field test would give. For a new item model, the text says almost nothing about difficulty, and the items need a full field test.",
+         correct = TRUE,
+         message = "Right: The unit you hold out decides what you can claim. This is the logic of automatic item generation: Calibrate the item model, then predict its new items."),
+  answer("Predictions are accurate for any new item: R2 was about 0.9.",
+         message = "Only when the item's family was in training. With whole families held out, the models do worse than a constant."),
+  answer("Predictions are useless, because they fail for new families.",
+         message = "Most new items come from existing item models, and for them the predictions are good."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## What makes items harder?
+
+### Reading the LLTM
+
+Within a family, what does the wording add? Fit the LLTM alone with the
+family and three features, and read its weights.
+
+```{r effects, exercise = TRUE, exercise.setup = "setup-clean"}
+eff <- predict_difficulty(clean, c("family", "sentences", "max_digits", "decimals"),
+                          se = "b_se", methods = "lltm")
+w <- tidy(eff)
+w[!grepl("family", w$term), ]
+```
+
+```{r effects-check}
+w <- tidy(eff)
+sprintf("An extra sentence adds about %.2f logits and decimals or fractions about %.2f; the size of the largest number in the stem adds little (%.2f per digit).",
+        w$estimate[w$term == "sentences"], w$estimate[w$term == "decimals"],
+        w$estimate[w$term == "max_digits"])
+```
+
+```{r q-effects}
+question_radio("In most families, the extra sentence is a context sentence such as \"Maya is buying supplies for a school trip.\", which adds nothing to the mathematics. What does its weight of about 0.14 logits mean for the test?",
+  answer("Reading load makes items slightly harder, apart from the mathematics. That is construct-irrelevant difficulty, which may matter most for weaker readers and English language learners: Worth checking with a DIF analysis.",
+         correct = TRUE,
+         message = "Right. An explanatory model turns a prediction into a question about the construct, which is exactly what item writers and fairness reviewers need."),
+  answer("Nothing; 0.14 logits is too small to matter.",
+         message = "Small for one item, but it applies to every item with a context sentence, and it may not be the same for every group of students."),
+  answer("Context sentences should be added to every item to make the test harder.",
+         message = "They make items harder by adding reading, not mathematics. That changes what the test measures."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The recommendation
+
+```{r q-deploy}
+question_radio("What do you recommend to the director?",
+  answer("Use predicted difficulties for new items from calibrated item models to build targeted field-test forms and to cut field-test samples, but keep a smaller field test for every item, and give new item models a full one. Check keys and near-duplicates before calibration, and re-check the predictions each year.",
+         correct = TRUE,
+         message = "A defensible plan: It saves field-test students, the claims match the evidence, and every operational difficulty is still estimated from responses."),
+  answer("Replace the field test: Predictions are within about 0.2 logits.",
+         message = "Only for known item models, and a field test also catches miskeys, which no text model can. Shrink it; do not drop it."),
+  answer("Buy the vendor's software.",
+         message = "The vendor's accuracy came from p_field, a feature that only exists after the field test."),
+  answer("Ignore difficulty prediction; field-test everything as before.",
+         message = "Safe, but it gives up real savings for items from calibrated item models."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Write to the director
+
+Write a short memo (four to six sentences): How well difficulty can be
+predicted from the text, for which items, what you found in the data, and
+what you recommend.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover the accuracy, which items it applies to, the problems you found and your recommendation."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the director: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the items
+
+`itemtext` was simulated from 12 item models. Each item's true difficulty
+is its family's difficulty plus effects of its surface features and some
+item-specific noise. `lab_truth("itemtext")` lists what was built in.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("itemtext")
+truth$effects
+truth$miskeyed
+truth$near_duplicates
+truth$leaky
+```
+
+| What was planted | What you found |
+|---|---|
+| Family difficulties from -1.25 to 1.0 logits | The family carries most of the difficulty; new families cannot be predicted |
+| Decimals or fractions +0.35, each extra digit +0.12, a context sentence +0.15 | The LLTM recovers the context effect; the text features are only proxies for the rest |
+| Item-specific noise, SD 0.20 | With the family, the error of about 0.22 logits is close to this floor |
+| Three miskeyed items | Negative discrimination and absurd b; the worst-predicted items |
+| Two near-duplicate pairs (a changed name) | Similarity of 0.87 and 0.92, far above the next pair |
+| `p_field` from the same field test as `b` | R2 of 0.97 that would vanish for new items |
+
+The best possible model, with the true features, would still miss each
+item by about 0.2 logits: Item-specific difficulty that no feature of the
+text explains. Real items have more of it than these simulated ones.
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-dup" = "Near-duplicates",
+    "q-worst" = "The three worst items",
+    "q-leak" = "The vendor's model",
+    "q-forest" = "Why the forest wins on text alone",
+    "q-newfam" = "What predictions can claim",
+    "q-effects" = "The context sentence",
+    "q-deploy" = "Recommendation",
+    "q-memo" = "Memo to the director"
+  ))
+})
+```
+
+You have predicted item difficulty from text the way a testing program
+should: Without leaked features, on the right held-out unit, with the data
+checked first, and with an explanatory model that says what makes items
+hard.

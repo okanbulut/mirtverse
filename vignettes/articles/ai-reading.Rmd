@@ -104,6 +104,12 @@ an addition, open an issue on
   [doi:10.1007/978-1-4757-3990-9](https://doi.org/10.1007/978-1-4757-3990-9) \
   IRT models with item and person covariates, the bridge between features
   and item parameters.
+- Bulut, O., Gorgun, G., & Yildirim-Erbasli, S. N. (2021). Estimating
+  explanatory extensions of dichotomous and polytomous Rasch models: The
+  eirm package in R. *Psych, 3*(3), 308–321.
+  [doi:10.3390/psych3030023](https://doi.org/10.3390/psych3030023) \
+  Explanatory IRT as generalized linear mixed models in R, with item and
+  person covariates and random item effects.
 - AlKhuzaey, S., Grasso, F., Payne, T. R., & Tamma, V. (2024). Text-based
   question difficulty prediction: A systematic review of automatic
   approaches. *International Journal of Artificial Intelligence in

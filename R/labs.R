@@ -4,11 +4,11 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 7
+#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 8
 #' each have their own: a provincial numeracy test ([numeracy]), a licensure
 #' exam with two forms ([linking]), a placement test's item bank
-#' ([catbank]), rater-scored science tasks ([openended]) and written science
-#' explanations ([essays]).
+#' ([catbank]), rater-scored science tasks ([openended]), written science
+#' explanations ([essays]) and the text of numeracy items ([itemtext]).
 #'
 #' * `"model-choice"` (Lab 1): Score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -39,6 +39,11 @@
 #'   judge it on new students with [agreement_report()], check it for
 #'   English language learners, find what drives the difference, and choose
 #'   the engine's role.
+#' * `"item-text"` (Lab 8): Can item difficulty be predicted from the text
+#'   before field testing? Describe items with [item_features()], find
+#'   near-duplicates and miskeyed items, compare an LLTM with a lasso and a
+#'   random forest in [predict_difficulty()], catch a leaky feature, hold out
+#'   whole item models, and decide what predictions can replace.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are

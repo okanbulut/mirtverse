@@ -55,7 +55,7 @@ names the question it answers, what to read and what to try in R.
 | 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
 | 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()` |
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
-| 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | [Reading list: Item text](ai-reading.html#item-text) | the `itemtext` data; modelling tools coming soon |
+| 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | [Assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `generate_items()`, `verify_items()` |
 | 7. Validity and fairness | What evidence does an AI component need before it is used? | [Reading list: Validity](ai-reading.html#validity) | `dif()`; audit tools coming soon |
 
@@ -109,6 +109,25 @@ A second, independent model call answers each multiple-choice item without
 seeing the key; disagreements are flagged before any person reviews the
 items. `review_packet(p, ai_screen = TRUE)` then prepares the human review.
 
+### Predict item difficulty from the text
+
+```{r}
+feats <- item_features(itemtext)          # length, readability, numbers, options, near-duplicates
+items <- merge(itemtext, feats)
+m <- predict_difficulty(items, c("family", "sentences", "decimals", "max_digits"),
+                        se = "b_se")      # LLTM, lasso and random forest, cross-validated
+m
+tidy(m)                                   # what each feature adds to difficulty
+predict_difficulty(items, c("family", "sentences", "decimals"),
+                   group = "family")      # hold out whole item families
+```
+
+The LLTM's weights say what makes items harder; the lasso and the random
+forest show how much more a flexible model can predict. `predict_difficulty()`
+warns when a feature looks like it was computed from the field test itself,
+and `group` checks whether predictions hold for a new kind of item rather
+than a new item of a known kind.
+
 ### Score open-ended responses, and check the scores
 
 ```{r}
@@ -159,7 +178,11 @@ low-confidence responses routed back to human raters.
 automated engine with human raters and fits well at the end of an IRT
 course. [Lab 7](teaching-labs.html#lab-7) goes further: Students train their
 own engine, judge it on new students, find why it underscores English
-language learners, and decide how much of the scoring it should do. The [online book](../book/index.html) has a part on AI in
+language learners, and decide how much of the scoring it should do. In
+[Lab 8](teaching-labs.html#lab-8) they predict item difficulty from the
+text of 192 numeracy items, find miskeyed items and near-duplicates, catch
+a leaky feature, and decide how far predictions can replace a field test.
+The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. More AI labs, chapters and an optional AI module for the [course
 map](course-map.html) are being written; they will be listed on this page
