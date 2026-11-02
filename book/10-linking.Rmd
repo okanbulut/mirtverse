@@ -50,7 +50,7 @@ estimate $A$ and $B$ from the anchors.
   scales. They use all the parameters at once and are more robust.
 
 An alternative to linking two separate calibrations is **concurrent
-calibration**: fit one multiple-group model to both forms, constraining the
+calibration**: Fit one multiple-group model to both forms, constraining the
 anchor items to be equal across groups and estimating the new group's mean
 and standard deviation.
 
@@ -59,7 +59,7 @@ administrations. An anchor whose parameters have changed, because it was
 exposed, taught to, or its position or wording changed, shows **parameter
 drift**, and it must be removed from the anchor set before linking.
 
-## Example 1: separate calibration and linking
+## Example 1: Separate calibration and linking
 
 A language school has an old and a new 30-item placement test that share 10
 anchor items. We simulate 1,000 students on each. The new cohort is stronger
@@ -155,7 +155,7 @@ c(A = A_all, B = mean(p_old[, "b"]) - A_all * mean(p_new[, "b"]))
 One leaked item is enough to distort the link, and with it every score on
 the new form.
 
-## Example 2: concurrent calibration and equating a pass mark
+## Example 2: Concurrent calibration and equating a pass mark
 
 Concurrent calibration fits both forms at once. We stack the two datasets;
 each student has `NA` for the items they did not take.
@@ -218,7 +218,7 @@ If the new form is easier, its curve lies above the old form's and the pass
 mark on the new form is higher; if it is harder, the pass mark is lower.
 Here the new form is a little easier, so the old pass mark of 18 corresponds
 to about `r round(tcc_form(new_items, theta_cut), 1)` on the new form.
-Rounding the equated score to a whole number is a policy decision: rounding
+Rounding the equated score to a whole number is a policy decision: Rounding
 down passes slightly more candidates than the old standard, rounding up
 slightly fewer.
 

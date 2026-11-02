@@ -29,7 +29,7 @@ scale. That makes two things possible.
 
 **Automated test assembly** (ATA) picks items for a fixed form so that the
 form meets a blueprint (for example, ten items from each content area) and
-its information curve matches a target: high at a cut score for a licensing
+its information curve matches a target: High at a cut score for a licensing
 test, flat across the range for a progress test [@vanderlinden2005]. Exact
 solutions use mixed-integer programming; simple greedy rules, which add the
 best remaining item that still fits the blueprint, often get close.
@@ -47,12 +47,12 @@ test for every person while they take it [@wainer2000]. The loop is:
 
 A CAT typically reaches the precision of a fixed test with half as many
 items or fewer. The price is a bank large enough to cover the whole range,
-and **exposure**: without control, the most informative items are given to
+and **exposure**: Without control, the most informative items are given to
 almost everybody and soon become known. A **multistage test** (MST) is a
-compromise: people take pre-assembled modules, and the next module depends
+compromise: People take pre-assembled modules, and the next module depends
 on their performance on the last one.
 
-## Example 1: a vocabulary bank and a fixed form
+## Example 1: A vocabulary bank and a fixed form
 
 A language-assessment centre has a calibrated bank of 200 vocabulary items
 in four areas.
@@ -129,7 +129,7 @@ pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#
 solves the same problem exactly, builds several parallel forms at once and
 handles enemy items (items that must not appear together).
 
-## Example 2: a CAT from scratch
+## Example 2: A CAT from scratch
 
 We now write a complete CAT in about 30 lines, using the same bank. The
 scoring step computes the EAP estimate on a grid of quadrature points, with a
@@ -180,7 +180,7 @@ c(mean_length = mean(res$n), rmse = sqrt(mean((res$est - res$true)^2)),
 ```
 
 On average the CAT reaches a standard error of 0.3 with far fewer than 30
-items. Test length depends on where a person is: in the middle, where the
+items. Test length depends on where a person is: In the middle, where the
 bank is rich, the CAT stops quickly; at the extremes it runs out of
 informative items and goes to the maximum.
 
@@ -214,7 +214,7 @@ rbind(max_info = c(max_exposure = max(exp_max), mean_length = mean(sapply(runs, 
 ```
 
 Content balancing (for example, cycling through the four areas) works the
-same way: restrict the candidate items before choosing the most informative
+same way: Restrict the candidate items before choosing the most informative
 one. `simulate_cat()` in the assessment pipeline runs this kind of
 simulation on a real bank, and the mirtCAT package can deliver an
 operational CAT.
@@ -228,7 +228,7 @@ operational CAT.
 2. Change the stopping rule to $SE < 0.25$. How do mean length and RMSE
    change?
 3. Add content balancing to `cat_one()` so that each test has at least four
-   items from every area. (Hint: while an area has fewer than four items,
+   items from every area. (Hint: While an area has fewer than four items,
    restrict the candidates to that area.)
 4. An admissions officer asks why two applicants got different questions and
    different numbers of questions. Write a short explanation.
@@ -252,8 +252,8 @@ c(mean_length = mean(sapply(runs25, `[[`, "n")),
 
 1. The CAT reaches the target precision sooner for the most able test
    takers, because it now has informative items for them.
-2. Tests get longer and estimates more precise: precision costs items.
-4. For example: "The test adapts to each applicant: after every answer it
+2. Tests get longer and estimates more precise: Precision costs items.
+4. For example: "The test adapts to each applicant: After every answer it
    picks the next question that tells us most about that applicant. Everyone
    is measured on the same scale, and the test stops when it has measured
    each person precisely enough, which takes fewer questions for some people

@@ -54,7 +54,7 @@ want one score per sum score. **EAP for sum scores** (`method = "EAPsum"`)
 gives exactly that, and produces a conversion table that can be printed in a
 manual.
 
-## Example 1: four estimators, one short test
+## Example 1: Four estimators, one short test
 
 With only five items, the differences between estimators are easy to see.
 
@@ -87,14 +87,14 @@ fscores(mod, method = "EAPsum", full.scores = FALSE)
 
 `gg_scores()` shows the distribution of the estimated scores, and
 `gg_wright()` puts people and items on the same scale. With five easy items
-the Wright map shows the problem at once: the items sit low on the scale,
+the Wright map shows the problem at once: The items sit low on the scale,
 where few people need to be measured.
 
 ```{r scores-wright, fig.height = 3.6, fig.cap = "Distribution of the estimated scores (left) and the Wright map of people and items (right) for LSAT7."}
 gg_scores(mod) + gg_wright(mod)
 ```
 
-## Example 2: a proficiency cut on a mathematics test
+## Example 2: A proficiency cut on a mathematics test
 
 We simulate a 40-item end-of-year mathematics test for 2,000 students. The
 province calls students at or above $\theta = 0.8$ *proficient*. Because the
@@ -122,7 +122,7 @@ c(cor_eap = cor(eap[, 1], true_theta), cor_wle = cor(wle[, 1], true_theta),
 With 40 items both estimators correlate about 0.95 with the true values,
 and they rank students almost identically. The EAP scores have a smaller
 spread than the true values (whose standard deviation is 1) and the WLE
-scores a slightly larger one: shrinkage on one side, measurement error on
+scores a slightly larger one: Shrinkage on one side, measurement error on
 the other.
 
 Now the classification. A student is classified correctly if the estimate
@@ -200,7 +200,7 @@ p15 <- pnorm((e15[, 1] - cut) / e15[, 2])
 mean(ifelse(e15[, 1] >= cut, p15, 1 - p15))
 ```
 
-2. No: under the Rasch model every pattern with the same sum score gets the
+2. No: Under the Rasch model every pattern with the same sum score gets the
    same estimate.
 4. For example: "The test gives more weight to questions that are better at
    telling apart students who have mastered the material from those who have

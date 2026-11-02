@@ -28,7 +28,7 @@ pairs many more machine learning words with their psychometric relatives.
 ## The ideas
 
 Machine learning (ML) is a set of methods for learning a rule that predicts
-an outcome from data. It is judged by one question: how well does the rule
+an outcome from data. It is judged by one question: How well does the rule
 predict cases it has not seen? Breiman [-@breiman2001] called this the
 *algorithmic* culture of statistics, in contrast to the *data modelling*
 culture that psychometrics grew up in, where a model is a claim about how the
@@ -37,8 +37,8 @@ data arose and its parameters mean something.
 An IRT model makes such a claim. The 2PL says that the chance of a correct
 answer depends on one unobserved trait through a logistic curve whose slope
 and location are properties of the item. That is a logistic regression, with
-one twist: the predictor $\theta$ is never observed. Everything that makes IRT
-useful follows from taking that claim seriously: item parameters that do not
+one twist: The predictor $\theta$ is never observed. Everything that makes IRT
+useful follows from taking that claim seriously: Item parameters that do not
 depend on who took the test, a standard error for every score, information
 to design tests with, and checks of fit that can reject the model.
 
@@ -61,12 +61,12 @@ network:
 
 Yarkoni and Westfall [-@yarkoni2017] make the case that psychology should
 care more about prediction. The examples below show the reverse lesson as
-well: a good measurement model is itself a very effective way to predict.
+well: A good measurement model is itself a very effective way to predict.
 
-## Example 1: the 2PL is a logistic regression on theta
+## Example 1: The 2PL is a logistic regression on theta
 
 We simulate 20 items answered by 2,000 test takers whose true abilities we
-keep, so we can do something impossible with real data: regress each item on
+keep, so we can do something impossible with real data: Regress each item on
 the true $\theta$.
 
 ```{r data-ml-lens-1}
@@ -117,11 +117,11 @@ ggplot2::ggplot(slopes, ggplot2::aes(true, estimate, colour = method)) +
 ```
 
 The lesson carries over to every ML model that uses test scores as
-features: an observed score is a noisy measure of the trait, and models
+features: An observed score is a noisy measure of the trait, and models
 that ignore the noise underestimate how strongly the trait relates to
 anything else.
 
-## Example 2: forty items or one score?
+## Example 2: Forty items or one score?
 
 A university wants to predict which applicants will pass a first-year
 statistics course from a 40-item placement test. We simulate 400 past
@@ -168,10 +168,10 @@ data.frame(
   cv_accuracy = c(cv(items_formula), cv(passed ~ theta_hat)))
 ```
 
-On the training data the 40-item model looks better: with 41 coefficients
+On the training data the 40-item model looks better: With 41 coefficients
 it can fit some of the noise. Cross-validation tells the truth. On new
 students it does worse than the single score, because the IRT model has
-already done what a good ML pipeline would have had to learn: that the
+already done what a good ML pipeline would have had to learn: That the
 items measure one thing and should be combined with weights close to their
 discriminations. A measurement model is a strong, theory-based form of
 regularization.
@@ -225,9 +225,9 @@ cv(passed ~ prop)
    overfits less and the cross-validated gap narrows. It still rarely beats
    the IRT score, because the outcome depends only on the trait.
 3. The proportion correct does about as well as the IRT score under
-   cross-validation: equal weights are a strong form of shrinkage and lose
+   cross-validation: Equal weights are a strong form of shrinkage and lose
    little when the items' discriminations are similar.
-4. For example: was the 82% computed on students who were not used to train
+4. For example: Was the 82% computed on students who were not used to train
    the model? What is the accuracy of predicting from the total score alone,
    or of predicting that everyone passes? Is the accuracy similar for
    subgroups of students, such as English language learners?

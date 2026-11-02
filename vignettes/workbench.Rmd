@@ -43,5 +43,5 @@ workbench_app()
 ```
 
 The workbench is a tool for doing an analysis. To show finished results to
-people who do not use R, build a dashboard instead: see [Sharing results with
+people who do not use R, build a dashboard instead: See [Sharing results with
 a dashboard](dashboards.html).

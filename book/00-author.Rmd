@@ -7,13 +7,13 @@ knitr::include_graphics("images/okan-bulut.jpg")
 **Okan Bulut** is a Professor of Measurement, Evaluation, and Data Science at
 the University of Alberta. His work sits where artificial intelligence meets
 educational measurement, data mining and learning analytics, and it asks a
-practical question: how can assessments learn about the learner while the
+practical question: How can assessments learn about the learner while the
 learner is learning?
 
 His research uses AI-driven algorithms and natural language processing to
 build digital assessment systems that adapt to learners' preferences,
 cognitive styles and performance over time. A large part of that work is
-about scale: generating test items automatically, scoring open-ended
+about scale: Generating test items automatically, scoring open-ended
 responses automatically, and giving every student timely, useful feedback,
 not just the few whose work a teacher has time to mark by hand.
 

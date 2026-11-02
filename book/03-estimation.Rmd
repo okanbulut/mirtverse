@@ -29,14 +29,14 @@
 **Calibration** means estimating the item parameters. We never observe
 $\theta$, so we cannot simply regress responses on it. **Marginal maximum
 likelihood** (MML) instead assumes a distribution for $\theta$ in the
-population, usually standard normal, and integrates it out: the likelihood
+population, usually standard normal, and integrates it out: The likelihood
 of a response pattern is its probability averaged over all possible values
 of $\theta$. The item parameters are chosen to make the observed patterns as
 likely as possible [@bock1981].
 
 mirt maximizes this likelihood with the **EM algorithm** by default. It
 replaces the integral with a sum over a grid of *quadrature points* and
-alternates two steps: the E-step works out, for every person, how likely each
+alternates two steps: The E-step works out, for every person, how likely each
 grid point is given their responses and the current item parameters; the
 M-step updates each item's parameters as if those expected counts were
 data. The cycles stop when the parameters stop changing, which is called
@@ -61,7 +61,7 @@ Once a model has converged, we compare it with alternatives.
   are effect sizes built from it. Treat the cut-offs as rough guides, not
   rules.
 
-## Example 1: a test the Rasch model fits
+## Example 1: A test the Rasch model fits
 
 `LSAT6` is another five-item section of the Law School Admission Test, with
 1,000 test takers. It is a textbook example of data the Rasch model fits well.
@@ -105,7 +105,7 @@ autoplot(sel)
 The `weight` column converts BIC differences into the relative support for
 each model; here nearly all of it goes to the Rasch model.
 
-## Example 2: when the criteria disagree
+## Example 2: When the criteria disagree
 
 Now take the 32 science items of `SAT12`, scored with the corrected key from
 Chapter \@ref(measurement).
@@ -123,12 +123,12 @@ sel$lrt
 ```
 
 This time the evidence is mixed. The LRT and AIC prefer the 3PL, while BIC
-prefers the 2PL. Neither is "wrong": they answer different questions. The
+prefers the 2PL. Neither is "wrong": They answer different questions. The
 LRT asks whether the extra 32 guessing parameters improve fit beyond chance,
 and with 600 people the answer is yes. BIC asks which model is more likely to
 be the better description once we account for the cost of 32 more
 parameters, and it says the 2PL. A sensible report states the tension and
-the reason for the final choice: if scores will be used for decisions about
+the reason for the final choice: If scores will be used for decisions about
 low-scoring students, where guessing matters most, the 3PL may be worth its
 cost; for a short research scale, the 2PL is easier to defend.
 
@@ -162,7 +162,7 @@ summary(coef(fit_prior, IRTpars = TRUE, simplify = TRUE)$items[, "g"])
 ```
 
 With the prior the model converges and the lower asymptotes stay in a
-believable range. Report priors when you use them: they are part of the
+believable range. Report priors when you use them: They are part of the
 model.
 
 ## Your turn
@@ -209,7 +209,7 @@ max(abs(coef(m15, simplify = TRUE)$items - coef(m61, simplify = TRUE)$items))
 <div class="lab">
 Lab 1, `run_lab("model-choice")`, ends with a model choice you have to
 justify to a certification board, using the same evidence as this chapter:
-convergence, likelihood-ratio tests, information criteria and absolute fit.
+Convergence, likelihood-ratio tests, information criteria and absolute fit.
 </div>
 
 ## Further reading {-}

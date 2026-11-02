@@ -50,7 +50,7 @@ Finally, results have to be communicated. People who make decisions with test
 scores rarely read item parameters. They need a short, honest summary of what
 the test measures, how precisely, for whom it works, and what the scores mean.
 
-## Example 1: setting a proficiency standard
+## Example 1: Setting a proficiency standard
 
 A provincial Grade 6 science test has 36 items. We simulate a calibration on
 2,500 students.
@@ -89,7 +89,7 @@ the number of panelists, is a rough standard error of the panel's cut. It
 should be reported alongside the cut.
 
 Teachers and parents see raw scores, so we convert the cut with the **test
-characteristic curve**: the expected number correct at $\theta$.
+characteristic curve**: The expected number correct at $\theta$.
 
 ```{r}
 raw_cut <- expected.test(mod, matrix(theta_cut))
@@ -113,7 +113,7 @@ agree (here approximated from each student's posterior probability of being
 above the cut). Consistency is always the lower of the two, because both
 testings carry error.
 
-An item map makes the cut concrete for teachers: it shows which items a
+An item map makes the cut concrete for teachers: It shows which items a
 just-proficient student is likely to answer correctly (the items below the
 line). Printing the text of a few items on each side of the line is a good
 way to describe what *proficient* means.
@@ -137,7 +137,7 @@ pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#
 produce the booklet, record the panel's judgements, and report impact and
 classification statistics for several cuts at once.
 
-## Example 2: telling the story
+## Example 2: Telling the story
 
 We return to the attitude scale from Chapter \@ref(polytomous) to show the
 reporting tools on a different kind of instrument.
@@ -155,7 +155,7 @@ sel <- select_model(resp, verbose = FALSE)
 interpret(sel$best)
 ```
 
-Read it critically before you use it: it flags the poor absolute fit and the
+Read it critically before you use it: It flags the poor absolute fit and the
 low precision, and a careful report says what that means for the intended
 use of the scores.
 
@@ -188,8 +188,8 @@ the options.
 Decision makers usually want one page. A structure that works:
 
 1. **The question.** What decision will the scores support?
-2. **The answer.** One or two sentences: can the test support it?
-3. **The evidence.** Three to five bullets: precision where the decision is
+2. **The answer.** One or two sentences: Can the test support it?
+3. **The evidence.** Three to five bullets: Precision where the decision is
    made, classification accuracy, fairness checks, any items removed.
 4. **What it means.** The consequences of the cut for the people tested,
    for example the percentage classified in each category and how many are
@@ -244,7 +244,7 @@ mean(p_cat[cbind(seq_len(nrow(p_cat)), as.integer(cats))])
 ## In the lab {-}
 
 <div class="lab">
-The course map ends with a final project: a full analysis of a dataset of
+The course map ends with a final project: A full analysis of a dataset of
 the student's choice, handed in as an `mv_report()` or a dashboard plus a
 two-page memo. The [assessment
 pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html)

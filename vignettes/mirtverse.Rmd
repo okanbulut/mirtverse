@@ -111,7 +111,7 @@ mv_dashboard(mod, title = "LSAT7 results")
 export_dashboard(mod, "lsat7-dashboard.html", format = "html")
 ```
 
-A dashboard lets people who do not use R explore the results: the summary,
+A dashboard lets people who do not use R explore the results: The summary,
 the item table with health cards, item curves with an ability slider and
 more. Save it as one HTML file to email, or as a Shiny app to host. See
 [Sharing results with a dashboard](dashboards.html).

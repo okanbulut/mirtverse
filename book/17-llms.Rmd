@@ -53,7 +53,7 @@ works:
   confidential, so what is sent has to be a decision, not an accident.
 
 These properties lead to the way mirtverse uses LLMs, which is also a good
-rule for any testing program [@hao2024; @bulut2024]: the model drafts,
+rule for any testing program [@hao2024; @bulut2024]: The model drafts,
 something else checks, and a person decides. Generated items are answered
 again by a second, independent model call that does not see the key.
 Machine scores must agree with human scores, overall and within groups,
@@ -69,11 +69,11 @@ no internet connection and give the same results for every reader. Those
 responses were written by hand to show what a model returns, including a
 few deliberate mistakes; they were not produced by a live model.
 
-## Example 1: from a sentence to a tested script
+## Example 1: From a sentence to a tested script
 
 `mv_ask()` turns a plain-language request into an analysis plan and the
 plan into an R script built from tested templates. The model never writes
-code and never sees the responses: it sees the request and a summary of the
+code and never sees the responses: It sees the request and a summary of the
 columns. You can see that payload before anything is sent with
 `dry_run = TRUE`:
 
@@ -100,12 +100,12 @@ s$plan$assumptions
 ```
 
 The model chose the graded response model, kept the default steps, and
-stated two assumptions it made. Read them: an assumption is where a model
+stated two assumptions it made. Read them: An assumption is where a model
 fills a gap in your request, and a wrong one gives a wrong analysis that
 runs without error. The script itself is printed with `s`, and run with
 `run_script(s)`.
 
-## Example 2: writing items, and catching the mistakes
+## Example 2: Writing items, and catching the mistakes
 
 The assessment pipeline writes items for the cells of a blueprint. Each
 multiple-choice item comes with a key and a rationale for every option,
@@ -140,13 +140,13 @@ p$items$verify_note[3]
 A `block` flag stops the pipeline at the next stage until a person fixes the
 item or acknowledges the flag. The coverage flags are a reminder that items
 are lost in review and field testing, so a pool needs more items than the
-blueprint asks for. Notice what the checks do *not* do: they do not show
+blueprint asks for. Notice what the checks do *not* do: They do not show
 that the items measure Grade 7 numeracy, that they are fair, or that their
 difficulty suits the test. Content review and a field test still do that.
 
-## Example 3: is a recording reproducible?
+## Example 3: Is a recording reproducible?
 
-Replay makes a session reproducible in a strong sense: the same calls on
+Replay makes a session reproducible in a strong sense: The same calls on
 the same data give the same output, on any computer. It also makes the
 limits of a recording visible. Change the request by one word and the
 recording has no answer for it:
@@ -201,7 +201,7 @@ mv_llm_recordings()[, c("function_name", "prompt_start")]
 3. A check can only say that something looks wrong; deciding whether it is,
    and what to do, is a professional judgement. Recording who acknowledged
    which flag, and why, is part of the evidence for the test.
-4. For example: agreement between machine and human scores on a sample of
+4. For example: Agreement between machine and human scores on a sample of
    double-scored responses, compared with agreement between two humans
    [@williamson2012]; the standardized mean difference between machine and
    human scores; and the same statistics within groups, such as English
