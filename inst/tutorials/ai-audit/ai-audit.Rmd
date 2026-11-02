@@ -1,0 +1,403 @@
+---
+title: "Lab 10: Auditing an AI-scored test"
+description: >
+  A state science test has scored its written answers with an automated
+  engine for two years. Before the 2026 scores are reported, audit the
+  engine: Agreement with human raters, fairness to English language
+  learners, drift after an engine update and DIF on the test as scored,
+  then turn the audit into a validity argument. About 75 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 120, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 8, fig.height = 3.8)
+```
+
+```{r setup-read, include = FALSE}
+read <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+```
+
+```{r setup-audit, include = FALSE}
+d26 <- aiscored[aiscored$year == 2026, ]
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item",
+                  period = "year", responses = d26[, -(1:3)], person_group = d26$group)
+```
+
+## The brief
+
+### Scores due on Friday
+
+You are the psychometrician for the fictional **Northfield Grade 8 Science
+Assessment**. The test has 16 multiple-choice items and four
+constructed-response items, each scored 0 to 3. Since 2025, an automated
+scoring engine scores every written answer. To keep it honest, 20% of
+students are also scored by a trained human rater, and half of those by a
+second rater: The **validity sample**.
+
+The 2026 results are due to schools on Friday. The state's technical
+advisory committee asks you:
+
+> *Can we report the 2026 scores as they are? And should the engine keep
+> scoring on its own next year?*
+
+The test as scored is in `aiscored`; the machine and human scores of the
+written answers are in `aiscored_cr`.
+
+### Meet the data
+
+```{r look, exercise = TRUE}
+head(aiscored[, c("student", "year", "group", "MC01", "MC02", "CR1", "CR2", "CR3", "CR4")], 3)
+head(aiscored_cr, 4)
+table(aiscored$year, aiscored$group)
+```
+
+```{r look-check}
+"1,500 students a year, a quarter of them English language learners (ELL). Every written answer has a machine score; human1 and human2 are filled in only for the validity sample."
+```
+
+## Does the engine agree with people?
+
+### Agreement by item
+
+Keep the responses a person read, and compare machine and human scores for
+each item with `agreement_report()`. Give the second human score so that
+human-human agreement is shown too.
+
+```{r agree, exercise = TRUE}
+read <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+agreement_report(read$machine, read$human1, read$human2, by = read$)
+```
+
+```{r agree-hint}
+agreement_report(read$machine, read$human1, read$human2, by = read$item)
+```
+
+```{r agree-solution}
+read <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+agreement_report(read$machine, read$human1, read$human2, by = read$item)
+```
+
+```{r agree-check}
+lab_need(exists("read") && nrow(read) == sum(!is.na(aiscored_cr$human1)),
+         "Keep the responses with a human score: !is.na(aiscored_cr$human1).")
+lab_need(inherits(.result, "mv_agreement") && "by" %in% names(.result),
+         "Report agreement by item: by = read$item.")
+"Three items meet the rules. CR4 does not: QWK of 0.68. But look at qwk_human: Two people agree on CR4 no better (0.66)."
+```
+
+```{r q-cr4}
+question_radio("What does CR4's low agreement tell you?",
+  answer("Human raters disagree as much as the engine disagrees with them. The rubric or the rater training is the problem: The engine cannot be checked, or trained, against scores that are this unreliable.",
+         correct = TRUE,
+         message = "Right. Machine-human agreement is capped by human-human agreement. Fix the rubric and retrain raters, then judge the engine. PRMSE, which allows for rater error, is the better statistic here."),
+  answer("The engine is bad at CR4 and should be retrained.",
+         message = "Retraining on the same unreliable human scores cannot help: The engine already agrees with people as well as people agree with each other."),
+  answer("CR4 is fine; 0.68 is close to 0.70.",
+         message = "Close to the line, but the human-human QWK is the real warning: The scores the engine is judged against are weak."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Is the engine fair to every group?
+
+### Agreement within groups
+
+Add the students' `group` to the agreement report.
+
+```{r agree-group, exercise = TRUE, exercise.setup = "setup-read"}
+agreement_report(read$machine, read$human1, read$human2, by = read$item, group = read$)
+```
+
+```{r agree-group-hint}
+agreement_report(read$machine, read$human1, read$human2, by = read$item, group = read$group)
+```
+
+```{r agree-group-solution}
+agreement_report(read$machine, read$human1, read$human2, by = read$item, group = read$group)
+```
+
+```{r agree-group-check}
+lab_need(inherits(.result, "mv_agreement") && any(.result$group == "ELL"),
+         "Report agreement by group: group = read$group.")
+a <- as.data.frame(.result)
+sprintf("CR2 meets the rules overall, but for ELL students the machine scores are %.2f SD below the human scores, and QWK falls to %.2f.",
+        abs(a$smd[a$by == "CR2" & a$group == "ELL"]), a$qwk[a$by == "CR2" & a$group == "ELL"])
+```
+
+### Bias, or a real difference?
+
+ELL students score lower on average, so lower machine scores alone prove
+nothing. The question is whether the engine gives ELL students lower
+scores **than people give the same answers**. `ai_audit()` compares the
+machine-minus-human difference of the two groups among responses humans
+scored the same (differential scoring). Run it with the group and the
+item.
+
+```{r diff, exercise = TRUE}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "", item = "item")
+audit$differential
+```
+
+```{r diff-hint}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item")
+```
+
+```{r diff-solution}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item")
+audit$differential
+```
+
+```{r diff-check}
+lab_need(exists("audit") && inherits(audit, "mv_audit"), "Keep the name `audit` and use ai_audit().")
+lab_need(!is.null(audit$differential), "Give the group column: group = \"group\".")
+dg <- audit$differential
+sprintf("On CR2, the engine scores ELL students %.2f SD lower than fluent students whose answers people scored the same, %.1f standard errors from zero. On the other items the gaps are within sampling error.",
+        abs(dg$gap[dg$item == "CR2"]), abs(dg$gap[dg$item == "CR2"] / dg$se[dg$item == "CR2"]))
+```
+
+```{r q-ell}
+question_radio("What explains the CR2 gap?",
+  answer("The engine treats ELL students' answers differently from fluent students' answers that people score the same, probably through features such as spelling or sentence structure. That is bias in the engine, not a difference in science proficiency.",
+         correct = TRUE,
+         message = "Right. Conditioning on the human score is what separates the two. Look for the features that drive it, and route ELL students' CR2 answers to a human reader until the engine is fixed."),
+  answer("ELL students know less science, so their scores are lower.",
+         message = "That would lower human and machine scores alike. The gap is between machine and human scores for the same answers."),
+  answer("The validity sample is too small to tell.",
+         message = "The gap is several standard errors from zero. Small samples are a reason to check significance, which the audit does."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Has the engine changed?
+
+### Two years together
+
+Pooled over both years, CR3 meets every rule. The engine vendor installed
+an update before the 2026 administration. Add the year as the `period`.
+
+```{r drift, exercise = TRUE}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item",
+                  period = )
+audit$drift[, c("item", "period", "smd", "qwk", "smd_change", "drift")]
+```
+
+```{r drift-hint}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item",
+                  period = "year")
+```
+
+```{r drift-solution}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item",
+                  period = "year")
+audit$drift[, c("item", "period", "smd", "qwk", "smd_change", "drift")]
+```
+
+```{r drift-check}
+lab_need(exists("audit") && inherits(audit, "mv_audit") && !is.null(audit$drift),
+         "Give the year as the period: period = \"year\".")
+dr <- audit$drift
+r <- dr[dr$item == "CR3" & dr$period == "2026", ]
+sprintf("CR3 drifted: Its machine scores went from %+.2f SD of the human scores in 2025 to %+.2f in 2026, and QWK fell from %.2f to %.2f. Pooling the years hid it.",
+        r$smd_first, r$smd, r$qwk_first, r$qwk)
+```
+
+```{r q-drift}
+question_radio("What should happen to the 2026 CR3 scores?",
+  answer("Hold them: Ask the vendor what changed, and rescore CR3 with the 2025 engine version or human raters before reporting. Check every engine update this way before it goes live.",
+         correct = TRUE,
+         message = "Right. An engine update is a change to the test's scoring, and needs the same evidence as the engine itself had, before the scores count."),
+  answer("Report them: The pooled agreement meets the rules.",
+         message = "The pooled numbers average a good year with a bad one. 2026 students' CR3 scores are inflated by about 0.3 SD."),
+  answer("Subtract 0.3 SD from every 2026 CR3 score.",
+         message = "A fixed shift assumes the engine moved every answer by the same amount, which you have not shown. Rescoring is the defensible fix."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## DIF on the test as scored
+
+### Item by item
+
+The scores students receive come from the whole test. Run DIF on the 2026
+test as scored, with the AI-scored items marked. This takes about 20
+seconds.
+
+```{r dif, exercise = TRUE, exercise.timelimit = 180, exercise.lines = 8}
+d26 <- aiscored[aiscored$year == 2026, ]
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group", item = "item",
+                  period = "year", responses = d26[, -(1:3)], person_group = d26$group)
+audit$flags[audit$flags$check == "DIF", c("target", "value", "level")]
+```
+
+```{r dif-check}
+lab_need(exists("audit") && inherits(audit, "mv_audit") && !is.null(audit$dif),
+         "Keep the code: The audit needs `responses` and `person_group`.")
+"Two items show DIF against ELL students: CR2, an AI-scored item, and MC07, a multiple-choice item."
+```
+
+```{r q-dif}
+question_radio("Which DIF is the engine's?",
+  answer("CR2's: It matches the differential scoring found against human scores. MC07 is scored by a key, so its DIF comes from the item itself (for example its language load) and belongs to content review.",
+         correct = TRUE,
+         message = "Right. DIF on an AI-scored item may come from the engine or from the item; comparing with human scores tells which. DIF on other items is not the engine's doing."),
+  answer("Both: The engine affects every score on the test.",
+         message = "The engine scores only the written answers. A multiple-choice item is scored by its key."),
+  answer("Neither: DIF is a property of items, not of scoring.",
+         message = "A scorer that marks one group's answers down produces DIF in the scores, however good the item is."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### The whole audit
+
+Print the audit and plot it.
+
+```{r all, exercise = TRUE, exercise.setup = "setup-audit", fig.height = 4}
+audit
+autoplot(audit)
+```
+
+```{r all-check}
+"Two blocks, from two different checks: Differential scoring on CR2 and drift on CR3. Review flags for CR4's agreement and CR2's DIF, and information on MC07. No single statistic would have found them all."
+```
+
+## From audit to argument
+
+### A validity argument
+
+An audit lists problems. The committee needs to know which **claims**
+about the scores they affect. `validity_argument()` drafts the argument by
+the four inferences of Kane's approach: Scoring, generalization,
+extrapolation and decision. Describe the test and its use.
+
+```{r va, exercise = TRUE, exercise.setup = "setup-audit", exercise.lines = 8}
+va <- validity_argument(audit, construct = "Grade 8 science",
+                        use = "",
+                        population = "Grade 8 students")
+va[, c("inference", "status")]
+va
+```
+
+```{r va-hint}
+va <- validity_argument(audit, construct = "Grade 8 science",
+                        use = "school accountability reporting",
+                        population = "Grade 8 students")
+```
+
+```{r va-solution}
+va <- validity_argument(audit, construct = "Grade 8 science",
+                        use = "school accountability reporting",
+                        population = "Grade 8 students")
+va[, c("inference", "status")]
+va
+```
+
+```{r va-check}
+lab_need(exists("va") && inherits(va, "mv_validity"), "Keep the name `va` and use validity_argument().")
+lab_need(nzchar(attr(va, "use")), "Say how the scores are used, for example use = \"school accountability reporting\".")
+"Scoring is partly supported (CR4), generalization and extrapolation are threatened (drift on CR3, bias on CR2), and the decision inference has no evidence at all: No audit statistic can show it."
+```
+
+```{r q-decision}
+question_radio("What evidence does the decision inference still need?",
+  answer("How machine scores are used and overseen: Which responses a person reads (flagged, low-confidence, or a group the engine is unfair to), what students and schools are told about automated scoring, and how a score can be appealed.",
+         correct = TRUE,
+         message = "Right. The Standards and the ITC/ATP guidelines ask for this, and it is a matter of policy and documentation, not statistics."),
+  answer("A larger validity sample.",
+         message = "A larger sample strengthens the scoring and extrapolation evidence. The decision inference is about how the scores are used."),
+  answer("None: If the engine is accurate, the decisions are appropriate.",
+         message = "Accuracy is necessary, not sufficient. Decisions also depend on oversight, transparency and the chance to correct errors."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## The recommendation
+
+```{r q-deploy}
+question_radio("What do you recommend to the committee?",
+  answer("Report the multiple-choice scores and CR1 and CR4 as scored, but hold CR2 and CR3: Rescore CR2 for ELL students and all of CR3 in 2026 with human raters (or the 2025 engine for CR3). Next year, keep human reading for CR2 until the engine is fixed, revise the CR4 rubric, audit every engine update before it goes live, send MC07 to content review, and publish how automated scoring is used and appealed.",
+         correct = TRUE,
+         message = "A defensible plan: Each problem gets a fix matched to its cause, the scores that are sound are not delayed, and the decision inference gets its evidence."),
+  answer("Report everything: The engine meets the agreement rules overall.",
+         message = "Overall agreement hid a bias against ELL students on CR2 and an inflated CR3 in 2026."),
+  answer("Stop automated scoring and have people score everything.",
+         message = "Safe, but CR1 works well, and CR4's problem is the rubric, which people suffer from too. Fix the specific problems."),
+  answer("Retrain the engine on all items, then report.",
+         message = "Retraining does not fix CR4's unreliable human scores, and it takes longer than Friday. CR2 and CR3 need rescoring now."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Write to the committee
+
+Write a short memo (four to six sentences): What the audit checked, what
+it found, which scores can be reported, and what must change next year.
+
+```{r q-memo}
+question_text(
+  "Your memo:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover what was checked, the findings, the 2026 scores and next year."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the technical advisory committee: ..."
+)
+```
+
+## The reveal
+
+### What was planted in the scores
+
+`aiscored` was simulated with true scores for every written answer, human
+raters and an engine with known errors. `lab_truth("aiscored")` lists what
+was built in.
+
+```{r truth, exercise = TRUE}
+truth <- lab_truth("aiscored")
+truth$planted
+truth$rater_error
+truth$engine_error
+```
+
+| What was planted | What you found |
+|---|---|
+| The engine gives ELL students one point less on 45% of their CR2 answers above 0 | Overall agreement met the rules; within ELL students the SMD was about -0.3, and differential scoring confirmed bias in the engine |
+| The 2026 engine update gives one point more on 40% of CR3 answers below 3 | Invisible when the years are pooled; drift of about +0.3 SD in 2026 |
+| CR4's raters are off by a point half of the time, and sometimes by two | Low human-human agreement; the engine agrees with people as well as they agree with each other |
+| MC07 is 0.6 logits harder for ELL students | DIF on a multiple-choice item, not the engine's |
+| ELL students are 0.3 SD lower in true science ability | Lower scores for ELL students on every item, which is impact, not bias |
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-cr4" = "CR4's low agreement",
+    "q-ell" = "The CR2 gap for ELL students",
+    "q-drift" = "The 2026 CR3 scores",
+    "q-dif" = "Which DIF is the engine's",
+    "q-decision" = "Evidence for the decision inference",
+    "q-deploy" = "Recommendation",
+    "q-memo" = "Memo to the committee"
+  ))
+})
+```
+
+You have audited an AI component the way a testing program should: Against
+human scores that were themselves checked, within groups and over time, on
+the test as scored, and with the findings tied to the claims the scores
+must support.

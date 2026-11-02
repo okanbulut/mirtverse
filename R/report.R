@@ -21,7 +21,7 @@
 #' @param extra optional named list of extra sections, each a piece of HTML
 #'   built with htmltools, placed before the reproducibility section; the
 #'   names are the section titles. [pipeline_report()] uses this for its
-#'   decisions section.
+#'   decisions section. A [validity_argument()] can be given directly.
 #' @param open logical; open the report in a browser afterwards.
 #' @return The path to the report, invisibly.
 #' @examples
@@ -123,7 +123,11 @@ mv_report <- function(x, file = "mirtverse-report.html", title = "IRT analysis r
         htmltools::div(class = "card", plot_img(item_card(x, j, alpha = alpha, tab = it), 11, 6.5))))))
   }
 
-  for (nm in names(extra)) sections <- c(sections, list(section(nm, extra[[nm]])))
+  for (nm in names(extra)) {
+    ex <- extra[[nm]]
+    if (inherits(ex, "mv_validity")) ex <- htmltools::HTML(format(ex, "html"))
+    sections <- c(sections, list(section(nm, ex)))
+  }
 
   call_txt <- paste(deparse(mirt::extract.mirt(x, "model")), collapse = "\n")
   code <- if (is.null(code)) c(

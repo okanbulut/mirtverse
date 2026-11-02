@@ -81,6 +81,7 @@ the hub does.
 | \@ref(aig) | Generating items | Lab 9 |
 | \@ref(auto-scoring) | Automated scoring | Lab 7 |
 | \@ref(llms) | Large language models as a colleague | |
+| \@ref(ai-validity) | Validity, fairness and governance of AI | Lab 10 |
 
 Table: (\#tab:ai-chapters) The chapters on AI in measurement.
 
@@ -127,7 +128,7 @@ writes a script from a plain-language request.
 ## Other teaching materials {-}
 
 * [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html):
-  Nine interactive learnr labs with an instructor guide and answer key.
+  Ten interactive learnr labs with an instructor guide and answer key.
 * [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.html):
   A 12-week syllabus with readings, functions, labs and assessment ideas.
 * [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html) of

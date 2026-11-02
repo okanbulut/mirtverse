@@ -36,6 +36,8 @@ navbar:
         href: reference/predict_difficulty.html
       - text: Train and check a scoring engine
         href: reference/train_scorer.html
+      - text: Audit an AI component
+        href: reference/ai_audit.html
     book:
       text: Book
       href: book/index.html
@@ -124,8 +126,9 @@ reference:
     Run the language model features offline from recorded responses,
     describe items by their text and predict their difficulty, generate
     items from item models and calibrate their families, train and check an
-    automated scoring engine, and teaching datasets with item text, written
-    answers and a field test of generated items.
+    automated scoring engine, audit AI components and draft a validity
+    argument, and teaching datasets with item text, written answers, a
+    field test of generated items and an AI-scored test.
   contents:
   - mv_llm_replay
   - item_features
@@ -136,10 +139,14 @@ reference:
   - train_scorer
   - predict.mv_scorer
   - agreement_report
+  - ai_audit
+  - validity_argument
   - itemtext
   - essays
   - aigfield
   - aigfield_items
+  - aiscored
+  - aiscored_cr
 - title: Choosing and understanding a model
   contents:
   - select_model

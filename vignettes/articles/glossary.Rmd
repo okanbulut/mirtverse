@@ -80,6 +80,7 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 **D** [Dichotomous item](#dichotomous-item) ·
 [DIF effect size](#dif-effect-size) ·
 [Differential item functioning](#dif) ·
+[Differential scoring](#differential-scoring) ·
 [Difficulty](#difficulty) ·
 [Dimensionality](#dimensionality) ·
 [Discrimination](#discrimination)
@@ -172,6 +173,7 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 **U** [Unidimensionality](#dimensionality) ·
 [Uniform DIF](#uniform-nonuniform-dif) ·
 [Upper asymptote](#upper-asymptote)
+**V** [Validity argument](#validity-argument)
 **W** [WLE](#wle) ·
 [Wright map](#wright-map)
 **Z** [Zh](#zh)
@@ -1134,6 +1136,26 @@ against human scores with agreement statistics such as [QWK](#qwk) and
 [PRMSE](#prmse), overall and within subgroups.
 
 **In R:** `score_open()`.
+
+### Differential scoring {#differential-scoring}
+
+An automated scorer that gives one group of test takers lower (or higher)
+scores than human raters give the same answers. It is checked by comparing
+machine and human scores within groups, among responses that people scored
+the same, so that bias in the scorer is not confused with a real
+difference between the groups.
+
+**In R:** `ai_audit()` with `group`.
+
+### Validity argument {#validity-argument}
+
+A structured case that test scores support their intended interpretation
+and use (Kane, 2013). It links the claims (the scores follow the rubric,
+generalize over occasions, reflect the construct, and support the
+decisions made with them) to the evidence for each, and to the threats
+against them. An AI component adds threats to every link.
+
+**In R:** `validity_argument()`, with the evidence from `ai_audit()`.
 
 ### PRMSE {#prmse}
 

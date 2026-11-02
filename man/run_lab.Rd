@@ -25,12 +25,13 @@ mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 9
+storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 10
 each have their own: a provincial numeracy test (\link{numeracy}), a licensure
 exam with two forms (\link{linking}), a placement test's item bank
 (\link{catbank}), rater-scored science tasks (\link{openended}), written science
-explanations (\link{essays}), the text of numeracy items (\link{itemtext}) and a
-field test of generated items (\link{aigfield}).
+explanations (\link{essays}), the text of numeracy items (\link{itemtext}), a
+field test of generated items (\link{aigfield}) and an AI-scored science test
+(\link{aiscored}).
 }
 \details{
 \itemize{
@@ -73,6 +74,11 @@ generated item? Write an item model with \code{\link[=item_model]{item_model()}}
 constraints, calibrate a field test of 60 isomorphs, find the families
 that are not isomorphic with \code{\link[=calibrate_families]{calibrate_families()}} and why, and test
 the family means on held-out items.
+\item \code{"ai-audit"} (Lab 10): Can the scores of an AI-scored test be released?
+Audit the engine with \code{\link[=ai_audit]{ai_audit()}}: Agreement with human raters, bias
+against English language learners, drift after an engine update and
+DIF on the test as scored; then draft a validity argument with
+\code{\link[=validity_argument]{validity_argument()}} and decide which scores to report.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

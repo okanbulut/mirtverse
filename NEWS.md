@@ -1,5 +1,26 @@
 # mirtverse (development version)
 
+* New `ai_audit()` audits an AI component in one call and returns flags in
+  the pipeline's block / review / info style: Human and machine agreement,
+  overall bias, agreement within groups, differential scoring (machine
+  minus human at the same human score, against a reference group, beyond
+  sampling error), drift across administrations or engine versions, DIF on
+  the test as scored (on AI-scored items for review, on others for
+  information), and results of `predict_difficulty()` (leakage),
+  `calibrate_families()` (isomorphism) and `agreement_report()`. It has
+  `print()`, `tidy()` and `autoplot()` methods.
+
+* New `validity_argument()` drafts a Kane-style validity argument from an
+  audit: Claims, AI-specific threats, evidence and a status for the
+  scoring, generalization, extrapolation and decision inferences, with what
+  is still owed. `format()` gives HTML or Markdown, and `mv_report()` takes
+  it directly as an extra section.
+
+* New Lab 10, `run_lab("ai-audit")`: Students audit an engine-scored
+  science test over two years (the new `aiscored` and `aiscored_cr` data)
+  before its scores are released. The book has a new chapter, "Validity,
+  fairness and governance of AI" (`ai-validity` in `book_chapters()`).
+
 * New `item_model()` writes an item model for automatic item generation:
   A stem, key and distractors as templates with R expressions in braces,
   the values of each variable and constraints. Printing it shows how many

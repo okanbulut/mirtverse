@@ -4,12 +4,13 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 9
+#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 10
 #' each have their own: a provincial numeracy test ([numeracy]), a licensure
 #' exam with two forms ([linking]), a placement test's item bank
 #' ([catbank]), rater-scored science tasks ([openended]), written science
-#' explanations ([essays]), the text of numeracy items ([itemtext]) and a
-#' field test of generated items ([aigfield]).
+#' explanations ([essays]), the text of numeracy items ([itemtext]), a
+#' field test of generated items ([aigfield]) and an AI-scored science test
+#' ([aiscored]).
 #'
 #' * `"model-choice"` (Lab 1): Score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -50,6 +51,11 @@
 #'   constraints, calibrate a field test of 60 isomorphs, find the families
 #'   that are not isomorphic with [calibrate_families()] and why, and test
 #'   the family means on held-out items.
+#' * `"ai-audit"` (Lab 10): Can the scores of an AI-scored test be released?
+#'   Audit the engine with [ai_audit()]: Agreement with human raters, bias
+#'   against English language learners, drift after an engine update and
+#'   DIF on the test as scored; then draft a validity argument with
+#'   [validity_argument()] and decide which scores to report.
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
@@ -195,8 +201,8 @@ lab_decisions <- function(state, labels) {
 #'
 #' @param data the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"`
 #'   (Lab 3), `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"`
-#'   (Lab 6), or one of the AI Hub datasets, `"itemtext"`, `"essays"` and
-#'   `"aigfield"`.
+#'   (Lab 6), or one of the AI Hub datasets, `"itemtext"`, `"essays"`,
+#'   `"aigfield"` and `"aiscored"`.
 #' @return For `"certexam"`, a list with the true `model`, the correct `key`,
 #'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
 #'   the group `impact` (mean ability difference in SD units), the generating
@@ -226,16 +232,21 @@ lab_decisions <- function(state, labels) {
 #'   and discrimination `a` of every item, each item model's difficulty
 #'   (`model_b`), the true within-model SD (`sd_within`), which subtraction
 #'   items need regrouping (`regroup`) and its effect, the `flawed` items and
-#'   the `planted` problems.
+#'   the `planted` problems. For `"aiscored"`, a list with each student's
+#'   ability `theta`, the true constructed-response scores `true_cr`, the
+#'   item parameters, the group `impact`, the item with real DIF
+#'   (`dif_item`) and its size, the rates of rater and engine error, and the
+#'   `planted` problems.
 #' @examples
 #' lab_truth()$dif
 #' lab_truth("numeracy")$dif
 #' @export
 lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank", "openended",
-                               "itemtext", "essays", "aigfield")) {
+                               "itemtext", "essays", "aigfield", "aiscored")) {
   switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth,
          linking = linking_truth, catbank = catbank_truth, openended = openended_truth,
-         itemtext = itemtext_truth, essays = essays_truth, aigfield = aigfield_truth)
+         itemtext = itemtext_truth, essays = essays_truth, aigfield = aigfield_truth,
+         aiscored = aiscored_truth)
 }
 
 #' Certification exam data for the teaching labs

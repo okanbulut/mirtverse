@@ -112,3 +112,46 @@
 #' @examples
 #' aigfield_items[c(1, 11, 21), c("id", "stem", "A", "B", "C", "D", "key")]
 "aigfield_items"
+
+#' An AI-scored science test over two years, for the AI Hub
+#'
+#' Simulated scores of 3,000 Grade 8 students (1,500 in 2025 and 1,500 in
+#' 2026, a quarter of them English language learners, ELL) on a science test
+#' with 16 multiple-choice items and 4 constructed-response items, as scored
+#' operationally: The constructed responses (`CR1` to `CR4`, 0 to 3 points)
+#' are scored by an automated scoring engine. The human scores of the
+#' validity sample are in [aiscored_cr].
+#'
+#' The dataset is for learning to audit an AI component with [ai_audit()].
+#' Some problems were planted on purpose; `lab_truth("aiscored")` lists them
+#' and the true scores.
+#'
+#' @format A data frame with 3,000 rows (one per student) and 23 columns:
+#'   `student`, `year` (2025 or 2026), `group` (factor, `Fluent` or `ELL`),
+#'   `MC01` to `MC16` (0/1) and `CR1` to `CR4` (machine scores, 0 to 3).
+#' @source Simulated; the script is `data-raw/aiscored.R` in the package's
+#'   GitHub repository.
+#' @seealso [aiscored_cr]; [ai_audit()].
+#' @examples
+#' table(aiscored$year, aiscored$group)
+#' colMeans(aiscored[, c("CR1", "CR2", "CR3", "CR4")])
+"aiscored"
+
+#' Machine and human scores of the AI-scored test
+#'
+#' The constructed responses of [aiscored], one row per student and item,
+#' with the engine's score and, for the validity sample, human scores: 20%
+#' of students were scored by a human rater as well, and half of those by a
+#' second rater.
+#'
+#' @format A data frame with 12,000 rows and 7 columns: `student`, `year`,
+#'   `group`, `item` (`CR1` to `CR4`), `machine` (the engine's score, 0 to
+#'   3), `human1` and `human2` (the human scores, `NA` when the response was
+#'   not read).
+#' @source Simulated; the script is `data-raw/aiscored.R` in the package's
+#'   GitHub repository.
+#' @seealso [aiscored]; [ai_audit()], [agreement_report()].
+#' @examples
+#' cr <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+#' agreement_report(cr$machine, cr$human1, cr$human2, by = cr$item)
+"aiscored_cr"
