@@ -14,7 +14,8 @@ default, \code{"data"}.}
 A list with \code{responses} (a data frame of scored item responses),
 \code{group} (a factor, or \code{NULL}), \code{polytomous} (logical), \code{models} (the
 two item types the lab compares: \code{c("Rasch", "2PL")} for 0/1 items,
-\code{c("Rasch", "graded")} otherwise) and \code{info} (the settings in
+\code{c("Rasch", "graded")} otherwise), \code{item_info} and \code{scores} (the data of
+the AI sections, or \code{NULL}; see \code{\link[=new_lab]{new_lab()}}) and \code{info} (the settings in
 \code{lab.json}).
 }
 \description{

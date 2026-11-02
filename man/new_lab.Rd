@@ -11,6 +11,8 @@ new_lab(
   items = NULL,
   group = NULL,
   key = NULL,
+  item_info = NULL,
+  scores = NULL,
   title = NULL,
   data_title = NULL,
   story = NULL,
@@ -41,6 +43,21 @@ section: a column name of \code{data}, or a vector with one value per row.}
 \item{key}{optional answer key for unscored multiple-choice responses, one
 value per item; the items are scored with \code{\link[mirt:key2binary]{mirt::key2binary()}}.}
 
+\item{item_info}{optional data frame (or the path of a data file) with one row per item, for the AI
+sections. It needs a column \code{item} (or \code{id}) with the item names used in
+\code{data}. A \code{stem} column (and, for multiple-choice items, option columns
+\code{A} to \code{E} and a \code{key} column with the letter of the keyed option)
+enables the \code{"item-features"} section; a \code{family} column naming each
+item's item model or family enables the \code{"aig"} section.}
+
+\item{scores}{optional data frame (or the path of a data file) of machine scores of constructed
+responses, for the \code{"ai-scoring"} section: One row per scored response,
+with columns \code{machine} and \code{human1} (the human score, \code{NA} where no
+person read the response) and, optionally, \code{human2} (a second reading),
+\code{group} (for fairness checks), \code{item} and \code{period} (an administration or
+engine version, for drift checks). Rename your columns to these names
+first.}
+
 \item{title}{the lab's title.}
 
 \item{data_title}{a short name for the data used in the lab's text, for
@@ -51,7 +68,8 @@ lab.}
 
 \item{sections}{the sections to include, in order; see
 \code{\link[=lab_section_types]{lab_section_types()}}. The default includes every section that suits the
-data (\code{"dif"} only with a \code{group}).}
+data: \code{"dif"} only with a \code{group}, and the AI sections only when
+\code{item_info} or \code{scores} provide what they need.}
 
 \item{overwrite}{replace an existing lab of the same name.}
 }
@@ -62,7 +80,10 @@ The path of the lab folder, invisibly.
 \code{new_lab()} writes an interactive lab (a learnr tutorial) that walks
 students through an IRT analysis of \emph{your} dataset: the data, classical
 item statistics, dimensionality, model comparison, item fit, information,
-scoring and, when you give a grouping variable, DIF. Every number in the
+scoring and, when you give a grouping variable, DIF. With \code{item_info} or
+\code{scores} it can also teach AI in measurement on your data: What the item
+text says about difficulty, how equally difficult the items of each item
+family are, and whether machine scores agree with human scores. Every number in the
 text, every answer check and every multiple-choice question is computed
 from the data when the lab is rendered, so the same lab works with any
 dataset and \code{\link[=swap_lab_data]{swap_lab_data()}} can replace the data later without touching
@@ -82,6 +103,13 @@ lab <- new_lab("lsat", data = expand.table(LSAT7), course = course,
                data_title = "the LSAT section 7 items",
                sections = c("intro", "classical", "models", "wrap-up"))
 lab_outline(lab)
+
+# an AI lab: item text and item families of 60 generated items
+lab2 <- new_lab("aig", data = aigfield, course = course,
+                item_info = transform(aigfield_items, family = model),
+                data_title = "the generated items",
+                sections = c("intro", "item-features", "aig", "wrap-up"))
+lab_outline(lab2)
 }
 \seealso{
 \code{\link[=new_course]{new_course()}}, \code{\link[=swap_lab_data]{swap_lab_data()}}, \code{\link[=add_lab_section]{add_lab_section()}},

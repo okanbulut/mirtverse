@@ -106,6 +106,10 @@ What the data need:
   with one value per row) turns on the DIF section.
 * **At least about 200 people** for stable estimates; `new_lab()` warns
   below that. Missing responses are fine.
+* **Optional data for the AI sections** (see [Teaching AI in measurement
+  on your data](#ai-sections) below): `item_info`, one row per item with its
+  text or its item family, and `scores`, machine and human scores of
+  written answers.
 
 The data are copied into the lab's `data/` folder, so the lab works on any
 computer without your original file.
@@ -131,6 +135,9 @@ lab_section_types()
 | `dif` | Run likelihood-ratio DIF tests with `dif()` (needs a `group`). |
 | `reflection` | Write a recommendation (free text, good for a short assignment). |
 | `wrap-up` | A summary and pointers to reports and the other labs. |
+| `item-features` | Measure the item text with `item_features()`, find near-duplicates, and predict difficulty with `predict_difficulty()` (needs item text). |
+| `aig` | Check with `calibrate_families()` whether the items of each family are equally difficult (needs item families). |
+| `ai-scoring` | Compare machine and human scores with `agreement_report()`, then run a full `ai_audit()` (needs `scores`). |
 
 Nothing in these sections is written for one dataset. The numbers in the
 text, the checks on students' code and the right answers to the quiz
@@ -138,6 +145,45 @@ questions ("Which item has the lowest item-total correlation?", "Which model
 does BIC prefer?", "How many items misfit?") are all computed from the data
 when the lab is built. That is what lets you reuse the same lab next term
 with new data.
+
+### Teaching AI in measurement on your data {#ai-sections}
+
+The last three sections teach the topics of the [AI Hub](ai-hub.html) on
+your own material. They need more than responses, so give `new_lab()` one
+or two more tables:
+
+* `item_info`, with one row per item and a column `item` holding the item
+  names used in the responses. A `stem` column (and, for multiple-choice
+  items, option columns `A` to `E` and a `key` with the letter of the keyed
+  option) turns on `item-features`. A `family` column, naming the item model
+  or family each item comes from, turns on `aig`.
+* `scores`, with one row per written response the engine scored: `machine`
+  and `human1` (`NA` where no person read the response), and optionally
+  `human2`, `group`, `item` and `period` (an administration or engine
+  version). It turns on `ai-scoring`.
+
+```{r}
+# 60 generated items: their text, their item models (as `family`) and the field test
+items <- transform(aigfield_items, family = model)
+new_lab("item-factory", data = aigfield, item_info = items,
+        data_title = "the generated field-test items",
+        sections = c("intro", "models", "item-features", "aig", "wrap-up"))
+
+# an essay-scoring engine, with a validity sample read by people
+scores <- read.csv("data/engine-scores.csv")   # machine, human1, human2, group, item
+new_lab("our-engine", data = "data/responses.csv", scores = scores,
+        sections = c("intro", "models", "ai-scoring", "reflection", "wrap-up"))
+```
+
+`item_info` can hold extra columns; rename yours to these names first, as
+the first example does with the item model column. The answers, as in the other sections, are
+computed from your data, so the questions ask, for example, how many
+families are not isomorphic in *your* items and whether *your* engine can
+score on its own.
+
+For longer, story-driven AI labs with planted problems, copy Labs 7 to 10
+(`copy_lab("ai-audit")` and so on), and see the [AI module of the course
+map](course-map.html#ai-module) for how to fit them into a term.
 
 ## 3. Add your own content
 
@@ -226,7 +272,8 @@ check_material("labs/midterm")
 The text, checks and questions are recomputed from the new data, and any
 exercises you added keep working as long as their checks compute their
 answers from `resp`. Settings you leave out are kept (for example the
-`group` column and the story).
+`group` column, the story, and the `item_info` and `scores` of the AI
+sections).
 
 The built-in labs are different: Each tells the story of its own
 dataset, with problems planted on purpose (a miskeyed item, a drifted

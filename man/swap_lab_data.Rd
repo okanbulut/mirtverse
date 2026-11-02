@@ -10,6 +10,8 @@ swap_lab_data(
   items = NULL,
   group = NULL,
   key = NULL,
+  item_info = NULL,
+  scores = NULL,
   data_title = NULL,
   story = NULL
 )
@@ -34,6 +36,21 @@ section: a column name of \code{data}, or a vector with one value per row.}
 \item{key}{optional answer key for unscored multiple-choice responses, one
 value per item; the items are scored with \code{\link[mirt:key2binary]{mirt::key2binary()}}.}
 
+\item{item_info}{optional data frame (or the path of a data file) with one row per item, for the AI
+sections. It needs a column \code{item} (or \code{id}) with the item names used in
+\code{data}. A \code{stem} column (and, for multiple-choice items, option columns
+\code{A} to \code{E} and a \code{key} column with the letter of the keyed option)
+enables the \code{"item-features"} section; a \code{family} column naming each
+item's item model or family enables the \code{"aig"} section.}
+
+\item{scores}{optional data frame (or the path of a data file) of machine scores of constructed
+responses, for the \code{"ai-scoring"} section: One row per scored response,
+with columns \code{machine} and \code{human1} (the human score, \code{NA} where no
+person read the response) and, optionally, \code{human2} (a second reading),
+\code{group} (for fairness checks), \code{item} and \code{period} (an administration or
+engine version, for drift checks). Rename your columns to these names
+first.}
+
 \item{data_title}{a short name for the data used in the lab's text, for
 example \code{"the Grade 8 science test"}.}
 
@@ -49,7 +66,8 @@ dataset, for example next year's class or your own test. The lab's text,
 answer checks and questions are computed from the data, so nothing else
 needs to change. Settings you leave out (\code{group}, \code{data_title}, \code{story})
 are kept from the current data, except that \code{items} and \code{key} are always
-worked out again. Run \code{\link[=check_material]{check_material()}} afterwards.
+worked out again. The \code{item_info} and \code{scores} of the AI sections are kept
+unless you give new ones. Run \code{\link[=check_material]{check_material()}} afterwards.
 }
 \details{
 If the lab has a DIF section and the new data have no \code{group}, the DIF

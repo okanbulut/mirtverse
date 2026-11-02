@@ -8,12 +8,20 @@ lab_section_types()
 }
 \value{
 A tibble with the section \code{type}, its \code{title}, a \code{description}, and
-\code{needs} (\code{"group"} when the section needs a grouping variable).
+\code{needs}: What the section needs besides the responses (\code{"group"},
+\code{"item text"}, \code{"item families"} or \code{"scores"}), or \code{""}.
 }
 \description{
 The ready-made sections that \code{\link[=new_lab]{new_lab()}} and \code{\link[=add_lab_section]{add_lab_section()}} use. Each
 works with any dataset: its numbers, checks and questions are computed
 from the lab's data.
+}
+\details{
+The last three sections teach AI in measurement with the lab's data and
+need more than responses (see the \code{item_info} and \code{scores} arguments of
+\code{\link[=new_lab]{new_lab()}}): \code{"item-features"} predicts item difficulty from the item
+text, \code{"aig"} checks whether the items of each family are equally
+difficult, and \code{"ai-scoring"} audits machine scores against human scores.
 }
 \examples{
 lab_section_types()

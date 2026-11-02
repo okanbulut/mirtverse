@@ -1,0 +1,131 @@
+<!-- mv-section: id={{id}} type=item-features -->
+## What the item text tells us
+
+<!-- The -data chunk makes these objects for the text and the questions; the -prep chunk
+     makes them again for the exercises, which learnr runs in a fresh environment. -->
+
+```{r {{id}}-data, include = FALSE}
+item_info <- lab$item_info
+.tk_pars <- coef(mirt(resp, 1, itemtype = models[2], verbose = FALSE),
+                 IRTpars = TRUE, simplify = TRUE)$items
+difficulty <- data.frame(
+  item = rownames(.tk_pars),
+  b = rowMeans(.tk_pars[, grep("^b", colnames(.tk_pars)), drop = FALSE], na.rm = TRUE))
+.tk_feats <- mirtverse::item_features(item_info, id = "item")
+.tk_cand <- c("words", "numbers", "sentences", "max_digits", "decimals", "negation",
+              "grade", "option_words", "key_longest")
+.tk_cand <- .tk_cand[vapply(.tk_cand, function(v) v %in% names(.tk_feats) &&
+                              !anyNA(.tk_feats[[v]]) && stats::sd(.tk_feats[[v]]) > 0, logical(1))]
+text_features <- utils::head(.tk_cand, max(1L, floor(nrow(item_info) / 8)))
+```
+
+```{r {{id}}-prep, include = FALSE}
+item_info <- lab$item_info
+.tk_pars <- coef(mirt(resp, 1, itemtype = models[2], verbose = FALSE),
+                 IRTpars = TRUE, simplify = TRUE)$items
+difficulty <- data.frame(
+  item = rownames(.tk_pars),
+  b = rowMeans(.tk_pars[, grep("^b", colnames(.tk_pars)), drop = FALSE], na.rm = TRUE))
+.tk_feats <- mirtverse::item_features(item_info, id = "item")
+.tk_cand <- c("words", "numbers", "sentences", "max_digits", "decimals", "negation",
+              "grade", "option_words", "key_longest")
+.tk_cand <- .tk_cand[vapply(.tk_cand, function(v) v %in% names(.tk_feats) &&
+                              !anyNA(.tk_feats[[v]]) && stats::sd(.tk_feats[[v]]) > 0, logical(1))]
+text_features <- utils::head(.tk_cand, max(1L, floor(nrow(item_info) / 8)))
+```
+
+### Features of the wording
+
+Every item's text exists before anyone answers it. If features of the
+wording (its length, the numbers in it, its options) predict how hard an
+item turns out to be, item writers can aim new items at the difficulty a
+test needs, and reviewers can look first at items that are much harder or
+easier than their wording suggests.
+
+`item_info` holds the text of `r nrow(item_info)` of the items.
+`item_features()` measures each one: Its length in words and sentences, a
+reading grade, the numbers it uses, its options and how similar it is to
+the most similar other item. Save the result as `feats`.
+
+```{r {{id}}-feats, exercise = TRUE, exercise.setup = "{{id}}-prep"}
+feats <- item_features(item_info, id = "item")
+feats
+```
+
+```{r {{id}}-feats-check}
+lab_need(exists("feats") && is.data.frame(feats) && nrow(feats) == nrow(item_info),
+         "Save the result of item_features(item_info, id = \"item\") as `feats`.")
+.i <- which.max(feats$similarity)
+sprintf("The most similar pair is %s and %s (similarity %.2f).", feats$id[.i], feats$nearest[.i],
+        feats$similarity[.i])
+```
+
+```{r {{id}}-q-dup}
+.tk_i <- which.max(.tk_feats$similarity)
+.tk_dup <- .tk_feats$similarity[.tk_i] >= 0.85
+question_radio(
+  "Does any pair of items look like near-duplicates (a similarity of .85 or more)?",
+  answer("Yes", correct = .tk_dup,
+         message = if (.tk_dup) sprintf("Right: %s and %s have a similarity of %.2f. Near-duplicates on one form cue each other; check whether both should stay.", .tk_feats$id[.tk_i], .tk_feats$nearest[.tk_i], .tk_feats$similarity[.tk_i]) else "Look at the largest value in the `similarity` column."),
+  answer("No", correct = !.tk_dup,
+         message = if (!.tk_dup) sprintf("Right: The most similar pair, %s and %s, has a similarity of only %.2f.", .tk_feats$id[.tk_i], .tk_feats$nearest[.tk_i], .tk_feats$similarity[.tk_i]) else "Look at the largest value in the `similarity` column."),
+  allow_retry = TRUE)
+```
+
+### Predicting difficulty from the text
+
+`difficulty` holds each item's difficulty from the `r models[2]` model
+`r if (lab$polytomous) "(the mean of its thresholds)" else ""`. Join it to
+the features and ask `predict_difficulty()` how well a few features predict
+it. It fits a linear logistic test model (LLTM), which says how much each
+feature adds to difficulty, and a lasso, and it judges both by
+cross-validation: Each item's difficulty is predicted by a model that never
+saw that item. `text_features` holds the features used here:
+`r paste(text_features, collapse = ", ")`.
+
+```{r {{id}}-predict, exercise = TRUE, exercise.setup = "{{id}}-prep", exercise.lines = 8}
+feats <- item_features(item_info, id = "item")
+items <- merge(difficulty, feats, by.x = "item", by.y = "id")
+m <- predict_difficulty(items, features = text_features, b = "b", id = "item",
+                        methods = c("lltm", "lasso"))
+m
+```
+
+```{r {{id}}-predict-check}
+lab_need(exists("m") && inherits(m, "mv_difficulty"),
+         "Save the result of predict_difficulty() as `m`.")
+.best <- m$accuracy[which.max(m$accuracy$r2), ]
+sprintf("The better model, the %s, explains %.0f%% of the variance in difficulty for items it did not see. tidy(m) shows what each feature adds.",
+        c(lltm = "LLTM", lasso = "lasso", forest = "random forest")[[.best$method]], 100 * max(0, .best$r2))
+```
+
+```{r {{id}}-q-predict}
+.tk_items <- merge(difficulty, .tk_feats, by.x = "item", by.y = "id")
+.tk_m <- mirtverse::predict_difficulty(.tk_items, features = text_features, b = "b", id = "item",
+                                       methods = c("lltm", "lasso"))
+.tk_r2 <- max(.tk_m$accuracy$r2)
+.tk_band <- if (.tk_r2 >= 0.5) 1L else if (.tk_r2 >= 0.2) 2L else 3L
+.tk_why <- sprintf("The cross-validated R2 is %.2f.", .tk_r2)
+question_radio(
+  "How well do these features predict difficulty for items the model has not seen?",
+  answer("Well: R2 of .50 or more. They could narrow the range of a new item's difficulty before field testing.",
+         correct = .tk_band == 1L, message = .tk_why),
+  answer("Moderately: R2 from .20 to .50. They help writers target difficulty, but every item still needs a field test.",
+         correct = .tk_band == 2L, message = .tk_why),
+  answer("Poorly: R2 below .20. The wording features used here say little about difficulty.",
+         correct = .tk_band == 3L, message = .tk_why),
+  allow_retry = TRUE)
+```
+
+```{r {{id}}-q-leak}
+question_radio(
+  "Someone adds the proportion of field-test examinees who answered each item correctly as a feature, and R2 jumps to .95. What happened?",
+  answer("The feature was computed from the same responses as the difficulty, so it leaks the answer; the model cannot be used before a field test.",
+         correct = TRUE,
+         message = "Right. predict_difficulty() warns when a feature correlates this strongly with difficulty."),
+  answer("The model finally found the feature that explains difficulty.",
+         message = "A feature that is only known after the field test cannot predict a new item's difficulty before it."),
+  answer("Cross-validation failed.",
+         message = "Cross-validation worked; the feature itself already contains the field-test results."),
+  allow_retry = TRUE, random_answer_order = TRUE)
+```

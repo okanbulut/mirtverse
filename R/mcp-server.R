@@ -152,7 +152,8 @@ mcp_server_instructions <- function() {
     "edit_material for small text changes, look functions up with mirtverse_help",
     "instead of guessing, and run check_material after every change. Read the",
     "guide tool's 'lab-style' and 'adapting' topics before writing labs or",
-    "converting existing materials. Tell the instructor what you changed; every",
+    "converting existing materials, and 'ai-content' before any AI in measurement",
+    "material. Tell the instructor what you changed; every",
     "change can be undone with undo_last_change.")
 }
 

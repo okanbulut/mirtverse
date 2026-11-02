@@ -76,8 +76,8 @@ mcp_tools <- function() {
            search = p_str("Words to search for in the help pages.")),
       handler = tool_help, title = "mirtverse help", read_only = TRUE),
     mcp_tool("guide",
-      "Returns a guide for working on mirtverse teaching materials. Topics: 'workflow' (how to handle an instructor's request), 'lab-style' (structure and conventions of a mirtverse learnr lab, required before writing or editing labs), 'chapter-style' (book chapters and lecture notes), 'adapting' (converting existing materials and code from other IRT packages to mirtverse).",
-      list(topic = p_str("Guide to read.", c("workflow", "lab-style", "chapter-style", "adapting"))),
+      "Returns a guide for working on mirtverse teaching materials. Topics: 'workflow' (how to handle an instructor's request), 'lab-style' (structure and conventions of a mirtverse learnr lab, required before writing or editing labs), 'chapter-style' (book chapters and lecture notes), 'adapting' (converting existing materials and code from other IRT packages to mirtverse), 'ai-content' (teaching AI in measurement: the AI section types, their data, the AI chapters and labs, and the checks every AI example needs).",
+      list(topic = p_str("Guide to read.", c("workflow", "lab-style", "chapter-style", "adapting", "ai-content"))),
       "topic", tool_guide, title = "Guide", read_only = TRUE),
     mcp_tool("scan_material",
       "Scans the R code in a material (or any .R/.Rmd/.qmd/.md file) for code that mirtverse can replace: models fitted with ltm, eRm, TAM or irtQ (which translate_code converts), base mirt calls that have a friendlier mirtverse equivalent (plots, tidy tables, model comparison, DIF, interpretation), and other packages. Returns each finding with its line number and the suggested replacement.",
@@ -116,6 +116,8 @@ mcp_tools <- function() {
            items = p_strs("Item columns (default: detected)."),
            group = p_str("Optional grouping column for DIF sections."),
            key = p_strs("Optional answer key, one entry per item, if the items are unscored."),
+           item_info = p_str("Optional file or dataset with one row per item (columns item, and stem/options/key for item-features or family for aig). See guide('ai-content')."),
+           scores = p_str("Optional file or dataset of machine and human scores (columns machine, human1, optional human2, group, item, period) for the ai-scoring section. See guide('ai-content')."),
            title = p_str("Lab title."),
            data_title = p_str("How the lab describes the data, e.g. 'a 40-item statistics final exam'."),
            story = p_str("Optional opening scenario for the lab (Markdown)."),
@@ -167,6 +169,8 @@ mcp_tools <- function() {
            items = p_strs("Item columns (default: detected)."),
            group = p_str("Optional grouping column."),
            key = p_strs("Optional answer key."),
+           item_info = p_str("Optional new item information for the AI sections (file or dataset)."),
+           scores = p_str("Optional new machine and human scores for the ai-scoring section (file or dataset)."),
            data_title = p_str("How the lab describes the data.")),
       c("lab", "data"), tool_swap_lab_data, needs = "swap_lab_data", title = "Swap lab data"),
     mcp_tool("copy_chapter",
@@ -1067,6 +1071,7 @@ tool_new_lab <- function(args, ctx) {
   dest <- mcp_path(ctx, file.path("labs", args$name), must_exist = FALSE)
   a <- list(name = args$name, data = data_arg(ctx, args$data), course = ctx$root,
             items = unlist(args$items), group = args$group, key = unlist(args$key),
+            item_info = data_arg(ctx, args$item_info), scores = data_arg(ctx, args$scores),
             title = args$title, data_title = args$data_title)
   if (!is.null(args$sections)) a$sections <- unlist(args$sections)
   if (!is.null(args$story)) a$story <- args$story
@@ -1101,7 +1106,8 @@ tool_remove_lab_section <- function(args, ctx) lab_change(ctx, "remove_lab_secti
 tool_swap_lab_data <- function(args, ctx) {
   p <- lab_dir(ctx, args$lab)
   a <- list(lab = as.character(p), data = data_arg(ctx, args$data), items = unlist(args$items),
-            group = args$group, key = unlist(args$key), data_title = args$data_title)
+            group = args$group, key = unlist(args$key), item_info = data_arg(ctx, args$item_info),
+            scores = data_arg(ctx, args$scores), data_title = args$data_title)
   a <- a[!vapply(a, is.null, logical(1))]
   r <- toolkit_call(ctx, "swap_lab_data", a, p, paste("Swap data in", attr(p, "rel")))
   paste0("Replaced the data of ", attr(p, "rel"), ".\n", changed_files_text(r$files),
@@ -1173,7 +1179,20 @@ mcp_prompts <- function() {
            "Please: (1) call describe_dataset and tell me which columns you take as items, groups and IDs; ",
            "(2) call guide('lab-style') and list_templates; (3) build it with new_lab (or copy_lab then swap_lab_data); ",
            "(4) tailor the story and questions to my data; (5) run check_material until every exercise passes; ",
-           "(6) tell me how to preview it.")))
+           "(6) tell me how to preview it.")),
+    list(name = "ai_material", title = "Teach AI in measurement",
+         description = "Add AI in measurement to a course: A lab on your own item text, item families or machine scores, a built-in AI lab, or an AI chapter of the book.",
+         arguments = list(
+           list(name = "goal", description = "What students should learn, e.g. 'audit our essay-scoring engine' or 'predict item difficulty from our item text'.", required = TRUE),
+           list(name = "data", description = "Optional: Your data files (relative to the course folder), such as responses, item text or machine scores.", required = FALSE)),
+         text = function(a) paste0(
+           "Help me teach AI in measurement in my mirtverse course. Goal: ", a$goal, ".",
+           if (!is.null(a$data) && nzchar(a$data)) paste0("\n\nMy data: ", a$data, ".") else "", "\n\n",
+           "Please: (1) call guide('ai-content') and guide('workflow'); (2) call list_templates and propose the best fit: ",
+           "a toolkit lab with the AI section types on my data, a copy of a built-in AI lab, or a copy of an AI book chapter, ",
+           "and say which columns you would use (describe_dataset on each file); (3) build it; ",
+           "(4) run check_material until every exercise passes; (5) tell me what the material teaches, what students decide at the end, ",
+           "and what I should check by hand, such as whether the story fits my students.")))
 }
 
 mcp_prompt_list <- function() {
@@ -1194,7 +1213,8 @@ mcp_get_prompt <- function(params) {
 mcp_guide_topics <- c(workflow = "How to handle an instructor's request",
                       `lab-style` = "Conventions of mirtverse learnr labs",
                       `chapter-style` = "Conventions of book chapters and lecture notes",
-                      adapting = "Adapting existing materials to mirtverse")
+                      adapting = "Adapting existing materials to mirtverse",
+                      `ai-content` = "Teaching AI in measurement with mirtverse")
 
 mcp_resource_list <- function() {
   lapply(names(mcp_guide_topics), function(t)

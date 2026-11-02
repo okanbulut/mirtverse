@@ -1,0 +1,91 @@
+<!-- mv-section: id={{id}} type=ai-scoring -->
+## Machine scores and human scores
+
+<!-- The -data chunk makes these objects for the text and the questions; the -prep chunk
+     makes them again for the exercises, which learnr runs in a fresh environment. -->
+
+```{r {{id}}-data, include = FALSE}
+scores <- lab$scores
+.tk_audit <- mirtverse::ai_audit(scores{{audit_args}})
+```
+
+```{r {{id}}-prep, include = FALSE}
+scores <- lab$scores
+```
+
+### Do the machine and the raters agree?
+
+`scores` holds `r nrow(scores)` written responses that an automated engine
+scored. People also scored `r sum(!is.na(scores$human1))` of them, the
+validity sample. Before the engine's scores count, they must agree with the
+people's scores as well as two people agree with each other, overall and
+within each group of students.
+
+`agreement_report()` gives the quadratic weighted kappa (QWK) between the
+machine and the first rater, the standardized mean difference (SMD) between
+their scores, and a verdict against the rules in `mv_rules()`. Save it as
+`agree`.
+
+```{r {{id}}-agree, exercise = TRUE, exercise.setup = "{{id}}-prep"}
+agree <- agreement_report(scores$machine, scores$human1{{agree_args}})
+agree
+```
+
+```{r {{id}}-agree-check}
+lab_need(exists("agree") && inherits(agree, "mv_agreement"),
+         "Save the result of agreement_report() as `agree`.")
+.n <- sum(agree$verdict != "meets", na.rm = TRUE)
+if (.n) sprintf("%d row(s) do not meet the rules. Read the verdict column to see which.", .n) else
+  "Every row meets the rules."
+```
+
+```{r {{id}}-q-smd}
+question_radio(
+  "The machine's QWK with the raters is high, but its SMD for one group is -0.30. What does that mean?",
+  answer("The machine ranks responses much as the raters do, but gives that group's responses lower scores than the raters do.",
+         correct = TRUE,
+         message = "Right. QWK measures agreement in order; SMD measures a shift in level. A fair engine needs both."),
+  answer("The engine is accurate, so the difference must be in the students.",
+         message = "The SMD compares machine and human scores of the same responses, so it is about the engine, not the students."),
+  answer("Nothing: SMD only matters when QWK is low.",
+         message = "A high QWK can hide a constant shift for one group; that is why the rules check SMD within groups."),
+  allow_retry = TRUE, random_answer_order = TRUE)
+```
+
+### A full audit
+
+`ai_audit()` runs all the checks at once: Agreement, bias overall and
+within groups, differential scoring (machine minus human for students with
+the same human score) and, when there are several periods, drift. Each
+problem becomes a flag: `block` means the scores should not be used as they
+are, `review` means a person must look first.
+
+```{r {{id}}-audit, exercise = TRUE, exercise.setup = "{{id}}-prep"}
+audit <- ai_audit(scores{{audit_args}})
+audit
+```
+
+```{r {{id}}-audit-check}
+lab_need(exists("audit") && inherits(audit, "mv_audit"),
+         "Save the result of ai_audit() as `audit`.")
+sprintf("%d flag(s): %d block, %d review. autoplot(audit) shows where they are.",
+        nrow(audit$flags), sum(audit$flags$level == "block"), sum(audit$flags$level == "review"))
+```
+
+```{r {{id}}-q-decision}
+.tk_st <- .tk_audit$checks$status
+.tk_dec <- if (any(.tk_st == "block")) 1L else if (any(.tk_st == "review")) 2L else 3L
+.tk_why <- c("At least one check blocks: Fix the engine or route the affected responses to people first.",
+             "Nothing blocks, but some checks need a person's review before the scores count.",
+             "No check is flagged; keep monitoring agreement and fairness in every administration.")[.tk_dec]
+question_radio(
+  "Based on the audit, can the engine score these responses on its own?",
+  answer("No: Not until the blocking problems are fixed.", correct = .tk_dec == 1L, message = .tk_why),
+  answer("Only with human review of the flagged parts.", correct = .tk_dec == 2L, message = .tk_why),
+  answer("Yes, with ongoing monitoring.", correct = .tk_dec == 3L, message = .tk_why),
+  allow_retry = TRUE)
+```
+
+`validity_argument(audit, construct = "...", use = "...")` turns the audit
+into the start of a validity argument for the people who decide how the
+scores are used.
