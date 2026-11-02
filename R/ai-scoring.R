@@ -408,6 +408,7 @@ print.mv_agreement <- function(x, digits = 2, ...) {
 
 #' @rdname agreement_report
 #' @param object an agreement report.
+#' @param ... not used.
 #' @export
 autoplot.mv_agreement <- function(object, ...) {
   r <- attr(object, "rules")

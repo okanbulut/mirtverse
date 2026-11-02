@@ -32,6 +32,8 @@ item.}
 \item{rules}{thresholds from \code{\link[=mv_rules]{mv_rules()}}.}
 
 \item{object}{an agreement report.}
+
+\item{...}{not used.}
 }
 \value{
 A tibble of class \code{mv_agreement} with one row per item (if \code{by})
