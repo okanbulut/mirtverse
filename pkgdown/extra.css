@@ -1,0 +1,6 @@
+/* Bootstrap caps dropdown menus at 280px and scrolls the rest, and macOS
+   hides the scrollbar, so the last items of the Articles menu looked
+   missing. Let the menu grow to the height of the window instead. */
+.navbar .dropdown-menu {
+  max-height: calc(100vh - 5rem);
+}
