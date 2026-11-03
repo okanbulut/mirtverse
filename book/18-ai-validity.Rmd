@@ -148,7 +148,7 @@ and a change beyond sampling error; `p_change` is Bonferroni-adjusted across
 the items and windows tested. Figure \@ref(fig:ai-validity-audit) shows the
 three score checks.
 
-```{r ai-validity-audit, fig.height = 3.4, fig.cap = "The score checks of the audit. Dashed lines are the limits of mv_rules(); bars are 95% confidence intervals."}
+```{r ai-validity-audit, fig.height = 3.4, fig.cap = "The score checks of the audit. Dashed lines are the default limits; bars are 95% confidence intervals."}
 autoplot(audit)
 ```
 
