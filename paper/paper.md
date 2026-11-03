@@ -301,29 +301,46 @@ still an open research question.
 
 # Example
 
-The following code compares the Rasch and 2PL models for 32 scored
-multiple-choice items answered by 600 students (the SAT12 data in mirt),
-explains the choice, and drafts the Methods paragraph:
+A user who does not yet know the function names can start from a
+plain-language request. Here `mv_ask()` reads a request about the
+`numeracy` data in mirtverse (2,000 students, 30 scored items). With no AI
+model set up, its offline keyword parser fills the plan, and the script is
+shown before anything runs:
 
 ```r
 library(mirtverse)
-key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,5)
-data <- key2binary(SAT12, key)
+scr <- mv_ask("fit a 2PL model, check item fit and DIF by gender",
+              data = numeracy, provider = "none")
+scr
+#> Analysis plan
+#>   - Data: numeracy
+#>   - Items: 30 items (N01 ... N30)
+#>   - Model: 2PL, 1 dimension
+#>   - DIF by: gender
+#>   - Steps: fit, fitcheck, dif
+#> Assumptions
+#>   - Used the 30 columns that look like item responses as items.
+#>
+#> R script (run it with run_script(), save it with save_script())
+#> mod <- mirt(items, 1, itemtype = "2PL")
+#> glance(mod)
+#> item_table(mod)
+#> gg_itemfit(mod)
+#> dif_res <- dif(items, group = group, model = "2PL")
+#> interpret(dif_res)
+#> ...
 
-sel <- select_model(data, candidates = c("Rasch", "2PL"))
-sel
-#> The 2PL model is recommended because it has the lowest BIC (19387.3). The
-#> runner-up, Rasch, is 110.7 BIC points worse, which is very strong evidence
-#> for the 2PL model. Likelihood-ratio test Rasch vs. 2PL: chi-square(31) =
-#> 309.03, p < .001; the 2PL model fits significantly better. Absolute fit of
-#> the 2PL model: RMSEA = 0.028 (close fit), CFI = 0.953, SRMSR = 0.045.
-
-mod <- sel$best          # an ordinary mirt model
-interpret(mod)           # plain-language summary
-item_card(mod, "Item.12")
-cite_methods(sel, sample = "high school students", file = "methods.docx")
-mv_report(sel, file = "report.html")
+res <- run_script(scr)          # res$mod is an ordinary mirt model
+save_script(scr, "analysis.R")  # a plain R script to edit, rerun and share
 ```
+
+The same request, sent to a language model instead of the keyword parser,
+fills the same plan from the same tested templates, so the code that runs
+does not depend on which route was used. Here `interpret(res$dif_res)`
+reports that none of the 30 items shows DIF between girls and boys. From the
+fitted model, `interpret()`, `item_card()`, `cite_methods()` and
+`mv_report()` produce a plain-language summary, item-level summaries, a
+Methods paragraph and a full HTML report.
 
 The AI layer follows the same pattern. Here a scoring engine is trained on
 400 essays that two human raters have scored, and its cross-validated scores
