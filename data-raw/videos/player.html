@@ -1,0 +1,72 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{--navy:#16324f;--ink:#1f2933;--mut:#6b7785;--accent:#e6781e}
+*{box-sizing:border-box}html,body{font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0;margin:0;width:1280px;height:720px;overflow:hidden;background:#eef2f6;font-family:Inter,sans-serif;color:var(--ink)}
+#top{height:40px;background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 18px;font-weight:600;font-size:15px;gap:10px}
+#top .dots span{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;background:#ffffff40}
+#top .t{opacity:.9}#top .r{margin-left:auto;font-weight:500;opacity:.7;font-size:13px}
+#ed,#con{position:absolute;left:14px;right:14px;background:#fff;border-radius:8px;box-shadow:0 1px 4px #0001;overflow:hidden}
+#ed{top:52px;height:var(--edh,200px);transition:height .5s}#con{top:calc(64px + var(--edh,200px));bottom:14px;transition:top .5s}
+.hd{height:30px;border-bottom:1px solid #e5e9ee;font:600 12.5px Inter;color:var(--mut);display:flex;align-items:center;padding:0 14px;letter-spacing:.02em;text-transform:uppercase}
+.bd{font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0;padding:10px 16px;font:400 14px/1.6 'DejaVu Sans Mono',monospace;white-space:pre;position:absolute;top:30px;left:0;right:0;bottom:0;overflow:hidden}
+#ed .bd{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:12px}#ed .bd .ln{display:block;flex:none;padding-left:40px;position:relative}#ed .bd .ln:before{content:attr(data-n);position:absolute;left:0;width:26px;text-align:right;color:#b4bcc6}
+#ed .ln.cur{background:#fff6ec}
+#con .bd{font-size:12.6px;line-height:1.5}#conin{transition:transform .9s ease}
+.k{color:#7c3aed}.f{color:#1d4ed8}.s{color:#047857}.c{color:#8a94a1;font-style:italic}.n{color:#b45309}
+.prompt{color:#1d4ed8}.echo{color:#1f2933}.outp{color:#3a4450}
+mark{background:#ffe08a;color:inherit;border-radius:3px;padding:0 2px;transition:background .4s}
+#caret{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:-2px;animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+#view{position:absolute;top:52px;bottom:14px;right:14px;width:0;opacity:0;background:#fff;border-radius:8px;box-shadow:0 6px 30px #0003;transition:all .6s ease;overflow:hidden;z-index:5}
+#view.on{width:var(--vw,760px);opacity:1}#view img{position:absolute;top:30px;left:0;width:100%;transition:transform 6s ease}
+#slide{position:fixed;inset:0;z-index:20;background:var(--navy);color:#fff;opacity:0;transition:opacity .7s;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#slide.on{opacity:1}
+#cap{position:fixed;z-index:30;left:24px;bottom:24px;padding:10px 18px;border-radius:8px;background:rgba(22,50,79,.94);color:#fff;font:600 20px/1.2 Inter;opacity:0;transition:opacity .5s}
+</style></head><body>
+<div id="top"><span class="dots"><span></span><span></span><span></span></span><span class="t" id="title">R session</span><span class="r">library(mirtverse)</span></div>
+<div id="ed"><div class="hd">Script</div><div class="bd" id="edb"></div></div>
+<div id="con"><div class="hd">Console</div><div class="bd"><div id="conin"></div></div></div>
+<div id="view"><div class="hd" id="vhd">Viewer</div><img id="vimg"></div>
+<div id="slide"><div id="slideb"></div></div><div id="cap"></div>
+<script>
+const D = __DATA__;
+const $ = id => document.getElementById(id);
+document.getElementById('title').textContent = D.title;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function hl(code){ // tiny R highlighter: strings, functions, assignment, comments
+  let out = '', i = 0, cm = '';
+  const ci = (() => { let q = false; for (let j = 0; j < code.length; j++) { if (code[j] === '"') q = !q; if (code[j] === '#' && !q) return j; } return -1; })();
+  if (ci >= 0) { cm = code.slice(ci); code = code.slice(0, ci); }
+  const parts = code.split(/("[^"]*"?)/);
+  for (const p of parts) {
+    if (p.startsWith('"')) out += '<span class="s">' + esc(p) + '</span>';
+    else out += esc(p).replace(/\b([A-Za-z_][A-Za-z0-9_.]*)(?=\()/g, '<span class="f">$1</span>').replace(/(&lt;-)/g, '<span class="k">$1</span>');
+  }
+  if (cm) out += '<span class="c">' + esc(cm) + '</span>';
+  return out; }
+let lineNo = 0, edLines = [];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function type(lines, cps = 32){
+  for (const l of lines){
+    lineNo++; const el = document.createElement('span'); el.className = 'ln cur'; el.dataset.n = lineNo;
+    edLines.forEach(e => e.classList.remove('cur')); edLines.push(el); $('edb').appendChild(el);
+    const bd = $('edb'); if (edLines.length > D.edMax) { edLines.shift().remove(); }
+    for (let i = 1; i <= l.length; i++){ el.innerHTML = hl(l.slice(0,i)) + '<span id="caret"></span>'; await sleep(1000/cps * (l[i-1]===' '?0.6:1)); }
+    el.innerHTML = hl(l); await sleep(160);
+  } }
+function run(lines, out, clear){
+  const ci = $('conin'); if (clear) { ci.innerHTML=''; ci.style.transform='translateY(0)'; }
+  let h = lines.map((l,i)=>`<span class="prompt">${i?'+':'&gt;'}</span> <span class="echo">${hl(l)}</span>`).join('\n') + '\n';
+  if (out) h += `<span class="outp">${esc(D.txt[out])}</span>\n`;
+  ci.insertAdjacentHTML('beforeend', h); fit(); }
+function fit(){ const ci=$('conin'), box=ci.parentElement; const over = ci.scrollHeight - (box.clientHeight-20); ci.style.transform = `translateY(${-Math.max(0,over)}px)`; }
+function scrollCon(px){ const ci=$('conin'); ci.style.transform = `translateY(${-px}px)`; }
+function scrollTo(text){ const ci=$('conin'); const m=[...ci.querySelectorAll('mark')].find(x=>x.textContent===text); }
+function mark(text){ const ci=$('conin'); const outs=[...ci.querySelectorAll('.outp')];
+  for (const o of outs.reverse()){ const i=o.innerHTML.indexOf(esc(text)); if(i>=0){ o.innerHTML=o.innerHTML.slice(0,i)+'<mark>'+esc(text)+'</mark>'+o.innerHTML.slice(i+esc(text).length); return; } } }
+function cap(t){ const c=$('cap'); c.style.opacity=0; setTimeout(()=>{c.textContent=t; c.style.opacity=t?1:0;}, t?450:0); }
+function view(src, title, w, pan){ const v=$('view'); if(!src){v.classList.remove('on');return;} $('vimg').src=src; $('vhd').textContent=title||'Viewer';
+  v.style.setProperty('--vw',(w||760)+'px'); $('vimg').style.transform='translateY(0)'; v.classList.add('on'); if(pan) setTimeout(()=>$('vimg').style.transform=`translateY(${-pan}px)`,900); }
+function slide(html){ const s=$('slide'); if(!html){s.classList.remove('on');return;} $('slideb').innerHTML=html; s.classList.add('on'); }
+function edh(px){ document.documentElement.style.setProperty('--edh', px+'px'); }
+function clearEd(){ edLines.forEach(e=>e.remove()); edLines=[]; }
+window.start = () => { const t0 = performance.now(); for (const [t, f] of D.timeline) setTimeout(f, t*1000); };
+</script></body></html>

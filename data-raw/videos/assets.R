@@ -1,0 +1,23 @@
+suppressMessages(library(mirtverse)); options(width = 110)
+out <- function(name, expr) writeLines(capture.output(expr), paste0(name, ".txt"))
+gg <- function(name, p, w = 6.2, h = 4.6) ggplot2::ggsave(paste0(name, ".png"), p, width = w, height = h, dpi = 200, bg = "white")
+# ---- AI clip
+e1 <- essays[essays$prompt == "E1", ]
+s <- train_scorer(e1); out("ai-scorer", print(s))
+a <- agreement_report(s$cv$machine, e1$human1, e1$human2, group = e1$group)
+out("ai-agree", print(a))
+gg("ai-agree", autoplot(a), w = 9, h = 4.4)
+feats <- item_features(itemtext)
+out("ai-feats", print(head(feats[order(-feats$similarity), c("id", "similarity", "nearest")], 4)))
+items <- merge(itemtext, feats)
+m <- predict_difficulty(merge(itemtext, feats), c("family", "sentences", "decimals", "max_digits"), se = "b_se")
+out("ai-diff", print(m))
+gg("ai-diff", autoplot(m), w = 9.5, h = 4.8)
+# ---- Thesis clip
+key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,5)
+data <- key2binary(SAT12, key)
+sel <- select_model(data, candidates = c("Rasch", "2PL"), verbose = FALSE)
+out("th-sel", print(sel))
+cm <- cite_methods(sel, sample = "high school students", items = "multiple-choice science items")
+out("th-methods", print(cm))
+cite_methods(sel, sample = "high school students", items = "multiple-choice science items", file = "methods.docx")
