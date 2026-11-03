@@ -1,0 +1,17 @@
+{
+  "name": "mirtverse",
+  "owner": {
+    "name": "Okan Bulut",
+    "url": "https://www.okanbulut.com/mirtverse/"
+  },
+  "metadata": {
+    "description": "The mirtverse agent: Item response theory analyses with mirtverse and mirt, run by Claude."
+  },
+  "plugins": [
+    {
+      "name": "mirtverse",
+      "source": "./claude-plugin",
+      "description": "Analyze test data with item response theory: Model choice, item checks, DIF, scores, plots, plain-language interpretation, HTML reports and reproducible R scripts."
+    }
+  ]
+}

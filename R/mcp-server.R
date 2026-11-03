@@ -57,31 +57,38 @@ mv_mcp_server <- function(course = ".", transport = c("stdio", "http"),
   invisible(NULL)
 }
 
-#' Settings to connect an AI client to the instructor MCP server
+#' Settings to connect an AI client to a mirtverse MCP server
 #'
 #' Prints the configuration that tells an AI client how to start
-#' [mv_mcp_server()] for your course folder, with the full path to `Rscript`
-#' filled in, and where the settings go.
+#' [mv_mcp_server()] for your course folder, or [mv_agent_server()] for an
+#' analysis project, with the full path to `Rscript` filled in, and where the
+#' settings go.
 #'
-#' @param course path to the course folder.
+#' @param course path to the course folder, or with `mode = "analysis"` the
+#'   project folder that holds your data.
 #' @param client one of `"claude-desktop"`, `"claude-code"`, `"codex"`
 #'   (OpenAI Codex CLI and IDE extension), `"openai-agents"` (OpenAI Agents
 #'   SDK for Python) or `"chatgpt"` (ChatGPT developer mode, which connects
 #'   over HTTP).
 #' @param name the name the client shows for the server.
+#' @param mode `"course"` for the instructor server ([mv_mcp_server()]) or
+#'   `"analysis"` for the analysis agent ([mv_agent_server()]).
 #' @return The configuration text, invisibly. It is also printed.
 #' @examples
 #' mv_mcp_config("~/courses/edpy507", client = "claude-desktop")
 #' mv_mcp_config("~/courses/edpy507", client = "codex")
+#' mv_mcp_config("~/projects/math-test", client = "claude-desktop", mode = "analysis")
 #' @export
 mv_mcp_config <- function(course = ".", client = c("claude-desktop", "claude-code",
                                                    "codex", "openai-agents", "chatgpt"),
-                          name = "mirtverse") {
+                          name = "mirtverse", mode = c("course", "analysis")) {
   client <- match.arg(client)
+  mode <- match.arg(mode)
+  fn <- if (identical(mode, "analysis")) "mv_agent_server" else "mv_mcp_server"
   course <- normalizePath(path.expand(course), winslash = "/", mustWork = FALSE)
   rscript <- normalizePath(file.path(R.home("bin"), if (.Platform$OS.type == "windows")
     "Rscript.exe" else "Rscript"), winslash = "/", mustWork = FALSE)
-  expr <- sprintf("mirtverse::mv_mcp_server('%s')", course)
+  expr <- sprintf("mirtverse::%s('%s')", fn, course)
   json_args <- jsonlite::toJSON(c("-e", expr), auto_unbox = FALSE)
   txt <- switch(client,
     "claude-desktop" = c(
@@ -110,14 +117,18 @@ mv_mcp_config <- function(course = ".", client = c("claude-desktop", "claude-cod
       "}, client_session_timeout_seconds=900)",
       "",
       "async with server:",
-      "    agent = Agent(name=\"Course assistant\", mcp_servers=[server],",
-      "                  instructions=\"Help me revise my mirtverse teaching materials.\")",
-      "    result = await Runner.run(agent, \"Add a local dependence question to Lab 1.\")"),
+      if (identical(mode, "analysis")) c(
+        "    agent = Agent(name=\"IRT analyst\", mcp_servers=[server],",
+        "                  instructions=\"Analyze my test data with mirtverse.\")",
+        "    result = await Runner.run(agent, \"Calibrate exam.csv and check the items.\")") else c(
+        "    agent = Agent(name=\"Course assistant\", mcp_servers=[server],",
+        "                  instructions=\"Help me revise my mirtverse teaching materials.\")",
+        "    result = await Runner.run(agent, \"Add a local dependence question to Lab 1.\")")),
     "chatgpt" = c(
       "# ChatGPT connects to a URL, so run the server over HTTP and expose it",
       "# with a tunnel (for example `ngrok http 8765` or `cloudflared tunnel",
       "# --url http://localhost:8765`). In R:",
-      sprintf("mirtverse::mv_mcp_server('%s', transport = \"http\", port = 8765)", course),
+      sprintf("mirtverse::%s('%s', transport = \"http\", port = 8765)", fn, course),
       "# The server prints its URL, http://127.0.0.1:8765/mcp/<token>. In ChatGPT,",
       "# turn on Settings > Apps & Connectors > Advanced > Developer mode, create",
       "# a connector, and paste the tunnel address followed by /mcp/<token>, with",
@@ -133,17 +144,20 @@ mv_mcp_config <- function(course = ".", client = c("claude-desktop", "claude-cod
 
 mcp_protocol_versions <- c("2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05")
 
-mcp_context <- function(course, allow_run = TRUE, timeout = 600) {
+mcp_context <- function(course, allow_run = TRUE, timeout = 600, mode = "course") {
   course <- path.expand(course)
   if (!dir.exists(course)) dir.create(course, recursive = TRUE)
   ctx <- new.env(parent = emptyenv())
   ctx$root <- normalizePath(course, winslash = "/", mustWork = TRUE)
   ctx$allow_run <- isTRUE(allow_run)
   ctx$timeout <- timeout
+  ctx$mode <- mode
+  if (identical(mode, "analysis")) agent_init_context(ctx)
   ctx
 }
 
-mcp_server_instructions <- function() {
+mcp_server_instructions <- function(ctx = NULL) {
+  if (identical(ctx$mode, "analysis")) return(agent_server_instructions())
   paste(
     "This server edits an instructor's mirtverse teaching materials (R package for",
     "item response theory built on mirt): learnr labs, book chapters, lecture notes",
@@ -169,15 +183,15 @@ mcp_dispatch <- function(msg, ctx) {
     return(mcp_error(id, -32600, "Invalid request"))
   }
   result <- tryCatch(switch(method,
-    "initialize" = mcp_initialize(params),
+    "initialize" = mcp_initialize(params, ctx),
     "ping" = structure(list(), names = character()),
     "tools/list" = list(tools = mcp_tool_list(ctx)),
     "tools/call" = mcp_call_tool(params, ctx),
-    "prompts/list" = list(prompts = mcp_prompt_list()),
-    "prompts/get" = mcp_get_prompt(params),
-    "resources/list" = list(resources = mcp_resource_list()),
+    "prompts/list" = list(prompts = mcp_prompt_list(ctx)),
+    "prompts/get" = mcp_get_prompt(params, ctx),
+    "resources/list" = list(resources = mcp_resource_list(ctx)),
     "resources/templates/list" = list(resourceTemplates = list()),
-    "resources/read" = mcp_read_resource(params),
+    "resources/read" = mcp_read_resource(params, ctx),
     "logging/setLevel" = structure(list(), names = character()),
     if (startsWith(method, "notifications/")) NULL else
       structure(list(code = -32601, message = paste("Method not found:", method)),
@@ -196,7 +210,7 @@ mcp_error <- function(id, code, message) {
   list(jsonrpc = "2.0", id = id, error = list(code = code, message = message))
 }
 
-mcp_initialize <- function(params) {
+mcp_initialize <- function(params, ctx = NULL) {
   asked <- params$protocolVersion %||% mcp_protocol_versions[1]
   version <- if (asked %in% mcp_protocol_versions) asked else mcp_protocol_versions[1]
   list(protocolVersion = version,
@@ -205,9 +219,10 @@ mcp_initialize <- function(params) {
                            resources = list(listChanged = FALSE),
                            logging = structure(list(), names = character())),
        serverInfo = list(name = "mirtverse",
-                         title = "mirtverse instructor assistant",
+                         title = if (identical(ctx$mode, "analysis"))
+                           "mirtverse analysis agent" else "mirtverse instructor assistant",
                          version = as.character(utils::packageVersion("mirtverse"))),
-       instructions = mcp_server_instructions())
+       instructions = mcp_server_instructions(ctx))
 }
 
 mcp_handle_text <- function(line, ctx) {

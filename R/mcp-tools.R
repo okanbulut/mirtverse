@@ -4,13 +4,14 @@
 # Tool registry
 
 mcp_tool <- function(name, description, properties = list(), required = character(),
-                     handler, needs = NULL, title = NULL, read_only = FALSE) {
+                     handler, needs = NULL, title = NULL, read_only = FALSE,
+                     modes = "course") {
   schema <- list(type = "object",
                  properties = if (length(properties)) properties else
                    structure(list(), names = character()))
   if (length(required)) schema$required <- as.list(required)
   list(name = name, title = title, description = description, inputSchema = schema,
-       handler = handler, needs = needs, read_only = read_only)
+       handler = handler, needs = needs, read_only = read_only, modes = modes)
 }
 
 p_str <- function(description, enum = NULL) {
@@ -34,7 +35,7 @@ has_toolkit <- function(needs) {
 }
 
 mcp_tools <- function() {
-  list(
+  c(agent_tools(), list(
     mcp_tool("course_overview",
       "Start here. Summarizes the course folder: its manifest (title, instructor, materials), the files in it, the built-in labs that can be copied in, and recent changes made through this server.",
       handler = tool_course_overview, title = "Course overview", read_only = TRUE),
@@ -69,12 +70,14 @@ mcp_tools <- function() {
       "Describes a dataset so a lab or chapter can be built on it: size, each column's type, missing values and values, which columns look like scored items (dichotomous or polytomous), group variables and ID columns. Accepts a file in the course folder (.csv, .tsv, .xlsx, .sav, .dta, .rds, .rda) or the name of a dataset that ships with mirtverse or mirt (for example certexam, numeracy, SAT12, LSAT7).",
       list(source = p_str("A path relative to the course folder, or a dataset name."),
            object = p_str("For .rda files with several objects: which one.")),
-      "source", tool_describe_dataset, title = "Describe dataset", read_only = TRUE),
+      "source", tool_describe_dataset, title = "Describe dataset", read_only = TRUE,
+      modes = c("course", "analysis")),
     mcp_tool("mirtverse_help",
       "Looks up mirtverse functions. With no arguments, lists every exported function with a one-line title. With topic, returns that function's help page (usage, arguments, value, examples). With search, lists functions whose help mentions the words. Use this instead of guessing function names or arguments.",
       list(topic = p_str("A function or dataset name, e.g. 'gg_trace' or 'certexam'."),
            search = p_str("Words to search for in the help pages.")),
-      handler = tool_help, title = "mirtverse help", read_only = TRUE),
+      handler = tool_help, title = "mirtverse help", read_only = TRUE,
+      modes = c("course", "analysis")),
     mcp_tool("guide",
       "Returns a guide for working on mirtverse teaching materials. Topics: 'workflow' (how to handle an instructor's request), 'lab-style' (structure and conventions of a mirtverse learnr lab, required before writing or editing labs), 'chapter-style' (book chapters and lecture notes), 'adapting' (converting existing materials and code from other IRT packages to mirtverse), 'ai-content' (teaching AI in measurement: the AI section types, their data, the AI chapters and labs, and the checks every AI example needs).",
       list(topic = p_str("Guide to read.", c("workflow", "lab-style", "chapter-style", "adapting", "ai-content"))),
@@ -192,11 +195,17 @@ mcp_tools <- function() {
            code = p_str("New R code for the chunk.")),
       c("chapter", "code"), tool_swap_chapter_data, needs = "swap_chapter_data",
       title = "Swap chapter data")
-  )
+  ))
+}
+
+# The tools of the server's mode ("course" or "analysis")
+mcp_mode_tools <- function(ctx) {
+  mode <- ctx$mode %||% "course"
+  Filter(function(t) mode %in% t$modes && has_toolkit(t$needs), mcp_tools())
 }
 
 mcp_tool_list <- function(ctx) {
-  tools <- Filter(function(t) has_toolkit(t$needs), mcp_tools())
+  tools <- mcp_mode_tools(ctx)
   lapply(tools, function(t) {
     out <- list(name = t$name, title = t$title, description = t$description,
                 inputSchema = t$inputSchema)
@@ -209,8 +218,8 @@ mcp_tool_list <- function(ctx) {
 mcp_call_tool <- function(params, ctx) {
   name <- params$name %||% ""
   args <- params$arguments %||% list()
-  tool <- Filter(function(t) identical(t$name, name), mcp_tools())
-  if (!length(tool) || !has_toolkit(tool[[1]]$needs))
+  tool <- Filter(function(t) identical(t$name, name), mcp_mode_tools(ctx))
+  if (!length(tool))
     stop(structure(class = c("mcp_rpc_condition", "error", "condition"),
                    list(message = paste("Unknown tool:", name), call = NULL, code = -32602)))
   tool <- tool[[1]]
@@ -234,7 +243,12 @@ mcp_call_tool <- function(params, ctx) {
   text <- if (is.list(res)) res$text else res
   text <- paste(c(text, if (length(warns)) paste0("\nWarnings:\n- ", paste(warns, collapse = "\n- "))),
                 collapse = "\n")
-  out <- list(content = list(list(type = "text", text = text)), isError = FALSE)
+  content <- list(list(type = "text", text = text))
+  if (is.list(res) && length(res$images))
+    for (img in res$images)
+      content[[length(content) + 1L]] <- list(type = "image", mimeType = "image/png",
+                                              data = base64enc::base64encode(img))
+  out <- list(content = content, isError = FALSE)
   if (is.list(res) && !is.null(res$structured)) out$structuredContent <- res$structured
   out
 }
@@ -244,9 +258,12 @@ mcp_call_tool <- function(params, ctx) {
 
 mcp_state_dir <- ".mirtverse-mcp"
 
+folder_label <- function(ctx)
+  if (identical(ctx$mode, "analysis")) "project folder" else "course folder"
+
 mcp_path <- function(ctx, path, must_exist = TRUE) {
   if (!is.character(path) || length(path) != 1L || !nzchar(path))
-    stop("`path` must be a path relative to the course folder.", call. = FALSE)
+    stop("`path` must be a path relative to the ", folder_label(ctx), ".", call. = FALSE)
   path <- gsub("\\\\", "/", path)
   full <- if (grepl("^(/|[A-Za-z]:/|~)", path)) path.expand(path) else file.path(ctx$root, path)
   # normalize the deepest part that exists, then add the rest
@@ -261,14 +278,16 @@ mcp_path <- function(ctx, path, must_exist = TRUE) {
   norm <- normalizePath(base, winslash = "/", mustWork = TRUE)
   norm <- if (length(rest)) paste(c(norm, rest), collapse = "/") else norm
   if (!(identical(norm, ctx$root) || startsWith(norm, paste0(ctx$root, "/"))))
-    stop("The server can only use files inside the course folder (", ctx$root, ").",
+    stop("The server can only use files inside the ", folder_label(ctx), " (", ctx$root, ").",
          call. = FALSE)
   rel <- if (identical(norm, ctx$root)) "." else substring(norm, nchar(ctx$root) + 2L)
   if (identical(strsplit(rel, "/")[[1]][1], mcp_state_dir))
     stop("The ", mcp_state_dir, " folder holds the server's backups and cannot be used.",
          call. = FALSE)
   if (must_exist && !file.exists(norm))
-    stop("No file or folder '", rel, "' in the course folder. Use list_materials to see what is there.",
+    stop("No file or folder '", rel, "' in the ", folder_label(ctx), ". Use ",
+         if (identical(ctx$mode, "analysis")) "project_overview" else "list_materials",
+         " to see what is there.",
          call. = FALSE)
   structure(norm, rel = rel)
 }
@@ -615,7 +634,8 @@ load_dataset <- function(source, ctx, object = NULL) {
     if (ok) return(list(data = as.data.frame(get(source, envir = e)),
                         label = paste0(source, " (", pkg, " package)")))
   }
-  stop("No file or dataset called '", source, "'. Give a path inside the course folder or a dataset from mirtverse or mirt.",
+  stop("No file or dataset called '", source, "'. Give a path inside the ", folder_label(ctx),
+       " or a dataset from mirtverse or mirt.",
        call. = FALSE)
 }
 
@@ -1195,12 +1215,15 @@ mcp_prompts <- function() {
            "and what I should check by hand, such as whether the story fits my students.")))
 }
 
-mcp_prompt_list <- function() {
-  lapply(mcp_prompts(), function(p) p[c("name", "title", "description", "arguments")])
+mcp_mode_prompts <- function(ctx = NULL)
+  if (identical(ctx$mode, "analysis")) agent_prompts() else mcp_prompts()
+
+mcp_prompt_list <- function(ctx = NULL) {
+  lapply(mcp_mode_prompts(ctx), function(p) p[c("name", "title", "description", "arguments")])
 }
 
-mcp_get_prompt <- function(params) {
-  p <- Filter(function(x) identical(x$name, params$name), mcp_prompts())
+mcp_get_prompt <- function(params, ctx = NULL) {
+  p <- Filter(function(x) identical(x$name, params$name), mcp_mode_prompts(ctx))
   if (!length(p)) stop("Unknown prompt: ", params$name, call. = FALSE)
   p <- p[[1]]
   a <- params$arguments %||% list()
@@ -1216,15 +1239,19 @@ mcp_guide_topics <- c(workflow = "How to handle an instructor's request",
                       adapting = "Adapting existing materials to mirtverse",
                       `ai-content` = "Teaching AI in measurement with mirtverse")
 
-mcp_resource_list <- function() {
-  lapply(names(mcp_guide_topics), function(t)
-    list(uri = paste0("mirtverse://guide/", t), name = t, title = mcp_guide_topics[[t]],
+mcp_mode_guides <- function(ctx = NULL)
+  if (identical(ctx$mode, "analysis")) agent_guide_topics else mcp_guide_topics
+
+mcp_resource_list <- function(ctx = NULL) {
+  topics <- mcp_mode_guides(ctx)
+  lapply(names(topics), function(t)
+    list(uri = paste0("mirtverse://guide/", t), name = t, title = topics[[t]],
          mimeType = "text/markdown"))
 }
 
-mcp_read_resource <- function(params) {
+mcp_read_resource <- function(params, ctx = NULL) {
   uri <- params$uri %||% ""
   topic <- sub("^mirtverse://guide/", "", uri)
-  if (!topic %in% names(mcp_guide_topics)) stop("Unknown resource: ", uri, call. = FALSE)
+  if (!topic %in% names(mcp_mode_guides(ctx))) stop("Unknown resource: ", uri, call. = FALSE)
   list(contents = list(list(uri = uri, mimeType = "text/markdown", text = guide_text(topic))))
 }

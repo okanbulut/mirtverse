@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mirtverse": {
+      "command": "Rscript",
+      "args": ["-e", "mirtverse::mv_agent_server()"],
+      "env": {
+        "MIRTVERSE_PROJECT": "${CLAUDE_PROJECT_DIR}"
+      }
+    }
+  }
+}

@@ -13,3 +13,5 @@
 ^man/figures/home-.*$
 ^man/figures/card\.png$
 ^paper$
+^\.claude-plugin$
+^claude-plugin$
