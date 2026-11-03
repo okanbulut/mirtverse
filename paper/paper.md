@@ -364,6 +364,50 @@ scores are systematically too low, and the report says so
 have passed; a psychometric check catches the problem before any score is
 reported.
 
+
+A scoring engine is one AI component among several, and a testing program
+needs one place to check them all before results are used. `ai_audit()` runs
+these checks in a single call. In the `aiscored` data, an engine scores four
+constructed-response items (CR1 to CR4) on a 20-item test over two years, and
+a validity sample of responses was also scored by two human raters:
+
+```r
+d26   <- aiscored[aiscored$year == 2026, ]
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group",
+                  item = "item", period = "year",
+                  responses = d26[, -(1:3)], person_group = d26$group)
+audit
+#> AI audit: 7 checks, 8 flags (2 block, 5 review)
+#>                 check tested flagged status
+#>       human agreement      4       1 REVIEW
+#>     machine agreement      4       1 REVIEW
+#>          overall bias      4       0     ok
+#>    subgroup agreement      8       2 REVIEW
+#>  differential scoring      4       1  BLOCK
+#>                 drift      4       1  BLOCK
+#>                   DIF     20       2 REVIEW
+#>
+#> Flags:
+#>   [BLOCK] differential scoring, CR2, ELL: gap -0.31 SD, SE 0.05. For
+#>     responses human raters scored the same, the engine scores ELL
+#>     students lower than Fluent students.
+#>   [BLOCK] drift, CR3, 2026: SMD +0.29 against -0.01, QWK 0.74 against
+#>     0.85. The engine's scores have changed since the first period.
+#>   ...
+```
+
+Each flag names the item, the evidence and what to do next. Two problems
+block the use of the scores: On CR2, the engine gives English language
+learners lower scores than fluent students whose responses the human raters
+scored the same, the comparison that separates bias in the engine from real
+group differences [@johnson2022]; and on CR3, the engine's scores drifted
+between the two years. The audit also shows that the human raters disagree
+on CR4, so the rubric, not the engine, needs attention first.
+`validity_argument(audit)` turns these results into the validity section of
+the technical report.
+
+![Agreement between machine and human scores overall and by group. Left: Quadratic weighted kappa for machine-human (dots) and human-human (crosses) agreement. Right: Standardized mean difference between machine and human scores, with the band of acceptable differences for groups.\label{fig:agreement}](figures/agreement.png)
+
 # Teaching and learning resources
 
 Because many users meet IRT in a course, mirtverse ships with material for
@@ -380,8 +424,6 @@ case study with a full technical report, a workshop kit on AI in
 measurement, short narrated video demonstrations, and a "thesis kit" that
 walks graduate students from item responses to a Methods section complete
 the set.
-
-![Agreement between machine and human scores overall and by group. Left: Quadratic weighted kappa for machine-human (dots) and human-human (crosses) agreement. Right: Standardized mean difference between machine and human scores, with the band of acceptable differences for groups.\label{fig:agreement}](figures/agreement.png)
 
 # Research impact statement
 
