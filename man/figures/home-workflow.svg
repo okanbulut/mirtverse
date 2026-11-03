@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" width="1200" height="250" role="img" aria-labelledby="t d">
+<title id="t">The mirtverse workflow</title>
+<desc id="d">Four steps: Bring your data, fit and choose a model, understand the results, then share them and make decisions.</desc>
+<rect width="1200" height="250" rx="16" fill="#F4F7FB"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E8A317"/></marker></defs>
+<rect x="24.0" y="30" width="255.0" height="190" rx="14" fill="#FFFFFF" stroke="#2C5F8A" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="58.0" cy="68" r="17" fill="#E8A317"/>
+<text x="58.0" y="74" text-anchor="middle" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#172B4D">1</text>
+<text x="86.0" y="75" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#172B4D">Bring your data</text>
+<text x="44.0" y="122" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">CSV, Excel or SPSS,</text>
+<text x="44.0" y="144" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">or any mirt model</text>
+<line x1="44.0" y1="166" x2="259.0" y2="166" stroke="#5A636E" stroke-opacity="0.3"/>
+<text x="44.0" y="194" style="font-family:SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" fill="#2C5F8A">launch_workbench()</text>
+<line x1="285.0" y1="125.0" x2="315.0" y2="125.0" stroke="#E8A317" stroke-width="3" marker-end="url(#a)"/>
+<rect x="323.0" y="30" width="255.0" height="190" rx="14" fill="#FFFFFF" stroke="#2C5F8A" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="357.0" cy="68" r="17" fill="#E8A317"/>
+<text x="357.0" y="74" text-anchor="middle" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#172B4D">2</text>
+<text x="385.0" y="75" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#172B4D">Fit and choose</text>
+<text x="343.0" y="122" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">Compare Rasch, 2PL, 3PL</text>
+<text x="343.0" y="144" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">and pick a model</text>
+<line x1="343.0" y1="166" x2="558.0" y2="166" stroke="#5A636E" stroke-opacity="0.3"/>
+<text x="343.0" y="194" style="font-family:SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" fill="#2C5F8A">select_model()</text>
+<line x1="584.0" y1="125.0" x2="614.0" y2="125.0" stroke="#E8A317" stroke-width="3" marker-end="url(#a)"/>
+<rect x="622.0" y="30" width="255.0" height="190" rx="14" fill="#FFFFFF" stroke="#2C5F8A" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="656.0" cy="68" r="17" fill="#E8A317"/>
+<text x="656.0" y="74" text-anchor="middle" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#172B4D">3</text>
+<text x="684.0" y="75" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#172B4D">Understand</text>
+<text x="642.0" y="122" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">Plain-language results,</text>
+<text x="642.0" y="144" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#5A636E">item cards and figures</text>
+<line x1="642.0" y1="166" x2="857.0" y2="166" stroke="#5A636E" stroke-opacity="0.3"/>
+<text x="642.0" y="194" style="font-family:SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" fill="#2C5F8A">interpret()  item_card()</text>
+<line x1="883.0" y1="125.0" x2="913.0" y2="125.0" stroke="#E8A317" stroke-width="3" marker-end="url(#a)"/>
+<rect x="921.0" y="30" width="255.0" height="190" rx="14" fill="#172B4D" stroke="#2C5F8A" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="955.0" cy="68" r="17" fill="#E8A317"/>
+<text x="955.0" y="74" text-anchor="middle" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#172B4D">4</text>
+<text x="983.0" y="75" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">Share and decide</text>
+<text x="941.0" y="122" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#C8D6E8">Reports, dashboards</text>
+<text x="941.0" y="144" style="font-family:-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#C8D6E8">and a documented pipeline</text>
+<line x1="941.0" y1="166" x2="1156.0" y2="166" stroke="#C8D6E8" stroke-opacity="0.3"/>
+<text x="941.0" y="194" style="font-family:SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" fill="#E8A317">mv_report()  mv_dashboard()</text>
+</svg>

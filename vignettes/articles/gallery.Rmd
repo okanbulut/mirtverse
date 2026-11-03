@@ -95,7 +95,7 @@ gg_scores(mod)
 A one-page summary of a single item for review meetings, with a traffic-light
 status.
 
-```{r item-card, fig.width = 10, fig.height = 7}
+```{r item-card, fig.width = 12, fig.height = 7.2}
 sci <- mirt(Science, 1, verbose = FALSE)
 item_card(sci, "Work")
 ```

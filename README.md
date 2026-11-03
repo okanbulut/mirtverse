@@ -15,10 +15,12 @@ mirt estimates item response theory (IRT) models; mirtverse helps you choose a
 model, understand the results, make publication-ready figures, and share
 everything with people who never open R.
 
-<a href="https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html"><img src="https://www.okanbulut.com/mirtverse/dashboard/summary.png" width="100%" alt="The summary panel of a mirtverse results dashboard for a 32-item test"></a>
+<img src="man/figures/home-workflow.svg" width="100%" alt="The mirtverse workflow in four steps: Bring your data, fit and choose a model, understand the results, share and decide">
 
 **Try it without installing anything:** [Open the live example dashboard](https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html)
 or browse the [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.html) of figures and outputs.
+
+<a href="https://www.okanbulut.com/mirtverse/articles/gallery.html"><img src="man/figures/home-showcase.png" width="100%" alt="Four mirtverse outputs: A results dashboard, an item health card, a Wright map and a DIF plot"></a>
 
 ## Find your way in
 
