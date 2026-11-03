@@ -1,5 +1,13 @@
 # mirtverse (development version)
 
+* New article "Adopt mirtverse for your course" with a sample 12-week
+  syllabus to edit (Word and PDF), a setup checklist and a GitHub form for
+  instructors to tell us about their course. New article "Case study: A
+  certification exam, from field test to pass/fail" follows a fictional
+  board through eight recorded decisions and links a downloadable
+  technical report (PDF and HTML). The home page now highlights the AI in
+  measurement hub with an animated graphic.
+
 * The website has a new front door. The home page opens with a one-line
   summary, a four-step workflow diagram, a grid of real outputs (dashboard,
   item health card, Wright map, DIF plot) and a "Find your way in" table, and a new "Start here" menu has a short path for students,

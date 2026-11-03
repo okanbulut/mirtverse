@@ -24,8 +24,12 @@ navbar:
         href: articles/for-students.html
       - text: Instructors
         href: articles/for-instructors.html
+      - text: "Instructors: Adopt for your course"
+        href: articles/adopt.html
       - text: Testing programs
         href: articles/for-practitioners.html
+      - text: "Testing programs: A case study"
+        href: articles/case-study.html
       - text: Researchers
         href: articles/for-researchers.html
       - text: New to R
@@ -91,10 +95,12 @@ articles:
   - articles/dashboards
   - articles/mirtify
   - articles/assessment-pipeline
+  - articles/case-study
   - articles/gallery
 - title: Teaching and learning
   navbar: Teaching and learning
   contents:
+  - articles/adopt
   - articles/teaching-labs
   - articles/course-map
   - articles/instructor-toolkit

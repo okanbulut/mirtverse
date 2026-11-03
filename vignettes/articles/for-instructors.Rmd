@@ -17,8 +17,9 @@ laptops.
 ## Your path in three steps
 
 **1. See how the pieces fit a semester.** The [course map](course-map.html)
-ties each week to a book chapter, a lab and a reading. Use it as is, or as a
-starting point for your own syllabus.
+ties each week to a book chapter, a lab and a reading, and the
+[sample syllabus](../adopt/mirtverse-sample-syllabus.docx) (Word) turns it
+into a document you can edit and hand out.
 
 **2. Try a lab the way your students will.** Each lab is a realistic case,
 such as advising a certification board or investigating a fairness
@@ -55,8 +56,8 @@ adapt these materials for you.
 - [Glossary](glossary.html) and
   [cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf) to hand out.
 
-## Using mirtverse in your course?
+## Adopting it for a course?
 
-Please let us know by opening a
-[GitHub issue](https://github.com/okanbulut/mirtverse/issues) or emailing
-the author. Hearing which courses use the materials shapes what comes next.
+[Adopt mirtverse for your course](adopt.html) has a sample syllabus to edit
+(Word and PDF), a setup checklist, and a two-minute form to tell us about
+your course. Hearing which courses use the materials shapes what comes next.
