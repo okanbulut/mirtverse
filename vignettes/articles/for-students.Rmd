@@ -1,0 +1,66 @@
+---
+title: "Start here: Students"
+description: >
+  A path for graduate students: Fit, check and explain an IRT model for a
+  course or thesis, with figures a committee will accept.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+You need to fit an IRT model for a course or a thesis, check that it holds up,
+and explain it in figures and plain words. mirtverse does the bookkeeping so
+you can spend your time on the interpretation.
+
+## Your path in three steps
+
+**1. Learn the ideas with the book and the labs.** The free online book
+[*Item Response Theory with mirt and mirtverse*](../book/index.html) has one
+chapter per week of a typical course, from
+[classical item analysis](../book/measurement.html) to
+[reporting results](../book/reporting.html). The
+[interactive labs](teaching-labs.html) let you practise on realistic data:
+
+```r
+library(mirtverse)
+run_lab("model-choice")   # Lab 1: Choose a model a certification board can defend
+```
+
+**2. Run your own analysis.** Choose a model, read what it means, and check
+the items:
+
+```r
+sel <- select_model(mydata)   # compares Rasch, 2PL and 3PL and explains the choice
+mod <- sel$best
+interpret(mod)                # what the results mean, in plain language
+item_table(mod)               # item statistics, fit and flags in one table
+```
+
+Prefer clicking? `launch_workbench()` does the same steps with buttons and
+writes the R code for you, which you can paste into your thesis appendix.
+
+**3. Make figures and a report.** Every plot is a ggplot2 object, so you can
+restyle it for your university's template:
+
+```r
+gg_wright(mod)                               # person-item map
+gg_info(mod)                                 # test information
+mv_report(sel, file = "thesis-analysis.html")   # everything in one file
+```
+
+The [Gallery](gallery.html) shows what each figure looks like.
+
+## Keep going
+
+- [Glossary](glossary.html): Nearly 90 IRT terms in plain language.
+- [Cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf): The main functions on
+  two printable pages.
+- [Coming from ltm, eRm or TAM?](mirtify.html) `mirtify()` rewrites your old
+  code as mirt code.
+
+## Citing your tools
+
+Cite mirt (Chalmers, 2012) and mirtverse in your methods section. Run
+`citation("mirtverse")` in R for both references, or see
+[How to cite](../authors.html#citation).

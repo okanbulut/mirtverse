@@ -1,0 +1,68 @@
+---
+title: "Start here: New to R"
+description: >
+  Get IRT results without learning R first: Point and click in the
+  workbench, describe the analysis in words, or share a dashboard.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+You do not need to know R to use mirtverse. You need to install it once and
+type one line; after that, you can work with buttons or plain language.
+
+## Try it before you install anything
+
+[Open the live example dashboard](../dashboard/sat12-demo.html). It shows the
+results for a 32-item test: Which items work, which need review, and how
+scores are distributed. It runs in your browser, and you can make one like it
+for your own test.
+
+## Your path in three steps
+
+**1. Install R, RStudio and mirtverse (once, about 10 minutes).**
+
+- Install R from [CRAN](https://cloud.r-project.org/) and
+  [RStudio Desktop](https://posit.co/download/rstudio-desktop/), both free.
+- Open RStudio and paste this line into the Console (bottom left), then
+  press Enter:
+
+```r
+install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+**2. Open the workbench.** Paste these two lines:
+
+```r
+library(mirtverse)
+launch_workbench()
+```
+
+A window opens with eight steps: Load your data (CSV, Excel, SPSS), choose a
+model, check items, score people and download a report. The
+[workbench guide](../articles/workbench.html) walks through each step.
+
+**3. Or describe what you want in words.** `mv_ask()` writes the analysis for
+you, and you can read it before it runs:
+
+```r
+mv_ask("fit a Rasch model, check item fit and make a report", data = mydata)
+```
+
+It works offline for common analyses; see the [guide](mv-ask-guide.html).
+
+## Coming from other software?
+
+- **Winsteps or other Rasch software:** The workbench fits the Rasch model,
+  item fit and a Wright map, and writes the R code so you can see the
+  equivalent of each step.
+- **SPSS or Excel:** Load your `.sav`, `.xlsx` or `.csv` file directly in the
+  workbench.
+- **ltm, eRm, TAM or irtQ in R:** `mirtify()` translates your code; see
+  [Moving to mirt](mirtify.html).
+
+## Words you will see
+
+The [glossary](glossary.html) explains each term (discrimination,
+information, DIF and so on) in plain language.
