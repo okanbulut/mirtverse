@@ -4,13 +4,13 @@
 #' that you can edit, extend and re-run with your own data. `new_course()`
 #' creates the folder:
 #'
-#' * `course.json`: the course title and instructor.
-#' * `README.md`: a short how-to for whoever opens the folder next.
-#' * `labs/`: interactive labs (learnr tutorials), one folder each, made with
+#' * `course.json`: The course title and instructor.
+#' * `README.md`: A short how-to for whoever opens the folder next.
+#' * `labs/`: Interactive labs (learnr tutorials), one folder each, made with
 #'   [new_lab()] or [copy_lab()].
-#' * `chapters/`: notes chapters (R Markdown), made with [new_chapter()] or
+#' * `chapters/`: Notes chapters (R Markdown), made with [new_chapter()] or
 #'   [copy_chapter()].
-#' * `data/`: your raw data files, for reference.
+#' * `data/`: Your raw data files, for reference.
 #'
 #' `course_materials()` lists the labs and chapters in a course folder. It
 #' scans `labs/` and `chapters/`, so materials you add by hand are listed too.
@@ -94,13 +94,13 @@ course_materials <- function(course = ".") {
 #' Copy a built-in lab into a course to edit it
 #'
 #' Copies one of the package's teaching labs (see [list_labs()]) into the
-#' course's `labs/` folder. The copy is yours: change the story, cut
+#' course's `labs/` folder. The copy is yours: Change the story, cut
 #' sections, add exercises with [add_lab_exercise()] or questions with
 #' [add_lab_question()], then run [check_material()] and [preview_lab()].
 #'
 #' The built-in labs' feedback is written for their own datasets (each has
 #' problems planted on purpose), so to teach with your own data, start from
-#' [new_lab()] instead: its text and answer checks adapt to any dataset.
+#' [new_lab()] instead: Its text and answer checks adapt to any dataset.
 #'
 #' @param name the built-in lab, e.g. `"model-choice"`.
 #' @param course the course folder (it need not have a `course.json`).

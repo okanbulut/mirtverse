@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-calibrate.R
 \name{calibrate}
 \alias{calibrate}
-\title{Pipeline stage: calibration}
+\title{Pipeline stage: Calibration}
 \usage{
 calibrate(p, model = "auto", dif = NULL, reference = NULL, ...)
 }
@@ -32,27 +32,27 @@ from \code{\link[=mv_rules]{mv_rules()}}):
 }
 \details{
 \itemize{
-\item \code{not_converged} (block): the estimation did not converge.
+\item \code{not_converged} (block): The estimation did not converge.
 \item \code{model_fit} (review): M2-based RMSEA above \code{rmsea} or CFI below \code{cfi},
 which suggests more than one dimension or a poorly fitting model.
-\item \code{local_dependence} (review): pairs of items whose absolute Q3 residual
+\item \code{local_dependence} (review): Pairs of items whose absolute Q3 residual
 correlation exceeds \code{q3}.
 \item \code{item_misfit} (review): S-X2 item fit p-value below \code{fit_alpha} after
 \code{fit_adjust} adjustment.
-\item \code{parameter_range} (review): discrimination outside \code{a_min} to \code{a_max},
+\item \code{parameter_range} (review): Discrimination outside \code{a_min} to \code{a_max},
 an absolute difficulty above \code{b_max}, or a guessing parameter above
 \code{c_max}.
-\item \code{dif_large} (block) and \code{dif_moderate} (review): differential item
+\item \code{dif_large} (block) and \code{dif_moderate} (review): Differential item
 functioning between the groups given to \code{\link[=add_responses]{add_responses()}}, classified
 with the ETS A/B/C rules. 0/1 items use the Mantel-Haenszel D-DIF
 statistic (category C: |D-DIF| at least \code{dif_c} and a significant
-Mantel-Haenszel test; B: at least \code{dif_b} and significant). Polytomous
+Mantel-Haenszel test; B: At least \code{dif_b} and significant). Polytomous
 items use the standardized mean difference divided by the item's
 standard deviation with the Mantel test (\code{dif_poly_c}, \code{dif_poly_b}).
 Respondents are matched on their total score; with more than two groups
 each group is compared with the reference group.
-\item \code{low_reliability} (review): marginal reliability below \code{reliability}.
-\item \code{person_misfit} (info): the share of respondents whose Zh (lz) person-fit
+\item \code{low_reliability} (review): Marginal reliability below \code{reliability}.
+\item \code{person_misfit} (info): The share of respondents whose Zh (lz) person-fit
 statistic is below \code{person_misfit}; they are listed in \code{p$persons}.
 }
 }

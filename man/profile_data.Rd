@@ -16,7 +16,7 @@ The number of rows of \code{data} is stored in the \code{n} attribute.
 }
 \description{
 Describes each column of a data set (type, number of distinct values,
-range, share missing) and guesses its role: an \code{item} (whole numbers with
+range, share missing) and guesses its role: An \code{item} (whole numbers with
 few categories), a \code{group} variable (few categories, e.g. gender), an \code{id},
 a response time (\code{rt}), or \code{other}. This summary is the only information
 \code{\link[=mv_ask]{mv_ask()}} ever shares with an AI model; individual responses are never

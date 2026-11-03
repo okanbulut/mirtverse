@@ -9,7 +9,7 @@ lab_decisions(state, labels)
 \arguments{
 \item{state}{the tutorial state, from \code{\link[learnr:get_tutorial_state]{learnr::get_tutorial_state()}}.}
 
-\item{labels}{named character vector: question labels as names, short
+\item{labels}{named character vector: Question labels as names, short
 descriptions as values, in the order to show them.}
 }
 \value{

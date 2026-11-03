@@ -4,7 +4,7 @@
 #' trace curves, information, observed versus expected scores, the response
 #' distribution and a key-statistics panel with a traffic-light status.
 #'
-#' Status rules: **red** for misfit, low discrimination (a < 0.5) or an
+#' Status rules: **Red** for misfit, low discrimination (a < 0.5) or an
 #' item-total correlation below .10; **amber** for any other flag (see
 #' [item_table()]); **green** otherwise.
 #'
@@ -89,7 +89,7 @@ item_status <- function(row) {
 #' Health cards for many items
 #'
 #' @param x a unidimensional model from [mirt::mirt()].
-#' @param which.items items to include (default: all).
+#' @param which.items items to include (default: All).
 #' @param file optional path to an `.html` file. When given, all cards are
 #'   written to one self-contained page with a status overview table.
 #' @param alpha significance level for item misfit.

@@ -4,7 +4,7 @@
 ### Item means
 
 Before fitting an IRT model, look at the items one at a time. An item's mean
-score is the classical index of its difficulty: for items scored 0/1 it is
+score is the classical index of its difficulty: For items scored 0/1 it is
 the proportion of people who got the item right, so a **low** mean is a
 **hard** item.
 
@@ -40,7 +40,7 @@ An item's **item-total correlation** tells you whether people who do well on
 the rest of the test also do well on the item. Values near zero, or negative
 ones, point to a key error, a confusing item or an item that measures
 something else. mirt's `itemstats()` reports it as `cor_if_rm`
-(`total.r_if_rm` in mirt versions before 1.48): the correlation with the
+(`total.r_if_rm` in mirt versions before 1.48): The correlation with the
 total of the *other* items.
 
 ```{r {{id}}-stats, exercise = TRUE}

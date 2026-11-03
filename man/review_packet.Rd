@@ -3,7 +3,7 @@
 \name{review_packet}
 \alias{review_packet}
 \alias{read_reviews}
-\title{Pipeline stage: item review}
+\title{Pipeline stage: Item review}
 \usage{
 review_packet(
   p,
@@ -28,7 +28,7 @@ item and reviewer.}
 
 \item{provider, model}{the language model for the screen.}
 
-\item{reviews}{the completed packet: a path to the CSV file or a data
+\item{reviews}{the completed packet: A path to the CSV file or a data
 frame with columns \code{id}, \code{reviewer}, \code{decision} (\code{accept}, \code{revise} or
 \code{reject}), \code{aligned} (\code{yes}/\code{no}), \code{sensitivity} (\code{yes}/\code{no}) and
 optionally \code{comment}. Rows with an empty decision are ignored.}
@@ -57,16 +57,16 @@ assists reviewers and does not replace them.
 
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{under_reviewed} (block): an item reviewed by fewer than
+\item \code{under_reviewed} (block): An item reviewed by fewer than
 \code{min_reviewers} reviewers.
-\item \code{alignment} (review): a reviewer does not agree the item measures its
+\item \code{alignment} (review): A reviewer does not agree the item measures its
 blueprint cell.
-\item \code{sensitivity} (review): a reviewer (or the AI screen) raised a bias or
+\item \code{sensitivity} (review): A reviewer (or the AI screen) raised a bias or
 sensitivity concern.
-\item \code{needs_revision} (review): reviewers asked for the item to be revised.
+\item \code{needs_revision} (review): Reviewers asked for the item to be revised.
 \item \code{reviewer_agreement} (info): Fleiss' kappa for the reviewers' decisions
 is below \code{review_kappa}.
-\item \code{provenance} (info): an item without a recorded source (person or
+\item \code{provenance} (info): An item without a recorded source (person or
 model), which testing programs now need to disclose.
 }
 }

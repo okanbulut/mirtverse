@@ -73,7 +73,7 @@ string, is shown on success. Defaults to accepting any code that runs.}
 
 \item{answers}{the answer options (character).}
 
-\item{correct}{which answers are correct: their positions in \code{answers}, or
+\item{correct}{which answers are correct: Their positions in \code{answers}, or
 the answers themselves. More than one makes a check-all-that-apply
 question.}
 

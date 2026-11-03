@@ -16,7 +16,7 @@
 #'   `book_chapters()$id`; for `new_chapter()`, a new id (letters, digits, -
 #'   and _).
 #' @param course the course folder.
-#' @param from where to copy from: a local copy of the book's source folder
+#' @param from where to copy from: A local copy of the book's source folder
 #'   (`book/` in the package's GitHub repository), or `NULL` (the default) to
 #'   download the chapter from GitHub.
 #' @param overwrite replace an existing file.

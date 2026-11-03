@@ -8,14 +8,14 @@ online book.
 
 1. A title (`# Title` or YAML `title:`) and a short opening that says what
    the reader will learn and why it matters.
-2. **Concepts** before code: define each term in plain words, with a formula
+2. **Concepts** before code: Define each term in plain words, with a formula
    only where it helps, and link to the mirtverse glossary
    (https://www.okanbulut.com/mirtverse/articles/glossary.html) for terms.
-3. **Worked example**: load data, fit, look, interpret. Each code chunk is
+3. **Worked example**: Load data, fit, look, interpret. Each code chunk is
    followed by a paragraph that reads the output.
-4. **Try it yourself**: two or three short exercises with the answers hidden
+4. **Try it yourself**: Two or three short exercises with the answers hidden
    at the end of the chapter (or in a separate answer key).
-5. **Summary**: three to five bullet points.
+5. **Summary**: Three to five bullet points.
 
 ## Data chunks
 

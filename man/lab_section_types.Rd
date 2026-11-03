@@ -13,7 +13,7 @@ A tibble with the section \code{type}, its \code{title}, a \code{description}, a
 }
 \description{
 The ready-made sections that \code{\link[=new_lab]{new_lab()}} and \code{\link[=add_lab_section]{add_lab_section()}} use. Each
-works with any dataset: its numbers, checks and questions are computed
+works with any dataset: Its numbers, checks and questions are computed
 from the lab's data.
 }
 \details{

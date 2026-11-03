@@ -9,12 +9,12 @@
 #' examples, labs and lessons run offline and give the same results for
 #' every student.
 #'
-#' `mv_llm_record()` does the opposite: while it is on, every request sent to
+#' `mv_llm_record()` does the opposite: While it is on, every request sent to
 #' a live model and the model's answer are saved to a file, which
 #' `mv_llm_replay()` can play back later. Use it to capture a session once
 #' and teach from it many times.
 #'
-#' A recording answers only the exact requests it was made from: the same
+#' A recording answers only the exact requests it was made from: The same
 #' instructions to the model and the same prompt, which follow from the same
 #' function call on the same data. A request that is not in the file stops
 #' with an error that says so; run it with a live model, or record it.

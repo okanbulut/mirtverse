@@ -6,7 +6,7 @@
 #' your mirtverse teaching materials. You describe what you want ("add a
 #' question on local dependence to Lab 1", "use my own exam data in the
 #' fairness lab", "turn my ltm lecture notes into mirtverse") and the
-#' assistant does it with the server's tools: it reads and edits the files in
+#' assistant does it with the server's tools: It reads and edits the files in
 #' your course folder, copies and builds labs with the instructor toolkit,
 #' looks up mirtverse functions so it does not invent any, translates older
 #' ltm, eRm, TAM and irtQ code with [mirtify()], and runs the materials to

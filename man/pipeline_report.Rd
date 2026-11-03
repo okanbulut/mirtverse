@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-report.R
 \name{pipeline_report}
 \alias{pipeline_report}
-\title{Pipeline stage: technical report}
+\title{Pipeline stage: Technical report}
 \usage{
 pipeline_report(
   p,
@@ -31,7 +31,7 @@ The pipeline, invisibly, with the reporting stage recorded. The
 report path is stored in \code{p$report}.
 }
 \description{
-Writes the HTML technical report for a calibrated pipeline: everything
+Writes the HTML technical report for a calibrated pipeline: Everything
 \code{\link[=mv_report]{mv_report()}} shows (summary, model fit, items, graphics, scores, item
 health cards), plus a \emph{Pipeline decisions} section with the stages, every
 flag and its status, the decision log with notes, and the rules in effect,
@@ -42,7 +42,7 @@ section lists the pipeline code that was run.
 Before writing, the report gate checks one thing (threshold from
 \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{small_group} (block): a group with fewer than \code{min_group_n}
+\item \code{small_group} (block): A group with fewer than \code{min_group_n}
 respondents. Its summary is left out of the report so that individuals
 cannot be identified.
 }

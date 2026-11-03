@@ -1,31 +1,31 @@
-#' Pipeline stage: field-test design
+#' Pipeline stage: Field-test design
 #'
-#' Plans how new items reach test takers before they are calibrated: the
+#' Plans how new items reach test takers before they are calibrated: The
 #' number of forms, the anchor items every form shares (so the forms can be
 #' put on one scale), and the sample size per form. The unique items are
 #' spread over the forms in turn by blueprint cell, so each form covers the
 #' blueprint. A simulation then shows how well the item parameters would be
-#' recovered under the plan: responses are simulated from plausible item
+#' recovered under the plan: Responses are simulated from plausible item
 #' parameters ([mirt::simdata()]), the items a form does not include are set
 #' to missing, the model is fitted, and the estimates are compared with the
 #' true values.
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `sample_size` (review): items answered by fewer than `n_rasch`,
+#' * `sample_size` (review): Items answered by fewer than `n_rasch`,
 #'   `n_2pl` or `n_3pl` respondents, depending on the model (polytomous
 #'   items count as needing `n_3pl`).
-#' * `anchor_share` (review): the anchors make up less than
+#' * `anchor_share` (review): The anchors make up less than
 #'   `min_anchor_share` of a form.
-#' * `anchor_coverage` (review): a blueprint cell with no anchor item, so
+#' * `anchor_coverage` (review): A blueprint cell with no anchor item, so
 #'   the link between forms does not represent it.
-#' * `recovery` (review): the average RMSE of the simulated slopes (or of
+#' * `recovery` (review): The average RMSE of the simulated slopes (or of
 #'   the intercepts, for the Rasch model) is above `recovery_rmse`.
 #'
 #' @param p a pipeline.
 #' @param n_forms number of field-test forms.
 #' @param n_per_form number of test takers who take each form.
-#' @param items the items to field-test: by default the approved items in the
+#' @param items the items to field-test: By default the approved items in the
 #'   pipeline (or every item not rejected, if none has been reviewed); or a
 #'   character vector of item ids; or a number of items, for planning before
 #'   items exist.

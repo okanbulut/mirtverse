@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-forms.R
 \name{assemble_forms}
 \alias{assemble_forms}
-\title{Pipeline stage: assemble fixed test forms}
+\title{Pipeline stage: Assemble fixed test forms}
 \usage{
 assemble_forms(
   p,
@@ -27,7 +27,7 @@ assemble_forms(
 \item{theta}{ability points (on the bank scale) where the forms should be
 most informative, such as a cut score.}
 
-\item{content}{optional content category of each item: a named vector
+\item{content}{optional content category of each item: A named vector
 (names are item names).}
 
 \item{blueprint}{the number of items per content category on each form:
@@ -35,7 +35,7 @@ a named vector of exact counts, or a data frame with columns \code{category},
 \code{min} and \code{max}. Needs \code{content}.}
 
 \item{enemies}{optional pairs of items that must not appear on the same
-form: a list of character vectors of length two, or a two-column matrix.}
+form: A list of character vectors of length two, or a two-column matrix.}
 
 \item{max_use}{the number of forms an item may appear on (1 means no
 overlap between forms).}
@@ -55,23 +55,23 @@ automated test assembly (mixed-integer programming through the eatATA
 package). The items come from the pipeline's item bank (\code{\link[=bank_items]{bank_items()}}) if
 it has one, otherwise from the calibrated model. Each form has \code{length}
 items, meets the content blueprint, keeps enemy items apart, and the forms
-are made as informative as possible at the \code{theta} points: with one form
+are made as informative as possible at the \code{theta} points: With one form
 the information summed over \code{theta} is maximized, with several forms the
 smallest of the forms' sums is maximized, which keeps them parallel.
 }
 \details{
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{no_solution} (block): no set of forms meets every constraint; relax the
+\item \code{no_solution} (block): No set of forms meets every constraint; relax the
 blueprint, shorten the forms or allow items on more than one form
 (\code{max_use}).
-\item \code{blueprint} (block): a form's content counts fall outside the blueprint.
-\item \code{enemy_items} (block): two enemy items on one form.
-\item \code{parallel_forms} (review): the forms' test information at a \code{theta}
+\item \code{blueprint} (block): A form's content counts fall outside the blueprint.
+\item \code{enemy_items} (block): Two enemy items on one form.
+\item \code{parallel_forms} (review): The forms' test information at a \code{theta}
 point differs by more than \code{parallel_tol} (relative to the largest).
-\item \code{form_precision} (review): the standard error of measurement of a form
+\item \code{form_precision} (review): The standard error of measurement of a form
 at a \code{theta} point is above \code{cat_sem}.
-\item \code{not_optimal} (info): the solver found forms that meet every constraint
+\item \code{not_optimal} (info): The solver found forms that meet every constraint
 but ran out of time before proving they are the most informative ones;
 a longer \code{time_limit} may give slightly better forms.
 }

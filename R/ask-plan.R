@@ -6,7 +6,7 @@
 #' request, but a plan can also be written by hand and passed to
 #' `mv_ask(plan = )`, or changed with [update_plan()].
 #'
-#' @param items item columns: a character vector of names, a range such as
+#' @param items item columns: A character vector of names, a range such as
 #'   `"Q1:Q20"`, or `NULL` for all columns that look like items.
 #' @param model `"auto"` (compare models with [select_model()]), `"Rasch"`,
 #'   `"2PL"`, `"3PL"`, `"graded"` or `"gpcm"`.

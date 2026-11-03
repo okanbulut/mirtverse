@@ -20,14 +20,14 @@ The path of the copied lab folder, invisibly.
 }
 \description{
 Copies one of the package's teaching labs (see \code{\link[=list_labs]{list_labs()}}) into the
-course's \verb{labs/} folder. The copy is yours: change the story, cut
+course's \verb{labs/} folder. The copy is yours: Change the story, cut
 sections, add exercises with \code{\link[=add_lab_exercise]{add_lab_exercise()}} or questions with
 \code{\link[=add_lab_question]{add_lab_question()}}, then run \code{\link[=check_material]{check_material()}} and \code{\link[=preview_lab]{preview_lab()}}.
 }
 \details{
 The built-in labs' feedback is written for their own datasets (each has
 problems planted on purpose), so to teach with your own data, start from
-\code{\link[=new_lab]{new_lab()}} instead: its text and answer checks adapt to any dataset.
+\code{\link[=new_lab]{new_lab()}} instead: Its text and answer checks adapt to any dataset.
 }
 \examples{
 course <- file.path(tempdir(), "copy-demo")

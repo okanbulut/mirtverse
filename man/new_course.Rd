@@ -36,13 +36,13 @@ creates the folder:
 }
 \details{
 \itemize{
-\item \code{course.json}: the course title and instructor.
-\item \code{README.md}: a short how-to for whoever opens the folder next.
-\item \verb{labs/}: interactive labs (learnr tutorials), one folder each, made with
+\item \code{course.json}: The course title and instructor.
+\item \code{README.md}: A short how-to for whoever opens the folder next.
+\item \verb{labs/}: Interactive labs (learnr tutorials), one folder each, made with
 \code{\link[=new_lab]{new_lab()}} or \code{\link[=copy_lab]{copy_lab()}}.
-\item \verb{chapters/}: notes chapters (R Markdown), made with \code{\link[=new_chapter]{new_chapter()}} or
+\item \verb{chapters/}: Notes chapters (R Markdown), made with \code{\link[=new_chapter]{new_chapter()}} or
 \code{\link[=copy_chapter]{copy_chapter()}}.
-\item \verb{data/}: your raw data files, for reference.
+\item \verb{data/}: Your raw data files, for reference.
 }
 
 \code{course_materials()} lists the labs and chapters in a course folder. It

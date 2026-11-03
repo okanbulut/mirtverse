@@ -17,7 +17,7 @@
 #'   [select_model()], or an `mv_rt` object from [fit_rt()].
 #' @param alpha significance level for item misfit.
 #' @param ... unused.
-#' @return An object of class `mv_interpretation`: a named list of character
+#' @return An object of class `mv_interpretation`: A named list of character
 #'   vectors, one per section. It prints as formatted text; use
 #'   `as.character()` or `format(x, "markdown")` to reuse it.
 #' @examples

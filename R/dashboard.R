@@ -1,7 +1,7 @@
 #' Results dashboard for sharing
 #'
 #' Builds a small, read-only 'shiny' dashboard of a fitted model for people
-#' who do not use R: teachers, clients, committees or students. Where the
+#' who do not use R: Teachers, clients, committees or students. Where the
 #' [workbench][launch_workbench] is for doing an analysis, the dashboard is for
 #' showing one. Pick the panels you want, give it a title, and run it, or save
 #' it as a ready-to-deploy app or a single offline HTML file with
@@ -14,21 +14,21 @@
 #' before you deploy a dashboard that has it.
 #'
 #' Available panels:
-#' * `"summary"`: headline numbers (respondents, items, reliability, flagged
+#' * `"summary"`: Headline numbers (respondents, items, reliability, flagged
 #'   items) and the plain-language interpretation from [interpret()].
-#' * `"items"`: the item table with traffic-light status; select a row to see
+#' * `"items"`: The item table with traffic-light status; select a row to see
 #'   that item's health card ([item_card()]).
-#' * `"curves"`: trace curves for chosen items, with a slider that reads off
+#' * `"curves"`: Trace curves for chosen items, with a slider that reads off
 #'   the probabilities at any ability level.
-#' * `"information"`: test information and standard error, plus item
+#' * `"information"`: Test information and standard error, plus item
 #'   information curves.
-#' * `"wright"`: the Wright map.
-#' * `"scores"`: the distribution of ability estimates and the sum-score
+#' * `"wright"`: The Wright map.
+#' * `"scores"`: The distribution of ability estimates and the sum-score
 #'   conversion table (no individual scores).
-#' * `"persons"`: a searchable table of every person's score, standard error
+#' * `"persons"`: A searchable table of every person's score, standard error
 #'   and percentile.
-#' * `"dif"`: differential item functioning results (needs `dif`).
-#' * `"rt"`: response-time results (needs `rt`).
+#' * `"dif"`: Differential item functioning results (needs `dif`).
+#' * `"rt"`: Response-time results (needs `rt`).
 #'
 #' `"curves"`, `"information"`, `"wright"`, `"scores"` and `"persons"` need a
 #' unidimensional model and are dropped, with a message, for other models.
@@ -88,7 +88,7 @@ mv_dashboard <- function(x, panels = NULL, title = "Assessment results", subtitl
 #'   the way you installed it, so install it from GitHub or r-universe (not
 #'   from a local folder) before you deploy.
 #' * `format = "html"` writes a single self-contained `.html` file that needs
-#'   no server, no R and no internet connection: email it, put it on a shared
+#'   no server, no R and no internet connection: Email it, put it on a shared
 #'   drive or a course page, and it opens in any browser. It has the same
 #'   panels, with the item table, item curves, ability slider and person
 #'   lookup still interactive.

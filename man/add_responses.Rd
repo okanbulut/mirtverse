@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-intake.R
 \name{add_responses}
 \alias{add_responses}
-\title{Pipeline stage: data intake and cleaning}
+\title{Pipeline stage: Data intake and cleaning}
 \usage{
 add_responses(
   p,
@@ -23,15 +23,15 @@ columns such as an ID or a grouping variable.}
 \item{items}{the item columns, by name or position. Defaults to every
 column that is not \code{id}, \code{group} or \code{rt}.}
 
-\item{key}{optional answer key: one correct option per item. Responses are
+\item{key}{optional answer key: One correct option per item. Responses are
 then scored 1 (correct) or 0 (incorrect); missing responses stay missing.}
 
-\item{group}{optional grouping variable for DIF and group summaries: a
+\item{group}{optional grouping variable for DIF and group summaries: A
 column name of \code{data} or a vector with one value per respondent.}
 
-\item{id}{optional respondent IDs: a column name of \code{data} or a vector.}
+\item{id}{optional respondent IDs: A column name of \code{data} or a vector.}
 
-\item{rt}{optional response times: a matrix or data frame with one column
+\item{rt}{optional response times: A matrix or data frame with one column
 per item (same order), or the names of those columns in \code{data}.}
 }
 \value{
@@ -44,19 +44,19 @@ given, and screens items and respondents before calibration. The checks
 }
 \details{
 \itemize{
-\item \code{zero_variance} (block): every respondent gave the same answer, so the
+\item \code{zero_variance} (block): Every respondent gave the same answer, so the
 item cannot be calibrated.
-\item \code{possible_miskey} (block): a 0/1 item with a very low proportion correct
+\item \code{possible_miskey} (block): A 0/1 item with a very low proportion correct
 or a negative corrected item-total correlation, or a polytomous item with
 a negative correlation (possibly reverse-coded).
-\item \code{item_missing} (review): an item with many missing responses.
-\item \code{person_missing} (review): respondents who skipped most items.
-\item \code{straight_lining} (review): respondents who gave the same answer to every
+\item \code{item_missing} (review): An item with many missing responses.
+\item \code{person_missing} (review): Respondents who skipped most items.
+\item \code{straight_lining} (review): Respondents who gave the same answer to every
 item of a rating-scale (polytomous, unkeyed) test.
-\item \code{rapid_guessing} (review): respondents with many responses faster than
+\item \code{rapid_guessing} (review): Respondents with many responses faster than
 \code{rapid_rt} times the item's median response time (needs \code{rt}).
-\item \code{sparse_category} (review): score categories with few responses.
-\item \code{small_group} (info): groups too small for stable DIF results (fewer than
+\item \code{sparse_category} (review): Score categories with few responses.
+\item \code{small_group} (info): Groups too small for stable DIF results (fewer than
 100 respondents).
 }
 

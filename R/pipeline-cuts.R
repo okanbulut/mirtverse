@@ -1,4 +1,4 @@
-#' Pipeline stage: cut scores and decision quality
+#' Pipeline stage: Cut scores and decision quality
 #'
 #' Records the cut scores that turn scores into decisions (pass/fail or
 #' performance levels) and estimates how accurate and consistent those
@@ -12,10 +12,10 @@
 #' scale if the pipeline is linked):
 #'
 #' * With cuts on the ability scale (`scale = "theta"`), Rudner's (2001)
-#'   method: the ability estimate is taken as normal around the true ability
+#'   method: The ability estimate is taken as normal around the true ability
 #'   with the standard error from the test information.
 #' * With cuts on the summed-score scale (`scale = "raw"`), Lee's (2010)
-#'   method: the summed-score distribution at each ability comes from the
+#'   method: The summed-score distribution at each ability comes from the
 #'   Lord-Wingersky recursion, and the true category is set by the expected
 #'   (true) score.
 #'
@@ -27,12 +27,12 @@
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `class_accuracy` (review): overall accuracy below `cut_accuracy`.
-#' * `class_consistency` (review): overall consistency below
+#' * `class_accuracy` (review): Overall accuracy below `cut_accuracy`.
+#' * `class_consistency` (review): Overall consistency below
 #'   `cut_consistency`.
-#' * `cut_precision` (review): the standard error of measurement at a cut is
+#' * `cut_precision` (review): The standard error of measurement at a cut is
 #'   above `cut_sem`; the test has too little information there.
-#' * `panel_agreement` (info): the panelists' cuts have a standard deviation
+#' * `panel_agreement` (info): The panelists' cuts have a standard deviation
 #'   (in ability units) above `panel_sd`.
 #'
 #' @param p a calibrated pipeline from [calibrate()].
@@ -43,7 +43,7 @@
 #'   in the higher category).
 #' @param labels names of the categories, one more than the number of cuts.
 #'   Defaults to `"Level 1"`, `"Level 2"`, and so on.
-#' @param panel optional ratings from a standard-setting panel: a matrix or
+#' @param panel optional ratings from a standard-setting panel: A matrix or
 #'   data frame with one row per panelist and one column per cut, on the same
 #'   `scale` as `cuts`.
 #' @param form optional number of a fixed form from [assemble_forms()]; the
@@ -51,7 +51,7 @@
 #'   calibrated test.
 #' @param theta optional population of abilities to average over (for example
 #'   draws from the expected test-taker distribution).
-#' @return The pipeline with `p$cuts`: a list with the cuts on both scales
+#' @return The pipeline with `p$cuts`: A list with the cuts on both scales
 #'   (`table`), overall decision quality (`summary`), results by cut
 #'   (`by_cut`) and the share of the population expected in each category
 #'   (`categories`).
@@ -168,7 +168,7 @@ set_cuts <- function(p, cuts = NULL, scale = c("theta", "raw"), labels = NULL, p
 #' Item map for Bookmark standard setting
 #'
 #' Locates every item (and every score category of a polytomous item) on the
-#' ability scale at the response probability `rp`: the ability at which a test
+#' ability scale at the response probability `rp`: The ability at which a test
 #' taker has probability `rp` of answering correctly (or of reaching that
 #' category or higher). Sorted by location, this is the ordered item booklet
 #' of the Bookmark method; a panelist's bookmark translates to a cut at the

@@ -27,7 +27,7 @@ E2 (why Earth has seasons), E3 (how plants make food) and E4 (why a metal
 spoon feels colder than a wooden one).
 }
 \details{
-The dataset is for learning automated scoring: training a scorer on the
+The dataset is for learning automated scoring: Training a scorer on the
 text, checking machine-human agreement, and checking that the scorer is
 fair to ELL students. Some problems were planted on purpose;
 \code{lab_truth("essays")} lists them and the true scores. Every response has

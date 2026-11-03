@@ -18,7 +18,7 @@ plain words and never assume they will read code.
 4. **Say the plan in one or two sentences** before large changes (new labs,
    rewriting sections, swapping data). Small, clearly requested edits need no
    plan.
-5. **Change with the most specific tool:** the lab tools (`add_lab_exercise`,
+5. **Change with the most specific tool:** The lab tools (`add_lab_exercise`,
    `add_lab_question`, `add_lab_section`, `remove_lab_section`,
    `swap_lab_data`), `edit_material` for targeted text edits, and
    `write_material` only for new files or full rewrites.
@@ -32,12 +32,12 @@ plain words and never assume they will read code.
 
 ## Rules
 
-- Never overwrite an instructor's original file when adapting it: write the
+- Never overwrite an instructor's original file when adapting it: Write the
   adapted version to a new file (for example `labs/<name>/` or
   `chapters/<id>.Rmd`) unless they ask you to replace it.
 - Keep the instructor's voice, examples and course context. Change only what
   they asked for.
-- Keep student-facing answers out of the main text: answer keys go at the end
+- Keep student-facing answers out of the main text: Answer keys go at the end
   (see `lab-style`).
 - Do not add packages a lab does not need. learnr, mirt and mirtverse are
   always available.

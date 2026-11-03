@@ -6,7 +6,7 @@
 \title{Numeracy items with their text, for the AI Hub}
 \format{
 A data frame with 192 rows (one per item) and 17 columns:
-\code{id} (\code{N01-01} to \code{N12-16}: family and item number), \code{family} (the item
+\code{id} (\code{N01-01} to \code{N12-16}: Family and item number), \code{family} (the item
 model), \code{domain} (content area), \code{stem} (the question), \code{A} to \code{D} (the
 options), \code{key} (the keyed option), \code{decimal} (1 if the item uses
 decimals or fractions), \code{digits} (digits in the largest number),

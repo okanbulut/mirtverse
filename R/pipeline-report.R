@@ -1,6 +1,6 @@
-#' Pipeline stage: technical report
+#' Pipeline stage: Technical report
 #'
-#' Writes the HTML technical report for a calibrated pipeline: everything
+#' Writes the HTML technical report for a calibrated pipeline: Everything
 #' [mv_report()] shows (summary, model fit, items, graphics, scores, item
 #' health cards), plus a *Pipeline decisions* section with the stages, every
 #' flag and its status, the decision log with notes, and the rules in effect,
@@ -10,7 +10,7 @@
 #' Before writing, the report gate checks one thing (threshold from
 #' [mv_rules()]):
 #'
-#' * `small_group` (block): a group with fewer than `min_group_n`
+#' * `small_group` (block): A group with fewer than `min_group_n`
 #'   respondents. Its summary is left out of the report so that individuals
 #'   cannot be identified.
 #'

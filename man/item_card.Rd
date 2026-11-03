@@ -25,7 +25,7 @@ trace curves, information, observed versus expected scores, the response
 distribution and a key-statistics panel with a traffic-light status.
 }
 \details{
-Status rules: \strong{red} for misfit, low discrimination (a < 0.5) or an
+Status rules: \strong{Red} for misfit, low discrimination (a < 0.5) or an
 item-total correlation below .10; \strong{amber} for any other flag (see
 \code{\link[=item_table]{item_table()}}); \strong{green} otherwise.
 }

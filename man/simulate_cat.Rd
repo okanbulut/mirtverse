@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-forms.R
 \name{simulate_cat}
 \alias{simulate_cat}
-\title{Pipeline stage: simulate a computerized adaptive test}
+\title{Pipeline stage: Simulate a computerized adaptive test}
 \usage{
 simulate_cat(
   p,
@@ -31,7 +31,7 @@ simulate_cat(
 
 \item{method}{ability estimation method passed to \code{\link[mirtCAT:mirtCAT]{mirtCAT::mirtCAT()}}.}
 
-\item{randomesque}{exposure control: choose each item at random from the
+\item{randomesque}{exposure control: Choose each item at random from the
 \code{randomesque} most informative ones (1 means none).}
 
 \item{theta}{optional true abilities of the simulees.}
@@ -56,14 +56,14 @@ standard error reaches \code{min_sem} or \code{max_items} items are given.
 \details{
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{cat_precision} (review): the average final standard error is above
+\item \code{cat_precision} (review): The average final standard error is above
 \code{cat_sem}, or the average bias of the ability estimates is beyond
 \code{cat_bias} in absolute value.
-\item \code{cat_exposure} (review): an item is given to more than \code{max_exposure} of
+\item \code{cat_exposure} (review): An item is given to more than \code{max_exposure} of
 the simulees. Use \code{randomesque} to spread exposure.
-\item \code{unused_items} (review): more than \code{unused_share} of the bank is never
+\item \code{unused_items} (review): More than \code{unused_share} of the bank is never
 used.
-\item \code{bank_depth} (info): the bank holds fewer than \code{bank_depth} times
+\item \code{bank_depth} (info): The bank holds fewer than \code{bank_depth} times
 \code{max_items} items.
 }
 }

@@ -75,9 +75,9 @@ you will see the truth behind the data.
 
 ### Meet the data
 
-The scored responses are in `numeracy`: a student ID, ELL status (`ell`:
+The scored responses are in `numeracy`: A student ID, ELL status (`ell`:
 `Fluent` or `ELL`), `gender`, and the items `N01` to `N30` (1 = right,
-0 = wrong). `numeracy_items` describes each item: its curriculum strand, its
+0 = wrong). `numeracy_items` describes each item: Its curriculum strand, its
 format and its word count.
 
 For convenience, the item columns are already saved as `scored` and the ELL
@@ -150,7 +150,7 @@ question_radio("ELL students do worse on 29 of the 30 items. What can you conclu
 
 The classic DIF method, used by testing programs for decades, is the
 **Mantel-Haenszel** (MH) procedure. It matches students on their **total
-score**: within each score level, it compares the odds of a correct answer for
+score**: Within each score level, it compares the odds of a correct answer for
 fluent and ELL students, and then pools those odds ratios across levels into
 one common odds ratio, $\alpha_{MH}$.
 
@@ -295,7 +295,7 @@ question_radio("dif() flags N02 (p < .001) even though Mantel-Haenszel put it in
 
 ### Look at the curves
 
-Plot the item curves by group for three of the flagged items: a word problem
+Plot the item curves by group for three of the flagged items: A word problem
 with uniform DIF, the item that favours ELL students, and N02. Testing just
 these three items is much faster.
 
@@ -309,17 +309,17 @@ gg_dif(dif3, type = "curves")
 ### Who is holding the scale still?
 
 `dif()` tests each item by comparing it with **all the other items**, which
-are held equal across groups. Those other items are the **anchor**: they
+are held equal across groups. Those other items are the **anchor**: They
 define what "the same ability" means for the two groups. The method works
 well when nearly all of them are DIF-free.
 
 Here, several items disadvantage ELL students. While they sit in the anchor,
-they drag the ELL group's estimated ability down. Two things follow: the
+they drag the ELL group's estimated ability down. Two things follow: The
 **impact** is overestimated, and some clean items then look as if they
-**favour** ELL students. Look again at N05, N15 and N16 in `dif_res`: they are
+**favour** ELL students. Look again at N05, N15 and N16 in `dif_res`: They are
 flagged, but with small positive effects.
 
-The usual fix is **purification**: use the items that were *not* flagged as
+The usual fix is **purification**: Use the items that were *not* flagged as
 the anchor, then test the flagged items against that clean anchor.
 
 The ten items flagged in the first pass are saved as `first_flags`. Fit a
@@ -373,7 +373,7 @@ question_radio("The first pass estimated the ELL mean at -0.68 SD; the clean anc
 
 mirt's `DIF()` with `scheme = "add"` starts from a model like `m_anchor`, in
 which the tested items are free, and constrains each one in turn to be equal
-across groups. A significant result means the constraint hurts the fit: the
+across groups. A significant result means the constraint hurts the fit: The
 item functions differently. Run it for the ten first-pass items.
 
 ```{r purified, exercise = TRUE, exercise.setup = "setup-anchor", exercise.timelimit = 180}
@@ -404,7 +404,7 @@ question_checkbox("Which items are **no longer** flagged (adjusted p above .05) 
 
 ### From items to students’ scores
 
-Statistical significance is not the same as importance: with 2,000 students,
+Statistical significance is not the same as importance: With 2,000 students,
 even small effects can be significant. So ask how much the DIF matters for
 students' **scores**.
 
@@ -515,7 +515,7 @@ question_radio("Most items that disadvantage ELL students are long word problems
 ### Write to the deputy minister
 
 Write a short memo (four to six sentences) that answers the deputy minister's
-three questions: is the test biased, which items and how much, and what the
+three questions: Is the test biased, which items and how much, and what the
 ministry should do.
 
 ```{r q-memo}
@@ -557,14 +557,14 @@ truth$no_dif_long
 | What was planted | What the analysis found |
 |---|---|
 | ELL mean 0.5 SD lower (impact) | -0.68 SD with every item in the anchor, -0.55 with a clean anchor |
-| N07, N18, N20, N25, N30: uniform DIF against ELL students | MH category B or C, and flagged by both IRT passes |
-| N02: non-uniform DIF (flat curve for ELL students) | Missed by MH, flagged by the IRT tests |
-| N21: uniform DIF favouring ELL students | MH category C with positive D, flagged by both IRT passes |
-| N03: a tiny shift | Not flagged: too small to matter |
+| N07, N18, N20, N25, N30: Uniform DIF against ELL students | MH category B or C, and flagged by both IRT passes |
+| N02: Non-uniform DIF (flat curve for ELL students) | Missed by MH, flagged by the IRT tests |
+| N21: Uniform DIF favouring ELL students | MH category C with positive D, flagged by both IRT passes |
+| N03: A tiny shift | Not flagged: Too small to matter |
 | No DIF in N05, N15, N16 | Flagged in the first pass, cleared by purification |
 | No DIF by gender | Try it below |
 
-### Your turn: gender
+### Your turn: Gender
 
 The ministry also asks about gender. Run the analysis (about a minute) and
 see what you find.
@@ -611,7 +611,7 @@ output$decision_log <- renderTable({
 ```
 
 You have taken a fairness complaint from a raw score gap to a defensible
-answer: you separated impact from DIF, compared two methods and their blind
+answer: You separated impact from DIF, compared two methods and their blind
 spots, protected the analysis from a contaminated anchor, judged the size of
 the problem and planned a review that can fix it. The same steps apply to
 any group comparison you will be asked to make.

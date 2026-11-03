@@ -27,7 +27,7 @@ interpret(x, ...)
 \item{alpha}{significance level for item misfit.}
 }
 \value{
-An object of class \code{mv_interpretation}: a named list of character
+An object of class \code{mv_interpretation}: A named list of character
 vectors, one per section. It prints as formatted text; use
 \code{as.character()} or \code{format(x, "markdown")} to reuse it.
 }

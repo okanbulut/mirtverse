@@ -4,7 +4,7 @@
 \name{mirtverse-package}
 \alias{mirtverse}
 \alias{mirtverse-package}
-\title{mirtverse: a friendly workflow and reporting layer for mirt}
+\title{mirtverse: A friendly workflow and reporting layer for mirt}
 \description{
 mirtverse builds on the \pkg{mirt} package. It adds tidy outputs
 (\code{\link[=tidy]{tidy()}}, \code{\link[=glance]{glance()}}, \code{\link[=augment]{augment()}}), ggplot2 graphics (\code{\link[=gg_trace]{gg_trace()}},

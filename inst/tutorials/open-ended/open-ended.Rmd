@@ -74,7 +74,7 @@ The director of assessment asks you:
 
 ### Meet the data
 
-`openended` has one row per response: the `student`, whether the student is
+`openended` has one row per response: The `student`, whether the student is
 an English language learner (`ell`), the `task`, the two raters and their
 scores (`rater1`, `score1`, `rater2`, `score2`), the expert's third read
 `score3` (`NA` when there was none) and the engine's score `machine`.
@@ -97,10 +97,10 @@ table(openended$ell[!duplicated(openended$student)])
 Before scores are used, check that two raters reading the same answer give
 it the same score. Three statistics are standard:
 
-* **exact agreement**: the share of responses where both raters gave the
+* **exact agreement**: The share of responses where both raters gave the
   same score;
-* **adjacent agreement**: the share where they were at most one point apart;
-* **quadratic weighted kappa (QWK)**: agreement corrected for chance, where
+* **adjacent agreement**: The share where they were at most one point apart;
+* **quadratic weighted kappa (QWK)**: Agreement corrected for chance, where
   big disagreements count much more than small ones. `qwk()` is defined for
   you. Many programs want QWK of at least 0.70.
 
@@ -156,7 +156,7 @@ question_radio("Human agreement on T6 is well below the other tasks, for every p
 ### Severity and consistency
 
 Because raters were assigned **at random**, every rater saw a similar mix of
-answers. So you can compare raters directly: a rater whose scores are on
+answers. So you can compare raters directly: A rater whose scores are on
 average lower than their partner's on the **same responses** is **severe**,
 and one who rarely agrees with their partner is **inconsistent**.
 
@@ -272,11 +272,11 @@ lab_need(!anyNA(openended$final) && all(openended$final == ref),
 
 Scores of 0 to 4 call for a **polytomous** IRT model. Three are common:
 
-* the **partial credit model (PCM)**: one discrimination for all tasks, a
+* the **partial credit model (PCM)**: One discrimination for all tasks, a
   step difficulty between each pair of adjacent categories;
-* the **generalized partial credit model (GPCM)**: the PCM with a
+* the **generalized partial credit model (GPCM)**: The PCM with a
   discrimination for each task;
-* the **graded response model (GRM)**: models the chance of scoring at or
+* the **graded response model (GRM)**: Models the chance of scoring at or
   above each category, with a discrimination for each task.
 
 `select_model()` fits all three and compares them.
@@ -457,7 +457,7 @@ question_radio("Can the engine replace the second human reader next year?",
 
 ### Write to the director
 
-Write a short memo (four to six sentences): can the scores be trusted, what
+Write a short memo (four to six sentences): Can the scores be trusted, what
 should happen with raters R5 and R8, the T6 rubric and T4's categories, and
 is the engine ready?
 

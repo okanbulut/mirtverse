@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-forms.R
 \name{assemble_mst}
 \alias{assemble_mst}
-\title{Pipeline stage: assemble and simulate a multistage test}
+\title{Pipeline stage: Assemble and simulate a multistage test}
 \usage{
 assemble_mst(
   p,
@@ -39,7 +39,7 @@ The pipeline with \code{p$forms} (a list with \code{method = "mst"},
 cut points), \code{persons} and \code{summary}).
 }
 \description{
-Builds a two-stage multistage test (MST) from the calibrated items: a
+Builds a two-stage multistage test (MST) from the calibrated items: A
 routing module of medium difficulty, then \code{n_modules} second-stage modules
 targeted at increasing ability levels. Each module is assembled with
 eatATA to be most informative at its target. Simulees are routed to the
@@ -49,10 +49,10 @@ the routing module; their final ability is estimated from both modules.
 \details{
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{no_solution} (block): the modules could not be assembled.
-\item \code{mst_routing} (review): more than \code{mst_routing} of the simulees were
+\item \code{no_solution} (block): The modules could not be assembled.
+\item \code{mst_routing} (review): More than \code{mst_routing} of the simulees were
 routed to a different module than their true ability calls for.
-\item \code{cat_precision} (review): the average final standard error is above
+\item \code{cat_precision} (review): The average final standard error is above
 \code{cat_sem}, or the average bias is beyond \code{cat_bias}.
 }
 }

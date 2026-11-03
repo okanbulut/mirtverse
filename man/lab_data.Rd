@@ -19,7 +19,7 @@ the AI sections, or \code{NULL}; see \code{\link[=new_lab]{new_lab()}}) and \cod
 \code{lab.json}).
 }
 \description{
-Used in the setup chunk of labs made with \code{\link[=new_lab]{new_lab()}}: reads
+Used in the setup chunk of labs made with \code{\link[=new_lab]{new_lab()}}: Reads
 \code{data/responses.rds} and \code{data/lab.json}. You can also call it yourself to
 see what a lab will use.
 }

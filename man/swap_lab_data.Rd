@@ -19,7 +19,7 @@ swap_lab_data(
 \arguments{
 \item{lab}{the lab folder.}
 
-\item{data}{the responses: a data frame or matrix, or the path of a file
+\item{data}{the responses: A data frame or matrix, or the path of a file
 (\code{.csv}, \code{.tsv}, \code{.txt}, \code{.xlsx}, \code{.xls}, \code{.sav}, \code{.dta}, \code{.sas7bdat} or
 \code{.rds}). Items must be scored 0/1 or in ordered integer categories,
 unless you give a \code{key}. A frequency table (one row per response pattern
@@ -31,7 +31,7 @@ column whose values are whole numbers from 0 to 9 (other than \code{group}
 and ID-like columns), or the names of a named \code{key}.}
 
 \item{group}{optional grouping variable with two values, for the DIF
-section: a column name of \code{data}, or a vector with one value per row.}
+section: A column name of \code{data}, or a vector with one value per row.}
 
 \item{key}{optional answer key for unscored multiple-choice responses, one
 value per item; the items are scored with \code{\link[mirt:key2binary]{mirt::key2binary()}}.}

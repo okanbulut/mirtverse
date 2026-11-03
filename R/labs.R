@@ -5,7 +5,7 @@
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
 #' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 10
-#' each have their own: a provincial numeracy test ([numeracy]), a licensure
+#' each have their own: A provincial numeracy test ([numeracy]), a licensure
 #' exam with two forms ([linking]), a placement test's item bank
 #' ([catbank]), rater-scored science tasks ([openended]), written science
 #' explanations ([essays]), the text of numeracy items ([itemtext]), a
@@ -173,7 +173,7 @@ lab_meta <- function(rmd) {
 #' decision questions.
 #'
 #' @param state the tutorial state, from [learnr::get_tutorial_state()].
-#' @param labels named character vector: question labels as names, short
+#' @param labels named character vector: Question labels as names, short
 #'   descriptions as values, in the order to show them.
 #' @return A data frame with columns `Decision`, `Your answer` and `Verdict`.
 #' @keywords internal
@@ -195,7 +195,7 @@ lab_decisions <- function(state, labels) {
 
 #' Answer key and true values for the lab datasets
 #'
-#' Instructor helper: returns how a lab dataset was generated, so you can
+#' Instructor helper: Returns how a lab dataset was generated, so you can
 #' check students' conclusions. Students meet the same information in the
 #' reveal at the end of the labs.
 #'

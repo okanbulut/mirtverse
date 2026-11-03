@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-bank.R
 \name{bank_items}
 \alias{bank_items}
-\title{Pipeline stage: add items to a bank}
+\title{Pipeline stage: Add items to a bank}
 \usage{
 bank_items(p, bank = NULL, name = "Item bank", update_anchors = FALSE)
 }

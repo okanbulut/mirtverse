@@ -20,7 +20,7 @@
 #' irtQ 1.3. [mirtify_crosswalk()] lists every function that `mirtify()`
 #' knows.
 #'
-#' @param code the code to translate. One of: a character string or vector
+#' @param code the code to translate. One of: A character string or vector
 #'   of code lines, the path to an `.R` file, or the unquoted code itself
 #'   (a single call, or several statements wrapped in `{ }`).
 #' @param run logical; if `TRUE`, run the translated code and keep the

@@ -6,34 +6,34 @@
 #' next stage. The stages available so far (numbered as in the pipeline
 #' plan; start at any of them):
 #'
-#' 0. [set_blueprint()]: the construct, content cells and score use.
-#' 1. [generate_items()] or [add_items()]: item writing with a language model
+#' 0. [set_blueprint()]: The construct, content cells and score use.
+#' 1. [generate_items()] or [add_items()]: Item writing with a language model
 #'    or by people (keys, distractors, rubrics, duplicates, coverage).
-#' 2. [review_packet()] and [read_reviews()]: human content and sensitivity
+#' 2. [review_packet()] and [read_reviews()]: Human content and sensitivity
 #'    review, with an optional AI screen (reviewers, alignment, bias,
 #'    agreement).
-#' 3. [design_field_test()]: forms, anchors and sample sizes for the field
+#' 3. [design_field_test()]: Forms, anchors and sample sizes for the field
 #'    test, with simulated parameter recovery.
-#' 4. [add_responses()]: data intake and cleaning (scoring with a key,
+#' 4. [add_responses()]: Data intake and cleaning (scoring with a key,
 #'    missing data, miskeyed items, straight-lining, rapid guessing, sparse
 #'    categories).
-#' 5. [calibrate()]: model fitting with mirt (convergence, model fit, local
+#' 5. [calibrate()]: Model fitting with mirt (convergence, model fit, local
 #'    dependence, item fit, parameter ranges, DIF, reliability, person fit).
-#' 6. [link_to_bank()] and [bank_items()] (optional): put the calibration on
+#' 6. [link_to_bank()] and [bank_items()] (optional): Put the calibration on
 #'    the scale of an item bank through anchor items and add the new items to
 #'    the bank (anchor drift, linking constants).
-#' 7. [assemble_forms()], [simulate_cat()] or [assemble_mst()]: fixed forms,
+#' 7. [assemble_forms()], [simulate_cat()] or [assemble_mst()]: Fixed forms,
 #'    adaptive or multistage tests (blueprint, parallelism, precision,
 #'    exposure, routing).
-#' 8. [set_cuts()]: cut scores and classification accuracy and consistency.
-#' 9. [score_open()] and [score_persons()]: open-ended scoring by a language
+#' 8. [set_cuts()]: Cut scores and classification accuracy and consistency.
+#' 9. [score_open()] and [score_persons()]: Open-ended scoring by a language
 #'    model or a trained model, checked against human scores, and ability
 #'    estimates.
-#' 10. [check_security()]: preknowledge, leakage, parameter drift, answer
+#' 10. [check_security()]: Preknowledge, leakage, parameter drift, answer
 #'    copying, aberrant timing, site anomalies and score gains.
-#' 11. [pipeline_report()]: an HTML technical report that also lists every
+#' 11. [pipeline_report()]: An HTML technical report that also lists every
 #'    flag and every decision made about it.
-#' 12. [monitor_bank()] and [retire_items()]: after each administration, the
+#' 12. [monitor_bank()] and [retire_items()]: After each administration, the
 #'    bank's health over time (over-exposed items, content cells running
 #'    short, reliability trend, unused items).
 #'
@@ -42,7 +42,7 @@
 #' point at problems that make later stages unsafe, such as a model that did
 #' not converge or an item with large DIF.
 #'
-#' By default flags only warn: every stage runs, and a warning lists the open
+#' By default flags only warn: Every stage runs, and a warning lists the open
 #' flags it is moving past. With `strict = TRUE`, a stage refuses to run while
 #' an earlier stage has open `review` flags (record a decision with
 #' [acknowledge()]) or open `block` flags (fix the problem, for example with

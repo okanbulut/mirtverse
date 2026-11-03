@@ -16,7 +16,7 @@
 #'
 #' @param request a plain-language description of the analysis. To change an
 #'   earlier script, pass it first: `mv_ask(scr, "use a 3PL instead")`.
-#' @param data the data: a data frame, or the path of a `.csv`, `.xlsx`,
+#' @param data the data: A data frame, or the path of a `.csv`, `.xlsx`,
 #'   `.sav`, `.dta`, `.sas7bdat` or `.rds` file. The script refers to a data
 #'   frame by the name you pass, so pass a named object (e.g. `data = mydata`).
 #' @param plan an [mv_plan()] to use instead of a request.
@@ -169,8 +169,8 @@ as.character.mv_script <- function(x, ...) x$script
 #' @param x an `mv_script` from [mv_ask()].
 #' @param check logical; do a dry run on simulated data first.
 #' @param echo logical; print each line and its output as it runs.
-#' @return `run_script()`: a named list of the objects the script created,
-#'   invisibly. `save_script()`: the file path, invisibly.
+#' @return `run_script()`: A named list of the objects the script created,
+#'   invisibly. `save_script()`: The file path, invisibly.
 #' @examples
 #' scr <- mv_ask(data = Science, plan = mv_plan(model = "graded", steps = "fitcheck"))
 #' f <- save_script(scr, tempfile(fileext = ".R"))

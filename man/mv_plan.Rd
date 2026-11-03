@@ -21,7 +21,7 @@ mv_plan(
 update_plan(plan, ...)
 }
 \arguments{
-\item{items}{item columns: a character vector of names, a range such as
+\item{items}{item columns: A character vector of names, a range such as
 \code{"Q1:Q20"}, or \code{NULL} for all columns that look like items.}
 
 \item{model}{\code{"auto"} (compare models with \code{\link[=select_model]{select_model()}}), \code{"Rasch"},

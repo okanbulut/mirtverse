@@ -8,7 +8,7 @@
 #'   <https://console.anthropic.com> (stored as `ANTHROPIC_API_KEY`).
 #' * `"openai"`: OpenAI's GPT models, with your own key from
 #'   <https://platform.openai.com> (stored as `OPENAI_API_KEY`).
-#' * `"ollama"`: a free model running on your own computer with Ollama
+#' * `"ollama"`: A free model running on your own computer with Ollama
 #'   (<https://ollama.com>). Install Ollama, run `ollama pull qwen2.5` (or
 #'   another model) once, and nothing ever leaves your machine.
 #'
