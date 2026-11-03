@@ -142,7 +142,7 @@ R has become one of the main platforms for IRT, and several reviews compare
 the available packages [@choi2019]. Table 1 summarises widely used packages
 and their focus.
 
-: Table 1. Selected R packages for item response theory.
+: Table 1. Selected R packages for IRT
 
 | Package | Focus |
 |---|---|
