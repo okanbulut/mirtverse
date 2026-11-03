@@ -72,7 +72,9 @@ mv_report(
   htmltools, placed before the reproducibility section; the names are
   the section titles.
   [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
-  uses this for its decisions section.
+  uses this for its decisions section. A
+  [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  can be given directly.
 
 - open:
 

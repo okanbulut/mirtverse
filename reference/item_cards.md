@@ -17,7 +17,7 @@ item_cards(x, which.items = NULL, file = NULL, alpha = 0.01)
 
 - which.items:
 
-  items to include (default: all).
+  items to include (default: All).
 
 - file:
 

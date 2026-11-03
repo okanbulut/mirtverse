@@ -1,6 +1,6 @@
-# Pipeline stage: assemble and simulate a multistage test
+# Pipeline stage: Assemble and simulate a multistage test
 
-Builds a two-stage multistage test (MST) from the calibrated items: a
+Builds a two-stage multistage test (MST) from the calibrated items: A
 routing module of medium difficulty, then `n_modules` second-stage
 modules targeted at increasing ability levels. Each module is assembled
 with eatATA to be most informative at its target. Simulees are routed to
@@ -67,12 +67,12 @@ tibble of module and item, `targets`, `cuts` (the routing cut points),
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `no_solution` (block): the modules could not be assembled.
+- `no_solution` (block): The modules could not be assembled.
 
-- `mst_routing` (review): more than `mst_routing` of the simulees were
+- `mst_routing` (review): More than `mst_routing` of the simulees were
   routed to a different module than their true ability calls for.
 
-- `cat_precision` (review): the average final standard error is above
+- `cat_precision` (review): The average final standard error is above
   `cat_sem`, or the average bias is beyond `cat_bias`.
 
 ## Examples

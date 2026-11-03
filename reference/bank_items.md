@@ -1,4 +1,4 @@
-# Pipeline stage: add items to a bank
+# Pipeline stage: Add items to a bank
 
 Adds the items of a calibrated pipeline to an item bank, on the bank's
 scale. With no `bank`, a new bank is started from the pipeline. With an

@@ -59,7 +59,7 @@ model), `lrt` (likelihood-ratio tests between nested models) and
 
 ## Details
 
-By default the candidates depend on the data: for dichotomous items the
+By default the candidates depend on the data: For dichotomous items the
 Rasch, 2PL and 3PL models; for polytomous (or mixed) items the partial
 credit (Rasch), generalized partial credit and graded response models.
 Set `dims = 1:2` to also try two-factor exploratory versions.

@@ -1,12 +1,15 @@
 # Build a lab from your own data
 
 `new_lab()` writes an interactive lab (a learnr tutorial) that walks
-students through an IRT analysis of *your* dataset: the data, classical
+students through an IRT analysis of *your* dataset: The data, classical
 item statistics, dimensionality, model comparison, item fit,
-information, scoring and, when you give a grouping variable, DIF. Every
-number in the text, every answer check and every multiple-choice
-question is computed from the data when the lab is rendered, so the same
-lab works with any dataset and
+information, scoring and, when you give a grouping variable, DIF. With
+`item_info` or `scores` it can also teach AI in measurement on your
+data: What the item text says about difficulty, how equally difficult
+the items of each item family are, and whether machine scores agree with
+human scores. Every number in the text, every answer check and every
+multiple-choice question is computed from the data when the lab is
+rendered, so the same lab works with any dataset and
 [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md)
 can replace the data later without touching the text.
 
@@ -20,6 +23,8 @@ new_lab(
   items = NULL,
   group = NULL,
   key = NULL,
+  item_info = NULL,
+  scores = NULL,
   title = NULL,
   data_title = NULL,
   story = NULL,
@@ -32,11 +37,11 @@ new_lab(
 
 - name:
 
-  the lab's name: letters, digits, `-` and `_`.
+  the lab's name: Letters, digits, `-` and `_`.
 
 - data:
 
-  the responses: a data frame or matrix, or the path of a file (`.csv`,
+  the responses: A data frame or matrix, or the path of a file (`.csv`,
   `.tsv`, `.txt`, `.xlsx`, `.xls`, `.sav`, `.dta`, `.sas7bdat` or
   `.rds`). Items must be scored 0/1 or in ordered integer categories,
   unless you give a `key`. A frequency table (one row per response
@@ -58,7 +63,7 @@ new_lab(
 
 - group:
 
-  optional grouping variable with two values, for the DIF section: a
+  optional grouping variable with two values, for the DIF section: A
   column name of `data`, or a vector with one value per row.
 
 - key:
@@ -66,6 +71,26 @@ new_lab(
   optional answer key for unscored multiple-choice responses, one value
   per item; the items are scored with
   [`mirt::key2binary()`](https://philchalmers.github.io/mirt/reference/key2binary.html).
+
+- item_info:
+
+  optional data frame (or the path of a data file) with one row per
+  item, for the AI sections. It needs a column `item` (or `id`) with the
+  item names used in `data`. A `stem` column (and, for multiple-choice
+  items, option columns `A` to `E` and a `key` column with the letter of
+  the keyed option) enables the `"item-features"` section; a `family`
+  column naming each item's item model or family enables the `"aig"`
+  section.
+
+- scores:
+
+  optional data frame (or the path of a data file) of machine scores of
+  constructed responses, for the `"ai-scoring"` section: One row per
+  scored response, with columns `machine` and `human1` (the human score,
+  `NA` where no person read the response) and, optionally, `human2` (a
+  second reading), `group` (for fairness checks), `item` and `period`
+  (an administration or engine version, for drift checks). Rename your
+  columns to these names first.
 
 - title:
 
@@ -84,8 +109,9 @@ new_lab(
 
   the sections to include, in order; see
   [`lab_section_types()`](https://www.okanbulut.com/mirtverse/reference/lab_section_types.md).
-  The default includes every section that suits the data (`"dif"` only
-  with a `group`).
+  The default includes every section that suits the data: `"dif"` only
+  with a `group`, and the AI sections only when `item_info` or `scores`
+  provide what they need.
 
 - overwrite:
 
@@ -132,4 +158,18 @@ lab_outline(lab)
 #> 2 classical classical Classical item statistics         2         1
 #> 3 models    models    Compare IRT models                2         1
 #> 4 wrap-up   wrap-up   Where to next                     0         0
+
+# an AI lab: item text and item families of 60 generated items
+lab2 <- new_lab("aig", data = aigfield, course = course,
+                item_info = transform(aigfield_items, family = model),
+                data_title = "the generated items",
+                sections = c("intro", "item-features", "aig", "wrap-up"))
+lab_outline(lab2)
+#> # A tibble: 4 × 5
+#>   id            type          title                       exercises questions
+#>   <chr>         <chr>         <chr>                           <int>     <int>
+#> 1 intro         intro         Meet the data                       1         0
+#> 2 item-features item-features What the item text tells us         2         3
+#> 3 aig           aig           Item families                       2         2
+#> 4 wrap-up       wrap-up       Where to next                       0         0
 ```

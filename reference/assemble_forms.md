@@ -1,4 +1,4 @@
-# Pipeline stage: assemble fixed test forms
+# Pipeline stage: Assemble fixed test forms
 
 Builds one or more fixed test forms from the calibrated items with
 automated test assembly (mixed-integer programming through the eatATA
@@ -7,7 +7,7 @@ package). The items come from the pipeline's item bank
 if it has one, otherwise from the calibrated model. Each form has
 `length` items, meets the content blueprint, keeps enemy items apart,
 and the forms are made as informative as possible at the `theta` points:
-with one form the information summed over `theta` is maximized, with
+With one form the information summed over `theta` is maximized, with
 several forms the smallest of the forms' sums is maximized, which keeps
 them parallel.
 
@@ -50,7 +50,7 @@ assemble_forms(
 
 - content:
 
-  optional content category of each item: a named vector (names are item
+  optional content category of each item: A named vector (names are item
   names).
 
 - blueprint:
@@ -61,7 +61,7 @@ assemble_forms(
 
 - enemies:
 
-  optional pairs of items that must not appear on the same form: a list
+  optional pairs of items that must not appear on the same form: A list
   of character vectors of length two, or a two-column matrix.
 
 - max_use:
@@ -88,22 +88,22 @@ information and SEM per form at each `theta`).
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `no_solution` (block): no set of forms meets every constraint; relax
+- `no_solution` (block): No set of forms meets every constraint; relax
   the blueprint, shorten the forms or allow items on more than one form
   (`max_use`).
 
-- `blueprint` (block): a form's content counts fall outside the
+- `blueprint` (block): A form's content counts fall outside the
   blueprint.
 
-- `enemy_items` (block): two enemy items on one form.
+- `enemy_items` (block): Two enemy items on one form.
 
-- `parallel_forms` (review): the forms' test information at a `theta`
+- `parallel_forms` (review): The forms' test information at a `theta`
   point differs by more than `parallel_tol` (relative to the largest).
 
-- `form_precision` (review): the standard error of measurement of a form
+- `form_precision` (review): The standard error of measurement of a form
   at a `theta` point is above `cat_sem`.
 
-- `not_optimal` (info): the solver found forms that meet every
+- `not_optimal` (info): The solver found forms that meet every
   constraint but ran out of time before proving they are the most
   informative ones; a longer `time_limit` may give slightly better
   forms.

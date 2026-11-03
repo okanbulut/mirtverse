@@ -2,12 +2,21 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  articles/adopt: adopt.html
   articles/ai-hub: ai-hub.html
   articles/ai-reading: ai-reading.html
   articles/ai-translation: ai-translation.html
+  articles/ai-workshop: ai-workshop.html
   articles/assessment-pipeline: assessment-pipeline.html
+  articles/case-study: case-study.html
   articles/course-map: course-map.html
   articles/dashboards: dashboards.html
+  articles/for-instructors: for-instructors.html
+  articles/for-new-to-r: for-new-to-r.html
+  articles/for-practitioners: for-practitioners.html
+  articles/for-researchers: for-researchers.html
+  articles/for-students: for-students.html
+  articles/gallery: gallery.html
   articles/glossary: glossary.html
   articles/instructor-mcp: instructor-mcp.html
   articles/instructor-toolkit: instructor-toolkit.html
@@ -16,8 +25,9 @@ articles:
   articles/mv-ask-guide: mv-ask-guide.html
   response-times: response-times.html
   articles/teaching-labs: teaching-labs.html
+  articles/thesis-kit: thesis-kit.html
   workbench: workbench.html
-last_built: 2026-11-02T21:04Z
+last_built: 2026-11-03T07:57Z
 urls:
   reference: https://www.okanbulut.com/mirtverse/reference
   article: https://www.okanbulut.com/mirtverse/articles

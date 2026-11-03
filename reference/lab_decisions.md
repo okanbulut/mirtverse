@@ -18,7 +18,7 @@ lab_decisions(state, labels)
 
 - labels:
 
-  named character vector: question labels as names, short descriptions
+  named character vector: Question labels as names, short descriptions
   as values, in the order to show them.
 
 ## Value

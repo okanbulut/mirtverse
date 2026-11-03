@@ -1,4 +1,4 @@
-# Pipeline stage: bank monitoring
+# Pipeline stage: Bank monitoring
 
 Keeps an item bank healthy from one administration to the next. Each run
 records the current administration in the bank (how many test takers saw
@@ -49,7 +49,7 @@ monitor_bank(
 
 - content:
 
-  optional content cell of each bank item: a named vector (item id =
+  optional content cell of each bank item: A named vector (item id =
   cell). It is stored in the bank. By default the cells come from the
   bank, or from the items in the pipeline
   ([`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
@@ -57,7 +57,7 @@ monitor_bank(
 
 - min_items:
 
-  optional fewest active items per cell: one number, or a named vector
+  optional fewest active items per cell: One number, or a named vector
   by cell.
 
 - record:
@@ -77,20 +77,20 @@ and `cells` (active items per content cell). Save the bank with
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `over_exposure` (review): active items seen by more than
+- `over_exposure` (review): Active items seen by more than
   `max_exposure` of the test takers in each of the last
   `exposure_windows` windows.
 
-- `bank_depth` (review): a content cell with fewer active items than its
+- `bank_depth` (review): A content cell with fewer active items than its
   minimum: `min_items`, or by default `cell_depth` times the cell's
   count in the blueprint from
   [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md).
 
-- `reliability_trend` (review): marginal reliability in the latest
+- `reliability_trend` (review): Marginal reliability in the latest
   window more than `reliability_drop` below its value in the first
   window.
 
-- `unused_items` (info): more than `unused_share` of the active items
+- `unused_items` (info): More than `unused_share` of the active items
   (that have been in the bank for `unused_days`) not used in the last
   `unused_days` days.
 

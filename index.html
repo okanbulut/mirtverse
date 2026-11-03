@@ -14,7 +14,8 @@
 <meta property="og:title" content="A Friendly Workflow and Reporting Layer for mirt">
 <meta name="description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags, and a translator that turns ltm, eRm, TAM and irtQ code into mirt code.">
 <meta property="og:description" content="Extends the mirt package for item response theory with tidy outputs, ggplot2 graphics (trace lines, information, Wright maps, fit and local dependence plots), an automatic model selection assistant, plain-language interpretation of results, item health cards, one-call HTML reports, a point-and-click shiny workbench that exports reproducible code, and a joint hierarchical model for responses and response times (van der Linden, 2007) with rapid-guessing flags, and a translator that turns ltm, eRm, TAM and irtQ code into mirt code.">
-<meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg">
+<meta property="og:image" content="https://www.okanbulut.com/mirtverse/reference/figures/card.png">
+<meta property="og:image:alt" content="mirtverse: From item responses to defensible decisions, with or without writing R code">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,19 +34,45 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-start-here" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Start here</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-start-here">
+<li><a class="dropdown-item" href="articles/for-students.html">Students</a></li>
+    <li><a class="dropdown-item" href="articles/thesis-kit.html">Students: Thesis kit</a></li>
+    <li><a class="dropdown-item" href="articles/for-instructors.html">Instructors</a></li>
+    <li><a class="dropdown-item" href="articles/adopt.html">Instructors: Adopt for your course</a></li>
+    <li><a class="dropdown-item" href="articles/for-practitioners.html">Testing programs</a></li>
+    <li><a class="dropdown-item" href="articles/case-study.html">Testing programs: A case study</a></li>
+    <li><a class="dropdown-item" href="articles/for-researchers.html">Researchers</a></li>
+    <li><a class="dropdown-item" href="articles/for-new-to-r.html">New to R</a></li>
+    <li><a class="dropdown-item" href="articles/ai-hub.html">Curious about AI</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="dashboard/sat12-demo.html">Try the live dashboard</a></li>
+    <li><a class="dropdown-item" href="articles/gallery.html">Gallery of figures and outputs</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="articles/mirtverse.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
+<li><a class="dropdown-item" href="articles/for-students.html">Start here: Students</a></li>
+    <li><a class="dropdown-item" href="articles/for-instructors.html">Start here: Instructors</a></li>
+    <li><a class="dropdown-item" href="articles/for-practitioners.html">Start here: Testing programs</a></li>
+    <li><a class="dropdown-item" href="articles/for-researchers.html">Start here: Researchers</a></li>
+    <li><a class="dropdown-item" href="articles/for-new-to-r.html">Start here: New to R</a></li>
+    <li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
+    <li><a class="dropdown-item" href="articles/case-study.html">Case study: A certification exam, from field test to pass/fail</a></li>
+    <li><a class="dropdown-item" href="articles/thesis-kit.html">Thesis kit: From item responses to a Methods section</a></li>
+    <li><a class="dropdown-item" href="articles/gallery.html">Gallery</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Teaching and learning</h6></li>
+    <li><a class="dropdown-item" href="articles/adopt.html">Adopt mirtverse for your course</a></li>
     <li><a class="dropdown-item" href="articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
     <li><a class="dropdown-item" href="articles/course-map.html">A course map for instructors</a></li>
     <li><a class="dropdown-item" href="articles/instructor-toolkit.html">The instructor toolkit</a></li>
@@ -61,6 +88,7 @@
 <li><a class="dropdown-item" href="articles/ai-hub.html">Start here</a></li>
     <li><a class="dropdown-item" href="articles/ai-translation.html">Machine learning for psychometricians</a></li>
     <li><a class="dropdown-item" href="articles/ai-reading.html">Reading list</a></li>
+    <li><a class="dropdown-item" href="articles/ai-workshop.html">One-day workshop kit</a></li>
     <li><a class="dropdown-item" href="book/ml-lens.html">Book: AI in measurement</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
@@ -69,6 +97,7 @@
     <li><a class="dropdown-item" href="reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="reference/train_scorer.html">Train and check a scoring engine</a></li>
+    <li><a class="dropdown-item" href="reference/ai_audit.html">Audit an AI component</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="book/index.html">Book</a></li>
@@ -94,29 +123,13 @@
 </div>
 <!-- badges: start -->
 
-<p><strong>mirtverse</strong> is a friendly workflow and reporting layer for the <a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a> package. mirt estimates item response theory (IRT) models; mirtverse helps you choose a model, understand the results, make publication-ready figures, and share everything, with or without writing R code.</p>
-<blockquote>
-<p><strong>New: Interactive teaching labs.</strong> Six browser-based labs let students fit live mirt models and make real testing decisions, from choosing a model to advising a certification board, investigating a fairness complaint, linking two forms of an exam, designing an adaptive test and checking rater-scored open-ended responses. Start one with <code>run_lab("model-choice")</code>, or read <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">Teaching labs</a>.</p>
-</blockquote>
+<p><strong>From item responses to defensible decisions, with or without writing R code.</strong></p>
+<p><strong>mirtverse</strong> is a friendly workflow and reporting layer for the <a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a> package by R. Philip Chalmers. mirt estimates item response theory (IRT) models; mirtverse helps you choose a model, understand the results, make publication-ready figures, and share everything with people who never open R.</p>
+<p><img src="reference/figures/home-workflow.svg" width="100%" alt="The mirtverse workflow in four steps: Bring your data, fit and choose a model, understand the results, share and decide"></p>
+<p><a href="https://www.okanbulut.com/mirtverse/articles/gallery.html"><img src="reference/figures/home-showcase.png" width="100%" alt="Four mirtverse outputs: A results dashboard, an item health card, a Wright map and a DIF plot"></a></p>
+<p><strong>Try it without installing anything:</strong> <a href="https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html">Open the live example dashboard</a> or browse the <a href="https://www.okanbulut.com/mirtverse/articles/gallery.html">Gallery</a> of figures and outputs.</p>
 <div class="section level2">
-<h2 id="about-mirt">About mirt<a class="anchor" aria-label="anchor" href="#about-mirt"></a>
-</h2>
-<p><a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a>, developed and maintained by <a href="https://chalmers.info.yorku.ca/" class="external-link">Dr. R. Philip Chalmers</a>, is one of the most comprehensive open-source packages for item response theory. It was introduced in the <em>Journal of Statistical Software</em> (<a href="https://doi.org/10.18637/jss.v048.i06" class="external-link">Chalmers, 2012</a>) and has been developed continuously since, with version 1.48 released on CRAN in October 2026. It is widely used in research on educational and psychological measurement.</p>
-<p>mirt can:</p>
-<ul>
-<li>
-<strong>Estimate a wide range of models:</strong> Unidimensional and multidimensional, exploratory and confirmatory, bifactor and two-tier, with more than 30 item types (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal, ideal-point, nonparametric spline items and more), plus user-defined items.</li>
-<li>
-<strong>Handle complex designs:</strong> Multiple-group analysis and measurement invariance, mixed-effects and explanatory IRT (<code><a href="https://philchalmers.github.io/mirt/reference/mixedmirt.html" class="external-link">mixedmirt()</a></code>), and latent class and diagnostic classification models (<code><a href="https://philchalmers.github.io/mirt/reference/mdirt.html" class="external-link">mdirt()</a></code>).</li>
-<li>
-<strong>Use several estimation engines:</strong> EM with fixed or quasi-Monte Carlo quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for high-dimensional models, with several standard-error methods.</li>
-<li>
-<strong>Check and use the models:</strong> Item and person fit, limited-information fit (M2), local dependence, DIF and differential test functioning, and ability estimation (EAP, MAP, ML, WLE, plausible values).</li>
-</ul>
-<p>mirtverse leaves all of this untouched and adds the workflow, interpretation and reporting tools around it.</p>
-</div>
-<div class="section level2">
-<h2 id="what-mirtverse-adds">What mirtverse adds<a class="anchor" aria-label="anchor" href="#what-mirtverse-adds"></a>
+<h2 id="find-your-way-in">Find your way in<a class="anchor" aria-label="anchor" href="#find-your-way-in"></a>
 </h2>
 <table class="table">
 <colgroup>
@@ -124,113 +137,55 @@
 <col width="50%">
 </colgroup>
 <thead><tr>
-<th>Feature</th>
-<th>Functions</th>
+<th>I am…</th>
+<th>Start here</th>
 </tr></thead>
 <tbody>
 <tr>
-<td>Point-and-click workbench with R code export</td>
-<td><code><a href="reference/launch_workbench.html">launch_workbench()</a></code></td>
-</tr>
-<tr>
-<td>Analysis scripts written from a plain-language request</td>
+<td>A student learning IRT or analysing thesis data</td>
 <td>
-<code><a href="reference/mv_ask.html">mv_ask()</a></code>, <code><a href="reference/mv_ask_setup.html">mv_ask_setup()</a></code>, <code><a href="reference/run_script.html">run_script()</a></code>
+<a href="https://www.okanbulut.com/mirtverse/articles/for-students.html">Students</a> · <a href="https://www.okanbulut.com/mirtverse/articles/thesis-kit.html">Thesis kit</a>
 </td>
 </tr>
 <tr>
-<td>Model selection assistant</td>
-<td><code><a href="reference/select_model.html">select_model()</a></code></td>
-</tr>
-<tr>
-<td>Differential item functioning in one call</td>
+<td>An instructor teaching measurement (book, ten labs, sample syllabus)</td>
 <td>
-<code><a href="reference/dif.html">dif()</a></code>, <code><a href="reference/gg_dif.html">gg_dif()</a></code>
+<a href="https://www.okanbulut.com/mirtverse/articles/for-instructors.html">Instructors</a> · <a href="https://www.okanbulut.com/mirtverse/articles/adopt.html">Adopt for your course</a>
 </td>
 </tr>
 <tr>
-<td>Plain-language interpretation</td>
+<td>A psychometrician at a testing or credentialing program</td>
 <td>
-<code><a href="reference/interpret.html">interpret()</a></code>, <code><a href="reference/interpret_prompt.html">interpret_prompt()</a></code>
+<a href="https://www.okanbulut.com/mirtverse/articles/for-practitioners.html">Testing programs</a> · <a href="https://www.okanbulut.com/mirtverse/articles/case-study.html">Case study</a>
 </td>
 </tr>
 <tr>
-<td>Tidy outputs</td>
+<td>A researcher who already uses mirt, ltm, eRm, TAM or irtQ</td>
 <td>
-<code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>, <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>, <code><a href="reference/item_table.html">item_table()</a></code>
+<a href="https://www.okanbulut.com/mirtverse/articles/for-researchers.html">Researchers</a> · <a href="https://www.okanbulut.com/mirtverse/articles/mirtify.html">Moving to mirt</a>
 </td>
 </tr>
 <tr>
-<td>ggplot2 graphics, including Wright maps</td>
-<td>
-<code><a href="reference/gg_trace.html">gg_trace()</a></code>, <code><a href="reference/gg_info.html">gg_info()</a></code>, <code><a href="reference/gg_wright.html">gg_wright()</a></code>, <code><a href="reference/gg_itemfit.html">gg_itemfit()</a></code>, <code><a href="reference/gg_q3.html">gg_q3()</a></code>, <code><a href="reference/gg_scores.html">gg_scores()</a></code>, <code><a href="reference/gg_empirical.html">gg_empirical()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code>
-</td>
+<td>New to R, or coming from Winsteps, SPSS or Excel</td>
+<td><a href="https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html">New to R</a></td>
 </tr>
 <tr>
-<td>Item health cards</td>
+<td>Curious about AI in measurement</td>
 <td>
-<code><a href="reference/item_card.html">item_card()</a></code>, <code><a href="reference/item_cards.html">item_cards()</a></code>
-</td>
-</tr>
-<tr>
-<td>One-call HTML report</td>
-<td><code><a href="reference/mv_report.html">mv_report()</a></code></td>
-</tr>
-<tr>
-<td>Results dashboard to share with non-R users, as a Shiny app or one offline HTML file</td>
-<td>
-<code><a href="reference/mv_dashboard.html">mv_dashboard()</a></code>, <code><a href="reference/export_dashboard.html">export_dashboard()</a></code>
-</td>
-</tr>
-<tr>
-<td>Response-time modelling and rapid-guessing detection</td>
-<td>
-<code><a href="reference/fit_rt.html">fit_rt()</a></code>, <code><a href="reference/sim_rt.html">sim_rt()</a></code>
-</td>
-</tr>
-<tr>
-<td>Interactive teaching labs for measurement courses (learnr)</td>
-<td>
-<code><a href="reference/run_lab.html">run_lab()</a></code>, <code><a href="reference/run_lab.html">list_labs()</a></code>
-</td>
-</tr>
-<tr>
-<td>Instructor toolkit: Labs on your own data, editable labs and chapters</td>
-<td>
-<code><a href="reference/new_course.html">new_course()</a></code>, <code><a href="reference/new_lab.html">new_lab()</a></code>, <code><a href="reference/swap_lab_data.html">swap_lab_data()</a></code>, <code><a href="reference/check_material.html">check_material()</a></code>
-</td>
-</tr>
-<tr>
-<td>Translate ltm, eRm, TAM and irtQ code into mirt code</td>
-<td>
-<code><a href="reference/mirtify.html">mirtify()</a></code>, <code><a href="reference/mirtify_crosswalk.html">mirtify_crosswalk()</a></code>
-</td>
-</tr>
-<tr>
-<td>Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server)</td>
-<td>
-<code><a href="reference/mv_mcp_server.html">mv_mcp_server()</a></code>, <code><a href="reference/mv_mcp_config.html">mv_mcp_config()</a></code>
-</td>
+<a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI Hub</a>: Book chapters, labs and a workshop kit</td>
 </tr>
 </tbody>
 </table>
+<p><a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html"><img src="reference/figures/home-ai.svg" width="100%" alt="Animated: Item text and responses flow through a neural network and come out as a calibrated item characteristic curve"></a></p>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="get-started">Get started<a class="anchor" aria-label="anchor" href="#get-started"></a>
 </h2>
-<p>Install a prebuilt version from r-universe (no Rtools or GitHub token needed):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mirtverse"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://okanbulut.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Or install the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"okanbulut/mirtverse"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="a-five-minute-tour">A five-minute tour<a class="anchor" aria-label="anchor" href="#a-five-minute-tour"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mirtverse"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://okanbulut.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Development version: remotes::install_github("okanbulut/mirtverse")</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.okanbulut.com/mirtverse/">mirtverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://philchalmers.github.io/mirt/reference/expand.table.html" class="external-link">expand.table</a></span><span class="op">(</span><span class="va">LSAT7</span><span class="op">)</span></span>
 <span></span>
@@ -238,49 +193,45 @@
 <span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="va">sel</span><span class="op">$</span><span class="va">best</span>             <span class="co"># an ordinary mirt model</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/interpret.html">interpret</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>              <span class="co"># what the results mean, in plain language</span></span>
-<span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>                   <span class="co"># parameters as a data frame</span></span>
 <span><span class="fu"><a href="reference/item_table.html">item_table</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>             <span class="co"># item statistics, fit and flags in one table</span></span>
-<span></span>
 <span><span class="fu"><a href="reference/gg_wright.html">gg_wright</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>              <span class="co"># person-item map</span></span>
 <span><span class="fu"><a href="reference/item_card.html">item_card</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"Item.2"</span><span class="op">)</span>    <span class="co"># one-page item review</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>   <span class="co"># everything in one HTML file</span></span>
+<span><span class="fu"><a href="reference/mv_report.html">mv_report</a></span><span class="op">(</span><span class="va">sel</span>, file <span class="op">=</span> <span class="st">"report.html"</span><span class="op">)</span>        <span class="co"># everything in one HTML file</span></span>
 <span><span class="fu"><a href="reference/mv_dashboard.html">mv_dashboard</a></span><span class="op">(</span><span class="va">mod</span>, title <span class="op">=</span> <span class="st">"LSAT results"</span><span class="op">)</span>   <span class="co"># interactive dashboard to share</span></span></code></pre></div>
-<p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>. Prefer describing the analysis in words? <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes the whole script for you.</p>
-<p>Teaching a measurement course? <code>run_lab("model-choice")</code> opens an interactive lab in which students work through a realistic testing scenario with live models (see <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">Teaching labs</a>). The online book <a href="https://www.okanbulut.com/mirtverse/book/"><em>Item Response Theory with mirt and mirtverse</em></a> gives extended notes for each week of a course, with worked examples and exercises. It is also available as a PDF and EPUB and can be cited with its own DOI, <a href="https://doi.org/10.5281/zenodo.23885605" class="external-link">10.5281/zenodo.23885605</a>. To teach with your own data, <code><a href="reference/new_lab.html">new_lab()</a></code> builds a lab on any response dataset (see <a href="https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html">The instructor toolkit</a>).</p>
+<p>Prefer clicking? Run <code><a href="reference/launch_workbench.html">launch_workbench()</a></code>, which writes the R code for you. Every function is listed in the <a href="https://www.okanbulut.com/mirtverse/reference/">Reference</a>, and the <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf">cheat sheet (PDF)</a> groups them by task.</p>
 </div>
 <div class="section level2">
-<h2 id="cheat-sheet">Cheat sheet<a class="anchor" aria-label="anchor" href="#cheat-sheet"></a>
+<h2 id="beyond-the-usual-irt-toolkit">Beyond the usual IRT toolkit<a class="anchor" aria-label="anchor" href="#beyond-the-usual-irt-toolkit"></a>
 </h2>
-<p><a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-1.png" width="49%" alt="Page 1 of the mirtverse cheat sheet"></a> <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf"><img src="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png" width="49%" alt="Page 2 of the mirtverse cheat sheet"></a></p>
-<p>A printable two-page <a href="https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf">cheat sheet (PDF)</a> covers the main functions by task: Page 1 for analysis and sharing, page 2 for the assessment pipeline.</p>
+<ul>
+<li>
+<strong>Describe the analysis, get the script.</strong> <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes a tested R script from one sentence, with Claude, an OpenAI model, a local model or an offline parser. <a href="https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html">How it works</a>
+</li>
+<li>
+<strong>Generate items.</strong> <code><a href="reference/generate_items.html">generate_items()</a></code> drafts multiple-choice items with keys and open-ended items with rubrics from a test blueprint, and <code><a href="reference/generate_isomorphs.html">generate_isomorphs()</a></code> builds item families from an item model. <a href="https://www.okanbulut.com/mirtverse/book/aig.html">Book chapter</a>
+</li>
+<li>
+<strong>Score open-ended responses.</strong> <code><a href="reference/train_scorer.html">train_scorer()</a></code> trains a transparent scoring engine that runs offline, and <code><a href="reference/score_open.html">score_open()</a></code> scores with it or with a language model, checking agreement with human raters before any score is used. <a href="https://www.okanbulut.com/mirtverse/book/auto-scoring.html">Book chapter</a>
+</li>
+<li>
+<strong>Run a whole testing program.</strong> <code><a href="reference/mv_pipeline.html">mv_pipeline()</a></code> takes a test from blueprint to bank monitoring in 13 stages, with flags that catch problems before the next step. <a href="https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html">The pipeline</a> · <a href="https://www.okanbulut.com/mirtverse/articles/case-study.html">Case study</a>
+</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="coming-from-ltm-erm-tam-or-irtq">Coming from ltm, eRm, TAM or irtQ?<a class="anchor" aria-label="anchor" href="#coming-from-ltm-erm-tam-or-irtq"></a>
+<h2 id="about-mirt">About mirt<a class="anchor" aria-label="anchor" href="#about-mirt"></a>
 </h2>
-<p><code><a href="reference/mirtify.html">mirtify()</a></code> rewrites code written for these packages as mirt code, without running the original, and adds a comment wherever the packages differ (for example, conditional versus marginal likelihood in eRm, or the scaling constant <code>D = 1.702</code> in irtQ):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/mirtify.html">mirtify</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">eRm</span><span class="op">)</span></span>
-<span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eRm/man/RM.html" class="external-link">RM</a></span><span class="op">(</span><span class="va">raschdat1</span><span class="op">)</span></span>
-<span>  <span class="va">pp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eRm/man/person.parameter.html" class="external-link">person.parameter</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/eRm/man/itemfit.ppar.html" class="external-link">itemfit</a></span><span class="op">(</span><span class="va">pp</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/eRm/man/LRtest.html" class="external-link">LRtest</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>It translates the model calls and the usual next steps (scores, item and person fit, plots, Andersen’s LR test), and <code>run = TRUE</code> also runs the result. In the package tests, most translated models reproduce the original estimates to within about 0.006. <code><a href="reference/mirtify_crosswalk.html">mirtify_crosswalk()</a></code> lists every supported function. See <a href="https://www.okanbulut.com/mirtverse/articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a>.</p>
-</div>
-<div class="section level2">
-<h2 id="relationship-to-mirt">Relationship to mirt<a class="anchor" aria-label="anchor" href="#relationship-to-mirt"></a>
-</h2>
-<p><strong>mirtverse depends on mirt and never changes how models are estimated</strong>. Every function accepts a model created with <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt::mirt()</a></code>, so you can move between the two packages at any point. Please cite mirt (Chalmers, 2012) whenever you use mirtverse.</p>
-<p>Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the R environment. <em>Journal of Statistical Software, 48</em>(6), 1-29. <a href="https://doi.org/10.18637/jss.v048.i06" class="external-link uri">https://doi.org/10.18637/jss.v048.i06</a></p>
+<p><a href="https://philchalmers.github.io/mirt/" class="external-link">mirt</a>, developed and maintained by <a href="https://chalmers.info.yorku.ca/" class="external-link">Dr. R. Philip Chalmers</a>, is one of the most comprehensive open-source packages for item response theory. It estimates unidimensional and multidimensional models with more than 30 item types, multiple-group and mixed-effects models, and latent class and diagnostic models, with EM and MHRM estimation, fit statistics, DIF and ability estimation.</p>
+<p><strong>mirtverse depends on mirt and never changes how models are estimated.</strong> Every function accepts a model created with <code><a href="https://philchalmers.github.io/mirt/reference/mirt.html" class="external-link">mirt::mirt()</a></code>, so you can move between the two packages at any point.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use mirtverse, please cite it together with mirt. Run <code>citation("mirtverse")</code> in R, or use:</p>
+<p>Please cite mirtverse together with mirt. Run <code>citation("mirtverse")</code> in R, or use:</p>
 <p>Bulut, O. (2026). <em>mirtverse: A friendly workflow and reporting layer for ‘mirt’</em> (Version 0.2.0) [R package]. Zenodo. <a href="https://doi.org/10.5281/zenodo.23836292" class="external-link uri">https://doi.org/10.5281/zenodo.23836292</a></p>
-<p>To cite all versions, use <a href="https://doi.org/10.5281/zenodo.23719384" class="external-link uri">https://doi.org/10.5281/zenodo.23719384</a>, which always resolves to the latest release.</p>
+<p>Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the R environment. <em>Journal of Statistical Software, 48</em>(6), 1-29. <a href="https://doi.org/10.18637/jss.v048.i06" class="external-link uri">https://doi.org/10.18637/jss.v048.i06</a></p>
+<p>To cite all versions of mirtverse, use <a href="https://doi.org/10.5281/zenodo.23719384" class="external-link uri">https://doi.org/10.5281/zenodo.23719384</a>, which always resolves to the latest release. The online book has its own DOI: <a href="https://doi.org/10.5281/zenodo.23885605" class="external-link">10.5281/zenodo.23885605</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

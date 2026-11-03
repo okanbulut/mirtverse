@@ -30,6 +30,7 @@ fig:ml-attenuation
 fig:item-text-cv
 fig:aig-families
 fig:auto-agree
+fig:ai-validity-audit
 tab:datasets
 tab:files
 measurement
@@ -126,5 +127,12 @@ example-1-from-a-sentence-to-a-tested-script
 example-2-writing-items-and-catching-the-mistakes
 example-3-is-a-recording-reproducible
 your-turn-16
+ai-validity
+the-ideas-17
+example-1-auditing-a-scoring-engine
+example-2-other-ai-components
+example-3-from-audit-to-argument
+governance
+your-turn-17
 datasets
 adapting

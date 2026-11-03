@@ -1,12 +1,21 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://www.okanbulut.com/mirtverse/404.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/LICENSE-text.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/adopt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/ai-hub.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/ai-reading.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/ai-translation.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/ai-workshop.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/case-study.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/course-map.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/dashboards.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/for-instructors.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/for-practitioners.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/for-researchers.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/for-students.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/gallery.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/glossary.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/index.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/instructor-mcp.html</loc></url>
@@ -16,8 +25,10 @@
 <url><loc>https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/response-times.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/teaching-labs.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/articles/thesis-kit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/articles/workbench.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/authors.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/case-study/certification-technical-report.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/index.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/news/index.html</loc></url>
@@ -25,8 +36,11 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/add_lab_section.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/add_responses.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/agreement_report.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/ai_audit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/aigfield.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/aigfield_items.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/aiscored.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/aiscored_cr.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/assemble_forms.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/assemble_mst.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/augment_mirt.html</loc></url>
@@ -38,8 +52,11 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/certexam.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/check_material.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/check_security.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/cite_methods.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/compare_synthetic.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/copy_chapter.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/copy_lab.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/copy_workshop.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/design_field_test.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/dif.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/drop_items.html</loc></url>
@@ -113,9 +130,11 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/set_cuts.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/sim_rt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/simulate_cat.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/swap_lab_data.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/theme_mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/validity_argument.html</loc></url>
 </urlset>
 

@@ -59,36 +59,36 @@ them as a tibble.
 ## Details
 
 1.  [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md):
-    the construct, content cells and score use.
+    The construct, content cells and score use.
 
 2.  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
     or
     [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md):
-    item writing with a language model or by people (keys, distractors,
+    Item writing with a language model or by people (keys, distractors,
     rubrics, duplicates, coverage).
 
 3.  [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
     and
     [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md):
-    human content and sensitivity review, with an optional AI screen
+    Human content and sensitivity review, with an optional AI screen
     (reviewers, alignment, bias, agreement).
 
 4.  [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md):
-    forms, anchors and sample sizes for the field test, with simulated
+    Forms, anchors and sample sizes for the field test, with simulated
     parameter recovery.
 
 5.  [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md):
-    data intake and cleaning (scoring with a key, missing data, miskeyed
+    Data intake and cleaning (scoring with a key, missing data, miskeyed
     items, straight-lining, rapid guessing, sparse categories).
 
 6.  [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md):
-    model fitting with mirt (convergence, model fit, local dependence,
+    Model fitting with mirt (convergence, model fit, local dependence,
     item fit, parameter ranges, DIF, reliability, person fit).
 
 7.  [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
     and
     [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
-    (optional): put the calibration on the scale of an item bank through
+    (optional): Put the calibration on the scale of an item bank through
     anchor items and add the new items to the bank (anchor drift,
     linking constants).
 
@@ -96,30 +96,30 @@ them as a tibble.
     [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
     or
     [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md):
-    fixed forms, adaptive or multistage tests (blueprint, parallelism,
+    Fixed forms, adaptive or multistage tests (blueprint, parallelism,
     precision, exposure, routing).
 
 9.  [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md):
-    cut scores and classification accuracy and consistency.
+    Cut scores and classification accuracy and consistency.
 
 10. [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
     and
     [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md):
-    open-ended scoring by a language model or a trained model, checked
+    Open-ended scoring by a language model or a trained model, checked
     against human scores, and ability estimates.
 
 11. [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md):
-    preknowledge, leakage, parameter drift, answer copying, aberrant
+    Preknowledge, leakage, parameter drift, answer copying, aberrant
     timing, site anomalies and score gains.
 
 12. [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md):
-    an HTML technical report that also lists every flag and every
+    An HTML technical report that also lists every flag and every
     decision made about it.
 
 13. [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
     and
     [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md):
-    after each administration, the bank's health over time (over-exposed
+    After each administration, the bank's health over time (over-exposed
     items, content cells running short, reliability trend, unused
     items).
 
@@ -128,7 +128,7 @@ flags point at something a psychometrician should look at. `block` flags
 point at problems that make later stages unsafe, such as a model that
 did not converge or an item with large DIF.
 
-By default flags only warn: every stage runs, and a warning lists the
+By default flags only warn: Every stage runs, and a warning lists the
 open flags it is moving past. With `strict = TRUE`, a stage refuses to
 run while an earlier stage has open `review` flags (record a decision
 with

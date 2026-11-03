@@ -8,7 +8,7 @@ scale with
 [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md),
 and add its new items with
 [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md).
-A bank is an ordinary R object: keep it between administrations with
+A bank is an ordinary R object: Keep it between administrations with
 [`saveRDS()`](https://rdrr.io/r/base/readRDS.html) and
 [`readRDS()`](https://rdrr.io/r/base/readRDS.html).
 
@@ -48,7 +48,7 @@ tidy(x, ...)
 
 ## Value
 
-An object of class `mv_bank`: a list with `name`, `items` (a tibble with
+An object of class `mv_bank`: A list with `name`, `items` (a tibble with
 one row per item: `item`, `itemtype`, `ncat`, `a` (discrimination), `b`
 (location; the mean threshold for polytomous items), `g` (lower
 asymptote), `source`, `added`, `status` and the list column `pars` with

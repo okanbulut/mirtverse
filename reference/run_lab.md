@@ -6,7 +6,7 @@ testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
 ([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
-Labs 3 to 9 each have their own: a provincial numeracy test
+Labs 3 to 10 each have their own: A provincial numeracy test
 ([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
 a licensure exam with two forms
 ([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)), a
@@ -17,9 +17,11 @@ rater-scored science tasks
 written science explanations
 ([essays](https://www.okanbulut.com/mirtverse/reference/essays.md)), the
 text of numeracy items
-([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md))
-and a field test of generated items
-([aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md)).
+([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md)),
+a field test of generated items
+([aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md))
+and an AI-scored science test
+([aiscored](https://www.okanbulut.com/mirtverse/reference/aiscored.md)).
 
 ## Usage
 
@@ -103,6 +105,15 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
   [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
   and why, and test the family means on held-out items.
 
+- `"ai-audit"` (Lab 10): Can the scores of an AI-scored test be
+  released? Audit the engine with
+  [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md):
+  Agreement with human raters, bias against English language learners,
+  drift after an engine update and DIF on the test as scored; then draft
+  a validity argument with
+  [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  and decide which scores to report.
+
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and
@@ -112,17 +123,18 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 9 × 3
-#>   name         title                                             description    
-#>   <chr>        <chr>                                             <chr>          
-#> 1 aig          Lab 9: Building an item factory                   A numeracy pro…
-#> 2 auto-scoring Lab 7: Can the engine score alone?                A science prog…
-#> 3 cat-design   Lab 5: Designing an adaptive test                 A college want…
-#> 4 decisions    Lab 2: From parameters to decisions               The certificat…
-#> 5 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy gr…
-#> 6 item-text    Lab 8: Predicting difficulty before field testing A numeracy pro…
-#> 7 linking      Lab 4: Linking two forms                          A licensure ex…
-#> 8 model-choice Lab 1: Choosing a model the board can defend      You are the ne…
-#> 9 open-ended   Lab 6: Scoring open-ended responses               A science asse…
+#> # A tibble: 10 × 3
+#>    name         title                                             description   
+#>    <chr>        <chr>                                             <chr>         
+#>  1 ai-audit     Lab 10: Auditing an AI-scored test                A state scien…
+#>  2 aig          Lab 9: Building an item factory                   A numeracy pr…
+#>  3 auto-scoring Lab 7: Can the engine score alone?                A science pro…
+#>  4 cat-design   Lab 5: Designing an adaptive test                 A college wan…
+#>  5 decisions    Lab 2: From parameters to decisions               The certifica…
+#>  6 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy g…
+#>  7 item-text    Lab 8: Predicting difficulty before field testing A numeracy pr…
+#>  8 linking      Lab 4: Linking two forms                          A licensure e…
+#>  9 model-choice Lab 1: Choosing a model the board can defend      You are the n…
+#> 10 open-ended   Lab 6: Scoring open-ended responses               A science ass…
 if (interactive()) run_lab("model-choice")
 ```

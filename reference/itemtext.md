@@ -17,7 +17,7 @@ itemtext
 ## Format
 
 A data frame with 192 rows (one per item) and 17 columns: `id` (`N01-01`
-to `N12-16`: family and item number), `family` (the item model),
+to `N12-16`: Family and item number), `family` (the item model),
 `domain` (content area), `stem` (the question), `A` to `D` (the
 options), `key` (the keyed option), `decimal` (1 if the item uses
 decimals or fractions), `digits` (digits in the largest number),

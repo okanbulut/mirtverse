@@ -14,7 +14,8 @@
 <meta property="og:title" content="Teaching labs for measurement courses">
 <meta name="description" content="Interactive learnr labs in which students fit live mirt models and make the decisions a psychometrician makes, from scoring and model choice to interpretation and fairness. Includes an instructor guide and answer key.">
 <meta property="og:description" content="Interactive learnr labs in which students fit live mirt models and make the decisions a psychometrician makes, from scoring and model choice to interpretation and fairness. Includes an instructor guide and answer key.">
-<meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg">
+<meta property="og:image" content="https://www.okanbulut.com/mirtverse/reference/figures/card.png">
+<meta property="og:image:alt" content="mirtverse: From item responses to defensible decisions, with or without writing R code">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,19 +34,45 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-start-here" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Start here</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-start-here">
+<li><a class="dropdown-item" href="../articles/for-students.html">Students</a></li>
+    <li><a class="dropdown-item" href="../articles/thesis-kit.html">Students: Thesis kit</a></li>
+    <li><a class="dropdown-item" href="../articles/for-instructors.html">Instructors</a></li>
+    <li><a class="dropdown-item" href="../articles/adopt.html">Instructors: Adopt for your course</a></li>
+    <li><a class="dropdown-item" href="../articles/for-practitioners.html">Testing programs</a></li>
+    <li><a class="dropdown-item" href="../articles/case-study.html">Testing programs: A case study</a></li>
+    <li><a class="dropdown-item" href="../articles/for-researchers.html">Researchers</a></li>
+    <li><a class="dropdown-item" href="../articles/for-new-to-r.html">New to R</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-hub.html">Curious about AI</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../dashboard/sat12-demo.html">Try the live dashboard</a></li>
+    <li><a class="dropdown-item" href="../articles/gallery.html">Gallery of figures and outputs</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../articles/mirtverse.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
+<li><a class="dropdown-item" href="../articles/for-students.html">Start here: Students</a></li>
+    <li><a class="dropdown-item" href="../articles/for-instructors.html">Start here: Instructors</a></li>
+    <li><a class="dropdown-item" href="../articles/for-practitioners.html">Start here: Testing programs</a></li>
+    <li><a class="dropdown-item" href="../articles/for-researchers.html">Start here: Researchers</a></li>
+    <li><a class="dropdown-item" href="../articles/for-new-to-r.html">Start here: New to R</a></li>
+    <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
+    <li><a class="dropdown-item" href="../articles/case-study.html">Case study: A certification exam, from field test to pass/fail</a></li>
+    <li><a class="dropdown-item" href="../articles/thesis-kit.html">Thesis kit: From item responses to a Methods section</a></li>
+    <li><a class="dropdown-item" href="../articles/gallery.html">Gallery</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Teaching and learning</h6></li>
+    <li><a class="dropdown-item" href="../articles/adopt.html">Adopt mirtverse for your course</a></li>
     <li><a class="dropdown-item" href="../articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
     <li><a class="dropdown-item" href="../articles/course-map.html">A course map for instructors</a></li>
     <li><a class="dropdown-item" href="../articles/instructor-toolkit.html">The instructor toolkit</a></li>
@@ -61,6 +88,7 @@
 <li><a class="dropdown-item" href="../articles/ai-hub.html">Start here</a></li>
     <li><a class="dropdown-item" href="../articles/ai-translation.html">Machine learning for psychometricians</a></li>
     <li><a class="dropdown-item" href="../articles/ai-reading.html">Reading list</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-workshop.html">One-day workshop kit</a></li>
     <li><a class="dropdown-item" href="../book/ml-lens.html">Book: AI in measurement</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
@@ -69,6 +97,7 @@
     <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
+    <li><a class="dropdown-item" href="../reference/ai_audit.html">Audit an AI component</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -405,6 +434,43 @@ recalibrate, and test family means on held-out items</td>
 <p>Lab 9 is part of the <a href="ai-hub.html">AI Hub</a> and fits well
 after Lab 8; Chapter <a href="../book/aig.html">Generating items</a> of
 the book is the reading that goes with it.</p>
+</div>
+<div class="section level3">
+<h3 id="lab-10">Lab 10: Auditing an AI-scored test<a class="anchor" aria-label="anchor" href="#lab-10"></a>
+</h3>
+<p>You are the psychometrician for the fictional <strong>Northfield
+Grade 8 Science Assessment</strong>, whose written answers have been
+scored by an automated engine since 2025, with a human-scored validity
+sample (<code>aiscored</code>, <code>aiscored_cr</code>). The 2026
+scores are due on Friday. Students audit the engine with
+<code><a href="../reference/ai_audit.html">ai_audit()</a></code> and turn the findings into a validity argument
+with <code><a href="../reference/validity_argument.html">validity_argument()</a></code>.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>10. Auditing an AI-scored test</strong> (about 75
+minutes)</td>
+<td><code>run_lab("ai-audit")</code></td>
+<td>Check agreement with human raters and human-human agreement, find
+bias against English language learners at the same human score, find
+drift after an engine update, separate DIF caused by the engine from DIF
+in an item, draft a validity argument, and decide which scores can be
+reported</td>
+</tr></tbody>
+</table>
+<p>Lab 10 is part of the <a href="ai-hub.html">AI Hub</a> and fits at
+the end of an AI unit, after Lab 7; Chapter <a href="../book/ai-validity.html">Validity, fairness and governance of
+AI</a> of the book is the reading that goes with it.</p>
 </div>
 </div>
 <div class="section level2">
@@ -1026,6 +1092,74 @@ items 6 to 10 from items 1 to 5</td>
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-10-auditing-an-ai-scored-test">Lab 10: Auditing an AI-scored test<a class="anchor" aria-label="anchor" href="#lab-10-auditing-an-ai-scored-test"></a>
+</h3>
+<p><code>run_lab("ai-audit")</code>, about 75 minutes. The DIF analysis
+and the full audit take about 20 seconds each.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the committee’s question, <code>aiscored</code> and
+<code>aiscored_cr</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Does the engine agree with people?</td>
+<td>
+<code><a href="../reference/agreement_report.html">agreement_report()</a></code> by item on the validity sample</td>
+<td>What CR4’s low agreement means</td>
+</tr>
+<tr class="odd">
+<td>Is the engine fair to every group?</td>
+<td>Agreement by group; differential scoring with
+<code><a href="../reference/ai_audit.html">ai_audit()</a></code>
+</td>
+<td>Bias or a real difference?</td>
+</tr>
+<tr class="even">
+<td>Has the engine changed?</td>
+<td>Add the year as <code>period</code>
+</td>
+<td>What to do with the 2026 CR3 scores</td>
+</tr>
+<tr class="odd">
+<td>DIF on the test as scored</td>
+<td>
+<code><a href="../reference/ai_audit.html">ai_audit()</a></code> with <code>responses</code>; the whole audit
+and its plot</td>
+<td>Which DIF is the engine’s</td>
+</tr>
+<tr class="even">
+<td>From audit to argument</td>
+<td><code><a href="../reference/validity_argument.html">validity_argument()</a></code></td>
+<td>Evidence for the decision inference</td>
+</tr>
+<tr class="odd">
+<td>The recommendation</td>
+<td>Recommendation and free-text memo to the committee</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td><code>lab_truth("aiscored")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -1041,7 +1175,7 @@ equating, Lab 5 a unit on item banks and adaptive testing, and Lab 6 a
 unit on polytomous models or performance assessment. Lab 7 follows Lab 6
 in a unit on automated scoring or AI in measurement, and Lab 8 fits a
 unit on item development, explanatory IRT or AI in measurement. Lab 9
-follows Lab 8.</li>
+follows Lab 8, and Lab 10 closes an AI unit.</li>
 <li>
 <strong>Speed:</strong> Most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -1843,6 +1977,93 @@ both)?</li>
 lab would you run on its output before any field test?</li>
 <li>How large a within-family SD would you accept for a high-stakes
 licensure test, and how would you justify the number?</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-10-1">Lab 10<a class="anchor" aria-label="anchor" href="#lab-10-1"></a>
+</h3>
+<p>The planted problems in <code>aiscored</code>
+(<code>lab_truth("aiscored")</code> returns them):</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Planted problem</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The engine gives ELL students one point less on 45% of their CR2
+answers above 0</td>
+<td>Looks past CR2’s overall agreement, finds the ELL gap, and confirms
+with differential scoring that it is the engine’s (a gap of about 0.3 SD
+at the same human score)</td>
+</tr>
+<tr class="even">
+<td>The 2026 engine update gives one point more on 40% of CR3 answers
+below 3</td>
+<td>Splits the validity sample by year, finds the drift, and holds the
+2026 CR3 scores</td>
+</tr>
+<tr class="odd">
+<td>CR4’s human raters disagree (human-human QWK about 0.66)</td>
+<td>Recognizes that the engine cannot be judged against unreliable human
+scores, and sends the rubric for revision</td>
+</tr>
+<tr class="even">
+<td>MC07 has real DIF against ELL students</td>
+<td>Separates it from the engine’s DIF on CR2 and sends it to content
+review</td>
+</tr>
+<tr class="odd">
+<td>ELL students are 0.3 SD lower in true ability</td>
+<td>Does not mistake impact for bias</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Agreement (both years, by item):</strong> QWK 0.87, 0.81,
+0.79 and 0.68 for CR1 to CR4; human-human QWK 0.89, 0.84, 0.84 and 0.66.
+Only CR4 fails.</li>
+<li>
+<strong>By group:</strong> CR2 for ELL students has an SMD of -0.30
+and a QWK of 0.72; differential scoring gives a gap of -0.31 SD (SE
+0.05). The other gaps are within sampling error.</li>
+<li>
+<strong>Drift:</strong> CR3’s SMD goes from -0.01 in 2025 to +0.29
+in 2026, and its QWK from 0.85 to 0.74. CR2’s SMD also moves (-0.13 to
+-0.01), but within sampling error after the Bonferroni adjustment.</li>
+<li>
+<strong>DIF (2026, test as scored):</strong> CR2 (ESD about -0.32)
+and MC07 (about -0.12), both against ELL students.</li>
+<li>
+<strong>Validity argument:</strong> Scoring partly supported,
+generalization and extrapolation threatened, decision needs
+evidence.</li>
+<li>
+<strong>Recommendation:</strong> Report the multiple-choice scores,
+CR1 and CR4; hold CR2 (rescore ELL students’ answers) and CR3 (rescore
+2026); keep human reading for CR2, revise CR4’s rubric, audit every
+engine update, review MC07, and publish how automated scoring is used
+and appealed.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-9">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-9"></a>
+</h4>
+<ul>
+<li>The committee asks for one number that says whether the engine is
+good enough. What would you tell them?</li>
+<li>The validity sample is 20% of students. How would you choose its
+size and composition to detect a gap of 0.1 SD for a group that is 5% of
+test takers?</li>
+<li>The vendor will not say what changed in the 2026 update. What can
+you still check, and what should the contract require next time?</li>
+<li>Which parts of the decision inference would you put in the score
+report that schools and parents see?</li>
 </ul>
 </div>
 </div>

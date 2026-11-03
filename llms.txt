@@ -1,93 +1,49 @@
 # mirtverse
 
+**From item responses to defensible decisions, with or without writing R
+code.**
+
 **mirtverse** is a friendly workflow and reporting layer for the
-[mirt](https://philchalmers.github.io/mirt/) package. mirt estimates
-item response theory (IRT) models; mirtverse helps you choose a model,
-understand the results, make publication-ready figures, and share
-everything, with or without writing R code.
+[mirt](https://philchalmers.github.io/mirt/) package by R. Philip
+Chalmers. mirt estimates item response theory (IRT) models; mirtverse
+helps you choose a model, understand the results, make publication-ready
+figures, and share everything with people who never open R.
 
-> **New: Interactive teaching labs.** Six browser-based labs let
-> students fit live mirt models and make real testing decisions, from
-> choosing a model to advising a certification board, investigating a
-> fairness complaint, linking two forms of an exam, designing an
-> adaptive test and checking rater-scored open-ended responses. Start
-> one with `run_lab("model-choice")`, or read [Teaching
-> labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html).
+![The mirtverse workflow in four steps: Bring your data, fit and choose
+a model, understand the results, share and
+decide](reference/figures/home-workflow.svg)
 
-## About mirt
+[![Four mirtverse outputs: A results dashboard, an item health card, a
+Wright map and a DIF
+plot](reference/figures/home-showcase.png)](https://www.okanbulut.com/mirtverse/articles/gallery.html)
 
-[mirt](https://philchalmers.github.io/mirt/), developed and maintained
-by [Dr. R. Philip Chalmers](https://chalmers.info.yorku.ca/), is one of
-the most comprehensive open-source packages for item response theory. It
-was introduced in the *Journal of Statistical Software* ([Chalmers,
-2012](https://doi.org/10.18637/jss.v048.i06)) and has been developed
-continuously since, with version 1.48 released on CRAN in October 2026.
-It is widely used in research on educational and psychological
-measurement.
+**Try it without installing anything:** [Open the live example
+dashboard](https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html)
+or browse the
+[Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.html) of
+figures and outputs.
 
-mirt can:
+## Find your way in
 
-- **Estimate a wide range of models:** Unidimensional and
-  multidimensional, exploratory and confirmatory, bifactor and two-tier,
-  with more than 30 item types (Rasch, 2PL to 4PL, graded response,
-  (generalized) partial credit, nominal, ideal-point, nonparametric
-  spline items and more), plus user-defined items.
-- **Handle complex designs:** Multiple-group analysis and measurement
-  invariance, mixed-effects and explanatory IRT
-  ([`mixedmirt()`](https://philchalmers.github.io/mirt/reference/mixedmirt.html)),
-  and latent class and diagnostic classification models
-  ([`mdirt()`](https://philchalmers.github.io/mirt/reference/mdirt.html)).
-- **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
-  quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm
-  for high-dimensional models, with several standard-error methods.
-- **Check and use the models:** Item and person fit, limited-information
-  fit (M2), local dependence, DIF and differential test functioning, and
-  ability estimation (EAP, MAP, ML, WLE, plausible values).
-
-mirtverse leaves all of this untouched and adds the workflow,
-interpretation and reporting tools around it.
-
-## What mirtverse adds
-
-| Feature | Functions |
+| I am… | Start here |
 |----|----|
-| Point-and-click workbench with R code export | [`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md) |
-| Analysis scripts written from a plain-language request | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_ask_setup()`](https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.md), [`run_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md) |
-| Model selection assistant | [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md) |
-| Differential item functioning in one call | [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md), [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md) |
-| Plain-language interpretation | [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md), [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md) |
-| Tidy outputs | [`tidy()`](https://generics.r-lib.org/reference/tidy.html), [`glance()`](https://generics.r-lib.org/reference/glance.html), [`augment()`](https://generics.r-lib.org/reference/augment.html), [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md) |
-| ggplot2 graphics, including Wright maps | [`gg_trace()`](https://www.okanbulut.com/mirtverse/reference/gg_trace.md), [`gg_info()`](https://www.okanbulut.com/mirtverse/reference/gg_info.md), [`gg_wright()`](https://www.okanbulut.com/mirtverse/reference/gg_wright.md), [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md), [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md), [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md), [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md), [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html) |
-| Item health cards | [`item_card()`](https://www.okanbulut.com/mirtverse/reference/item_card.md), [`item_cards()`](https://www.okanbulut.com/mirtverse/reference/item_cards.md) |
-| One-call HTML report | [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md) |
-| Results dashboard to share with non-R users, as a Shiny app or one offline HTML file | [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md), [`export_dashboard()`](https://www.okanbulut.com/mirtverse/reference/export_dashboard.md) |
-| Response-time modelling and rapid-guessing detection | [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md), [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md) |
-| Interactive teaching labs for measurement courses (learnr) | [`run_lab()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md), [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md) |
-| Instructor toolkit: Labs on your own data, editable labs and chapters | [`new_course()`](https://www.okanbulut.com/mirtverse/reference/new_course.md), [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md), [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md), [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md) |
-| Translate ltm, eRm, TAM and irtQ code into mirt code | [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md), [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md) |
-| Let Claude or an OpenAI assistant revise and adapt your teaching materials (MCP server) | [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md), [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md) |
+| A student learning IRT or analysing thesis data | [Students](https://www.okanbulut.com/mirtverse/articles/for-students.html) · [Thesis kit](https://www.okanbulut.com/mirtverse/articles/thesis-kit.html) |
+| An instructor teaching measurement (book, ten labs, sample syllabus) | [Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.html) · [Adopt for your course](https://www.okanbulut.com/mirtverse/articles/adopt.html) |
+| A psychometrician at a testing or credentialing program | [Testing programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.html) · [Case study](https://www.okanbulut.com/mirtverse/articles/case-study.html) |
+| A researcher who already uses mirt, ltm, eRm, TAM or irtQ | [Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.html) · [Moving to mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.html) |
+| New to R, or coming from Winsteps, SPSS or Excel | [New to R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html) |
+| Curious about AI in measurement | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html): Book chapters, labs and a workshop kit |
 
-## Installation
+[![Animated: Item text and responses flow through a neural network and
+come out as a calibrated item characteristic
+curve](reference/figures/home-ai.svg)](https://www.okanbulut.com/mirtverse/articles/ai-hub.html)
 
-Install a prebuilt version from r-universe (no Rtools or GitHub token
-needed):
+## Get started
 
 ``` r
 
 install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
-```
-
-Or install the development version from GitHub:
-
-``` r
-
-# install.packages("remotes")
-remotes::install_github("okanbulut/mirtverse")
-```
-
-## A five-minute tour
-
-``` r
+# Development version: remotes::install_github("okanbulut/mirtverse")
 
 library(mirtverse)
 
@@ -97,98 +53,83 @@ sel <- select_model(data)   # compares Rasch, 2PL and 3PL and recommends one
 mod <- sel$best             # an ordinary mirt model
 
 interpret(mod)              # what the results mean, in plain language
-tidy(mod)                   # parameters as a data frame
 item_table(mod)             # item statistics, fit and flags in one table
-
 gg_wright(mod)              # person-item map
 item_card(mod, "Item.2")    # one-page item review
 
-mv_report(sel, file = "report.html")   # everything in one HTML file
+mv_report(sel, file = "report.html")        # everything in one HTML file
 mv_dashboard(mod, title = "LSAT results")   # interactive dashboard to share
 ```
 
 Prefer clicking? Run
-[`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md).
-Prefer describing the analysis in words?
-`mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
-writes the whole script for you.
-
-Teaching a measurement course? `run_lab("model-choice")` opens an
-interactive lab in which students work through a realistic testing
-scenario with live models (see [Teaching
-labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
-The online book [*Item Response Theory with mirt and
-mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended
-notes for each week of a course, with worked examples and exercises. It
-is also available as a PDF and EPUB and can be cited with its own DOI,
-[10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605). To
-teach with your own data,
-[`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
-builds a lab on any response dataset (see [The instructor
-toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html)).
-
-## Cheat sheet
-
-[![Page 1 of the mirtverse cheat
-sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-1.png)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-[![Page 2 of the mirtverse cheat
-sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-2.png)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-
-A printable two-page [cheat sheet
+[`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md),
+which writes the R code for you. Every function is listed in the
+[Reference](https://www.okanbulut.com/mirtverse/reference/), and the
+[cheat sheet
 (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-covers the main functions by task: Page 1 for analysis and sharing, page
-2 for the assessment pipeline.
+groups them by task.
 
-## Coming from ltm, eRm, TAM or irtQ?
+## Beyond the usual IRT toolkit
 
-[`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
-rewrites code written for these packages as mirt code, without running
-the original, and adds a comment wherever the packages differ (for
-example, conditional versus marginal likelihood in eRm, or the scaling
-constant `D = 1.702` in irtQ):
+- **Describe the analysis, get the script.**
+  `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
+  writes a tested R script from one sentence, with Claude, an OpenAI
+  model, a local model or an offline parser. [How it
+  works](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+- **Generate items.**
+  [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
+  drafts multiple-choice items with keys and open-ended items with
+  rubrics from a test blueprint, and
+  [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md)
+  builds item families from an item model. [Book
+  chapter](https://www.okanbulut.com/mirtverse/book/aig.html)
+- **Score open-ended responses.**
+  [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md)
+  trains a transparent scoring engine that runs offline, and
+  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
+  scores with it or with a language model, checking agreement with human
+  raters before any score is used. [Book
+  chapter](https://www.okanbulut.com/mirtverse/book/auto-scoring.html)
+- **Run a whole testing program.**
+  [`mv_pipeline()`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
+  takes a test from blueprint to bank monitoring in 13 stages, with
+  flags that catch problems before the next step. [The
+  pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html)
+  · [Case
+  study](https://www.okanbulut.com/mirtverse/articles/case-study.html)
 
-``` r
+## About mirt
 
-mirtify({
-  library(eRm)
-  fit <- RM(raschdat1)
-  pp <- person.parameter(fit)
-  itemfit(pp)
-  LRtest(fit)
-})
-```
-
-It translates the model calls and the usual next steps (scores, item and
-person fit, plots, Andersen’s LR test), and `run = TRUE` also runs the
-result. In the package tests, most translated models reproduce the
-original estimates to within about 0.006.
-[`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
-lists every supported function. See [Moving from ltm, eRm, TAM or irtQ
-to mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.html).
-
-## Relationship to mirt
+[mirt](https://philchalmers.github.io/mirt/), developed and maintained
+by [Dr. R. Philip Chalmers](https://chalmers.info.yorku.ca/), is one of
+the most comprehensive open-source packages for item response theory. It
+estimates unidimensional and multidimensional models with more than 30
+item types, multiple-group and mixed-effects models, and latent class
+and diagnostic models, with EM and MHRM estimation, fit statistics, DIF
+and ability estimation.
 
 **mirtverse depends on mirt and never changes how models are
-estimated**. Every function accepts a model created with
+estimated.** Every function accepts a model created with
 [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
-so you can move between the two packages at any point. Please cite mirt
-(Chalmers, 2012) whenever you use mirtverse.
-
-Chalmers, R. P. (2012). mirt: A multidimensional item response theory
-package for the R environment. *Journal of Statistical Software, 48*(6),
-1-29. <https://doi.org/10.18637/jss.v048.i06>
+so you can move between the two packages at any point.
 
 ## Citation
 
-If you use mirtverse, please cite it together with mirt. Run
-`citation("mirtverse")` in R, or use:
+Please cite mirtverse together with mirt. Run `citation("mirtverse")` in
+R, or use:
 
 Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
 for ‘mirt’* (Version 0.2.0) \[R package\]. Zenodo.
 <https://doi.org/10.5281/zenodo.23836292>
 
-To cite all versions, use <https://doi.org/10.5281/zenodo.23719384>,
-which always resolves to the latest release.
+Chalmers, R. P. (2012). mirt: A multidimensional item response theory
+package for the R environment. *Journal of Statistical Software, 48*(6),
+1-29. <https://doi.org/10.18637/jss.v048.i06>
+
+To cite all versions of mirtverse, use
+<https://doi.org/10.5281/zenodo.23719384>, which always resolves to the
+latest release. The online book has its own DOI:
+[10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605).
 
 # Package index
 
@@ -235,47 +176,47 @@ checks and flags to consider before each next stage.
   [`tidy(`*`<mv_pipeline>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
   : Start an assessment pipeline
 - [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
-  : Pipeline stage: test blueprint and construct definition
+  : Pipeline stage: Test blueprint and construct definition
 - [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
-  : Pipeline stage: item generation
+  : Pipeline stage: Item generation
 - [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
   [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-  : Pipeline stage: item review
+  : Pipeline stage: Item review
 - [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
-  : Pipeline stage: field-test design
+  : Pipeline stage: Field-test design
 - [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
-  : Pipeline stage: data intake and cleaning
+  : Pipeline stage: Data intake and cleaning
 - [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
-  : Pipeline stage: calibration
+  : Pipeline stage: Calibration
 - [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
-  : Pipeline stage: link a calibration to an item bank
+  : Pipeline stage: Link a calibration to an item bank
 - [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
-  : Pipeline stage: add items to a bank
+  : Pipeline stage: Add items to a bank
 - [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   [`tidy(`*`<mv_bank>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   : An item bank
 - [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
-  : Pipeline stage: assemble fixed test forms
+  : Pipeline stage: Assemble fixed test forms
 - [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
-  : Pipeline stage: simulate a computerized adaptive test
+  : Pipeline stage: Simulate a computerized adaptive test
 - [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
-  : Pipeline stage: assemble and simulate a multistage test
+  : Pipeline stage: Assemble and simulate a multistage test
 - [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
-  : Pipeline stage: cut scores and decision quality
+  : Pipeline stage: Cut scores and decision quality
 - [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
   : Item map for Bookmark standard setting
 - [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
-  : Pipeline stage: scoring open-ended responses
+  : Pipeline stage: Scoring open-ended responses
 - [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
-  : Pipeline stage: score test takers
+  : Pipeline stage: Score test takers
 - [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md)
-  : Pipeline stage: test security
+  : Pipeline stage: Test security
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
-  : Pipeline stage: technical report
+  : Pipeline stage: Technical report
 - [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
-  : Pipeline stage: bank monitoring
+  : Pipeline stage: Bank monitoring
 - [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md)
   : Retire bank items or send them back to review
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
@@ -293,8 +234,10 @@ checks and flags to consider before each next stage.
 Run the language model features offline from recorded responses,
 describe items by their text and predict their difficulty, generate
 items from item models and calibrate their families, train and check an
-automated scoring engine, and teaching datasets with item text, written
-answers and a field test of generated items.
+automated scoring engine, audit AI components and draft a validity
+argument, simulate respondents with a language model (experimental), and
+teaching datasets with item text, written answers, a field test of
+generated items and an AI-scored test.
 
 - [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
@@ -322,6 +265,17 @@ answers and a field test of generated items.
 - [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   [`autoplot(`*`<mv_agreement>`*`)`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   : Agreement between machine and human scores
+- [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  [`tidy(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  [`autoplot(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  : Audit an AI component before its results are used
+- [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  [`format(`*`<mv_validity>`*`)`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  : Draft a validity argument for an AI component
+- [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
+  : Simulate respondents with a language model (experimental)
+- [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md)
+  : Compare simulated respondents with real ones (experimental)
 - [`itemtext`](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
   : Numeracy items with their text, for the AI Hub
 - [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :
@@ -330,6 +284,10 @@ answers and a field test of generated items.
   : A field test of generated mathematics items, for the AI Hub
 - [`aigfield_items`](https://www.okanbulut.com/mirtverse/reference/aigfield_items.md)
   : The generated items of the AIG field test
+- [`aiscored`](https://www.okanbulut.com/mirtverse/reference/aiscored.md)
+  : An AI-scored science test over two years, for the AI Hub
+- [`aiscored_cr`](https://www.okanbulut.com/mirtverse/reference/aiscored_cr.md)
+  : Machine and human scores of the AI-scored test
 
 ## Choosing and understanding a model
 
@@ -339,6 +297,8 @@ answers and a field test of generated items.
   : Plain-language interpretation of IRT results
 - [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md)
   : Build a prompt for an AI assistant from a fitted model
+- [`cite_methods()`](https://www.okanbulut.com/mirtverse/reference/cite_methods.md)
+  : Write the Methods paragraph for an IRT analysis
 
 ## Tidy outputs
 
@@ -457,6 +417,8 @@ chapters, swap datasets and check materials before class.
   [`swap_chapter_data()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
   [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
   : Notes chapters for a course
+- [`copy_workshop()`](https://www.okanbulut.com/mirtverse/reference/copy_workshop.md)
+  : Copy the AI in measurement workshop kit
 - [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md)
   : Check a lab, a chapter or a whole course
 - [`preview_lab()`](https://www.okanbulut.com/mirtverse/reference/preview_lab.md)
@@ -475,7 +437,7 @@ Connect Claude or an OpenAI assistant to your course materials.
 
 - [`mirtverse`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)
   [`mirtverse-package`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)
-  : mirtverse: a friendly workflow and reporting layer for mirt
+  : mirtverse: A friendly workflow and reporting layer for mirt
 - [`reexports`](https://www.okanbulut.com/mirtverse/reference/reexports.md)
   [`tidy`](https://www.okanbulut.com/mirtverse/reference/reexports.md)
   [`glance`](https://www.okanbulut.com/mirtverse/reference/reexports.md)
@@ -484,6 +446,41 @@ Connect Claude or an OpenAI assistant to your course materials.
   : Objects exported from other packages
 
 # Articles
+
+### Start here
+
+A short path for each kind of user.
+
+- [Start here:
+  Students](https://www.okanbulut.com/mirtverse/articles/for-students.md):
+
+  A path for graduate students: Fit, check and explain an IRT model for
+  a course or thesis, with figures a committee will accept.
+
+- [Start here:
+  Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.md):
+
+  A complete IRT course in a box: A free book, ten interactive labs, a
+  course map, and tools to adapt everything to your own data.
+
+- [Start here: Testing
+  programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.md):
+
+  For psychometricians at testing organizations and credentialing
+  bodies: Run a program from blueprint to bank monitoring, with every
+  decision flagged, reviewed and documented.
+
+- [Start here:
+  Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.md):
+
+  All of mirt, with tidy outputs, ggplot2 figures and one-call reports,
+  so analyses are reproducible and figures are publication-ready.
+
+- [Start here: New to
+  R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.md):
+
+  Get IRT results without learning R first: Point and click in the
+  workbench, describe the analysis in words, or share a dashboard.
 
 ### Guides
 
@@ -521,7 +518,32 @@ Connect Claude or an OpenAI assistant to your course materials.
   Take a certification exam through every stage of the mirtverse
   assessment pipeline, with the checks and decisions at each step.
 
+- [Case study: A certification exam, from field test to
+  pass/fail](https://www.okanbulut.com/mirtverse/articles/case-study.md):
+
+  A fictional certification board takes a 32-item exam through the
+  mirtverse assessment pipeline. Eight decisions, each recorded, and a
+  technical report to download.
+
+- [Thesis kit: From item responses to a Methods
+  section](https://www.okanbulut.com/mirtverse/articles/thesis-kit.md):
+
+  A step-by-step path for a thesis or dissertation that uses IRT: Check
+  the data, choose and check a model, make the figures, and draft the
+  Methods paragraph with cite_methods().
+
+- [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.md):
+
+  Every figure and output mirtverse makes, with the code for each one.
+
 ### Teaching and learning
+
+- [Adopt mirtverse for your
+  course](https://www.okanbulut.com/mirtverse/articles/adopt.md):
+
+  Everything an instructor needs to teach item response theory with
+  mirtverse: A sample syllabus to edit, a free book, ten labs, and a way
+  to hear about updates.
 
 - [Teaching labs for measurement
   courses](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md):
@@ -583,3 +605,10 @@ articles are also in the AI Hub menu.
   An annotated list of books, papers and guidelines on artificial
   intelligence in psychometrics and educational measurement, grouped by
   topic, for psychometricians who are new to the area.
+
+- [AI in measurement: A one-day
+  workshop](https://www.okanbulut.com/mirtverse/articles/ai-workshop.md):
+
+  A ready-made kit for a one-day workshop on AI in measurement: Slides,
+  a facilitator’s guide and four offline labs, for psychometricians and
+  testing-program staff.

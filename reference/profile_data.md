@@ -1,7 +1,7 @@
 # Summarise a data set without revealing its values
 
 Describes each column of a data set (type, number of distinct values,
-range, share missing) and guesses its role: an `item` (whole numbers
+range, share missing) and guesses its role: An `item` (whole numbers
 with few categories), a `group` variable (few categories, e.g. gender),
 an `id`, a response time (`rt`), or `other`. This summary is the only
 information

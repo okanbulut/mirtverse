@@ -35,6 +35,7 @@ error](#standard-error-of-measurement) · [Convergence](#convergence) ·
 [Cross-validation](#cross-validation) · [Cut score](#cut-score) **D**
 [Dichotomous item](#dichotomous-item) · [DIF effect
 size](#dif-effect-size) · [Differential item functioning](#dif) ·
+[Differential scoring](#differential-scoring) ·
 [Difficulty](#difficulty) · [Dimensionality](#dimensionality) ·
 [Discrimination](#discrimination) **E** [EAP](#eap) · [EM
 algorithm](#marginal-maximum-likelihood) · [Embedding](#embedding) ·
@@ -87,7 +88,8 @@ information](#test-information) · [Theta](#latent-trait) ·
 [Time intensity](#time-intensity) · [Two-parameter logistic
 model](#two-pl) **U** [Unidimensionality](#dimensionality) · [Uniform
 DIF](#uniform-nonuniform-dif) · [Upper asymptote](#upper-asymptote)
-**W** [WLE](#wle) · [Wright map](#wright-map) **Z** [Zh](#zh)
+**V** [Validity argument](#validity-argument) **W** [WLE](#wle) ·
+[Wright map](#wright-map) **Z** [Zh](#zh)
 
 ## The basic ideas
 
@@ -1188,6 +1190,31 @@ against human scores with agreement statistics such as [QWK](#qwk) and
 
 **In R:**
 [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md).
+
+### Differential scoring
+
+An automated scorer that gives one group of test takers lower (or
+higher) scores than human raters give the same answers. It is checked by
+comparing machine and human scores within groups, among responses that
+people scored the same, so that bias in the scorer is not confused with
+a real difference between the groups.
+
+**In R:**
+[`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+with `group`.
+
+### Validity argument
+
+A structured case that test scores support their intended interpretation
+and use (Kane, 2013). It links the claims (the scores follow the rubric,
+generalize over occasions, reflect the construct, and support the
+decisions made with them) to the evidence for each, and to the threats
+against them. An AI component adds threats to every link.
+
+**In R:**
+[`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md),
+with the evidence from
+[`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md).
 
 ### PRMSE
 

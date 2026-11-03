@@ -14,7 +14,8 @@
 <meta property="og:title" content="The instructor toolkit">
 <meta name="description" content="Build interactive labs on your own data, adapt the built-in labs and the book's chapters, add exercises and questions, swap datasets, and check everything before class.">
 <meta property="og:description" content="Build interactive labs on your own data, adapt the built-in labs and the book's chapters, add exercises and questions, swap datasets, and check everything before class.">
-<meta property="og:image" content="https://www.okanbulut.com/mirtverse/logo.svg">
+<meta property="og:image" content="https://www.okanbulut.com/mirtverse/reference/figures/card.png">
+<meta property="og:image:alt" content="mirtverse: From item responses to defensible decisions, with or without writing R code">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,19 +34,45 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-start-here" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Start here</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-start-here">
+<li><a class="dropdown-item" href="../articles/for-students.html">Students</a></li>
+    <li><a class="dropdown-item" href="../articles/thesis-kit.html">Students: Thesis kit</a></li>
+    <li><a class="dropdown-item" href="../articles/for-instructors.html">Instructors</a></li>
+    <li><a class="dropdown-item" href="../articles/adopt.html">Instructors: Adopt for your course</a></li>
+    <li><a class="dropdown-item" href="../articles/for-practitioners.html">Testing programs</a></li>
+    <li><a class="dropdown-item" href="../articles/case-study.html">Testing programs: A case study</a></li>
+    <li><a class="dropdown-item" href="../articles/for-researchers.html">Researchers</a></li>
+    <li><a class="dropdown-item" href="../articles/for-new-to-r.html">New to R</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-hub.html">Curious about AI</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../dashboard/sat12-demo.html">Try the live dashboard</a></li>
+    <li><a class="dropdown-item" href="../articles/gallery.html">Gallery of figures and outputs</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../articles/mirtverse.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
+<li><a class="dropdown-item" href="../articles/for-students.html">Start here: Students</a></li>
+    <li><a class="dropdown-item" href="../articles/for-instructors.html">Start here: Instructors</a></li>
+    <li><a class="dropdown-item" href="../articles/for-practitioners.html">Start here: Testing programs</a></li>
+    <li><a class="dropdown-item" href="../articles/for-researchers.html">Start here: Researchers</a></li>
+    <li><a class="dropdown-item" href="../articles/for-new-to-r.html">Start here: New to R</a></li>
+    <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
+    <li><a class="dropdown-item" href="../articles/case-study.html">Case study: A certification exam, from field test to pass/fail</a></li>
+    <li><a class="dropdown-item" href="../articles/thesis-kit.html">Thesis kit: From item responses to a Methods section</a></li>
+    <li><a class="dropdown-item" href="../articles/gallery.html">Gallery</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Teaching and learning</h6></li>
+    <li><a class="dropdown-item" href="../articles/adopt.html">Adopt mirtverse for your course</a></li>
     <li><a class="dropdown-item" href="../articles/teaching-labs.html">Teaching labs for measurement courses</a></li>
     <li><a class="dropdown-item" href="../articles/course-map.html">A course map for instructors</a></li>
     <li><a class="dropdown-item" href="../articles/instructor-toolkit.html">The instructor toolkit</a></li>
@@ -61,6 +88,7 @@
 <li><a class="dropdown-item" href="../articles/ai-hub.html">Start here</a></li>
     <li><a class="dropdown-item" href="../articles/ai-translation.html">Machine learning for psychometricians</a></li>
     <li><a class="dropdown-item" href="../articles/ai-reading.html">Reading list</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-workshop.html">One-day workshop kit</a></li>
     <li><a class="dropdown-item" href="../book/ml-lens.html">Book: AI in measurement</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
@@ -69,6 +97,7 @@
     <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
     <li><a class="dropdown-item" href="../reference/train_scorer.html">Train and check a scoring engine</a></li>
+    <li><a class="dropdown-item" href="../reference/ai_audit.html">Audit an AI component</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../book/index.html">Book</a></li>
@@ -223,6 +252,11 @@ name, or a vector with one value per row) turns on the DIF section.</li>
 <strong>At least about 200 people</strong> for stable estimates;
 <code><a href="../reference/new_lab.html">new_lab()</a></code> warns below that. Missing responses are
 fine.</li>
+<li>
+<strong>Optional data for the AI sections</strong> (see <a href="#ai-sections">Teaching AI in measurement on your data</a> below):
+<code>item_info</code>, one row per item with its text or its item
+family, and <code>scores</code>, machine and human scores of written
+answers.</li>
 </ul>
 <p>The data are copied into the lab’s <code>data/</code> folder, so the
 lab works on any computer without your original file.</p>
@@ -291,6 +325,23 @@ assignment).</td>
 <td><code>wrap-up</code></td>
 <td>A summary and pointers to reports and the other labs.</td>
 </tr>
+<tr class="odd">
+<td><code>item-features</code></td>
+<td>Measure the item text with <code><a href="../reference/item_features.html">item_features()</a></code>, find
+near-duplicates, and predict difficulty with
+<code><a href="../reference/predict_difficulty.html">predict_difficulty()</a></code> (needs item text).</td>
+</tr>
+<tr class="even">
+<td><code>aig</code></td>
+<td>Check with <code><a href="../reference/calibrate_families.html">calibrate_families()</a></code> whether the items of
+each family are equally difficult (needs item families).</td>
+</tr>
+<tr class="odd">
+<td><code>ai-scoring</code></td>
+<td>Compare machine and human scores with
+<code><a href="../reference/agreement_report.html">agreement_report()</a></code>, then run a full <code><a href="../reference/ai_audit.html">ai_audit()</a></code>
+(needs <code>scores</code>).</td>
+</tr>
 </tbody>
 </table>
 <p>Nothing in these sections is written for one dataset. The numbers in
@@ -300,6 +351,49 @@ model does BIC prefer?”, “How many items misfit?”) are all computed from
 the data when the lab is built. That is what lets you reuse the same lab
 next term with new data.</p>
 </div>
+<div class="section level3">
+<h3 id="ai-sections">Teaching AI in measurement on your data<a class="anchor" aria-label="anchor" href="#ai-sections"></a>
+</h3>
+<p>The last three sections teach the topics of the <a href="ai-hub.html">AI Hub</a> on your own material. They need more than
+responses, so give <code><a href="../reference/new_lab.html">new_lab()</a></code> one or two more tables:</p>
+<ul>
+<li>
+<code>item_info</code>, with one row per item and a column
+<code>item</code> holding the item names used in the responses. A
+<code>stem</code> column (and, for multiple-choice items, option columns
+<code>A</code> to <code>E</code> and a <code>key</code> with the letter
+of the keyed option) turns on <code>item-features</code>. A
+<code>family</code> column, naming the item model or family each item
+comes from, turns on <code>aig</code>.</li>
+<li>
+<code>scores</code>, with one row per written response the engine
+scored: <code>machine</code> and <code>human1</code> (<code>NA</code>
+where no person read the response), and optionally <code>human2</code>,
+<code>group</code>, <code>item</code> and <code>period</code> (an
+administration or engine version). It turns on
+<code>ai-scoring</code>.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 60 generated items: their text, their item models (as `family`) and the field test</span></span>
+<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">aigfield_items</span>, family <span class="op">=</span> <span class="va">model</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/new_lab.html">new_lab</a></span><span class="op">(</span><span class="st">"item-factory"</span>, data <span class="op">=</span> <span class="va">aigfield</span>, item_info <span class="op">=</span> <span class="va">items</span>,</span>
+<span>        data_title <span class="op">=</span> <span class="st">"the generated field-test items"</span>,</span>
+<span>        sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"intro"</span>, <span class="st">"models"</span>, <span class="st">"item-features"</span>, <span class="st">"aig"</span>, <span class="st">"wrap-up"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># an essay-scoring engine, with a validity sample read by people</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"data/engine-scores.csv"</span><span class="op">)</span>   <span class="co"># machine, human1, human2, group, item</span></span>
+<span><span class="fu"><a href="../reference/new_lab.html">new_lab</a></span><span class="op">(</span><span class="st">"our-engine"</span>, data <span class="op">=</span> <span class="st">"data/responses.csv"</span>, scores <span class="op">=</span> <span class="va">scores</span>,</span>
+<span>        sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"intro"</span>, <span class="st">"models"</span>, <span class="st">"ai-scoring"</span>, <span class="st">"reflection"</span>, <span class="st">"wrap-up"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><code>item_info</code> can hold extra columns; rename yours to these
+names first, as the first example does with the item model column. The
+answers, as in the other sections, are computed from your data, so the
+questions ask, for example, how many families are not isomorphic in
+<em>your</em> items and whether <em>your</em> engine can score on its
+own.</p>
+<p>For longer, story-driven AI labs with planted problems, copy Labs 7
+to 10 (<code>copy_lab("ai-audit")</code> and so on), and see the <a href="course-map.html#ai-module">AI module of the course map</a> for how
+to fit them into a term.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="add-your-own-content">3. Add your own content<a class="anchor" aria-label="anchor" href="#add-your-own-content"></a>
@@ -307,14 +401,14 @@ next term with new data.</p>
 <div class="section level3">
 <h3 id="ready-made-sections">Ready-made sections<a class="anchor" aria-label="anchor" href="#ready-made-sections"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_lab_section.html">add_lab_section</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>, <span class="st">"dif"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_lab_section.html">add_lab_section</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>, <span class="st">"information"</span>, after <span class="op">=</span> <span class="st">"models"</span><span class="op">)</span></span></code></pre></div>
 <p>New sections go before the <code>wrap-up</code> section unless you
 say where with <code>after</code>. <code><a href="../reference/add_lab_section.html">lab_outline()</a></code> shows each
 section’s <code>id</code>, which is what <code>after</code> and
 <code><a href="../reference/add_lab_section.html">remove_lab_section()</a></code> use:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_lab_section.html">lab_outline</a></span><span class="op">(</span><span class="st">"labs/midterm"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_lab_section.html">remove_lab_section</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>, <span class="st">"dimensionality"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -327,7 +421,7 @@ scored responses are <code>resp</code>, the group (if any) is
 <code>group</code>, and <code>models</code> holds the two item types the
 lab compares. With <code>use_fit = TRUE</code> the exercise also starts
 from <code>fit</code>, a one-factor model of the data.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_lab_section.html">add_lab_exercise</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"The hardest items"</span>,</span>
 <span>  prompt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Which five items had the lowest mean score?"</span>,</span>
@@ -353,7 +447,7 @@ data change.</p>
 <div class="section level3">
 <h3 id="your-own-questions">Your own questions<a class="anchor" aria-label="anchor" href="#your-own-questions"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_lab_section.html">add_lab_question</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>,</span>
 <span>  question <span class="op">=</span> <span class="st">"An item has a negative item-total correlation. What do you check first?"</span>,</span>
 <span>  answers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The answer key"</span>, <span class="st">"The item's position on the test"</span>, <span class="st">"The sample size"</span><span class="op">)</span>,</span>
@@ -383,21 +477,22 @@ they are not).</li>
 <div class="section level2">
 <h2 id="swap-in-other-data">4. Swap in other data<a class="anchor" aria-label="anchor" href="#swap-in-other-data"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/swap_lab_data.html">swap_lab_data</a></span><span class="op">(</span><span class="st">"labs/midterm"</span>, data <span class="op">=</span> <span class="st">"data/midterm-2027.csv"</span>,</span>
 <span>              data_title <span class="op">=</span> <span class="st">"the 2027 midterm"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/check_material.html">check_material</a></span><span class="op">(</span><span class="st">"labs/midterm"</span><span class="op">)</span></span></code></pre></div>
 <p>The text, checks and questions are recomputed from the new data, and
 any exercises you added keep working as long as their checks compute
 their answers from <code>resp</code>. Settings you leave out are kept
-(for example the <code>group</code> column and the story).</p>
+(for example the <code>group</code> column, the story, and the
+<code>item_info</code> and <code>scores</code> of the AI sections).</p>
 <p>The built-in labs are different: Each tells the story of its own
 dataset, with problems planted on purpose (a miskeyed item, a drifted
 anchor, a severe rater), and the feedback talks about them. To teach the
 same topic on your data, build a toolkit lab with the matching sections.
 To keep the built-in story but change the wording, the order or the
 questions, copy it:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/copy_lab.html">copy_lab</a></span><span class="op">(</span><span class="st">"fairness"</span>, as <span class="op">=</span> <span class="st">"week9-fairness"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_lab_section.html">add_lab_question</a></span><span class="op">(</span><span class="st">"labs/week9-fairness"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -407,14 +502,14 @@ questions, copy it:</p>
 <p>The <a href="https://www.okanbulut.com/mirtverse/book/">mirtverse
 book</a> has one chapter per week of the course map. Copy a chapter into
 your course to edit it:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/copy_chapter.html">book_chapters</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/copy_chapter.html">copy_chapter</a></span><span class="op">(</span><span class="st">"dif"</span><span class="op">)</span>    <span class="co"># downloads book/09-dif.Rmd into chapters/</span></span></code></pre></div>
 <p>Every example in a book chapter starts with a chunk labelled
 <code>data-&lt;chapter&gt;-&lt;n&gt;</code> that loads the data and
 defines <code>resp</code>. Replace it to run the example on your
 data:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/copy_chapter.html">swap_chapter_data</a></span><span class="op">(</span><span class="st">"chapters/09-dif.Rmd"</span>, chunk <span class="op">=</span> <span class="st">"data-dif-1"</span>,</span>
 <span>                  code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"midterm &lt;- read.csv('../data/midterm-2026.csv')"</span>,</span>
 <span>                           <span class="st">"resp &lt;- midterm[, 3:42]"</span>,</span>
@@ -427,7 +522,7 @@ matching lab and further reading).</p>
 <div class="section level2">
 <h2 id="check-preview-and-share">6. Check, preview and share<a class="anchor" aria-label="anchor" href="#check-preview-and-share"></a>
 </h2>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_material.html">check_material</a></span><span class="op">(</span><span class="st">"labs/midterm"</span><span class="op">)</span></span>
 <span><span class="va">res</span><span class="op">[</span><span class="va">res</span><span class="op">$</span><span class="va">status</span> <span class="op">!=</span> <span class="st">"pass"</span>, <span class="op">]</span></span></code></pre></div>
 <p><code><a href="../reference/check_material.html">check_material()</a></code> works on a copy of the lab, so nothing
@@ -439,7 +534,7 @@ it catches a solution that its own check rejects. Add
 the course folder to check everything at once:
 <code>check_material(".")</code>.</p>
 <p>Then try the lab as a student would:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/preview_lab.html">preview_lab</a></span><span class="op">(</span><span class="st">"labs/midterm"</span><span class="op">)</span></span></code></pre></div>
 <p>To give the lab to students, either</p>
 <ul>

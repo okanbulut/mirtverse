@@ -1,7 +1,7 @@
 # Item map for Bookmark standard setting
 
 Locates every item (and every score category of a polytomous item) on
-the ability scale at the response probability `rp`: the ability at which
+the ability scale at the response probability `rp`: The ability at which
 a test taker has probability `rp` of answering correctly (or of reaching
 that category or higher). Sorted by location, this is the ordered item
 booklet of the Bookmark method; a panelist's bookmark translates to a

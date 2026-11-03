@@ -1,0 +1,68 @@
+# Adopt mirtverse for your course
+
+mirtverse comes with a complete, free set of materials for a course on
+item response theory. You can adopt all of it, or take one lab for a
+single class. Everything is open and editable, and it runs on student
+laptops.
+
+## What you get
+
+| Material | What it is | Where |
+|----|----|----|
+| Sample syllabus | A 12-week graduate syllabus with outcomes, schedule and grading, ready to edit | [Word](https://www.okanbulut.com/mirtverse/adopt/mirtverse-sample-syllabus.docx) · [PDF](https://www.okanbulut.com/mirtverse/adopt/mirtverse-sample-syllabus.pdf) |
+| Book | One chapter per week, with worked examples and exercises with solutions; also as PDF and EPUB | [Read online](https://www.okanbulut.com/mirtverse/book/index.md) |
+| Ten labs | Interactive cases with live mirt models, learning goals, timing, discussion prompts and an answer key | [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) |
+| Course map | Week-by-week readings, code, labs and datasets, plus versions for 8-week, undergraduate and second courses | [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.md) |
+| Instructor toolkit | Labs on your own data, editable copies of the labs and chapters, checks before class | [Toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |
+| AI in measurement module | Four weeks (book chapters 13 to 18, Labs 7 to 10) or a one-day workshop | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) |
+| Handouts | Two-page cheat sheet and a glossary of nearly 90 terms | [Cheat sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) · [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
+
+## Adopt it in four steps
+
+1.  **Download the sample syllabus**
+    ([Word](https://www.okanbulut.com/mirtverse/adopt/mirtverse-sample-syllabus.docx))
+    and fill in the bracketed parts. Each week names its book chapter
+    and lab.
+
+2.  **Check the setup on a lab computer** a week before class:
+
+    ``` r
+
+    install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
+    library(mirtverse)
+    list_labs()
+    run_lab("model-choice")
+    ```
+
+3.  **Send students the setup page,** [Start here: New to
+    R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.md),
+    which walks through installing R, RStudio and mirtverse.
+
+4.  **Tell us you are using it** (next section), so you hear about
+    updates and the course can be listed below.
+
+## Tell us you’re teaching with it
+
+[Fill in the short course
+form](https://github.com/okanbulut/mirtverse/issues/new?template=course-adoption.yml)
+(a GitHub account is needed). It takes two minutes, and it shapes what
+gets built next: New labs, chapters and datasets come from instructors’
+requests.
+
+To hear about new releases, open the [GitHub
+repository](https://github.com/okanbulut/mirtverse), choose **Watch**,
+then **Custom**, and tick **Releases**. You will get one email per
+release and nothing else.
+
+## Courses using mirtverse
+
+Courses whose instructors agreed to be listed will appear here. Be the
+first: [add your
+course](https://github.com/okanbulut/mirtverse/issues/new?template=course-adoption.yml).
+
+## Citing the materials
+
+If you use the book or labs in published teaching materials, please cite
+the book
+([10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605)) and
+the package (`citation("mirtverse")`).

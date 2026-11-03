@@ -107,7 +107,7 @@ lab_outline(lab)
 
 - correct:
 
-  which answers are correct: their positions in `answers`, or the
+  which answers are correct: Their positions in `answers`, or the
   answers themselves. More than one makes a check-all-that-apply
   question.
 

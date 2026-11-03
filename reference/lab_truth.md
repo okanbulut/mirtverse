@@ -1,6 +1,6 @@
 # Answer key and true values for the lab datasets
 
-Instructor helper: returns how a lab dataset was generated, so you can
+Instructor helper: Returns how a lab dataset was generated, so you can
 check students' conclusions. Students meet the same information in the
 reveal at the end of the labs.
 
@@ -9,7 +9,7 @@ reveal at the end of the labs.
 ``` r
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield")
+    "essays", "aigfield", "aiscored")
 )
 ```
 
@@ -19,7 +19,8 @@ lab_truth(
 
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
   `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"` (Lab 6), or
-  one of the AI Hub datasets, `"itemtext"`, `"essays"` and `"aigfield"`.
+  one of the AI Hub datasets, `"itemtext"`, `"essays"`, `"aigfield"` and
+  `"aiscored"`.
 
 ## Value
 
@@ -52,7 +53,11 @@ the `prompts`. For `"aigfield"`, a list with the true difficulty `b` and
 discrimination `a` of every item, each item model's difficulty
 (`model_b`), the true within-model SD (`sd_within`), which subtraction
 items need regrouping (`regroup`) and its effect, the `flawed` items and
-the `planted` problems.
+the `planted` problems. For `"aiscored"`, a list with each student's
+ability `theta`, the true constructed-response scores `true_cr`, the
+item parameters, the group `impact`, the item with real DIF (`dif_item`)
+and its size, the rates of rater and engine error, and the `planted`
+problems.
 
 ## Examples
 

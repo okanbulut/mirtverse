@@ -1,4 +1,4 @@
-# Pipeline stage: cut scores and decision quality
+# Pipeline stage: Cut scores and decision quality
 
 Records the cut scores that turn scores into decisions (pass/fail or
 performance levels) and estimates how accurate and consistent those
@@ -48,7 +48,7 @@ set_cuts(
 
 - panel:
 
-  optional ratings from a standard-setting panel: a matrix or data frame
+  optional ratings from a standard-setting panel: A matrix or data frame
   with one row per panelist and one column per cut, on the same `scale`
   as `cuts`.
 
@@ -66,7 +66,7 @@ set_cuts(
 
 ## Value
 
-The pipeline with `p$cuts`: a list with the cuts on both scales
+The pipeline with `p$cuts`: A list with the cuts on both scales
 (`table`), overall decision quality (`summary`), results by cut
 (`by_cut`) and the share of the population expected in each category
 (`categories`).
@@ -78,11 +78,11 @@ abilities (by default the calibration sample's EAP estimates, on the
 bank scale if the pipeline is linked):
 
 - With cuts on the ability scale (`scale = "theta"`), Rudner's (2001)
-  method: the ability estimate is taken as normal around the true
+  method: The ability estimate is taken as normal around the true
   ability with the standard error from the test information.
 
 - With cuts on the summed-score scale (`scale = "raw"`), Lee's (2010)
-  method: the summed-score distribution at each ability comes from the
+  method: The summed-score distribution at each ability comes from the
   Lord-Wingersky recursion, and the true category is set by the expected
   (true) score.
 
@@ -95,15 +95,15 @@ false positive and false negative rates at each cut.
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `class_accuracy` (review): overall accuracy below `cut_accuracy`.
+- `class_accuracy` (review): Overall accuracy below `cut_accuracy`.
 
-- `class_consistency` (review): overall consistency below
+- `class_consistency` (review): Overall consistency below
   `cut_consistency`.
 
-- `cut_precision` (review): the standard error of measurement at a cut
+- `cut_precision` (review): The standard error of measurement at a cut
   is above `cut_sem`; the test has too little information there.
 
-- `panel_agreement` (info): the panelists' cuts have a standard
+- `panel_agreement` (info): The panelists' cuts have a standard
   deviation (in ability units) above `panel_sd`.
 
 ## References

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 18 Validity, fairness and governance of AI | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 18 Validity, fairness and governance of AI | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 18 Validity, fairness and governance of AI | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="llms.html"/>
+<link rel="next" href="datasets.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: A multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: A wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: The LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: A driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: A test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: When the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: A mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: A reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: The same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: Finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: Where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: Designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: Four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: A proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: Attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: A rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: Paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: Separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: Concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: A vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: A CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: Setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: Telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: The 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: Forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="item-text.html"><a href="item-text.html"><i class="fa fa-check"></i><b>14</b> What item text tells us</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="item-text.html"><a href="item-text.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="item-text.html"><a href="item-text.html#example-1-features-and-an-explanatory-model"><i class="fa fa-check"></i><b>14.2</b> Example 1: Features and an explanatory model</a></li>
+<li class="chapter" data-level="14.3" data-path="item-text.html"><a href="item-text.html#example-2-the-one-step-lltm-in-mirt"><i class="fa fa-check"></i><b>14.3</b> Example 2: The one-step LLTM in mirt</a></li>
+<li class="chapter" data-level="14.4" data-path="item-text.html"><a href="item-text.html#example-3-new-items-or-new-kinds-of-items"><i class="fa fa-check"></i><b>14.4</b> Example 3: New items or new kinds of items?</a></li>
+<li class="chapter" data-level="14.5" data-path="item-text.html"><a href="item-text.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="aig.html"><a href="aig.html"><i class="fa fa-check"></i><b>15</b> Generating items</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="aig.html"><a href="aig.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="aig.html"><a href="aig.html#example-1-writing-an-item-model"><i class="fa fa-check"></i><b>15.2</b> Example 1: Writing an item model</a></li>
+<li class="chapter" data-level="15.3" data-path="aig.html"><a href="aig.html#example-2-calibrating-the-families"><i class="fa fa-check"></i><b>15.3</b> Example 2: Calibrating the families</a></li>
+<li class="chapter" data-level="15.4" data-path="aig.html"><a href="aig.html#example-3-one-step-with-a-random-item-effect"><i class="fa fa-check"></i><b>15.4</b> Example 3: One step, with a random item effect</a></li>
+<li class="chapter" data-level="15.5" data-path="aig.html"><a href="aig.html#example-4-does-the-family-mean-predict-new-items"><i class="fa fa-check"></i><b>15.5</b> Example 4: Does the family mean predict new items?</a></li>
+<li class="chapter" data-level="15.6" data-path="aig.html"><a href="aig.html#your-turn-14"><i class="fa fa-check"></i><b>15.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#in-the-lab-13"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>16</b> Automated scoring</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
+<li class="chapter" data-level="16.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>16.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="16.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>16.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-14"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>17</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="llms.html"><a href="llms.html#the-ideas-16"><i class="fa fa-check"></i><b>17.1</b> The ideas</a></li>
+<li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="ai-validity.html"><a href="ai-validity.html"><i class="fa fa-check"></i><b>18</b> Validity, fairness and governance of AI</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="ai-validity.html"><a href="ai-validity.html#the-ideas-17"><i class="fa fa-check"></i><b>18.1</b> The ideas</a></li>
+<li class="chapter" data-level="18.2" data-path="ai-validity.html"><a href="ai-validity.html#example-1-auditing-a-scoring-engine"><i class="fa fa-check"></i><b>18.2</b> Example 1: Auditing a scoring engine</a></li>
+<li class="chapter" data-level="18.3" data-path="ai-validity.html"><a href="ai-validity.html#example-2-other-ai-components"><i class="fa fa-check"></i><b>18.3</b> Example 2: Other AI components</a></li>
+<li class="chapter" data-level="18.4" data-path="ai-validity.html"><a href="ai-validity.html#example-3-from-audit-to-argument"><i class="fa fa-check"></i><b>18.4</b> Example 3: From audit to argument</a></li>
+<li class="chapter" data-level="18.5" data-path="ai-validity.html"><a href="ai-validity.html#governance"><i class="fa fa-check"></i><b>18.5</b> Governance</a></li>
+<li class="chapter" data-level="18.6" data-path="ai-validity.html"><a href="ai-validity.html#your-turn-17"><i class="fa fa-check"></i><b>18.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#in-the-lab-15"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#further-reading-17"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ai-validity" class="section level1 hasAnchor" number="18">
+<h1><span class="header-section-number">Chapter 18</span> Validity, fairness and governance of AI<a href="ai-validity.html#ai-validity" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>place an AI component in the <strong>argument-based approach</strong> to validity, and
+name the threats it adds to each inference;</li>
+<li>audit an automated scorer with <code>ai_audit()</code>: Agreement with human raters,
+<strong>differential scoring</strong> across groups, <strong>drift</strong> across administrations
+and DIF on the test as scored;</li>
+<li>fold the results of difficulty models and item generators into the same
+audit;</li>
+<li>draft a validity argument with <code>validity_argument()</code>, and say what
+evidence no statistic can provide: Human oversight, disclosure and
+appeals.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#validity-argument">Validity argument</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#differential-scoring">differential scoring</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#dif">DIF</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop">human-in-the-loop</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-scoring">automated scoring</a>.</p>
+<div id="the-ideas-17" class="section level2 hasAnchor" number="18.1">
+<h2><span class="header-section-number">18.1</span> The ideas<a href="ai-validity.html#the-ideas-17" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The earlier chapters of this part each checked one AI component on its own
+terms: A scoring engine against human raters (Chapter
+<a href="auto-scoring.html#auto-scoring">16</a>), a difficulty model by cross-validation (Chapter
+<a href="item-text.html#item-text">14</a>), an item generator by calibrating its families (Chapter
+<a href="aig.html#aig">15</a>). A testing program needs one more step: To ask what the
+components do to the <strong>validity</strong> of the scores, for the use the scores are
+put to. The <em>Standards</em> <span class="citation">(<a href="#ref-aera2014">American Educational Research Association et al. 2014</a>)</span> apply to AI components as to any other
+part of a test, and the guidelines of the International Test Commission and
+the Association of Test Publishers for technology-based assessment
+<span class="citation">(<a href="#ref-itc2022">International Test Commission and Association of Test Publishers 2022</a>)</span> add advice on automated scoring, security and accessibility.</p>
+<p>The <strong>argument-based approach</strong> <span class="citation">(<a href="#ref-kane2013">Kane 2013</a>)</span> organizes the evidence. An
+interpretation-and-use argument is a chain of inferences from a response to
+a decision, each resting on a claim that evidence must support:</p>
+<ul>
+<li><strong>Scoring:</strong> The score follows the rubric as trained raters apply it.</li>
+<li><strong>Generalization:</strong> The score would be about the same with another
+occasion, form, rater or engine version.</li>
+<li><strong>Extrapolation:</strong> The score reflects the construct, equally for all
+groups of test takers.</li>
+<li><strong>Decision:</strong> Using the score for its purpose is appropriate.</li>
+</ul>
+<p>An AI component adds threats to every link. A scoring engine may reward
+features that are not in the rubric, such as length or vocabulary
+<span class="citation">(<a href="#ref-williamson2012">Williamson et al. 2012</a>)</span>. It may be retrained or updated by a vendor between
+administrations, so that a score means something different from one year to
+the next. It may treat groups differently: Answers that people would score
+the same may get lower machine scores when they are typed on a phone or
+written by English language learners. Johnson, Liu and McCaffrey
+<span class="citation">(<a href="#ref-johnson2022">2022</a>)</span> separate two questions here. <strong>Measurement bias</strong> asks
+whether the scores measure the construct equally for all groups, which is
+the familiar DIF question. <strong>Algorithmic bias</strong> asks whether the engine
+predicts the human score equally well for all groups, given the human
+score. The second is checked by comparing machine and human scores within
+groups among responses that people scored the same; we call a failure of
+that check <strong>differential scoring</strong>.</p>
+<p>The decision inference is different in kind. It is supported by how the
+scores are used: Which responses a person reads before a score counts
+(<strong>human-in-the-loop</strong>), what test takers are told about automated scoring,
+how a score can be appealed, and how the component is monitored after it
+goes live. These are matters of policy and documentation. An audit can show
+which responses need a person; it cannot show that a person reads them.</p>
+</div>
+<div id="example-1-auditing-a-scoring-engine" class="section level2 hasAnchor" number="18.2">
+<h2><span class="header-section-number">18.2</span> Example 1: Auditing a scoring engine<a href="ai-validity.html#example-1-auditing-a-scoring-engine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A college uses an automated engine to score two writing prompts, W1 and W2,
+on a 0 to 4 rubric, for placement into first-year writing courses. Test
+takers write in a spring or a fall window, on a laptop or a phone. A
+validity sample of 30% is also scored by a person, and half of those by a
+second person. We simulate the scores. The engine rewards length, and
+answers typed on a phone are shorter, so on W2 it gives some phone answers
+a point less than their true score. A stricter engine version was installed
+for the fall window, and it marks down some W1 answers.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ai-validity.html#cb192-1" tabindex="-1"></a><span class="co"># Simulated machine and human scores of two writing prompts, 2,400 test takers.</span></span>
+<span id="cb192-2"><a href="ai-validity.html#cb192-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1818</span>)</span>
+<span id="cb192-3"><a href="ai-validity.html#cb192-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2400</span></span>
+<span id="cb192-4"><a href="ai-validity.html#cb192-4" tabindex="-1"></a>writing <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb192-5"><a href="ai-validity.html#cb192-5" tabindex="-1"></a>  <span class="at">person =</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">&quot;P%04d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb192-6"><a href="ai-validity.html#cb192-6" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>), <span class="at">each =</span> n <span class="sc">/</span> <span class="dv">2</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb192-7"><a href="ai-validity.html#cb192-7" tabindex="-1"></a>  <span class="at">device =</span> <span class="fu">rep</span>(<span class="fu">ifelse</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="st">&quot;Phone&quot;</span>, <span class="st">&quot;Laptop&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb192-8"><a href="ai-validity.html#cb192-8" tabindex="-1"></a>  <span class="at">prompt =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;W1&quot;</span>, <span class="st">&quot;W2&quot;</span>), n))</span>
+<span id="cb192-9"><a href="ai-validity.html#cb192-9" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(n), <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb192-10"><a href="ai-validity.html#cb192-10" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(<span class="fu">round</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="fl">1.1</span> <span class="sc">*</span> theta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">2</span> <span class="sc">*</span> n, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="dv">0</span>), <span class="dv">4</span>)</span>
+<span id="cb192-11"><a href="ai-validity.html#cb192-11" tabindex="-1"></a>noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p)        <span class="co"># off by one point with probability p</span></span>
+<span id="cb192-12"><a href="ai-validity.html#cb192-12" tabindex="-1"></a>  <span class="fu">pmin</span>(<span class="fu">pmax</span>(x <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="fu">length</span>(x)) <span class="sc">&lt;</span> p, <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">length</span>(x), <span class="cn">TRUE</span>), <span class="dv">0</span>), <span class="dv">0</span>), <span class="dv">4</span>)</span>
+<span id="cb192-13"><a href="ai-validity.html#cb192-13" tabindex="-1"></a>writing<span class="sc">$</span>machine <span class="ot">&lt;-</span> <span class="fu">noisy</span>(true, <span class="fl">0.25</span>)</span>
+<span id="cb192-14"><a href="ai-validity.html#cb192-14" tabindex="-1"></a>short <span class="ot">&lt;-</span> writing<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.35</span></span>
+<span id="cb192-15"><a href="ai-validity.html#cb192-15" tabindex="-1"></a>writing<span class="sc">$</span>machine[short] <span class="ot">&lt;-</span> true[short] <span class="sc">-</span> <span class="dv">1</span>          <span class="co"># shorter answers marked down</span></span>
+<span id="cb192-16"><a href="ai-validity.html#cb192-16" tabindex="-1"></a>strict <span class="ot">&lt;-</span> writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Fall&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W1&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.30</span></span>
+<span id="cb192-17"><a href="ai-validity.html#cb192-17" tabindex="-1"></a>writing<span class="sc">$</span>machine[strict] <span class="ot">&lt;-</span> true[strict] <span class="sc">-</span> <span class="dv">1</span>        <span class="co"># the fall engine version</span></span>
+<span id="cb192-18"><a href="ai-validity.html#cb192-18" tabindex="-1"></a>read <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb192-19"><a href="ai-validity.html#cb192-19" tabindex="-1"></a>twice <span class="ot">&lt;-</span> read <span class="sc">&amp;</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb192-20"><a href="ai-validity.html#cb192-20" tabindex="-1"></a>writing<span class="sc">$</span>human1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(read, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
+<span id="cb192-21"><a href="ai-validity.html#cb192-21" tabindex="-1"></a>writing<span class="sc">$</span>human2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(twice, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
+<span id="cb192-22"><a href="ai-validity.html#cb192-22" tabindex="-1"></a>writing<span class="sc">$</span>device <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>device, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Laptop&quot;</span>, <span class="st">&quot;Phone&quot;</span>))</span>
+<span id="cb192-23"><a href="ai-validity.html#cb192-23" tabindex="-1"></a>writing<span class="sc">$</span>window <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>window, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>))</span></code></pre></div>
+<p>The usual first check is agreement with human raters, which
+<code>agreement_report()</code> gives (Chapter <a href="auto-scoring.html#auto-scoring">16</a>):</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ai-validity.html#cb193-1" tabindex="-1"></a>r <span class="ot">&lt;-</span> writing[<span class="sc">!</span><span class="fu">is.na</span>(writing<span class="sc">$</span>human1), ]</span>
+<span id="cb193-2"><a href="ai-validity.html#cb193-2" tabindex="-1"></a><span class="fu">agreement_report</span>(r<span class="sc">$</span>machine, r<span class="sc">$</span>human1, r<span class="sc">$</span>human2, <span class="at">by =</span> r<span class="sc">$</span>prompt)</span>
+<span id="cb193-3"><a href="ai-validity.html#cb193-3" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
+<span id="cb193-4"><a href="ai-validity.html#cb193-4" tabindex="-1"></a><span class="co">#&gt;  by group   n n_double mean_human mean_machine exact adjacent  qwk qwk_human</span></span>
+<span id="cb193-5"><a href="ai-validity.html#cb193-5" tabindex="-1"></a><span class="co">#&gt;  W1   All 747      369       1.95         1.82  0.60     0.97 0.83      0.86</span></span>
+<span id="cb193-6"><a href="ai-validity.html#cb193-6" tabindex="-1"></a><span class="co">#&gt;  W2   All 747      369       1.98         1.94  0.61     0.98 0.84      0.85</span></span>
+<span id="cb193-7"><a href="ai-validity.html#cb193-7" tabindex="-1"></a><span class="co">#&gt;  corr   smd prmse verdict</span></span>
+<span id="cb193-8"><a href="ai-validity.html#cb193-8" tabindex="-1"></a><span class="co">#&gt;  0.83 -0.11  0.78   meets</span></span>
+<span id="cb193-9"><a href="ai-validity.html#cb193-9" tabindex="-1"></a><span class="co">#&gt;  0.85 -0.04  0.80   meets</span></span>
+<span id="cb193-10"><a href="ai-validity.html#cb193-10" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span></code></pre></div>
+<p>Both prompts meet the rules. <code>ai_audit()</code> runs this check and the others in
+one call. The first group of <code>device</code> (Laptop) is the reference group, and
+the first <code>window</code> (Spring) is the baseline for drift:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ai-validity.html#cb194-1" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
+<span id="cb194-2"><a href="ai-validity.html#cb194-2" tabindex="-1"></a>                  <span class="at">period =</span> <span class="st">&quot;window&quot;</span>)</span>
+<span id="cb194-3"><a href="ai-validity.html#cb194-3" tabindex="-1"></a>audit</span>
+<span id="cb194-4"><a href="ai-validity.html#cb194-4" tabindex="-1"></a><span class="co">#&gt; AI audit: 6 checks, 2 flags (2 block, 0 review)</span></span>
+<span id="cb194-5"><a href="ai-validity.html#cb194-5" tabindex="-1"></a><span class="co">#&gt;                 check tested flagged status</span></span>
+<span id="cb194-6"><a href="ai-validity.html#cb194-6" tabindex="-1"></a><span class="co">#&gt;       human agreement      2       0     ok</span></span>
+<span id="cb194-7"><a href="ai-validity.html#cb194-7" tabindex="-1"></a><span class="co">#&gt;     machine agreement      2       0     ok</span></span>
+<span id="cb194-8"><a href="ai-validity.html#cb194-8" tabindex="-1"></a><span class="co">#&gt;          overall bias      2       0     ok</span></span>
+<span id="cb194-9"><a href="ai-validity.html#cb194-9" tabindex="-1"></a><span class="co">#&gt;    subgroup agreement      4       0     ok</span></span>
+<span id="cb194-10"><a href="ai-validity.html#cb194-10" tabindex="-1"></a><span class="co">#&gt;  differential scoring      2       1  BLOCK</span></span>
+<span id="cb194-11"><a href="ai-validity.html#cb194-11" tabindex="-1"></a><span class="co">#&gt;                 drift      2       1  BLOCK</span></span>
+<span id="cb194-12"><a href="ai-validity.html#cb194-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb194-13"><a href="ai-validity.html#cb194-13" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb194-14"><a href="ai-validity.html#cb194-14" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] differential scoring, W2, Phone: gap -0.19 SD, SE 0.04. For</span></span>
+<span id="cb194-15"><a href="ai-validity.html#cb194-15" tabindex="-1"></a><span class="co">#&gt;     responses human raters scored the same, the engine scores Phone</span></span>
+<span id="cb194-16"><a href="ai-validity.html#cb194-16" tabindex="-1"></a><span class="co">#&gt;     students lower than Laptop students.</span></span>
+<span id="cb194-17"><a href="ai-validity.html#cb194-17" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] drift, W1, Fall: SMD -0.20 against -0.04, QWK 0.79 against</span></span>
+<span id="cb194-18"><a href="ai-validity.html#cb194-18" tabindex="-1"></a><span class="co">#&gt;     0.86. The engine&#39;s scores have changed since the first period:</span></span>
+<span id="cb194-19"><a href="ai-validity.html#cb194-19" tabindex="-1"></a><span class="co">#&gt;     Check what changed (engine version, prompts, population) and</span></span>
+<span id="cb194-20"><a href="ai-validity.html#cb194-20" tabindex="-1"></a><span class="co">#&gt;     rescore if needed.</span></span></code></pre></div>
+<p>Agreement passes overall and within groups, but two checks block. The
+differential scoring check compares the machine-minus-human difference of
+phone and laptop answers that people scored the same:</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="ai-validity.html#cb195-1" tabindex="-1"></a>audit<span class="sc">$</span>differential</span>
+<span id="cb195-2"><a href="ai-validity.html#cb195-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb195-3"><a href="ai-validity.html#cb195-3" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap     se</span></span>
+<span id="cb195-4"><a href="ai-validity.html#cb195-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb195-5"><a href="ai-validity.html#cb195-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220 0.0439</span></span>
+<span id="cb195-6"><a href="ai-validity.html#cb195-6" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop      217 -0.195   0.0441</span></span></code></pre></div>
+<p>On W2, the engine scores phone answers about 0.2 SD lower than laptop
+answers that people scored the same, four to five standard errors from
+zero. This is what agreement within groups can miss: Phone users may also
+score lower in truth (here they do not), so a lower mean alone proves
+nothing, while a gap at the same human score is the engine’s. The drift
+check compares each window with the first:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ai-validity.html#cb196-1" tabindex="-1"></a>audit<span class="sc">$</span>drift[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;period&quot;</span>, <span class="st">&quot;n&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd_change&quot;</span>, <span class="st">&quot;p_change&quot;</span>, <span class="st">&quot;drift&quot;</span>)]</span>
+<span id="cb196-2"><a href="ai-validity.html#cb196-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 8</span></span>
+<span id="cb196-3"><a href="ai-validity.html#cb196-3" tabindex="-1"></a><span class="co">#&gt;   item  period     n     smd   qwk smd_change  p_change drift</span></span>
+<span id="cb196-4"><a href="ai-validity.html#cb196-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;</span></span>
+<span id="cb196-5"><a href="ai-validity.html#cb196-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Spring   400 -0.0418 0.863    NA      NA        FALSE</span></span>
+<span id="cb196-6"><a href="ai-validity.html#cb196-6" tabindex="-1"></a><span class="co">#&gt; 2 W1    Fall     347 -0.200  0.788    -0.159   0.000391 TRUE </span></span>
+<span id="cb196-7"><a href="ai-validity.html#cb196-7" tabindex="-1"></a><span class="co">#&gt; 3 W2    Spring   400 -0.0451 0.859    NA      NA        FALSE</span></span>
+<span id="cb196-8"><a href="ai-validity.html#cb196-8" tabindex="-1"></a><span class="co">#&gt; 4 W2    Fall     347 -0.0349 0.825     0.0102  1        FALSE</span></span></code></pre></div>
+<p>In the fall, W1’s machine scores fell to 0.2 SD below the human scores, and
+agreement dropped. A drift flag needs both a change larger than the rule
+and a change beyond sampling error; <code>p_change</code> is Bonferroni-adjusted across
+the items and windows tested. Figure <a href="ai-validity.html#fig:ai-validity-audit">18.1</a> shows the
+three score checks.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ai-validity.html#cb197-1" tabindex="-1"></a><span class="fu">autoplot</span>(audit)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ai-validity-audit"></span>
+<img src="mirtverse-book_files/figure-html/ai-validity-audit-1.png" alt="The score checks of the audit. Dashed lines are the default limits; bars are 95% confidence intervals." width="90%" />
+<p class="caption">
+Figure 18.1: The score checks of the audit. Dashed lines are the default limits; bars are 95% confidence intervals.
+</p>
+</div>
+<p>When the test as scored is available, <code>responses</code> adds a DIF analysis with
+<code>dif()</code>. DIF on an AI-scored item is flagged for review; DIF on an item the
+engine does not score is reported for information, because it belongs to
+content review, not to the engine. Lab 10 does this.</p>
+</div>
+<div id="example-2-other-ai-components" class="section level2 hasAnchor" number="18.3">
+<h2><span class="header-section-number">18.3</span> Example 2: Other AI components<a href="ai-validity.html#example-2-other-ai-components" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The same audit takes the results of the tools of the earlier chapters.
+Here a difficulty model was trained with the proportion correct of the
+field test among its features, and one of three item families is not
+isomorphic:</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ai-validity.html#cb198-1" tabindex="-1"></a><span class="co"># Simulated field-test results of 45 items from three item models.</span></span>
+<span id="cb198-2"><a href="ai-validity.html#cb198-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">181</span>)</span>
+<span id="cb198-3"><a href="ai-validity.html#cb198-3" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ratios&quot;</span>, <span class="st">&quot;Fractions&quot;</span>, <span class="st">&quot;Equations&quot;</span>), <span class="at">each =</span> <span class="dv">15</span>)</span>
+<span id="cb198-4"><a href="ai-validity.html#cb198-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Ratios =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">Fractions =</span> <span class="dv">0</span>, <span class="at">Equations =</span> <span class="fl">0.9</span>)[fam] <span class="sc">+</span></span>
+<span id="cb198-5"><a href="ai-validity.html#cb198-5" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), <span class="at">each =</span> <span class="dv">15</span>))</span>
+<span id="cb198-6"><a href="ai-validity.html#cb198-6" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">&quot;I%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">45</span>), <span class="at">family =</span> fam, <span class="at">b =</span> b, <span class="at">b_se =</span> <span class="fl">0.08</span>,</span>
+<span id="cb198-7"><a href="ai-validity.html#cb198-7" tabindex="-1"></a>                    <span class="at">words =</span> <span class="fu">round</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="dv">6</span>)),</span>
+<span id="cb198-8"><a href="ai-validity.html#cb198-8" tabindex="-1"></a>                    <span class="at">p_field =</span> <span class="fu">round</span>(<span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">1.2</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fl">0.05</span>)), <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ai-validity.html#cb199-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;family&quot;</span>, <span class="st">&quot;words&quot;</span>, <span class="st">&quot;p_field&quot;</span>), <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>,</span>
+<span id="cb199-2"><a href="ai-validity.html#cb199-2" tabindex="-1"></a>                            <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
+<span id="cb199-3"><a href="ai-validity.html#cb199-3" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
+<span id="cb199-4"><a href="ai-validity.html#cb199-4" tabindex="-1"></a><span class="fu">ai_audit</span>(<span class="at">components =</span> <span class="fu">list</span>(model, families))</span>
+<span id="cb199-5"><a href="ai-validity.html#cb199-5" tabindex="-1"></a><span class="co">#&gt; AI audit: 2 checks, 2 flags (1 block, 1 review)</span></span>
+<span id="cb199-6"><a href="ai-validity.html#cb199-6" tabindex="-1"></a><span class="co">#&gt;        check tested flagged status</span></span>
+<span id="cb199-7"><a href="ai-validity.html#cb199-7" tabindex="-1"></a><span class="co">#&gt;      leakage      3       1  BLOCK</span></span>
+<span id="cb199-8"><a href="ai-validity.html#cb199-8" tabindex="-1"></a><span class="co">#&gt;  isomorphism      3       1 REVIEW</span></span>
+<span id="cb199-9"><a href="ai-validity.html#cb199-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb199-10"><a href="ai-validity.html#cb199-10" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb199-11"><a href="ai-validity.html#cb199-11" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] leakage, p_field: rank correlation with b -0.99. A feature</span></span>
+<span id="cb199-12"><a href="ai-validity.html#cb199-12" tabindex="-1"></a><span class="co">#&gt;     this close to the label is probably computed from the same</span></span>
+<span id="cb199-13"><a href="ai-validity.html#cb199-13" tabindex="-1"></a><span class="co">#&gt;     responses: Leave it out.</span></span>
+<span id="cb199-14"><a href="ai-validity.html#cb199-14" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] isomorphism, Equations: SD within 0.46. The family mean is</span></span>
+<span id="cb199-15"><a href="ai-validity.html#cb199-15" tabindex="-1"></a><span class="co">#&gt;     not a good estimate for new items from this item model.</span></span></code></pre></div>
+<p>The leaked feature blocks: Its predictions would vanish for new items that
+have no field test (Chapter <a href="item-text.html#item-text">14</a>). The family that is not
+isomorphic is flagged for review: Its mean is a poor stand-in for new
+items’ difficulties (Chapter <a href="aig.html#aig">15</a>).</p>
+</div>
+<div id="example-3-from-audit-to-argument" class="section level2 hasAnchor" number="18.4">
+<h2><span class="header-section-number">18.4</span> Example 3: From audit to argument<a href="ai-validity.html#example-3-from-audit-to-argument" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>validity_argument()</code> turns the audit into a draft argument. Each inference
+gets its claim, the threats an AI component adds, the evidence from the
+audit and a status:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ai-validity.html#cb200-1" tabindex="-1"></a>va <span class="ot">&lt;-</span> <span class="fu">validity_argument</span>(audit, <span class="at">construct =</span> <span class="st">&quot;academic writing in English&quot;</span>,</span>
+<span id="cb200-2"><a href="ai-validity.html#cb200-2" tabindex="-1"></a>                        <span class="at">use =</span> <span class="st">&quot;placement into first-year writing courses&quot;</span>,</span>
+<span id="cb200-3"><a href="ai-validity.html#cb200-3" tabindex="-1"></a>                        <span class="at">population =</span> <span class="st">&quot;incoming students&quot;</span>)</span>
+<span id="cb200-4"><a href="ai-validity.html#cb200-4" tabindex="-1"></a>va[, <span class="fu">c</span>(<span class="st">&quot;inference&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span>
+<span id="cb200-5"><a href="ai-validity.html#cb200-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb200-6"><a href="ai-validity.html#cb200-6" tabindex="-1"></a><span class="co">#&gt;   inference      status        </span></span>
+<span id="cb200-7"><a href="ai-validity.html#cb200-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;         </span></span>
+<span id="cb200-8"><a href="ai-validity.html#cb200-8" tabindex="-1"></a><span class="co">#&gt; 1 Scoring        supported     </span></span>
+<span id="cb200-9"><a href="ai-validity.html#cb200-9" tabindex="-1"></a><span class="co">#&gt; 2 Generalization threatened    </span></span>
+<span id="cb200-10"><a href="ai-validity.html#cb200-10" tabindex="-1"></a><span class="co">#&gt; 3 Extrapolation  threatened    </span></span>
+<span id="cb200-11"><a href="ai-validity.html#cb200-11" tabindex="-1"></a><span class="co">#&gt; 4 Decision       needs evidence</span></span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ai-validity.html#cb201-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">format</span>(va, <span class="st">&quot;markdown&quot;</span>))</span>
+<span id="cb201-2"><a href="ai-validity.html#cb201-2" tabindex="-1"></a><span class="co">#&gt; The argument for using academic writing in English scores for placement into first-year writing courses, with automated scoring of constructed responses, by the four inferences of the argument-based approach (Kane, 2013).</span></span>
+<span id="cb201-3"><a href="ai-validity.html#cb201-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-4"><a href="ai-validity.html#cb201-4" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Scoring (supported)</span></span>
+<span id="cb201-5"><a href="ai-validity.html#cb201-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-6"><a href="ai-validity.html#cb201-6" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores from automated scoring of constructed responses follow the scoring rubric as trained human raters apply it.</span></span>
+<span id="cb201-7"><a href="ai-validity.html#cb201-7" tabindex="-1"></a><span class="co">#&gt; - **Threats:** The engine rewards surface features (length, vocabulary, spelling) rather than the ideas in the rubric; human scores used to train or check it are unreliable.</span></span>
+<span id="cb201-8"><a href="ai-validity.html#cb201-8" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Human agreement: 2 tested, no flags. Machine agreement: 2 tested, no flags. Overall bias: 2 tested, no flags.</span></span>
+<span id="cb201-9"><a href="ai-validity.html#cb201-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-10"><a href="ai-validity.html#cb201-10" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Generalization (threatened)</span></span>
+<span id="cb201-11"><a href="ai-validity.html#cb201-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-12"><a href="ai-validity.html#cb201-12" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores would be the same on another occasion, form, rater or engine version, so they mean the same across administrations.</span></span>
+<span id="cb201-13"><a href="ai-validity.html#cb201-13" tabindex="-1"></a><span class="co">#&gt; - **Threats:** An engine update, a new prompt or a change in the population shifts machine scores; agreement holds in one year only.</span></span>
+<span id="cb201-14"><a href="ai-validity.html#cb201-14" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Drift: 2 tested, flagged W1, Fall [SMD -0.20 against -0.04, QWK 0.79 against 0.86].</span></span>
+<span id="cb201-15"><a href="ai-validity.html#cb201-15" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used.</span></span>
+<span id="cb201-16"><a href="ai-validity.html#cb201-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-17"><a href="ai-validity.html#cb201-17" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Extrapolation (threatened)</span></span>
+<span id="cb201-18"><a href="ai-validity.html#cb201-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-19"><a href="ai-validity.html#cb201-19" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores reflect academic writing in English, and do so equally for all groups of incoming students.</span></span>
+<span id="cb201-20"><a href="ai-validity.html#cb201-20" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Features unrelated to the construct, such as language proficiency, lower machine scores for some groups; DIF on AI-scored items.</span></span>
+<span id="cb201-21"><a href="ai-validity.html#cb201-21" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Subgroup agreement: 4 tested, no flags. Differential scoring: 2 tested, flagged W2, Phone [gap -0.19 SD, SE 0.04].</span></span>
+<span id="cb201-22"><a href="ai-validity.html#cb201-22" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used. Not checked yet: DIF.</span></span>
+<span id="cb201-23"><a href="ai-validity.html#cb201-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-24"><a href="ai-validity.html#cb201-24" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Decision (needs evidence)</span></span>
+<span id="cb201-25"><a href="ai-validity.html#cb201-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-26"><a href="ai-validity.html#cb201-26" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Using the scores for placement into first-year writing courses is appropriate, with the human oversight, disclosure and appeals the use requires.</span></span>
+<span id="cb201-27"><a href="ai-validity.html#cb201-27" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Machine scores are used without human review where stakes are high; test takers are not told how they were scored; errors cannot be appealed.</span></span>
+<span id="cb201-28"><a href="ai-validity.html#cb201-28" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** None yet.</span></span>
+<span id="cb201-29"><a href="ai-validity.html#cb201-29" tabindex="-1"></a><span class="co">#&gt; - **To do:** Document human review of flagged and low-confidence responses, disclosure to test takers, and an appeals process. No audit can supply this evidence.</span></span></code></pre></div>
+<p>The scoring inference is supported: The engine agrees with people as well
+as they agree with each other. Generalization and extrapolation are
+threatened by the fall engine version and by the phone gap. The decision
+inference <strong>needs evidence</strong> whatever the audit finds, and the draft says
+what: Human review of flagged responses (here, W2 answers typed on a phone,
+and all fall W1 answers until the engine is fixed), disclosure to test
+takers that their writing is scored by a machine, and a way to appeal.</p>
+<p>The argument can go into the HTML report of the calibrated test with
+<code>mv_report()</code>, as one more section:</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ai-validity.html#cb202-1" tabindex="-1"></a><span class="fu">mv_report</span>(fit, <span class="at">file =</span> <span class="st">&quot;writing-report.html&quot;</span>,</span>
+<span id="cb202-2"><a href="ai-validity.html#cb202-2" tabindex="-1"></a>          <span class="at">extra =</span> <span class="fu">list</span>(<span class="st">&quot;Validity argument&quot;</span> <span class="ot">=</span> va))</span></code></pre></div>
+</div>
+<div id="governance" class="section level2 hasAnchor" number="18.5">
+<h2><span class="header-section-number">18.5</span> Governance<a href="ai-validity.html#governance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An audit at launch is not enough. A testing program that uses AI
+components should also decide, and write down, the following. The
+<em>Standards</em> <span class="citation">(<a href="#ref-aera2014">American Educational Research Association et al. 2014</a>)</span> and the ITC/ATP guidelines <span class="citation">(<a href="#ref-itc2022">International Test Commission and Association of Test Publishers 2022</a>)</span> ask for
+most of it in general terms.</p>
+<ul>
+<li><strong>Ownership.</strong> Who is accountable for each component, including one
+bought from a vendor, and who may change it.</li>
+<li><strong>Change control.</strong> Every new engine version, prompt or training set is
+audited on a validity sample before it goes live, as Example 1 shows why.</li>
+<li><strong>Human oversight.</strong> Which responses a person reads: A share chosen at
+random for monitoring, every response the engine is unsure about, and
+any group or item where the audit found a problem until it is fixed.</li>
+<li><strong>Disclosure and appeals.</strong> Test takers and score users are told how
+scores were produced, and a score can be rescored by a person on
+request.</li>
+<li><strong>Monitoring.</strong> The audit is rerun on each administration, with its
+results in the technical report.</li>
+<li><strong>Data.</strong> What test-taker data a component sees, where it is processed,
+and how long it is kept, especially when a language model runs on a
+provider’s servers (Chapter <a href="llms.html#llms">17</a>).</li>
+</ul>
+<p>Guidance on AI in testing is moving quickly. The checks in this chapter
+rest on long-standing psychometric principles, but the regulations and
+professional guidelines that apply should be checked at the time of use.</p>
+</div>
+<div id="your-turn-17" class="section level2 hasAnchor" number="18.6">
+<h2><span class="header-section-number">18.6</span> Your turn<a href="ai-validity.html#your-turn-17" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Rerun the audit of Example 1 with <code>mv_rules(subgroup_smd = 0.25)</code>.
+Which flags disappear, and what would the college then miss?</li>
+<li>Audit only the spring window. Which problems does the audit find, and
+why is the fall engine version invisible?</li>
+<li>Suppose the validity sample had included no phone answers to W2: Set
+their human scores to <code>NA</code> and rerun the audit. Does the differential
+scoring flag go away? What does that say about how the validity sample
+should be drawn?</li>
+<li>Write the decision row of the validity argument for this college in
+your own words: Which responses would people read, what would the
+college tell students, and how would a student appeal?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ai-validity.html#cb203-1" tabindex="-1"></a><span class="co"># 1. a looser rule</span></span>
+<span id="cb203-2"><a href="ai-validity.html#cb203-2" tabindex="-1"></a><span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
+<span id="cb203-3"><a href="ai-validity.html#cb203-3" tabindex="-1"></a>         <span class="at">period =</span> <span class="st">&quot;window&quot;</span>, <span class="at">rules =</span> <span class="fu">mv_rules</span>(<span class="at">subgroup_smd =</span> <span class="fl">0.25</span>))<span class="sc">$</span>checks</span>
+<span id="cb203-4"><a href="ai-validity.html#cb203-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb203-5"><a href="ai-validity.html#cb203-5" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
+<span id="cb203-6"><a href="ai-validity.html#cb203-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
+<span id="cb203-7"><a href="ai-validity.html#cb203-7" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
+<span id="cb203-8"><a href="ai-validity.html#cb203-8" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
+<span id="cb203-9"><a href="ai-validity.html#cb203-9" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
+<span id="cb203-10"><a href="ai-validity.html#cb203-10" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
+<span id="cb203-11"><a href="ai-validity.html#cb203-11" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       0 pass  </span></span>
+<span id="cb203-12"><a href="ai-validity.html#cb203-12" tabindex="-1"></a><span class="co">#&gt; 6 drift                     2       0 pass</span></span>
+<span id="cb203-13"><a href="ai-validity.html#cb203-13" tabindex="-1"></a></span>
+<span id="cb203-14"><a href="ai-validity.html#cb203-14" tabindex="-1"></a><span class="co"># 2. the spring window alone</span></span>
+<span id="cb203-15"><a href="ai-validity.html#cb203-15" tabindex="-1"></a><span class="fu">ai_audit</span>(writing[writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Spring&quot;</span>, ], <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>,</span>
+<span id="cb203-16"><a href="ai-validity.html#cb203-16" tabindex="-1"></a>         <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>checks</span>
+<span id="cb203-17"><a href="ai-validity.html#cb203-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span id="cb203-18"><a href="ai-validity.html#cb203-18" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
+<span id="cb203-19"><a href="ai-validity.html#cb203-19" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
+<span id="cb203-20"><a href="ai-validity.html#cb203-20" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
+<span id="cb203-21"><a href="ai-validity.html#cb203-21" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
+<span id="cb203-22"><a href="ai-validity.html#cb203-22" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
+<span id="cb203-23"><a href="ai-validity.html#cb203-23" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
+<span id="cb203-24"><a href="ai-validity.html#cb203-24" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       1 block</span></span>
+<span id="cb203-25"><a href="ai-validity.html#cb203-25" tabindex="-1"></a></span>
+<span id="cb203-26"><a href="ai-validity.html#cb203-26" tabindex="-1"></a><span class="co"># 3. without the phone answers to W2 in the validity sample</span></span>
+<span id="cb203-27"><a href="ai-validity.html#cb203-27" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> writing</span>
+<span id="cb203-28"><a href="ai-validity.html#cb203-28" tabindex="-1"></a>drop <span class="ot">&lt;-</span> w3<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> w3<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span></span>
+<span id="cb203-29"><a href="ai-validity.html#cb203-29" tabindex="-1"></a>w3<span class="sc">$</span>human1[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb203-30"><a href="ai-validity.html#cb203-30" tabindex="-1"></a>w3<span class="sc">$</span>human2[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb203-31"><a href="ai-validity.html#cb203-31" tabindex="-1"></a><span class="fu">ai_audit</span>(w3, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>differential</span>
+<span id="cb203-32"><a href="ai-validity.html#cb203-32" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb203-33"><a href="ai-validity.html#cb203-33" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap      se</span></span>
+<span id="cb203-34"><a href="ai-validity.html#cb203-34" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb203-35"><a href="ai-validity.html#cb203-35" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220  0.0439</span></span>
+<span id="cb203-36"><a href="ai-validity.html#cb203-36" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop        0 NA       NA</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Both flags disappear: The phone gap (0.19 SD) and the fall drift (0.16
+SD) are below 0.25. The college would place phone users lower than
+their writing warrants on W2, and every fall W1 test taker lower than a
+spring one with the same answer. A rule should be set from the size of
+a difference that matters for placement, before the data are seen.</li>
+<li>The phone gap on W2 is found (in a smaller sample, so with a wider
+interval); drift cannot be checked, because there is only one window.
+An audit can only find problems its data can show: Version changes need
+data from before and after.</li>
+<li>The flag goes away, but not because the engine is fair: W2 has no
+phone answers with human scores left (<code>n</code> is 0), so there is no gap to
+compute, and the audit cannot flag what it cannot test. Its <code>checks</code>
+table shows one prompt tested instead of two. A validity sample must include every group and item the scores
+will be used for, in numbers large enough to detect a gap that matters.</li>
+<li>For example: People read every W2 answer typed on a phone and every fall
+W1 answer until the engine is fixed, plus a random 10% of all answers
+and every answer near a placement cut. The placement letter says that
+writing is scored by an automated engine checked against trained
+raters, and that a student may ask for a human rescore within two weeks
+at no cost; the rescore replaces the machine score.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-15" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="ai-validity.html#in-the-lab-15" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>Lab 10, <code>run_lab("ai-audit")</code>, audits an AI-scored science test over two
+years before its scores are released: Agreement, fairness to English
+language learners, drift after an engine update, DIF on the test as scored,
+and a validity argument for the committee. The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI
+Hub</a> collects
+the other AI tools in mirtverse.</p>
+</div>
+</div>
+<div id="further-reading-17" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="ai-validity.html#further-reading-17" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Kane <span class="citation">(<a href="#ref-kane2013">2013</a>)</span> sets out the argument-based approach, and the
+<em>Standards</em> <span class="citation">(<a href="#ref-aera2014">American Educational Research Association et al. 2014</a>)</span> the evidence a testing program owes. Williamson,
+Xi and Breyer <span class="citation">(<a href="#ref-williamson2012">2012</a>)</span> give the framework for evaluating
+automated scoring that the agreement rules of mirtverse follow, and
+Johnson, Liu and McCaffrey <span class="citation">(<a href="#ref-johnson2022">2022</a>)</span> show how to tell measurement
+bias from algorithmic bias with tools a psychometrician already knows. The
+ITC/ATP guidelines <span class="citation">(<a href="#ref-itc2022">2022</a>)</span> cover technology-based assessment more
+broadly.</p>
+
+</div>
+</div>
+
+
+
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-aera2014" class="csl-entry">
+American Educational Research Association, American Psychological Association, and National Council on Measurement in Education. 2014. <em>Standards for Educational and Psychological Testing</em>. American Educational Research Association.
+</div>
+<div id="ref-itc2022" class="csl-entry">
+International Test Commission, and Association of Test Publishers. 2022. <em>Guidelines for Technology-Based Assessment</em>.
+</div>
+<div id="ref-johnson2022" class="csl-entry">
+Johnson, Matthew S., Xiang Liu, and Daniel F. McCaffrey. 2022. <span>“Psychometric Methods to Evaluate Measurement and Algorithmic Bias in Automated Scoring.”</span> <em>Journal of Educational Measurement</em> 59 (3): 338–61. <a href="https://doi.org/10.1111/jedm.12335">https://doi.org/10.1111/jedm.12335</a>.
+</div>
+<div id="ref-kane2013" class="csl-entry">
+Kane, Michael T. 2013. <span>“Validating the Interpretations and Uses of Test Scores.”</span> <em>Journal of Educational Measurement</em> 50 (1): 1–73. <a href="https://doi.org/10.1111/jedm.12000">https://doi.org/10.1111/jedm.12000</a>.
+</div>
+<div id="ref-williamson2012" class="csl-entry">
+Williamson, David M., Xiaoming Xi, and F. Jay Breyer. 2012. <span>“A Framework for Evaluation and Use of Automated Scoring.”</span> <em>Educational Measurement: Issues and Practice</em> 31 (1): 2–13. <a href="https://doi.org/10.1111/j.1745-3992.2011.00223.x">https://doi.org/10.1111/j.1745-3992.2011.00223.x</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="llms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datasets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/18-ai-validity.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

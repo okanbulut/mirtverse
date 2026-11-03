@@ -2,7 +2,7 @@
 
 Tests every item for DIF between groups (for example by gender or
 language) and reports the results as a tidy table with effect sizes. The
-analysis uses the constrained-baseline approach: a multiple-group model
+analysis uses the constrained-baseline approach: A multiple-group model
 is fitted with all item parameters equal across groups and free latent
 means and variances, then each item's parameters are freed in turn and
 compared with a likelihood-ratio test
@@ -36,9 +36,9 @@ dif(
 
 - group:
 
-  the grouping variable: a vector with one value per respondent, or the
+  the grouping variable: A vector with one value per respondent, or the
   name of a column of `x` (that column is then not treated as an item).
-  The first group is the reference group: the first level of a factor,
+  The first group is the reference group: The first level of a factor,
   otherwise the first value in sorted order. Ignored when `x` is a
   model.
 

@@ -2,7 +2,7 @@
 .book .book-body .page-wrapper .page-inner section.normal a { color: #2C5F8A; }
 .book .book-body .page-wrapper .page-inner section.normal h1,
 .book .book-body .page-wrapper .page-inner section.normal h2 { color: #1F3F5B; }
-.goals, .yourturn, .lab {
+.goals, .yourturn, .lab, .experimental {
   border-left: 4px solid #2C5F8A; background: #F3F7FB;
   padding: 0.6em 1em; margin: 1em 0; border-radius: 3px;
 }
@@ -22,3 +22,5 @@ img[alt="Portrait of Okan Bulut"] {
 /* Figure and table captions */
 .caption { font-size: 0.9em; color: #444; text-align: left; margin-top: 0.4em; }
 .caption .math { font-size: 1em; }
+
+.experimental { border-left-color: #8A4F9E; background: #F7F1F9; }

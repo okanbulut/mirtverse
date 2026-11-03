@@ -186,7 +186,13 @@ suggest an addition, open an issue on
   [doi:10.1017/pan.2023.2](https://doi.org/10.1017/pan.2023.2)  
   The paper that started the “silicon sample” debate. Read it alongside
   a psychometric check of whether simulated responses behave like real
-  ones.
+  ones, such as the one in the box on simulated respondents in the
+  book’s [chapter on large language
+  models](https://www.okanbulut.com/mirtverse/book/llms.md) (with
+  [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
+  and
+  [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md),
+  which are experimental).
 
 ## Validity, fairness and governance
 
@@ -206,7 +212,12 @@ suggest an addition, open an issue on
   scoring. *Journal of Educational Measurement, 59*(3), 338–361.
   [doi:10.1111/jedm.12335](https://doi.org/10.1111/jedm.12335)  
   Separates bias in what the engine measures from bias in how it
-  predicts, using tools a psychometrician already knows.
+  predicts, using tools a psychometrician already knows. In mirtverse:
+  The differential scoring check of
+  [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md),
+  the book’s chapter [Validity, fairness and governance of
+  AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md) and [Lab
+  10](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-10).
 - International Test Commission & Association of Test Publishers.
   (2022). *Guidelines for technology-based assessment.*  
   Practical guidance on scoring, security, accessibility and fairness

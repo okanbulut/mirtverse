@@ -1,4 +1,4 @@
-# mirtverse: a friendly workflow and reporting layer for mirt
+# mirtverse: A friendly workflow and reporting layer for mirt
 
 mirtverse builds on the mirt package. It adds tidy outputs
 ([`tidy()`](https://generics.r-lib.org/reference/tidy.html),

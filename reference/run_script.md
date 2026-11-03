@@ -41,8 +41,8 @@ save_script(x, file = "analysis.R", open = FALSE)
 
 ## Value
 
-`run_script()`: a named list of the objects the script created,
-invisibly. `save_script()`: the file path, invisibly.
+`run_script()`: A named list of the objects the script created,
+invisibly. `save_script()`: The file path, invisibly.
 
 ## Examples
 

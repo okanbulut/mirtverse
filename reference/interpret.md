@@ -44,7 +44,7 @@ interpret(x, ...)
 
 ## Value
 
-An object of class `mv_interpretation`: a named list of character
+An object of class `mv_interpretation`: A named list of character
 vectors, one per section. It prints as formatted text; use
 [`as.character()`](https://rdrr.io/r/base/character.html) or
 `format(x, "markdown")` to reuse it.

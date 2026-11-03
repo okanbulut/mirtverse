@@ -1,4 +1,4 @@
-# Pipeline stage: simulate a computerized adaptive test
+# Pipeline stage: Simulate a computerized adaptive test
 
 Simulates a computerized adaptive test (CAT) from the calibrated items
 with mirtCAT, to see how precise, how long and how secure the test would
@@ -56,7 +56,7 @@ simulate_cat(
 
 - randomesque:
 
-  exposure control: choose each item at random from the `randomesque`
+  exposure control: Choose each item at random from the `randomesque`
   most informative ones (1 means none).
 
 - theta:
@@ -79,17 +79,17 @@ and test length, `exposure`, a tibble of item exposure rates, and
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `cat_precision` (review): the average final standard error is above
+- `cat_precision` (review): The average final standard error is above
   `cat_sem`, or the average bias of the ability estimates is beyond
   `cat_bias` in absolute value.
 
-- `cat_exposure` (review): an item is given to more than `max_exposure`
+- `cat_exposure` (review): An item is given to more than `max_exposure`
   of the simulees. Use `randomesque` to spread exposure.
 
-- `unused_items` (review): more than `unused_share` of the bank is never
+- `unused_items` (review): More than `unused_share` of the bank is never
   used.
 
-- `bank_depth` (info): the bank holds fewer than `bank_depth` times
+- `bank_depth` (info): The bank holds fewer than `bank_depth` times
   `max_items` items.
 
 ## Examples

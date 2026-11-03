@@ -162,6 +162,28 @@ well after Lab 8; Chapter [Generating
 items](https://www.okanbulut.com/mirtverse/book/aig.md) of the book is
 the reading that goes with it.
 
+### Lab 10: Auditing an AI-scored test
+
+You are the psychometrician for the fictional **Northfield Grade 8
+Science Assessment**, whose written answers have been scored by an
+automated engine since 2025, with a human-scored validity sample
+(`aiscored`, `aiscored_cr`). The 2026 scores are due on Friday. Students
+audit the engine with
+[`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+and turn the findings into a validity argument with
+[`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md).
+
+| Lab | Run it with | You will |
+|----|----|----|
+| **10. Auditing an AI-scored test** (about 75 minutes) | `run_lab("ai-audit")` | Check agreement with human raters and human-human agreement, find bias against English language learners at the same human score, find drift after an engine update, separate DIF caused by the engine from DIF in an item, draft a validity argument, and decide which scores can be reported |
+
+Lab 10 is part of the [AI
+Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) and fits at
+the end of an AI unit, after Lab 7; Chapter [Validity, fairness and
+governance of
+AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md) of the book
+is the reading that goes with it.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -332,6 +354,22 @@ about 5 seconds.
 | The recommendation | Recommendation and free-text memo to the director |  |
 | The reveal | `lab_truth("aigfield")` |  |
 
+### Lab 10: Auditing an AI-scored test
+
+`run_lab("ai-audit")`, about 75 minutes. The DIF analysis and the full
+audit take about 20 seconds each.
+
+| Section | Students do | Decision |
+|----|----|----|
+| The brief | Meet the committee’s question, `aiscored` and `aiscored_cr` |  |
+| Does the engine agree with people? | [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md) by item on the validity sample | What CR4’s low agreement means |
+| Is the engine fair to every group? | Agreement by group; differential scoring with [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md) | Bias or a real difference? |
+| Has the engine changed? | Add the year as `period` | What to do with the 2026 CR3 scores |
+| DIF on the test as scored | [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md) with `responses`; the whole audit and its plot | Which DIF is the engine’s |
+| From audit to argument | [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md) | Evidence for the decision inference |
+| The recommendation | Recommendation and free-text memo to the committee |  |
+| The reveal | `lab_truth("aiscored")` |  |
+
 ### Tips for running the labs
 
 - **Before class:** Ask students to install mirtverse and learnr and run
@@ -344,7 +382,7 @@ about 5 seconds.
   polytomous models or performance assessment. Lab 7 follows Lab 6 in a
   unit on automated scoring or AI in measurement, and Lab 8 fits a unit
   on item development, explanatory IRT or AI in measurement. Lab 9
-  follows Lab 8.
+  follows Lab 8, and Lab 10 closes an AI unit.
 - **Speed:** Most exercises run in under about 15 seconds on a laptop;
   the two-factor model uses fewer quadrature points so it stays quick.
   The full DIF analyses in Labs 2 and 3 take up to a minute.
@@ -791,3 +829,45 @@ them):
   would you run on its output before any field test?
 - How large a within-family SD would you accept for a high-stakes
   licensure test, and how would you justify the number?
+
+### Lab 10
+
+The planted problems in `aiscored` (`lab_truth("aiscored")` returns
+them):
+
+| Planted problem | What a good analyst does |
+|----|----|
+| The engine gives ELL students one point less on 45% of their CR2 answers above 0 | Looks past CR2’s overall agreement, finds the ELL gap, and confirms with differential scoring that it is the engine’s (a gap of about 0.3 SD at the same human score) |
+| The 2026 engine update gives one point more on 40% of CR3 answers below 3 | Splits the validity sample by year, finds the drift, and holds the 2026 CR3 scores |
+| CR4’s human raters disagree (human-human QWK about 0.66) | Recognizes that the engine cannot be judged against unreliable human scores, and sends the rubric for revision |
+| MC07 has real DIF against ELL students | Separates it from the engine’s DIF on CR2 and sends it to content review |
+| ELL students are 0.3 SD lower in true ability | Does not mistake impact for bias |
+
+- **Agreement (both years, by item):** QWK 0.87, 0.81, 0.79 and 0.68 for
+  CR1 to CR4; human-human QWK 0.89, 0.84, 0.84 and 0.66. Only CR4 fails.
+- **By group:** CR2 for ELL students has an SMD of -0.30 and a QWK of
+  0.72; differential scoring gives a gap of -0.31 SD (SE 0.05). The
+  other gaps are within sampling error.
+- **Drift:** CR3’s SMD goes from -0.01 in 2025 to +0.29 in 2026, and its
+  QWK from 0.85 to 0.74. CR2’s SMD also moves (-0.13 to -0.01), but
+  within sampling error after the Bonferroni adjustment.
+- **DIF (2026, test as scored):** CR2 (ESD about -0.32) and MC07 (about
+  -0.12), both against ELL students.
+- **Validity argument:** Scoring partly supported, generalization and
+  extrapolation threatened, decision needs evidence.
+- **Recommendation:** Report the multiple-choice scores, CR1 and CR4;
+  hold CR2 (rescore ELL students’ answers) and CR3 (rescore 2026); keep
+  human reading for CR2, revise CR4’s rubric, audit every engine update,
+  review MC07, and publish how automated scoring is used and appealed.
+
+#### Discussion prompts
+
+- The committee asks for one number that says whether the engine is good
+  enough. What would you tell them?
+- The validity sample is 20% of students. How would you choose its size
+  and composition to detect a gap of 0.1 SD for a group that is 5% of
+  test takers?
+- The vendor will not say what changed in the 2026 update. What can you
+  still check, and what should the contract require next time?
+- Which parts of the decision inference would you put in the score
+  report that schools and parents see?

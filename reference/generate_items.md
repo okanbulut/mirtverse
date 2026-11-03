@@ -1,4 +1,4 @@
-# Pipeline stage: item generation
+# Pipeline stage: Item generation
 
 `generate_items()` writes candidate items for the blueprint's cells with
 a large language model through the ellmer package, using the provider
@@ -95,7 +95,7 @@ verify_items(p, ids = NULL, provider = NULL, model = NULL, .rerun = TRUE)
 
 ## Value
 
-The pipeline with the new items in `p$items`: a tibble with one row per
+The pipeline with the new items in `p$items`: A tibble with one row per
 item (`id`, `cell`, `type`, `stem`, `options`, `key`, `rationales`,
 `rubric`, `max_score`, `grade`, `source`, `status` and the verification
 results).
@@ -109,29 +109,29 @@ distractor (`verify_items()` runs this pass on its own).
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `invalid_key` (block): a multiple-choice key that is not one of the
+- `invalid_key` (block): A multiple-choice key that is not one of the
   options.
 
-- `key_check` (block): the verifying pass chose another answer, or found
+- `key_check` (block): The verifying pass chose another answer, or found
   more than one defensible answer.
 
-- `rubric_incomplete` (block): an open-ended item without a descriptor
+- `rubric_incomplete` (block): An open-ended item without a descriptor
   and an anchor response for every score point from 0 to the maximum.
 
-- `distractor` (review): a distractor the verifying pass judged
+- `distractor` (review): A distractor the verifying pass judged
   implausible or partly correct.
 
-- `near_duplicate` (review): two items whose wording overlaps by more
+- `near_duplicate` (review): Two items whose wording overlaps by more
   than `duplicate_sim` (Jaccard similarity of their words).
 
-- `coverage` (review): a blueprint cell with fewer than `coverage_ratio`
+- `coverage` (review): A blueprint cell with fewer than `coverage_ratio`
   times its target count of items (items are lost in review and field
   testing).
 
-- `readability` (info): item text above the blueprint's grade level
+- `readability` (info): Item text above the blueprint's grade level
   (Flesch-Kincaid grade).
 
-Generated items are drafts: they need human content and sensitivity
+Generated items are drafts: They need human content and sensitivity
 review before they are field-tested, and every item records its source.
 
 ## Examples

@@ -47,22 +47,22 @@ a toolkit lab uses).
 
 ## Details
 
-- `course.json`: the course title and instructor.
+- `course.json`: The course title and instructor.
 
-- `README.md`: a short how-to for whoever opens the folder next.
+- `README.md`: A short how-to for whoever opens the folder next.
 
-- `labs/`: interactive labs (learnr tutorials), one folder each, made
+- `labs/`: Interactive labs (learnr tutorials), one folder each, made
   with
   [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
   or
   [`copy_lab()`](https://www.okanbulut.com/mirtverse/reference/copy_lab.md).
 
-- `chapters/`: notes chapters (R Markdown), made with
+- `chapters/`: Notes chapters (R Markdown), made with
   [`new_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
   or
   [`copy_chapter()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md).
 
-- `data/`: your raw data files, for reference.
+- `data/`: Your raw data files, for reference.
 
 `course_materials()` lists the labs and chapters in a course folder. It
 scans `labs/` and `chapters/`, so materials you add by hand are listed

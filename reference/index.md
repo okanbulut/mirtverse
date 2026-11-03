@@ -43,47 +43,47 @@ checks and flags to consider before each next stage.
   [`tidy(`*`<mv_pipeline>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_pipeline.md)
   : Start an assessment pipeline
 - [`set_blueprint()`](https://www.okanbulut.com/mirtverse/reference/set_blueprint.md)
-  : Pipeline stage: test blueprint and construct definition
+  : Pipeline stage: Test blueprint and construct definition
 - [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   [`add_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
-  : Pipeline stage: item generation
+  : Pipeline stage: Item generation
 - [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
   [`read_reviews()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-  : Pipeline stage: item review
+  : Pipeline stage: Item review
 - [`design_field_test()`](https://www.okanbulut.com/mirtverse/reference/design_field_test.md)
-  : Pipeline stage: field-test design
+  : Pipeline stage: Field-test design
 - [`add_responses()`](https://www.okanbulut.com/mirtverse/reference/add_responses.md)
-  : Pipeline stage: data intake and cleaning
+  : Pipeline stage: Data intake and cleaning
 - [`calibrate()`](https://www.okanbulut.com/mirtverse/reference/calibrate.md)
-  : Pipeline stage: calibration
+  : Pipeline stage: Calibration
 - [`link_to_bank()`](https://www.okanbulut.com/mirtverse/reference/link_to_bank.md)
-  : Pipeline stage: link a calibration to an item bank
+  : Pipeline stage: Link a calibration to an item bank
 - [`bank_items()`](https://www.okanbulut.com/mirtverse/reference/bank_items.md)
-  : Pipeline stage: add items to a bank
+  : Pipeline stage: Add items to a bank
 - [`mv_bank()`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   [`tidy(`*`<mv_bank>`*`)`](https://www.okanbulut.com/mirtverse/reference/mv_bank.md)
   : An item bank
 - [`assemble_forms()`](https://www.okanbulut.com/mirtverse/reference/assemble_forms.md)
-  : Pipeline stage: assemble fixed test forms
+  : Pipeline stage: Assemble fixed test forms
 - [`simulate_cat()`](https://www.okanbulut.com/mirtverse/reference/simulate_cat.md)
-  : Pipeline stage: simulate a computerized adaptive test
+  : Pipeline stage: Simulate a computerized adaptive test
 - [`assemble_mst()`](https://www.okanbulut.com/mirtverse/reference/assemble_mst.md)
-  : Pipeline stage: assemble and simulate a multistage test
+  : Pipeline stage: Assemble and simulate a multistage test
 - [`set_cuts()`](https://www.okanbulut.com/mirtverse/reference/set_cuts.md)
-  : Pipeline stage: cut scores and decision quality
+  : Pipeline stage: Cut scores and decision quality
 - [`item_map()`](https://www.okanbulut.com/mirtverse/reference/item_map.md)
   : Item map for Bookmark standard setting
 - [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
-  : Pipeline stage: scoring open-ended responses
+  : Pipeline stage: Scoring open-ended responses
 - [`score_persons()`](https://www.okanbulut.com/mirtverse/reference/score_persons.md)
-  : Pipeline stage: score test takers
+  : Pipeline stage: Score test takers
 - [`check_security()`](https://www.okanbulut.com/mirtverse/reference/check_security.md)
-  : Pipeline stage: test security
+  : Pipeline stage: Test security
 - [`pipeline_report()`](https://www.okanbulut.com/mirtverse/reference/pipeline_report.md)
-  : Pipeline stage: technical report
+  : Pipeline stage: Technical report
 - [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
-  : Pipeline stage: bank monitoring
+  : Pipeline stage: Bank monitoring
 - [`retire_items()`](https://www.okanbulut.com/mirtverse/reference/retire_items.md)
   : Retire bank items or send them back to review
 - [`flags()`](https://www.okanbulut.com/mirtverse/reference/flags.md) :
@@ -101,8 +101,10 @@ checks and flags to consider before each next stage.
 Run the language model features offline from recorded responses,
 describe items by their text and predict their difficulty, generate
 items from item models and calibrate their families, train and check an
-automated scoring engine, and teaching datasets with item text, written
-answers and a field test of generated items.
+automated scoring engine, audit AI components and draft a validity
+argument, simulate respondents with a language model (experimental), and
+teaching datasets with item text, written answers, a field test of
+generated items and an AI-scored test.
 
 - [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
   [`mv_llm_record()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
@@ -130,6 +132,17 @@ answers and a field test of generated items.
 - [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   [`autoplot(`*`<mv_agreement>`*`)`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   : Agreement between machine and human scores
+- [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  [`tidy(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  [`autoplot(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  : Audit an AI component before its results are used
+- [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  [`format(`*`<mv_validity>`*`)`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  : Draft a validity argument for an AI component
+- [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
+  : Simulate respondents with a language model (experimental)
+- [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md)
+  : Compare simulated respondents with real ones (experimental)
 - [`itemtext`](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
   : Numeracy items with their text, for the AI Hub
 - [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :
@@ -138,6 +151,10 @@ answers and a field test of generated items.
   : A field test of generated mathematics items, for the AI Hub
 - [`aigfield_items`](https://www.okanbulut.com/mirtverse/reference/aigfield_items.md)
   : The generated items of the AIG field test
+- [`aiscored`](https://www.okanbulut.com/mirtverse/reference/aiscored.md)
+  : An AI-scored science test over two years, for the AI Hub
+- [`aiscored_cr`](https://www.okanbulut.com/mirtverse/reference/aiscored_cr.md)
+  : Machine and human scores of the AI-scored test
 
 ## Choosing and understanding a model
 
@@ -147,6 +164,8 @@ answers and a field test of generated items.
   : Plain-language interpretation of IRT results
 - [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md)
   : Build a prompt for an AI assistant from a fitted model
+- [`cite_methods()`](https://www.okanbulut.com/mirtverse/reference/cite_methods.md)
+  : Write the Methods paragraph for an IRT analysis
 
 ## Tidy outputs
 
@@ -265,6 +284,8 @@ chapters, swap datasets and check materials before class.
   [`swap_chapter_data()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
   [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)
   : Notes chapters for a course
+- [`copy_workshop()`](https://www.okanbulut.com/mirtverse/reference/copy_workshop.md)
+  : Copy the AI in measurement workshop kit
 - [`check_material()`](https://www.okanbulut.com/mirtverse/reference/check_material.md)
   : Check a lab, a chapter or a whole course
 - [`preview_lab()`](https://www.okanbulut.com/mirtverse/reference/preview_lab.md)
@@ -283,7 +304,7 @@ Connect Claude or an OpenAI assistant to your course materials.
 
 - [`mirtverse`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)
   [`mirtverse-package`](https://www.okanbulut.com/mirtverse/reference/mirtverse-package.md)
-  : mirtverse: a friendly workflow and reporting layer for mirt
+  : mirtverse: A friendly workflow and reporting layer for mirt
 - [`reexports`](https://www.okanbulut.com/mirtverse/reference/reexports.md)
   [`tidy`](https://www.okanbulut.com/mirtverse/reference/reexports.md)
   [`glance`](https://www.okanbulut.com/mirtverse/reference/reexports.md)

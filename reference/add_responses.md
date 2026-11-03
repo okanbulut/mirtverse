@@ -1,4 +1,4 @@
-# Pipeline stage: data intake and cleaning
+# Pipeline stage: Data intake and cleaning
 
 Adds item responses to a pipeline, scores them with an answer key if one
 is given, and screens items and respondents before calibration. The
@@ -38,21 +38,21 @@ add_responses(
 
 - key:
 
-  optional answer key: one correct option per item. Responses are then
+  optional answer key: One correct option per item. Responses are then
   scored 1 (correct) or 0 (incorrect); missing responses stay missing.
 
 - group:
 
-  optional grouping variable for DIF and group summaries: a column name
+  optional grouping variable for DIF and group summaries: A column name
   of `data` or a vector with one value per respondent.
 
 - id:
 
-  optional respondent IDs: a column name of `data` or a vector.
+  optional respondent IDs: A column name of `data` or a vector.
 
 - rt:
 
-  optional response times: a matrix or data frame with one column per
+  optional response times: A matrix or data frame with one column per
   item (same order), or the names of those columns in `data`.
 
 ## Value
@@ -61,26 +61,26 @@ The pipeline with the data and the intake flags added.
 
 ## Details
 
-- `zero_variance` (block): every respondent gave the same answer, so the
+- `zero_variance` (block): Every respondent gave the same answer, so the
   item cannot be calibrated.
 
-- `possible_miskey` (block): a 0/1 item with a very low proportion
+- `possible_miskey` (block): A 0/1 item with a very low proportion
   correct or a negative corrected item-total correlation, or a
   polytomous item with a negative correlation (possibly reverse-coded).
 
-- `item_missing` (review): an item with many missing responses.
+- `item_missing` (review): An item with many missing responses.
 
-- `person_missing` (review): respondents who skipped most items.
+- `person_missing` (review): Respondents who skipped most items.
 
-- `straight_lining` (review): respondents who gave the same answer to
+- `straight_lining` (review): Respondents who gave the same answer to
   every item of a rating-scale (polytomous, unkeyed) test.
 
-- `rapid_guessing` (review): respondents with many responses faster than
+- `rapid_guessing` (review): Respondents with many responses faster than
   `rapid_rt` times the item's median response time (needs `rt`).
 
-- `sparse_category` (review): score categories with few responses.
+- `sparse_category` (review): Score categories with few responses.
 
-- `small_group` (info): groups too small for stable DIF results (fewer
+- `small_group` (info): Groups too small for stable DIF results (fewer
   than 100 respondents).
 
 Respondent-level checks raise one flag each, with the number of

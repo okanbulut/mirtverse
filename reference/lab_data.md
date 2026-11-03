@@ -2,7 +2,7 @@
 
 Used in the setup chunk of labs made with
 [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md):
-reads `data/responses.rds` and `data/lab.json`. You can also call it
+Reads `data/responses.rds` and `data/lab.json`. You can also call it
 yourself to see what a lab will use.
 
 ## Usage
@@ -23,5 +23,7 @@ lab_data(dir = "data")
 A list with `responses` (a data frame of scored item responses), `group`
 (a factor, or `NULL`), `polytomous` (logical), `models` (the two item
 types the lab compares: `c("Rasch", "2PL")` for 0/1 items,
-`c("Rasch", "graded")` otherwise) and `info` (the settings in
-`lab.json`).
+`c("Rasch", "graded")` otherwise), `item_info` and `scores` (the data of
+the AI sections, or `NULL`; see
+[`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md))
+and `info` (the settings in `lab.json`).

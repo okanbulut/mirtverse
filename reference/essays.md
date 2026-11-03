@@ -28,7 +28,7 @@ repository.
 
 ## Details
 
-The dataset is for learning automated scoring: training a scorer on the
+The dataset is for learning automated scoring: Training a scorer on the
 text, checking machine-human agreement, and checking that the scorer is
 fair to ELL students. Some problems were planted on purpose;
 `lab_truth("essays")` lists them and the true scores. Every response has

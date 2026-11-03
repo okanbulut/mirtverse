@@ -1,4 +1,4 @@
-# Pipeline stage: score test takers
+# Pipeline stage: Score test takers
 
 Estimates each test taker's ability from the calibrated model with
 [`mirt::fscores()`](https://philchalmers.github.io/mirt/reference/fscores.html)
@@ -30,10 +30,10 @@ The pipeline with `p$scores`, a tibble with one row per test taker
 
 ## Details
 
-- `score_reliability` (review): the empirical reliability of the scores
+- `score_reliability` (review): The empirical reliability of the scores
   is below `reliability` (the blueprint's target, if one was set).
 
-- `extreme_scores` (info): maximum-likelihood estimates that are
+- `extreme_scores` (info): Maximum-likelihood estimates that are
   infinite (all or none correct) or standard errors above `max_se`.
 
 ## Examples

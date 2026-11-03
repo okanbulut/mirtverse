@@ -2,7 +2,7 @@
 
 Copies one of the package's teaching labs (see
 [`list_labs()`](https://www.okanbulut.com/mirtverse/reference/run_lab.md))
-into the course's `labs/` folder. The copy is yours: change the story,
+into the course's `labs/` folder. The copy is yours: Change the story,
 cut sections, add exercises with
 [`add_lab_exercise()`](https://www.okanbulut.com/mirtverse/reference/add_lab_section.md)
 or questions with
@@ -45,7 +45,7 @@ The path of the copied lab folder, invisibly.
 The built-in labs' feedback is written for their own datasets (each has
 problems planted on purpose), so to teach with your own data, start from
 [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
-instead: its text and answer checks adapt to any dataset.
+instead: Its text and answer checks adapt to any dataset.
 
 ## See also
 

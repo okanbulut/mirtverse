@@ -1,4 +1,4 @@
-# Pipeline stage: link a calibration to an item bank
+# Pipeline stage: Link a calibration to an item bank
 
 Puts a calibrated pipeline on the scale of an existing item bank through
 the anchor items the two have in common, then checks the anchors.
@@ -54,35 +54,35 @@ replaced by the fixed-anchor model.
 
 ## Details
 
-- `"stocking-lord"` (default) and `"haebara"`: characteristic-curve
+- `"stocking-lord"` (default) and `"haebara"`: Characteristic-curve
   methods. They find the slope `A` and intercept `B` of the change of
   scale (theta on the bank scale = `A` x theta + `B`) that make the
   anchors' test characteristic curve (Stocking-Lord) or item curves
   (Haebara) match the bank's, weighted by a standard normal ability
   distribution.
 
-- `"mean-sigma"` and `"mean-mean"`: moment methods based on the anchors'
+- `"mean-sigma"` and `"mean-mean"`: Moment methods based on the anchors'
   locations (and discriminations).
 
-- `"fixed"`: fixed-anchor calibration. The model is refitted with the
+- `"fixed"`: Fixed-anchor calibration. The model is refitted with the
   anchor parameters fixed at their bank values and the ability mean and
   variance free, so every new item lands on the bank scale directly.
 
 For the Rasch model the slope is fixed at 1. The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `too_few_anchors` (review): fewer than `min_anchors` anchor items, or
+- `too_few_anchors` (review): Fewer than `min_anchors` anchor items, or
   fewer than `min_anchor_share` of the test.
 
-- `anchor_drift` (review): an anchor whose location on the bank scale
+- `anchor_drift` (review): An anchor whose location on the bank scale
   differs from its bank value by more than `anchor_displacement`.
   Drifting anchors can be left out with the `anchors` argument.
 
-- `linking_constants` (review): a slope `A` outside `link_slope_min` to
+- `linking_constants` (review): A slope `A` outside `link_slope_min` to
   `link_slope_max`, which suggests a very different ability spread or
   unstable anchors.
 
-- `not_converged` (block): the fixed-anchor calibration did not
+- `not_converged` (block): The fixed-anchor calibration did not
   converge.
 
 The constants and the anchor table are kept in `p$link` and shown in the

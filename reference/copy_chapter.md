@@ -38,7 +38,7 @@ book_chapters()
 
 - from:
 
-  where to copy from: a local copy of the book's source folder (`book/`
+  where to copy from: A local copy of the book's source folder (`book/`
   in the package's GitHub repository), or `NULL` (the default) to
   download the chapter from GitHub.
 
@@ -94,7 +94,7 @@ the easiest way is `swap_chapter_data()`.
 
 ``` r
 book_chapters()
-#> # A tibble: 19 × 3
+#> # A tibble: 20 × 3
 #>    id             file                  title                                   
 #>    <chr>          <chr>                 <chr>                                   
 #>  1 measurement    01-measurement.Rmd    Measurement, scoring and classical item…
@@ -114,8 +114,9 @@ book_chapters()
 #> 15 aig            15-aig.Rmd            Generating items                        
 #> 16 auto-scoring   16-auto-scoring.Rmd   Automated scoring                       
 #> 17 llms           17-llms.Rmd           Large language models as a colleague    
-#> 18 datasets       90-datasets.Rmd       Appendix: the datasets                  
-#> 19 adapting       91-adapting.Rmd       Appendix: adapting the book             
+#> 18 ai-validity    18-ai-validity.Rmd    Validity, fairness and governance of AI 
+#> 19 datasets       90-datasets.Rmd       Appendix: the datasets                  
+#> 20 adapting       91-adapting.Rmd       Appendix: adapting the book             
 course <- file.path(tempdir(), "chapter-demo")
 ch <- new_chapter("my-week", course, title = "Our own data",
                   data_code = "resp <- expand.table(LSAT7)")

@@ -35,7 +35,7 @@ mv_ask(
 
 - data:
 
-  the data: a data frame, or the path of a `.csv`, `.xlsx`, `.sav`,
+  the data: A data frame, or the path of a `.csv`, `.xlsx`, `.sav`,
   `.dta`, `.sas7bdat` or `.rds` file. The script refers to a data frame
   by the name you pass, so pass a named object (e.g. `data = mydata`).
 
@@ -126,7 +126,7 @@ scr
 #> R script (run it with run_script(), save it with save_script())
 #> ----------------------------------------------------------------
 #> # Analysis script written by mirtverse::mv_ask()
-#> # 2026-11-02 21:05
+#> # 2026-11-03 07:58
 #> # Request: fit a graded response model, plot the curves and summarise
 #> # Assumptions:
 #> #  - Used the 4 columns that look like item responses as items.

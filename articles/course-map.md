@@ -426,6 +426,160 @@ IRT results to someone who does not use R.
   [`mv_dashboard()`](https://www.okanbulut.com/mirtverse/reference/mv_dashboard.md).
 - **Final project:** See below.
 
+## An optional module: AI in measurement
+
+Four more weeks take the course into AI. They follow week 12 in a
+16-week term, or replace weeks 10 and 11 in a course that wants AI more
+than linking and adaptive testing. Each week pairs an AI method with the
+psychometric check that goes with it, uses one chapter of the
+[book](https://www.okanbulut.com/mirtverse/book/index.md) as the reading
+and one lab in class. Everything runs offline: The labs use simulated
+data, and language-model examples run from recorded answers
+([`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)).
+The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) is
+the students’ starting page.
+
+| Week | Topic | Lab | Main data |
+|----|----|----|----|
+| 13 | Machine learning through an IRT lens; item text and difficulty | Lab 8, `run_lab("item-text")` | `itemtext` |
+| 14 | Automatic item generation and item families | Lab 9, `run_lab("aig")` | `aigfield` |
+| 15 | Automated scoring and large language models | Lab 7, `run_lab("auto-scoring")` | `essays` |
+| 16 | Validity, fairness and governance of AI | Lab 10, `run_lab("ai-audit")` | `aiscored` |
+
+### Week 13. Machine learning through an IRT lens; item text and difficulty
+
+**By the end of the week, students can** translate machine learning
+terms into measurement terms, explain why a prediction model is judged
+by cross-validation, and predict item difficulty from item text with an
+LLTM and a lasso.
+
+- **Key terms:** [Machine
+  learning](https://www.okanbulut.com/mirtverse/articles/glossary.html#machine-learning),
+  [feature](https://www.okanbulut.com/mirtverse/articles/glossary.html#feature),
+  [overfitting and
+  cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation),
+  [LLTM](https://www.okanbulut.com/mirtverse/articles/glossary.html#lltm).
+- **Read:** Book chapters [Machine learning through an IRT
+  lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) and [What
+  item text tells
+  us](https://www.okanbulut.com/mirtverse/book/item-text.md); the
+  [translation
+  table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md).
+- **Run:**
+  [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md),
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md).
+- **Lab:** Lab 8 (`run_lab("item-text")`, about 75 minutes).
+
+### Week 14. Automatic item generation and item families
+
+**By the end of the week, students can** write an item model with
+constraints, generate isomorphs, and check after a field test whether
+the items of each family are equally difficult.
+
+- **Key terms:** [Automatic item
+  generation](https://www.okanbulut.com/mirtverse/articles/glossary.html#aig),
+  [item
+  model](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-model).
+- **Read:** Book chapter [Generating
+  items](https://www.okanbulut.com/mirtverse/book/aig.md); the
+  [assessment
+  pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html#stage-1-2),
+  section “1–2. Item writing and review”.
+- **Run:**
+  [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md),
+  [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md),
+  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md).
+- **Lab:** Lab 9 (`run_lab("aig")`, about 75 minutes).
+
+### Week 15. Automated scoring and large language models
+
+**By the end of the week, students can** train a scoring engine, judge
+it against human raters with QWK, SMD and PRMSE overall and within
+groups, and describe safe uses of a language model in an analysis.
+
+- **Key terms:** [Automated
+  scoring](https://www.okanbulut.com/mirtverse/articles/glossary.html#automated-scoring),
+  [QWK](https://www.okanbulut.com/mirtverse/articles/glossary.html#qwk),
+  [PRMSE](https://www.okanbulut.com/mirtverse/articles/glossary.html#prmse),
+  [large language
+  model](https://www.okanbulut.com/mirtverse/articles/glossary.html#llm),
+  [hallucination](https://www.okanbulut.com/mirtverse/articles/glossary.html#hallucination).
+- **Read:** Book chapters [Automated
+  scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md) and
+  [Large language models as a
+  colleague](https://www.okanbulut.com/mirtverse/book/llms.md).
+- **Run:**
+  [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md),
+  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md),
+  [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md),
+  [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md)
+  with
+  [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+- **Lab:** Lab 7 (`run_lab("auto-scoring")`, about 75 minutes).
+
+### Week 16. Validity, fairness and governance of AI
+
+**By the end of the week, students can** audit an AI component for
+agreement, differential scoring and drift, separate DIF caused by an
+engine from DIF in an item, and write the validity argument for using
+its scores.
+
+- **Key terms:** [Differential
+  scoring](https://www.okanbulut.com/mirtverse/articles/glossary.html#differential-scoring),
+  [validity
+  argument](https://www.okanbulut.com/mirtverse/articles/glossary.html#validity-argument).
+- **Read:** Book chapter [Validity, fairness and governance of
+  AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md); the
+  [reading
+  list](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity),
+  section “Validity, fairness and governance”.
+- **Run:**
+  [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md),
+  [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md),
+  [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md).
+- **Lab:** Lab 10 (`run_lab("ai-audit")`, about 75 minutes).
+- **Assessment:** The lab’s memo to the technical advisory committee
+  makes a good final task for the module.
+
+### On your own data
+
+The [instructor
+toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md)
+has three section types that teach these topics on your own data:
+`"item-features"` (needs the text of your items), `"aig"` (needs the
+family of each item) and `"ai-scoring"` (needs machine and human
+scores). Give the extra data to
+[`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md):
+
+``` r
+
+new_lab("our-engine", data = "data/responses.csv",
+        scores = "data/engine_scores.csv",       # machine, human1, human2, group
+        sections = c("intro", "models", "ai-scoring", "reflection", "wrap-up"))
+```
+
+### A one-day workshop
+
+For practitioners who already know IRT, the module fits in one day. Ask
+participants to install the packages before they come and to read the
+[AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) page.
+The [workshop
+kit](https://www.okanbulut.com/mirtverse/articles/ai-workshop.md)
+([`copy_workshop()`](https://www.okanbulut.com/mirtverse/reference/copy_workshop.md))
+has the slides and a facilitator’s guide for this schedule.
+
+| Time | Session | Material |
+|----|----|----|
+| 9:00 to 9:45 | AI in measurement: What changes and what does not | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md); book chapter [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) |
+| 9:45 to 11:00 | Automated scoring | Lab 7, `run_lab("auto-scoring")` |
+| 11:15 to 12:30 | Item text and difficulty | Lab 8, `run_lab("item-text")` |
+| 13:30 to 14:45 | Automatic item generation | Lab 9, `run_lab("aig")` |
+| 15:00 to 16:15 | Auditing an AI-scored test | Lab 10, `run_lab("ai-audit")` |
+| 16:15 to 17:00 | Governance, and what to do on Monday | Book chapter [Validity, fairness and governance of AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md), section on governance |
+
+With less time, keep Labs 7 and 10: Together they cover an engine from
+its training to its audit.
+
 ## Assessment ideas
 
 | Weight | Task | When |
@@ -458,6 +612,8 @@ each next step, which works well as a checklist for the write-up.
   and the remaining stages of the [assessment
   pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md),
   such as test security and bank monitoring.
+- **AI in measurement:** Add the [four-week AI module](#ai-module), or
+  run it as a one-day workshop.
 
 ## Planned resources
 
@@ -474,3 +630,4 @@ when they are released.
 | CAT design lab | Week 11 | Available: `run_lab("cat-design")` |
 | Open-ended scoring lab | Week 8 | Available: `run_lab("open-ended")` |
 | Instructor toolkit: Labs on your own data, editable copies of the labs | All weeks | Available: [Guide](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |
+| AI in measurement module: Four chapters and four labs, with toolkit sections for your own data | Weeks 13 to 16 | Available: [AI module](#ai-module) |

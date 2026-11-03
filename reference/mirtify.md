@@ -24,7 +24,7 @@ mirtify(code, run = FALSE, notes = TRUE, file = NULL, envir = parent.frame())
 
 - code:
 
-  the code to translate. One of: a character string or vector of code
+  the code to translate. One of: A character string or vector of code
   lines, the path to an `.R` file, or the unquoted code itself (a single
   call, or several statements wrapped in
   [`{ }`](https://rdrr.io/r/base/Paren.html)).

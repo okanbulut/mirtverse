@@ -1,4 +1,4 @@
-# Pipeline stage: item review
+# Pipeline stage: Item review
 
 Items, whether written by people or generated, need human content and
 sensitivity (bias) review before they are field-tested.
@@ -51,7 +51,7 @@ read_reviews(p, reviews)
 
 - reviews:
 
-  the completed packet: a path to the CSV file or a data frame with
+  the completed packet: A path to the CSV file or a data frame with
   columns `id`, `reviewer`, `decision` (`accept`, `revise` or `reject`),
   `aligned` (`yes`/`no`), `sensitivity` (`yes`/`no`) and optionally
   `comment`. Rows with an empty decision are ignored.
@@ -76,21 +76,21 @@ weigh. The screen assists reviewers and does not replace them.
 The checks (thresholds from
 [`mv_rules()`](https://www.okanbulut.com/mirtverse/reference/mv_rules.md)):
 
-- `under_reviewed` (block): an item reviewed by fewer than
+- `under_reviewed` (block): An item reviewed by fewer than
   `min_reviewers` reviewers.
 
-- `alignment` (review): a reviewer does not agree the item measures its
+- `alignment` (review): A reviewer does not agree the item measures its
   blueprint cell.
 
-- `sensitivity` (review): a reviewer (or the AI screen) raised a bias or
+- `sensitivity` (review): A reviewer (or the AI screen) raised a bias or
   sensitivity concern.
 
-- `needs_revision` (review): reviewers asked for the item to be revised.
+- `needs_revision` (review): Reviewers asked for the item to be revised.
 
 - `reviewer_agreement` (info): Fleiss' kappa for the reviewers'
   decisions is below `review_kappa`.
 
-- `provenance` (info): an item without a recorded source (person or
+- `provenance` (info): An item without a recorded source (person or
   model), which testing programs now need to disclose.
 
 ## Examples

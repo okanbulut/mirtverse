@@ -1,6 +1,6 @@
 # Launch the mirtverse workbench
 
-Opens a point-and-click application for a complete IRT analysis: load
+Opens a point-and-click application for a complete IRT analysis: Load
 and score data, explore items, let mirtverse pick a model or choose one
 yourself, read the plain-language interpretation, inspect item health
 cards and graphics, score examinees, analyse response times, and

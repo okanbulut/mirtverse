@@ -1,5 +1,40 @@
 # Articles
 
+### Start here
+
+A short path for each kind of user.
+
+- [Start here:
+  Students](https://www.okanbulut.com/mirtverse/articles/for-students.md):
+
+  A path for graduate students: Fit, check and explain an IRT model for
+  a course or thesis, with figures a committee will accept.
+
+- [Start here:
+  Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.md):
+
+  A complete IRT course in a box: A free book, ten interactive labs, a
+  course map, and tools to adapt everything to your own data.
+
+- [Start here: Testing
+  programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.md):
+
+  For psychometricians at testing organizations and credentialing
+  bodies: Run a program from blueprint to bank monitoring, with every
+  decision flagged, reviewed and documented.
+
+- [Start here:
+  Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.md):
+
+  All of mirt, with tidy outputs, ggplot2 figures and one-call reports,
+  so analyses are reproducible and figures are publication-ready.
+
+- [Start here: New to
+  R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.md):
+
+  Get IRT results without learning R first: Point and click in the
+  workbench, describe the analysis in words, or share a dashboard.
+
 ### Guides
 
 - [Getting started with
@@ -36,7 +71,32 @@
   Take a certification exam through every stage of the mirtverse
   assessment pipeline, with the checks and decisions at each step.
 
+- [Case study: A certification exam, from field test to
+  pass/fail](https://www.okanbulut.com/mirtverse/articles/case-study.md):
+
+  A fictional certification board takes a 32-item exam through the
+  mirtverse assessment pipeline. Eight decisions, each recorded, and a
+  technical report to download.
+
+- [Thesis kit: From item responses to a Methods
+  section](https://www.okanbulut.com/mirtverse/articles/thesis-kit.md):
+
+  A step-by-step path for a thesis or dissertation that uses IRT: Check
+  the data, choose and check a model, make the figures, and draft the
+  Methods paragraph with cite_methods().
+
+- [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.md):
+
+  Every figure and output mirtverse makes, with the code for each one.
+
 ### Teaching and learning
+
+- [Adopt mirtverse for your
+  course](https://www.okanbulut.com/mirtverse/articles/adopt.md):
+
+  Everything an instructor needs to teach item response theory with
+  mirtverse: A sample syllabus to edit, a free book, ten labs, and a way
+  to hear about updates.
 
 - [Teaching labs for measurement
   courses](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md):
@@ -98,3 +158,10 @@ articles are also in the AI Hub menu.
   An annotated list of books, papers and guidelines on artificial
   intelligence in psychometrics and educational measurement, grouped by
   topic, for psychometricians who are new to the area.
+
+- [AI in measurement: A one-day
+  workshop](https://www.okanbulut.com/mirtverse/articles/ai-workshop.md):
+
+  A ready-made kit for a one-day workshop on AI in measurement: Slides,
+  a facilitator’s guide and four offline labs, for psychometricians and
+  testing-program staff.

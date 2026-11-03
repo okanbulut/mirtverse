@@ -5,13 +5,14 @@ model
 ([`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md),
 [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
 [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
-[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md)
-and
+[`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md),
 [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-with `ai_screen = TRUE`) answer from a file of recorded responses
-instead of a live model. Nothing is sent anywhere, no API key is needed,
-and the same request always gets the same answer, so examples, labs and
-lessons run offline and give the same results for every student.
+with `ai_screen = TRUE`, and
+[`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md))
+answer from a file of recorded responses instead of a live model.
+Nothing is sent anywhere, no API key is needed, and the same request
+always gets the same answer, so examples, labs and lessons run offline
+and give the same results for every student.
 
 ## Usage
 
@@ -44,12 +45,12 @@ returns a data frame with one row per recorded request.
 
 ## Details
 
-`mv_llm_record()` does the opposite: while it is on, every request sent
+`mv_llm_record()` does the opposite: While it is on, every request sent
 to a live model and the model's answer are saved to a file, which
 `mv_llm_replay()` can play back later. Use it to capture a session once
 and teach from it many times.
 
-A recording answers only the exact requests it was made from: the same
+A recording answers only the exact requests it was made from: The same
 instructions to the model and the same prompt, which follow from the
 same function call on the same data. A request that is not in the file
 stops with an error that says so; run it with a live model, or record
@@ -72,7 +73,7 @@ to use a live model.
 ``` r
 # answer from the example recordings that come with mirtverse
 old <- mv_llm_replay()
-#> Language model calls now answer from examples.json (11 recorded requests).
+#> Language model calls now answer from examples.json (23 recorded requests).
 head(mv_llm_recordings()[, c("function_name", "prompt_start")])
 #> # A tibble: 6 × 2
 #>   function_name  prompt_start                                                  

@@ -3,6 +3,122 @@
 ## mirtverse (development version)
 
 - New
+  [`cite_methods()`](https://www.okanbulut.com/mirtverse/reference/cite_methods.md)
+  drafts the Methods paragraph of an IRT analysis in APA style: Software
+  versions, the model and estimation method, the model comparison from
+  [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md),
+  overall and item fit, reliability and removed items, with an
+  alphabetical reference list. It prints, returns text, or writes
+  Markdown or a Word file. A new “Thesis kit” article walks from item
+  responses to that paragraph.
+
+- Workbench: The “Test summary” table on the Explore tab no longer
+  errors with current mirt, which renamed the total-score columns of
+  [`itemstats()`](https://philchalmers.github.io/mirt/reference/itemstats.html).
+
+- New article “Adopt mirtverse for your course” with a sample 12-week
+  syllabus to edit (Word and PDF), a setup checklist and a GitHub form
+  for instructors to tell us about their course. New article “Case
+  study: A certification exam, from field test to pass/fail” follows a
+  fictional board through eight recorded decisions and links a
+  downloadable technical report (PDF and HTML). The home page now
+  highlights the AI in measurement hub with an animated graphic.
+
+- The website has a new front door. The home page opens with a one-line
+  summary, a four-step workflow diagram, a grid of real outputs
+  (dashboard, item health card, Wright map, DIF plot) and a “Find your
+  way in” table, and a new “Start here” menu has a short path for
+  students, instructors, testing programs, researchers and people new
+  to R. A new Gallery article shows every figure and output with its
+  code. Links to the site now show a share image on LinkedIn, Bluesky
+  and X, and the README has a “How to cite” box near the top.
+
+- New, experimental
+  [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
+  asks a language model to answer multiple-choice items as described
+  respondents (“personas”) would, and new
+  [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md)
+  checks the answers against real data: Difficulty, its order across
+  items, the variety of response patterns and item-total correlations.
+  The example recordings for
+  [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md)
+  include a run on `itemtext` that shows the usual problems (items too
+  easy, alike personas answering alike, stereotyped groups), and chapter
+  17 of the book has a box on it.
+
+- New
+  [`copy_workshop()`](https://www.okanbulut.com/mirtverse/reference/copy_workshop.md)
+  copies a kit for a one-day workshop on AI in measurement: Slides, a
+  facilitator’s guide and a README, built around Labs 7 to 10. A new
+  article, “AI in measurement: A one-day workshop”, describes it.
+
+- The instructor toolkit can teach AI in measurement on an instructor’s
+  own data.
+  [`new_lab()`](https://www.okanbulut.com/mirtverse/reference/new_lab.md)
+  and
+  [`swap_lab_data()`](https://www.okanbulut.com/mirtverse/reference/swap_lab_data.md)
+  take `item_info` (one row per item, with its text or its item family)
+  and `scores` (machine and human scores of written answers), and
+  [`lab_section_types()`](https://www.okanbulut.com/mirtverse/reference/lab_section_types.md)
+  has three new sections: `"item-features"`
+  ([`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md)
+  and
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)),
+  `"aig"`
+  ([`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md))
+  and `"ai-scoring"`
+  ([`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
+  and
+  [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)).
+  As in the other sections, every answer is computed from the data.
+  [`lab_data()`](https://www.okanbulut.com/mirtverse/reference/lab_data.md)
+  returns the new tables.
+
+- The instructor MCP server has a new guide, `guide("ai-content")`, on
+  teaching AI in measurement, a new prompt, “Teach AI in measurement”,
+  and the new `item_info` and `scores` arguments in its `new_lab` and
+  `swap_lab_data` tools.
+
+- The course map has an optional four-week module on AI in measurement
+  (weeks 13 to 16, Labs 7 to 10 and book chapters 13 to 18) and a
+  one-day workshop schedule.
+
+- New
+  [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
+  audits an AI component in one call and returns flags in the pipeline’s
+  block / review / info style: Human and machine agreement, overall
+  bias, agreement within groups, differential scoring (machine minus
+  human at the same human score, against a reference group, beyond
+  sampling error), drift across administrations or engine versions, DIF
+  on the test as scored (on AI-scored items for review, on others for
+  information), and results of
+  [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md)
+  (leakage),
+  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  (isomorphism) and
+  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md).
+  It has [`print()`](https://rdrr.io/r/base/print.html),
+  [`tidy()`](https://generics.r-lib.org/reference/tidy.html) and
+  [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+  methods.
+
+- New
+  [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
+  drafts a Kane-style validity argument from an audit: Claims,
+  AI-specific threats, evidence and a status for the scoring,
+  generalization, extrapolation and decision inferences, with what is
+  still owed. [`format()`](https://rdrr.io/r/base/format.html) gives
+  HTML or Markdown, and
+  [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md)
+  takes it directly as an extra section.
+
+- New Lab 10, `run_lab("ai-audit")`: Students audit an engine-scored
+  science test over two years (the new `aiscored` and `aiscored_cr`
+  data) before its scores are released. The book has a new chapter,
+  “Validity, fairness and governance of AI” (`ai-validity` in
+  [`book_chapters()`](https://www.okanbulut.com/mirtverse/reference/copy_chapter.md)).
+
+- New
   [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md)
   writes an item model for automatic item generation: A stem, key and
   distractors as templates with R expressions in braces, the values of
@@ -127,10 +243,10 @@
 - New AI Hub for psychometricians who want to learn how artificial
   intelligence fits into measurement, with its own menu in the site
   navbar. It has a landing page with a learning path and examples of the
-  AI features already in mirtverse (“AI Hub: artificial intelligence for
+  AI features already in mirtverse (“AI Hub: Artificial intelligence for
   psychometricians”), a table that translates more than 40 machine
   learning terms into their closest psychometric ideas (“Machine
-  learning for psychometricians: a translation table”), and an annotated
+  learning for psychometricians: A translation table”), and an annotated
   reading list. The glossary has a new “AI in measurement” section with
   13 terms.
 
@@ -213,7 +329,7 @@
 
 - New teaching lab, “Linking two forms”: `run_lab("linking")`. A
   licensure exam’s pass rate jumps on a new form, and students find out
-  why: they calibrate both forms, link them through common items with
+  why: They calibrate both forms, link them through common items with
   the mean-sigma method, catch an anchor item that drifted, compare
   separate and concurrent calibration, and carry the pass mark over to
   the new form with IRT true-score equating. The new `linking` data (two
@@ -329,7 +445,7 @@
   records cut scores on the ability or summed-score scale (or from a
   standard-setting panel’s ratings) and estimates classification
   accuracy and consistency, overall and by cut, with kappa and false
-  positive and negative rates: by Lee’s (2010) method for summed-score
+  positive and negative rates: By Lee’s (2010) method for summed-score
   cuts and Rudner’s (2001) method for ability cuts, for the calibrated
   test or a fixed form. It flags low accuracy or consistency, imprecise
   cuts and panel disagreement, and the pipeline report gains a cut score
@@ -345,7 +461,7 @@
   model through ellmer, or with any trained model that has a
   [`predict()`](https://rdrr.io/r/stats/predict.html) method, and checks
   the machine scores against human scores (Williamson, Xi and Breyer,
-  2012): too few double-scored responses, low human-human or
+  2012): Too few double-scored responses, low human-human or
   machine-human quadratic weighted kappa, shifted score distributions
   and subgroup differences. Short, off-topic and low-confidence
   responses are routed to human scoring, and the final scores can join
@@ -373,7 +489,7 @@
 - Bank monitoring for the assessment pipeline (stage 12).
   [`monitor_bank()`](https://www.okanbulut.com/mirtverse/reference/monitor_bank.md)
   records each administration in the item bank (item exposure and
-  marginal reliability by window) and checks the bank over time: items
+  marginal reliability by window) and checks the bank over time: Items
   over-exposed in consecutive windows, content cells with too few active
   items, reliability falling from its first value, and items unused for
   a year.
@@ -383,7 +499,7 @@
   gains `exposure_windows`, `cell_depth`, `reliability_drop` and
   `unused_days`.
 
-- The workbench gains a Pipeline tab: run the data through the
+- The workbench gains a Pipeline tab: Run the data through the
   assessment pipeline’s intake and calibration gates (or load a saved
   pipeline), follow the stage tracker, record decisions on flags, drop
   items and recalibrate, and download the pipeline and its report. The
@@ -401,7 +517,7 @@
   with a note on every difference between the packages (for example CML
   versus MML in eRm, the scaling constant `D` in irtQ, and the number of
   quadrature points). It covers the model functions and their
-  follow-ups: person scores, item and person fit, information, plots and
+  follow-ups: Person scores, item and person fit, information, plots and
   Andersen’s likelihood-ratio test. `run = TRUE` also runs the
   translated code.
   [`mirtify_crosswalk()`](https://www.okanbulut.com/mirtverse/reference/mirtify_crosswalk.md)
@@ -417,12 +533,12 @@
 
 - New interactive teaching labs for measurement courses, built with
   learnr. `run_lab("model-choice")` opens Lab 1, “Choosing a model the
-  board can defend”: students score a certification exam, find a
+  board can defend”: Students score a certification exam, find a
   miskeyed item, check dimensionality, compare the Rasch, 2PL and 3PL
   models, check item fit and local dependence, and justify a model, with
   feedback on every decision and a summary of their choices at the end.
   `run_lab("decisions")` opens Lab 2, “From parameters to decisions”:
-  reading item parameters, precision at the pass mark, choosing a
+  Reading item parameters, precision at the pass mark, choosing a
   scoring method, classification accuracy, DIF between English and
   French candidates, a memo to the board, and a reveal of the truth
   behind the data.
@@ -434,14 +550,14 @@
   measurement courses” introduces the labs for students, followed by an
   instructor guide and an answer key.
 
-- New article, “A course map for instructors”: a suggested 12-week IRT
+- New article, “A course map for instructors”: A suggested 12-week IRT
   syllabus that links each week to articles, labs, functions and
   datasets.
 
 - New teaching lab, “Is the test fair? Detecting DIF”:
   `run_lab("fairness")`. Students investigate a complaint that a
   provincial numeracy test is biased against English language learners:
-  they separate impact from DIF, run Mantel-Haenszel and IRT
+  They separate impact from DIF, run Mantel-Haenszel and IRT
   likelihood-ratio DIF tests, purify the anchor, judge how much the DIF
   matters for students’ scores with differential test functioning, and
   plan a content review. The new `numeracy` data (with `numeracy_items`)
@@ -456,7 +572,7 @@
   for linking from course materials.
 
 - A printable two-page cheat sheet (PDF), linked from the navbar and the
-  README: page 1 covers analysis and sharing by task, page 2 the
+  README: Page 1 covers analysis and sharing by task, page 2 the
   assessment pipeline stages, gates and flags.
 
 ### Sharing results
@@ -479,7 +595,7 @@
   information and person lookup stay interactive.
 
 - The article “Sharing results with a dashboard” is now a full guide:
-  when to use a dashboard rather than the workbench or the report, every
+  When to use a dashboard rather than the workbench or the report, every
   panel, sharing as one HTML file or as a Shiny app, privacy, and a live
   example dashboard to open.
 
@@ -498,7 +614,7 @@
   can be refined (`mv_ask(scr, "use a 3PL instead")`) and are built from
   an analysis plan
   ([`mv_plan()`](https://www.okanbulut.com/mirtverse/reference/mv_plan.md)):
-  data preparation, model fitting or selection, fit checks, DIF, scores,
+  Data preparation, model fitting or selection, fit checks, DIF, scores,
   graphics, item cards, reports and response times.
   [`run_script()`](https://www.okanbulut.com/mirtverse/reference/run_script.md)
   runs it, optionally after a dry run on simulated data with the same
@@ -519,7 +635,7 @@
   longer stops when a provider cannot be reached; those requests are
   scored as wrong and the reason is printed.
 
-- New article, “mv_ask(): from a sentence to a tested R script”, shows
+- New article, “mv_ask(): From a sentence to a tested R script”, shows
   the workflow and benchmarks Claude, GPT and local Qwen models against
   the keyword parser.
 
@@ -573,13 +689,13 @@
 First release.
 
 - [`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md):
-  a seven-step Shiny app that writes reproducible R code.
+  A seven-step Shiny app that writes reproducible R code.
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md):
-  compares candidate IRT models and explains the recommendation.
+  Compares candidate IRT models and explains the recommendation.
 - [`interpret()`](https://www.okanbulut.com/mirtverse/reference/interpret.md)
   and
   [`interpret_prompt()`](https://www.okanbulut.com/mirtverse/reference/interpret_prompt.md):
-  plain-language summaries of mirt results.
+  Plain-language summaries of mirt results.
 - [`tidy()`](https://generics.r-lib.org/reference/tidy.html),
   [`glance()`](https://generics.r-lib.org/reference/glance.html),
   [`augment()`](https://generics.r-lib.org/reference/augment.html) and
@@ -598,11 +714,11 @@ First release.
 - [`item_card()`](https://www.okanbulut.com/mirtverse/reference/item_card.md)
   and
   [`item_cards()`](https://www.okanbulut.com/mirtverse/reference/item_cards.md):
-  item health cards with a traffic-light status.
+  Item health cards with a traffic-light status.
 - [`mv_report()`](https://www.okanbulut.com/mirtverse/reference/mv_report.md):
-  a self-contained HTML report.
+  A self-contained HTML report.
 - [`fit_rt()`](https://www.okanbulut.com/mirtverse/reference/fit_rt.md)
   and
   [`sim_rt()`](https://www.okanbulut.com/mirtverse/reference/sim_rt.md):
-  joint modelling of responses and response times with rapid-guessing
+  Joint modelling of responses and response times with rapid-guessing
   flags, response time effort and l_t person fit.

@@ -1,0 +1,83 @@
+# Start here: Students
+
+You need to fit an IRT model for a course or a thesis, check that it
+holds up, and explain it in figures and plain words. mirtverse does the
+bookkeeping so you can spend your time on the interpretation.
+
+## Your path in three steps
+
+**1. Learn the ideas with the book and the labs.** The free online book
+[*Item Response Theory with mirt and
+mirtverse*](https://www.okanbulut.com/mirtverse/book/index.md) has one
+chapter per week of a typical course, from [classical item
+analysis](https://www.okanbulut.com/mirtverse/book/measurement.md) to
+[reporting
+results](https://www.okanbulut.com/mirtverse/book/reporting.md). The
+[interactive
+labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md) let
+you practise on realistic data:
+
+``` r
+
+library(mirtverse)
+run_lab("model-choice")   # Lab 1: Choose a model a certification board can defend
+```
+
+**2. Run your own analysis.** Choose a model, read what it means, and
+check the items:
+
+``` r
+
+sel <- select_model(mydata)   # compares Rasch, 2PL and 3PL and explains the choice
+mod <- sel$best
+interpret(mod)                # what the results mean, in plain language
+item_table(mod)               # item statistics, fit and flags in one table
+```
+
+Prefer clicking?
+[`launch_workbench()`](https://www.okanbulut.com/mirtverse/reference/launch_workbench.md)
+does the same steps with buttons and writes the R code for you, which
+you can paste into your thesis appendix.
+
+**3. Make figures and a report.** Every plot is a ggplot2 object, so you
+can restyle it for your university’s template:
+
+``` r
+
+gg_wright(mod)                               # person-item map
+gg_info(mod)                                 # test information
+mv_report(sel, file = "thesis-analysis.html")   # everything in one file
+```
+
+The [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.md)
+shows what each figure looks like.
+
+## Keep going
+
+- [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md):
+  Nearly 90 IRT terms in plain language.
+- [Cheat
+  sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf):
+  The main functions on two printable pages.
+- [Coming from ltm, eRm or
+  TAM?](https://www.okanbulut.com/mirtverse/articles/mirtify.md)
+  [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)
+  rewrites your old code as mirt code.
+
+## Writing it up
+
+The [thesis
+kit](https://www.okanbulut.com/mirtverse/articles/thesis-kit.md) walks
+from data to a finished Methods paragraph. `cite_methods(mod)` drafts
+that paragraph in APA style, with the software versions, model,
+estimation, fit, reliability and references, so you only have to check
+and edit it:
+
+``` r
+
+cite_methods(sel, sample = "undergraduate students", file = "methods.docx")
+```
+
+Cite mirt (Chalmers, 2012) and mirtverse in your methods section;
+[`cite_methods()`](https://www.okanbulut.com/mirtverse/reference/cite_methods.md)
+adds both references for you.

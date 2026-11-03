@@ -31,7 +31,7 @@ update_plan(plan, ...)
 
 - items:
 
-  item columns: a character vector of names, a range such as `"Q1:Q20"`,
+  item columns: A character vector of names, a range such as `"Q1:Q20"`,
   or `NULL` for all columns that look like items.
 
 - model:

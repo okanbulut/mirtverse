@@ -37,7 +37,7 @@ A patchwork object.
 
 ## Details
 
-Status rules: **red** for misfit, low discrimination (a \< 0.5) or an
+Status rules: **Red** for misfit, low discrimination (a \< 0.5) or an
 item-total correlation below .10; **amber** for any other flag (see
 [`item_table()`](https://www.okanbulut.com/mirtverse/reference/item_table.md));
 **green** otherwise.
