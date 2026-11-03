@@ -4,15 +4,39 @@ template:
   bootstrap: 5
   bslib:
     primary: "#2C5F8A"
+  opengraph:
+    image:
+      src: man/figures/card.png
+      alt: "mirtverse: From item responses to defensible decisions, with or without writing R code"
 
 redirects:
   - ["articles/labs.html", "articles/teaching-labs.html"]
 
 navbar:
   structure:
-    left: [intro, reference, articles, aihub, book, cheatsheet, news]
+    left: [start, intro, reference, articles, aihub, book, cheatsheet, news]
     right: [search, github]
   components:
+    start:
+      text: Start here
+      menu:
+      - text: Students
+        href: articles/for-students.html
+      - text: Instructors
+        href: articles/for-instructors.html
+      - text: Testing programs
+        href: articles/for-practitioners.html
+      - text: Researchers
+        href: articles/for-researchers.html
+      - text: New to R
+        href: articles/for-new-to-r.html
+      - text: Curious about AI
+        href: articles/ai-hub.html
+      - text: -------
+      - text: Try the live dashboard
+        href: dashboard/sat12-demo.html
+      - text: Gallery of figures and outputs
+        href: articles/gallery.html
     aihub:
       text: AI Hub
       menu:
@@ -48,6 +72,15 @@ navbar:
       href: cheatsheet/mirtverse-cheatsheet.pdf
 
 articles:
+- title: Start here
+  desc: A short path for each kind of user.
+  navbar: ~
+  contents:
+  - articles/for-students
+  - articles/for-instructors
+  - articles/for-practitioners
+  - articles/for-researchers
+  - articles/for-new-to-r
 - title: Guides
   navbar: ~
   contents:
@@ -58,6 +91,7 @@ articles:
   - articles/dashboards
   - articles/mirtify
   - articles/assessment-pipeline
+  - articles/gallery
 - title: Teaching and learning
   navbar: Teaching and learning
   contents:

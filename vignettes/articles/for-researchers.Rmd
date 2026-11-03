@@ -1,0 +1,61 @@
+---
+title: "Start here: Researchers"
+description: >
+  All of mirt, with tidy outputs, ggplot2 figures and one-call reports, so
+  analyses are reproducible and figures are publication-ready.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+mirtverse sits on top of mirt and leaves estimation alone. What it adds is
+the work around a model: Tidy data frames for your pipeline, ggplot2 figures
+you can restyle, and reports you can attach to a paper.
+
+## Your path in three steps
+
+**1. Keep using mirt, get tidy outputs.** Any `mirt()` model works:
+
+```r
+library(mirtverse)
+mod <- mirt(data, 1, itemtype = "2PL", verbose = FALSE)
+tidy(mod)       # one row per parameter, with standard errors
+glance(mod)     # one row of fit statistics
+augment(mod)    # person scores added to the data
+```
+
+**2. Make figures for the paper.** Each `gg_*()` function returns a ggplot2
+object, and `theme_mirtverse()` gives a clean journal style:
+
+```r
+gg_trace(mod, which.items = 1:4)
+gg_wright(mod)
+gg_q3(mod)          # local dependence
+```
+
+See the [Gallery](gallery.html) for every figure type with its code.
+
+**3. Go beyond the standard model.** Response-time models, DIF in one call,
+and explanatory item models from item text:
+
+```r
+fit_rt(mod, rt)                      # joint responses and response times
+dif(data, group = group)             # DIF with effect sizes
+d <- merge(itemtext, item_features(itemtext))
+predict_difficulty(d, c("words", "max_digits", "decimals"))  # difficulty from item text
+```
+
+## Citing
+
+Please cite both mirt and mirtverse. `citation("mirtverse")` returns both
+references; the [authors page](../authors.html#citation) has them too, and
+the book can be cited separately
+([10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605)).
+
+## Related
+
+- [Response times](response-times.html) and the
+  [AI Hub](ai-hub.html) for newer methods.
+- [Contributing](https://github.com/okanbulut/mirtverse/issues): Bug reports
+  and method requests are welcome.

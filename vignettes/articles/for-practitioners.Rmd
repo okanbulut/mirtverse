@@ -1,0 +1,72 @@
+---
+title: "Start here: Testing programs"
+description: >
+  For psychometricians at testing organizations and credentialing bodies:
+  Run a program from blueprint to bank monitoring, with every decision
+  flagged, reviewed and documented.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+Operational work needs decisions you can defend and reports that
+non-statisticians can read. mirtverse wraps mirt's estimation in a documented
+workflow: Each step checks the results and raises flags that a person
+reviews before the next step.
+
+## Your path in three steps
+
+**1. Walk through the assessment pipeline.** `mv_pipeline()` takes a test
+through 13 stages, from the blueprint to bank monitoring. The
+[pipeline article](assessment-pipeline.html) runs a full example:
+
+```r
+library(mirtverse)
+# certexam is a built-in certification exam with a scoring key
+p <- mv_pipeline("Certification exam, form A")
+p <- add_responses(p, certexam, items = 3:34, key = certexam_key)
+p <- calibrate(p)          # fits the model and flags miskeys, misfit and DIF
+flags(p)                   # what needs a decision before you move on
+```
+
+**2. Check fairness and precision.** DIF in one call, item health cards for
+review meetings, and information and conditional precision at the cut score:
+
+```r
+mod <- p$model             # an ordinary mirt model
+item_card(mod, "Q14")      # one-page review of a flagged item
+res <- dif(scored, group = gender)   # your scored 0/1 data and a grouping variable
+gg_dif(res)
+```
+
+**3. Report to people who do not use R.** A technical report from the
+pipeline, a static HTML report, or an
+[interactive dashboard](dashboards.html) that runs in any browser:
+
+```r
+pipeline_report(p, file = "technical-report.html")
+export_dashboard(mod, "results.html", format = "html")
+```
+
+[Open the live example dashboard](../dashboard/sat12-demo.html) to see what
+your stakeholders would get.
+
+## Why you can trust the numbers
+
+- mirtverse never changes how models are estimated; every result comes from
+  mirt, and every function accepts an ordinary `mirt()` model.
+- The package has an automated test suite and passes `R CMD check` on every
+  change ([check status](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml)).
+- Every flag rule is listed by `mv_rules()` and can be changed, and every
+  decision you acknowledge is recorded in the report.
+- The workbench and `mv_ask()` show the R code they run, so analyses can be
+  reviewed and rerun.
+
+## Related
+
+- [Response times and rapid guessing](response-times.html) with `fit_rt()`.
+- [Linking and equating](../book/linking.html) and
+  [item banks and adaptive testing](../book/banks-cat.html) in the book.
+- [Auditing AI components](../reference/ai_audit.html) if your program uses
+  automated scoring.

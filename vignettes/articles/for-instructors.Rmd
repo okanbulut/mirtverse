@@ -1,0 +1,62 @@
+---
+title: "Start here: Instructors"
+description: >
+  A complete IRT course in a box: A free book, ten interactive labs, a course
+  map, and tools to adapt everything to your own data.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+mirtverse gives you a complete, free set of materials for a course on item
+response theory: A book, ten interactive labs, a 12-week course map, a
+glossary and a cheat sheet. Everything is open, editable and runs on student
+laptops.
+
+## Your path in three steps
+
+**1. See how the pieces fit a semester.** The [course map](course-map.html)
+ties each week to a book chapter, a lab and a reading. Use it as is, or as a
+starting point for your own syllabus.
+
+**2. Try a lab the way your students will.** Each lab is a realistic case,
+such as advising a certification board or investigating a fairness
+complaint, with live mirt models and decisions to defend:
+
+```r
+library(mirtverse)
+list_labs()                 # the ten labs
+run_lab("fairness")         # Lab 3: Is the test fair?
+```
+
+The [Teaching labs](teaching-labs.html) article has the learning goals,
+timing, discussion prompts and an answer key for each lab.
+
+**3. Make it yours.** Build a lab on your own data, swap the dataset in a
+built-in lab, or copy a book chapter to edit:
+
+```r
+new_course("irt-fall-2027")                    # a course folder
+new_lab("my-lab", data = mydata, course = "irt-fall-2027")
+check_material("irt-fall-2027")                # checks every lab before class does
+```
+
+See [The instructor toolkit](instructor-toolkit.html). If you use Claude or
+an OpenAI assistant, the [MCP server](instructor-mcp.html) lets it revise and
+adapt these materials for you.
+
+## Also for your course
+
+- [The book](../book/index.html), also as PDF and EPUB, with its own DOI
+  ([10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605)).
+- [AI in measurement](ai-hub.html): Four labs and six chapters on AI for a
+  later module, and a [one-day workshop kit](ai-workshop.html).
+- [Glossary](glossary.html) and
+  [cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf) to hand out.
+
+## Using mirtverse in your course?
+
+Please let us know by opening a
+[GitHub issue](https://github.com/okanbulut/mirtverse/issues) or emailing
+the author. Hearing which courses use the materials shapes what comes next.

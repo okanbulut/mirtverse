@@ -6,45 +6,45 @@
 [![r-universe](https://okanbulut.r-universe.dev/badges/mirtverse)](https://okanbulut.r-universe.dev/mirtverse)
 <!-- badges: end -->
 
+
+**From item responses to defensible decisions, with or without writing R code.**
+
 **mirtverse** is a friendly workflow and reporting layer for the
-[mirt](https://philchalmers.github.io/mirt/) package. mirt estimates item response
-theory (IRT) models; mirtverse helps you choose a model, understand the results,
-make publication-ready figures, and share everything, with or without writing R code.
+[mirt](https://philchalmers.github.io/mirt/) package by R. Philip Chalmers.
+mirt estimates item response theory (IRT) models; mirtverse helps you choose a
+model, understand the results, make publication-ready figures, and share
+everything with people who never open R.
 
-> **New: Interactive teaching labs.** Six browser-based labs let students fit
-> live mirt models and make real testing decisions, from choosing a model to
-> advising a certification board, investigating a fairness complaint, linking
-> two forms of an exam, designing an adaptive test and checking rater-scored
-> open-ended responses. Start one with `run_lab("model-choice")`, or
-> read [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html).
+<a href="https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html"><img src="https://www.okanbulut.com/mirtverse/dashboard/summary.png" width="100%" alt="The summary panel of a mirtverse results dashboard for a 32-item test"></a>
 
-## About mirt
+**Try it without installing anything:** [Open the live example dashboard](https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html)
+or browse the [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.html) of figures and outputs.
 
-[mirt](https://philchalmers.github.io/mirt/), developed and maintained by
-[Dr. R. Philip Chalmers](https://chalmers.info.yorku.ca/), is one of the most comprehensive open-source packages for item
-response theory. It was introduced in the *Journal of Statistical Software*
-([Chalmers, 2012](https://doi.org/10.18637/jss.v048.i06)) and has been developed continuously since, with version 1.48
-released on CRAN in October 2026. It is widely used in research on educational
-and psychological measurement.
+## Find your way in
 
-mirt can:
+| I am... | Start here |
+|---|---|
+| A student learning IRT or analysing thesis data | [Start here: Students](https://www.okanbulut.com/mirtverse/articles/for-students.html) |
+| An instructor teaching measurement (book, ten labs, course map) | [Start here: Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.html) |
+| A psychometrician at a testing or credentialing program | [Start here: Testing programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.html) |
+| A researcher who already uses mirt | [Start here: Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.html) |
+| New to R, or coming from Winsteps, SPSS or Excel | [Start here: New to R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html) |
+| Curious about AI in measurement | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) |
 
-- **Estimate a wide range of models:** Unidimensional and multidimensional,
-  exploratory and confirmatory, bifactor and two-tier, with more than 30 item types
-  (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal,
-  ideal-point, nonparametric spline items and more), plus user-defined items.
-- **Handle complex designs:** Multiple-group analysis and measurement invariance,
-  mixed-effects and explanatory IRT (`mixedmirt()`), and latent class and
-  diagnostic classification models (`mdirt()`).
-- **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
-  quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for
-  high-dimensional models, with several standard-error methods.
-- **Check and use the models:** Item and person fit, limited-information fit (M2),
-  local dependence, DIF and differential test functioning, and ability estimation
-  (EAP, MAP, ML, WLE, plausible values).
+## Quick start
 
-mirtverse leaves all of this untouched and adds the workflow, interpretation and
-reporting tools around it.
+```r
+install.packages("mirtverse", repos = c("https://okanbulut.r-universe.dev", "https://cloud.r-project.org"))
+
+library(mirtverse)
+launch_workbench()        # point and click, with R code written for you
+```
+
+> **How to cite:** Please cite mirtverse together with mirt. Package:
+> Bulut (2026), [doi:10.5281/zenodo.23719384](https://doi.org/10.5281/zenodo.23719384).
+> Book: [doi:10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605).
+> mirt: Chalmers (2012), [doi:10.18637/jss.v048.i06](https://doi.org/10.18637/jss.v048.i06).
+> Full references are under [Citation](#citation).
 
 ## What mirtverse adds
 
@@ -108,7 +108,7 @@ writes the whole script for you.
 
 Teaching a measurement course? `run_lab("model-choice")` opens an interactive
 lab in which students work through a realistic testing scenario with live
-models (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
+models; there are ten labs (see [Teaching labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html)).
 The online book [*Item Response Theory with mirt and
 mirtverse*](https://www.okanbulut.com/mirtverse/book/) gives extended notes for
 each week of a course, with worked examples and exercises. It is also
@@ -116,6 +116,34 @@ available as a PDF and EPUB and can be cited with its own DOI,
 [10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605).
 To teach with your own data, `new_lab()` builds a lab on any response
 dataset (see [The instructor toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.html)).
+
+## About mirt
+
+[mirt](https://philchalmers.github.io/mirt/), developed and maintained by
+[Dr. R. Philip Chalmers](https://chalmers.info.yorku.ca/), is one of the most comprehensive open-source packages for item
+response theory. It was introduced in the *Journal of Statistical Software*
+([Chalmers, 2012](https://doi.org/10.18637/jss.v048.i06)) and has been developed continuously since, with version 1.48
+released on CRAN in October 2026. It is widely used in research on educational
+and psychological measurement.
+
+mirt can:
+
+- **Estimate a wide range of models:** Unidimensional and multidimensional,
+  exploratory and confirmatory, bifactor and two-tier, with more than 30 item types
+  (Rasch, 2PL to 4PL, graded response, (generalized) partial credit, nominal,
+  ideal-point, nonparametric spline items and more), plus user-defined items.
+- **Handle complex designs:** Multiple-group analysis and measurement invariance,
+  mixed-effects and explanatory IRT (`mixedmirt()`), and latent class and
+  diagnostic classification models (`mdirt()`).
+- **Use several estimation engines:** EM with fixed or quasi-Monte Carlo
+  quadrature, and the Metropolis-Hastings Robbins-Monro (MHRM) algorithm for
+  high-dimensional models, with several standard-error methods.
+- **Check and use the models:** Item and person fit, limited-information fit (M2),
+  local dependence, DIF and differential test functioning, and ability estimation
+  (EAP, MAP, ML, WLE, plausible values).
+
+mirtverse leaves all of this untouched and adds the workflow, interpretation and
+reporting tools around it.
 
 ## Cheat sheet
 

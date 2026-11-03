@@ -1,5 +1,13 @@
 # mirtverse (development version)
 
+* The website has a new front door. The home page opens with a one-line
+  summary, a screenshot of the live example dashboard and a "Find your way
+  in" table, and a new "Start here" menu has a short path for students,
+  instructors, testing programs, researchers and people new to R. A new
+  Gallery article shows every figure and output with its code. Links to the
+  site now show a share image on LinkedIn, Bluesky and X, and the README
+  has a "How to cite" box near the top.
+
 * New, experimental `simulate_llm_respondents()` asks a language model to
   answer multiple-choice items as described respondents ("personas")
   would, and new `compare_synthetic()` checks the answers against real
