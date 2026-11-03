@@ -3,7 +3,10 @@
 #' `new_lab()` writes an interactive lab (a learnr tutorial) that walks
 #' students through an IRT analysis of *your* dataset: the data, classical
 #' item statistics, dimensionality, model comparison, item fit, information,
-#' scoring and, when you give a grouping variable, DIF. Every number in the
+#' scoring and, when you give a grouping variable, DIF. With `item_info` or
+#' `scores` it can also teach AI in measurement on your data: What the item
+#' text says about difficulty, how equally difficult the items of each item
+#' family are, and whether machine scores agree with human scores. Every number in the
 #' text, every answer check and every multiple-choice question is computed
 #' from the data when the lab is rendered, so the same lab works with any
 #' dataset and [swap_lab_data()] can replace the data later without touching
@@ -31,6 +34,19 @@
 #'   section: a column name of `data`, or a vector with one value per row.
 #' @param key optional answer key for unscored multiple-choice responses, one
 #'   value per item; the items are scored with [mirt::key2binary()].
+#' @param item_info optional data frame (or the path of a data file) with one row per item, for the AI
+#'   sections. It needs a column `item` (or `id`) with the item names used in
+#'   `data`. A `stem` column (and, for multiple-choice items, option columns
+#'   `A` to `E` and a `key` column with the letter of the keyed option)
+#'   enables the `"item-features"` section; a `family` column naming each
+#'   item's item model or family enables the `"aig"` section.
+#' @param scores optional data frame (or the path of a data file) of machine scores of constructed
+#'   responses, for the `"ai-scoring"` section: One row per scored response,
+#'   with columns `machine` and `human1` (the human score, `NA` where no
+#'   person read the response) and, optionally, `human2` (a second reading),
+#'   `group` (for fairness checks), `item` and `period` (an administration or
+#'   engine version, for drift checks). Rename your columns to these names
+#'   first.
 #' @param title the lab's title.
 #' @param data_title a short name for the data used in the lab's text, for
 #'   example `"the Grade 8 science test"`.
@@ -38,7 +54,8 @@
 #'   lab.
 #' @param sections the sections to include, in order; see
 #'   [lab_section_types()]. The default includes every section that suits the
-#'   data (`"dif"` only with a `group`).
+#'   data: `"dif"` only with a `group`, and the AI sections only when
+#'   `item_info` or `scores` provide what they need.
 #' @param overwrite replace an existing lab of the same name.
 #' @return The path of the lab folder, invisibly.
 #' @seealso [new_course()], [swap_lab_data()], [add_lab_section()],
@@ -50,14 +67,25 @@
 #'                data_title = "the LSAT section 7 items",
 #'                sections = c("intro", "classical", "models", "wrap-up"))
 #' lab_outline(lab)
+#'
+#' # an AI lab: item text and item families of 60 generated items
+#' lab2 <- new_lab("aig", data = aigfield, course = course,
+#'                 item_info = transform(aigfield_items, family = model),
+#'                 data_title = "the generated items",
+#'                 sections = c("intro", "item-features", "aig", "wrap-up"))
+#' lab_outline(lab2)
 #' @export
 new_lab <- function(name, data, course = ".", items = NULL, group = NULL, key = NULL,
+                    item_info = NULL, scores = NULL,
                     title = NULL, data_title = NULL, story = NULL, sections = NULL,
                     overwrite = FALSE) {
   tk_check_name(name)
   prep <- tk_prepare_data(data, items = items, group = group, key = key)
-  sections <- sections %||% tk_default_sections(!is.null(prep$group))
-  tk_check_sections(sections, has_group = !is.null(prep$group))
+  prep$item_info <- tk_prepare_item_info(item_info, prep$items)
+  prep$scores <- tk_prepare_scores(scores)
+  has <- tk_has(prep)
+  sections <- sections %||% tk_default_sections(has)
+  tk_check_sections(sections, has)
   data_title <- data_title %||% (if (is.character(data) && length(data) == 1L)
     paste0("the data in ", basename(data)) else "the test data")
   title <- title %||% paste("An IRT analysis of", data_title)
@@ -69,8 +97,8 @@ new_lab <- function(name, data, course = ".", items = NULL, group = NULL, key = 
     title = gsub("\"", "'", title),
     description = paste0("An IRT analysis of ", data_title, ", from the raw responses to a recommendation."),
     made_with = tk_made_with()))
-  body <- unlist(lapply(tk_unique_ids(sections), function(s)
-    tk_fill(tk_template(file.path("sections", paste0(s$type, ".Rmd"))), list(id = s$id))))
+  info <- tk_lab_info(dest)
+  body <- unlist(lapply(tk_unique_ids(sections), function(s) tk_section_block(s$type, s$id, info)))
   writeLines(c(head, body), file.path(dest, paste0(name, ".Rmd")))
   invisible(dest)
 }
@@ -82,7 +110,8 @@ new_lab <- function(name, data, course = ".", items = NULL, group = NULL, key = 
 #' answer checks and questions are computed from the data, so nothing else
 #' needs to change. Settings you leave out (`group`, `data_title`, `story`)
 #' are kept from the current data, except that `items` and `key` are always
-#' worked out again. Run [check_material()] afterwards.
+#' worked out again. The `item_info` and `scores` of the AI sections are kept
+#' unless you give new ones. Run [check_material()] afterwards.
 #'
 #' If the lab has a DIF section and the new data have no `group`, the DIF
 #' section will fail; remove it with [remove_lab_section()].
@@ -99,7 +128,7 @@ new_lab <- function(name, data, course = ".", items = NULL, group = NULL, key = 
 #' lab_data(file.path(lab, "data"))$info$data_title
 #' @export
 swap_lab_data <- function(lab, data, items = NULL, group = NULL, key = NULL,
-                          data_title = NULL, story = NULL) {
+                          item_info = NULL, scores = NULL, data_title = NULL, story = NULL) {
   dir <- tk_lab_dir(lab)
   old <- tk_lab_info(dir)
   if (is.null(old))
@@ -108,10 +137,29 @@ swap_lab_data <- function(lab, data, items = NULL, group = NULL, key = NULL,
   if (is.null(group) && !is.null(old$group) && is.data.frame(data) && old$group %in% names(data))
     group <- old$group
   prep <- tk_prepare_data(data, items = items, group = group, key = key)
+  old_data <- lab_data(file.path(dir, "data"))
+  prep$item_info <- if (!is.null(item_info)) tk_prepare_item_info(item_info, prep$items) else
+    tryCatch(tk_prepare_item_info(old_data$item_info, prep$items), error = function(e) {
+      warning("The lab's `item_info` does not describe the new items, so it was dropped; ",
+              "give a new one with `item_info`.", call. = FALSE)
+      NULL
+    })
+  prep$scores <- tk_prepare_scores(scores %||% old_data$scores)
   rmd <- readLines(tk_lab_rmd(dir), warn = FALSE)
   if (is.null(prep$group) && any(grepl("type=dif", rmd, fixed = TRUE)))
     warning("The lab has a DIF section but the new data have no `group`; ",
             "remove the section with remove_lab_section().", call. = FALSE)
+  has <- tk_has(prep)
+  types <- lab_section_types()
+  for (i in which(nzchar(types$needs) & types$type != "dif"))
+    if (any(grepl(paste0("type=", types$type[i], " "), rmd, fixed = TRUE)) && !types$needs[i] %in% has)
+      warning("The lab has a \"", types$type[i], "\" section but no ", types$needs[i],
+              "; give it with `", if (types$needs[i] == "scores") "scores" else "item_info",
+              "` or remove the section with remove_lab_section().", call. = FALSE)
+  if (!is.null(prep$scores) && any(grepl("type=ai-scoring ", rmd, fixed = TRUE)) &&
+      !identical(sort(names(prep$scores)), sort(unlist(old_data$info$score_columns))))
+    warning("The new `scores` have different columns, so the code in the ai-scoring section may ",
+            "not fit them. Remove the section and add it again with add_lab_section().", call. = FALSE)
   tk_write_data(dir, prep, data_title = data_title %||% old$data_title,
                 story = story %||% old$story, title = old$title)
   invisible(dir)
@@ -128,7 +176,8 @@ swap_lab_data <- function(lab, data, items = NULL, group = NULL, key = NULL,
 #' @return A list with `responses` (a data frame of scored item responses),
 #'   `group` (a factor, or `NULL`), `polytomous` (logical), `models` (the
 #'   two item types the lab compares: `c("Rasch", "2PL")` for 0/1 items,
-#'   `c("Rasch", "graded")` otherwise) and `info` (the settings in
+#'   `c("Rasch", "graded")` otherwise), `item_info` and `scores` (the data of
+#'   the AI sections, or `NULL`; see [new_lab()]) and `info` (the settings in
 #'   `lab.json`).
 #' @export
 lab_data <- function(dir = "data") {
@@ -139,8 +188,13 @@ lab_data <- function(dir = "data") {
   d <- readRDS(rds)
   info <- jsonlite::read_json(file.path(dir, "lab.json"), simplifyVector = TRUE)
   poly <- any(vapply(d$responses, function(v) max(v, na.rm = TRUE) > 1, logical(1)))
+  extra <- function(f) {
+    f <- file.path(dir, f)
+    if (file.exists(f)) readRDS(f)
+  }
   list(responses = d$responses, group = d$group, polytomous = poly,
-       models = if (poly) c("Rasch", "graded") else c("Rasch", "2PL"), info = info)
+       models = if (poly) c("Rasch", "graded") else c("Rasch", "2PL"),
+       item_info = extra("item_info.rds"), scores = extra("scores.rds"), info = info)
 }
 
 #' Sections you can add to a toolkit lab
@@ -149,18 +203,26 @@ lab_data <- function(dir = "data") {
 #' works with any dataset: its numbers, checks and questions are computed
 #' from the lab's data.
 #'
+#' The last three sections teach AI in measurement with the lab's data and
+#' need more than responses (see the `item_info` and `scores` arguments of
+#' [new_lab()]): `"item-features"` predicts item difficulty from the item
+#' text, `"aig"` checks whether the items of each family are equally
+#' difficult, and `"ai-scoring"` audits machine scores against human scores.
+#'
 #' @return A tibble with the section `type`, its `title`, a `description`, and
-#'   `needs` (`"group"` when the section needs a grouping variable).
+#'   `needs`: What the section needs besides the responses (`"group"`,
+#'   `"item text"`, `"item families"` or `"scores"`), or `""`.
 #' @examples
 #' lab_section_types()
 #' @export
 lab_section_types <- function() {
   as_tbl(data.frame(
     type = c("intro", "classical", "dimensionality", "models", "item-fit", "information",
-             "scoring", "dif", "reflection", "wrap-up"),
+             "scoring", "dif", "reflection", "wrap-up", "item-features", "aig", "ai-scoring"),
     title = c("Meet the data", "Classical item statistics", "How many dimensions?",
               "Compare IRT models", "Item fit", "Information and precision", "Scoring people",
-              "Are the items fair?", "Your recommendation", "Where to next"),
+              "Are the items fair?", "Your recommendation", "Where to next",
+              "What the item text tells us", "Item families", "Machine scores and human scores"),
     description = c(
       "The story, the size of the data and a first look at the responses.",
       "Item means and item-total correlations; find the weakest item.",
@@ -171,8 +233,11 @@ lab_section_types <- function() {
       "EAP scores with fscores(), compared with sum scores; why patterns matter.",
       "Likelihood-ratio DIF tests between two groups with dif().",
       "A written recommendation (free text).",
-      "A summary and pointers to reports and further labs."),
-    needs = c(rep("", 7), "group", "", ""),
+      "A summary and pointers to reports and further labs.",
+      "Text features with item_features(); predict IRT difficulty with predict_difficulty().",
+      "Are the items of each family equally difficult? calibrate_families().",
+      "Machine-human agreement by group with agreement_report(); a full ai_audit()."),
+    needs = c(rep("", 7), "group", "", "", "item text", "item families", "scores"),
     stringsAsFactors = FALSE))
 }
 
@@ -228,11 +293,17 @@ add_lab_section <- function(lab, type, after = NULL, id = NULL) {
     stop("Ready-made sections need a lab made with new_lab(); for other labs use ",
          "add_lab_exercise() or add_lab_question().", call. = FALSE)
   lines <- readLines(rmd, warn = FALSE, encoding = "UTF-8")
-  if (identical(type, "dif") && is.null(lab_data(file.path(dirname(rmd), "data"))$group))
+  d <- lab_data(file.path(dirname(rmd), "data"))
+  if (identical(type, "dif") && is.null(d$group))
     stop("The DIF section needs a grouping variable. Add one with swap_lab_data(lab, data, group = ...).",
          call. = FALSE)
+  need <- types$needs[types$type == type]
+  if (nzchar(need) && need != "group" && !need %in% tk_has(d))
+    stop("The \"", type, "\" section needs ", need, ". Add ",
+         if (need == "scores") "`scores`" else "`item_info`", " with swap_lab_data(lab, data, ",
+         if (need == "scores") "scores" else "item_info", " = ...).", call. = FALSE)
   id <- tk_new_id(id %||% type, lines)
-  block <- tk_fill(tk_template(file.path("sections", paste0(type, ".Rmd"))), list(id = id))
+  block <- tk_section_block(type, id, d$info)
   tk_insert(rmd, lines, block, after)
 }
 
@@ -359,19 +430,95 @@ preview_lab <- function(lab, ...) {
 
 # ---- internal helpers ---------------------------------------------------
 
-tk_default_sections <- function(has_group) {
+tk_default_sections <- function(has) {
   c("intro", "classical", "dimensionality", "models", "item-fit", "information", "scoring",
-    if (has_group) "dif", "reflection", "wrap-up")
+    if ("group" %in% has) "dif", if ("item text" %in% has) "item-features",
+    if ("item families" %in% has) "aig", if ("scores" %in% has) "ai-scoring",
+    "reflection", "wrap-up")
 }
 
-tk_check_sections <- function(sections, has_group) {
-  bad <- setdiff(sections, lab_section_types()$type)
+tk_check_sections <- function(sections, has) {
+  types <- lab_section_types()
+  bad <- setdiff(sections, types$type)
   if (length(bad))
     stop("Unknown section type(s): ", paste(bad, collapse = ", "), ". Available: ",
-         paste(lab_section_types()$type, collapse = ", "), ".", call. = FALSE)
-  if ("dif" %in% sections && !has_group)
+         paste(types$type, collapse = ", "), ".", call. = FALSE)
+  if ("dif" %in% sections && !"group" %in% has)
     stop("The \"dif\" section needs a `group`.", call. = FALSE)
+  arg <- c("item text" = "an `item_info` with a `stem` column",
+           "item families" = "an `item_info` with a `family` column",
+           "scores" = "`scores`")
+  for (s in intersect(sections, types$type[types$needs %in% names(arg)])) {
+    need <- types$needs[types$type == s]
+    if (!need %in% has) stop("The \"", s, "\" section needs ", arg[[need]], ".", call. = FALSE)
+  }
   invisible(TRUE)
+}
+
+# what the lab's data provide for sections that need more than responses
+tk_has <- function(d) {
+  ii <- d$item_info
+  c(if (!is.null(d$group)) "group",
+    if (!is.null(ii) && "stem" %in% names(ii)) "item text",
+    if (!is.null(ii) && "family" %in% names(ii)) "item families",
+    if (!is.null(d$scores)) "scores")
+}
+
+# one item per row, `item` first, only the lab's items
+tk_prepare_item_info <- function(item_info, items) {
+  if (is.null(item_info)) return(NULL)
+  ii <- tk_read_data(item_info)
+  idc <- intersect(c("item", "id"), names(ii))[1]
+  if (is.na(idc)) stop("`item_info` needs a column `item` (or `id`) with the item names.", call. = FALSE)
+  ii$item <- as.character(ii[[idc]])
+  if (idc != "item") ii[[idc]] <- NULL
+  ii <- ii[ii$item %in% items, c("item", setdiff(names(ii), "item")), drop = FALSE]
+  if (anyDuplicated(ii$item)) stop("`item_info` has more than one row for some items.", call. = FALSE)
+  if (nrow(ii) < 4L)
+    stop("`item_info` describes ", nrow(ii), " of the lab's items; it needs at least 4. ",
+         "Its `item` column must hold the item names used in the responses.", call. = FALSE)
+  if (nrow(ii) < length(items))
+    warning("`item_info` has no row for ", length(items) - nrow(ii), " of the ", length(items),
+            " items; the AI sections leave them out.", call. = FALSE)
+  if ("family" %in% names(ii)) ii$family <- as.character(ii$family)
+  rownames(ii) <- NULL
+  ii
+}
+
+tk_prepare_scores <- function(scores) {
+  if (is.null(scores)) return(NULL)
+  sc <- tk_read_data(scores)
+  miss <- setdiff(c("machine", "human1"), names(sc))
+  if (length(miss))
+    stop("`scores` needs the columns `machine` and `human1`; it has no ",
+         paste0("`", miss, "`", collapse = " or "), ".", call. = FALSE)
+  sc <- sc[intersect(c("machine", "human1", "human2", "group", "item", "period"), names(sc))]
+  for (v in intersect(c("machine", "human1", "human2"), names(sc))) {
+    if (!is.numeric(sc[[v]])) stop("`scores$", v, "` must be numeric.", call. = FALSE)
+  }
+  if (sum(!is.na(sc$human1) & !is.na(sc$machine)) < 50L)
+    stop("`scores` needs at least 50 responses scored by both the machine and a person.",
+         call. = FALSE)
+  if ("group" %in% names(sc)) sc$group <- factor(sc$group)
+  if ("item" %in% names(sc)) sc$item <- as.character(sc$item)
+  rownames(sc) <- NULL
+  sc
+}
+
+# a ready-made section with its placeholders filled in
+tk_section_block <- function(type, id, info = NULL) {
+  cols <- unlist(info$score_columns)
+  has <- function(x) x %in% cols
+  fill <- list(
+    id = id,
+    agree_args = paste0("", if (has("human2")) ", human2 = scores$human2",
+                        if (has("group")) ", group = scores$group",
+                        if (has("item")) ", by = scores$item"),
+    audit_args = paste0("", if (has("human2")) ", human2 = \"human2\"",
+                        if (has("group")) ", group = \"group\"",
+                        if (has("item")) ", item = \"item\"",
+                        if (has("period")) ", period = \"period\""))
+  tk_fill(tk_template(file.path("sections", paste0(type, ".Rmd"))), fill)
 }
 
 tk_unique_ids <- function(types) {
@@ -483,9 +630,15 @@ tk_write_data <- function(dir, prep, data_title, story, title) {
   ddir <- file.path(dir, "data")
   dir.create(ddir, recursive = TRUE, showWarnings = FALSE)
   saveRDS(list(responses = prep$responses, group = prep$group), file.path(ddir, "responses.rds"))
+  for (x in c("item_info", "scores")) {
+    f <- file.path(ddir, paste0(x, ".rds"))
+    if (is.null(prep[[x]])) unlink(f) else saveRDS(prep[[x]], f)
+  }
   info <- list(title = title, data_title = data_title, story = story,
                n = nrow(prep$responses), items = prep$items, group = prep$group_name,
                groups = if (!is.null(prep$group)) levels(prep$group),
+               item_info_columns = if (!is.null(prep$item_info)) names(prep$item_info),
+               score_columns = if (!is.null(prep$scores)) names(prep$scores),
                scored_with_key = prep$key, made_with = tk_made_with(),
                updated = format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
   jsonlite::write_json(info[!vapply(info, is.null, logical(1))], file.path(ddir, "lab.json"),

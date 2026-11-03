@@ -42,12 +42,12 @@ the assistant picks them.
 | Chapters and notes | `copy_chapter`, `new_chapter`, `swap_chapter_data` |
 | Use your own data | `describe_dataset` |
 | Bring in existing materials | `scan_material`, `translate_code` (uses `mirtify()`) |
-| Get it right | `mirtverse_help` (real function names and arguments), `guide` (lab and chapter style), `check_material` (runs the material) |
+| Get it right | `mirtverse_help` (real function names and arguments), `guide` (lab and chapter style, adapting materials, AI content), `check_material` (runs the material) |
 
 The lab and chapter tools use the functions of the [instructor toolkit](instructor-toolkit.html), so anything the assistant builds is the same as what
 you would build by hand.
 
-It also offers three ready-made requests (MCP "prompts"), which appear in
+It also offers four ready-made requests (MCP "prompts"), which appear in
 clients that show them, such as the `+` menu in Claude Desktop or `/` in
 Claude Code:
 
@@ -55,6 +55,11 @@ Claude Code:
 * **Adapt my materials to mirtverse**: Give an existing lab, notes file or
   script.
 * **Build a lab on my data**: Give a data file and a topic.
+* **Teach AI in measurement**: Say what students should learn (for
+  example "audit our essay-scoring engine") and, optionally, give your item
+  text or machine scores. The assistant picks a toolkit lab with the AI
+  sections, a built-in AI lab or an AI chapter of the book, following the
+  server's guide to AI content.
 
 ## Safety
 

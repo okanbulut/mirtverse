@@ -1,0 +1,91 @@
+<!-- mv-section: id={{id}} type=aig -->
+## Item families
+
+<!-- The -data chunk makes these objects for the text and the questions; the -prep chunk
+     makes them again for the exercises, which learnr runs in a fresh environment. -->
+
+```{r {{id}}-data, include = FALSE}
+item_info <- lab$item_info
+.tk_pars <- coef(mirt(resp, 1, itemtype = models[2], verbose = FALSE),
+                 IRTpars = TRUE, simplify = TRUE)$items
+difficulty <- data.frame(
+  item = rownames(.tk_pars),
+  b = rowMeans(.tk_pars[, grep("^b", colnames(.tk_pars)), drop = FALSE], na.rm = TRUE))
+fam <- merge(difficulty, item_info[c("item", "family")], by = "item")
+.tk_cal <- mirtverse::calibrate_families(fam, family = "family", b = "b")
+```
+
+```{r {{id}}-prep, include = FALSE}
+item_info <- lab$item_info
+.tk_pars <- coef(mirt(resp, 1, itemtype = models[2], verbose = FALSE),
+                 IRTpars = TRUE, simplify = TRUE)$items
+difficulty <- data.frame(
+  item = rownames(.tk_pars),
+  b = rowMeans(.tk_pars[, grep("^b", colnames(.tk_pars)), drop = FALSE], na.rm = TRUE))
+fam <- merge(difficulty, item_info[c("item", "family")], by = "item")
+```
+
+### Are the items of a family equally difficult?
+
+The items come in `r length(unique(fam$family))` families: Groups of items
+written from one template or item model, such as items generated
+automatically by changing the numbers or the context of one stem. If the
+items of a family are equally difficult (isomorphic), a new item from the
+family can borrow the family's difficulty and needs a much smaller field
+test. If they are not, something in the template changes what the item
+measures.
+
+`fam` holds each item's family and its difficulty from the `r models[2]`
+model `r if (lab$polytomous) "(the mean of its thresholds)" else ""`.
+`calibrate_families()` compares the spread of difficulty within each family
+with a limit (0.3 logits by default). Save the result as `cal`.
+
+```{r {{id}}-cal, exercise = TRUE, exercise.setup = "{{id}}-prep"}
+cal <- calibrate_families(fam, family = "family", b = "b")
+cal
+```
+
+```{r {{id}}-cal-check}
+lab_need(exists("cal") && inherits(cal, "mv_families"),
+         "Save the result of calibrate_families() as `cal`.")
+.bad <- cal$family[!cal$isomorphic %in% TRUE]
+if (length(.bad)) paste0("Not isomorphic: ", paste(.bad, collapse = ", "), ". Look at their items to find what changes the difficulty.") else
+  "Every family is isomorphic by this rule."
+```
+
+`autoplot()` shows each item's difficulty within its family:
+
+```{r {{id}}-plot, exercise = TRUE, exercise.setup = "{{id}}-prep"}
+cal <- calibrate_families(fam, family = "family", b = "b")
+autoplot(cal)
+```
+
+```{r {{id}}-plot-check}
+"Families whose points spread far apart are the ones to review."
+```
+
+```{r {{id}}-q-iso}
+.tk_k <- sum(!.tk_cal$isomorphic %in% TRUE)
+.tk_opts <- sort(utils::head(unique(pmax(0, .tk_k + c(0, -1, 1, 2, -2, 3, 4))), 4))
+.tk_bad <- paste(.tk_cal$family[!.tk_cal$isomorphic %in% TRUE], collapse = ", ")
+do.call(question_radio, c(
+  list("How many families are not isomorphic?"),
+  lapply(.tk_opts, function(k) answer(as.character(k), correct = k == .tk_k,
+    message = if (k == .tk_k) {
+      if (.tk_k == 0) "Right: Every family is isomorphic by this rule." else paste0("Right: ", .tk_bad, ". Compare the easiest and hardest items of each to see what the template lets vary.")
+    } else "Count the families whose `isomorphic` column is FALSE.")),
+  list(allow_retry = TRUE)))
+```
+
+```{r {{id}}-q-use}
+question_radio(
+  "A family is isomorphic. What does that let a testing program do with a new item from it?",
+  answer("Use the family's mean difficulty for the new item, with a smaller field test or none, and keep checking it once real responses come in.",
+         correct = TRUE,
+         message = "Right. The family mean replaces most of a field test; monitoring catches the items that drift from it."),
+  answer("Skip content review, because the template was already reviewed.",
+         message = "Each generated item still needs a content review: A new combination of values can make an item ambiguous or wrong."),
+  answer("Nothing: Every item needs its own full field test.",
+         message = "That is the safe default for families that are not isomorphic, but an isomorphic family's mean predicts a new item's difficulty well."),
+  allow_retry = TRUE, random_answer_order = TRUE)
+```

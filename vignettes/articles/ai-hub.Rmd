@@ -235,10 +235,12 @@ they audit an AI-scored test before its scores are released, and turn the
 audit into a validity argument for a technical advisory committee.
 The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
-readings. Toolkit section types for building AI labs on your own data and
-an optional AI module for the [course map](course-map.html) are being
-written; they will be listed on this page and in the AI Hub menu as they
-are released.
+readings. The [course map](course-map.html#ai-module) puts the chapters and
+labs together as a four-week module or a one-day workshop. To teach the
+same topics on your own items or your own engine's scores, the [instructor
+toolkit](instructor-toolkit.html#ai-sections) builds labs with AI sections
+on your data, and the [teaching assistant](instructor-mcp.html) can build
+them for you.
 
 ## Read more {#read-more}
 

@@ -186,3 +186,62 @@ test_that("check_material() reports broken structure and checks a whole course",
   expect_setequal(unique(all$material), c("demo", "ch"))
   expect_true(any(all$material == "ch" & all$status == "fail"))
 })
+
+test_that("the AI section types need their data", {
+  types <- lab_section_types()
+  expect_true(all(c("item-features", "aig", "ai-scoring") %in% types$type))
+  expect_equal(types$needs[match(c("item-features", "aig", "ai-scoring"), types$type)],
+               c("item text", "item families", "scores"))
+  expect_equal(mirtverse:::tk_default_sections(c("item text", "scores")),
+               c("intro", "classical", "dimensionality", "models", "item-fit", "information",
+                 "scoring", "item-features", "ai-scoring", "reflection", "wrap-up"))
+  course <- tk_course()
+  expect_error(new_lab("x", aigfield, course, sections = "aig"), "`item_info` with a `family`")
+  expect_error(new_lab("x", aigfield, course, item_info = aigfield_items, sections = "aig"),
+               "`family` column")
+  expect_error(new_lab("x", aigfield, course, sections = "ai-scoring"), "`scores`")
+  expect_error(mirtverse:::tk_prepare_item_info(data.frame(name = "a"), "a"), "column `item`")
+  expect_error(mirtverse:::tk_prepare_item_info(aigfield_items, paste0("Q", 1:5)), "at least 4")
+  expect_warning(ii <- mirtverse:::tk_prepare_item_info(aigfield_items, c(names(aigfield)[1:5], "Q9")),
+                 "no row for 1")
+  expect_equal(names(ii)[1], "item")
+  expect_error(mirtverse:::tk_prepare_scores(data.frame(machine = 1:60)), "`human1`")
+  sc <- mirtverse:::tk_prepare_scores(transform(aiscored_cr, period = year))
+  expect_setequal(names(sc), c("machine", "human1", "human2", "group", "item", "period"))
+})
+
+test_that("labs with the item-features and aig sections pass their own checks", {
+  skip_if_not_installed("learnr")
+  course <- tk_course()
+  items <- transform(aigfield_items, family = model)
+  lab <- new_lab("factory", aigfield, course, item_info = items,
+                 sections = c("intro", "item-features", "aig", "wrap-up"))
+  d <- lab_data(file.path(lab, "data"))
+  expect_equal(nrow(d$item_info), 60L)
+  expect_null(d$scores)
+  expect_equal(lab_outline(lab)$exercises, c(1L, 2L, 2L, 0L))
+  res <- check_material(lab)
+  expect_true(all(res$status == "pass"), info = paste(res$label, res$message, collapse = "\n"))
+  expect_match(res$message[res$label == "aig-cal"], "SUB, TRI")
+  expect_error(add_lab_section(lab, "ai-scoring"), "needs scores")
+  # swapping the responses keeps the item information
+  swap_lab_data(lab, aigfield[1:600, ])
+  expect_equal(nrow(lab_data(file.path(lab, "data"))$item_info), 60L)
+})
+
+test_that("a lab with the ai-scoring section passes its own checks", {
+  skip_if_not_installed("learnr")
+  course <- tk_course()
+  sc <- aiscored_cr[aiscored_cr$year == 2025, c("machine", "human1", "group", "item")]
+  lab <- new_lab("engine", aiscored[aiscored$year == 2025, ], course,
+                 items = sprintf("MC%02d", 1:16), scores = sc,
+                 sections = c("intro", "ai-scoring", "wrap-up"))
+  rmd <- paste(readLines(file.path(lab, "engine.Rmd")), collapse = "\n")
+  expect_match(rmd, 'ai_audit(scores, group = "group", item = "item")', fixed = TRUE)
+  expect_false(grepl("human2", rmd))
+  res <- check_material(lab)
+  expect_true(all(res$status == "pass"), info = paste(res$label, res$message, collapse = "\n"))
+  expect_warning(swap_lab_data(lab, aiscored[aiscored$year == 2026, ],
+                               scores = aiscored_cr[aiscored_cr$year == 2026, ]),
+                 "different columns")
+})

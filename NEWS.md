@@ -1,5 +1,24 @@
 # mirtverse (development version)
 
+* The instructor toolkit can teach AI in measurement on an instructor's
+  own data. `new_lab()` and `swap_lab_data()` take `item_info` (one row per
+  item, with its text or its item family) and `scores` (machine and human
+  scores of written answers), and `lab_section_types()` has three new
+  sections: `"item-features"` (`item_features()` and
+  `predict_difficulty()`), `"aig"` (`calibrate_families()`) and
+  `"ai-scoring"` (`agreement_report()` and `ai_audit()`). As in the other
+  sections, every answer is computed from the data. `lab_data()` returns
+  the new tables.
+
+* The instructor MCP server has a new guide, `guide("ai-content")`, on
+  teaching AI in measurement, a new prompt, "Teach AI in measurement", and
+  the new `item_info` and `scores` arguments in its `new_lab` and
+  `swap_lab_data` tools.
+
+* The course map has an optional four-week module on AI in measurement
+  (weeks 13 to 16, Labs 7 to 10 and book chapters 13 to 18) and a one-day
+  workshop schedule.
+
 * New `ai_audit()` audits an AI component in one call and returns flags in
   the pipeline's block / review / info style: Human and machine agreement,
   overall bias, agreement within groups, differential scoring (machine

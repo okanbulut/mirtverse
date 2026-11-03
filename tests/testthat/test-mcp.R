@@ -145,7 +145,7 @@ test_that("prompts render with their arguments", {
   ctx <- mcp_course()
   r <- mcp_dispatch(list(jsonrpc = "2.0", id = 1, method = "prompts/list"), ctx)
   expect_setequal(vapply(r$result$prompts, `[[`, "", "name"),
-                  c("revise_material", "adapt_material", "lab_from_my_data"))
+                  c("revise_material", "adapt_material", "lab_from_my_data", "ai_material"))
   r <- mcp_dispatch(list(jsonrpc = "2.0", id = 1, method = "prompts/get",
                          params = list(name = "adapt_material", arguments = list(path = "notes/a.Rmd"))), ctx)
   expect_match(r$result$messages[[1]]$content$text, "notes/a.Rmd")
