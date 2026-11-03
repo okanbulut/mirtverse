@@ -21,3 +21,4 @@ ol, ul { margin: 0 0 7pt; padding-left: 18pt; } li { margin-bottom: 3pt; text-al
 #refs { font-size: 9.2pt; } .csl-entry { padding-left: 2em; text-indent: -2em; margin-bottom: 4pt; }
 a { color: #1d4ed8; text-decoration: none; }
 .math.display { display: block; text-align: center; margin: 6pt 0; }
+.date { margin-top: 11pt; }
