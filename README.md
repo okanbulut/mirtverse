@@ -58,11 +58,26 @@ mv_dashboard(mod, title = "LSAT results")   # interactive dashboard to share
 ```
 
 Prefer clicking? Run `launch_workbench()`, which writes the R code for you.
-Prefer describing the analysis in words?
-`mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
-writes the whole script. Every function is listed in the
-[Reference](https://www.okanbulut.com/mirtverse/reference/), and the [cheat sheet (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf)
-groups them by task.
+Every function is listed in the [Reference](https://www.okanbulut.com/mirtverse/reference/), and the
+[cheat sheet (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) groups them by task.
+
+## Beyond the usual IRT toolkit
+
+- **Describe the analysis, get the script.** `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
+  writes a tested R script from one sentence, with Claude, an OpenAI model, a
+  local model or an offline parser. [How it works](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+- **Generate items.** `generate_items()` drafts multiple-choice items with keys
+  and open-ended items with rubrics from a test blueprint, and
+  `generate_isomorphs()` builds item families from an item model.
+  [Book chapter](https://www.okanbulut.com/mirtverse/book/aig.html)
+- **Score open-ended responses.** `train_scorer()` trains a transparent scoring
+  engine that runs offline, and `score_open()` scores with it or with a
+  language model, checking agreement with human raters before any score is used.
+  [Book chapter](https://www.okanbulut.com/mirtverse/book/auto-scoring.html)
+- **Run a whole testing program.** `mv_pipeline()` takes a test from blueprint
+  to bank monitoring in 13 stages, with flags that catch problems before the
+  next step. [The pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.html) ·
+  [Case study](https://www.okanbulut.com/mirtverse/articles/case-study.html)
 
 ## About mirt
 
