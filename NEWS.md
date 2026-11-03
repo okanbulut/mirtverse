@@ -1,5 +1,15 @@
 # mirtverse (development version)
 
+* New `cite_methods()` drafts the Methods paragraph of an IRT analysis in
+  APA style: Software versions, the model and estimation method, the model
+  comparison from `select_model()`, overall and item fit, reliability and
+  removed items, with an alphabetical reference list. It prints, returns
+  text, or writes Markdown or a Word file. A new "Thesis kit" article walks
+  from item responses to that paragraph.
+
+* Workbench: The "Test summary" table on the Explore tab no longer errors
+  with current mirt, which renamed the total-score columns of `itemstats()`.
+
 * New article "Adopt mirtverse for your course" with a sample 12-week
   syllabus to edit (Word and PDF), a setup checklist and a GitHub form for
   instructors to tell us about their course. New article "Case study: A

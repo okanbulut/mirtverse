@@ -284,10 +284,12 @@ workbench_server <- function(init_data = NULL) {
     ist <- shiny::reactive(mirt::itemstats(resp()$data))
     output$overall <- shiny::renderTable({
       o <- ist()$overall
+      # mirt renamed these columns (mean.total -> mean_total.score), so match either
+      pick <- function(pat) o[[grep(pat, names(o))[1]]]
       data.frame(Statistic = c("Respondents", "Mean total score", "SD total score",
                                "Cronbach's alpha", "SEM"),
-                 Value = c(o$N, round(o$mean.total, 2), round(o$sd.total, 2),
-                           round(o$alpha, 3), round(o$SEM.alpha, 3)))
+                 Value = as.character(c(o$N, round(pick("^mean"), 2), round(pick("^sd"), 2),
+                                        round(o$alpha, 3), round(o$SEM.alpha, 3))))
     })
     output$sum_hist <- shiny::renderPlot({
       tot <- rowSums(resp()$data, na.rm = TRUE)

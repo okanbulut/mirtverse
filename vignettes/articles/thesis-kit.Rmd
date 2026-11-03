@@ -1,0 +1,156 @@
+---
+title: "Thesis kit: From item responses to a Methods section"
+description: >
+  A step-by-step path for a thesis or dissertation that uses IRT: Check the
+  data, choose and check a model, make the figures, and draft the Methods
+  paragraph with cite_methods().
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE,
+                      warning = FALSE, fig.width = 7, fig.height = 4.5,
+                      out.width = "100%", dpi = 96)
+```
+
+A thesis committee wants three things from an IRT analysis: That the model
+was chosen for a reason, that it was checked, and that the write-up says
+exactly what was done. This kit walks through all three with one dataset,
+and ends with a Methods paragraph and reference list you can paste into
+your thesis and then edit.
+
+The example uses `SAT12`, a 32-item science test taken by 600 students,
+which comes with mirt. Swap in your own data at step 1 and run the rest as
+it is.
+
+## The checklist
+
+Keep this list next to your draft. Each step below covers one line.
+
+- [ ] Describe the data and run a classical item analysis.
+- [ ] Compare at least two IRT models and say why you chose one.
+- [ ] Check dimensionality, local independence and item fit.
+- [ ] Report overall fit (M2 or C2 with RMSEA, SRMSR and CFI) and reliability.
+- [ ] Make the figures: A Wright map and test information at minimum.
+- [ ] Write the Methods paragraph and cite mirt and mirtverse.
+- [ ] Save the code and an HTML report as an appendix.
+
+## 1. Describe the data
+
+```{r data}
+library(mirtverse)
+
+key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,5)
+data <- key2binary(SAT12, key)       # score multiple-choice answers 0/1
+dim(data)
+```
+
+```{r itemstats}
+head(itemstats(data)$itemstats)       # classical item statistics
+```
+
+Look for items that almost everyone gets right or wrong, and for items with
+a low or negative item-total correlation: They are often miskeyed. If you
+remove an item, write down why; `cite_methods()` can report it (step 5).
+
+## 2. Choose a model
+
+`select_model()` fits the candidate models to the same data, compares them,
+and explains its choice in plain language. Quote that reasoning in your
+thesis rather than just the winner.
+
+```{r select}
+sel <- select_model(data, candidates = c("Rasch", "2PL"), verbose = FALSE)
+sel
+mod <- sel$best
+```
+
+## 3. Check the model
+
+Three checks most committees ask about: Overall fit, item fit and local
+dependence.
+
+```{r glance}
+glance(mod)[, c("M2", "df", "p.value", "RMSEA", "SRMSR", "CFI", "reliability")]
+```
+
+```{r itemfit}
+gg_itemfit(mod)
+```
+
+```{r q3}
+gg_q3(mod)
+```
+
+`interpret(mod)` writes a plain-language summary of these results, which is
+a good check on your own reading of them.
+
+## 4. Make the figures
+
+Every plot is a ggplot2 object. Save figures at the size of your page, at
+300 dpi, so the text in them matches the text around them.
+
+```{r wright, fig.height = 5}
+p <- gg_wright(mod)
+p
+```
+
+```{r info}
+gg_info(mod)
+```
+
+```{r save, eval = FALSE}
+ggplot2::ggsave("figure-1-wright-map.png", p, width = 6.5, height = 4.5, dpi = 300)
+```
+
+For an item-by-item table in the results chapter, `item_table(mod)` has
+the item statistics, fit and flags in one data frame. Write it to a CSV
+file and paste it into Word as a table:
+
+```{r table, eval = FALSE}
+write.csv(item_table(mod), "table-2-items.csv", row.names = FALSE)
+```
+
+## 5. Write the Methods paragraph
+
+`cite_methods()` drafts the software, model, estimation, model choice, fit
+and reliability sentences, in APA style, with the references they cite.
+Give it the `select_model()` result so it describes the comparison too.
+
+```{r methods}
+cite_methods(sel, sample = "high school students",
+             items = "multiple-choice science items")
+```
+
+To get a Word file with the paragraph and the references:
+
+```{r docx, eval = FALSE}
+cite_methods(sel, sample = "high school students",
+             items = "multiple-choice science items",
+             file = "methods.docx")
+```
+
+Treat the text as a first draft. Read it against your analysis, add what
+only you know (how the data were collected, ethics approval, why the test
+was given), and rewrite it in your own voice. Your committee will read it
+as yours.
+
+## 6. Keep an appendix
+
+One HTML file holds the whole analysis: Model comparison, parameters,
+fit, figures and item health cards.
+
+```{r report, eval = FALSE}
+mv_report(sel, file = "appendix-irt-analysis.html")
+```
+
+Save your R script next to it. If someone asks how a number was produced,
+the script answers.
+
+## Where to go next
+
+- [The book](../book/index.html) explains each step in more depth: See the
+  chapters on [estimation and comparing models](../book/estimation.html),
+  [fit](../book/fit.html) and [reporting](../book/reporting.html).
+- [Differential item functioning](../reference/dif.html) if your thesis
+  compares groups.
+- [Gallery](gallery.html) for every figure type.
