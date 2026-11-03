@@ -12,7 +12,14 @@ labels = re.findall(r"\\label\{(fig:[^}]+)\}", body)
 for i, lab in enumerate(labels, 1):
     body = body.replace(f"\\autoref{{{lab}}}", f"Figure {i}")
     body = re.sub(r"!\[(.*?)\\label\{" + re.escape(lab) + r"\}\]", lambda m: f"![Figure {i}. {m.group(1)}]", body)
-authors = "".join(f'<p class="author">{a["name"]}</p>' for a in meta["authors"])
+def who(a):
+    out = a["name"]
+    if a.get("orcid"):
+        out += f' <a href="https://orcid.org/{a["orcid"]}" style="font-size:8.5pt">ORCID {a["orcid"]}</a>'
+    if a.get("email"):
+        out += f' <span style="font-size:8.5pt;color:#555">· <a href="mailto:{a["email"]}">{a["email"]}</a>{" (corresponding author)" if a.get("corresponding") else ""}</span>'
+    return f'<p class="author">{out}</p>'
+authors = "".join(who(a) for a in meta["authors"])
 affils = "".join(f'<p class="affil">{a["index"]}. {a["name"]}</p>' for a in meta["affiliations"])
 header = (f'<h1 class="title">{meta["title"]}</h1>{authors}{affils}<p class="date">{meta["date"]}</p>'
           '<p class="preprint-note">Preprint. Not peer reviewed.</p>')

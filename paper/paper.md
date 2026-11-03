@@ -9,9 +9,12 @@ tags:
   - automated scoring
 authors:
   - name: Okan Bulut
+    orcid: 0000-0001-5853-1267
+    email: bulut@ualberta.ca
+    corresponding: true
     affiliation: 1
 affiliations:
-  - name: Centre for Research in Applied Measurement and Evaluation, University of Alberta, Canada
+  - name: Centre for Research in Applied Measurement and Evaluation, University of Alberta
     index: 1
 date: 3 November 2026
 bibliography: paper.bib
