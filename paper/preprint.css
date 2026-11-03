@@ -7,7 +7,7 @@ h1 { font-family: Inter, sans-serif; font-size: 13.5pt; color: #16324f; margin: 
 h2 { font-family: Inter, sans-serif; font-size: 11.5pt; color: #16324f; margin: 12pt 0 4pt; break-after: avoid; }
 p { margin: 0 0 7pt; text-align: justify; hyphens: auto; }
 code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; }
-pre { background: #f5f7fa; border: 1px solid #e3e8ee; border-radius: 4px; padding: 7pt 9pt; font-size: 8.4pt; line-height: 1.35; break-inside: avoid; white-space: pre-wrap; }
+pre { background: #f5f7fa; border: 1px solid #e3e8ee; border-radius: 4px; padding: 7pt 9pt; font-size: 8.4pt; line-height: 1.35; break-inside: auto; orphans: 4; widows: 4; white-space: pre-wrap; }
 pre code { font-size: 8.4pt; }
 figure { margin: 10pt 0; break-inside: avoid; text-align: center; }
 figure img { max-width: 100%; }

@@ -224,13 +224,8 @@ point-and-click route leads into R rather than away from it.
 responses and response times [@vanderlinden2007] and flags rapid guessing.
 `mirtify()` translates code written for ltm, eRm, TAM or irtQ into the
 equivalent mirt code, which lowers the cost of moving existing analyses. The
-`mv_pipeline()` family carries a test through thirteen stages, from a
-blueprint and item writing through calibration, linking to a bank, form
-assembly, adaptive testing simulation, cut scores, test security checks,
-reporting and bank monitoring. At each stage, problems are raised as flags
-with three levels (information, review and block); the analyst can
-acknowledge or override a flag with a recorded note, and a strict mode
-refuses to continue past a blocking flag.
+`mv_pipeline()` family links these functions into a full assessment
+pipeline, described below.
 
 **Design trade-offs.** Three decisions shape the package. First, mirtverse
 never re-estimates what mirt estimates: It reads mirt objects and calls mirt
@@ -299,16 +294,95 @@ LLM-simulated answers with real response data, and it is labelled
 experimental throughout because the validity of synthetic respondents is
 still an open research question.
 
-# Example
+# Examples: Psychometric analysis with mirt
 
-A user who does not yet know the function names can start from a
-plain-language request. Here `mv_ask()` reads a request about the
-`numeracy` data in mirtverse (2,000 students, 30 scored items). With no AI
-model set up, its offline keyword parser fills the plan, and the script is
-shown before anything runs:
+The examples in this section use mirtverse as an extension of mirt for the
+analyses psychometricians already run. Every model is an ordinary mirt
+model, so anything mirt can do with it still works.
+
+## Choosing, explaining and reporting a model
+
+The following code compares the Rasch and 2PL models for 32 scored
+multiple-choice items answered by 600 students (the SAT12 data in mirt),
+explains the choice, and drafts the Methods paragraph:
 
 ```r
 library(mirtverse)
+key <- c(1,4,5,2,3,1,2,1,3,1,2,4,2,1,5,3,4,4,1,4,3,3,4,1,3,5,1,3,1,5,4,5)
+data <- key2binary(SAT12, key)
+
+sel <- select_model(data, candidates = c("Rasch", "2PL"))
+sel
+#> The 2PL model is recommended because it has the lowest BIC (19387.3). The
+#> runner-up, Rasch, is 110.7 BIC points worse, which is very strong evidence
+#> for the 2PL model. Likelihood-ratio test Rasch vs. 2PL: chi-square(31) =
+#> 309.03, p < .001; the 2PL model fits significantly better. Absolute fit of
+#> the 2PL model: RMSEA = 0.028 (close fit), CFI = 0.953, SRMSR = 0.045.
+
+mod <- sel$best          # an ordinary mirt model
+interpret(mod)           # plain-language summary
+item_card(mod, "Item.12")
+cite_methods(sel, sample = "high school students", file = "methods.docx")
+mv_report(sel, file = "report.html")
+```
+
+## Checking items for differential functioning
+
+The `certexam` data in mirtverse hold a 32-item certification exam taken by
+1,200 candidates in English or French. `dif()` runs likelihood-ratio
+DIF tests with mirt with a Benjamini-Hochberg adjustment and effect sizes for every
+item, and `interpret()` explains the result:
+
+```r
+scored <- key2binary(certexam[, -(1:2)], certexam_key)
+d <- dif(scored, group = certexam$language, model = "2PL")
+interpret(d)
+#> * Items were tested for DIF between English and French, with English as
+#>   the reference group (n = 750 English, n = 450 French).
+#> * On the common scale, the French group's mean ability is 0.38 SD below
+#>   the English group's, and its SD is 0.93.
+#> * 2 of 32 items show DIF: Q27 (expected score difference -0.062, favours
+#>   English; p < .001); Q09 (expected score difference -0.147, favours
+#>   English; p < .001).
+#> * For Q27 the unsigned difference is much larger than the signed one,
+#>   which suggests the curves cross (non-uniform DIF); see gg_dif(x, type =
+#>   "curves").
+#> * Statistical DIF is not proof of bias: ask content experts whether these
+#>   items measure something other than the intended ability for one group
+#>   before removing or revising them.
+gg_dif(d, type = "curves")
+```
+
+The summary separates a real difference in ability between the groups from
+DIF, names the items, says which group each one favours and how much, and
+points to the plot that shows the crossing curves. It ends with the caution
+a psychometrician would give a student: A flagged item goes to content
+experts before it is removed.
+
+# Examples: The generative AI layer
+
+The examples in this section use the AI layer. Each one runs without an API
+key: Item models and scoring engines are fitted in R, and the language model
+calls answer from recorded responses in replay mode.
+
+## Analysis scripts from plain-language requests
+
+`mv_ask()` turns a request in everyday language into an analysis plan, fills
+the plan from tested code templates, and shows the R script before anything
+runs. The examples go from simple to more complex. The simplest request
+names only a model, and the offline keyword parser is enough:
+
+```r
+scr <- mv_ask("fit a Rasch model", data = numeracy, provider = "none")
+scr$plan$steps
+#> [1] "describe"  "fitcheck"  "interpret"
+```
+
+A longer request adds item fit and a DIF analysis by a grouping column. The
+plan lists every assumption it made, and the script uses only mirt and
+mirtverse functions:
+
+```r
 scr <- mv_ask("fit a 2PL model, check item fit and DIF by gender",
               data = numeracy, provider = "none")
 scr
@@ -323,26 +397,101 @@ scr
 #>
 #> R script (run it with run_script(), save it with save_script())
 #> mod <- mirt(items, 1, itemtype = "2PL")
-#> glance(mod)
 #> item_table(mod)
 #> gg_itemfit(mod)
 #> dif_res <- dif(items, group = group, model = "2PL")
 #> interpret(dif_res)
 #> ...
-
 res <- run_script(scr)          # res$mod is an ordinary mirt model
 save_script(scr, "analysis.R")  # a plain R script to edit, rerun and share
 ```
 
-The same request, sent to a language model instead of the keyword parser,
-fills the same plan from the same tested templates, so the code that runs
-does not depend on which route was used. Here `interpret(res$dif_res)`
-reports that none of the 30 items shows DIF between girls and boys. From the
-fitted model, `interpret()`, `item_card()`, `cite_methods()` and
-`mv_report()` produce a plain-language summary, item-level summaries, a
-Methods paragraph and a full HTML report.
+A request phrased as a researcher would say it goes to a language model.
+The model sees only a description of the columns, never the responses, and
+returns the same structured plan. Here the replay mode answers from a
+recorded response, and a follow-up request extends the plan rather than
+starting again:
 
-The AI layer follows the same pattern. Here a scoring engine is trained on
+```r
+old <- mv_llm_replay()
+req <- paste("Fit a graded response model to these attitude items,",
+             "check the fit and explain the results.")
+scr <- mv_ask(req, data = Science)
+scr
+#> Analysis plan
+#>   - Data: Science
+#>   - Items: Comfort, Work, Future, Benefit
+#>   - Model: graded response, 1 dimension
+#>   - Steps: fit, describe, fitcheck, plots, interpret
+#> Assumptions
+#>   - All four columns (Comfort, Work, Future, Benefit) are items scored 1 to 4.
+#>   - No grouping column was mentioned, so no DIF analysis is included.
+scr <- mv_ask(scr, "also make a report")
+scr$plan$steps
+#> [1] "describe"  "fitcheck"  "plots"     "interpret" "report"
+```
+
+When a request leaves out something the analysis needs, `mv_ask()` asks
+instead of guessing. "Check DIF" on data with no column named in the request
+stops with the question "Which column holds the groups to compare for DIF?".
+Because the code always comes from the same templates, the script that runs
+does not depend on whether a language model or the keyword parser read the
+request.
+
+## Automatic item generation
+
+An item model is a template whose numbers vary while the task stays the
+same. `generate_isomorphs()` fills it with values that meet the constraints
+and drops any item whose options are not all different:
+
+```r
+speed <- item_model(
+  stem = "A car travels {s * t} km in {t} hours. What is its average speed?",
+  key = "{s} km/h",
+  distractors = c(multiplied = "{s * t * t} km/h", subtracted = "{s * t - t} km/h",
+                  distance = "{s * t} km/h"),
+  values = list(s = seq(40, 90, 10), t = 2:5), name = "SPD")
+items <- generate_isomorphs(speed, n = 3)
+items$stem[1]
+#> [1] "A car travels 80 km in 2 hours. What is its average speed?"
+items[, c("id", "A", "B", "C", "D", "key")]
+#>   id     A        B        C        D        key
+#>   SPD-01 160 km/h 40 km/h  78 km/h  80 km/h  B
+#>   SPD-02 280 km/h 140 km/h 70 km/h  138 km/h C
+#>   SPD-03 40 km/h  120 km/h 117 km/h 360 km/h A
+```
+
+Each distractor comes from a named misconception, so an error in the model
+is caught for all of its items at once. After a field test,
+`calibrate_families()` checks whether the items of each family are equally
+difficult. In the `aigfield` data, 60 items from six item models were given
+to 1,000 students:
+
+```r
+cal <- calibrate_families(calibrated, family = "model", se = "b_se")
+cal
+#>  family items mean_b sd_within 95% for new item field_n isomorphic
+#>     PER    10  -1.04      0.12   -1.29 to -0.79     423        yes
+#>     SUB    10  -0.36      0.50    -1.40 to 0.68      19         NO
+#>     OOO    10   0.31      0.11     0.08 to 0.53     424        yes
+#>     TRI    10   0.42      0.75    -1.12 to 1.95       9         NO
+#>     EQN    10   0.63      0.11     0.40 to 0.85     437        yes
+#>     PCT    10   0.93      0.02     0.86 to 1.00  >5,000        yes
+```
+
+Here `calibrated` holds each item's difficulty (`b`) and its standard error
+from a 2PL model fitted with mirt. Four families are isomorphic, so a new
+item from them can be used with its family's mean difficulty in place of a
+field test of several hundred students (`field_n`). Two are not: Some
+subtraction (SUB) items need regrouping, which makes them harder, and two
+triangle (TRI) items have two identical options. For items written by a
+language model rather than a template, `generate_items()` drafts items from a
+blueprint and `verify_items()` has a second model call answer each one
+without the key.
+
+## Automated scoring
+
+A scoring engine is trained on
 400 essays that two human raters have scored, and its cross-validated scores
 are checked against the raters:
 
@@ -364,6 +513,7 @@ scores are systematically too low, and the report says so
 have passed; a psychometric check catches the problem before any score is
 reported.
 
+## Auditing an AI component
 
 A scoring engine is one AI component among several, and a testing program
 needs one place to check them all before results are used. `ai_audit()` runs
@@ -406,7 +556,91 @@ on CR4, so the rubric, not the engine, needs attention first.
 `validity_argument(audit)` turns these results into the validity section of
 the technical report.
 
+## Synthetic respondents from a language model
+
+Before a field test, a language model can answer items in the role of
+described test takers. `simulate_llm_respondents()` collects these answers
+and `compare_synthetic()` sets them beside real data. Here 12 personas answer
+12 numeracy items whose field-test difficulties are known:
+
+```r
+old   <- mv_llm_replay()   # answer from recordings that come with mirtverse
+items <- itemtext[endsWith(itemtext$id, "-01"), ]
+personas <- c("A Grade 7 student who struggles with mathematics.",
+              "A Grade 7 student who is about average in mathematics.",
+              "A Grade 7 student who is strong in mathematics.")  # 12 in all
+syn <- simulate_llm_respondents(items, personas)
+compare_synthetic(syn, stats::setNames(items$p_field, items$id))
+#> * The simulated respondents find the items easier than real test
+#>   takers: Mean proportion correct 0.77 against 0.44.
+#> * They order the items by difficulty only loosely like real test takers
+#>   do (Spearman correlation 0.68), so they cannot stand in for a field
+#>   test of difficulty.
+#> * Their answers vary little: 5 distinct response patterns among 12
+#>   simulated respondents. Respondents described alike answer alike.
+```
+
+The comparison is the point of the example. Synthetic respondents are
+marked as experimental in mirtverse, and the package says plainly what they
+cannot do: They are useful for finding unclear items or planning a study,
+not for estimating item parameters or replacing a field test.
+
 ![Agreement between machine and human scores overall and by group. Left: Quadratic weighted kappa for machine-human (dots) and human-human (crosses) agreement. Right: Standardized mean difference between machine and human scores, with the band of acceptable differences for groups.\label{fig:agreement}](figures/agreement.png)
+
+# Beyond single analyses: The assessment pipeline
+
+The examples above are single analyses. A testing program needs all of them,
+in order, with a record of every decision. The `mv_pipeline()` family brings
+the traditional and the AI-based functions together in one object that
+carries a test through thirteen stages, from the blueprint to the monitoring
+of the item bank after each administration (\autoref{fig:pipeline}).
+
+![The assessment pipeline in mirtverse, as it appears on the package website for the certification exam example. Each stage ends with a gate whose checks raise flags at three levels; the colours show what the gates found in that example, and stages 1 and 2 were skipped because the items already existed.\label{fig:pipeline}](figures/pipeline.png)
+
+The stages fall into four phases:
+
+- **Plan and write.** A blueprint records what the test measures, how its
+  scores will be used and how many items each content cell needs. Items are
+  drafted by a language model or written by people, the keys of generated
+  items are checked by a second model call, and a review packet goes to
+  content and sensitivity reviewers. A field-test design spreads the items
+  over forms with shared anchors and simulates how well the parameters will
+  be recovered.
+- **Calibrate.** Raw answers are scored and screened for miskeys,
+  straight-lining and rapid guessing before any model is fitted. The
+  calibration with mirt is checked from convergence to item fit, local
+  dependence, DIF, reliability and person fit, and the calibrated items are
+  stored in an item bank and linked to its scale through anchor items.
+- **Build and decide.** Parallel forms are assembled to the blueprint, and
+  adaptive and multistage tests are simulated from the bank. Cut scores come
+  with their classification accuracy and consistency. Open-ended responses
+  are scored by a rubric-based language model or a trained engine, and
+  machine scores are used only after they agree with human scores, overall
+  and within groups.
+- **Operate.** Security checks look for preknowledge, leaked items, answer
+  copying and aberrant response times. A technical report lists every stage,
+  every flag and every decision, with the code that reproduces them, and
+  bank monitoring shows where the bank is thin, which starts the next round
+  of item writing.
+
+Each stage ends with a gate. Every check compares a statistic with a
+threshold from `mv_rules()`, which follow common operational practice and
+can each be changed by name. A flag is information, a matter for review, or
+a block that makes later stages unsafe. The analyst can acknowledge or
+override a flag, or drop an item, and each decision is recorded with its
+reason. In strict mode, a stage will not start while an earlier stage has
+open review or block flags, so no problem is passed over without a recorded
+decision. The **Pipeline** tab of the workbench shows the same stages and
+flags without code.
+
+The pipeline is where the two halves of mirtverse meet. The AI functions are
+not a separate toolbox: Generated items enter at the same gates as written
+ones, machine scores must pass agreement checks against human scores
+before they count, and
+`ai_audit()` and `validity_argument()` feed the same technical report as
+the calibration. A worked example on the package website takes a simulated
+certification exam through every stage, with problems planted in the data
+for the gates to find.
 
 # Teaching and learning resources
 
