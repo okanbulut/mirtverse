@@ -151,7 +151,7 @@ and their focus.
 | **TAM** [@tam] | Unidimensional and multidimensional Rasch-type and 2PL models, facets models and tools for large-scale assessment |
 | **irtQ** [@irtq] | Unidimensional models, fixed item parameter calibration and online calibration for operational testing |
 | **mirt** [@chalmers2012] | Unidimensional and multidimensional, exploratory and confirmatory, multiple-group and mixed-effects IRT with many item types and estimators |
-| **lme4** approach [@deboeck2011] and **eirm** [@bulut2021] | Rasch-type and explanatory IRT models as generalized linear mixed models |
+| **lme4** [@deboeck2011] and **eirm** [@bulut2021] | Rasch-type and explanatory IRT models as generalized linear mixed models |
 | **lavaan** [@rosseel2012] | Item factor analysis of categorical indicators within structural equation modeling |
 | **difR** [@magis2010] | Detection of differential item functioning with many methods |
 | **mirtCAT** [@chalmers2016] | Computerized adaptive and non-adaptive test interfaces built on mirt |
