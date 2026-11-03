@@ -204,7 +204,10 @@ write_methods <- function(x, file) {
       stop("Writing a Word file needs the rmarkdown package and pandoc.", call. = FALSE)
     tmp <- tempfile(fileext = ".md")
     writeLines(md, tmp, useBytes = TRUE)
-    rmarkdown::pandoc_convert(tmp, to = "docx", output = normalizePath(file, mustWork = FALSE))
+    # pandoc runs in the temp folder, so the output path must be absolute;
+    # normalizePath() leaves a relative path unchanged when the file is new
+    out <- file.path(normalizePath(dirname(file), mustWork = TRUE), basename(file))
+    rmarkdown::pandoc_convert(tmp, to = "docx", output = out)
   } else {
     writeLines(md, file, useBytes = TRUE)
   }

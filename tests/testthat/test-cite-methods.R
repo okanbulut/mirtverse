@@ -52,6 +52,12 @@ test_that("cite_methods prints, formats and writes files", {
   d <- tempfile(fileext = ".docx")
   cite_methods(mod_2pl, fit = FALSE, item_fit = FALSE, file = d)
   expect_true(file.exists(d))
+  # a relative path is written to the working directory, not pandoc's temp folder
+  withr::with_tempfile("dir", {
+    dir.create(dir)
+    withr::with_dir(dir, cite_methods(mod_2pl, fit = FALSE, item_fit = FALSE, file = "m.docx"))
+    expect_true(file.exists(file.path(dir, "m.docx")))
+  })
 })
 
 test_that("cite_methods rejects objects that are not mirt models", {
