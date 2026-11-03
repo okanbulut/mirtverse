@@ -1,0 +1,236 @@
+---
+title: "AI in measurement"
+subtitle: "A one-day workshop for psychometricians"
+author: "Made with mirtverse"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+<!--
+Facilitator: The code on these slides is shown, not run, so the slides
+render in seconds. Run it live in R during the day if you like: Every
+example works offline after mv_llm_replay(). See facilitator-guide.Rmd for
+timings and talking points.
+-->
+
+# What changes and what does not
+
+## The day
+
+| Time | Session |
+|---|---|
+| 9:00 | AI in measurement: What changes and what does not |
+| 9:45 | Automated scoring (Lab 7) |
+| 11:15 | Item text and difficulty (Lab 8) |
+| 13:30 | Automatic item generation (Lab 9) |
+| 15:00 | Auditing an AI-scored test (Lab 10) |
+| 16:15 | Governance, and what to do on Monday |
+
+Everything runs offline: Simulated data, and recorded answers in place of a
+live language model.
+
+## AI changes how parts of a test are made
+
+- Items drafted in minutes, from a prompt or a template
+- Written answers scored as they arrive
+- Difficulty estimated from the text before a field test
+- Analysis code drafted from a sentence
+
+## It does not change what a test has to show
+
+- The scores mean what we say they mean, for the people we use them with
+- The *Standards* apply to an AI-scored test as to any other
+- Every AI output passes a psychometric check before it counts
+- A person decides, and is accountable
+
+## You already have the tools
+
+| Machine learning says | You say |
+|---|---|
+| Feature | Item or person characteristic, covariate |
+| Training data | Calibration sample |
+| Overfitting, cross-validation | Capitalizing on chance, cross-validation |
+| Accuracy of an engine | Agreement with raters |
+| Bias of an engine | Differential scoring, DIF |
+| Model drift | Scale drift, parameter drift |
+
+The [translation table](https://www.okanbulut.com/mirtverse/articles/ai-translation.html)
+has 46 terms.
+
+## Three facts about language models
+
+- **The output is a sample.** The same prompt can give different answers.
+  Treat a model like a rater, not a formula.
+- **It can be fluently wrong.** Wrong keys, invented references and misread
+  rubrics look just like correct answers.
+- **What you send leaves your computer**, unless the model runs locally.
+
+The rule for the day: **The model drafts, something else checks, a person
+decides.**
+
+## Set up once
+
+```{r}
+library(mirtverse)
+mv_llm_replay()          # answer every model request from the recordings
+list_labs()              # the ten labs; today we use 7 to 10
+run_lab("auto-scoring")  # opens Lab 7 in the browser
+```
+
+# Automated scoring
+
+## Can a machine score as well as raters?
+
+- Train an engine on human-scored answers; judge it on **new** students
+- **QWK** against a human, beside human-human QWK
+- **SMD** between machine and human scores, overall and within groups
+- **PRMSE**: How well the machine score predicts the true score
+
+```{r}
+engine <- train_scorer(e1[1:300, ])
+agreement_report(predict(engine, test), test$human1, test$human2,
+                 group = test$group)
+```
+
+## Lab 7: Can the engine score alone?
+
+`run_lab("auto-scoring")`, about 75 minutes.
+
+- Measure human agreement, split by student, train an engine
+- Read its word weights: What is it rewarding?
+- Judge it overall and for English language learners
+- Decide its role: Sole scorer, second rater, or neither
+
+**Ask:** Agreement with raters is only as good as the raters. What else
+would you want to know?
+
+# Item text and difficulty
+
+## What does the wording tell us before anyone answers?
+
+- Features of the text: Length, reading level, numbers, options, similarity
+- The **LLTM** says what each feature adds to difficulty
+- A lasso or a random forest shows how much more a flexible model predicts
+- Judge them by cross-validation, holding out whole item families
+
+```{r}
+feats <- item_features(itemtext)
+predict_difficulty(merge(itemtext, feats),
+                   c("family", "sentences", "decimals", "max_digits"),
+                   se = "b_se", group = "family")
+```
+
+## Lab 8: Predicting difficulty before field testing
+
+`run_lab("item-text")`, about 75 minutes.
+
+- Find near-duplicates and miskeyed items from the text alone
+- Catch a feature that leaks the field-test result
+- Decide what predictions can replace, and what they cannot
+
+**Ask:** A model predicts difficulty with R² = .60 for new items from known
+families, and .15 for a new kind of item. What do you tell the program?
+
+# Automatic item generation
+
+## Item models and families
+
+- An **item model** is a stem, key and distractors written as templates
+- Every item it makes shares its structure, so an error is caught once
+- After the field test: Are the items of a family **equally difficult**?
+
+```{r}
+area <- item_model(
+  stem = "A rectangle is {l} cm long and {w} cm wide. What is its area?",
+  key = "{l * w} square cm",
+  distractors = c(perimeter = "{2 * (l + w)} square cm", added = "{l + w} square cm",
+                  half = "{l * w / 2} square cm"),
+  values = list(l = 4:12, w = 2:8), constraints = c("l > w", "(l * w) %% 2 == 0"))
+generate_isomorphs(area, n = 10)
+```
+
+## Lab 9: Building an item factory
+
+`run_lab("aig")`, about 75 minutes.
+
+- Fix an item model whose options can coincide
+- Calibrate a field test of generated items with `calibrate_families()`
+- Trace the families that are not isomorphic to their cause
+- Decide when a family mean can stand in for a field test
+
+**Ask:** What would you still review by hand in an isomorphic family?
+
+# Auditing an AI-scored test
+
+## The audit
+
+- Agreement with raters, and between raters
+- **Differential scoring**: Machine minus human for students with the same
+  human score, by group
+- **Drift** across administrations or engine versions
+- **DIF** on the test as scored, separating the engine from the item
+
+```{r}
+audit <- ai_audit(aiscored_cr, human2 = "human2", group = "group",
+                  item = "item", period = "year")
+validity_argument(audit, construct = "Grade 8 science",
+                  use = "school accountability")
+```
+
+## Lab 10: Auditing an AI-scored test
+
+`run_lab("ai-audit")`, about 75 minutes.
+
+- Four problems are planted in the data; find them
+- Draft the validity argument for a technical advisory committee
+- Decide which scores can be reported this year
+
+**Ask:** Which of the four problems would pooled statistics have hidden?
+
+# Governance, and Monday
+
+## Who owns an AI component?
+
+- **Ownership:** A named person accountable for each component
+- **Change control:** Every engine or prompt update is a new version, audited
+  before use
+- **Oversight:** People review what the audit flags, and a sample of the rest
+- **Disclosure and appeals:** Test takers know a machine was involved and can
+  ask for a person
+- **Monitoring:** Agreement and fairness in every administration
+- **Data:** What is sent where, and for how long it is kept
+
+## Experimental: Language models as respondents
+
+- A model answers items "as a Grade 7 student who struggles with fractions"
+- Tempting: Try out items before a field test
+- What studies find: Items look too easy, similar personas answer alike,
+  groups are played as stereotypes
+
+```{r}
+syn <- simulate_llm_respondents(items, personas)   # experimental
+compare_synthetic(syn, setNames(items$p_field, items$id))
+```
+
+Useful for finding unclear wording; no substitute for real respondents.
+
+## What to do on Monday
+
+1. List the AI components your program uses or plans to use
+2. For each: Who owns it? What evidence exists? What is the next check?
+3. Run `ai_audit()` on one of them, or on the lab data if you have none
+4. Draft the validity argument with `validity_argument()`, and share it
+
+## Read more
+
+- The book *Item Response Theory with mirt and mirtverse*, chapters 13 to 18
+- The [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html):
+  Learning path, functions and examples
+- The [reading list](https://www.okanbulut.com/mirtverse/articles/ai-reading.html):
+  Overviews, scoring, item text, AIG, validity

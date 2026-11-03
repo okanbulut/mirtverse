@@ -22,6 +22,8 @@ navbar:
         href: articles/ai-translation.html
       - text: Reading list
         href: articles/ai-reading.html
+      - text: One-day workshop kit
+        href: articles/ai-workshop.html
       - text: "Book: AI in measurement"
         href: book/ml-lens.html
       - text: -------
@@ -72,6 +74,7 @@ articles:
   - articles/ai-hub
   - articles/ai-translation
   - articles/ai-reading
+  - articles/ai-workshop
 
 reference:
 - title: Workbench
@@ -127,7 +130,8 @@ reference:
     describe items by their text and predict their difficulty, generate
     items from item models and calibrate their families, train and check an
     automated scoring engine, audit AI components and draft a validity
-    argument, and teaching datasets with item text, written answers, a
+    argument, simulate respondents with a language model (experimental),
+    and teaching datasets with item text, written answers, a
     field test of generated items and an AI-scored test.
   contents:
   - mv_llm_replay
@@ -141,6 +145,8 @@ reference:
   - agreement_report
   - ai_audit
   - validity_argument
+  - simulate_llm_respondents
+  - compare_synthetic
   - itemtext
   - essays
   - aigfield
@@ -204,6 +210,7 @@ reference:
   - swap_lab_data
   - lab_data
   - copy_chapter
+  - copy_workshop
   - check_material
   - preview_lab
 - title: AI assistant for instructors

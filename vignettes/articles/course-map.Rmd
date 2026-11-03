@@ -401,7 +401,9 @@ new_lab("our-engine", data = "data/responses.csv",
 
 For practitioners who already know IRT, the module fits in one day. Ask
 participants to install the packages before they come and to read the [AI
-Hub](ai-hub.html) page.
+Hub](ai-hub.html) page. The [workshop kit](ai-workshop.html)
+(`copy_workshop()`) has the slides and a facilitator's guide for this
+schedule.
 
 | Time | Session | Material |
 |---|---|---|

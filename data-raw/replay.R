@@ -11,6 +11,10 @@
 #     ("2.5 cm", a length, not a volume)
 #   * the rater model scores two ELL answers one point
 #     below the rubric, and is unsure about very short answers
+#   * the simulated respondents (experimental) find the items far too easy,
+#     judge difficulty mostly by how long and wordy an item is, answer alike
+#     when their personas are alike, and play "still learning English" and
+#     "reads slowly" as a stereotype: They miss every long word problem
 #
 # The calls are in inst/replay/examples.R. To rebuild, install the package
 # from source first, then run from the package root:
@@ -105,6 +109,29 @@ score_answer <- function(texts) {
   })
 }
 
+# simulated respondents: a persona's "ability" read from its wording, an item's
+# difficulty as the model sees it (mostly surface length, a little real b)
+synth_items <- local({
+  it <- itemtext[endsWith(itemtext$id, "-01"), ]
+  words <- lengths(strsplit(it$stem, "\\s+"))
+  z <- function(v) (v - mean(v)) / stats::sd(v)
+  data.frame(id = it$id, key = it$key, words = words,
+             seen = 0.35 * z(it$b) + 0.65 * z(words), stringsAsFactors = FALSE)
+})
+synth_answer <- function(prompt) {
+  persona <- sub("^Respondent: ([^\n]+)\n.*$", "\\1", prompt)
+  cut <- if (grepl("struggles|hard|rushes", persona)) 0.3 else
+    if (grepl("average", persona)) 1.0 else 9
+  wordy <- grepl("learning English|reads slowly", persona)
+  ids <- regmatches(prompt, gregexpr("(?<=\\[)[A-Z0-9-]+(?=\\])", prompt, perl = TRUE))[[1]]
+  lapply(ids, function(i) {
+    r <- synth_items[synth_items$id == i, ]
+    right <- r$seen < cut && !(wordy && r$words >= 16)
+    if (grepl("fractions and decimals", persona) && i %in% c("N06-01", "N09-01")) right <- FALSE
+    list(item = i, answer = if (right) r$key else setdiff(LETTERS[1:4], r$key)[1])
+  })
+}
+
 # ---- a stand-in chat that gives the authored answers --------------------------
 
 authored_chat <- function(provider, model, system_prompt) {
@@ -116,6 +143,8 @@ authored_chat <- function(provider, model, system_prompt) {
     }
     if (startsWith(system_prompt, "You are a careful subject-matter expert"))
       return(verify_answer(strsplit(prompt, "\n")[[1]][1]))
+    if (startsWith(system_prompt, "You are simulating how a particular test taker"))
+      return(list(answers = synth_answer(prompt)))
     if (startsWith(system_prompt, "You are a trained rater")) {
       lines <- grep("^\\[[0-9]+\\] ", strsplit(prompt, "\n")[[1]], value = TRUE)
       return(list(scores = score_answer(sub("^\\[[0-9]+\\] ", "", lines))))

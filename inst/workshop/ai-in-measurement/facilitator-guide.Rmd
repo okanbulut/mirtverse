@@ -1,0 +1,147 @@
+---
+title: "AI in measurement: Facilitator's guide"
+output: html_document
+---
+
+This guide is for the person running the one-day workshop "AI in
+measurement" with the mirtverse R package. It goes with `slides.Rmd` in
+the same folder. The day suits 8 to 30 participants who know item response
+theory (IRT) and have used R, such as psychometricians, testing-program
+staff and graduate students. No one needs to have trained a machine
+learning model or used a language model before.
+
+## Before the day
+
+**Two weeks before.** Send participants these instructions:
+
+```r
+install.packages(c("mirt", "learnr", "remotes"))
+remotes::install_github("okanbulut/mirtverse")
+library(mirtverse)
+run_lab("auto-scoring")   # should open a lab in the browser
+```
+
+Ask them to read the AI Hub page on the mirtverse site (ten minutes) and to
+bring one AI use from their own work, planned or real.
+
+**The day before.** Run each of Labs 7 to 10 to the end yourself, and keep
+the answer key open (the "Teaching labs" article on the mirtverse site,
+section "Answer key"). Render the slides with `rmarkdown::render("slides.Rmd")`.
+Check that the room has power for every laptop. Nothing needs the
+internet, but installing packages on the day does.
+
+**Pairs.** Labs work best in pairs, one person typing. Mix people from
+different programs or roles.
+
+## The schedule
+
+| Time | Session | What participants do |
+|---|---|---|
+| 9:00 to 9:45 | What changes and what does not | Slides; a two-minute round of the AI uses they brought |
+| 9:45 to 11:00 | Automated scoring | Lab 7, `run_lab("auto-scoring")` |
+| 11:00 to 11:15 | Break | |
+| 11:15 to 12:30 | Item text and difficulty | Lab 8, `run_lab("item-text")` |
+| 12:30 to 13:30 | Lunch | |
+| 13:30 to 14:45 | Automatic item generation | Lab 9, `run_lab("aig")` |
+| 14:45 to 15:00 | Break | |
+| 15:00 to 16:15 | Auditing an AI-scored test | Lab 10, `run_lab("ai-audit")` |
+| 16:15 to 17:00 | Governance, and what to do on Monday | Slides; each participant writes their Monday plan |
+
+Each lab session is 75 minutes: Ten minutes of slides, 50 of lab work and
+15 for discussion. If a lab runs long, cut its last section rather than the
+discussion, which is where the day's ideas get connected.
+
+**Half a day instead?** Keep the opening, Lab 7 and Lab 10, and the
+governance session: Together they take an engine from training to audit.
+
+## Session by session
+
+### 1. What changes and what does not
+
+**Goal.** Participants leave the session sure that their training applies:
+AI changes how parts of a test are made, not what the scores must show.
+
+**Say.** Start from the jobs in the room, not from the technology. Use the
+translation slide to show that most machine learning words have a
+measurement twin. Introduce the rule for the day: The model drafts,
+something else checks, a person decides.
+
+**Ask.** "What AI use did you bring, and who checks it now?" Write the uses
+on a board and come back to them in the last session.
+
+### 2. Automated scoring (Lab 7)
+
+**Goal.** Participants can judge a scoring engine with QWK, SMD and PRMSE,
+overall and within groups, and choose its role.
+
+**Watch for.** People who judge the engine on the students it was trained
+on; the lab splits by student for a reason. People who stop at a high QWK;
+the problem is in the group SMD.
+
+**Discuss.** "The engine agrees with raters as well as raters agree with
+each other. Is that enough?" Bring out that raters can share a bias the
+engine then learns.
+
+### 3. Item text and difficulty (Lab 8)
+
+**Goal.** Participants can predict difficulty from item text, judge the
+prediction by cross-validation, and say what it can and cannot replace.
+
+**Watch for.** The leaky feature: Its near-perfect prediction is the
+point of the exercise. Hold back the answer until most pairs have found it.
+
+**Discuss.** "When would you trust a predicted difficulty enough to skip a
+field test?" Bring out the difference between a new item of a known kind
+and a new kind of item.
+
+### 4. Automatic item generation (Lab 9)
+
+**Goal.** Participants can write and fix an item model, and check after a
+field test whether its items are equally difficult.
+
+**Watch for.** Pairs who stop after generating items: The lab's lesson is in
+the calibration, where two families turn out not to be isomorphic for
+different reasons.
+
+**Discuss.** "Who reviews generated items, and how many?" Bring out that a
+reviewed template is not a reviewed item.
+
+### 5. Auditing an AI-scored test (Lab 10)
+
+**Goal.** Participants can run an audit, separate differential scoring from
+DIF and drift, and turn the results into a validity argument.
+
+**Watch for.** Drift that pooling the two years hides, and the DIF that has
+nothing to do with the engine. Both are planted; ask pairs to explain each
+in one sentence.
+
+**Discuss.** "Which scores can be reported this year, and what does the
+technical advisory committee need to see?"
+
+### 6. Governance, and what to do on Monday
+
+**Goal.** Participants leave with a plan for one AI component of their own.
+
+**Do.** Go back to the uses on the board. For two of them, ask the room:
+Who owns it, what evidence exists, what is the next check? Then give
+everyone ten minutes to write their own Monday plan from the last slide.
+
+**Mention, briefly.** The experimental slide on language models as
+respondents. Keep it short: The point is that a fluent answer is not a
+measurement, the same point as the rest of the day.
+
+## When something goes wrong
+
+| Problem | What to do |
+|---|---|
+| A lab does not open | Check `library(learnr)` loads; restart R; try `learnr::run_tutorial("auto-scoring", package = "mirtverse")`. |
+| A lab exercise is slow | Some exercises fit IRT models; ask the pair to wait a minute, or show the result on your screen. |
+| "Which model is this?" | None: The language-model answers are recordings, written to show typical behaviour and mistakes, so everyone sees the same result. |
+| A participant wants a live model | After the day, `mv_ask_setup()` connects Claude, OpenAI or a local model through Ollama; `mv_llm_record()` saves a session to replay in class. |
+| A pair finishes early | Ask them to build a lab on their own data with `new_lab()` and the AI sections (the instructor toolkit article on the mirtverse site), or to read a chapter's "Your turn". |
+
+## After the day
+
+Send the slides, the links to the AI Hub and the reading list, and a short
+form with three questions: What will you do on Monday? What was least
+clear? What should the next workshop cover?
