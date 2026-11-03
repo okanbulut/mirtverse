@@ -22,6 +22,8 @@ navbar:
       menu:
       - text: Students
         href: articles/for-students.html
+      - text: "Students: Thesis kit"
+        href: articles/thesis-kit.html
       - text: Instructors
         href: articles/for-instructors.html
       - text: "Instructors: Adopt for your course"
@@ -96,6 +98,7 @@ articles:
   - articles/mirtify
   - articles/assessment-pipeline
   - articles/case-study
+  - articles/thesis-kit
   - articles/gallery
 - title: Teaching and learning
   navbar: Teaching and learning
@@ -198,6 +201,7 @@ reference:
   - select_model
   - interpret
   - interpret_prompt
+  - cite_methods
 - title: Tidy outputs
   contents:
   - tidy_mirt

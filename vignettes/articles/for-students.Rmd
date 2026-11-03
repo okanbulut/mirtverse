@@ -59,8 +59,16 @@ The [Gallery](gallery.html) shows what each figure looks like.
 - [Coming from ltm, eRm or TAM?](mirtify.html) `mirtify()` rewrites your old
   code as mirt code.
 
-## Citing your tools
+## Writing it up
 
-Cite mirt (Chalmers, 2012) and mirtverse in your methods section. Run
-`citation("mirtverse")` in R for both references, or see
-[How to cite](../authors.html#citation).
+The [thesis kit](thesis-kit.html) walks from data to a finished Methods
+paragraph. `cite_methods(mod)` drafts that paragraph in APA style, with the
+software versions, model, estimation, fit, reliability and references, so
+you only have to check and edit it:
+
+```r
+cite_methods(sel, sample = "undergraduate students", file = "methods.docx")
+```
+
+Cite mirt (Chalmers, 2012) and mirtverse in your methods section;
+`cite_methods()` adds both references for you.

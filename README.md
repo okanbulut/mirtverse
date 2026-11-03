@@ -36,7 +36,7 @@ or browse the [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.htm
 
 | I am... | Start here |
 |---|---|
-| A student learning IRT or analysing thesis data | [Start here: Students](https://www.okanbulut.com/mirtverse/articles/for-students.html) |
+| A student learning IRT or analysing thesis data | [Start here: Students](https://www.okanbulut.com/mirtverse/articles/for-students.html) · [Thesis kit](https://www.okanbulut.com/mirtverse/articles/thesis-kit.html) |
 | An instructor teaching measurement (book, ten labs, sample syllabus) | [Start here: Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.html) |
 | A psychometrician at a testing or credentialing program | [Start here: Testing programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.html) · [Case study](https://www.okanbulut.com/mirtverse/articles/case-study.html) |
 | A researcher who already uses mirt | [Start here: Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.html) |
@@ -67,6 +67,7 @@ launch_workbench()        # point and click, with R code written for you
 | Model selection assistant | `select_model()` |
 | Differential item functioning in one call | `dif()`, `gg_dif()` |
 | Plain-language interpretation | `interpret()`, `interpret_prompt()` |
+| APA Methods paragraph with references, for theses and papers | `cite_methods()` |
 | Tidy outputs | `tidy()`, `glance()`, `augment()`, `item_table()` |
 | ggplot2 graphics, including Wright maps | `gg_trace()`, `gg_info()`, `gg_wright()`, `gg_itemfit()`, `gg_q3()`, `gg_scores()`, `gg_empirical()`, `autoplot()` |
 | Item health cards | `item_card()`, `item_cards()` |
