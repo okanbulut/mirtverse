@@ -1,5 +1,19 @@
 # mirtverse (development version)
 
+* New, experimental `simulate_llm_respondents()` asks a language model to
+  answer multiple-choice items as described respondents ("personas")
+  would, and new `compare_synthetic()` checks the answers against real
+  data: Difficulty, its order across items, the variety of response
+  patterns and item-total correlations. The example recordings for
+  `mv_llm_replay()` include a run on `itemtext` that shows the usual
+  problems (items too easy, alike personas answering alike, stereotyped
+  groups), and chapter 17 of the book has a box on it.
+
+* New `copy_workshop()` copies a kit for a one-day workshop on AI in
+  measurement: Slides, a facilitator's guide and a README, built around
+  Labs 7 to 10. A new article, "AI in measurement: A one-day workshop",
+  describes it.
+
 * The instructor toolkit can teach AI in measurement on an instructor's
   own data. `new_lab()` and `swap_lab_data()` take `item_info` (one row per
   item, with its text or its item family) and `scores` (machine and human

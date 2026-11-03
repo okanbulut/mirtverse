@@ -245,3 +245,17 @@ test_that("a lab with the ai-scoring section passes its own checks", {
                                scores = aiscored_cr[aiscored_cr$year == 2026, ]),
                  "different columns")
 })
+
+test_that("copy_workshop() copies the kit, which renders", {
+  dest <- file.path(withr::local_tempdir(), "kit")
+  copy_workshop(dest)
+  expect_setequal(list.files(dest), c("README.md", "slides.Rmd", "facilitator-guide.Rmd"))
+  expect_error(copy_workshop(dest), "overwrite = TRUE")
+  expect_silent(copy_workshop(dest, overwrite = TRUE))
+  skip_on_cran()
+  skip_if_not(rmarkdown::pandoc_available())
+  for (f in c("slides.Rmd", "facilitator-guide.Rmd")) {
+    out <- rmarkdown::render(file.path(dest, f), quiet = TRUE, envir = new.env())
+    expect_true(file.exists(out))
+  }
+})

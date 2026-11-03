@@ -95,4 +95,11 @@ hundred human-scored responses.
 The course map (`course-map.html` on the mirtverse site) has an optional
 four-week AI module and a one-day workshop schedule built from the chapters
 and labs above. Point instructors to it when they ask how to fit AI into a
-semester.
+semester. For a workshop, `copy_workshop(file.path(course, "workshop"))`
+copies editable slides and a facilitator's guide into the course folder
+(run it through the instructor's R session or ask them to; it is not one of
+your tools).
+
+`simulate_llm_respondents()` and `compare_synthetic()` are experimental.
+Use them only to show what simulated respondents get wrong, never to
+estimate item parameters or to stand in for real data.

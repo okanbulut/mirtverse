@@ -180,7 +180,11 @@ an addition, open an issue on
   human samples. *Political Analysis, 31*(3), 337–351.
   [doi:10.1017/pan.2023.2](https://doi.org/10.1017/pan.2023.2) \
   The paper that started the "silicon sample" debate. Read it alongside a
-  psychometric check of whether simulated responses behave like real ones.
+  psychometric check of whether simulated responses behave like real ones,
+  such as the one in the box on simulated respondents in the book's
+  [chapter on large language models](../book/llms.html) (with
+  `simulate_llm_respondents()` and `compare_synthetic()`, which are
+  experimental).
 
 ## Validity, fairness and governance {#validity}
 

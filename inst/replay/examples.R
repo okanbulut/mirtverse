@@ -51,3 +51,23 @@ responses <- data.frame(person = e1$student, item = "E1", response = e1$response
 q <- score_open(q, responses)
 q$agreement
 head(q$open_scores[, c("person", "machine", "human1", "confidence", "rationale")])
+
+# ---- 4. Simulated respondents (experimental) ----------------------------------
+
+items <- itemtext[endsWith(itemtext$id, "-01"), ]
+personas <- c(
+  "A Grade 7 student who struggles with mathematics.",
+  "A Grade 7 student who struggles with mathematics and is still learning English.",
+  "A Grade 7 student who finds fractions and decimals hard but tries every question.",
+  "A Grade 7 student who often rushes and makes careless mistakes.",
+  "A Grade 7 student who is about average in mathematics.",
+  "A Grade 7 student who is about average in mathematics and is still learning English.",
+  "A Grade 7 student with average marks who is anxious on tests.",
+  "A Grade 7 student who is about average in mathematics and likes word problems.",
+  "A Grade 7 student who is strong in mathematics.",
+  "A Grade 7 student who is strong in mathematics and is still learning English.",
+  "A Grade 7 student in an enriched mathematics program.",
+  "A Grade 7 student who is strong in mathematics but reads slowly.")
+syn <- simulate_llm_respondents(items, personas)
+syn
+compare_synthetic(syn, stats::setNames(items$p_field, items$id))

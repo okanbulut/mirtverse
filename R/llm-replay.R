@@ -1,9 +1,10 @@
 #' Replay or record language model responses
 #'
 #' `mv_llm_replay()` makes every mirtverse function that calls a language
-#' model ([mv_ask()], [generate_items()], [verify_items()], [score_open()]
-#' and [review_packet()] with `ai_screen = TRUE`) answer from a file of
-#' recorded responses instead of a live model. Nothing is sent anywhere, no
+#' model ([mv_ask()], [generate_items()], [verify_items()], [score_open()],
+#' [review_packet()] with `ai_screen = TRUE`, and
+#' [simulate_llm_respondents()]) answer from a file of recorded responses
+#' instead of a live model. Nothing is sent anywhere, no
 #' API key is needed, and the same request always gets the same answer, so
 #' examples, labs and lessons run offline and give the same results for
 #' every student.
@@ -162,7 +163,7 @@ replay_caller <- function() {
     if (is.name(f)) as.character(f) else ""
   }, "")
   hit <- fns[fns %in% c("mv_ask", "generate_items", "verify_items", "score_open",
-                        "review_packet")]
+                        "review_packet", "simulate_llm_respondents")]
   if (length(hit)) hit[length(hit)] else NA_character_
 }
 

@@ -53,7 +53,7 @@ names the question it answers, what to read and what to try in R.
 |---|---|---|---|
 | 1. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](ai-translation.html); the AI section of the [glossary](glossary.html#ai) | — |
 | 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
-| 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()` |
+| 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()`; `simulate_llm_respondents()` (experimental) |
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](../book/aig.html); [assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `item_model()`, `generate_isomorphs()`, `calibrate_families()`, `generate_items()`, `verify_items()`; [Lab 9](teaching-labs.html#lab-9) |
@@ -78,7 +78,7 @@ mv_llm_recordings()  # which requests they cover
 
 The example recordings answer the calls in
 `system.file("replay", "examples.R", package = "mirtverse")`, which include
-the three examples below. Their responses were written by hand to show what
+the language-model examples below. Their responses were written by hand to show what
 a model returns, with a few deliberate mistakes for mirtverse's checks to
 catch. To capture your own session with a live model and replay it in
 class, use `mv_llm_record()`.
@@ -171,6 +171,23 @@ versions; with `responses` it adds DIF on the test as scored, and with
 argument and lists the evidence still owed, such as human oversight and
 appeals.
 
+### Simulate respondents (experimental)
+
+```{r}
+items <- itemtext[endsWith(itemtext$id, "-01"), ]
+syn <- simulate_llm_respondents(items, personas)   # one request per described respondent
+compare_synthetic(syn, setNames(items$p_field, items$id))
+```
+
+`simulate_llm_respondents()` asks a language model to answer items as
+described test takers would, and `compare_synthetic()` checks the answers
+against real data. Both are experimental: Simulated respondents tend to
+find items too easy, to answer alike when they are described alike and to
+play stereotypes, so they can help find unclear items but cannot replace a
+field test. The book's [chapter on large language
+models](../book/llms.html) runs the example from the recordings, with the
+twelve personas in `examples.R`.
+
 ### Score open-ended responses, and check the scores
 
 ```{r}
@@ -236,7 +253,9 @@ audit into a validity argument for a technical advisory committee.
 The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. The [course map](course-map.html#ai-module) puts the chapters and
-labs together as a four-week module or a one-day workshop. To teach the
+labs together as a four-week module or a one-day workshop, and the
+[workshop kit](ai-workshop.html) has slides and a facilitator's guide for
+the day. To teach the
 same topics on your own items or your own engine's scores, the [instructor
 toolkit](instructor-toolkit.html#ai-sections) builds labs with AI sections
 on your data, and the [teaching assistant](instructor-mcp.html) can build

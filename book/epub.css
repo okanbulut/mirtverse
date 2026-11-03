@@ -2,9 +2,11 @@
 body { line-height: 1.5; }
 h1, h2, h3 { color: #1F3F5B; font-family: sans-serif; }
 a { color: #2C5F8A; }
-.goals, .yourturn, .lab { border-left: 4px solid #2C5F8A; background: #F3F7FB; padding: 0.4em 0.8em; margin: 1em 0; }
+.goals, .yourturn, .lab, .experimental { border-left: 4px solid #2C5F8A; background: #F3F7FB; padding: 0.4em 0.8em; margin: 1em 0; }
 .yourturn { border-left-color: #D99A2B; background: #FDF7EC; }
 .lab { border-left-color: #3C8D5A; background: #EFF7F1; }
 .caption { font-size: 0.9em; color: #444; }
 pre { font-size: 0.8em; white-space: pre-wrap; }
 .author-info { display: block; font-size: 0.9em; margin-top: 0.4em; }
+
+.experimental { border-left-color: #8A4F9E; background: #F7F1F9; }

@@ -169,6 +169,49 @@ and version you used and when, give the prompts (mirtverse's are in its
 source code and in the recording), say what was sent and what was not, and
 describe how the outputs were checked.
 
+<div class="experimental">
+**Experimental: Language models as respondents.** Some researchers ask a
+language model to answer items as a described person would ("a Grade 7
+student who struggles with mathematics") and treat the answers as a
+"silicon sample" [@argyle2023]. If that worked, items could be tried out
+before a field test. `simulate_llm_respondents()` lets you try it, and
+`compare_synthetic()` checks the result against real data. Here twelve
+personas answer one item from each of the twelve families in `itemtext`,
+whose field test gives the real proportions correct (`p_field`). The
+recorded answers were written to show the problems that studies of
+simulated respondents report:
+
+```{r}
+items <- itemtext[endsWith(itemtext$id, "-01"), ]
+personas <- c(
+  "A Grade 7 student who struggles with mathematics.",
+  "A Grade 7 student who struggles with mathematics and is still learning English.",
+  "A Grade 7 student who finds fractions and decimals hard but tries every question.",
+  "A Grade 7 student who often rushes and makes careless mistakes.",
+  "A Grade 7 student who is about average in mathematics.",
+  "A Grade 7 student who is about average in mathematics and is still learning English.",
+  "A Grade 7 student with average marks who is anxious on tests.",
+  "A Grade 7 student who is about average in mathematics and likes word problems.",
+  "A Grade 7 student who is strong in mathematics.",
+  "A Grade 7 student who is strong in mathematics and is still learning English.",
+  "A Grade 7 student in an enriched mathematics program.",
+  "A Grade 7 student who is strong in mathematics but reads slowly.")
+syn <- simulate_llm_respondents(items, personas)
+compare_synthetic(syn, setNames(items$p_field, items$id))
+```
+
+Even "struggling" personas get most items right, so the items look far
+easier than they are. The short items, such as adding fractions
+(N06-01) and comparing decimals (N09-01), look easy to the model whatever
+their real difficulty, and the long word problems look hard. Personas
+described alike answer alike, and the ones described as "still learning
+English" miss every long word problem whatever their mathematics: A
+stereotype, not a measurement. Simulated respondents can help find
+unclear wording or plan a study. They cannot estimate item parameters,
+check fairness or replace a field test, and mirtverse labels them
+experimental for that reason.
+</div>
+
 ## Your turn
 
 <div class="yourturn">
@@ -200,7 +243,9 @@ mv_llm_recordings()[, c("function_name", "prompt_start")]
 2. `mv_ask()`, `generate_items()` (twice, one call per blueprint cell),
    `verify_items()` (once per item, called by `generate_items()`) and
    `score_open()` (once per batch of 10 responses, from the example in
-   `system.file("replay", "examples.R", package = "mirtverse")`).
+   `system.file("replay", "examples.R", package = "mirtverse")`) and
+   `simulate_llm_respondents()` (once per persona, from the box on
+   simulated respondents).
 3. A check can only say that something looks wrong; deciding whether it is,
    and what to do, is a professional judgement. Recording who acknowledged
    which flag, and why, is part of the evidence for the test.

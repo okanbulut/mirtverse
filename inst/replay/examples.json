@@ -583,6 +583,750 @@
           }
         ]
       }
+    },
+    {
+      "key": "0d615b1874f1fc51fdfa6865bad13428",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who struggles with mathematics.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "A"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "e153171c2b4e215e3dae4119baa09e6a",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who struggles with mathematics and is still learning English.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "A"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "33d8c96afe5c56cee2be053dfc0c3fbb",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who finds fractions and decimals hard but tries every question.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "B"
+          },
+          {
+            "item": "N07-01",
+            "answer": "A"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "B"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "735b4e954216c726f4012850ee5566dd",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who often rushes and makes careless mistakes.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "A"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "cd4219c5a01fd90cce106b0fb5b07d83",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is about average in mathematics.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "D"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "f33670a40064acf6264a56ffe69f4eff",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is about average in mathematics and is still learning English.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "c419ab40440de72f717980459782a026",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student with average marks who is anxious on tests.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "D"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "01c24cae234b192c52b0eec7458baacd",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is about average in mathematics and likes word problems.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "D"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "ce3976c872d4423379772aba8b68ee5f",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is strong in mathematics.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "D"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "D"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "B"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "31c3f12cd48888b3961ef7ac05654f2b",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is strong in mathematics and is still learning English.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "29c0418aac0a302d96edd0597cfe25e0",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student in an enriched mathematics program.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "D"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "D"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "B"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
+    },
+    {
+      "key": "c8303a6d148e5f9db6243c760c66a2d1",
+      "function_name": "simulate_llm_respondents",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-02",
+      "structured": true,
+      "system": "You are simulating how a particular test taker would answer multiple-choice items.\nYou are given a description of the respondent and a set of items.\nAnswer each item as that respondent would on a real test, including the mistakes they would plausibly make; do not simply give the correct answers.\nGive exactly one option letter for every item.",
+      "prompt": "Respondent: A Grade 7 student who is strong in mathematics but reads slowly.\n\nAnswer every item as this respondent would.\n\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\nA. $0.20\nB. $180.00\nC. $24.00\nD. $5.00\n\n[N02-01] What is 25% of 40?\nA. 1.6\nB. 10\nC. 100\nD. 15\n\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\nA. 16 square cm\nB. 56 square cm\nC. 28 square cm\nD. 32 square cm\n\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\nA. 9:05 p.m.\nB. 7:00 p.m.\nC. 7:45 p.m.\nD. 8:25 p.m.\n\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\nA. 12.5\nB. 52\nC. 7\nD. 13\n\n[N06-01] What is 8/11 + 1/11?\nA. 9/11\nB. 8/11\nC. 9/22\nD. 9/12\n\n[N07-01] If 5x + 7 = 47, what is the value of x?\nA. 40\nB. 8\nC. 15\nD. 10.8\n\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\nA. 36\nB. 19.2\nC. 91\nD. 60\n\n[N09-01] Which number is the greatest?\nA. 5.5\nB. 5.405\nC. 5.45\nD. 5.09\n\n[N10-01] How many centimetres are in 4 metres?\nA. 400\nB. 4,000\nC. 40\nD. 0.04\n\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\nA. 2/5\nB. 2/7\nC. 5/7\nD. 1/7\n\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?\nA. 210 km/h\nB. 207 km/h\nC. 630 km/h\nD. 70 km/h",
+      "response": {
+        "answers": [
+          {
+            "item": "N01-01",
+            "answer": "D"
+          },
+          {
+            "item": "N02-01",
+            "answer": "B"
+          },
+          {
+            "item": "N03-01",
+            "answer": "C"
+          },
+          {
+            "item": "N04-01",
+            "answer": "A"
+          },
+          {
+            "item": "N05-01",
+            "answer": "D"
+          },
+          {
+            "item": "N06-01",
+            "answer": "A"
+          },
+          {
+            "item": "N07-01",
+            "answer": "B"
+          },
+          {
+            "item": "N08-01",
+            "answer": "A"
+          },
+          {
+            "item": "N09-01",
+            "answer": "A"
+          },
+          {
+            "item": "N10-01",
+            "answer": "A"
+          },
+          {
+            "item": "N11-01",
+            "answer": "A"
+          },
+          {
+            "item": "N12-01",
+            "answer": "D"
+          }
+        ]
+      }
     }
   ]
 }
