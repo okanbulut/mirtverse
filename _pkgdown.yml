@@ -43,6 +43,8 @@ navbar:
         href: dashboard/sat12-demo.html
       - text: Gallery of figures and outputs
         href: articles/gallery.html
+      - text: Video demos
+        href: articles/videos.html
     aihub:
       text: AI Hub
       menu:
@@ -100,6 +102,7 @@ articles:
   - articles/case-study
   - articles/thesis-kit
   - articles/gallery
+  - articles/videos
 - title: Teaching and learning
   navbar: Teaching and learning
   contents:
