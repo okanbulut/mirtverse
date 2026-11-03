@@ -7,3 +7,4 @@ docs/
 !pkgdown/assets/**/*.html
 !data-raw/**/*.html
 data-raw/home/
+paper/paper-preprint.*

@@ -12,3 +12,4 @@
 ^book$
 ^man/figures/home-.*$
 ^man/figures/card\.png$
+^paper$
