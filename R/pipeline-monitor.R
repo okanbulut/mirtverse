@@ -1,4 +1,4 @@
-#' Pipeline stage: bank monitoring
+#' Pipeline stage: Bank monitoring
 #'
 #' Keeps an item bank healthy from one administration to the next. Each run
 #' records the current administration in the bank (how many test takers saw
@@ -9,14 +9,14 @@
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `over_exposure` (review): active items seen by more than `max_exposure`
+#' * `over_exposure` (review): Active items seen by more than `max_exposure`
 #'   of the test takers in each of the last `exposure_windows` windows.
-#' * `bank_depth` (review): a content cell with fewer active items than its
+#' * `bank_depth` (review): A content cell with fewer active items than its
 #'   minimum: `min_items`, or by default `cell_depth` times the cell's count
 #'   in the blueprint from [set_blueprint()].
-#' * `reliability_trend` (review): marginal reliability in the latest window
+#' * `reliability_trend` (review): Marginal reliability in the latest window
 #'   more than `reliability_drop` below its value in the first window.
-#' * `unused_items` (info): more than `unused_share` of the active items
+#' * `unused_items` (info): More than `unused_share` of the active items
 #'   (that have been in the bank for `unused_days`) not used in the last
 #'   `unused_days` days.
 #'
@@ -27,11 +27,11 @@
 #'   spring"`. Defaults to the pipeline title. Recording a window again
 #'   replaces it. Use `record = FALSE` to check the bank without recording.
 #' @param date the date of the administration.
-#' @param content optional content cell of each bank item: a named vector
+#' @param content optional content cell of each bank item: A named vector
 #'   (item id = cell). It is stored in the bank. By default the cells come
 #'   from the bank, or from the items in the pipeline ([add_items()],
 #'   [generate_items()]).
-#' @param min_items optional fewest active items per cell: one number, or a
+#' @param min_items optional fewest active items per cell: One number, or a
 #'   named vector by cell.
 #' @param record logical; record the current administration in the bank. It
 #'   needs a calibrated pipeline.

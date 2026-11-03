@@ -220,7 +220,7 @@ Each candidate's ability is estimated with error. If a candidate's estimate is
 close to the pass mark relative to its standard error, their true ability
 could easily be on the other side.
 
-A simple approximation: the probability that a candidate is misclassified is
+A simple approximation: The probability that a candidate is misclassified is
 `pnorm(-abs(theta - cut_theta) / SE)`. Compute it for every candidate, then
 compute `expected_wrong` (the sum of those probabilities, the expected number
 of misclassified candidates) and `near_cut` (how many candidates are within
@@ -285,9 +285,9 @@ tapply(rowSums(scored), language, mean)
 ```
 
 French-language candidates score about 2 points lower on average. That
-alone tells you **nothing** about whether the exam is unfair: the groups may
+alone tells you **nothing** about whether the exam is unfair: The groups may
 genuinely differ in the trait (for example, through different training
-routes). Differential item functioning (DIF) asks a sharper question: *do
+routes). Differential item functioning (DIF) asks a sharper question: *Do
 candidates of the same ability have different chances of answering an item
 correctly depending on their group?*
 
@@ -457,7 +457,7 @@ output$decision_log <- renderTable({
 })
 ```
 
-You have taken an exam from raw responses to defensible decisions: a
+You have taken an exam from raw responses to defensible decisions: A
 corrected key, a justified model, a scoring method you can explain,
 quantified classification error and a fairness review. The same workflow
 applies to any exam you will analyse.

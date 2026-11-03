@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-blueprint.R
 \name{set_blueprint}
 \alias{set_blueprint}
-\title{Pipeline stage: test blueprint and construct definition}
+\title{Pipeline stage: Test blueprint and construct definition}
 \usage{
 set_blueprint(
   p,
@@ -19,7 +19,7 @@ set_blueprint(
 \arguments{
 \item{p}{a pipeline from \code{\link[=mv_pipeline]{mv_pipeline()}}.}
 
-\item{cells}{the content cells: a data frame with a column \code{content}, an
+\item{cells}{the content cells: A data frame with a column \code{content}, an
 optional column \code{cognitive} (cognitive level, such as recall or
 application) and a column \code{n} with the target number of items per test
 form; or a named vector of target counts, with content areas as names.}
@@ -49,7 +49,7 @@ The pipeline with \code{p$blueprint}, a list holding the settings and
 \code{n}).
 }
 \description{
-States what the test measures and how it is built: the construct, the
+States what the test measures and how it is built: The construct, the
 content cells with a target number of items in each, the item types, the
 intended score use and the target reliability. The blueprint is the
 contract later stages check against: \code{\link[=generate_items]{generate_items()}} fills its cells,
@@ -59,13 +59,13 @@ replaces the \code{reliability} rule used at calibration.
 \details{
 The checks:
 \itemize{
-\item \code{empty_cell} (block): a content cell has no target count (zero or
+\item \code{empty_cell} (block): A content cell has no target count (zero or
 missing).
-\item \code{score_use} (review): the intended use of the scores is not stated;
+\item \code{score_use} (review): The intended use of the scores is not stated;
 decisions about cut scores, reliability and reporting depend on it.
-\item \code{target_reliability} (info): no target reliability was given, so the
+\item \code{target_reliability} (info): No target reliability was given, so the
 \code{reliability} rule (0.80 by default) is used.
-\item \code{test_length} (info): the stated test length differs from the sum of the
+\item \code{test_length} (info): The stated test length differs from the sum of the
 cell targets.
 }
 }

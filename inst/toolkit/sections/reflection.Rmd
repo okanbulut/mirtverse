@@ -4,7 +4,7 @@
 ### Put it in writing
 
 In a few sentences, write the recommendation you would give to the people
-who own this test: which model you would use, the evidence for it, and one
+who own this test: Which model you would use, the evidence for it, and one
 limitation or item that needs a closer look.
 
 ```{r {{id}}-q-write}

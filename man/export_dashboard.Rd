@@ -48,7 +48,7 @@ Connect with \code{rsconnect::deployApp(path)}. The server installs mirtverse
 the way you installed it, so install it from GitHub or r-universe (not
 from a local folder) before you deploy.
 \item \code{format = "html"} writes a single self-contained \code{.html} file that needs
-no server, no R and no internet connection: email it, put it on a shared
+no server, no R and no internet connection: Email it, put it on a shared
 drive or a course page, and it opens in any browser. It has the same
 panels, with the item table, item curves, ability slider and person
 lookup still interactive.

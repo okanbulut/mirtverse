@@ -1,26 +1,26 @@
-#' Pipeline stage: assemble fixed test forms
+#' Pipeline stage: Assemble fixed test forms
 #'
 #' Builds one or more fixed test forms from the calibrated items with
 #' automated test assembly (mixed-integer programming through the eatATA
 #' package). The items come from the pipeline's item bank ([bank_items()]) if
 #' it has one, otherwise from the calibrated model. Each form has `length`
 #' items, meets the content blueprint, keeps enemy items apart, and the forms
-#' are made as informative as possible at the `theta` points: with one form
+#' are made as informative as possible at the `theta` points: With one form
 #' the information summed over `theta` is maximized, with several forms the
 #' smallest of the forms' sums is maximized, which keeps them parallel.
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `no_solution` (block): no set of forms meets every constraint; relax the
+#' * `no_solution` (block): No set of forms meets every constraint; relax the
 #'   blueprint, shorten the forms or allow items on more than one form
 #'   (`max_use`).
-#' * `blueprint` (block): a form's content counts fall outside the blueprint.
-#' * `enemy_items` (block): two enemy items on one form.
-#' * `parallel_forms` (review): the forms' test information at a `theta`
+#' * `blueprint` (block): A form's content counts fall outside the blueprint.
+#' * `enemy_items` (block): Two enemy items on one form.
+#' * `parallel_forms` (review): The forms' test information at a `theta`
 #'   point differs by more than `parallel_tol` (relative to the largest).
-#' * `form_precision` (review): the standard error of measurement of a form
+#' * `form_precision` (review): The standard error of measurement of a form
 #'   at a `theta` point is above `cat_sem`.
-#' * `not_optimal` (info): the solver found forms that meet every constraint
+#' * `not_optimal` (info): The solver found forms that meet every constraint
 #'   but ran out of time before proving they are the most informative ones;
 #'   a longer `time_limit` may give slightly better forms.
 #'
@@ -29,13 +29,13 @@
 #' @param n_forms number of forms.
 #' @param theta ability points (on the bank scale) where the forms should be
 #'   most informative, such as a cut score.
-#' @param content optional content category of each item: a named vector
+#' @param content optional content category of each item: A named vector
 #'   (names are item names).
 #' @param blueprint the number of items per content category on each form:
 #'   a named vector of exact counts, or a data frame with columns `category`,
 #'   `min` and `max`. Needs `content`.
 #' @param enemies optional pairs of items that must not appear on the same
-#'   form: a list of character vectors of length two, or a two-column matrix.
+#'   form: A list of character vectors of length two, or a two-column matrix.
 #' @param max_use the number of forms an item may appear on (1 means no
 #'   overlap between forms).
 #' @param solver solver used by eatATA: `"GLPK"` (default) or `"lpSolve"`.
@@ -135,7 +135,7 @@ assemble_forms <- function(p, length, n_forms = 1, theta = c(-1, 0, 1), content 
   p
 }
 
-#' Pipeline stage: simulate a computerized adaptive test
+#' Pipeline stage: Simulate a computerized adaptive test
 #'
 #' Simulates a computerized adaptive test (CAT) from the calibrated items with
 #' mirtCAT, to see how precise, how long and how secure the test would be
@@ -147,14 +147,14 @@ assemble_forms <- function(p, length, n_forms = 1, theta = c(-1, 0, 1), content 
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `cat_precision` (review): the average final standard error is above
+#' * `cat_precision` (review): The average final standard error is above
 #'   `cat_sem`, or the average bias of the ability estimates is beyond
 #'   `cat_bias` in absolute value.
-#' * `cat_exposure` (review): an item is given to more than `max_exposure` of
+#' * `cat_exposure` (review): An item is given to more than `max_exposure` of
 #'   the simulees. Use `randomesque` to spread exposure.
-#' * `unused_items` (review): more than `unused_share` of the bank is never
+#' * `unused_items` (review): More than `unused_share` of the bank is never
 #'   used.
-#' * `bank_depth` (info): the bank holds fewer than `bank_depth` times
+#' * `bank_depth` (info): The bank holds fewer than `bank_depth` times
 #'   `max_items` items.
 #'
 #' @param p a calibrated pipeline from [calibrate()].
@@ -164,7 +164,7 @@ assemble_forms <- function(p, length, n_forms = 1, theta = c(-1, 0, 1), content 
 #' @param max_items,min_items longest and shortest test.
 #' @param criteria item selection criterion passed to [mirtCAT::mirtCAT()].
 #' @param method ability estimation method passed to [mirtCAT::mirtCAT()].
-#' @param randomesque exposure control: choose each item at random from the
+#' @param randomesque exposure control: Choose each item at random from the
 #'   `randomesque` most informative ones (1 means none).
 #' @param theta optional true abilities of the simulees.
 #' @param seed optional random seed.
@@ -253,9 +253,9 @@ simulate_cat <- function(p, n = 1000, min_sem = NULL, max_items = 30, min_items 
   p
 }
 
-#' Pipeline stage: assemble and simulate a multistage test
+#' Pipeline stage: Assemble and simulate a multistage test
 #'
-#' Builds a two-stage multistage test (MST) from the calibrated items: a
+#' Builds a two-stage multistage test (MST) from the calibrated items: A
 #' routing module of medium difficulty, then `n_modules` second-stage modules
 #' targeted at increasing ability levels. Each module is assembled with
 #' eatATA to be most informative at its target. Simulees are routed to the
@@ -264,10 +264,10 @@ simulate_cat <- function(p, n = 1000, min_sem = NULL, max_items = 30, min_items 
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `no_solution` (block): the modules could not be assembled.
-#' * `mst_routing` (review): more than `mst_routing` of the simulees were
+#' * `no_solution` (block): The modules could not be assembled.
+#' * `mst_routing` (review): More than `mst_routing` of the simulees were
 #'   routed to a different module than their true ability calls for.
-#' * `cat_precision` (review): the average final standard error is above
+#' * `cat_precision` (review): The average final standard error is above
 #'   `cat_sem`, or the average bias is beyond `cat_bias`.
 #'
 #' @param p a calibrated pipeline from [calibrate()].

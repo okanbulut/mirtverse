@@ -20,7 +20,7 @@ mv_ask(
 \item{request}{a plain-language description of the analysis. To change an
 earlier script, pass it first: \code{mv_ask(scr, "use a 3PL instead")}.}
 
-\item{data}{the data: a data frame, or the path of a \code{.csv}, \code{.xlsx},
+\item{data}{the data: A data frame, or the path of a \code{.csv}, \code{.xlsx},
 \code{.sav}, \code{.dta}, \code{.sas7bdat} or \code{.rds} file. The script refers to a data
 frame by the name you pass, so pass a named object (e.g. \code{data = mydata}).}
 

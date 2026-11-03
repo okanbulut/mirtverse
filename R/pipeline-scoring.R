@@ -1,14 +1,14 @@
-#' Pipeline stage: scoring open-ended responses
+#' Pipeline stage: Scoring open-ended responses
 #'
 #' Scores open-ended (constructed) responses by one of two routes, chosen by
 #' the user, and checks the machine scores against human scores before they
 #' are used:
 #'
-#' * `scorer = "llm"`: a language model (see [mv_ask_setup()]) scores each
+#' * `scorer = "llm"`: A language model (see [mv_ask_setup()]) scores each
 #'   response against the item's rubric from [generate_items()] or
 #'   [add_items()] and returns a score, a one-sentence rationale and its
 #'   confidence.
-#' * `scorer = <a fitted model>`: any object with a `predict()` method
+#' * `scorer = <a fitted model>`: Any object with a `predict()` method
 #'   trained on human scores, such as a tidymodels workflow. It is called as
 #'   `predict(scorer, newdata)` with the responses data frame (columns
 #'   `item`, `response` and any other columns you supply) and must return
@@ -19,19 +19,19 @@
 #' have human scores (`human1`, and `human2` for double-scored responses),
 #' following Williamson, Xi and Breyer (2012) (thresholds from [mv_rules()]):
 #'
-#' * `validation_n` (review): fewer than `n_validation` double-scored
+#' * `validation_n` (review): Fewer than `n_validation` double-scored
 #'   responses for an item.
-#' * `human_agreement` (block): quadratic weighted kappa (QWK) between the two
+#' * `human_agreement` (block): Quadratic weighted kappa (QWK) between the two
 #'   human scores below `qwk_min`.
 #' * `machine_agreement` (block): QWK between machine and human scores below
 #'   `qwk_min`, or more than `qwk_drop` below the human-human QWK.
-#' * `score_distribution` (review): the standardized mean difference between
+#' * `score_distribution` (review): The standardized mean difference between
 #'   machine and human scores is beyond `score_smd` in absolute value.
-#' * `subgroup_fairness` (review): the machine-human standardized mean
+#' * `subgroup_fairness` (review): The machine-human standardized mean
 #'   difference within a group is beyond `subgroup_smd`.
-#' * `low_confidence` (review): responses that are off topic, shorter than
+#' * `low_confidence` (review): Responses that are off topic, shorter than
 #'   `min_words` words, or scored with confidence below `min_confidence`.
-#'   They are routed to human scoring: their final score is the human score
+#'   They are routed to human scoring: Their final score is the human score
 #'   if there is one, otherwise missing.
 #'
 #' With `add_to_data = TRUE` the final scores join the pipeline's response
@@ -141,14 +141,14 @@ score_open <- function(p, responses, scorer = "llm", provider = NULL, model = NU
   p
 }
 
-#' Pipeline stage: score test takers
+#' Pipeline stage: Score test takers
 #'
 #' Estimates each test taker's ability from the calibrated model with
 #' [mirt::fscores()] and checks the scores (thresholds from [mv_rules()]):
 #'
-#' * `score_reliability` (review): the empirical reliability of the scores is
+#' * `score_reliability` (review): The empirical reliability of the scores is
 #'   below `reliability` (the blueprint's target, if one was set).
-#' * `extreme_scores` (info): maximum-likelihood estimates that are infinite
+#' * `extreme_scores` (info): Maximum-likelihood estimates that are infinite
 #'   (all or none correct) or standard errors above `max_se`.
 #'
 #' @param p a calibrated pipeline.

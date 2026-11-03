@@ -22,7 +22,7 @@ administration. Defaults to the pipeline title, or \code{"calibration"}.}
 \item{...}{not used.}
 }
 \value{
-An object of class \code{mv_bank}: a list with \code{name}, \code{items} (a tibble
+An object of class \code{mv_bank}: A list with \code{name}, \code{items} (a tibble
 with one row per item: \code{item}, \code{itemtype}, \code{ncat}, \code{a} (discrimination),
 \code{b} (location; the mean threshold for polytomous items), \code{g} (lower
 asymptote), \code{source}, \code{added}, \code{status} and the list column \code{pars} with
@@ -34,7 +34,7 @@ parameters, a summary of their location and discrimination, where they came
 from and whether they are in use. Start a bank from a calibrated model or
 pipeline with \code{mv_bank()}, put a new calibration on the bank's scale with
 \code{\link[=link_to_bank]{link_to_bank()}}, and add its new items with \code{\link[=bank_items]{bank_items()}}. A bank is an
-ordinary R object: keep it between administrations with \code{\link[=saveRDS]{saveRDS()}} and
+ordinary R object: Keep it between administrations with \code{\link[=saveRDS]{saveRDS()}} and
 \code{\link[=readRDS]{readRDS()}}.
 }
 \details{

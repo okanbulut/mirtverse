@@ -1,4 +1,4 @@
-#' Pipeline stage: test security
+#' Pipeline stage: Test security
 #'
 #' Looks for evidence that a score may not reflect the test taker's own
 #' ability, before scores are reported. Each check runs when the data it
@@ -9,37 +9,37 @@
 #'
 #' The checks (thresholds from [mv_rules()]):
 #'
-#' * `preknowledge` (review): with `leaked` items named, test takers who do
+#' * `preknowledge` (review): With `leaked` items named, test takers who do
 #'   much better on the leaked items than on the secure ones (likelihood
 #'   ratio test of one ability against separate abilities for the two sets,
 #'   p below `preknowledge_alpha`, leaked ability higher).
-#' * `item_leakage` (review): with `window` given, items whose proportion
+#' * `item_leakage` (review): With `window` given, items whose proportion
 #'   correct rose by more than `leak_p` in the latest window compared with
 #'   the earlier ones and, when response times are available, whose median
 #'   time fell by more than `leak_rt`.
-#' * `parameter_drift` (review): with an item bank, items whose difficulty
+#' * `parameter_drift` (review): With an item bank, items whose difficulty
 #'   (or slope) on the bank scale moved more than `drift_b` (`drift_a`) from
 #'   the bank value.
-#' * `answer_copying` (review): pairs of test takers who share far more
+#' * `answer_copying` (review): Pairs of test takers who share far more
 #'   identical incorrect answers than expected from their scores (Poisson
 #'   tail probability below `copy_alpha` after a Bonferroni correction over
 #'   all pairs). Needs raw responses scored with a key.
-#' * `aberrant_timing` (review): test takers whose response times are much
+#' * `aberrant_timing` (review): Test takers whose response times are much
 #'   shorter than expected (standardized log-time residual below `rt_resid`
 #'   on at least `rt_share` of the items, from a lognormal model with item
 #'   time intensities and person speeds; [fit_rt()] fits the full model).
-#' * `site_anomaly` (review): with `site` given, sites or classrooms with a
+#' * `site_anomaly` (review): With `site` given, sites or classrooms with a
 #'   larger share of flagged test takers than chance allows (binomial test,
 #'   p below `site_alpha`).
-#' * `score_gain` (info): with `prior` scores, gains above `gain_sem` times
+#' * `score_gain` (info): With `prior` scores, gains above `gain_sem` times
 #'   the standard error of the difference.
 #'
 #' @param p a calibrated pipeline.
 #' @param leaked optional item ids suspected to be leaked or exposed.
 #' @param window optional administration window of each respondent (in time
-#'   order: numbers, dates, or an ordered factor).
+#'   order: Numbers, dates, or an ordered factor).
 #' @param site optional site, school or classroom of each respondent.
-#' @param prior optional earlier scores: a data frame with columns `id`,
+#' @param prior optional earlier scores: A data frame with columns `id`,
 #'   `theta` and optionally `se`, on the same scale.
 #' @return The pipeline with `p$security`: `persons` (respondent-level
 #'   evidence, for investigators only), and tables for the item checks.

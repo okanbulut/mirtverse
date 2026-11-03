@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-fieldtest.R
 \name{design_field_test}
 \alias{design_field_test}
-\title{Pipeline stage: field-test design}
+\title{Pipeline stage: Field-test design}
 \usage{
 design_field_test(
   p,
@@ -22,7 +22,7 @@ design_field_test(
 
 \item{n_per_form}{number of test takers who take each form.}
 
-\item{items}{the items to field-test: by default the approved items in the
+\item{items}{the items to field-test: By default the approved items in the
 pipeline (or every item not rejected, if none has been reviewed); or a
 character vector of item ids; or a number of items, for planning before
 items exist.}
@@ -46,12 +46,12 @@ per form and item, and its role), \code{items} (respondents per item),
 and the settings.
 }
 \description{
-Plans how new items reach test takers before they are calibrated: the
+Plans how new items reach test takers before they are calibrated: The
 number of forms, the anchor items every form shares (so the forms can be
 put on one scale), and the sample size per form. The unique items are
 spread over the forms in turn by blueprint cell, so each form covers the
 blueprint. A simulation then shows how well the item parameters would be
-recovered under the plan: responses are simulated from plausible item
+recovered under the plan: Responses are simulated from plausible item
 parameters (\code{\link[mirt:simdata]{mirt::simdata()}}), the items a form does not include are set
 to missing, the model is fitted, and the estimates are compared with the
 true values.
@@ -59,14 +59,14 @@ true values.
 \details{
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{sample_size} (review): items answered by fewer than \code{n_rasch},
+\item \code{sample_size} (review): Items answered by fewer than \code{n_rasch},
 \code{n_2pl} or \code{n_3pl} respondents, depending on the model (polytomous
 items count as needing \code{n_3pl}).
-\item \code{anchor_share} (review): the anchors make up less than
+\item \code{anchor_share} (review): The anchors make up less than
 \code{min_anchor_share} of a form.
-\item \code{anchor_coverage} (review): a blueprint cell with no anchor item, so
+\item \code{anchor_coverage} (review): A blueprint cell with no anchor item, so
 the link between forms does not represent it.
-\item \code{recovery} (review): the average RMSE of the simulated slopes (or of
+\item \code{recovery} (review): The average RMSE of the simulated slopes (or of
 the intercepts, for the Rasch model) is above \code{recovery_rmse}.
 }
 }

@@ -28,7 +28,7 @@ and _).}
 
 \item{course}{the course folder.}
 
-\item{from}{where to copy from: a local copy of the book's source folder
+\item{from}{where to copy from: A local copy of the book's source folder
 (\verb{book/} in the package's GitHub repository), or \code{NULL} (the default) to
 download the chapter from GitHub.}
 

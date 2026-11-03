@@ -9,7 +9,7 @@ item_cards(x, which.items = NULL, file = NULL, alpha = 0.01)
 \arguments{
 \item{x}{a unidimensional model from \code{\link[mirt:mirt]{mirt::mirt()}}.}
 
-\item{which.items}{items to include (default: all).}
+\item{which.items}{items to include (default: All).}
 
 \item{file}{optional path to an \code{.html} file. When given, all cards are
 written to one self-contained page with a status overview table.}

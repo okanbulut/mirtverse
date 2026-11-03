@@ -22,8 +22,8 @@ save_script(x, file = "analysis.R", open = FALSE)
 the rstudioapi package).}
 }
 \value{
-\code{run_script()}: a named list of the objects the script created,
-invisibly. \code{save_script()}: the file path, invisibly.
+\code{run_script()}: A named list of the objects the script created,
+invisibly. \code{save_script()}: The file path, invisibly.
 }
 \description{
 \code{run_script()} runs the script in a fresh environment and returns the

@@ -51,7 +51,7 @@ wants to move to IRT scoring, and the chair has asked you one question:
 > *Which IRT model should we use, and can you defend that choice if a
 > candidate appeals?*
 
-In this lab you will answer it the way a working psychometrician would: look
+In this lab you will answer it the way a working psychometrician would: Look
 at the data, screen the items, check the assumptions, compare models, and
 commit to one. Along the way you will make decisions. Some have a clear right
 answer; others are judgment calls where the feedback explains the trade-off.
@@ -133,7 +133,7 @@ statistics**. They are fast, model-free, and catch data problems that would
 otherwise contaminate every model you fit.
 
 The two classics are each item's proportion correct (`p`) and its
-**corrected item-total correlation** (`r`): the point-biserial correlation
+**corrected item-total correlation** (`r`): The point-biserial correlation
 between the item and the total score on the *other* items. The code below
 computes both (mirt's `itemstats()` reports them too) and sorts the items by
 `r`, from lowest to highest.
@@ -317,7 +317,7 @@ question_radio("Which model would you recommend to the board?",
 ### Why the criteria disagree
 
 AIC and BIC both reward fit and penalise parameters, but BIC's penalty grows
-with sample size: it charges log(1,200), about 7.1 points, for each extra
+with sample size: It charges log(1,200), about 7.1 points, for each extra
 parameter, while AIC charges 2. The 3PL adds 32 guessing parameters, which
 AIC finds worth it and BIC does not.
 
@@ -484,7 +484,7 @@ You found a key error, showed that one dimension is defensible, chose
 between models whose evidence disagreed, and found a dependent pair of
 items. That is a full model-selection workflow.
 
-In **Lab 2** the board adopts the 2PL and asks the next questions: how
+In **Lab 2** the board adopts the 2PL and asks the next questions: How
 precise is the exam at the pass mark, which scores should go on candidates'
 reports, how many candidates might be misclassified, and are any items unfair
 to French-language candidates? At the end you will see the truth behind the

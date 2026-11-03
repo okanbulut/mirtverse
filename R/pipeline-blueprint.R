@@ -1,6 +1,6 @@
-#' Pipeline stage: test blueprint and construct definition
+#' Pipeline stage: Test blueprint and construct definition
 #'
-#' States what the test measures and how it is built: the construct, the
+#' States what the test measures and how it is built: The construct, the
 #' content cells with a target number of items in each, the item types, the
 #' intended score use and the target reliability. The blueprint is the
 #' contract later stages check against: [generate_items()] fills its cells,
@@ -9,17 +9,17 @@
 #'
 #' The checks:
 #'
-#' * `empty_cell` (block): a content cell has no target count (zero or
+#' * `empty_cell` (block): A content cell has no target count (zero or
 #'   missing).
-#' * `score_use` (review): the intended use of the scores is not stated;
+#' * `score_use` (review): The intended use of the scores is not stated;
 #'   decisions about cut scores, reliability and reporting depend on it.
-#' * `target_reliability` (info): no target reliability was given, so the
+#' * `target_reliability` (info): No target reliability was given, so the
 #'   `reliability` rule (0.80 by default) is used.
-#' * `test_length` (info): the stated test length differs from the sum of the
+#' * `test_length` (info): The stated test length differs from the sum of the
 #'   cell targets.
 #'
 #' @param p a pipeline from [mv_pipeline()].
-#' @param cells the content cells: a data frame with a column `content`, an
+#' @param cells the content cells: A data frame with a column `content`, an
 #'   optional column `cognitive` (cognitive level, such as recall or
 #'   application) and a column `n` with the target number of items per test
 #'   form; or a named vector of target counts, with content areas as names.

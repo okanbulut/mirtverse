@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-bank.R
 \name{link_to_bank}
 \alias{link_to_bank}
-\title{Pipeline stage: link a calibration to an item bank}
+\title{Pipeline stage: Link a calibration to an item bank}
 \usage{
 link_to_bank(
   p,
@@ -36,14 +36,14 @@ the anchor items the two have in common, then checks the anchors. Methods:
 }
 \details{
 \itemize{
-\item \code{"stocking-lord"} (default) and \code{"haebara"}: characteristic-curve
+\item \code{"stocking-lord"} (default) and \code{"haebara"}: Characteristic-curve
 methods. They find the slope \code{A} and intercept \code{B} of the change of scale
 (theta on the bank scale = \code{A} x theta + \code{B}) that make the anchors'
 test characteristic curve (Stocking-Lord) or item curves (Haebara) match
 the bank's, weighted by a standard normal ability distribution.
-\item \code{"mean-sigma"} and \code{"mean-mean"}: moment methods based on the anchors'
+\item \code{"mean-sigma"} and \code{"mean-mean"}: Moment methods based on the anchors'
 locations (and discriminations).
-\item \code{"fixed"}: fixed-anchor calibration. The model is refitted with the
+\item \code{"fixed"}: Fixed-anchor calibration. The model is refitted with the
 anchor parameters fixed at their bank values and the ability mean and
 variance free, so every new item lands on the bank scale directly.
 }
@@ -51,15 +51,15 @@ variance free, so every new item lands on the bank scale directly.
 For the Rasch model the slope is fixed at 1. The checks (thresholds from
 \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{too_few_anchors} (review): fewer than \code{min_anchors} anchor items, or
+\item \code{too_few_anchors} (review): Fewer than \code{min_anchors} anchor items, or
 fewer than \code{min_anchor_share} of the test.
-\item \code{anchor_drift} (review): an anchor whose location on the bank scale
+\item \code{anchor_drift} (review): An anchor whose location on the bank scale
 differs from its bank value by more than \code{anchor_displacement}. Drifting
 anchors can be left out with the \code{anchors} argument.
-\item \code{linking_constants} (review): a slope \code{A} outside \code{link_slope_min} to
+\item \code{linking_constants} (review): A slope \code{A} outside \code{link_slope_min} to
 \code{link_slope_max}, which suggests a very different ability spread or
 unstable anchors.
-\item \code{not_converged} (block): the fixed-anchor calibration did not converge.
+\item \code{not_converged} (block): The fixed-anchor calibration did not converge.
 }
 
 The constants and the anchor table are kept in \code{p$link} and shown in the

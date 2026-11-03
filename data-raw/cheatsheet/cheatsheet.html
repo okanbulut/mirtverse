@@ -150,7 +150,7 @@ mod  &lt;- sel$best    <span class="c"># an ordinary mirt model</span></pre>
             <dt>augment(mod, <span class="arg">method = "EAP", person_fit = FALSE</span>)</dt>
             <dd>The data with each person's score and standard error added.</dd>
             <dt>item_table(mod, <span class="arg">fit_stats = "S_X2"</span>)</dt>
-            <dd>One row per item: parameters, fit and a status flag.</dd>
+            <dd>One row per item: Parameters, fit and a status flag.</dd>
           </dl>
           <p class="note">tidy() also works on DIF, response-time, bank and pipeline objects.</p>
         </div>
@@ -244,7 +244,7 @@ fit &lt;- fit_rt(mod, sim$rt)</pre>
             <dt>item_card(mod, item) · item_cards(mod, <span class="arg">file</span>)</dt>
             <dd>A one-page health card per item with a traffic-light status, for review meetings.</dd>
             <dt>mv_report(sel, <span class="arg">file = "report.html", dif, cards, code</span>)</dt>
-            <dd>One HTML report: model comparison, interpretation, tables, graphics, a sum-score table,
+            <dd>One HTML report: Model comparison, interpretation, tables, graphics, a sum-score table,
               item cards and the R code to reproduce it.</dd>
             <dt>mv_dashboard(mod, <span class="arg">title, panels, dif, rt</span>)</dt>
             <dd>A read-only Shiny dashboard for people who do not use R.</dd>
@@ -282,7 +282,7 @@ save_script(scr, "analysis.R")</pre>
         <div class="body">
           <dl>
             <dt>run_lab("model-choice") · run_lab("decisions")</dt>
-            <dd>Interactive tutorials: students fit live models and make testing decisions, with feedback.</dd>
+            <dd>Interactive tutorials: Students fit live models and make testing decisions, with feedback.</dd>
             <dt>list_labs() · lab_truth()</dt>
             <dd>Available labs; the planted answers, for instructors.</dd>
             <dt>certexam · certexam_key</dt>
@@ -306,7 +306,7 @@ save_script(scr, "analysis.R")</pre>
     <div class="title">
       <h1>The assessment pipeline <small>:: CHEAT SHEET</small></h1>
       <p>One object carries a test from blueprint to bank monitoring. Each stage does its work, then runs a
-        <b>gate</b>: checks that record <b>flags</b> for you to consider before the next stage. Every decision
+        <b>gate</b>: Checks that record <b>flags</b> for you to consider before the next stage. Every decision
         is logged, and <code>p$code</code> keeps the R code for the whole run.</p>
     </div>
     <div class="basics">
@@ -448,7 +448,7 @@ p &lt;- score_persons(p)</pre>
           <h3><span class="stage">11</span>pipeline_report(p, <span style="font-weight:400;color:var(--muted)">&nbsp;file</span>)</h3>
           <div>An HTML technical report with every stage, flag and decision, and the R code.</div>
           <h3><span class="stage">12</span>monitor_bank(p, <span style="font-weight:400;color:var(--muted)">&nbsp;window, date, content</span>)</h3>
-          <div>After each administration: item exposure, bank depth per content cell, reliability trend and unused items.
+          <div>After each administration: Item exposure, bank depth per content cell, reliability trend and unused items.
             <code>retire_items(p, items, status, note)</code> takes items out of use.</div>
         </div>
       </section>
@@ -463,7 +463,7 @@ p &lt;- score_persons(p)</pre>
             <dt>eatATA</dt><dd>Form assembly.</dd>
             <dt>mirtCAT</dt><dd>CAT and multistage simulation.</dd>
           </dl>
-          <p class="note">These are suggested packages: install them only for the stages you use.
+          <p class="note">These are suggested packages: Install them only for the stages you use.
             Linking and cut-score methods are built in.</p>
         </div>
       </section>

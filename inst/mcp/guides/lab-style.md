@@ -1,6 +1,6 @@
 # Style guide for mirtverse labs
 
-mirtverse labs are [learnr](https://rstudio.github.io/learnr/) tutorials: one
+mirtverse labs are [learnr](https://rstudio.github.io/learnr/) tutorials: One
 R Markdown file per lab, in its own folder, with live R exercises that are
 checked automatically and multiple-choice questions that record the
 student's decisions. Students open them with `run_lab()` (built-in labs) or
@@ -46,11 +46,11 @@ each learnr exercise runs in a fresh environment.
 
 ## Story
 
-Every lab is a realistic, **fictional** scenario: an organization, a decision
+Every lab is a realistic, **fictional** scenario: An organization, a decision
 to make, and a person who asks for it ("The deputy minister has asked you
 three questions"). Sections follow the analysis an analyst would do, and the
 lab ends with a decision log and a short wrap-up. Write for students who are
-new to R: short paragraphs, bold key terms on first use, and one idea per
+new to R: Short paragraphs, bold key terms on first use, and one idea per
 section.
 
 ## Exercises
@@ -80,7 +80,7 @@ lab_need(exists("gap") && is.numeric(gap), "Save the differences as `gap`.")
 
 - The exercise chunk gives a starting point with blanks for the student to
   complete, not an empty box.
-- The `-check` chunk uses `lab_need(condition, message)`: the message tells
+- The `-check` chunk uses `lab_need(condition, message)`: The message tells
   the student what is wrong and how to fix it. `.result` holds the value of
   the student's last expression. The last line is the feedback string, which
   interprets the result (it is the teaching moment, not "Correct!").
@@ -130,7 +130,7 @@ When you add a question, add its label to the decision log.
 - Use typographic apostrophes and quotes (’ “ ”) in question and answer text;
   learnr strips straight apostrophes there.
 - Round reported numbers sensibly (two decimals for parameters).
-- Do not reveal answers before the student answers: explanations belong in
+- Do not reveal answers before the student answers: Explanations belong in
   question messages, exercise feedback or the instructor's answer key, which
   sits at the very end of instructor documents.
 - Prefer mirtverse functions (`select_model()`, `tidy()`, `gg_trace()`,

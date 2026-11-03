@@ -52,7 +52,7 @@ item parameters, the group \code{impact}, the item with real DIF
 \code{planted} problems.
 }
 \description{
-Instructor helper: returns how a lab dataset was generated, so you can
+Instructor helper: Returns how a lab dataset was generated, so you can
 check students' conclusions. Students meet the same information in the
 reveal at the end of the labs.
 }

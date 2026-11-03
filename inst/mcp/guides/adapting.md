@@ -7,7 +7,7 @@ mirtverse without losing what makes it theirs.
 
 ## Steps
 
-1. **Read the material** and summarize it to yourself: topic, audience,
+1. **Read the material** and summarize it to yourself: Topic, audience,
    learning goals, datasets, and the analyses it runs.
 2. **Run `scan_material`.** It lists every line of R code that mirtverse can
    replace and how.
@@ -17,12 +17,12 @@ mirtverse without losing what makes it theirs.
    quadrature). Carry those notes into the text when they change a number
    students will see.
 4. **Choose the target form** with the instructor, if they did not say:
-   - lecture notes or textbook material: a chapter (`new_chapter` or
+   - lecture notes or textbook material: A chapter (`new_chapter` or
      `write_material` under `chapters/`), following `chapter-style`;
-   - a hands-on lab or assignment with steps: a learnr lab (`new_lab` on their
+   - a hands-on lab or assignment with steps: A learnr lab (`new_lab` on their
      data, or `copy_lab` of the closest built-in lab, then edit), following
      `lab-style`;
-   - a plain script: an `.R` file that uses mirtverse.
+   - a plain script: An `.R` file that uses mirtverse.
 5. **Keep their data.** Copy it under `data/` if it is not in the course
    folder (ask the instructor to put it there), check it with
    `describe_dataset`, and point the new material at it.
@@ -36,7 +36,7 @@ mirtverse without losing what makes it theirs.
 8. **Check** with `check_material` (use `render = true` for chapters) and fix
    failures. Numbers can differ slightly from the original software; say so
    and explain why (estimation method, priors, quadrature, scaling).
-9. **Report**: what was adapted, what was translated automatically, what you
+9. **Report**: What was adapted, what was translated automatically, what you
    changed by hand, and anything the instructor should review (for example
    a statistic with no mirt equivalent).
 

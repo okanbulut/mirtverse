@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-monitor.R
 \name{monitor_bank}
 \alias{monitor_bank}
-\title{Pipeline stage: bank monitoring}
+\title{Pipeline stage: Bank monitoring}
 \usage{
 monitor_bank(
   p,
@@ -25,12 +25,12 @@ replaces it. Use \code{record = FALSE} to check the bank without recording.}
 
 \item{date}{the date of the administration.}
 
-\item{content}{optional content cell of each bank item: a named vector
+\item{content}{optional content cell of each bank item: A named vector
 (item id = cell). It is stored in the bank. By default the cells come
 from the bank, or from the items in the pipeline (\code{\link[=add_items]{add_items()}},
 \code{\link[=generate_items]{generate_items()}}).}
 
-\item{min_items}{optional fewest active items per cell: one number, or a
+\item{min_items}{optional fewest active items per cell: One number, or a
 named vector by cell.}
 
 \item{record}{logical; record the current administration in the bank. It
@@ -53,14 +53,14 @@ review with \code{\link[=retire_items]{retire_items()}}. Drift and compromise ch
 \details{
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{over_exposure} (review): active items seen by more than \code{max_exposure}
+\item \code{over_exposure} (review): Active items seen by more than \code{max_exposure}
 of the test takers in each of the last \code{exposure_windows} windows.
-\item \code{bank_depth} (review): a content cell with fewer active items than its
+\item \code{bank_depth} (review): A content cell with fewer active items than its
 minimum: \code{min_items}, or by default \code{cell_depth} times the cell's count
 in the blueprint from \code{\link[=set_blueprint]{set_blueprint()}}.
-\item \code{reliability_trend} (review): marginal reliability in the latest window
+\item \code{reliability_trend} (review): Marginal reliability in the latest window
 more than \code{reliability_drop} below its value in the first window.
-\item \code{unused_items} (info): more than \code{unused_share} of the active items
+\item \code{unused_items} (info): More than \code{unused_share} of the active items
 (that have been in the bank for \code{unused_days}) not used in the last
 \code{unused_days} days.
 }

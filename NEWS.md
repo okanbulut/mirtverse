@@ -143,10 +143,10 @@
 * New AI Hub for psychometricians who want to learn how artificial
   intelligence fits into measurement, with its own menu in the site navbar.
   It has a landing page with a learning path and examples of the AI features
-  already in mirtverse ("AI Hub: artificial intelligence for
+  already in mirtverse ("AI Hub: Artificial intelligence for
   psychometricians"), a table that translates more than 40 machine learning
   terms into their closest psychometric ideas ("Machine learning for
-  psychometricians: a translation table"), and an annotated reading list.
+  psychometricians: A translation table"), and an annotated reading list.
   The glossary has a new "AI in measurement" section with 13 terms.
 
 * New online book, *Item Response Theory with mirt and mirtverse*, at
@@ -202,7 +202,7 @@
   `lab_truth("catbank")`.
 
 * New teaching lab, "Linking two forms": `run_lab("linking")`. A licensure
-  exam's pass rate jumps on a new form, and students find out why: they
+  exam's pass rate jumps on a new form, and students find out why: They
   calibrate both forms, link them through common items with the mean-sigma
   method, catch an anchor item that drifted, compare separate and concurrent
   calibration, and carry the pass mark over to the new form with IRT
@@ -279,7 +279,7 @@
 * Cut scores for the assessment pipeline (stage 8). `set_cuts()` records cut
   scores on the ability or summed-score scale (or from a standard-setting
   panel's ratings) and estimates classification accuracy and consistency,
-  overall and by cut, with kappa and false positive and negative rates: by
+  overall and by cut, with kappa and false positive and negative rates: By
   Lee's (2010) method for summed-score cuts and Rudner's (2001) method for
   ability cuts, for the calibrated test or a fixed form. It flags low
   accuracy or consistency, imprecise cuts and panel disagreement, and the
@@ -291,7 +291,7 @@
   open-ended responses against their rubrics with a language model through
   ellmer, or with any trained model that has a `predict()` method, and
   checks the machine scores against human scores (Williamson, Xi and Breyer,
-  2012): too few double-scored responses, low human-human or machine-human
+  2012): Too few double-scored responses, low human-human or machine-human
   quadratic weighted kappa, shifted score distributions and subgroup
   differences. Short, off-topic and low-confidence responses are routed to
   human scoring, and the final scores can join the response data for a
@@ -313,14 +313,14 @@
 
 * Bank monitoring for the assessment pipeline (stage 12). `monitor_bank()`
   records each administration in the item bank (item exposure and marginal
-  reliability by window) and checks the bank over time: items over-exposed
+  reliability by window) and checks the bank over time: Items over-exposed
   in consecutive windows, content cells with too few active items,
   reliability falling from its first value, and items unused for a year.
   `retire_items()` retires bank items or sends them back to review.
   `mv_rules()` gains `exposure_windows`, `cell_depth`, `reliability_drop`
   and `unused_days`.
 
-* The workbench gains a Pipeline tab: run the data through the assessment
+* The workbench gains a Pipeline tab: Run the data through the assessment
   pipeline's intake and calibration gates (or load a saved pipeline), follow
   the stage tracker, record decisions on flags, drop items and recalibrate,
   and download the pipeline and its report. The SAT12 example in the
@@ -335,7 +335,7 @@
   mirt code, with a note on every difference between the packages (for
   example CML versus MML in eRm, the scaling constant `D` in irtQ, and the
   number of quadrature points). It covers the model functions and their
-  follow-ups: person scores, item and person fit, information, plots and
+  follow-ups: Person scores, item and person fit, information, plots and
   Andersen's likelihood-ratio test. `run = TRUE` also runs the translated
   code. `mirtify_crosswalk()` lists every supported function, and the new
   article "Moving from ltm, eRm, TAM or irtQ to mirt" walks through examples
@@ -347,11 +347,11 @@
 
 * New interactive teaching labs for measurement courses, built with learnr.
   `run_lab("model-choice")` opens Lab 1, "Choosing a model the board can
-  defend": students score a certification exam, find a miskeyed item, check
+  defend": Students score a certification exam, find a miskeyed item, check
   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
   local dependence, and justify a model, with feedback on every decision and a
   summary of their choices at the end. `run_lab("decisions")` opens Lab 2,
-  "From parameters to decisions": reading item parameters, precision at the
+  "From parameters to decisions": Reading item parameters, precision at the
   pass mark, choosing a scoring method, classification accuracy, DIF between
   English and French candidates, a memo to the board, and a reveal of the
   truth behind the data. `list_labs()` lists the labs. The new
@@ -360,12 +360,12 @@
   article "Teaching labs for measurement courses" introduces the labs for
   students, followed by an instructor guide and an answer key.
 
-* New article, "A course map for instructors": a suggested 12-week IRT
+* New article, "A course map for instructors": A suggested 12-week IRT
   syllabus that links each week to articles, labs, functions and datasets.
 
 * New teaching lab, "Is the test fair? Detecting DIF": `run_lab("fairness")`.
   Students investigate a complaint that a provincial numeracy test is biased
-  against English language learners: they separate impact from DIF, run
+  against English language learners: They separate impact from DIF, run
   Mantel-Haenszel and IRT likelihood-ratio DIF tests, purify the anchor, judge
   how much the DIF matters for students' scores with differential test
   functioning, and plan a content review. The new `numeracy` data (with
@@ -380,7 +380,7 @@
   linking from course materials.
 
 * A printable two-page cheat sheet (PDF), linked from the navbar and the
-  README: page 1 covers analysis and sharing by task, page 2 the assessment
+  README: Page 1 covers analysis and sharing by task, page 2 the assessment
   pipeline stages, gates and flags.
 
 ## Sharing results
@@ -399,7 +399,7 @@
   connection. The item table, item curves with the ability slider, item
   information and person lookup stay interactive.
 
-* The article "Sharing results with a dashboard" is now a full guide: when to
+* The article "Sharing results with a dashboard" is now a full guide: When to
   use a dashboard rather than the workbench or the report, every panel,
   sharing as one HTML file or as a Shiny app, privacy, and a live example
   dashboard to open.
@@ -413,7 +413,7 @@
   parser that asks follow-up questions. Only a column summary is ever sent;
   `anonymize = TRUE` hides column names and `dry_run = TRUE` shows exactly
   what would be sent. Scripts can be refined (`mv_ask(scr, "use a 3PL
-  instead")`) and are built from an analysis plan (`mv_plan()`): data
+  instead")`) and are built from an analysis plan (`mv_plan()`): Data
   preparation, model fitting or selection, fit checks, DIF, scores,
   graphics, item cards, reports and response times. `run_script()` runs
   it, optionally after a dry run on simulated data with the same
@@ -430,7 +430,7 @@
   stops when a provider cannot be reached; those requests are scored as
   wrong and the reason is printed.
 
-* New article, "mv_ask(): from a sentence to a tested R script", shows the
+* New article, "mv_ask(): From a sentence to a tested R script", shows the
   workflow and benchmarks Claude, GPT and local Qwen models against the
   keyword parser.
 
@@ -473,13 +473,13 @@
 
 First release.
 
-* `launch_workbench()`: a seven-step Shiny app that writes reproducible R code.
-* `select_model()`: compares candidate IRT models and explains the recommendation.
-* `interpret()` and `interpret_prompt()`: plain-language summaries of mirt results.
+* `launch_workbench()`: A seven-step Shiny app that writes reproducible R code.
+* `select_model()`: Compares candidate IRT models and explains the recommendation.
+* `interpret()` and `interpret_prompt()`: Plain-language summaries of mirt results.
 * `tidy()`, `glance()`, `augment()` and `item_table()` for mirt models.
 * ggplot2 graphics: `gg_trace()`, `gg_info()`, `gg_wright()`, `gg_itemfit()`,
   `gg_q3()`, `gg_scores()`, `gg_empirical()` and `autoplot()`.
-* `item_card()` and `item_cards()`: item health cards with a traffic-light status.
-* `mv_report()`: a self-contained HTML report.
-* `fit_rt()` and `sim_rt()`: joint modelling of responses and response times with
+* `item_card()` and `item_cards()`: Item health cards with a traffic-light status.
+* `mv_report()`: A self-contained HTML report.
+* `fit_rt()` and `sim_rt()`: Joint modelling of responses and response times with
   rapid-guessing flags, response time effort and l_t person fit.

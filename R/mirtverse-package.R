@@ -1,4 +1,4 @@
-#' mirtverse: a friendly workflow and reporting layer for mirt
+#' mirtverse: A friendly workflow and reporting layer for mirt
 #'
 #' mirtverse builds on the \pkg{mirt} package. It adds tidy outputs
 #' ([tidy()], [glance()], [augment()]), ggplot2 graphics ([gg_trace()],

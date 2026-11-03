@@ -26,7 +26,7 @@ tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 10
-each have their own: a provincial numeracy test (\link{numeracy}), a licensure
+each have their own: A provincial numeracy test (\link{numeracy}), a licensure
 exam with two forms (\link{linking}), a placement test's item bank
 (\link{catbank}), rater-scored science tasks (\link{openended}), written science
 explanations (\link{essays}), the text of numeracy items (\link{itemtext}), a

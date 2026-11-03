@@ -41,34 +41,34 @@ plan; start at any of them):
 }
 \details{
 \enumerate{
-\item \code{\link[=set_blueprint]{set_blueprint()}}: the construct, content cells and score use.
-\item \code{\link[=generate_items]{generate_items()}} or \code{\link[=add_items]{add_items()}}: item writing with a language model
+\item \code{\link[=set_blueprint]{set_blueprint()}}: The construct, content cells and score use.
+\item \code{\link[=generate_items]{generate_items()}} or \code{\link[=add_items]{add_items()}}: Item writing with a language model
 or by people (keys, distractors, rubrics, duplicates, coverage).
-\item \code{\link[=review_packet]{review_packet()}} and \code{\link[=read_reviews]{read_reviews()}}: human content and sensitivity
+\item \code{\link[=review_packet]{review_packet()}} and \code{\link[=read_reviews]{read_reviews()}}: Human content and sensitivity
 review, with an optional AI screen (reviewers, alignment, bias,
 agreement).
-\item \code{\link[=design_field_test]{design_field_test()}}: forms, anchors and sample sizes for the field
+\item \code{\link[=design_field_test]{design_field_test()}}: Forms, anchors and sample sizes for the field
 test, with simulated parameter recovery.
-\item \code{\link[=add_responses]{add_responses()}}: data intake and cleaning (scoring with a key,
+\item \code{\link[=add_responses]{add_responses()}}: Data intake and cleaning (scoring with a key,
 missing data, miskeyed items, straight-lining, rapid guessing, sparse
 categories).
-\item \code{\link[=calibrate]{calibrate()}}: model fitting with mirt (convergence, model fit, local
+\item \code{\link[=calibrate]{calibrate()}}: Model fitting with mirt (convergence, model fit, local
 dependence, item fit, parameter ranges, DIF, reliability, person fit).
-\item \code{\link[=link_to_bank]{link_to_bank()}} and \code{\link[=bank_items]{bank_items()}} (optional): put the calibration on
+\item \code{\link[=link_to_bank]{link_to_bank()}} and \code{\link[=bank_items]{bank_items()}} (optional): Put the calibration on
 the scale of an item bank through anchor items and add the new items to
 the bank (anchor drift, linking constants).
-\item \code{\link[=assemble_forms]{assemble_forms()}}, \code{\link[=simulate_cat]{simulate_cat()}} or \code{\link[=assemble_mst]{assemble_mst()}}: fixed forms,
+\item \code{\link[=assemble_forms]{assemble_forms()}}, \code{\link[=simulate_cat]{simulate_cat()}} or \code{\link[=assemble_mst]{assemble_mst()}}: Fixed forms,
 adaptive or multistage tests (blueprint, parallelism, precision,
 exposure, routing).
-\item \code{\link[=set_cuts]{set_cuts()}}: cut scores and classification accuracy and consistency.
-\item \code{\link[=score_open]{score_open()}} and \code{\link[=score_persons]{score_persons()}}: open-ended scoring by a language
+\item \code{\link[=set_cuts]{set_cuts()}}: Cut scores and classification accuracy and consistency.
+\item \code{\link[=score_open]{score_open()}} and \code{\link[=score_persons]{score_persons()}}: Open-ended scoring by a language
 model or a trained model, checked against human scores, and ability
 estimates.
-\item \code{\link[=check_security]{check_security()}}: preknowledge, leakage, parameter drift, answer
+\item \code{\link[=check_security]{check_security()}}: Preknowledge, leakage, parameter drift, answer
 copying, aberrant timing, site anomalies and score gains.
-\item \code{\link[=pipeline_report]{pipeline_report()}}: an HTML technical report that also lists every
+\item \code{\link[=pipeline_report]{pipeline_report()}}: An HTML technical report that also lists every
 flag and every decision made about it.
-\item \code{\link[=monitor_bank]{monitor_bank()}} and \code{\link[=retire_items]{retire_items()}}: after each administration, the
+\item \code{\link[=monitor_bank]{monitor_bank()}} and \code{\link[=retire_items]{retire_items()}}: After each administration, the
 bank's health over time (over-exposed items, content cells running
 short, reliability trend, unused items).
 }
@@ -78,7 +78,7 @@ flags point at something a psychometrician should look at. \code{block} flags
 point at problems that make later stages unsafe, such as a model that did
 not converge or an item with large DIF.
 
-By default flags only warn: every stage runs, and a warning lists the open
+By default flags only warn: Every stage runs, and a warning lists the open
 flags it is moving past. With \code{strict = TRUE}, a stage refuses to run while
 an earlier stage has open \code{review} flags (record a decision with
 \code{\link[=acknowledge]{acknowledge()}}) or open \code{block} flags (fix the problem, for example with

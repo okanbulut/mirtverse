@@ -21,9 +21,9 @@ dif(
 \code{\link[mirt:multipleGroup]{mirt::multipleGroup()}} model whose item parameters are constrained to be
 equal across groups (the baseline model).}
 
-\item{group}{the grouping variable: a vector with one value per respondent,
+\item{group}{the grouping variable: A vector with one value per respondent,
 or the name of a column of \code{x} (that column is then not treated as an
-item). The first group is the reference group: the first level of a
+item). The first group is the reference group: The first level of a
 factor, otherwise the first value in sorted order. Ignored when \code{x} is a
 model.}
 
@@ -56,7 +56,7 @@ models with each item freed), \code{groups}, \code{reference}, \code{focal},
 \description{
 Tests every item for DIF between groups (for example by gender or language)
 and reports the results as a tidy table with effect sizes. The analysis uses
-the constrained-baseline approach: a multiple-group model is fitted with all
+the constrained-baseline approach: A multiple-group model is fitted with all
 item parameters equal across groups and free latent means and variances,
 then each item's parameters are freed in turn and compared with a
 likelihood-ratio test (\code{\link[mirt:DIF]{mirt::DIF()}} with \code{scheme = "drop"}).

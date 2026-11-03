@@ -42,7 +42,7 @@ are supported through the ellmer package:
 \url{https://console.anthropic.com} (stored as \code{ANTHROPIC_API_KEY}).
 \item \code{"openai"}: OpenAI's GPT models, with your own key from
 \url{https://platform.openai.com} (stored as \code{OPENAI_API_KEY}).
-\item \code{"ollama"}: a free model running on your own computer with Ollama
+\item \code{"ollama"}: A free model running on your own computer with Ollama
 (\url{https://ollama.com}). Install Ollama, run \verb{ollama pull qwen2.5} (or
 another model) once, and nothing ever leaves your machine.
 }

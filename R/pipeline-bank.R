@@ -5,7 +5,7 @@
 #' from and whether they are in use. Start a bank from a calibrated model or
 #' pipeline with `mv_bank()`, put a new calibration on the bank's scale with
 #' [link_to_bank()], and add its new items with [bank_items()]. A bank is an
-#' ordinary R object: keep it between administrations with [saveRDS()] and
+#' ordinary R object: Keep it between administrations with [saveRDS()] and
 #' [readRDS()].
 #'
 #' Supported item types are the unidimensional `"Rasch"`, `"2PL"`, `"3PL"`,
@@ -17,7 +17,7 @@
 #' @param name a name for the bank.
 #' @param source a label for where the items came from, such as the
 #'   administration. Defaults to the pipeline title, or `"calibration"`.
-#' @return An object of class `mv_bank`: a list with `name`, `items` (a tibble
+#' @return An object of class `mv_bank`: A list with `name`, `items` (a tibble
 #'   with one row per item: `item`, `itemtype`, `ncat`, `a` (discrimination),
 #'   `b` (location; the mean threshold for polytomous items), `g` (lower
 #'   asymptote), `source`, `added`, `status` and the list column `pars` with
@@ -169,7 +169,7 @@ print.mv_bank <- function(x, ...) {
 #' @export
 tidy.mv_bank <- function(x, ...) x$items[, setdiff(names(x$items), "pars")]
 
-#' Pipeline stage: add items to a bank
+#' Pipeline stage: Add items to a bank
 #'
 #' Adds the items of a calibrated pipeline to an item bank, on the bank's
 #' scale. With no `bank`, a new bank is started from the pipeline. With an
@@ -234,34 +234,34 @@ bank_items <- function(p, bank = NULL, name = "Item bank", update_anchors = FALS
   add_code(p, cl)
 }
 
-#' Pipeline stage: link a calibration to an item bank
+#' Pipeline stage: Link a calibration to an item bank
 #'
 #' Puts a calibrated pipeline on the scale of an existing item bank through
 #' the anchor items the two have in common, then checks the anchors. Methods:
 #'
-#' * `"stocking-lord"` (default) and `"haebara"`: characteristic-curve
+#' * `"stocking-lord"` (default) and `"haebara"`: Characteristic-curve
 #'   methods. They find the slope `A` and intercept `B` of the change of scale
 #'   (theta on the bank scale = `A` x theta + `B`) that make the anchors'
 #'   test characteristic curve (Stocking-Lord) or item curves (Haebara) match
 #'   the bank's, weighted by a standard normal ability distribution.
-#' * `"mean-sigma"` and `"mean-mean"`: moment methods based on the anchors'
+#' * `"mean-sigma"` and `"mean-mean"`: Moment methods based on the anchors'
 #'   locations (and discriminations).
-#' * `"fixed"`: fixed-anchor calibration. The model is refitted with the
+#' * `"fixed"`: Fixed-anchor calibration. The model is refitted with the
 #'   anchor parameters fixed at their bank values and the ability mean and
 #'   variance free, so every new item lands on the bank scale directly.
 #'
 #' For the Rasch model the slope is fixed at 1. The checks (thresholds from
 #' [mv_rules()]):
 #'
-#' * `too_few_anchors` (review): fewer than `min_anchors` anchor items, or
+#' * `too_few_anchors` (review): Fewer than `min_anchors` anchor items, or
 #'   fewer than `min_anchor_share` of the test.
-#' * `anchor_drift` (review): an anchor whose location on the bank scale
+#' * `anchor_drift` (review): An anchor whose location on the bank scale
 #'   differs from its bank value by more than `anchor_displacement`. Drifting
 #'   anchors can be left out with the `anchors` argument.
-#' * `linking_constants` (review): a slope `A` outside `link_slope_min` to
+#' * `linking_constants` (review): A slope `A` outside `link_slope_min` to
 #'   `link_slope_max`, which suggests a very different ability spread or
 #'   unstable anchors.
-#' * `not_converged` (block): the fixed-anchor calibration did not converge.
+#' * `not_converged` (block): The fixed-anchor calibration did not converge.
 #'
 #' The constants and the anchor table are kept in `p$link` and shown in the
 #' report.

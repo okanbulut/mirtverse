@@ -7,7 +7,7 @@
 mirtify(code, run = FALSE, notes = TRUE, file = NULL, envir = parent.frame())
 }
 \arguments{
-\item{code}{the code to translate. One of: a character string or vector
+\item{code}{the code to translate. One of: A character string or vector
 of code lines, the path to an \code{.R} file, or the unquoted code itself
 (a single call, or several statements wrapped in \code{{ }}).}
 

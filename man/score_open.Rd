@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-scoring.R
 \name{score_open}
 \alias{score_open}
-\title{Pipeline stage: scoring open-ended responses}
+\title{Pipeline stage: Scoring open-ended responses}
 \usage{
 score_open(
   p,
@@ -42,11 +42,11 @@ are used:
 }
 \details{
 \itemize{
-\item \code{scorer = "llm"}: a language model (see \code{\link[=mv_ask_setup]{mv_ask_setup()}}) scores each
+\item \code{scorer = "llm"}: A language model (see \code{\link[=mv_ask_setup]{mv_ask_setup()}}) scores each
 response against the item's rubric from \code{\link[=generate_items]{generate_items()}} or
 \code{\link[=add_items]{add_items()}} and returns a score, a one-sentence rationale and its
 confidence.
-\item \verb{scorer = <a fitted model>}: any object with a \code{predict()} method
+\item \verb{scorer = <a fitted model>}: Any object with a \code{predict()} method
 trained on human scores, such as a tidymodels workflow. It is called as
 \code{predict(scorer, newdata)} with the responses data frame (columns
 \code{item}, \code{response} and any other columns you supply) and must return
@@ -58,19 +58,19 @@ Both routes pass the same agreement gate, computed on the responses that
 have human scores (\code{human1}, and \code{human2} for double-scored responses),
 following Williamson, Xi and Breyer (2012) (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{validation_n} (review): fewer than \code{n_validation} double-scored
+\item \code{validation_n} (review): Fewer than \code{n_validation} double-scored
 responses for an item.
-\item \code{human_agreement} (block): quadratic weighted kappa (QWK) between the two
+\item \code{human_agreement} (block): Quadratic weighted kappa (QWK) between the two
 human scores below \code{qwk_min}.
 \item \code{machine_agreement} (block): QWK between machine and human scores below
 \code{qwk_min}, or more than \code{qwk_drop} below the human-human QWK.
-\item \code{score_distribution} (review): the standardized mean difference between
+\item \code{score_distribution} (review): The standardized mean difference between
 machine and human scores is beyond \code{score_smd} in absolute value.
-\item \code{subgroup_fairness} (review): the machine-human standardized mean
+\item \code{subgroup_fairness} (review): The machine-human standardized mean
 difference within a group is beyond \code{subgroup_smd}.
-\item \code{low_confidence} (review): responses that are off topic, shorter than
+\item \code{low_confidence} (review): Responses that are off topic, shorter than
 \code{min_words} words, or scored with confidence below \code{min_confidence}.
-They are routed to human scoring: their final score is the human score
+They are routed to human scoring: Their final score is the human score
 if there is one, otherwise missing.
 }
 

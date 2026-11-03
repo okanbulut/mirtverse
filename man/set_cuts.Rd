@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-cuts.R
 \name{set_cuts}
 \alias{set_cuts}
-\title{Pipeline stage: cut scores and decision quality}
+\title{Pipeline stage: Cut scores and decision quality}
 \usage{
 set_cuts(
   p,
@@ -27,7 +27,7 @@ in the higher category).}
 \item{labels}{names of the categories, one more than the number of cuts.
 Defaults to \code{"Level 1"}, \code{"Level 2"}, and so on.}
 
-\item{panel}{optional ratings from a standard-setting panel: a matrix or
+\item{panel}{optional ratings from a standard-setting panel: A matrix or
 data frame with one row per panelist and one column per cut, on the same
 \code{scale} as \code{cuts}.}
 
@@ -39,7 +39,7 @@ calibrated test.}
 draws from the expected test-taker distribution).}
 }
 \value{
-The pipeline with \code{p$cuts}: a list with the cuts on both scales
+The pipeline with \code{p$cuts}: A list with the cuts on both scales
 (\code{table}), overall decision quality (\code{summary}), results by cut
 (\code{by_cut}) and the share of the population expected in each category
 (\code{categories}).
@@ -58,10 +58,10 @@ abilities (by default the calibration sample's EAP estimates, on the bank
 scale if the pipeline is linked):
 \itemize{
 \item With cuts on the ability scale (\code{scale = "theta"}), Rudner's (2001)
-method: the ability estimate is taken as normal around the true ability
+method: The ability estimate is taken as normal around the true ability
 with the standard error from the test information.
 \item With cuts on the summed-score scale (\code{scale = "raw"}), Lee's (2010)
-method: the summed-score distribution at each ability comes from the
+method: The summed-score distribution at each ability comes from the
 Lord-Wingersky recursion, and the true category is set by the expected
 (true) score.
 }
@@ -74,12 +74,12 @@ false positive and false negative rates at each cut.
 
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{class_accuracy} (review): overall accuracy below \code{cut_accuracy}.
-\item \code{class_consistency} (review): overall consistency below
+\item \code{class_accuracy} (review): Overall accuracy below \code{cut_accuracy}.
+\item \code{class_consistency} (review): Overall consistency below
 \code{cut_consistency}.
-\item \code{cut_precision} (review): the standard error of measurement at a cut is
+\item \code{cut_precision} (review): The standard error of measurement at a cut is
 above \code{cut_sem}; the test has too little information there.
-\item \code{panel_agreement} (info): the panelists' cuts have a standard deviation
+\item \code{panel_agreement} (info): The panelists' cuts have a standard deviation
 (in ability units) above \code{panel_sd}.
 }
 }

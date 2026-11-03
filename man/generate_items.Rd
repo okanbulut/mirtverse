@@ -4,7 +4,7 @@
 \alias{generate_items}
 \alias{add_items}
 \alias{verify_items}
-\title{Pipeline stage: item generation}
+\title{Pipeline stage: Item generation}
 \usage{
 generate_items(
   p,
@@ -60,7 +60,7 @@ verified.}
 \item{.rerun}{internal.}
 }
 \value{
-The pipeline with the new items in \code{p$items}: a tibble with one row
+The pipeline with the new items in \code{p$items}: A tibble with one row
 per item (\code{id}, \code{cell}, \code{type}, \code{stem}, \code{options}, \code{key}, \code{rationales},
 \code{rubric}, \code{max_score}, \code{grade}, \code{source}, \code{status} and the verification
 results).
@@ -82,24 +82,24 @@ distractor (\code{\link[=verify_items]{verify_items()}} runs this pass on its ow
 
 The checks (thresholds from \code{\link[=mv_rules]{mv_rules()}}):
 \itemize{
-\item \code{invalid_key} (block): a multiple-choice key that is not one of the
+\item \code{invalid_key} (block): A multiple-choice key that is not one of the
 options.
-\item \code{key_check} (block): the verifying pass chose another answer, or found
+\item \code{key_check} (block): The verifying pass chose another answer, or found
 more than one defensible answer.
-\item \code{rubric_incomplete} (block): an open-ended item without a descriptor and
+\item \code{rubric_incomplete} (block): An open-ended item without a descriptor and
 an anchor response for every score point from 0 to the maximum.
-\item \code{distractor} (review): a distractor the verifying pass judged
+\item \code{distractor} (review): A distractor the verifying pass judged
 implausible or partly correct.
-\item \code{near_duplicate} (review): two items whose wording overlaps by more than
+\item \code{near_duplicate} (review): Two items whose wording overlaps by more than
 \code{duplicate_sim} (Jaccard similarity of their words).
-\item \code{coverage} (review): a blueprint cell with fewer than \code{coverage_ratio}
+\item \code{coverage} (review): A blueprint cell with fewer than \code{coverage_ratio}
 times its target count of items (items are lost in review and field
 testing).
-\item \code{readability} (info): item text above the blueprint's grade level
+\item \code{readability} (info): Item text above the blueprint's grade level
 (Flesch-Kincaid grade).
 }
 
-Generated items are drafts: they need human content and sensitivity review
+Generated items are drafts: They need human content and sensitivity review
 before they are field-tested, and every item records its source.
 }
 \examples{

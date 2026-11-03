@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline-scoring.R
 \name{score_persons}
 \alias{score_persons}
-\title{Pipeline stage: score test takers}
+\title{Pipeline stage: Score test takers}
 \usage{
 score_persons(p, method = c("EAP", "MAP", "ML", "WLE"))
 }
@@ -22,9 +22,9 @@ Estimates each test taker's ability from the calibrated model with
 }
 \details{
 \itemize{
-\item \code{score_reliability} (review): the empirical reliability of the scores is
+\item \code{score_reliability} (review): The empirical reliability of the scores is
 below \code{reliability} (the blueprint's target, if one was set).
-\item \code{extreme_scores} (info): maximum-likelihood estimates that are infinite
+\item \code{extreme_scores} (info): Maximum-likelihood estimates that are infinite
 (all or none correct) or standard errors above \code{max_se}.
 }
 }

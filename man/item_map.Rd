@@ -21,7 +21,7 @@ last.
 }
 \description{
 Locates every item (and every score category of a polytomous item) on the
-ability scale at the response probability \code{rp}: the ability at which a test
+ability scale at the response probability \code{rp}: The ability at which a test
 taker has probability \code{rp} of answering correctly (or of reaching that
 category or higher). Sorted by location, this is the ordered item booklet
 of the Bookmark method; a panelist's bookmark translates to a cut at the

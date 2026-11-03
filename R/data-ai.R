@@ -16,7 +16,7 @@
 #' deliberately unrelated to the question, to add reading load.
 #'
 #' @format A data frame with 192 rows (one per item) and 17 columns:
-#'   `id` (`N01-01` to `N12-16`: family and item number), `family` (the item
+#'   `id` (`N01-01` to `N12-16`: Family and item number), `family` (the item
 #'   model), `domain` (content area), `stem` (the question), `A` to `D` (the
 #'   options), `key` (the keyed option), `decimal` (1 if the item uses
 #'   decimals or fractions), `digits` (digits in the largest number),
@@ -45,7 +45,7 @@
 #' E2 (why Earth has seasons), E3 (how plants make food) and E4 (why a metal
 #' spoon feels colder than a wooden one).
 #'
-#' The dataset is for learning automated scoring: training a scorer on the
+#' The dataset is for learning automated scoring: Training a scorer on the
 #' text, checking machine-human agreement, and checking that the scorer is
 #' fair to ELL students. Some problems were planted on purpose;
 #' `lab_truth("essays")` lists them and the true scores. Every response has

@@ -1,7 +1,7 @@
 #' Build a lab from your own data
 #'
 #' `new_lab()` writes an interactive lab (a learnr tutorial) that walks
-#' students through an IRT analysis of *your* dataset: the data, classical
+#' students through an IRT analysis of *your* dataset: The data, classical
 #' item statistics, dimensionality, model comparison, item fit, information,
 #' scoring and, when you give a grouping variable, DIF. With `item_info` or
 #' `scores` it can also teach AI in measurement on your data: What the item
@@ -18,8 +18,8 @@
 #' [add_lab_question()] add content, and [check_material()] runs every
 #' exercise's solution through its check.
 #'
-#' @param name the lab's name: letters, digits, `-` and `_`.
-#' @param data the responses: a data frame or matrix, or the path of a file
+#' @param name the lab's name: Letters, digits, `-` and `_`.
+#' @param data the responses: A data frame or matrix, or the path of a file
 #'   (`.csv`, `.tsv`, `.txt`, `.xlsx`, `.xls`, `.sav`, `.dta`, `.sas7bdat` or
 #'   `.rds`). Items must be scored 0/1 or in ordered integer categories,
 #'   unless you give a `key`. A frequency table (one row per response pattern
@@ -31,7 +31,7 @@
 #'   column whose values are whole numbers from 0 to 9 (other than `group`
 #'   and ID-like columns), or the names of a named `key`.
 #' @param group optional grouping variable with two values, for the DIF
-#'   section: a column name of `data`, or a vector with one value per row.
+#'   section: A column name of `data`, or a vector with one value per row.
 #' @param key optional answer key for unscored multiple-choice responses, one
 #'   value per item; the items are scored with [mirt::key2binary()].
 #' @param item_info optional data frame (or the path of a data file) with one row per item, for the AI
@@ -167,7 +167,7 @@ swap_lab_data <- function(lab, data, items = NULL, group = NULL, key = NULL,
 
 #' Load the data of a toolkit lab
 #'
-#' Used in the setup chunk of labs made with [new_lab()]: reads
+#' Used in the setup chunk of labs made with [new_lab()]: Reads
 #' `data/responses.rds` and `data/lab.json`. You can also call it yourself to
 #' see what a lab will use.
 #'
@@ -200,7 +200,7 @@ lab_data <- function(dir = "data") {
 #' Sections you can add to a toolkit lab
 #'
 #' The ready-made sections that [new_lab()] and [add_lab_section()] use. Each
-#' works with any dataset: its numbers, checks and questions are computed
+#' works with any dataset: Its numbers, checks and questions are computed
 #' from the lab's data.
 #'
 #' The last three sections teach AI in measurement with the lab's data and
@@ -346,7 +346,7 @@ add_lab_exercise <- function(lab, title, prompt, solution, starter = NULL, check
 #' @rdname add_lab_section
 #' @param question the question text.
 #' @param answers the answer options (character).
-#' @param correct which answers are correct: their positions in `answers`, or
+#' @param correct which answers are correct: Their positions in `answers`, or
 #'   the answers themselves. More than one makes a check-all-that-apply
 #'   question.
 #' @param messages optional feedback for each answer, in the same order.

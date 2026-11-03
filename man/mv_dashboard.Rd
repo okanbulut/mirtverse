@@ -54,7 +54,7 @@ summary object is stored in its \code{"mv_dashboard"} attribute.
 }
 \description{
 Builds a small, read-only 'shiny' dashboard of a fitted model for people
-who do not use R: teachers, clients, committees or students. Where the
+who do not use R: Teachers, clients, committees or students. Where the
 \link[=launch_workbench]{workbench} is for doing an analysis, the dashboard is for
 showing one. Pick the panels you want, give it a title, and run it, or save
 it as a ready-to-deploy app or a single offline HTML file with
@@ -69,21 +69,21 @@ before you deploy a dashboard that has it.
 
 Available panels:
 \itemize{
-\item \code{"summary"}: headline numbers (respondents, items, reliability, flagged
+\item \code{"summary"}: Headline numbers (respondents, items, reliability, flagged
 items) and the plain-language interpretation from \code{\link[=interpret]{interpret()}}.
-\item \code{"items"}: the item table with traffic-light status; select a row to see
+\item \code{"items"}: The item table with traffic-light status; select a row to see
 that item's health card (\code{\link[=item_card]{item_card()}}).
-\item \code{"curves"}: trace curves for chosen items, with a slider that reads off
+\item \code{"curves"}: Trace curves for chosen items, with a slider that reads off
 the probabilities at any ability level.
-\item \code{"information"}: test information and standard error, plus item
+\item \code{"information"}: Test information and standard error, plus item
 information curves.
-\item \code{"wright"}: the Wright map.
-\item \code{"scores"}: the distribution of ability estimates and the sum-score
+\item \code{"wright"}: The Wright map.
+\item \code{"scores"}: The distribution of ability estimates and the sum-score
 conversion table (no individual scores).
-\item \code{"persons"}: a searchable table of every person's score, standard error
+\item \code{"persons"}: A searchable table of every person's score, standard error
 and percentile.
-\item \code{"dif"}: differential item functioning results (needs \code{dif}).
-\item \code{"rt"}: response-time results (needs \code{rt}).
+\item \code{"dif"}: Differential item functioning results (needs \code{dif}).
+\item \code{"rt"}: Response-time results (needs \code{rt}).
 }
 
 \code{"curves"}, \code{"information"}, \code{"wright"}, \code{"scores"} and \code{"persons"} need a
