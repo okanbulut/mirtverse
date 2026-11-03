@@ -403,7 +403,7 @@ sources by the author.
 
 # Availability
 
-mirtverse is free software released under the GPL (version 3 or later). The
+mirtverse is free software released under the GPL. The
 source code is at <https://github.com/okanbulut/mirtverse>, the
 documentation and textbook at <https://www.okanbulut.com/mirtverse/>, and
 the package installs from R-universe with
