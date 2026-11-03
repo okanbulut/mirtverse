@@ -411,7 +411,7 @@ the package installs from R-universe with
 
 # Acknowledgements
 
-mirtverse would not exist without the mirt package and its author, R. Philip
+mirtverse would not exist without the mirt package and its author, Dr. R. Philip
 Chalmers. The author thanks the developers of the R packages that mirtverse
 depends on.
 
