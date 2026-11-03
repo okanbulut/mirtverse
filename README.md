@@ -22,6 +22,12 @@ everything with people who never open R.
 **Try it without installing anything:** [Open the live example dashboard](https://www.okanbulut.com/mirtverse/dashboard/sat12-demo.html)
 or browse the [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.html) of figures and outputs.
 
+**Or watch a short demo** (about 90 seconds each, with captions):
+
+<a href="https://youtu.be/huSxZzaFNs0"><img src="man/figures/home-video-workbench.png" width="32%" alt="Video: A tour of the point-and-click workbench"></a>
+<a href="https://youtu.be/4cFjnpSkcMQ"><img src="man/figures/home-video-ai-hub.png" width="32%" alt="Video: The AI Hub, with automated scoring checked like a psychometrician would"></a>
+<a href="https://youtu.be/J3us00sk34g"><img src="man/figures/home-video-thesis-kit.png" width="32%" alt="Video: The thesis kit, from a fitted model to an APA Methods paragraph"></a>
+
 ## Find your way in
 
 | I am... | Start here |

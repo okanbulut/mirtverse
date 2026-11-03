@@ -1,0 +1,40 @@
+---
+title: "Video demos"
+description: >
+  Short narrated demos of mirtverse: The point-and-click workbench, the AI
+  Hub and the thesis kit, about 90 seconds each with English captions.
+---
+
+Each demo runs about 90 seconds and has English captions. Every number on
+screen comes from a real run of the package. To watch on YouTube, use the
+links under each video.
+
+## Workbench tour
+
+From a data file to a report without writing code: Load the SAT12 example,
+explore it, let the workbench compare the Rasch, 2PL and 3PL models, read
+the plain-language results, open the Wright map and an item health card, and
+download the report and the R script.
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:1em 0 1.5em"><iframe src="https://www.youtube-nocookie.com/embed/huSxZzaFNs0?rel=0" title="mirtverse workbench tour" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+[Watch on YouTube](https://youtu.be/huSxZzaFNs0) · [Workbench guide](workbench.html) · [New to R](for-new-to-r.html)
+
+## AI Hub
+
+A machine scorer that agrees with human raters overall, and the check that
+shows it scores English language learners too low. Then near-duplicate items
+and difficulty prediction from item text.
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:1em 0 1.5em"><iframe src="https://www.youtube-nocookie.com/embed/4cFjnpSkcMQ?rel=0" title="mirtverse AI Hub demo" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+[Watch on YouTube](https://youtu.be/4cFjnpSkcMQ) · [AI Hub](ai-hub.html)
+
+## Thesis kit
+
+From `select_model()` to an APA Methods paragraph, a reference list and a
+Word file with `cite_methods()`.
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:1em 0 1.5em"><iframe src="https://www.youtube-nocookie.com/embed/J3us00sk34g?rel=0" title="mirtverse thesis kit demo" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+[Watch on YouTube](https://youtu.be/J3us00sk34g) · [Thesis kit](thesis-kit.html)

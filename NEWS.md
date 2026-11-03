@@ -1,5 +1,10 @@
 # mirtverse (development version)
 
+* Three narrated video demos (about 90 seconds each, with captions): The
+  workbench tour, the AI Hub and the thesis kit. They are on the home page,
+  on a new "Video demos" page (Start here menu) and in the AI Hub, thesis kit
+  and "New to R" articles.
+
 * New `cite_methods()` drafts the Methods paragraph of an IRT analysis in
   APA style: Software versions, the model and estimation method, the model
   comparison from `select_model()`, overall and item fit, reliability and
