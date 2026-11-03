@@ -1,0 +1,11 @@
+body { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 10.5pt; line-height: 1.45; color: #212529; max-width: 7in; margin: 0 auto; }
+header h1.title { color: #172B4D; font-size: 20pt; margin: 0 0 2pt; }
+header p.subtitle { color: #2C5F8A; font-size: 12pt; margin: 0 0 12pt; border-bottom: 3px solid #E8A317; padding-bottom: 8pt; }
+h1 { color: #172B4D; font-size: 13pt; margin: 16pt 0 6pt; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0; font-size: 9.5pt; }
+th, td { border-bottom: 1px solid #DEE2E6; padding: 4pt 6pt; text-align: left; vertical-align: top; }
+th { background: #F4F7FB; color: #172B4D; }
+code { font-size: 9pt; }
+a { color: #2C5F8A; }
+em { color: #5A636E; }
+@page { size: letter; margin: 0.75in; }

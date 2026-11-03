@@ -22,13 +22,23 @@ or browse the [Gallery](https://www.okanbulut.com/mirtverse/articles/gallery.htm
 
 <a href="https://www.okanbulut.com/mirtverse/articles/gallery.html"><img src="man/figures/home-showcase.png" width="100%" alt="Four mirtverse outputs: A results dashboard, an item health card, a Wright map and a DIF plot"></a>
 
+<a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html"><img src="man/figures/home-ai.svg" width="100%" alt="Animated: Item text and responses flow through a neural network and come out as a calibrated item characteristic curve"></a>
+
+> **New: AI in measurement hub.** A home for psychometricians who want to
+> learn AI in their own terms: Six book chapters (machine learning through an
+> IRT lens, item text and difficulty, automatic item generation, automated
+> scoring, large language models, and validity and fairness), four labs, a
+> one-day workshop kit, and tools to audit AI components. Replay mode runs
+> the examples offline, with no API key.
+> [Start here](https://www.okanbulut.com/mirtverse/articles/ai-hub.html).
+
 ## Find your way in
 
 | I am... | Start here |
 |---|---|
 | A student learning IRT or analysing thesis data | [Start here: Students](https://www.okanbulut.com/mirtverse/articles/for-students.html) |
-| An instructor teaching measurement (book, ten labs, course map) | [Start here: Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.html) |
-| A psychometrician at a testing or credentialing program | [Start here: Testing programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.html) |
+| An instructor teaching measurement (book, ten labs, sample syllabus) | [Start here: Instructors](https://www.okanbulut.com/mirtverse/articles/for-instructors.html) |
+| A psychometrician at a testing or credentialing program | [Start here: Testing programs](https://www.okanbulut.com/mirtverse/articles/for-practitioners.html) · [Case study](https://www.okanbulut.com/mirtverse/articles/case-study.html) |
 | A researcher who already uses mirt | [Start here: Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.html) |
 | New to R, or coming from Winsteps, SPSS or Excel | [Start here: New to R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html) |
 | Curious about AI in measurement | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) |

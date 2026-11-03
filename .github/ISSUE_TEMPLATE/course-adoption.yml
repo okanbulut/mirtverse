@@ -1,0 +1,61 @@
+name: I'm teaching with mirtverse
+description: Tell us about a course or workshop that uses mirtverse, the book or the labs.
+title: "[Course] "
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for teaching with mirtverse. Knowing where the materials are
+        used helps decide what to build next. Only fill in what you are happy
+        to share; this issue is public.
+  - type: input
+    id: course
+    attributes:
+      label: Course or workshop
+      placeholder: "EDPY 507: Measurement Theory II"
+    validations:
+      required: true
+  - type: input
+    id: institution
+    attributes:
+      label: Institution or organization
+    validations:
+      required: true
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level
+      options:
+        - Undergraduate
+        - Master's
+        - Doctoral
+        - Professional development or workshop
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: term
+    attributes:
+      label: Term and approximate number of students
+      placeholder: "Winter 2027, about 20 students"
+  - type: checkboxes
+    id: used
+    attributes:
+      label: What are you using?
+      options:
+        - label: The book
+        - label: The teaching labs
+        - label: The course map or sample syllabus
+        - label: The instructor toolkit (labs on my own data)
+        - label: The AI in measurement module or workshop kit
+        - label: The workbench or dashboards
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Anything you would like added or changed?
+  - type: checkboxes
+    id: listing
+    attributes:
+      label: Listing
+      options:
+        - label: You may list this course on the mirtverse website.

@@ -17,6 +17,10 @@ reviews before the next step.
 
 ## Your path in three steps
 
+**Read the [case study](case-study.html) first.** It follows a fictional
+certification board through eight decisions and ends with a technical report
+you can download.
+
 **1. Walk through the assessment pipeline.** `mv_pipeline()` takes a test
 through 13 stages, from the blueprint to bank monitoring. The
 [pipeline article](assessment-pipeline.html) runs a full example:
