@@ -347,8 +347,6 @@ scores are systematically too low, and the report says so
 have passed; a psychometric check catches the problem before any score is
 reported.
 
-![Agreement between machine and human scores overall and by group. Left: Quadratic weighted kappa for machine-human (dots) and human-human (crosses) agreement. Right: Standardized mean difference between machine and human scores, with the band of acceptable differences for groups.\label{fig:agreement}](figures/agreement.png)
-
 # Teaching and learning resources
 
 Because many users meet IRT in a course, mirtverse ships with material for
@@ -365,6 +363,8 @@ case study with a full technical report, a workshop kit on AI in
 measurement, short narrated video demonstrations, and a "thesis kit" that
 walks graduate students from item responses to a Methods section complete
 the set.
+
+![Agreement between machine and human scores overall and by group. Left: Quadratic weighted kappa for machine-human (dots) and human-human (crosses) agreement. Right: Standardized mean difference between machine and human scores, with the band of acceptable differences for groups.\label{fig:agreement}](figures/agreement.png)
 
 # Research impact statement
 
