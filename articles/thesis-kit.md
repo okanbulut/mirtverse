@@ -10,6 +10,13 @@ The example uses `SAT12`, a 32-item science test taken by 600 students,
 which comes with mirt. Swap in your own data at step 1 and run the rest
 as it is.
 
+Prefer to watch first? This 90-second demo shows the last step, from a
+fitted model to the Methods paragraph and a Word file.
+
+# An error occurred.
+
+Unable to execute JavaScript.
+
 ## The checklist
 
 Keep this list next to your draft. Each step below covers one line.

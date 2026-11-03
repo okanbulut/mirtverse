@@ -14,6 +14,9 @@ launch_workbench()
 launch_workbench(my_data)
 ```
 
+To see it in action first, watch the [90-second workbench
+tour](https://youtu.be/huSxZzaFNs0) (with captions).
+
 ## The eight steps
 
 | Tab | What you do |

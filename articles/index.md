@@ -89,6 +89,12 @@ A short path for each kind of user.
 
   Every figure and output mirtverse makes, with the code for each one.
 
+- [Video demos](https://www.okanbulut.com/mirtverse/articles/videos.md):
+
+  Short narrated demos of mirtverse: The point-and-click workbench, the
+  AI Hub and the thesis kit, about 90 seconds each with English
+  captions.
+
 ### Teaching and learning
 
 - [Adopt mirtverse for your

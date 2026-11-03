@@ -13,6 +13,12 @@ machine learning model or called a large language model (LLM). Every
 topic starts from a job you already do and puts the AI method beside the
 classical one.
 
+In 90 seconds: A machine scorer checked the way a psychometrician would.
+
+# An error occurred.
+
+Unable to execute JavaScript.
+
 ## What changes and what does not
 
 AI changes **how** some parts of a test are produced: Items can be

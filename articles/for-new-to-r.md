@@ -4,6 +4,12 @@ You do not need to know R to use mirtverse. You need to install it once
 and type one line; after that, you can work with buttons or plain
 language.
 
+Watch the workbench in action first (about 90 seconds, with captions):
+
+# An error occurred.
+
+Unable to execute JavaScript.
+
 ## Try it before you install anything
 
 [Open the live example
