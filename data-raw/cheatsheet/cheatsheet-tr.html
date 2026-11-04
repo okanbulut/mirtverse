@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>mirtverse başvuru kartı</title>
+<!-- Source of pkgdown/assets/cheatsheet/mirtverse-cheatsheet-tr.pdf (Turkish).
+     Rebuild with: node data-raw/cheatsheet/build.js -->
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+  :root {
+    --navy: #1F3F5E; --blue: #2C5F8A; --amber: #E8A33D; --ink: #1d232a;
+    --muted: #5b6672; --line: #d5dde6; --tint: #eef3f8; --code: #f6f8fa;
+    --red: #b8433a; --green: #3c7d4f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: "Inter", "Liberation Sans", sans-serif; color: var(--ink);
+         font-size: 7.4pt; line-height: 1.3; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 11in; height: 8.5in; padding: 0.28in 0.32in 0.22in; position: relative;
+          overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
+  .page:last-child { page-break-after: auto; }
+
+  /* header */
+  header { display: flex; align-items: center; gap: 12px; padding-bottom: 6px;
+           border-bottom: 2.5px solid var(--navy); margin-bottom: 8px; }
+  header img { height: 0.82in; }
+  header .title { flex: 1; }
+  header h1 { white-space: nowrap; font-size: 19pt; margin: 0; letter-spacing: -0.3px; color: var(--navy); font-weight: 800; }
+  header h1 span { color: var(--amber); font-weight: 700; }
+  header h1 small { font-size: 12pt; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
+  header p { margin: 3px 0 0; font-size: 8.4pt; color: var(--muted); max-width: 6.6in; }
+  header .basics { width: 3.05in; background: var(--tint); border-radius: 6px; padding: 6px 8px; font-size: 7.2pt; }
+  header .basics b { color: var(--navy); }
+
+  .cols { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; min-height: 0; }
+  .col { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+
+  section { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  section h2 { margin: 0; background: var(--navy); color: #fff; font-size: 9.2pt; padding: 3px 8px;
+               font-weight: 700; letter-spacing: 0.2px; display: flex; justify-content: space-between; align-items: baseline; }
+  section h2 em { font-style: normal; font-weight: 500; font-size: 7pt; opacity: 0.85; }
+  section h2.amber { background: var(--blue); }
+  section .body { padding: 5px 8px 6px; }
+  section .lead { color: var(--muted); margin: 0 0 4px; }
+
+  dl { margin: 0; }
+  dt { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 7pt; color: var(--navy);
+       margin-top: 3.5px; font-weight: 600; word-break: break-word; }
+  dt:first-child { margin-top: 0; }
+  dt .arg { color: var(--muted); font-weight: 400; }
+  dd { margin: 0.5px 0 0 10px; }
+  code { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 6.8pt; color: var(--navy); }
+  pre { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 6.8pt; background: var(--code);
+        border-left: 3px solid var(--amber); margin: 3px 0; padding: 4px 6px; white-space: pre-wrap; line-height: 1.38; }
+  pre .c { color: #7b8794; }
+  .note { font-size: 6.9pt; color: var(--muted); margin-top: 4px; }
+  .tag { display: inline-block; font-size: 6pt; font-weight: 700; padding: 0 4px; border-radius: 3px;
+         background: var(--amber); color: #3a2600; vertical-align: 1px; margin-left: 2px; }
+
+  /* graphics grid */
+  .gg { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; }
+  .gg div { display: flex; gap: 5px; align-items: flex-start; }
+  .gg svg { flex: 0 0 auto; width: 34px; height: 24px; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
+  .gg p > code { display: block; font-weight: 600; }
+  .gg span { color: var(--ink); font-size: 6.9pt; }
+
+  /* pipeline strip */
+  .strip { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; margin-bottom: 8px; }
+  .strip div { background: var(--tint); border-radius: 4px; padding: 3px 3px 4px; text-align: center; font-size: 6.6pt;
+               line-height: 1.15; position: relative; border-top: 3px solid var(--blue); }
+  .strip div b { display: block; font-size: 9pt; color: var(--navy); }
+  .strip div.g1 { border-top-color: #6c8ebf; }
+  .strip div.g2 { border-top-color: var(--navy); }
+  .strip div.g3 { border-top-color: var(--amber); }
+  .stage { display: inline-block; min-width: 15px; text-align: center; background: var(--amber); color: #3a2600;
+           border-radius: 8px; font-weight: 700; font-size: 6.6pt; padding: 0 4px; margin-right: 4px; }
+  h3 { font-size: 7.8pt; margin: 6px 0 1px; color: var(--navy); }
+  h3:first-child { margin-top: 0; }
+
+  .levels { display: grid; grid-template-columns: auto 1fr; gap: 2px 6px; margin: 3px 0 2px; align-items: baseline; }
+  .lvl { font-weight: 700; font-size: 6.6pt; padding: 0 5px; border-radius: 3px; color: #fff; text-align: center; }
+  .lvl.info { background: #6c8ebf; } .lvl.review { background: var(--amber); color: #3a2600; } .lvl.block { background: var(--red); }
+
+  footer { display: flex; justify-content: space-between; font-size: 6.6pt; color: var(--muted);
+           border-top: 1px solid var(--line); padding-top: 3px; margin-top: 7px; }
+  footer b { color: var(--navy); }
+  /* Turkish text runs longer than English: Slightly smaller body text */
+  body { font-size: 6.95pt; }
+  dd { margin-left: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<div class="page">
+  <header>
+    <img src="../../man/figures/logo.png" alt="mirtverse logosu">
+    <div class="title">
+      <h1>mirtverse ile madde tepki kuramı <small>:: BAŞVURU KARTI</small></h1>
+      <p>mirtverse, <b>mirt</b> paketinin üzerine kuruludur. Modelleri mirt kestirir; mirtverse ise model
+        seçmenize, sonuçları okumanıza, grafik üretmenize ve sonuçları paylaşmanıza yardım eder. Her fonksiyon
+        sıradan bir mirt modeli kabul eder; iki paketi birlikte kullanabilirsiniz.</p>
+    </div>
+    <div class="basics">
+      <b>Kurulum</b><br>
+      <code>install.packages("mirtverse", repos = c(<br>&nbsp;&nbsp;"https://okanbulut.r-universe.dev",<br>&nbsp;&nbsp;"https://cloud.r-project.org"))</code><br>
+      <code>library(mirtverse)</code> &nbsp;<span style="color:var(--muted)">mirt de yüklenir</span>
+    </div>
+  </header>
+
+  <div class="cols">
+    <!-- column 1 -->
+    <div class="col">
+      <section>
+        <h2>Model seçin <em>buradan başlayın</em></h2>
+        <div class="body">
+          <pre>data &lt;- expand.table(LSAT7)
+sel  &lt;- select_model(data)
+mod  &lt;- sel$best    <span class="c"># sıradan bir mirt modeli</span></pre>
+          <dl>
+            <dt>select_model(data, <span class="arg">candidates, dims = 1, criterion = "BIC"</span>)</dt>
+            <dd>Modelleri kestirir ve birini önerir: 1-0 maddeler için Rasch, 2PL veya 3PL; diğerleri için PCM, GPCM veya aşamalı tepki.</dd>
+            <dt>autoplot(sel) &nbsp;·&nbsp; interpret(sel) &nbsp;·&nbsp; tidy(sel)</dt>
+            <dd>Adayları grafikle, sözle veya tabloyla karşılaştırın.</dd>
+            <dt>mirt(data, 1, <span class="arg">itemtype = "2PL"</span>)</dt>
+            <dd>Ya da modeli doğrudan mirt ile kestirin.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Sonuçları sade bir dille okuyun</h2>
+        <div class="body">
+          <dl>
+            <dt>interpret(mod, <span class="arg">alpha = 0.01</span>)</dt>
+            <dd>Uyum, güvenirlik, zayıf ya da uyumsuz maddeler ve yerel bağımlılık, cümlelerle anlatılır.
+              <code>select_model()</code>, <code>dif()</code> ve <code>fit_rt()</code> sonuçlarında da çalışır.</dd>
+            <dt>interpret_prompt(mod, <span class="arg">audience</span>)</dt>
+            <dd>Sonuçları bir yapay zekâ asistanına yapıştırılacak bir isteme dönüştürür.
+              Hiçbir veri gönderilmez.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Düzenli çıktılar <em>dplyr, gt … için veri çerçeveleri</em></h2>
+        <div class="body">
+          <dl>
+            <dt>tidy(mod, <span class="arg">IRTpars = TRUE, conf.int = FALSE</span>)</dt>
+            <dd>Her madde parametresi için bir satır, MTK (a, b, c) metriğinde.</dd>
+            <dt>glance(mod)</dt>
+            <dd>Tek satırda model uyumu: logLik, AIC, BIC, M2, RMSEA, CFI.</dd>
+            <dt>augment(mod, <span class="arg">method = "EAP", person_fit = FALSE</span>)</dt>
+            <dd>Her bireyin puanı ve standart hatası eklenmiş veri.</dd>
+            <dt>item_table(mod, <span class="arg">fit_stats = "S_X2"</span>)</dt>
+            <dd>Madde başına bir satır: Parametreler, uyum, durum işareti.</dd>
+          </dl>
+          <p class="note">tidy(); DMF, tepki süresi, banka ve süreç nesnelerinde de çalışır.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Değişen madde fonksiyonu (DMF)</h2>
+        <div class="body">
+          <pre>d &lt;- dif(data, group = gender, model = "2PL")
+tidy(d); interpret(d); gg_dif(d)</pre>
+          <dl>
+            <dt>dif(x, group, <span class="arg">model, items, which.par, p_adjust = "BH"</span>)</dt>
+            <dd>Olabilirlik oranı testleri, etki büyüklükleri, düzeltilmiş p değerleri.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 2 -->
+    <div class="col">
+      <section>
+        <h2>Grafikler <em>her grafik bir ggplot</em></h2>
+        <div class="body">
+          <div class="gg">
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C12 21 14 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.6"/><path d="M2 20 C16 20 19 6 32 5" fill="none" stroke="#E8A33D" stroke-width="1.3"/></svg>
+              <p style="margin:0"><code>gg_trace(mod)</code><span>madde eğrileri; <code>type = "expected"</code></span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C10 21 12 4 17 4 C22 4 24 21 32 21" fill="none" stroke="#2C5F8A" stroke-width="1.6"/></svg>
+              <p style="margin:0"><code>gg_info(mod)</code><span><code>type = "test"</code>, <code>"items"</code>, <code>"se"</code></span></p></div>
+            <div><svg viewBox="0 0 34 24"><g fill="#2C5F8A"><rect x="3" y="5" width="4" height="2"/><rect x="3" y="8" width="8" height="2"/><rect x="3" y="11" width="12" height="2"/><rect x="3" y="14" width="7" height="2"/><rect x="3" y="17" width="3" height="2"/></g><line x1="17" y1="2" x2="17" y2="22" stroke="#999" stroke-width=".6"/><g fill="#E8A33D"><circle cx="22" cy="7" r="1.4"/><circle cx="26" cy="11" r="1.4"/><circle cx="22" cy="14" r="1.4"/><circle cx="29" cy="17" r="1.4"/></g></svg>
+              <p style="margin:0"><code>gg_wright(mod)</code><span>bireyler ve maddeler aynı ölçekte</span></p></div>
+            <div><svg viewBox="0 0 34 24"><line x1="22" y1="2" x2="22" y2="22" stroke="#b8433a" stroke-width=".8" stroke-dasharray="2 1"/><g fill="#2C5F8A"><rect x="3" y="4" width="8" height="2.4"/><rect x="3" y="8" width="12" height="2.4"/><rect x="3" y="12" width="6" height="2.4"/><rect x="3" y="16" width="25" height="2.4" fill="#b8433a"/></g></svg>
+              <p style="margin:0"><code>gg_itemfit(mod)</code><span>kesme değeriyle madde uyumu</span></p></div>
+            <div><svg viewBox="0 0 34 24"><g><rect x="6" y="2" width="5" height="5" fill="#dfe8f1"/><rect x="12" y="2" width="5" height="5" fill="#b8433a"/><rect x="18" y="2" width="5" height="5" fill="#dfe8f1"/><rect x="6" y="8" width="5" height="5" fill="#9fb8d3"/><rect x="12" y="8" width="5" height="5" fill="#dfe8f1"/><rect x="18" y="8" width="5" height="5" fill="#9fb8d3"/><rect x="6" y="14" width="5" height="5" fill="#dfe8f1"/><rect x="12" y="14" width="5" height="5" fill="#9fb8d3"/><rect x="18" y="14" width="5" height="5" fill="#dfe8f1"/></g></svg>
+              <p style="margin:0"><code>gg_q3(mod, cutoff = 0.2)</code><span>yerel bağımlılık</span></p></div>
+            <div><svg viewBox="0 0 34 24"><g fill="#2C5F8A"><rect x="4" y="18" width="3" height="3"/><rect x="8" y="13" width="3" height="8"/><rect x="12" y="7" width="3" height="14"/><rect x="16" y="4" width="3" height="17"/><rect x="20" y="8" width="3" height="13"/><rect x="24" y="14" width="3" height="7"/><rect x="28" y="18" width="3" height="3"/></g></svg>
+              <p style="margin:0"><code>gg_scores(mod)</code><span>birey puanlarının dağılımı</span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C12 21 14 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><g fill="#E8A33D"><circle cx="5" cy="19" r="1.3"/><circle cx="11" cy="17" r="1.3"/><circle cx="16" cy="10" r="1.3"/><circle cx="22" cy="7" r="1.3"/><circle cx="29" cy="4" r="1.3"/></g></svg>
+              <p style="margin:0"><code>gg_empirical(mod, item)</code><span>model eğrisi ve gözlenen</span></p></div>
+            <div><svg viewBox="0 0 34 24"><path d="M2 21 C10 21 12 3 32 3" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M2 21 C16 21 20 3 32 3" fill="none" stroke="#b8433a" stroke-width="1.4"/></svg>
+              <p style="margin:0"><code>gg_dif(d)</code><span><code>type = "effect"</code> veya <code>"curves"</code></span></p></div>
+          </div>
+          <dl style="margin-top:5px">
+            <dt>autoplot(mod, <span class="arg">type</span>)</dt>
+            <dd>Tüm grafikler tek fonksiyondan: <code>"trace"</code>, <code>"expected"</code>, <code>"info"</code>,
+              <code>"iteminfo"</code>, <code>"se"</code>, <code>"wright"</code>, <code>"itemfit"</code>,
+              <code>"q3"</code>, <code>"scores"</code>.</dd>
+            <dt>gg_trace(mod) + theme_mirtverse(<span class="arg">base_size = 11</span>)</dt>
+            <dd>Etiketleri, renkleri ve temaları her ggplot’ta olduğu gibi değiştirin.</dd>
+          </dl>
+          <p class="note">Ortak argümanlar: <code>which.items</code> maddeleri seçer, <code>theta_lim = c(-4, 4)</code> yetenek aralığını belirler.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tepki süreleri</h2>
+        <div class="body">
+          <pre>sim &lt;- sim_rt(N = 1500, J = 20, rapid = 0.08)
+mod &lt;- mirt(sim$responses, 1, "2PL")
+fit &lt;- fit_rt(mod, sim$rt)</pre>
+          <dl>
+            <dt>fit_rt(x, rt, <span class="arg">flag_method = "residual"</span>)</dt>
+            <dd>Tepkiler ve tepki süreleri için ortak model (van der Linden, 2007); birey hızı ve hızlı
+              tahmin işaretleriyle. Ayrıca <code>"nt10"</code>, <code>"nt15"</code>, <code>"nt20"</code>.</dd>
+            <dt>tidy(fit) · glance(fit) · augment(fit) · autoplot(fit) · interpret(fit)</dt>
+            <dd>Madde süre parametreleri, uyum, birey hızı ve işaretler, grafikler ve sade dille bulgular.</dd>
+            <dt>sim_rt(<span class="arg">N, J, rho = -0.3, sd_speed, rapid, seed</span>)</dt>
+            <dd>Bir kısmı hızlı tahminde bulunan bireylerle tepki ve süre verisi üretir.</dd>
+          </dl>
+        </div>
+      </section>
+      <section>
+        <h2>Başka bir MTK paketinden mi geliyorsunuz?</h2>
+        <div class="body">
+          <dl>
+            <dt>mirtify(code, <span class="arg">run = FALSE, notes = TRUE</span>)</dt>
+            <dd><b>ltm</b>, <b>eRm</b>, <b>TAM</b> veya <b>irtQ</b> kodunu, farkları açıklayan notlarla mirt
+              koduna çevirir. Bir metin ya da .R dosyası verin.</dd>
+            <dt>mirtify_crosswalk(<span class="arg">package</span>)</dt>
+            <dd>Karşılık gelen fonksiyonlar tablosu.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 3 -->
+    <div class="col">
+      <section>
+        <h2>Sonuçları paylaşın</h2>
+        <div class="body">
+          <dl>
+            <dt>item_card(mod, item) · item_cards(mod, <span class="arg">file</span>)</dt>
+            <dd>İnceleme toplantıları için her maddeye trafik ışığı durumlu tek sayfalık bir sağlık kartı.</dd>
+            <dt>mv_report(sel, <span class="arg">file = "report.html", dif, cards, code</span>)</dt>
+            <dd>Tek bir HTML rapor: Model karşılaştırması, yorum, tablolar, grafikler, toplam puan tablosu,
+              madde kartları ve raporu yeniden üretecek R kodu.</dd>
+            <dt>mv_dashboard(mod, <span class="arg">title, panels, dif, rt</span>)</dt>
+            <dd>R kullanmayanlar için salt okunur bir Shiny gösterge paneli.</dd>
+            <dt>export_dashboard(mod, "results.html", <span class="arg">format = "html"</span>)</dt>
+            <dd>E-postayla gönderilebilen çevrim dışı tek bir HTML dosyası; shinyapps.io veya Posit Connect için <code>format = "shiny"</code>.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tıklayın ya da sözle anlatın</h2>
+        <div class="body">
+          <dl>
+            <dt>launch_workbench(<span class="arg">data</span>)</dt>
+            <dd>Her adımın R kodunu sizin için yazan, tıkla-çalıştır bir uygulama.</dd>
+          </dl>
+          <pre>mv_ask_setup("claude")        <span class="c"># bir kez</span>
+scr &lt;- mv_ask("Fit a 2PL, check DIF by gender
+  and make a report", data = mydata)
+run_script(scr)
+save_script(scr, "analysis.R")</pre>
+          <dl>
+            <dt>mv_ask(request, data, <span class="arg">anonymize = FALSE, dry_run = FALSE</span>)</dt>
+            <dd>Bir isteği test edilmiş bir betiğe dönüştürür. <code>dry_run = TRUE</code> neyin gönderileceğini gösterir;
+              <code>anonymize = TRUE</code> sütun adlarını gizler. Anahtar sözcük ayrıştırıcısıyla çevrim dışı da çalışır.</dd>
+            <dt>profile_data(data) · mv_plan() · update_plan(plan, ...)</dt>
+            <dd>Veriyi inceleyin ya da analiz planını kendiniz yazıp düzenleyin.</dd>
+          </dl>
+        </div>
+      </section>
+
+
+      <section>
+        <h2>Öğretim laboratuvarları</h2>
+        <div class="body">
+          <dl>
+            <dt>run_lab("model-choice") · run_lab("decisions")</dt>
+            <dd>Etkileşimli dersler: Öğrenciler canlı modeller kurar ve geri bildirimle ölçme kararları verir.</dd>
+            <dt>list_labs() · lab_truth()</dt>
+            <dd>Mevcut laboratuvarlar; öğretim elemanları için gizli cevaplar.</dd>
+            <dt>certexam · certexam_key</dt>
+            <dd>İngilizce ve Fransızca, içine sorunlar yerleştirilmiş 32 maddelik benzetim bir sertifika sınavı.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span><b>mirtverse</b> 0.2.0 · www.okanbulut.com/mirtverse · github.com/okanbulut/mirtverse</span>
+    <span>mirt (Chalmers, 2012) üzerine kuruludur · Güncelleme: Kasım 2026</span>
+  </footer>
+</div>
+
+<!-- ============================ PAGE 2 ============================ -->
+<div class="page">
+  <header>
+    <img src="../../man/figures/logo.png" alt="mirtverse logosu">
+    <div class="title">
+      <h1>Ölçme süreci (pipeline) <small>:: BAŞVURU KARTI</small></h1>
+      <p>Tek bir nesne, bir testi belirtke tablosundan madde bankası izlemeye kadar taşır. Her aşama işini yapar,
+        ardından bir <b>kapı</b> çalıştırır: Sonraki aşamadan önce değerlendirmeniz için <b>işaretler</b> kaydeden
+        kontroller. Her karar kayda geçer ve <code>p$code</code> tüm sürecin R kodunu saklar.</p>
+    </div>
+    <div class="basics">
+      <pre style="margin:0;background:#fff">p &lt;- mv_pipeline("Certification exam")
+p &lt;- add_responses(p, certexam, items = 3:34,
+       key = certexam_key, group = "language")
+p &lt;- calibrate(p, model = "2PL")
+flags(p)
+pipeline_report(p, "report.html")</pre>
+    </div>
+  </header>
+
+  <div class="strip">
+    <div class="g1"><b>0</b>Belirtke tablosu</div>
+    <div class="g1"><b>1</b>Madde üretimi</div>
+    <div class="g1"><b>2</b>Madde inceleme</div>
+    <div class="g1"><b>3</b>Deneme uygulaması</div>
+    <div class="g2"><b>4</b>Veri girişi</div>
+    <div class="g2"><b>5</b>Kalibrasyon</div>
+    <div class="g2"><b>6</b>Bağlama ve banka</div>
+    <div class="g2"><b>7</b>Formlar</div>
+    <div class="g3"><b>8</b>Kesme puanları</div>
+    <div class="g3"><b>9</b>Puanlama</div>
+    <div class="g3"><b>10</b>Test güvenliği</div>
+    <div class="g3"><b>11</b>Raporlama</div>
+    <div class="g3"><b>12</b>Banka izleme</div>
+  </div>
+
+  <div class="cols">
+    <!-- column 1 -->
+    <div class="col">
+      <section>
+        <h2>Kapılar ve işaretler <em>karar verin, sonra ilerleyin</em></h2>
+        <div class="body">
+          <div class="levels">
+            <span class="lvl info">info</span><span>bilgi için</span>
+            <span class="lvl review">review</span><span>devam etmeden önce inceleyin</span>
+            <span class="lvl block">block</span><span>düzeltin, çıkarın ya da gerekçeyle geçin</span>
+          </div>
+          <dl>
+            <dt>flags(p, <span class="arg">status = "open", level, stage</span>)</dt>
+            <dd>İşaretleri listeler; <code>status = "all"</code> karara bağlananları da içerir.</dd>
+            <dt>acknowledge(p, <span class="arg">check, target, note</span>)</dt>
+            <dd>Bir işareti, isteğe bağlı bir notla kabul eder.</dd>
+            <dt>override(p, <span class="arg">check, target</span>, note)</dt>
+            <dd>Bir işaretin önüne geçer; yazılı bir gerekçe gerekir.</dd>
+            <dt>drop_items(p, items, <span class="arg">note</span>)</dt>
+            <dd>Maddeleri çıkarır ve işaretlerini düzeltildi olarak kaydeder.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>Kurallar ve katılık</h2>
+        <div class="body">
+          <dl>
+            <dt>mv_pipeline(title, <span class="arg">rules = mv_rules(), strict = FALSE</span>)</dt>
+            <dd>Kapılar varsayılan olarak yalnızca uyarır. <code>strict = TRUE</code> ile açık review ve block
+              işaretleri, bir karar kaydedilene kadar sonraki aşamayı durdurur.</dd>
+            <dt>mv_rules(<span class="arg">..., preset = "standards"</span>)</dt>
+            <dd>Her eşik adıyla değiştirilebilir: <code>mv_rules(q3 = 0.25, reliability = 0.85)</code>.
+              <code>preset = "lenient"</code> pilot çalışmalar için eşikleri gevşetir.</dd>
+          </dl>
+          <p class="note">print(p) aşamaların durumunu, tidy(p) tüm işaretleri gösterir.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="amber">Testi oluşturun <em>aşama 0–3</em></h2>
+        <div class="body">
+          <h3><span class="stage">0</span>set_blueprint(p, cells, <span style="font-weight:400;color:var(--muted)">&nbsp;construct, use, reliability</span>)</h3>
+          <div>İçerik hücreleri ve madde sayıları, örneğin <code>c(Etik = 4, Hukuk = 3)</code>.</div>
+          <h3><span class="stage">1</span>generate_items(p, n, <span style="font-weight:400;color:var(--muted)">&nbsp;type, provider</span>)<span class="tag">LLM</span></h3>
+          <div>Çoktan seçmeli veya açık uçlu taslaklar; <code>verify_items()</code> anahtarları kontrol eder;
+            <code>add_items(p, items)</code> kendi maddelerinizi ekler.</div>
+          <h3><span class="stage">2</span>review_packet(p, file, <span style="font-weight:400;color:var(--muted)">&nbsp;reviewers</span>)</h3>
+          <div>İnceleme formu yazar; <code>read_reviews(p, reviews)</code> onu geri okur.</div>
+          <h3><span class="stage">3</span>design_field_test(p, n_forms, n_per_form)</h3>
+          <div>Formları ve ortak maddeleri planlar, kestirimi benzetimle sınar.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 2 -->
+    <div class="col">
+      <section>
+        <h2 class="amber">Kalibre edin ve form oluşturun <em>aşama 4–7</em></h2>
+        <div class="body">
+          <h3><span class="stage">4</span>add_responses(p, data, <span style="font-weight:400;color:var(--muted)">&nbsp;items, key, group, id, rt</span>)</h3>
+          <div>Ham cevapları anahtarla puanlar. Kayıp veri, hatalı anahtar, düz çizgi yanıtlama, hızlı tahmin
+            ve seyrek kategorileri kontrol eder.</div>
+          <h3><span class="stage">5</span>calibrate(p, <span style="font-weight:400;color:var(--muted)">&nbsp;model = "auto", dif, reference</span>)</h3>
+          <div>Modeli kestirir. Yakınsama, model ve madde uyumu, yerel bağımlılık, parametre aralıkları,
+            DMF, güvenirlik ve birey uyumunu kontrol eder.</div>
+          <h3><span class="stage">6</span>link_to_bank(p, bank, <span style="font-weight:400;color:var(--muted)">&nbsp;method</span>)</h3>
+          <div>Yeni maddeleri bankanın ölçeğine taşır: <code>"stocking-lord"</code>, <code>"haebara"</code>,
+            <code>"mean-sigma"</code>, <code>"mean-mean"</code> veya <code>"fixed"</code>.
+            <code>bank_items(p, name)</code> onları kaydeder; <code>mv_bank(mod)</code> bir modelden banka başlatır.</div>
+          <h3><span class="stage">7</span>assemble_forms(p, length, <span style="font-weight:400;color:var(--muted)">&nbsp;n_forms, theta, content, blueprint, enemies</span>)</h3>
+          <div>Belirtke tablosuna uyan paralel formlar kurar ve birbirini ele veren maddeleri ayrı tutar.</div>
+          <dl>
+            <dt>simulate_cat(p, <span class="arg">n, min_sem, max_items, criteria = "MI"</span>)</dt>
+            <dd>Bankadan bilgisayarlı bireyselleştirilmiş test (BBT) benzetimi yapar.</dd>
+            <dt>assemble_mst(p, <span class="arg">router_length, module_length, n_modules</span>)</dt>
+            <dd>Çok aşamalı bir test kurar ve benzetimini yapar.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section>
+        <h2>certexam örneği</h2>
+        <div class="body">
+          <pre>p &lt;- drop_items(p, "Q14", note = "Miskey")
+p &lt;- calibrate(p, model = "2PL")
+p &lt;- override(p, check = "dif_large",
+       note = "French version revised")
+p &lt;- bank_items(p, name = "Certification bank")
+p &lt;- set_cuts(p, cuts = 18, scale = "raw",
+       labels = c("Fail", "Pass"))
+p &lt;- score_persons(p)</pre>
+          <p class="note">Adım adım anlatımın tamamı web sitesindeki <i>Assessment pipeline</i> makalesindedir (İngilizce).</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- column 3 -->
+    <div class="col">
+      <section>
+        <h2 class="amber">Karar verin, puanlayın ve raporlayın <em>aşama 8–12</em></h2>
+        <div class="body">
+          <h3><span class="stage">8</span>set_cuts(p, cuts, <span style="font-weight:400;color:var(--muted)">&nbsp;scale = "theta", labels, panel</span>)</h3>
+          <div>Theta ya da ham puan ölçeğinde kesme puanları belirler; sınıflama doğruluğu ve tutarlılığıyla birlikte.
+            <code>item_map(p, rp = 0.67)</code> standart belirleme için maddeleri ölçeğe yerleştirir.</div>
+          <h3><span class="stage">9</span>score_persons(p, <span style="font-weight:400;color:var(--muted)">&nbsp;method = "EAP"</span>)</h3>
+          <div>Standart hatalarıyla birey puanları; güvenirlik ve uç puanlar açısından kontrol edilir. <code>score_open(p, responses)</code>
+            açık uçlu cevapları bir rubrik ve bir büyük dil modeli (LLM) ya da kendi eğittiğiniz modelle puanlar.<span class="tag">LLM</span></div>
+          <h3><span class="stage">10</span>check_security(p, <span style="font-weight:400;color:var(--muted)">&nbsp;leaked, window, site</span>)</h3>
+          <div>Ön bilgi, sızdırılmış maddeler, parametre kayması, kopya ve olağan dışı süreler.</div>
+          <h3><span class="stage">11</span>pipeline_report(p, <span style="font-weight:400;color:var(--muted)">&nbsp;file</span>)</h3>
+          <div>Her aşama, işaret ve kararı içeren HTML teknik rapor ve R kodu.</div>
+          <h3><span class="stage">12</span>monitor_bank(p, <span style="font-weight:400;color:var(--muted)">&nbsp;window, date, content</span>)</h3>
+          <div>Her uygulamadan sonra: Madde kullanım oranı, içerik hücresi başına banka derinliği, güvenirlik eğilimi ve kullanılmayan maddeler.
+            <code>retire_items(p, items, status, note)</code> maddeleri kullanımdan kaldırır.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Her aşamanın gereksinimleri</h2>
+        <div class="body">
+          <dl>
+            <dt>ellmer <span class="tag">LLM</span></dt>
+            <dd>Madde üretimi, yapay zekâ ile inceleme taraması ve açık uçlu puanlama; kendi API anahtarınızla
+              (Claude, OpenAI veya yerel bir Ollama modeli).</dd>
+            <dt>eatATA</dt><dd>Form oluşturma.</dd>
+            <dt>mirtCAT</dt><dd>BBT ve çok aşamalı test benzetimi.</dd>
+          </dl>
+          <p class="note">Bunlar önerilen paketlerdir: Yalnızca kullandığınız aşamalar için kurun.
+            Bağlama ve kesme puanı yöntemleri pakette yerleşiktir.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tıklamayı mı tercih edersiniz?</h2>
+        <div class="body">
+          <div>Workbench uygulamasındaki <b>Pipeline</b> sekmesi aynı aşamaları çalıştırır, işaretleri gösterir ve
+            kodu yazar: <code>launch_workbench()</code>.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span><b>mirtverse</b> 0.2.0 · www.okanbulut.com/mirtverse · github.com/okanbulut/mirtverse</span>
+    <span>Daha fazlası: <i>Assessment pipeline</i> makalesi · <code>?mv_pipeline</code> · Güncelleme: Kasım 2026</span>
+  </footer>
+</div>
+
+</body>
+</html>
