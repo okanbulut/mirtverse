@@ -35,6 +35,12 @@ A short path for each kind of user.
   Get IRT results without learning R first: Point and click in the
   workbench, describe the analysis in words, or share a dashboard.
 
+- [mirtverse: Türkçe
+  tanıtım](https://www.okanbulut.com/mirtverse/articles/tr.md):
+
+  mirtverse paketinin Türkçe tanıtımı: Paketin ne yaptığı, kurulumu, ilk
+  analiz ve Türkçe özet kılavuz.
+
 ### Guides
 
 - [Getting started with
@@ -42,6 +48,13 @@ A short path for each kind of user.
 
 - [The mirtverse
   workbench](https://www.okanbulut.com/mirtverse/articles/workbench.md):
+
+- [Which IRT model? A one-page
+  flowchart](https://www.okanbulut.com/mirtverse/articles/which-model.md):
+
+  A decision flowchart that goes from what one item score looks like to
+  an IRT model and the line of R code that fits it, with a printable
+  poster and a worked example for every path.
 
 - [Response times and rapid
   guessing](https://www.okanbulut.com/mirtverse/articles/response-times.md):

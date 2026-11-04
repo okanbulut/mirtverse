@@ -40,7 +40,7 @@ list_labs()
 - ...:
 
   passed to
-  [`learnr::run_tutorial()`](https://rdrr.io/pkg/learnr/man/run_tutorial.html),
+  [`learnr::run_tutorial()`](https://pkgs.rstudio.com/learnr/reference/run_tutorial.html),
   for example `shiny_args = list(launch.browser = FALSE)`.
 
 ## Value

@@ -59,6 +59,10 @@ shows what each figure looks like.
 - [Cheat
   sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf):
   The main functions on two printable pages.
+- [Which IRT
+  model?](https://www.okanbulut.com/mirtverse/articles/which-model.md):
+  A one-page flowchart from your item scores to a model and the code
+  that fits it.
 - [Coming from ltm, eRm or
   TAM?](https://www.okanbulut.com/mirtverse/articles/mirtify.md)
   [`mirtify()`](https://www.okanbulut.com/mirtverse/reference/mirtify.md)

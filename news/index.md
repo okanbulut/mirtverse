@@ -2,6 +2,21 @@
 
 ## mirtverse (development version)
 
+- Turkish materials: A Turkish introduction page (`articles/tr`, linked
+  as “Türkçe” in the navbar and from the README) and a Turkish version
+  of the two-page cheat sheet
+  (`cheatsheet/mirtverse-cheatsheet-tr.pdf`). The cheat sheet source is
+  `data-raw/cheatsheet/cheatsheet-tr.html`, and
+  `data-raw/cheatsheet/build.js` now renders both languages.
+
+- New article and printable poster, “Which IRT model?”: A one-page
+  flowchart from what one item score looks like (0/1, ordered
+  categories, unordered options or ideal-point items) to a model and its
+  `itemtype`, with structure questions (dimensions, testlets, groups,
+  item features, response times, latent classes), fit checks and a QR
+  code back to the article. The poster source is in
+  `data-raw/which-model/`.
+
 - The mirtverse agent: A plugin for Claude Code that lets Claude analyze
   test data with mirtverse on the user’s computer. Install it in Claude
   Code with `/plugin marketplace add okanbulut/mirtverse` and

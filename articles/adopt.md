@@ -15,7 +15,7 @@ laptops.
 | Course map | Week-by-week readings, code, labs and datasets, plus versions for 8-week, undergraduate and second courses | [Course map](https://www.okanbulut.com/mirtverse/articles/course-map.md) |
 | Instructor toolkit | Labs on your own data, editable copies of the labs and chapters, checks before class | [Toolkit](https://www.okanbulut.com/mirtverse/articles/instructor-toolkit.md) |
 | AI in measurement module | Four weeks (book chapters 13 to 18, Labs 7 to 10) or a one-day workshop | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.md) |
-| Handouts | Two-page cheat sheet and a glossary of nearly 90 terms | [Cheat sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) · [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
+| Handouts | Two-page cheat sheet, a model-choice poster and a glossary of nearly 90 terms | [Cheat sheet](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet.pdf) · [Which IRT model? poster](https://www.okanbulut.com/mirtverse/which-model/which-irt-model.pdf) · [Glossary](https://www.okanbulut.com/mirtverse/articles/glossary.md) |
 
 ## Adopt it in four steps
 

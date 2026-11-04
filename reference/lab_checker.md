@@ -1,7 +1,7 @@
 # Exercise checker for the mirtverse labs
 
 The checker the labs pass to
-[`learnr::tutorial_options()`](https://rdrr.io/pkg/learnr/man/tutorial_options.html).
+[`learnr::tutorial_options()`](https://pkgs.rstudio.com/learnr/reference/tutorial_options.html).
 It runs an exercise's `-check` chunk in the environment the student's
 code produced. Inside that chunk, `lab_need(condition, message)` fails
 the exercise with `message` when `condition` is not `TRUE`, and

@@ -14,7 +14,7 @@ lab_decisions(state, labels)
 - state:
 
   the tutorial state, from
-  [`learnr::get_tutorial_state()`](https://rdrr.io/pkg/learnr/man/get_tutorial_state.html).
+  [`learnr::get_tutorial_state()`](https://pkgs.rstudio.com/learnr/reference/get_tutorial_state.html).
 
 - labels:
 

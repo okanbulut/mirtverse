@@ -3,6 +3,11 @@
 **From item responses to defensible decisions, with or without writing R
 code.**
 
+*Türkçe:* [mirtverse’e Türkçe
+giriş](https://www.okanbulut.com/mirtverse/articles/tr.html) ve [Türkçe
+özet kılavuz
+(PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-tr.pdf).
+
 **mirtverse** is a friendly workflow and reporting layer for the
 [mirt](https://philchalmers.github.io/mirt/) package by R. Philip
 Chalmers. mirt estimates item response theory (IRT) models; mirtverse
@@ -43,6 +48,12 @@ paragraph](reference/figures/home-video-thesis-kit.png)](https://youtu.be/J3us00
 | A researcher who already uses mirt, ltm, eRm, TAM or irtQ | [Researchers](https://www.okanbulut.com/mirtverse/articles/for-researchers.html) · [Moving to mirt](https://www.okanbulut.com/mirtverse/articles/mirtify.html) |
 | New to R, or coming from Winsteps, SPSS or Excel | [New to R](https://www.okanbulut.com/mirtverse/articles/for-new-to-r.html) |
 | Curious about AI in measurement | [AI Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html): Book chapters, labs and a workshop kit |
+
+Not sure which IRT model fits your data? The [Which IRT model?
+flowchart](https://www.okanbulut.com/mirtverse/articles/which-model.html)
+goes from what one item score looks like to a model and the line of R
+code that fits it ([printable
+poster](https://www.okanbulut.com/mirtverse/which-model/which-irt-model.pdf)).
 
 [![Animated: Item text and responses flow through a neural network and
 come out as a calibrated item characteristic

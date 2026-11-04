@@ -27,6 +27,7 @@
     <li><a class="dropdown-item" href="../articles/for-new-to-r.html">New to R</a></li>
     <li><a class="dropdown-item" href="../articles/ai-hub.html">Curious about AI</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/which-model.html">Which IRT model? A one-page flowchart</a></li>
     <li><a class="dropdown-item" href="../dashboard/sat12-demo.html">Try the live dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/gallery.html">Gallery of figures and outputs</a></li>
     <li><a class="dropdown-item" href="../articles/videos.html">Video demos</a></li>
@@ -40,7 +41,9 @@
     <li><a class="dropdown-item" href="../articles/for-practitioners.html">Start here: Testing programs</a></li>
     <li><a class="dropdown-item" href="../articles/for-researchers.html">Start here: Researchers</a></li>
     <li><a class="dropdown-item" href="../articles/for-new-to-r.html">Start here: New to R</a></li>
+    <li><a class="dropdown-item" href="../articles/tr.html">mirtverse: Türkçe tanıtım</a></li>
     <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
+    <li><a class="dropdown-item" href="../articles/which-model.html">Which IRT model? A one-page flowchart</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
     <li><a class="dropdown-item" href="../articles/mirtverse-agent.html">The mirtverse agent for Claude</a></li>
@@ -84,6 +87,7 @@
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="nav-link" href="../articles/tr.html" aria-label="Türkçe tanıtım">Türkçe</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/okanbulut/mirtverse/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
@@ -98,7 +102,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mirtverse-development-version">mirtverse (development version)<a class="anchor" aria-label="anchor" href="#mirtverse-development-version"></a></h2>
-<ul><li><p>The mirtverse agent: A plugin for Claude Code that lets Claude analyze test data with mirtverse on the user’s computer. Install it in Claude Code with <code>/plugin marketplace add okanbulut/mirtverse</code> and <code>/plugin install mirtverse@mirtverse</code>. It brings five skills (<code>analyze-test</code>, <code>check-dif</code>, <code>review-items</code>, <code>write-report</code>, <code>setup</code>), an <code>irt-analyst</code> subagent, and a new MCP server, <code><a href="../reference/mv_agent_server.html">mv_agent_server()</a></code>, whose tools fit and compare models, check items, test DIF, score people, draw plots that Claude can see, interpret the results, write the HTML report, run other R code, and save every step as one reproducible R script. Models are kept between sessions. New <code><a href="../reference/mv_agent_init.html">mv_agent_init()</a></code> sets up a folder without the plugin (a <code>CLAUDE.md</code> with the agent’s instructions and a <code>.mcp.json</code>), and <code><a href="../reference/mv_mcp_config.html">mv_mcp_config()</a></code> has a new <code>mode = "analysis"</code> for Claude Desktop, Codex and other MCP clients. A new article, “The mirtverse agent for Claude”, explains it.</p></li>
+<ul><li><p>Turkish materials: A Turkish introduction page (<code>articles/tr</code>, linked as “Türkçe” in the navbar and from the README) and a Turkish version of the two-page cheat sheet (<code>cheatsheet/mirtverse-cheatsheet-tr.pdf</code>). The cheat sheet source is <code>data-raw/cheatsheet/cheatsheet-tr.html</code>, and <code>data-raw/cheatsheet/build.js</code> now renders both languages.</p></li>
+<li><p>New article and printable poster, “Which IRT model?”: A one-page flowchart from what one item score looks like (0/1, ordered categories, unordered options or ideal-point items) to a model and its <code>itemtype</code>, with structure questions (dimensions, testlets, groups, item features, response times, latent classes), fit checks and a QR code back to the article. The poster source is in <code>data-raw/which-model/</code>.</p></li>
+<li><p>The mirtverse agent: A plugin for Claude Code that lets Claude analyze test data with mirtverse on the user’s computer. Install it in Claude Code with <code>/plugin marketplace add okanbulut/mirtverse</code> and <code>/plugin install mirtverse@mirtverse</code>. It brings five skills (<code>analyze-test</code>, <code>check-dif</code>, <code>review-items</code>, <code>write-report</code>, <code>setup</code>), an <code>irt-analyst</code> subagent, and a new MCP server, <code><a href="../reference/mv_agent_server.html">mv_agent_server()</a></code>, whose tools fit and compare models, check items, test DIF, score people, draw plots that Claude can see, interpret the results, write the HTML report, run other R code, and save every step as one reproducible R script. Models are kept between sessions. New <code><a href="../reference/mv_agent_init.html">mv_agent_init()</a></code> sets up a folder without the plugin (a <code>CLAUDE.md</code> with the agent’s instructions and a <code>.mcp.json</code>), and <code><a href="../reference/mv_mcp_config.html">mv_mcp_config()</a></code> has a new <code>mode = "analysis"</code> for Claude Desktop, Codex and other MCP clients. A new article, “The mirtverse agent for Claude”, explains it.</p></li>
 <li><p>Three narrated video demos (about 90 seconds each, with captions): The workbench tour, the AI Hub and the thesis kit. They are on the home page, on a new “Video demos” page (Start here menu) and in the AI Hub, thesis kit and “New to R” articles.</p></li>
 <li><p>New <code><a href="../reference/cite_methods.html">cite_methods()</a></code> drafts the Methods paragraph of an IRT analysis in APA style: Software versions, the model and estimation method, the model comparison from <code><a href="../reference/select_model.html">select_model()</a></code>, overall and item fit, reliability and removed items, with an alphabetical reference list. It prints, returns text, or writes Markdown or a Word file. A new “Thesis kit” article walks from item responses to that paragraph.</p></li>
 <li><p>Workbench: The “Test summary” table on the Explore tab no longer errors with current mirt, which renamed the total-score columns of <code><a href="https://philchalmers.github.io/mirt/reference/itemstats.html" class="external-link">itemstats()</a></code>.</p></li>
