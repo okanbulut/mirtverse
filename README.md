@@ -9,7 +9,7 @@
 
 **From item responses to defensible decisions, with or without writing R code.**
 
-*Türkçe:* [mirtverse'e Türkçe giriş](https://www.okanbulut.com/mirtverse/articles/tr.html) ve [Türkçe başvuru kartı (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-tr.pdf).
+*Türkçe:* [mirtverse'e Türkçe giriş](https://www.okanbulut.com/mirtverse/articles/tr.html) ve [Türkçe özet kılavuz (PDF)](https://www.okanbulut.com/mirtverse/cheatsheet/mirtverse-cheatsheet-tr.pdf).
 
 **mirtverse** is a friendly workflow and reporting layer for the
 [mirt](https://philchalmers.github.io/mirt/) package by R. Philip Chalmers.

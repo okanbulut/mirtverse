@@ -2,7 +2,7 @@
 title: "mirtverse: Türkçe tanıtım"
 description: >
   mirtverse paketinin Türkçe tanıtımı: Paketin ne yaptığı, kurulumu, ilk
-  analiz ve Türkçe başvuru kartı.
+  analiz ve Türkçe özet kılavuz.
 lang: tr
 ---
 
@@ -19,7 +19,7 @@ kestirir; mirtverse ise model seçmenize, sonuçları anlamanıza, yayına hazı
 grafikler üretmenize ve sonuçları R kullanmayan kişilerle paylaşmanıza yardım
 eder.
 
-<a class="btn btn-primary" href="../cheatsheet/mirtverse-cheatsheet-tr.pdf">Türkçe başvuru kartını indirin (PDF)</a>
+<a class="btn btn-primary" href="../cheatsheet/mirtverse-cheatsheet-tr.pdf">Türkçe özet kılavuzu indirin (PDF)</a>
 <a class="btn btn-outline-primary" href="../dashboard/sat12-demo.html">Canlı örnek gösterge panelini açın</a>
 
 <img src="../reference/figures/home-workflow.svg" width="100%" alt="mirtverse iş akışı dört adımda: Veriyi getirin, modeli kestirip seçin, sonuçları anlayın, paylaşın ve karar verin">
