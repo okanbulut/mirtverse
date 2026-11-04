@@ -161,7 +161,12 @@ test_that("the plugin files are consistent with the server", {
   plugin <- file.path(root, "claude-plugin")
   skip_if_not(dir.exists(plugin))  # not in the built package
   mcp <- jsonlite::read_json(file.path(plugin, ".mcp.json"))
-  expect_match(mcp$mcpServers$mirtverse$args[[2]], "mv_agent_server")
+  # the directory validator only follows literal paths under the plugin root
+  expect_equal(mcp$mcpServers$mirtverse$command, "Rscript")
+  expect_equal(unlist(mcp$mcpServers$mirtverse$args), "${CLAUDE_PLUGIN_ROOT}/server/mirtverse-server.R")
+  expect_null(mcp$mcpServers$mirtverse$env)
+  script <- file.path(plugin, "server", "mirtverse-server.R")
+  expect_true(any(grepl("mirtverse::mv_agent_server()", readLines(script), fixed = TRUE)))
   manifest <- jsonlite::read_json(file.path(plugin, ".claude-plugin", "plugin.json"))
   expect_equal(manifest$name, "mirtverse")
   tools <- vapply(agent_tools(), `[[`, "", "name")

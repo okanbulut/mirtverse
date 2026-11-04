@@ -5,8 +5,9 @@ description: Set up or troubleshoot the mirtverse agent - check that R and the m
 
 # Set up the mirtverse agent
 
-The plugin starts `Rscript -e "mirtverse::mv_agent_server()"` in the
-folder Claude Code was opened in. It needs R (4.1 or later) on the PATH and
+The plugin runs its bundled script `server/mirtverse-server.R` with
+`Rscript`, which calls `mirtverse::mv_agent_server()` in the folder Claude
+Code was opened in. It needs R (4.1 or later) on the PATH and
 the mirtverse package.
 
 1. Check R: Run `Rscript --version`. If it is missing, tell the user to
