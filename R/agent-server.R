@@ -20,9 +20,9 @@
 #' and [mv_agent_init()] sets up a folder for Claude Code without the plugin.
 #'
 #' @param project path to the project folder that holds the data. By default
-#'   the `MIRTVERSE_PROJECT` environment variable when it is set (the plugin
-#'   sets it to the folder Claude Code was opened in), otherwise the working
-#'   directory.
+#'   the `MIRTVERSE_PROJECT` environment variable when it is set (the
+#'   `.mcp.json` written by [mv_agent_init()] sets it), otherwise the working
+#'   directory, which for the plugin is the folder Claude Code was opened in.
 #' @param transport `"stdio"` (the client starts the server) or `"http"`
 #'   (a URL the client connects to).
 #' @param allow_run logical; allow the `run_r` tool, which runs R code the
@@ -36,8 +36,8 @@
 #'   for Claude" article on the website.
 #' @examples
 #' \dontrun{
-#' # What the plugin runs:
-#' #   Rscript -e "mirtverse::mv_agent_server()"
+#' # The plugin runs a script that calls mv_agent_server() in the folder
+#' # Claude Code was opened in. By hand:
 #' mv_agent_server("~/projects/math-test")
 #' }
 #' @export

@@ -16,9 +16,9 @@ mv_agent_server(
 }
 \arguments{
 \item{project}{path to the project folder that holds the data. By default
-the \code{MIRTVERSE_PROJECT} environment variable when it is set (the plugin
-sets it to the folder Claude Code was opened in), otherwise the working
-directory.}
+the \code{MIRTVERSE_PROJECT} environment variable when it is set (the
+\code{.mcp.json} written by \code{\link[=mv_agent_init]{mv_agent_init()}} sets it), otherwise the working
+directory, which for the plugin is the folder Claude Code was opened in.}
 
 \item{transport}{\code{"stdio"} (the client starts the server) or \code{"http"}
 (a URL the client connects to).}
@@ -58,8 +58,8 @@ and \code{\link[=mv_agent_init]{mv_agent_init()}} sets up a folder for Claude Co
 }
 \examples{
 \dontrun{
-# What the plugin runs:
-#   Rscript -e "mirtverse::mv_agent_server()"
+# The plugin runs a script that calls mv_agent_server() in the folder
+# Claude Code was opened in. By hand:
 mv_agent_server("~/projects/math-test")
 }
 }

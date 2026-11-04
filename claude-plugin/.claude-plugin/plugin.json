@@ -1,7 +1,7 @@
 {
   "name": "mirtverse",
   "displayName": "mirtverse agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Analyze test data with item response theory (IRT) through mirtverse and mirt: Model choice, item checks, DIF, scores, plots, plain-language interpretation, HTML reports and reproducible R scripts. Needs R and the mirtverse package.",
   "author": {
     "name": "Okan Bulut",
