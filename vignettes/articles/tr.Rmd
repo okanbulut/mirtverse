@@ -51,7 +51,7 @@ sel <- select_model(data)   # Rasch, 2PL ve 3PL'yi karşılaştırır ve birini 
 mod <- sel$best             # sıradan bir mirt modeli
 
 interpret(mod)              # sonuçların anlamı, sade bir dille (İngilizce)
-item_table(mod)             # madde istatistikleri, uyum ve işaretler tek tabloda
+item_table(mod)             # madde istatistikleri, uyum ve uyarılar tek tabloda
 gg_wright(mod)              # birey-madde haritası (Wright haritası)
 item_card(mod, "Item.2")    # tek sayfalık madde inceleme kartı
 

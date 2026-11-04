@@ -153,7 +153,7 @@ mod  &lt;- sel$best    <span class="c"># sıradan bir mirt modeli</span></pre>
             <dt>augment(mod, <span class="arg">method = "EAP", person_fit = FALSE</span>)</dt>
             <dd>Her bireyin puanı ve standart hatası eklenmiş veri.</dd>
             <dt>item_table(mod, <span class="arg">fit_stats = "S_X2"</span>)</dt>
-            <dd>Madde başına bir satır: Parametreler, uyum, durum işareti.</dd>
+            <dd>Madde başına bir satır: Parametreler, uyum, durum uyarısı.</dd>
           </dl>
           <p class="note">tidy(); DMF, tepki süresi, banka ve süreç nesnelerinde de çalışır.</p>
         </div>
@@ -216,9 +216,9 @@ fit &lt;- fit_rt(mod, sim$rt)</pre>
           <dl>
             <dt>fit_rt(x, rt, <span class="arg">flag_method = "residual"</span>)</dt>
             <dd>Tepkiler ve tepki süreleri için ortak model (van der Linden, 2007); birey hızı ve hızlı
-              tahmin işaretleriyle. Ayrıca <code>"nt10"</code>, <code>"nt15"</code>, <code>"nt20"</code>.</dd>
+              tahmin uyarılarıyla. Ayrıca <code>"nt10"</code>, <code>"nt15"</code>, <code>"nt20"</code>.</dd>
             <dt>tidy(fit) · glance(fit) · augment(fit) · autoplot(fit) · interpret(fit)</dt>
-            <dd>Madde süre parametreleri, uyum, birey hızı ve işaretler, grafikler ve sade dille bulgular.</dd>
+            <dd>Madde süre parametreleri, uyum, birey hızı ve uyarılar, grafikler ve sade dille bulgular.</dd>
             <dt>sim_rt(<span class="arg">N, J, rho = -0.3, sd_speed, rapid, seed</span>)</dt>
             <dd>Bir kısmı hızlı tahminde bulunan bireylerle tepki ve süre verisi üretir.</dd>
           </dl>
@@ -309,7 +309,7 @@ save_script(scr, "analysis.R")</pre>
     <div class="title">
       <h1>Ölçme süreci (pipeline) <small>:: ÖZET KILAVUZ</small></h1>
       <p>Tek bir nesne, bir testi belirtke tablosundan madde bankası izlemeye kadar taşır. Her aşama işini yapar,
-        ardından bir <b>kapı</b> çalıştırır: Sonraki aşamadan önce değerlendirmeniz için <b>işaretler</b> kaydeden
+        ardından bir <b>kontrol noktası</b> çalıştırır: Sonraki aşamadan önce değerlendirmeniz için <b>uyarılar</b> kaydeden
         kontroller. Her karar kayda geçer ve <code>p$code</code> tüm sürecin R kodunu saklar.</p>
     </div>
     <div class="basics">
@@ -342,7 +342,7 @@ pipeline_report(p, "report.html")</pre>
     <!-- column 1 -->
     <div class="col">
       <section>
-        <h2>Kapılar ve işaretler <em>karar verin, sonra ilerleyin</em></h2>
+        <h2>Kontrol noktaları ve uyarılar <em>karar verin, sonra ilerleyin</em></h2>
         <div class="body">
           <div class="levels">
             <span class="lvl info">info</span><span>bilgi için</span>
@@ -351,13 +351,13 @@ pipeline_report(p, "report.html")</pre>
           </div>
           <dl>
             <dt>flags(p, <span class="arg">status = "open", level, stage</span>)</dt>
-            <dd>İşaretleri listeler; <code>status = "all"</code> karara bağlananları da içerir.</dd>
+            <dd>Uyarıları listeler; <code>status = "all"</code> karara bağlananları da içerir.</dd>
             <dt>acknowledge(p, <span class="arg">check, target, note</span>)</dt>
-            <dd>Bir işareti, isteğe bağlı bir notla kabul eder.</dd>
+            <dd>Bir uyarıyı, isteğe bağlı bir notla kabul eder.</dd>
             <dt>override(p, <span class="arg">check, target</span>, note)</dt>
-            <dd>Bir işaretin önüne geçer; yazılı bir gerekçe gerekir.</dd>
+            <dd>Bir uyarıyı geçersiz kılar; yazılı bir gerekçe gerekir.</dd>
             <dt>drop_items(p, items, <span class="arg">note</span>)</dt>
-            <dd>Maddeleri çıkarır ve işaretlerini düzeltildi olarak kaydeder.</dd>
+            <dd>Maddeleri çıkarır ve uyarılarını düzeltildi olarak kaydeder.</dd>
           </dl>
         </div>
       </section>
@@ -367,13 +367,13 @@ pipeline_report(p, "report.html")</pre>
         <div class="body">
           <dl>
             <dt>mv_pipeline(title, <span class="arg">rules = mv_rules(), strict = FALSE</span>)</dt>
-            <dd>Kapılar varsayılan olarak yalnızca uyarır. <code>strict = TRUE</code> ile açık review ve block
-              işaretleri, bir karar kaydedilene kadar sonraki aşamayı durdurur.</dd>
+            <dd>Kontrol noktaları varsayılan olarak yalnızca uyarır. <code>strict = TRUE</code> ile açık review ve block
+              uyarıları, bir karar kaydedilene kadar sonraki aşamayı durdurur.</dd>
             <dt>mv_rules(<span class="arg">..., preset = "standards"</span>)</dt>
             <dd>Her eşik adıyla değiştirilebilir: <code>mv_rules(q3 = 0.25, reliability = 0.85)</code>.
               <code>preset = "lenient"</code> pilot çalışmalar için eşikleri gevşetir.</dd>
           </dl>
-          <p class="note">print(p) aşamaların durumunu, tidy(p) tüm işaretleri gösterir.</p>
+          <p class="note">print(p) aşamaların durumunu, tidy(p) tüm uyarıları gösterir.</p>
         </div>
       </section>
 
@@ -449,7 +449,7 @@ p &lt;- score_persons(p)</pre>
           <h3><span class="stage">10</span>check_security(p, <span style="font-weight:400;color:var(--muted)">&nbsp;leaked, window, site</span>)</h3>
           <div>Ön bilgi, sızdırılmış maddeler, parametre kayması, kopya ve olağan dışı süreler.</div>
           <h3><span class="stage">11</span>pipeline_report(p, <span style="font-weight:400;color:var(--muted)">&nbsp;file</span>)</h3>
-          <div>Her aşama, işaret ve kararı içeren HTML teknik rapor ve R kodu.</div>
+          <div>Her aşama, uyarı ve kararı içeren HTML teknik rapor ve R kodu.</div>
           <h3><span class="stage">12</span>monitor_bank(p, <span style="font-weight:400;color:var(--muted)">&nbsp;window, date, content</span>)</h3>
           <div>Her uygulamadan sonra: Madde kullanım oranı, içerik hücresi başına banka derinliği, güvenirlik eğilimi ve kullanılmayan maddeler.
             <code>retire_items(p, items, status, note)</code> maddeleri kullanımdan kaldırır.</div>
@@ -474,7 +474,7 @@ p &lt;- score_persons(p)</pre>
       <section>
         <h2>Tıklamayı mı tercih edersiniz?</h2>
         <div class="body">
-          <div>Workbench uygulamasındaki <b>Pipeline</b> sekmesi aynı aşamaları çalıştırır, işaretleri gösterir ve
+          <div>Workbench uygulamasındaki <b>Pipeline</b> sekmesi aynı aşamaları çalıştırır, uyarıları gösterir ve
             kodu yazar: <code>launch_workbench()</code>.</div>
         </div>
       </section>
