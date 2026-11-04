@@ -138,9 +138,9 @@ R code, so <code>save_script</code> leaves a script that reproduces the analysis
 
 <dl><dt id="arg-project">project<a class="anchor" aria-label="anchor" href="#arg-project"></a></dt>
 <dd><p>path to the project folder that holds the data. By default
-the <code>MIRTVERSE_PROJECT</code> environment variable when it is set (the plugin
-sets it to the folder Claude Code was opened in), otherwise the working
-directory.</p></dd>
+the <code>MIRTVERSE_PROJECT</code> environment variable when it is set (the
+<code>.mcp.json</code> written by <code><a href="mv_agent_init.html">mv_agent_init()</a></code> sets it), otherwise the working
+directory, which for the plugin is the folder Claude Code was opened in.</p></dd>
 
 
 <dt id="arg-transport">transport<a class="anchor" aria-label="anchor" href="#arg-transport"></a></dt>
@@ -188,8 +188,8 @@ for Claude" article on the website.</p></div>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># What the plugin runs:</span></span></span>
-<span class="r-in"><span><span class="co">#   Rscript -e "mirtverse::mv_agent_server()"</span></span></span>
+<span class="r-in"><span><span class="co"># The plugin runs a script that calls mv_agent_server() in the folder</span></span></span>
+<span class="r-in"><span><span class="co"># Claude Code was opened in. By hand:</span></span></span>
 <span class="r-in"><span><span class="fu">mv_agent_server</span><span class="op">(</span><span class="st">"~/projects/math-test"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

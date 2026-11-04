@@ -184,7 +184,7 @@ done.
   change before you do it”).
 - **Check its work.** The assistant runs `check_material` after every
   change, but you know your course: Preview a changed lab with
-  [`learnr::run_tutorial()`](https://pkgs.rstudio.com/learnr/reference/run_tutorial.html)
+  [`learnr::run_tutorial()`](https://rdrr.io/pkg/learnr/man/run_tutorial.html)
   or the Run Document button before your students see it.
 - **Let it look things up.** If the assistant seems unsure about a
   function, ask it to check `mirtverse_help`.
