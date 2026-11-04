@@ -53,7 +53,7 @@ mod <- sel$best             # sıradan bir mirt modeli
 interpret(mod)              # sonuçların anlamı, sade bir dille (İngilizce)
 item_table(mod)             # madde istatistikleri, uyum ve uyarılar tek tabloda
 gg_wright(mod)              # birey-madde haritası (Wright haritası)
-item_card(mod, "Item.2")    # tek sayfalık madde inceleme kartı
+item_card(mod, "Item.2")    # tek sayfalık madde durum kartı
 
 mv_report(sel, file = "rapor.html")              # her şey tek bir HTML dosyasında
 mv_dashboard(mod, title = "LSAT sonuçları")      # paylaşılabilir etkileşimli panel

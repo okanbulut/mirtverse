@@ -143,7 +143,7 @@ mod  &lt;- sel$best    <span class="c"># sıradan bir mirt modeli</span></pre>
       </section>
 
       <section>
-        <h2>Düzenli çıktılar <em>dplyr, gt … için veri çerçeveleri</em></h2>
+        <h2>Düzenli (tidy) çıktılar <em>dplyr, gt … için veri çerçeveleri</em></h2>
         <div class="body">
           <dl>
             <dt>tidy(mod, <span class="arg">IRTpars = TRUE, conf.int = FALSE</span>)</dt>
@@ -245,7 +245,7 @@ fit &lt;- fit_rt(mod, sim$rt)</pre>
         <div class="body">
           <dl>
             <dt>item_card(mod, item) · item_cards(mod, <span class="arg">file</span>)</dt>
-            <dd>İnceleme toplantıları için her maddeye trafik ışığı durumlu tek sayfalık bir sağlık kartı.</dd>
+            <dd>İnceleme toplantıları için her maddeye trafik ışığı durumlu tek sayfalık bir madde durum kartı.</dd>
             <dt>mv_report(sel, <span class="arg">file = "report.html", dif, cards, code</span>)</dt>
             <dd>Tek bir HTML rapor: Model karşılaştırması, yorum, tablolar, grafikler, toplam puan tablosu,
               madde kartları ve raporu yeniden üretecek R kodu.</dd>
@@ -363,7 +363,7 @@ pipeline_report(p, "report.html")</pre>
       </section>
 
       <section>
-        <h2>Kurallar ve katılık</h2>
+        <h2>Kurallar ve katı mod</h2>
         <div class="body">
           <dl>
             <dt>mv_pipeline(title, <span class="arg">rules = mv_rules(), strict = FALSE</span>)</dt>
@@ -399,7 +399,7 @@ pipeline_report(p, "report.html")</pre>
         <h2 class="amber">Kalibre edin ve form oluşturun <em>aşama 4–7</em></h2>
         <div class="body">
           <h3><span class="stage">4</span>add_responses(p, data, <span style="font-weight:400;color:var(--muted)">&nbsp;items, key, group, id, rt</span>)</h3>
-          <div>Ham cevapları anahtarla puanlar. Kayıp veri, hatalı anahtar, düz çizgi yanıtlama, hızlı tahmin
+          <div>Ham cevapları anahtarla puanlar. Kayıp veri, hatalı anahtar, hep aynı seçeneği işaretleme, hızlı tahmin
             ve seyrek kategorileri kontrol eder.</div>
           <h3><span class="stage">5</span>calibrate(p, <span style="font-weight:400;color:var(--muted)">&nbsp;model = "auto", dif, reference</span>)</h3>
           <div>Modeli kestirir. Yakınsama, model ve madde uyumu, yerel bağımlılık, parametre aralıkları,
@@ -447,7 +447,7 @@ p &lt;- score_persons(p)</pre>
           <div>Standart hatalarıyla birey puanları; güvenirlik ve uç puanlar açısından kontrol edilir. <code>score_open(p, responses)</code>
             açık uçlu cevapları bir rubrik ve bir büyük dil modeli (LLM) ya da kendi eğittiğiniz modelle puanlar.<span class="tag">LLM</span></div>
           <h3><span class="stage">10</span>check_security(p, <span style="font-weight:400;color:var(--muted)">&nbsp;leaked, window, site</span>)</h3>
-          <div>Ön bilgi, sızdırılmış maddeler, parametre kayması, kopya ve olağan dışı süreler.</div>
+          <div>Maddeleri önceden görme, sızdırılmış maddeler, parametre kayması, kopya ve olağan dışı süreler.</div>
           <h3><span class="stage">11</span>pipeline_report(p, <span style="font-weight:400;color:var(--muted)">&nbsp;file</span>)</h3>
           <div>Her aşama, uyarı ve kararı içeren HTML teknik rapor ve R kodu.</div>
           <h3><span class="stage">12</span>monitor_bank(p, <span style="font-weight:400;color:var(--muted)">&nbsp;window, date, content</span>)</h3>
