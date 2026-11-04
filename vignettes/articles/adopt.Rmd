@@ -24,7 +24,7 @@ Everything is open and editable, and it runs on student laptops.
 | Course map | Week-by-week readings, code, labs and datasets, plus versions for 8-week, undergraduate and second courses | [Course map](course-map.html) |
 | Instructor toolkit | Labs on your own data, editable copies of the labs and chapters, checks before class | [Toolkit](instructor-toolkit.html) |
 | AI in measurement module | Four weeks (book chapters 13 to 18, Labs 7 to 10) or a one-day workshop | [AI Hub](ai-hub.html) |
-| Handouts | Two-page cheat sheet and a glossary of nearly 90 terms | [Cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf) · [Glossary](glossary.html) |
+| Handouts | Two-page cheat sheet, a model-choice poster and a glossary of nearly 90 terms | [Cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf) · [Which IRT model? poster](../which-model/which-irt-model.pdf) · [Glossary](glossary.html) |
 
 ## Adopt it in four steps
 

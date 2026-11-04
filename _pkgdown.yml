@@ -39,6 +39,8 @@ navbar:
       - text: Curious about AI
         href: articles/ai-hub.html
       - text: -------
+      - text: "Which IRT model? A one-page flowchart"
+        href: articles/which-model.html
       - text: Try the live dashboard
         href: dashboard/sat12-demo.html
       - text: Gallery of figures and outputs
@@ -96,6 +98,7 @@ articles:
   contents:
   - mirtverse
   - workbench
+  - articles/which-model
   - response-times
   - articles/mv-ask-guide
   - articles/mirtverse-agent

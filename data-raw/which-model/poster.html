@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Which IRT model? A mirtverse flowchart</title>
+<!-- Source of pkgdown/assets/which-model/which-irt-model.pdf and .png.
+     Rebuild with: node data-raw/which-model/build.js -->
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+  :root {
+    --navy: #1F3F5E; --blue: #2C5F8A; --amber: #E8A33D; --ink: #1d232a;
+    --muted: #5b6672; --line: #d5dde6; --tint: #eef3f8; --amber-tint: #fdf3e2;
+    --green: #3c7d4f; --green-tint: #e9f3ec;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: "Inter", "Liberation Sans", sans-serif; color: var(--ink); font-size: 8pt;
+         line-height: 1.3; font-variant-ligatures: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 11in; height: 8.5in; padding: 0.26in 0.3in 0.2in; display: flex; flex-direction: column; overflow: hidden; }
+
+  header { display: flex; align-items: center; gap: 12px; padding-bottom: 6px;
+           border-bottom: 2.5px solid var(--navy); margin-bottom: 10px; }
+  header img { height: 0.8in; }
+  header .title { flex: 1; }
+  header h1 { font-size: 24pt; margin: 0; letter-spacing: -0.4px; color: var(--navy); font-weight: 800; }
+  header h1 span { color: var(--amber); }
+  header p { margin: 2px 0 0; font-size: 9pt; color: var(--muted); max-width: 6.4in; }
+  header .basics { width: 2.9in; background: var(--tint); border-radius: 6px; padding: 6px 9px; font-size: 7.4pt; }
+  header .basics b { color: var(--navy); }
+  code { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 7pt; color: var(--navy); }
+
+  svg.flow { width: 100%; height: auto; display: block; }
+  svg text { font-family: "Inter", "Liberation Sans", sans-serif; }
+  svg .start { font-size: 13px; font-weight: 800; fill: #fff; }
+  svg .cat { font-size: 11.5px; font-weight: 800; fill: var(--navy); }
+  svg .sub { font-size: 8.6px; fill: var(--muted); }
+  svg .q { font-size: 9.4px; font-weight: 700; fill: var(--navy); }
+  svg .tt { font-size: 11.5px; font-weight: 800; fill: #fff; }
+  svg .td { font-size: 8.6px; fill: var(--ink); }
+  svg .tc { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 8.4px; fill: var(--navy); font-weight: 600; }
+  svg .tn { font-size: 8px; fill: var(--muted); font-style: italic; }
+  svg .yes, svg .no { font-size: 8.6px; font-weight: 800; }
+  svg .yes { fill: var(--green); } svg .no { fill: #b8433a; }
+  svg .hint-t { font-size: 12px; font-weight: 800; fill: var(--navy); }
+
+  h2.band { margin: 8px 0 5px; font-size: 11pt; color: var(--navy); font-weight: 800;
+            display: flex; align-items: baseline; gap: 8px; }
+  h2.band small { font-size: 8pt; color: var(--muted); font-weight: 500; }
+  .cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+  .card { border: 1px solid var(--line); border-top: 3px solid var(--blue); border-radius: 5px; padding: 6px 8px 8px; }
+  .cards { min-height: 1.45in; }
+  .card h3 { margin: 0 0 3px; font-size: 8.6pt; color: var(--navy); }
+  .card p { margin: 0 0 3px; color: var(--muted); font-size: 7.3pt; }
+  .card code { display: block; font-size: 6.9pt; margin-top: 1px; }
+
+  .bottom { margin-top: auto; margin-bottom: 4px; display: flex; gap: 12px; align-items: stretch; padding-top: 8px; }
+  .check { flex: 1; background: var(--green-tint); border-radius: 6px; padding: 6px 10px; }
+  .check h3 { margin: 0 0 3px; font-size: 9pt; color: var(--green); }
+  .check ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; }
+  .check li { font-size: 7.6pt; }
+  .check .note { margin: 4px 0 0; font-size: 7pt; color: var(--muted); }
+  .qr { display: flex; align-items: center; gap: 8px; font-size: 7.2pt; color: var(--muted); width: 2.55in; }
+  .qr img { width: 0.85in; height: 0.85in; }
+  .qr b { color: var(--navy); font-size: 8pt; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <img src="../../man/figures/logo.png" alt="mirtverse hex logo">
+    <div class="title">
+      <h1>Which IRT model<span>?</span></h1>
+      <p>Start from what one item score looks like, answer a question or two, and end at a model and the
+        line of R code that fits it. When in doubt, let <code>select_model()</code> compare the candidates for you.</p>
+    </div>
+    <div class="basics">
+      <b>Every path ends in the same call</b><br>
+      <code>library(mirtverse)</code><br>
+      <code>mod &lt;- mirt(data, 1, itemtype = "2PL")</code><br>
+      <code>interpret(mod)</code> <span style="color:var(--muted)">explains the result</span>
+    </div>
+  </header>
+
+  <svg class="flow" viewBox="0 0 996 382" xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="Decision flowchart from item score type to IRT model">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#5b6672"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="#5b6672" stroke-width="1.4">
+      <!-- start to categories -->
+      <path d="M498,40 V56"/>
+      <path d="M75,56 H911"/>
+      <path d="M75,56 V68" marker-end="url(#ah)"/>
+      <path d="M397,56 V68" marker-end="url(#ah)"/>
+      <path d="M729,56 V68" marker-end="url(#ah)"/>
+      <path d="M911,56 V68" marker-end="url(#ah)"/>
+      <!-- branch 1: 0/1 -->
+      <path d="M75,116 V138" marker-end="url(#ah)"/>
+      <path d="M150,166 H168" marker-end="url(#ah)"/>
+      <path d="M75,192 V220" marker-end="url(#ah)"/>
+      <path d="M150,248 H168" marker-end="url(#ah)"/>
+      <path d="M75,274 V302" marker-end="url(#ah)"/>
+      <!-- branch 2: ordered -->
+      <path d="M397,116 V138" marker-end="url(#ah)"/>
+      <path d="M472,166 H490" marker-end="url(#ah)"/>
+      <path d="M397,192 V220" marker-end="url(#ah)"/>
+      <path d="M472,248 H490" marker-end="url(#ah)"/>
+      <path d="M397,274 V302" marker-end="url(#ah)"/>
+      <!-- branches 3 and 4 -->
+      <path d="M729,116 V138" marker-end="url(#ah)"/>
+      <path d="M911,116 V138" marker-end="url(#ah)"/>
+    </g>
+
+    <!-- start -->
+    <rect x="318" y="0" width="360" height="40" rx="20" fill="#1F3F5E"/>
+    <text class="start" x="498" y="25" text-anchor="middle">What does one item's score look like?</text>
+
+    <!-- categories -->
+    <g text-anchor="middle">
+      <rect x="0" y="70" width="310" height="46" rx="8" fill="#fdf3e2" stroke="#E8A33D" stroke-width="1.5"/>
+      <text class="cat" x="155" y="89">Right or wrong (0/1)</text>
+      <text class="sub" x="155" y="105">Ability tests, quizzes, licensure exams</text>
+
+      <rect x="322" y="70" width="310" height="46" rx="8" fill="#fdf3e2" stroke="#E8A33D" stroke-width="1.5"/>
+      <text class="cat" x="477" y="89">Ordered categories (0, 1, 2, ...)</text>
+      <text class="sub" x="477" y="105">Rubric points, Likert ratings, partial credit</text>
+
+      <rect x="644" y="70" width="170" height="46" rx="8" fill="#fdf3e2" stroke="#E8A33D" stroke-width="1.5"/>
+      <text class="cat" x="729" y="89">Unordered options</text>
+      <text class="sub" x="729" y="105">Which option was chosen</text>
+
+      <rect x="826" y="70" width="170" height="46" rx="8" fill="#fdf3e2" stroke="#E8A33D" stroke-width="1.5"/>
+      <text class="cat" x="911" y="89">Agree only if close</text>
+      <text class="sub" x="911" y="105">Ideal-point attitude items</text>
+    </g>
+
+    <!-- branch 1 questions -->
+    <g text-anchor="middle">
+      <rect x="0" y="140" width="150" height="52" rx="6" fill="#eef3f8" stroke="#2C5F8A" stroke-width="1.2"/>
+      <text class="q" x="75" y="157">Could low scorers guess</text>
+      <text class="q" x="75" y="169">the right answer?</text>
+      <text class="sub" x="75" y="183">Multiple choice, few options</text>
+
+      <rect x="0" y="222" width="150" height="52" rx="6" fill="#eef3f8" stroke="#2C5F8A" stroke-width="1.2"/>
+      <text class="q" x="75" y="239">Should every item count</text>
+      <text class="q" x="75" y="251">the same in the score?</text>
+      <text class="sub" x="75" y="265">The sum score tells the story</text>
+    </g>
+    <text class="yes" x="152" y="161">Yes</text>
+    <text class="no" x="80" y="210">No</text>
+    <text class="yes" x="152" y="243">Yes</text>
+    <text class="no" x="80" y="292">No</text>
+
+    <!-- branch 2 questions -->
+    <g text-anchor="middle">
+      <rect x="322" y="140" width="150" height="52" rx="6" fill="#eef3f8" stroke="#2C5F8A" stroke-width="1.2"/>
+      <text class="q" x="397" y="157">Are points earned step</text>
+      <text class="q" x="397" y="169">by step on a rubric?</text>
+      <text class="sub" x="397" y="183">Constructed responses, tasks</text>
+
+      <rect x="322" y="222" width="150" height="52" rx="6" fill="#eef3f8" stroke="#2C5F8A" stroke-width="1.2"/>
+      <text class="q" x="397" y="239">Same rating scale, and</text>
+      <text class="q" x="397" y="251">a Rasch model wanted?</text>
+      <text class="sub" x="397" y="265">All items share the labels</text>
+    </g>
+    <text class="yes" x="474" y="161">Yes</text>
+    <text class="no" x="402" y="210">No</text>
+    <text class="yes" x="474" y="243">Yes</text>
+    <text class="no" x="402" y="292">No</text>
+
+    <!-- terminal models -->
+    <g text-anchor="middle">
+      <!-- 3PL -->
+      <rect x="170" y="132" width="140" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M170,138 a6,6 0 0 1 6,-6 h128 a6,6 0 0 1 6,6 v12 h-140 z" fill="#1F3F5E"/>
+      <text class="tt" x="240" y="146">3PL</text>
+      <text class="td" x="240" y="164">Adds a floor for guessing</text>
+      <text class="tc" x="240" y="178">itemtype = "3PL"</text>
+      <text class="tn" x="240" y="192">Needs about 1,000+ people</text>
+      <!-- Rasch -->
+      <rect x="170" y="214" width="140" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M170,220 a6,6 0 0 1 6,-6 h128 a6,6 0 0 1 6,6 v12 h-140 z" fill="#1F3F5E"/>
+      <text class="tt" x="240" y="228">Rasch (1PL)</text>
+      <text class="td" x="240" y="246">One slope shared by all items</text>
+      <text class="tc" x="240" y="260">itemtype = "Rasch"</text>
+      <text class="tn" x="240" y="274">Works from about 100 people</text>
+      <!-- 2PL -->
+      <rect x="0" y="304" width="150" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M0,310 a6,6 0 0 1 6,-6 h138 a6,6 0 0 1 6,6 v12 h-150 z" fill="#1F3F5E"/>
+      <text class="tt" x="75" y="318">2PL</text>
+      <text class="td" x="75" y="336">Each item gets its own slope</text>
+      <text class="tc" x="75" y="350">itemtype = "2PL"</text>
+      <text class="tn" x="75" y="364">Aim for about 500+ people</text>
+
+      <!-- GPCM -->
+      <rect x="492" y="132" width="140" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M492,138 a6,6 0 0 1 6,-6 h128 a6,6 0 0 1 6,6 v12 h-140 z" fill="#1F3F5E"/>
+      <text class="tt" x="562" y="146">Partial credit (GPCM)</text>
+      <text class="td" x="562" y="164">Steps, each item its own slope</text>
+      <text class="tc" x="562" y="178">itemtype = "gpcm"</text>
+      <text class="tn" x="562" y="192">Rasch version (PCM): "Rasch"</text>
+      <!-- RSM -->
+      <rect x="492" y="214" width="140" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M492,220 a6,6 0 0 1 6,-6 h128 a6,6 0 0 1 6,6 v12 h-140 z" fill="#1F3F5E"/>
+      <text class="tt" x="562" y="228">Rating scale model</text>
+      <text class="td" x="562" y="246">Thresholds shared by all items</text>
+      <text class="tc" x="562" y="260">itemtype = "rsm"</text>
+      <text class="tn" x="562" y="274">The most compact choice</text>
+      <!-- GRM -->
+      <rect x="322" y="304" width="150" height="68" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M322,310 a6,6 0 0 1 6,-6 h138 a6,6 0 0 1 6,6 v12 h-150 z" fill="#1F3F5E"/>
+      <text class="tt" x="397" y="318">Graded response</text>
+      <text class="td" x="397" y="336">The usual pick for Likert scales</text>
+      <text class="tc" x="397" y="350">itemtype = "graded"</text>
+      <text class="tn" x="397" y="364">Aim for about 500+ people</text>
+
+      <!-- nominal -->
+      <rect x="644" y="140" width="170" height="82" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M644,146 a6,6 0 0 1 6,-6 h158 a6,6 0 0 1 6,6 v12 h-170 z" fill="#1F3F5E"/>
+      <text class="tt" x="729" y="154">Nominal response</text>
+      <text class="td" x="729" y="172">Models every option, so you see</text>
+      <text class="td" x="729" y="184">which distractors pull whom</text>
+      <text class="tc" x="729" y="199">itemtype = "nominal"</text>
+      <text class="tn" x="729" y="213">Large samples help</text>
+      <!-- GGUM -->
+      <rect x="826" y="140" width="170" height="82" rx="6" fill="#fff" stroke="#1F3F5E" stroke-width="1.4"/>
+      <path d="M826,146 a6,6 0 0 1 6,-6 h158 a6,6 0 0 1 6,6 v12 h-170 z" fill="#1F3F5E"/>
+      <text class="tt" x="911" y="154">Unfolding (GGUM)</text>
+      <text class="td" x="911" y="172">People on both extremes</text>
+      <text class="td" x="911" y="184">disagree with a middle statement</text>
+      <text class="tc" x="911" y="199">itemtype = "ggum"</text>
+      <text class="tn" x="911" y="213">Large samples help</text>
+    </g>
+
+    <!-- not sure -->
+    <rect x="644" y="240" width="352" height="132" rx="8" fill="#e9f3ec" stroke="#3c7d4f" stroke-width="1.4" stroke-dasharray="5 3"/>
+    <text class="hint-t" x="660" y="262">Not sure? Let the data compare.</text>
+    <text class="tc" x="660" y="282">sel &lt;- select_model(data)</text>
+    <text class="td" x="660" y="300">Fits Rasch, 2PL and 3PL (or PCM, GPCM and graded for</text>
+    <text class="td" x="660" y="313">ordered items), ranks them by BIC, runs likelihood-ratio</text>
+    <text class="td" x="660" y="326">tests and M2 fit, and explains the pick in plain words.</text>
+    <text class="tc" x="660" y="345">sel$best</text>
+    <text class="tn" x="712" y="345">the recommended model, ready for interpret()</text>
+    <text class="tn" x="660" y="362">Sample sizes on this page are rough rules of thumb, not guarantees.</text>
+  </svg>
+
+  <h2 class="band">Then think about the structure <small>Each question adds one argument or one function</small></h2>
+  <div class="cards">
+    <div class="card"><h3>More than one trait?</h3>
+      <p>Check local dependence first, then fit two or more factors.</p>
+      <code>gg_q3(mod)</code><code>mirt(data, 2)</code><code>mirt.model("F1 = 1-5 ...")</code></div>
+    <div class="card"><h3>Items in clusters?</h3>
+      <p>Testlets, shared passages or scenarios: a general factor plus specific ones.</p>
+      <code>bfactor(data, specific)</code></div>
+    <div class="card"><h3>Groups to compare?</h3>
+      <p>Check items for DIF, then link the groups on one scale.</p>
+      <code>dif(mod, group)</code><code>multipleGroup(data, 1, group)</code></div>
+    <div class="card"><h3>Item features matter?</h3>
+      <p>Explain difficulty with item properties (LLTM, explanatory IRT).</p>
+      <code>predict_difficulty()</code><code>eirm::eirm()</code><code>mixedmirt()</code></div>
+    <div class="card"><h3>Response times too?</h3>
+      <p>Model speed with ability and flag unusual timing.</p>
+      <code>fit_rt(mod, rt)</code></div>
+    <div class="card"><h3>Classes, not a continuum?</h3>
+      <p>Mastery groups or latent profiles instead of a trait.</p>
+      <code>mdirt(data, 2)</code></div>
+  </div>
+
+  <div class="bottom">
+    <div class="check">
+      <h3>Before you trust the model</h3>
+      <ul>
+        <li><code>glance(mod)</code> overall fit (M2, RMSEA, CFI)</li>
+        <li><code>gg_itemfit(mod)</code> items that misfit</li>
+        <li><code>gg_trace(mod)</code> curves that look strange</li>
+        <li><code>interpret(mod)</code> a plain-language summary</li>
+      </ul>
+      <p class="note">A simpler model that fits is easier to explain. Move to a richer one only when the fit
+        checks or the purpose of the test call for it.</p>
+    </div>
+    <div class="qr">
+      <img src="qr.svg" alt="QR code to the online version">
+      <div><b>Online version with examples</b><br>okanbulut.com/mirtverse/<br>articles/which-model.html</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

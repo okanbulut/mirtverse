@@ -56,6 +56,8 @@ The [Gallery](gallery.html) shows what each figure looks like.
 - [Glossary](glossary.html): Nearly 90 IRT terms in plain language.
 - [Cheat sheet](../cheatsheet/mirtverse-cheatsheet.pdf): The main functions on
   two printable pages.
+- [Which IRT model?](which-model.html): A one-page flowchart from your item
+  scores to a model and the code that fits it.
 - [Coming from ltm, eRm or TAM?](mirtify.html) `mirtify()` rewrites your old
   code as mirt code.
 
