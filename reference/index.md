@@ -298,7 +298,17 @@ Connect Claude or an OpenAI assistant to your course materials.
 - [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md)
   : MCP server for instructors
 - [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md)
-  : Settings to connect an AI client to the instructor MCP server
+  : Settings to connect an AI client to a mirtverse MCP server
+
+## mirtverse agent for Claude
+
+Let Claude run IRT analyses on your data with the mirtverse plugin for
+Claude Code, or set up a folder by hand.
+
+- [`mv_agent_server()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_server.md)
+  : Run the mirtverse analysis agent server
+- [`mv_agent_init()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_init.md)
+  : Set up a folder for the mirtverse agent in Claude Code
 
 ## Package
 

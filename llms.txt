@@ -86,6 +86,13 @@ groups them by task.
   writes a tested R script from one sentence, with Claude, an OpenAI
   model, a local model or an offline parser. [How it
   works](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+- **Let Claude run the analysis.** The mirtverse plugin for Claude Code
+  turns Claude into a psychometrician that fits models, checks items and
+  DIF, scores people, explains the results and leaves a report and an R
+  script, all with mirtverse on your own computer:
+  `/plugin marketplace add okanbulut/mirtverse`, then
+  `/plugin install mirtverse@mirtverse`. [The mirtverse
+  agent](https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.html)
 - **Generate items.**
   [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md)
   drafts multiple-choice items with keys and open-ended items with
@@ -441,7 +448,17 @@ Connect Claude or an OpenAI assistant to your course materials.
 - [`mv_mcp_server()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.md)
   : MCP server for instructors
 - [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md)
-  : Settings to connect an AI client to the instructor MCP server
+  : Settings to connect an AI client to a mirtverse MCP server
+
+## mirtverse agent for Claude
+
+Let Claude run IRT analyses on your data with the mirtverse plugin for
+Claude Code, or set up a folder by hand.
+
+- [`mv_agent_server()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_server.md)
+  : Run the mirtverse analysis agent server
+- [`mv_agent_init()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_init.md)
+  : Set up a folder for the mirtverse agent in Claude Code
 
 ## Package
 
@@ -509,6 +526,13 @@ A short path for each kind of user.
   How mv_ask() turns a plain-language request into a complete IRT
   analysis script, with worked examples and benchmark results for
   Claude, GPT and local Ollama models.
+
+- [The mirtverse agent for
+  Claude](https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.md):
+
+  Install the mirtverse plugin for Claude Code and let Claude analyze
+  your test data with item response theory: Model choice, item checks,
+  DIF, scores, plots, a report and a reproducible R script.
 
 - [Sharing results with a
   dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md):

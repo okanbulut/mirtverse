@@ -2,6 +2,24 @@
 
 ## mirtverse (development version)
 
+- The mirtverse agent: A plugin for Claude Code that lets Claude analyze
+  test data with mirtverse on the user’s computer. Install it in Claude
+  Code with `/plugin marketplace add okanbulut/mirtverse` and
+  `/plugin install mirtverse@mirtverse`. It brings five skills
+  (`analyze-test`, `check-dif`, `review-items`, `write-report`,
+  `setup`), an `irt-analyst` subagent, and a new MCP server,
+  [`mv_agent_server()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_server.md),
+  whose tools fit and compare models, check items, test DIF, score
+  people, draw plots that Claude can see, interpret the results, write
+  the HTML report, run other R code, and save every step as one
+  reproducible R script. Models are kept between sessions. New
+  [`mv_agent_init()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_init.md)
+  sets up a folder without the plugin (a `CLAUDE.md` with the agent’s
+  instructions and a `.mcp.json`), and
+  [`mv_mcp_config()`](https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.md)
+  has a new `mode = "analysis"` for Claude Desktop, Codex and other MCP
+  clients. A new article, “The mirtverse agent for Claude”, explains it.
+
 - Three narrated video demos (about 90 seconds each, with captions): The
   workbench tour, the AI Hub and the thesis kit. They are on the home
   page, on a new “Video demos” page (Start here menu) and in the AI Hub,

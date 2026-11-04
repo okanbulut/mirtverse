@@ -65,6 +65,7 @@
     <li><a class="dropdown-item" href="articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="articles/mirtverse-agent.html">The mirtverse agent for Claude</a></li>
     <li><a class="dropdown-item" href="articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -95,6 +96,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
+    <li><a class="dropdown-item" href="articles/mirtverse-agent.html">Let Claude run the analysis</a></li>
     <li><a class="dropdown-item" href="reference/generate_items.html">Generate and verify items</a></li>
     <li><a class="dropdown-item" href="reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="reference/predict_difficulty.html">Predict item difficulty from text</a></li>
@@ -211,6 +213,9 @@
 <ul>
 <li>
 <strong>Describe the analysis, get the script.</strong> <code>mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)</code> writes a tested R script from one sentence, with Claude, an OpenAI model, a local model or an offline parser. <a href="https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html">How it works</a>
+</li>
+<li>
+<strong>Let Claude run the analysis.</strong> The mirtverse plugin for Claude Code turns Claude into a psychometrician that fits models, checks items and DIF, scores people, explains the results and leaves a report and an R script, all with mirtverse on your own computer: <code>/plugin marketplace add okanbulut/mirtverse</code>, then <code>/plugin install mirtverse@mirtverse</code>. <a href="https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.html">The mirtverse agent</a>
 </li>
 <li>
 <strong>Generate items.</strong> <code><a href="reference/generate_items.html">generate_items()</a></code> drafts multiple-choice items with keys and open-ended items with rubrics from a test blueprint, and <code><a href="reference/generate_isomorphs.html">generate_isomorphs()</a></code> builds item families from an item model. <a href="https://www.okanbulut.com/mirtverse/book/aig.html">Book chapter</a>

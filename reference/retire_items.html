@@ -49,6 +49,7 @@ active again (status = "active").'><meta property="og:image" content="https://ww
     <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
+    <li><a class="dropdown-item" href="../articles/mirtverse-agent.html">The mirtverse agent for Claude</a></li>
     <li><a class="dropdown-item" href="../articles/dashboards.html">Sharing results with a dashboard</a></li>
     <li><a class="dropdown-item" href="../articles/mirtify.html">Moving from ltm, eRm, TAM or irtQ to mirt</a></li>
     <li><a class="dropdown-item" href="../articles/assessment-pipeline.html">An assessment pipeline from blueprint to bank monitoring</a></li>
@@ -77,6 +78,7 @@ active again (status = "active").'><meta property="og:image" content="https://ww
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>AI tools in mirtverse</h6></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">Write analysis code from plain language</a></li>
+    <li><a class="dropdown-item" href="../articles/mirtverse-agent.html">Let Claude run the analysis</a></li>
     <li><a class="dropdown-item" href="../reference/generate_items.html">Generate and verify items</a></li>
     <li><a class="dropdown-item" href="../reference/item_model.html">Generate items from item models</a></li>
     <li><a class="dropdown-item" href="../reference/predict_difficulty.html">Predict item difficulty from text</a></li>
@@ -147,11 +149,11 @@ active again (<code>status = "active"</code>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   item   itemtype  ncat     a      b     g source      added      status </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Item.1 2PL          2 0.988 -<span style="color: #BB0000;">1.88</span>      0 calibration 2026-11-03 retired</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Item.2 2PL          2 1.08  -<span style="color: #BB0000;">0.748</span>     0 calibration 2026-11-03 active </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Item.3 2PL          2 1.71  -<span style="color: #BB0000;">1.06</span>      0 calibration 2026-11-03 active </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Item.4 2PL          2 0.765 -<span style="color: #BB0000;">0.635</span>     0 calibration 2026-11-03 active </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Item.5 2PL          2 0.736 -<span style="color: #BB0000;">2.52</span>      0 calibration 2026-11-03 active </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Item.1 2PL          2 0.988 -<span style="color: #BB0000;">1.88</span>      0 calibration 2026-11-04 retired</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Item.2 2PL          2 1.08  -<span style="color: #BB0000;">0.748</span>     0 calibration 2026-11-04 active </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Item.3 2PL          2 1.71  -<span style="color: #BB0000;">1.06</span>      0 calibration 2026-11-04 active </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Item.4 2PL          2 0.765 -<span style="color: #BB0000;">0.635</span>     0 calibration 2026-11-04 active </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Item.5 2PL          2 0.736 -<span style="color: #BB0000;">2.52</span>      0 calibration 2026-11-04 active </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

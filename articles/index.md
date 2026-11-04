@@ -53,6 +53,13 @@ A short path for each kind of user.
   analysis script, with worked examples and benchmark results for
   Claude, GPT and local Ollama models.
 
+- [The mirtverse agent for
+  Claude](https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.md):
+
+  Install the mirtverse plugin for Claude Code and let Claude analyze
+  your test data with item response theory: Model choice, item checks,
+  DIF, scores, plots, a report and a reproducible R script.
+
 - [Sharing results with a
   dashboard](https://www.okanbulut.com/mirtverse/articles/dashboards.md):
 
