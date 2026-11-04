@@ -15,7 +15,7 @@ redirects:
 navbar:
   structure:
     left: [start, intro, reference, articles, aihub, book, cheatsheet, news]
-    right: [search, github]
+    right: [search, turkce, github]
   components:
     start:
       text: Start here
@@ -39,6 +39,8 @@ navbar:
       - text: Curious about AI
         href: articles/ai-hub.html
       - text: -------
+      - text: "Which IRT model? A one-page flowchart"
+        href: articles/which-model.html
       - text: Try the live dashboard
         href: dashboard/sat12-demo.html
       - text: Gallery of figures and outputs
@@ -74,6 +76,10 @@ navbar:
         href: reference/train_scorer.html
       - text: Audit an AI component
         href: reference/ai_audit.html
+    turkce:
+      text: Türkçe
+      href: articles/tr.html
+      aria-label: Türkçe tanıtım
     book:
       text: Book
       href: book/index.html
@@ -91,11 +97,13 @@ articles:
   - articles/for-practitioners
   - articles/for-researchers
   - articles/for-new-to-r
+  - articles/tr
 - title: Guides
   navbar: ~
   contents:
   - mirtverse
   - workbench
+  - articles/which-model
   - response-times
   - articles/mv-ask-guide
   - articles/mirtverse-agent
