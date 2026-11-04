@@ -62,6 +62,8 @@ navbar:
       - text: AI tools in mirtverse
       - text: Write analysis code from plain language
         href: articles/mv-ask-guide.html
+      - text: Let Claude run the analysis
+        href: articles/mirtverse-agent.html
       - text: Generate and verify items
         href: reference/generate_items.html
       - text: Generate items from item models
@@ -96,6 +98,7 @@ articles:
   - workbench
   - response-times
   - articles/mv-ask-guide
+  - articles/mirtverse-agent
   - articles/dashboards
   - articles/mirtify
   - articles/assessment-pipeline
@@ -265,6 +268,13 @@ reference:
   contents:
   - mv_mcp_server
   - mv_mcp_config
+- title: mirtverse agent for Claude
+  desc: >
+    Let Claude run IRT analyses on your data with the mirtverse plugin for
+    Claude Code, or set up a folder by hand.
+  contents:
+  - mv_agent_server
+  - mv_agent_init
 - title: Package
   contents:
   - mirtverse-package

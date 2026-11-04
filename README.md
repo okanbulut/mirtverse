@@ -72,6 +72,13 @@ Every function is listed in the [Reference](https://www.okanbulut.com/mirtverse/
 - **Describe the analysis, get the script.** `mv_ask("fit a 2PL, check DIF by gender and make a report", data = mydata)`
   writes a tested R script from one sentence, with Claude, an OpenAI model, a
   local model or an offline parser. [How it works](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.html)
+- **Let Claude run the analysis.** The mirtverse plugin for Claude Code turns
+  Claude into a psychometrician that fits models, checks items and DIF,
+  scores people, explains the results and leaves a report and an R script,
+  all with mirtverse on your own computer:
+  `/plugin marketplace add okanbulut/mirtverse`, then
+  `/plugin install mirtverse@mirtverse`.
+  [The mirtverse agent](https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.html)
 - **Generate items.** `generate_items()` drafts multiple-choice items with keys
   and open-ended items with rubrics from a test blueprint, and
   `generate_isomorphs()` builds item families from an item model.

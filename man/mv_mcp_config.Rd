@@ -2,16 +2,18 @@
 % Please edit documentation in R/mcp-server.R
 \name{mv_mcp_config}
 \alias{mv_mcp_config}
-\title{Settings to connect an AI client to the instructor MCP server}
+\title{Settings to connect an AI client to a mirtverse MCP server}
 \usage{
 mv_mcp_config(
   course = ".",
   client = c("claude-desktop", "claude-code", "codex", "openai-agents", "chatgpt"),
-  name = "mirtverse"
+  name = "mirtverse",
+  mode = c("course", "analysis")
 )
 }
 \arguments{
-\item{course}{path to the course folder.}
+\item{course}{path to the course folder, or with \code{mode = "analysis"} the
+project folder that holds your data.}
 
 \item{client}{one of \code{"claude-desktop"}, \code{"claude-code"}, \code{"codex"}
 (OpenAI Codex CLI and IDE extension), \code{"openai-agents"} (OpenAI Agents
@@ -19,16 +21,21 @@ SDK for Python) or \code{"chatgpt"} (ChatGPT developer mode, which connects
 over HTTP).}
 
 \item{name}{the name the client shows for the server.}
+
+\item{mode}{\code{"course"} for the instructor server (\code{\link[=mv_mcp_server]{mv_mcp_server()}}) or
+\code{"analysis"} for the analysis agent (\code{\link[=mv_agent_server]{mv_agent_server()}}).}
 }
 \value{
 The configuration text, invisibly. It is also printed.
 }
 \description{
 Prints the configuration that tells an AI client how to start
-\code{\link[=mv_mcp_server]{mv_mcp_server()}} for your course folder, with the full path to \code{Rscript}
-filled in, and where the settings go.
+\code{\link[=mv_mcp_server]{mv_mcp_server()}} for your course folder, or \code{\link[=mv_agent_server]{mv_agent_server()}} for an
+analysis project, with the full path to \code{Rscript} filled in, and where the
+settings go.
 }
 \examples{
 mv_mcp_config("~/courses/edpy507", client = "claude-desktop")
 mv_mcp_config("~/courses/edpy507", client = "codex")
+mv_mcp_config("~/projects/math-test", client = "claude-desktop", mode = "analysis")
 }
