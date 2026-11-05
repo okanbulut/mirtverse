@@ -9,6 +9,18 @@
 Source:
 [`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/main/inst/CITATION)
 
+Bulut, O. (2026). mirtverse: Accessible, AI-ready item response theory
+in R with mirt \[Preprint\]. PsyArXiv.
+https://doi.org/10.31234/osf.io/j9ya7_v1
+
+    @Misc{,
+      title = {{mirtverse}: Accessible, {AI}-Ready Item Response Theory in {R} with {mirt}},
+      author = {Okan Bulut},
+      year = {2026},
+      howpublished = {PsyArXiv preprint},
+      doi = {10.31234/osf.io/j9ya7_v1},
+    }
+
 Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for
 'mirt' (Version 0.2.0) \[R package\]. Zenodo.
 https://doi.org/10.5281/zenodo.23836292
