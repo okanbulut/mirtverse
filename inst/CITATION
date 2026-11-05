@@ -1,4 +1,16 @@
 bibentry(
+  bibtype = "Misc",
+  title = "{mirtverse}: Accessible, {AI}-Ready Item Response Theory in {R} with {mirt}",
+  author = person("Okan", "Bulut"),
+  year = "2026",
+  howpublished = "PsyArXiv preprint",
+  doi = "10.31234/osf.io/j9ya7_v1",
+  textVersion = paste(
+    "Bulut, O. (2026). mirtverse: Accessible, AI-ready item response theory in R with mirt",
+    "[Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/j9ya7_v1")
+)
+
+bibentry(
   bibtype = "Manual",
   title = "{mirtverse}: A Friendly Workflow and Reporting Layer for 'mirt'",
   author = person("Okan", "Bulut"),
