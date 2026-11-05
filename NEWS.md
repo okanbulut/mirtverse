@@ -1,5 +1,9 @@
 # mirtverse (development version)
 
+* The paper describing mirtverse is out as a preprint on PsyArXiv
+  (<https://doi.org/10.31234/osf.io/j9ya7_v1>). It is cited in the README, in
+  `citation("mirtverse")` and in `CITATION.cff`.
+
 * Turkish materials: A Turkish introduction page (`articles/tr`, linked as
   "Türkçe" in the navbar and from the README) and a Turkish version of the
   two-page cheat sheet (`cheatsheet/mirtverse-cheatsheet-tr.pdf`). The

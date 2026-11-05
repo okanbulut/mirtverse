@@ -28,6 +28,17 @@ keywords:
   - shiny
 references:
   - type: article
+    title: "mirtverse: Accessible, AI-ready item response theory in R with mirt"
+    authors:
+      - family-names: Bulut
+        given-names: Okan
+        orcid: "https://orcid.org/0000-0001-5853-1267"
+    year: 2026
+    status: preprint
+    publisher:
+      name: PsyArXiv
+    doi: 10.31234/osf.io/j9ya7_v1
+  - type: article
     title: "mirt: A Multidimensional Item Response Theory Package for the R Environment"
     authors:
       - family-names: Chalmers

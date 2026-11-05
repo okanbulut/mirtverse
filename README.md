@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23719384.svg)](https://doi.org/10.5281/zenodo.23719384)
+[![Preprint](https://img.shields.io/badge/PsyArXiv-preprint-blue)](https://doi.org/10.31234/osf.io/j9ya7_v1)
 [![R-CMD-check](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/okanbulut/mirtverse/actions/workflows/R-CMD-check.yaml)
 [![r-universe](https://okanbulut.r-universe.dev/badges/mirtverse)](https://okanbulut.r-universe.dev/mirtverse)
 <!-- badges: end -->
@@ -113,11 +114,15 @@ the two packages at any point.
 
 Please cite mirtverse together with mirt. Run `citation("mirtverse")` in R, or use:
 
+Bulut, O. (2026). *mirtverse: Accessible, AI-ready item response theory in R with mirt* [Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/j9ya7_v1
+
 Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.2.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23836292
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the
 R environment. *Journal of Statistical Software, 48*(6), 1-29. <https://doi.org/10.18637/jss.v048.i06>
 
-To cite all versions of mirtverse, use <https://doi.org/10.5281/zenodo.23719384>,
+The preprint describes the design of mirtverse and its AI layer; the
+software citation records the version you used. To cite all versions of
+the software, use <https://doi.org/10.5281/zenodo.23719384>,
 which always resolves to the latest release. The online book has its own DOI:
 [10.5281/zenodo.23885605](https://doi.org/10.5281/zenodo.23885605).

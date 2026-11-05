@@ -26,7 +26,8 @@ def who(a):
 authors = "".join(who(a) for a in meta["authors"])
 affils = "".join(f'<p class="affil">{a["name"]}</p>' for a in meta["affiliations"])
 header = (f'<h1 class="title">{meta["title"]}</h1>{authors}{affils}<p class="date">{pre["date"]}</p>'
-          '<p class="preprint-note">Preprint. Not peer reviewed.</p>')
+          '<p class="preprint-note">Preprint. Not peer reviewed.'
+          + (f'<br>Please cite as: {pre["cite_as"]}' if pre.get("cite_as") else '') + '</p>')
 # The author note sits in the bottom margin of the first page as a footnote
 note = pre["author_note"].replace("\\", "\\\\").replace('"', '\\"')
 page_css = (f'<style>@page {{ size: Letter; margin: 2cm 2.2cm 2cm 2.2cm; '
