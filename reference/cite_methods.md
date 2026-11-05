@@ -99,7 +99,7 @@ cite_methods(mod, sample = "law school applicants",
              items = "items from the Law School Admission Test")
 #> Analyses were conducted in R (version 4.6.2; R Core Team, 2026) with
 #> the mirt package (version 1.48; Chalmers, 2012) for item response
-#> theory (IRT) and the mirtverse package (version 0.2.0; Bulut, 2026) for
+#> theory (IRT) and the mirtverse package (version 0.3.0; Bulut, 2026) for
 #> model comparison, fit summaries and reporting.
 #> 
 #> A unidimensional two-parameter logistic (2PL) model (Birnbaum, 1968)
@@ -124,7 +124,7 @@ cite_methods(mod, sample = "law school applicants",
 #>     estimation of item parameters: Application of an EM algorithm.
 #>     *Psychometrika, 46*(4), 443–459. https://doi.org/10.1007/BF02293801
 #> Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
-#>     for 'mirt'* (Version 0.2.0) [R package]. Zenodo.
+#>     for 'mirt'* (Version 0.3.0) [R package]. Zenodo.
 #>     https://doi.org/10.5281/zenodo.23719384
 #> Chalmers, R. P. (2012). mirt: A multidimensional item response theory
 #>     package for the R environment. *Journal of Statistical Software,
@@ -147,7 +147,7 @@ sel <- select_model(expand.table(LSAT7), verbose = FALSE)
 cite_methods(sel)
 #> Analyses were conducted in R (version 4.6.2; R Core Team, 2026) with
 #> the mirt package (version 1.48; Chalmers, 2012) for item response
-#> theory (IRT) and the mirtverse package (version 0.2.0; Bulut, 2026) for
+#> theory (IRT) and the mirtverse package (version 0.3.0; Bulut, 2026) for
 #> model comparison, fit summaries and reporting.
 #> 
 #> A unidimensional Rasch model (Rasch, 1960) was fitted to the responses
@@ -174,7 +174,7 @@ cite_methods(sel)
 #>     estimation of item parameters: Application of an EM algorithm.
 #>     *Psychometrika, 46*(4), 443–459. https://doi.org/10.1007/BF02293801
 #> Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
-#>     for 'mirt'* (Version 0.2.0) [R package]. Zenodo.
+#>     for 'mirt'* (Version 0.3.0) [R package]. Zenodo.
 #>     https://doi.org/10.5281/zenodo.23719384
 #> Chalmers, R. P. (2012). mirt: A multidimensional item response theory
 #>     package for the R environment. *Journal of Statistical Software,

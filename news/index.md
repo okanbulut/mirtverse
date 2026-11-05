@@ -1,6 +1,6 @@
 # Changelog
 
-## mirtverse (development version)
+## mirtverse 0.3.0
 
 - The paper describing mirtverse is out as a preprint on PsyArXiv
   (<https://doi.org/10.31234/osf.io/j9ya7_v1>). It is cited in the

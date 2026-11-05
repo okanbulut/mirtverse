@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/v0.3.0/inst/CITATION)
 
 Bulut, O. (2026). mirtverse: Accessible, AI-ready item response theory
 in R with mirt \[Preprint\]. PsyArXiv.
@@ -22,15 +22,15 @@ https://doi.org/10.31234/osf.io/j9ya7_v1
     }
 
 Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for
-'mirt' (Version 0.2.0) \[R package\]. Zenodo.
-https://doi.org/10.5281/zenodo.23836292
+'mirt' (Version 0.3.0) \[R package\]. Zenodo.
+https://doi.org/10.5281/zenodo.23719384
 
     @Manual{,
       title = {{mirtverse}: A Friendly Workflow and Reporting Layer for 'mirt'},
       author = {Okan Bulut},
       year = {2026},
-      note = {R package version 0.2.0},
-      doi = {10.5281/zenodo.23836292},
+      note = {R package version 0.3.0},
+      doi = {10.5281/zenodo.23719384},
       url = {https://github.com/okanbulut/mirtverse},
     }
 
