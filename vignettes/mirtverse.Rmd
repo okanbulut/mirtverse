@@ -1,8 +1,8 @@
 ---
-title: "Getting started with mirtverse"
+title: "Tutorial: A first analysis with mirtverse"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting started with mirtverse}
+  %\VignetteIndexEntry{Tutorial: A first analysis with mirtverse}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

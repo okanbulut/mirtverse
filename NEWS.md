@@ -1,5 +1,11 @@
 # mirtverse 0.3.0
 
+* Site navigation: The "Get started" menu item is now "Tutorial", and the
+  article it opens is retitled "Tutorial: A first analysis with mirtverse",
+  so it no longer sits next to "Start here" with a similar name. The
+  Articles menu no longer repeats the audience pages that are already in
+  the "Start here" menu.
+
 * The paper describing mirtverse is out as a preprint on PsyArXiv
   (<https://doi.org/10.31234/osf.io/j9ya7_v1>). It is cited in the README, in
   `citation("mirtverse")` and in `CITATION.cff`.

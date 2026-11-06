@@ -85,7 +85,7 @@ read a distractor analysis.
 * **Key terms:** [Classical test theory](glossary.html#classical-test-theory),
   [sum score](glossary.html#sum-score), [p-value](glossary.html#p-value),
   [item-total correlation](glossary.html#item-total-correlation).
-* **Read:** [Getting started](mirtverse.html); "The story" and "Start a lab"
+* **Read:** [The tutorial](mirtverse.html); "The story" and "Start a lab"
   in [Teaching labs](teaching-labs.html).
 * **Run:** `key2binary()`, `itemstats()` (mirt), `profile_data()`.
 * **Lab:** The first two sections of Lab 1 (`run_lab("model-choice")`),
@@ -107,7 +107,7 @@ models, fit them with `mirt()`, and read an item characteristic curve.
   [difficulty](glossary.html#difficulty),
   [discrimination](glossary.html#discrimination),
   [guessing](glossary.html#guessing).
-* **Read:** Sections 1 to 4 of [Getting started](mirtverse.html).
+* **Read:** Sections 1 to 4 of [the tutorial](mirtverse.html).
 * **Run:** `mirt()`, `coef(mod, IRTpars = TRUE)`, `gg_trace()`,
   `item_table()`, `interpret()`.
 * **Data:** `LSAT7` (expand it with `expand.table()`).
@@ -127,7 +127,7 @@ with likelihood-ratio tests and information criteria.
   test](glossary.html#likelihood-ratio-test), [information
   criteria](glossary.html#information-criteria), [M2](glossary.html#m2),
   [RMSEA](glossary.html#rmsea).
-* **Read:** "Let mirtverse pick a model" in [Getting started](mirtverse.html).
+* **Read:** "Let mirtverse pick a model" in [the tutorial](mirtverse.html).
 * **Run:** `select_model()`, `anova()`, `M2()`, `glance_mirt()`,
   `tidy_mirt()`.
 * **Data:** `LSAT7` and `SAT12` (scored with `key2binary()`).

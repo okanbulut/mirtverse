@@ -1172,7 +1172,7 @@ psychometric ancestor of predicting item difficulty from item text.
 
 ## Where to go next {#next}
 
-- The [Get started](../articles/mirtverse.html) article walks through a
+- The [tutorial](../articles/mirtverse.html) walks through a
   complete analysis using most of these terms.
 - The [teaching labs](../articles/teaching-labs.html) let you practise the
   decisions behind them on a realistic exam.

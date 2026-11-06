@@ -17,6 +17,9 @@ navbar:
     left: [start, intro, reference, articles, aihub, book, cheatsheet, news]
     right: [search, turkce, github]
   components:
+    intro:
+      text: Tutorial
+      href: articles/mirtverse.html
     start:
       text: Start here
       menu:
@@ -90,7 +93,6 @@ navbar:
 articles:
 - title: Start here
   desc: A short path for each kind of user.
-  navbar: ~
   contents:
   - articles/for-students
   - articles/for-instructors
