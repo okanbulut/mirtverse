@@ -32,17 +32,11 @@
     <li><a class="dropdown-item" href="../articles/gallery.html">Gallery of figures and outputs</a></li>
     <li><a class="dropdown-item" href="../articles/videos.html">Video demos</a></li>
   </ul></li>
-<li class="nav-item"><a class="nav-link" href="../articles/mirtverse.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/mirtverse.html">Tutorial</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/for-students.html">Start here: Students</a></li>
-    <li><a class="dropdown-item" href="../articles/for-instructors.html">Start here: Instructors</a></li>
-    <li><a class="dropdown-item" href="../articles/for-practitioners.html">Start here: Testing programs</a></li>
-    <li><a class="dropdown-item" href="../articles/for-researchers.html">Start here: Researchers</a></li>
-    <li><a class="dropdown-item" href="../articles/for-new-to-r.html">Start here: New to R</a></li>
-    <li><a class="dropdown-item" href="../articles/tr.html">mirtverse: Türkçe tanıtım</a></li>
-    <li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/workbench.html">The mirtverse workbench</a></li>
     <li><a class="dropdown-item" href="../articles/which-model.html">Which IRT model? A one-page flowchart</a></li>
     <li><a class="dropdown-item" href="../articles/response-times.html">Response times and rapid guessing</a></li>
     <li><a class="dropdown-item" href="../articles/mv-ask-guide.html">mv_ask(): From a sentence to a tested R script</a></li>
@@ -97,12 +91,13 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/okanbulut/mirtverse/blob/v0.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/okanbulut/mirtverse/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="mirtverse-030">mirtverse 0.3.0<a class="anchor" aria-label="anchor" href="#mirtverse-030"></a></h2>
-<ul><li><p>The paper describing mirtverse is out as a preprint on PsyArXiv (<a href="https://doi.org/10.31234/osf.io/j9ya7_v1" class="external-link uri">https://doi.org/10.31234/osf.io/j9ya7_v1</a>). It is cited in the README, in <code>citation("mirtverse")</code> and in <code>CITATION.cff</code>.</p></li>
+<ul><li><p>Site navigation: The “Get started” menu item is now “Tutorial”, and the article it opens is retitled “Tutorial: A first analysis with mirtverse”, so it no longer sits next to “Start here” with a similar name. The Articles menu no longer repeats the audience pages that are already in the “Start here” menu.</p></li>
+<li><p>The paper describing mirtverse is out as a preprint on PsyArXiv (<a href="https://doi.org/10.31234/osf.io/j9ya7_v1" class="external-link uri">https://doi.org/10.31234/osf.io/j9ya7_v1</a>). It is cited in the README, in <code>citation("mirtverse")</code> and in <code>CITATION.cff</code>.</p></li>
 <li><p>Turkish materials: A Turkish introduction page (<code>articles/tr</code>, linked as “Türkçe” in the navbar and from the README) and a Turkish version of the two-page cheat sheet (<code>cheatsheet/mirtverse-cheatsheet-tr.pdf</code>). The cheat sheet source is <code>data-raw/cheatsheet/cheatsheet-tr.html</code>, and <code>data-raw/cheatsheet/build.js</code> now renders both languages.</p></li>
 <li><p>New article and printable poster, “Which IRT model?”: A one-page flowchart from what one item score looks like (0/1, ordered categories, unordered options or ideal-point items) to a model and its <code>itemtype</code>, with structure questions (dimensions, testlets, groups, item features, response times, latent classes), fit checks and a QR code back to the article. The poster source is in <code>data-raw/which-model/</code>.</p></li>
 <li><p>The mirtverse agent: A plugin for Claude Code that lets Claude analyze test data with mirtverse on the user’s computer. Install it in Claude Code with <code>/plugin marketplace add okanbulut/mirtverse</code> and <code>/plugin install mirtverse@mirtverse</code>. It brings five skills (<code>analyze-test</code>, <code>check-dif</code>, <code>review-items</code>, <code>write-report</code>, <code>setup</code>), an <code>irt-analyst</code> subagent, and a new MCP server, <code><a href="../reference/mv_agent_server.html">mv_agent_server()</a></code>, whose tools fit and compare models, check items, test DIF, score people, draw plots that Claude can see, interpret the results, write the HTML report, run other R code, and save every step as one reproducible R script. Models are kept between sessions. New <code><a href="../reference/mv_agent_init.html">mv_agent_init()</a></code> sets up a folder without the plugin (a <code>CLAUDE.md</code> with the agent’s instructions and a <code>.mcp.json</code>), and <code><a href="../reference/mv_mcp_config.html">mv_mcp_config()</a></code> has a new <code>mode = "analysis"</code> for Claude Desktop, Codex and other MCP clients. A new article, “The mirtverse agent for Claude”, explains it.</p></li>

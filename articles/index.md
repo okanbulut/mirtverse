@@ -43,7 +43,7 @@ A short path for each kind of user.
 
 ### Guides
 
-- [Getting started with
+- [Tutorial: A first analysis with
   mirtverse](https://www.okanbulut.com/mirtverse/articles/mirtverse.md):
 
 - [The mirtverse

@@ -1231,9 +1231,9 @@ psychometric ancestor of predicting item difficulty from item text.
 
 ## Where to go next
 
-- The [Get
-  started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md)
-  article walks through a complete analysis using most of these terms.
+- The
+  [tutorial](https://www.okanbulut.com/mirtverse/articles/mirtverse.md)
+  walks through a complete analysis using most of these terms.
 - The [teaching
   labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md)
   let you practise the decisions behind them on a realistic exam.

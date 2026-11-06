@@ -81,8 +81,8 @@ and read a distractor analysis.
   [p-value](https://www.okanbulut.com/mirtverse/articles/glossary.html#p-value),
   [item-total
   correlation](https://www.okanbulut.com/mirtverse/articles/glossary.html#item-total-correlation).
-- **Read:** [Getting
-  started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md);
+- **Read:** [The
+  tutorial](https://www.okanbulut.com/mirtverse/articles/mirtverse.md);
   “The story” and “Start a lab” in [Teaching
   labs](https://www.okanbulut.com/mirtverse/articles/teaching-labs.md).
 - **Run:**
@@ -116,8 +116,8 @@ read an item characteristic curve.
   [difficulty](https://www.okanbulut.com/mirtverse/articles/glossary.html#difficulty),
   [discrimination](https://www.okanbulut.com/mirtverse/articles/glossary.html#discrimination),
   [guessing](https://www.okanbulut.com/mirtverse/articles/glossary.html#guessing).
-- **Read:** Sections 1 to 4 of [Getting
-  started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
+- **Read:** Sections 1 to 4 of [the
+  tutorial](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
 - **Run:**
   [`mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
   `coef(mod, IRTpars = TRUE)`,
@@ -148,8 +148,8 @@ criteria.
   criteria](https://www.okanbulut.com/mirtverse/articles/glossary.html#information-criteria),
   [M2](https://www.okanbulut.com/mirtverse/articles/glossary.html#m2),
   [RMSEA](https://www.okanbulut.com/mirtverse/articles/glossary.html#rmsea).
-- **Read:** “Let mirtverse pick a model” in [Getting
-  started](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
+- **Read:** “Let mirtverse pick a model” in [the
+  tutorial](https://www.okanbulut.com/mirtverse/articles/mirtverse.md).
 - **Run:**
   [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md),
   [`anova()`](https://rdrr.io/r/stats/anova.html),

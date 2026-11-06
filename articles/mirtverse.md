@@ -1,4 +1,4 @@
-# Getting started with mirtverse
+# Tutorial: A first analysis with mirtverse
 
 mirtverse sits on top of [mirt](https://philchalmers.github.io/mirt/).
 mirt does the estimation; mirtverse helps you choose a model, read the
