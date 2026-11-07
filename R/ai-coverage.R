@@ -19,7 +19,14 @@
 #' item mode: One column per item for right/wrong items, or one column per
 #' answer category for polytomous (for example Likert) items. With `group`
 #' and `slices = "score"` or `"theta"`, the deciles are formed within each
-#' group.
+#' group. By default the shares are then taken over all respondents, so the
+#' mix of groups counts too: A model with too few respondents from one group
+#' shows red across that group's slices. With `within_group = TRUE` the
+#' shares are taken within each group instead, so only how each group's
+#' respondents spread over that group's slices counts, and Overlap is the
+#' mean over the groups. Use it when the number of synthetic respondents per
+#' group was set by design (for example the same number for each country)
+#' and does not need to match the real data.
 #'
 #' **Overlap** is the share of synthetic respondents (or answers) that fall
 #' in the same slices as real ones: The sum over slices of the smaller of
@@ -63,6 +70,9 @@
 #' @param group optional name of a column that holds the group or persona of
 #'   each respondent, in `real` and in the synthetic data (or in the
 #'   `personas` of a [simulate_llm_respondents()] result).
+#' @param within_group with `group` and `slices = "score"` or `"theta"`,
+#'   compare the shares within each group, so that the mix of groups does
+#'   not count (see Details)?
 #' @param target with `slices = "group"` and no real data, the intended
 #'   share of each group: A named vector of proportions.
 #' @param model with `slices = "theta"`, an optional unidimensional model
@@ -102,7 +112,8 @@
 #' @export
 synthetic_coverage <- function(synthetic, real = NULL,
                                slices = c("score", "theta", "group", "item"),
-                               group = NULL, target = NULL, model = NULL,
+                               group = NULL, within_group = FALSE,
+                               target = NULL, model = NULL,
                                n_slices = 10, conf = 0.95,
                                cor = c("auto", "polychoric", "pearson"),
                                blend = TRUE, holdout = NULL, step = 0.05,
@@ -114,6 +125,8 @@ synthetic_coverage <- function(synthetic, real = NULL,
   if (is.null(real) && !(slices == "group" && !is.null(target)))
     stop("`real` is needed, except with slices = \"group\" and a `target` mix.", call. = FALSE)
   if (!is.null(real)) real <- as.data.frame(real)
+  if (within_group && (is.null(group) || !slices %in% c("score", "theta")))
+    stop("`within_group = TRUE` needs `group` and slices = \"score\" or \"theta\".", call. = FALSE)
   if (slices == "group" && is.null(group))
     stop("slices = \"group\" needs `group`, the name of the group or persona column.", call. = FALSE)
 
@@ -139,7 +152,7 @@ synthetic_coverage <- function(synthetic, real = NULL,
   }
 
   # slice definitions from the real data (or the target)
-  def <- coverage_slices(slices, real, items, group, target, model, n_slices)
+  def <- coverage_slices(slices, real, items, group, target, model, n_slices, within_group)
   notes <- c(notes, def$notes)
 
   # shares per model and attempt
@@ -176,7 +189,7 @@ synthetic_coverage <- function(synthetic, real = NULL,
 
   out <- structure(list(
     cells = NULL, attempts = NULL, summary = NULL, blend = NULL, slices = def,
-    settings = list(slices = slices, group = group, conf = conf, z = z, cor = cor_method,
+    settings = list(slices = slices, group = group, within_group = within_group, conf = conf, z = z, cor = cor_method,
                     items = items, n_slices = n_slices),
     data = list(synthetic = syn, real = if (!is.null(real)) real[c(items, intersect(".group", names(real)))]),
     notes = notes), class = "mv_coverage")
@@ -427,7 +440,8 @@ coverage_attach_group <- function(d, group) {
 
 # ---- internal: slices ---------------------------------------------------
 
-coverage_slices <- function(slices, real, items, group, target, model, n_slices) {
+coverage_slices <- function(slices, real, items, group, target, model, n_slices,
+                            within_group = FALSE) {
   notes <- character()
   if (slices == "item") return(coverage_item_slices(real, items))
   if (slices == "group") {
@@ -507,12 +521,13 @@ coverage_slices <- function(slices, real, items, group, target, model, n_slices)
     lab[cut_g$n] <- sprintf("Highest %d%%", 100 - lo[cut_g$n])
     cuts[[g]] <- cut_g
     tab[[g]] <- data.frame(slice = paste(g, seq_len(cut_g$n), sep = "::"), item = g, label = lab,
-                           column = seq_len(cut_g$n), real = share, stringsAsFactors = FALSE)
+                           column = seq_len(cut_g$n), real = if (within_group) within else share,
+                           stringsAsFactors = FALSE)
   }
   tab <- do.call(rbind, tab)
   rownames(tab) <- NULL
   list(type = slices, table = tab, cuts = cuts, score = score_fun, grouped = !is.null(group),
-       display = "ratio", notes = notes, axis = axis, levels = lev)
+       within = isTRUE(within_group), display = "ratio", notes = notes, axis = axis, levels = lev)
 }
 
 score_cuts <- function(x, n) {
@@ -582,18 +597,19 @@ coverage_shares <- function(def, d, items) {
   if (length(unknown))
     stop("Synthetic groups not in the real data: ", paste(utils::head(unknown, 5), collapse = ", "),
          ".", call. = FALSE)
-  share <- numeric(nrow(tab))
+  share <- numeric(nrow(tab)); n <- rep(length(sc), nrow(tab))
   for (g in def$levels) {
     rows <- which(tab$item == g)
     k <- score_assign(sc[grp == g], def$cuts[[g]])
-    share[rows] <- tabulate(k, def$cuts[[g]]$n) / max(1, length(sc))
+    if (isTRUE(def$within)) n[rows] <- length(k)
+    share[rows] <- tabulate(k, def$cuts[[g]]$n) / max(1, if (isTRUE(def$within)) length(k) else length(sc))
   }
-  list(share = share, n = rep(length(sc), nrow(tab)))
+  list(share = share, n = n)
 }
 
 coverage_overlap <- function(share, def) {
   tab <- def$table
-  if (def$type == "item") {
+  if (def$type == "item" || isTRUE(def$within)) {
     per <- tapply(pmin(share, tab$real), tab$item, sum)
     return(mean(per, na.rm = TRUE))
   }
@@ -831,7 +847,8 @@ plot_coverage <- function(x, items, page, n_pages, before, title, subtitle) {
     item = if (binary) sprintf("How closely each item's proportion correct matches the real one (100%% = identical), averaged over all %d items.", length(x$settings$items))
            else sprintf("The share of synthetic answers that fall in the same category as real answers would, averaged over all %d items.", length(x$settings$items)),
     group = "The share of synthetic respondents in the same groups as the real (or target) population (100% = the same mix).",
-    "The share of synthetic respondents who land in the same slices as real respondents (100% = the same mix as the real data).")
+    if (isTRUE(def$within)) sprintf("Within each group, the share of synthetic respondents who land in the same slices as real respondents of that group, averaged over the %d groups.", length(def$levels))
+    else "The share of synthetic respondents who land in the same slices as real respondents (100% = the same mix as the real data).")
   lines <- c(sprintf('bold("%s:")~"%s"', ov_name, coverage_plotmath(ov_def)))
   if (has_structure) lines <- c(lines, sprintf('bold("Structure:")~"%s"', coverage_plotmath(
     sprintf("How closely the correlations between items match the real ones (%s correlations; 100%% = identical).",

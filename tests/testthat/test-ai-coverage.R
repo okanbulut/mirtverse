@@ -94,6 +94,25 @@ test_that("group slices work with a target and with real groups", {
   expect_s3_class(gg_coverage(within), "patchwork")
 })
 
+test_that("within_group ignores the mix of groups", {
+  dd <- cov_data(n_att = 2)
+  real <- dd$real
+  real$country <- rep(c("Canada", "UK"), c(800, 200))
+  # a copy of the real respondents, but with equal numbers per country
+  copy <- rbind(real[real$country == "Canada", ][1:200, ], real[real$country == "UK", ])
+  pooled <- synthetic_coverage(list(Copy = list(copy, copy)), real, group = "country",
+                               n_slices = 4, blend = FALSE)
+  within <- synthetic_coverage(list(Copy = list(copy, copy)), real, group = "country",
+                               n_slices = 4, within_group = TRUE, blend = FALSE)
+  expect_lt(pooled$summary$overlap_overall, 0.75)
+  expect_gt(within$summary$overlap_overall, 0.9)
+  expect_true(within$slices$within)
+  # each country's real shares sum to one
+  expect_equal(as.vector(tapply(within$slices$table$real, within$slices$table$item, sum)), c(1, 1))
+  expect_s3_class(gg_coverage(within), "patchwork")
+  expect_error(synthetic_coverage(dd$syn, real, within_group = TRUE), "needs `group`")
+})
+
 test_that("theta slices and the default plot work", {
   dd <- cov_data(n_att = 2, n = 80)
   cov <- synthetic_coverage(dd$syn, dd$real, slices = "theta", n_slices = 5, blend = FALSE)
