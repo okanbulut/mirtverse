@@ -53,10 +53,12 @@ Suggests:
     rstudioapi,
     withr,
     haven,
-    httpuv
+    httpuv,
+    polycor
 Config/Needs/website: rsconnect
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://www.okanbulut.com/mirtverse/, https://github.com/okanbulut/mirtverse
 BugReports: https://github.com/okanbulut/mirtverse/issues
 Config/roxygen2/version: 8.1.0
+RoxygenNote: 7.3.1
