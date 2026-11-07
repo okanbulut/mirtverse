@@ -9,6 +9,7 @@ synthetic_coverage(
   real = NULL,
   slices = c("score", "theta", "group", "item"),
   group = NULL,
+  within_group = FALSE,
   target = NULL,
   model = NULL,
   n_slices = 10,
@@ -35,6 +36,10 @@ matched by name). Can be \code{NULL} with \code{slices = "group"} and \code{targ
 \item{group}{optional name of a column that holds the group or persona of
 each respondent, in \code{real} and in the synthetic data (or in the
 \code{personas} of a \code{\link[=simulate_llm_respondents]{simulate_llm_respondents()}} result).}
+
+\item{within_group}{with \code{group} and \code{slices = "score"} or \code{"theta"},
+compare the shares within each group, so that the mix of groups does
+not count (see Details)?}
 
 \item{target}{with \code{slices = "group"} and no real data, the intended
 share of each group: A named vector of proportions.}
@@ -90,7 +95,14 @@ named by \code{group} (for example personas), and \code{slices = "item"} switche
 item mode: One column per item for right/wrong items, or one column per
 answer category for polytomous (for example Likert) items. With \code{group}
 and \code{slices = "score"} or \code{"theta"}, the deciles are formed within each
-group.
+group. By default the shares are then taken over all respondents, so the
+mix of groups counts too: A model with too few respondents from one group
+shows red across that group's slices. With \code{within_group = TRUE} the
+shares are taken within each group instead, so only how each group's
+respondents spread over that group's slices counts, and Overlap is the
+mean over the groups. Use it when the number of synthetic respondents per
+group was set by design (for example the same number for each country)
+and does not need to match the real data.
 
 \strong{Overlap} is the share of synthetic respondents (or answers) that fall
 in the same slices as real ones: The sum over slices of the smaller of
