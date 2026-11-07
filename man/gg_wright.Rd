@@ -7,7 +7,8 @@
 gg_wright(x, method = "EAP", thresholds = TRUE, bins = 30)
 }
 \arguments{
-\item{x}{a unidimensional model returned by \code{\link[mirt:mirt]{mirt::mirt()}}.}
+\item{x}{a unidimensional model returned by \code{\link[mirt:mirt]{mirt::mirt()}}, or a
+\code{\link[=rater_facets]{rater_facets()}} or \code{\link[=scoring_shift]{scoring_shift()}} result.}
 
 \item{method}{scoring method for persons, passed to \code{\link[mirt:fscores]{mirt::fscores()}}.}
 
@@ -23,6 +24,12 @@ A patchwork object (a combined ggplot).
 Places the distribution of person estimates beside the item locations on
 the same latent scale, so you can see whether the test is targeted at the
 examinees. Polytomous items show each threshold.
+}
+\details{
+For automated scoring, \code{x} can also be a \code{\link[=rater_facets]{rater_facets()}} result, which
+adds a column of rater severities (human raters and the AI engine on the
+same scale), or a \code{\link[=scoring_shift]{scoring_shift()}} result, which shows the person
+distributions and item thresholds under human and under machine scoring.
 }
 \examples{
 mod <- mirt(Science, 1, verbose = FALSE)

@@ -12,7 +12,10 @@
   weighted kappa**, the **standardized mean difference** and **PRMSE**,
   overall and within groups, using `agreement_report()`;
 * recognize **construct-irrelevant** features that an engine can reward,
-  and choose how much of the scoring an engine should do.
+  and choose how much of the scoring an engine should do;
+* place human raters and an engine on the **Wright map** with a many-facet
+  Rasch model (`rater_facets()`), and see what machine scoring does to item
+  thresholds and test scores (`scoring_shift()`).
 </div>
 
 **Key terms:**
@@ -20,7 +23,8 @@
 [PRMSE](https://www.okanbulut.com/mirtverse/articles/glossary.html#prmse),
 [feature](https://www.okanbulut.com/mirtverse/articles/glossary.html#feature),
 [overfitting and cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation),
-[human-in-the-loop](https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop).
+[human-in-the-loop](https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop),
+[Wright map](https://www.okanbulut.com/mirtverse/articles/glossary.html#wright-map).
 
 ## The ideas
 
@@ -212,6 +216,102 @@ engine was not built for. A check scorer design does the last part
 automatically: Answers on which human and machine disagree go to a second
 reader.
 
+## Example 3: The engine on the Wright map
+
+Agreement statistics are on the score scale of one item. A testing program
+reports on the **logit scale** of the whole test, where items are banked and
+students are scored, and the Wright map (Chapter \@ref(scoring)) shows
+that scale with students and items side by side. An engine can be put on
+it too, in two ways.
+
+The first treats the engine as **one more rater**. A many-facet Rasch model
+[@linacre1989] adds a rater facet to the partial credit model,
+$$\mathrm{logit}\, P(X_{pir} = k \mid k-1 \text{ or } k) = \theta_p - \delta_{ik} - \lambda_r,$$
+so each rater $r$, human or machine, gets a **severity** $\lambda_r$ on
+the same scale as the students' $\theta_p$ and the thresholds
+$\delta_{ik}$. `rater_facets()` fits it as an explanatory IRT model with
+the eirm package [@bulut2021]. With `by_item = TRUE` each rater gets a
+severity for each item, the rater-by-item bias terms of a facets analysis.
+
+The second asks what machine scores do to the **items**. `scoring_shift()`
+calibrates the same students twice, once with human and once with machine
+scores, links the two calibrations through items the engine does not score,
+and compares the thresholds. It also scores every student's machine-scored
+answers with the human calibration, which is what happens when a bank
+calibrated on human scores is used with an engine.
+
+We simulate a science test of 600 students with 10 multiple-choice items
+and three written answers scored 0 to 3. A trained rater reads every
+answer, a second rater half of them, and an engine all of them. The engine
+misses one of the ideas on Q2, but you would not know that from its average
+over the three items.
+
+```{r data-auto-scoring-3}
+# A test with 10 multiple-choice items and three written answers (Q1 to Q3),
+# scored 0 to 3 by one or two raters and by an engine.
+set.seed(1617)
+n <- 600
+theta <- rnorm(n)
+mc <- data.frame(student = sprintf("S%03d", 1:n),
+                 sapply(seq(-1.5, 1.5, length.out = 10), function(b)
+                   as.integer(runif(n) < plogis(1.2 * (theta - b)))))
+names(mc)[-1] <- sprintf("MC%02d", 1:10)
+read <- function(true) pmin(3, pmax(0, true + sample(c(-1, 0, 0, 0, 0, 1), length(true), TRUE)))
+written <- do.call(rbind, lapply(1:3, function(j) {
+  true <- rowSums(sapply(c(-1, 0, 1) + c(-0.2, 0, 0.2)[j],
+                         function(b) runif(n) < plogis(1.5 * (theta - b))))
+  machine <- read(true)
+  if (j == 2) {                      # the engine misses an idea on Q2
+    miss <- machine > 0 & runif(n) < 0.35
+    machine[miss] <- machine[miss] - 1
+  }
+  data.frame(student = mc$student, item = paste0("Q", j), human1 = read(true),
+             human2 = ifelse(runif(n) < 0.5, read(true), NA), machine = machine)
+}))
+```
+
+Each row of `written` is one answer with its three scores. Fit the facets
+model with a severity for each rater on each item:
+
+```{r}
+fx <- rater_facets(written, raters = c("human1", "human2", "machine"), by_item = TRUE,
+                   labels = c("Rater 1", "Rater 2", "Engine"))
+fx
+```
+
+Overall, the engine is only 0.1 logits harsher than the average rater, well
+within the range of the two people. Item by item it is not: On Q2 it is
+about 0.4 logits harsher than the human raters, several standard errors from
+zero. Figure \@ref(fig:auto-facets) draws the map. The faint points in the
+rater column are the severities by item, and Q2's engine point sits apart.
+
+```{r auto-facets, fig.height = 4.2, fig.cap = "Wright map with a rater facet: Students (left), the thresholds of the three written answers (middle), and the severity of the two human raters and the engine (right), all on one logit scale. The faint points are each rater's severity on each item."}
+gg_wright(fx)
+```
+
+Now the items. Calibrate with human and with machine scores, linked through
+the multiple-choice items:
+
+```{r}
+sh <- scoring_shift(written, human = "human1", anchors = mc)
+sh
+```
+
+All three Q2 thresholds move up by about half a logit when the engine
+scores (Figure \@ref(fig:auto-shift)). A bank calibrated on machine scores
+would record Q2 as a harder item than it is, and a cut score set on it would
+move with it. The students' test scores move less, by about 0.04 SD,
+because Q2 is one item among 13. A small change in the total does not mean
+the engine is harmless: It is concentrated on one item, and in Lab 10 it is
+concentrated on one group of students.
+
+```{r auto-shift, fig.height = 4, fig.cap = "Wright map of human vs AI scoring: The students' scores (left) and the thresholds of each written answer (right) from human scores (circles) and machine scores (triangles). Thick lines mark thresholds that move by more than 0.3 logits."}
+gg_wright(sh)
+```
+
+Both results can join an audit: `ai_audit(components = list(fx, sh))`
+adds their flags to the checks of Chapter \@ref(ai-validity).
+
 ## Your turn
 
 <div class="yourturn">
@@ -227,6 +327,9 @@ reader.
 4. Your program is offered an engine with a QWK of 0.86 against one rater
    on a vendor's own test set. List three more pieces of evidence you would
    want before using it as the sole scorer.
+5. In Example 3, fit `rater_facets()` without `by_item = TRUE`. Is the
+   engine flagged? What does that tell you about checking an engine on
+   average?
 </div>
 
 <details><summary>Solutions</summary>
@@ -244,6 +347,10 @@ agreement_report(predict(engine_100, test), test$human1, test$human2)[, c("qwk",
 # 3. agreement with the second rater
 d <- !is.na(test$human2)
 agreement_report(test$machine[d], test$human2[d])[, c("n", "qwk")]
+
+# 5. one severity per rater
+rater_facets(written, raters = c("human1", "human2", "machine"),
+             labels = c("Rater 1", "Rater 2", "Engine"))
 ```
 
 1. Agreement does not change, and length gets a small weight. Here the
@@ -264,6 +371,10 @@ agreement_report(test$machine[d], test$human2[d])[, c("n", "qwk")]
    learners [@bridgeman2012]; PRMSE on double-scored responses; evidence that
    it does not reward length or key-word lists; and how unusual responses
    are routed to people.
+5. No: Averaged over the three items, the engine is about 0.1 logits harsher
+   than the people, inside the 0.3-logit limit. Its Q2 problem is diluted
+   by two items it scores well. Check an engine item by item, and group by
+   group, as `by_item = TRUE` and `group` do.
 
 </details>
 
@@ -272,7 +383,10 @@ agreement_report(test$machine[d], test$human2[d])[, c("n", "qwk")]
 <div class="lab">
 Lab 7, `run_lab("auto-scoring")`, trains an engine on 1,600 science
 explanations, checks it the way a testing program would, and asks whether it
-can score on its own. The [AI
+can score on its own, and places it on the Wright map next to the human
+readers. Lab 10, `run_lab("ai-audit")`, audits an engine that has been
+scoring a state test for two years and draws both Wright maps of Example 3.
+The [AI
 Hub](https://www.okanbulut.com/mirtverse/articles/ai-hub.html) collects the
 other AI tools in mirtverse, and `score_open()` uses a trained engine, or a
 language model, inside the assessment pipeline.
@@ -285,4 +399,7 @@ framework used in this chapter. Yan, Rupp and Foltz [-@yan2020] cover
 scoring engines and their operational use in depth. Loukina et al.
 [-@loukina2020] explain PRMSE, and Bridgeman, Trapani and Attali
 [-@bridgeman2012] show how an engine can differ from human raters for some
-groups of test takers.
+groups of test takers. Linacre [-@linacre1989] introduced the many-facet
+Rasch model for rater effects, and Bulut, Gorgun and Yildirim-Erbasli
+[-@bulut2021] show how to fit it and other explanatory IRT models as
+generalized linear mixed models with the eirm package.

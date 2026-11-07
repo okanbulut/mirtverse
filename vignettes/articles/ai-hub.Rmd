@@ -58,7 +58,7 @@ names the question it answers, what to read and what to try in R.
 | 1. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](ai-translation.html); the AI section of the [glossary](glossary.html#ai) | — |
 | 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
 | 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()`; `simulate_llm_respondents()` (experimental) |
-| 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`; [Lab 7](teaching-labs.html#lab-7) |
+| 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`, `rater_facets()`, `scoring_shift()`; [Lab 7](teaching-labs.html#lab-7) |
 | 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](../book/aig.html); [assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `item_model()`, `generate_isomorphs()`, `calibrate_families()`, `generate_items()`, `verify_items()`; [Lab 9](teaching-labs.html#lab-9) |
 | 7. Validity and fairness | What evidence does an AI component need before it is used? | Book: [Validity, fairness and governance of AI](../book/ai-validity.html); [reading list: Validity](ai-reading.html#validity) | `ai_audit()`, `validity_argument()`, `dif()`; [Lab 10](teaching-labs.html#lab-10) |
@@ -174,6 +174,26 @@ versions; with `responses` it adds DIF on the test as scored, and with
 `validity_argument()` maps the results to the inferences of a validity
 argument and lists the evidence still owed, such as human oversight and
 appeals.
+
+### Put the engine on the Wright map
+
+```{r}
+read <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+fx <- rater_facets(read, raters = c("human1", "human2", "machine"),
+                   group = "group", by_item = TRUE)   # many-facet Rasch model via eirm
+gg_wright(fx)                                         # students, items and raters on one scale
+mc <- aiscored[aiscored$year == 2026, c("student", sprintf("MC%02d", 1:16))]
+sh <- scoring_shift(aiscored_cr[aiscored_cr$year == 2026, ], anchors = mc)
+gg_wright(sh)                                         # thresholds under human vs machine scoring
+ai_audit(components = list(fx, sh))                   # their flags in an audit
+```
+
+`rater_facets()` treats the engine as one more rater in a many-facet Rasch
+model, so its severity sits on the same logit scale as the students and
+the items, overall and by item and group. `scoring_shift()` calibrates the
+AI-scored items with human and with machine scores, links the two through
+the other items, and shows how far each threshold and each group's scores
+move.
 
 ### Simulate respondents (experimental)
 

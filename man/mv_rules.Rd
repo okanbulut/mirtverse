@@ -72,11 +72,12 @@ name.
    \code{qwk_drop} \tab 0.10 \tab largest acceptable drop from human-human to machine-human QWK \cr
    \code{score_smd} \tab 0.15 \tab largest standardized mean difference between machine and human scores \cr
    \code{subgroup_smd} \tab 0.10 \tab largest machine-human standardized mean difference within a group \cr
+   \code{rater_bias} \tab 0.3 \tab largest gap (logits) between an AI rater's severity and the human raters' in \code{\link[=rater_facets]{rater_facets()}} \cr
    \code{min_confidence}, \code{min_words} \tab 0.5, 3 \tab machine scores below this confidence, or responses shorter than this, go to human scoring \cr
    \code{max_se} \tab 1 \tab standard error above which a test taker's score is flagged as imprecise \cr
    \code{preknowledge_alpha} \tab 0.001 \tab significance level of the preknowledge likelihood ratio test \cr
    \code{leak_p}, \code{leak_rt} \tab 0.15, 0.25 \tab rise in proportion correct and relative fall in median time that suggest a leaked item \cr
-   \code{drift_a}, \code{drift_b} \tab 0.3, 0.3 \tab largest change in an item's slope and difficulty from its bank value \cr
+   \code{drift_a}, \code{drift_b} \tab 0.3, 0.3 \tab largest change in an item's slope and difficulty from its bank value (and between human and machine scoring in \code{\link[=scoring_shift]{scoring_shift()}}) \cr
    \code{copy_alpha} \tab 0.001 \tab family-wise significance level of the identical-incorrect-answers index \cr
    \code{rt_resid}, \code{rt_share} \tab -3, 0.20 \tab log-time residual, and share of items below it, that flag aberrant timing \cr
    \code{site_alpha} \tab 0.001 \tab significance level for a site with too many flagged test takers \cr

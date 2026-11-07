@@ -128,7 +128,13 @@ plot_test_info <- function(df, type = "test") {
 #' the same latent scale, so you can see whether the test is targeted at the
 #' examinees. Polytomous items show each threshold.
 #'
-#' @param x a unidimensional model returned by [mirt::mirt()].
+#' For automated scoring, `x` can also be a [rater_facets()] result, which
+#' adds a column of rater severities (human raters and the AI engine on the
+#' same scale), or a [scoring_shift()] result, which shows the person
+#' distributions and item thresholds under human and under machine scoring.
+#'
+#' @param x a unidimensional model returned by [mirt::mirt()], or a
+#'   [rater_facets()] or [scoring_shift()] result.
 #' @param method scoring method for persons, passed to [mirt::fscores()].
 #' @param thresholds logical; plot every threshold of polytomous items rather
 #'   than their average location.
@@ -139,6 +145,8 @@ plot_test_info <- function(df, type = "test") {
 #' gg_wright(mod)
 #' @export
 gg_wright <- function(x, method = "EAP", thresholds = TRUE, bins = 30) {
+  if (inherits(x, "mv_facets")) return(autoplot.mv_facets(x, type = "wright", bins = bins))
+  if (inherits(x, "mv_shift")) return(autoplot.mv_shift(x))
   check_single(x); check_unidim(x, "gg_wright()")
   th <- as.numeric(mirt::fscores(x, method = method, verbose = FALSE)[, 1])
   th <- th[is.finite(th)]
@@ -154,7 +162,16 @@ wright_bins <- function(th, bins = 30) {
 }
 
 plot_wright <- function(persons, items) {
-  lim <- range(c(persons$lo, persons$hi, items$difficulty), na.rm = TRUE) + c(-0.25, 0.25)
+  pn <- wright_panels(persons, items)
+  patchwork::wrap_plots(pn[[1]], pn[[2]], widths = c(1, 2)) +
+    patchwork::plot_annotation(title = "Wright map",
+                               theme = ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")))
+}
+
+# The person and item panels of a Wright map, on a shared range `lim`
+wright_panels <- function(persons, items, lim = NULL) {
+  if (is.null(lim))
+    lim <- range(c(persons$lo, persons$hi, items$difficulty), na.rm = TRUE) + c(-0.25, 0.25)
   p1 <- ggplot2::ggplot(persons) +
     ggplot2::geom_rect(ggplot2::aes(xmin = 0, xmax = count, ymin = lo, ymax = hi),
                        fill = mv_colours[["primary"]], colour = "white") +
@@ -171,9 +188,7 @@ plot_wright <- function(persons, items) {
     theme_mirtverse() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
   if (length(unique(items$label)) == 1L) p2 <- p2 + ggplot2::guides(shape = "none")
-  patchwork::wrap_plots(p1, p2, widths = c(1, 2)) +
-    patchwork::plot_annotation(title = "Wright map",
-                               theme = ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")))
+  list(p1, p2)
 }
 
 wright_items <- function(x, thresholds = TRUE) {

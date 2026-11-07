@@ -269,6 +269,83 @@ autoplot(audit)
 "Two blocks, from two different checks: Differential scoring on CR2 and drift on CR3. Review flags for CR4's agreement and CR2's DIF, and information on MC07. No single statistic would have found them all."
 ```
 
+## The audit on the Wright map
+
+### Raters on one scale
+
+The audit compares scores. A many-facet Rasch model compares **raters**: It
+puts the two human readers and the engine on the same logit scale as the
+students and the items, so a harsh engine sits above the people on the
+Wright map. `rater_facets()` fits it with the eirm package. With
+`by_item = TRUE` and the `group`, each rater gets a severity for every item
+and group, which is where a targeted bias shows up. Fit it to the validity
+sample, `read`. This takes about 20 seconds.
+
+```{r facets, exercise = TRUE, exercise.setup = "setup-read", exercise.timelimit = 180}
+fx <- rater_facets(read, raters = c("human1", "human2", "machine"),
+                   group = "group", by_item = )
+fx
+gg_wright(fx)
+```
+
+```{r facets-hint}
+fx <- rater_facets(read, raters = c("human1", "human2", "machine"),
+                   group = "group", by_item = TRUE)
+```
+
+```{r facets-solution}
+fx <- rater_facets(read, raters = c("human1", "human2", "machine"),
+                   group = "group", by_item = TRUE)
+fx
+gg_wright(fx)
+```
+
+```{r facets-check}
+lab_need(exists("fx") && inherits(fx, "mv_facets"), "Keep the name `fx` and use rater_facets().")
+lab_need(isTRUE(fx$by_item) && !is.null(fx$group),
+         "Give the group and ask for severity by item: group = \"group\", by_item = TRUE.")
+d <- fx$differential
+r <- d[d$item == "CR2", ]
+sprintf("Overall, the engine sits among the human readers. On CR2 it is %+.2f logits harsher for ELL students than for fluent students, relative to the people (SE %.2f): The same bias as the differential scoring check, now in logits on the scale of the test.",
+        r$difference, r$se)
+```
+
+### Would the scale be the same?
+
+The engine scores every written answer, so the item parameters of the
+operational test come from machine scores. `scoring_shift()` calibrates the
+2026 validity sample twice, once with human and once with machine scores,
+links the two through the 16 multiple-choice items, and draws both sets of
+thresholds on one Wright map.
+
+```{r shift, exercise = TRUE, exercise.timelimit = 180}
+cr26 <- aiscored_cr[aiscored_cr$year == 2026, ]
+mc <- aiscored[aiscored$year == 2026, c("student", sprintf("MC%02d", 1:16))]
+sh <- scoring_shift(cr26, human = "human1", anchors = mc, group = "group")
+sh
+gg_wright(sh)
+```
+
+```{r shift-check}
+lab_need(exists("sh") && inherits(sh, "mv_shift"), "Keep the name `sh` and use scoring_shift().")
+it <- sh$items[sh$items$item == "CR3", ]
+sprintf("Every CR3 threshold moves down, by %.2f logits on average: Under the 2026 engine a CR3 score point is easier to earn than under human scoring. Calibrating the bank on these machine scores would carry the drift into the scale. The test score impact is small (%+.2f SD), because CR3 is one item of 20.",
+        abs(it$mean_shift), sh$impact$smd[sh$impact$group == "All"])
+```
+
+```{r q-wright}
+question_radio("What do the two Wright maps add to the audit?",
+  answer("They show the engine's problems on the logit scale of the test: How harsh the engine is for ELL students on CR2, and how far the 2026 update moved CR3's thresholds. That is the scale items are banked and students are scored on.",
+         correct = TRUE,
+         message = "Right. The audit tells you a problem exists in score units; the facets model and the threshold shift tell you its size where it matters for calibration, linking and reporting. Pass `fx` or `sh` to ai_audit(components = ) to add their flags to the audit."),
+  answer("Nothing: They repeat the audit with more complicated models.",
+         message = "They agree with the audit, which is reassuring, but they also give the size of each problem in logits and show what it does to the item thresholds."),
+  answer("They prove the engine is fair, because the overall severity is close to the human raters'.",
+         message = "An average hides a bias that targets one item and one group. The CR2-by-ELL term is exactly that."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
 ## From audit to argument
 
 ### A validity argument
