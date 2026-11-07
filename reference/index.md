@@ -132,6 +132,14 @@ generated items and an AI-scored test.
 - [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   [`autoplot(`*`<mv_agreement>`*`)`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
   : Agreement between machine and human scores
+- [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+  [`tidy(`*`<mv_facets>`*`)`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+  [`autoplot(`*`<mv_facets>`*`)`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+  : Place human and AI raters on the Wright map
+- [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+  [`tidy(`*`<mv_shift>`*`)`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+  [`autoplot(`*`<mv_shift>`*`)`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+  : Compare item thresholds and scores under human and AI scoring
 - [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
   [`tidy(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)
   [`autoplot(`*`<mv_audit>`*`)`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md)

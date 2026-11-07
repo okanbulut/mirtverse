@@ -15,7 +15,12 @@ gg_wright(x, method = "EAP", thresholds = TRUE, bins = 30)
 - x:
 
   a unidimensional model returned by
-  [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html).
+  [`mirt::mirt()`](https://philchalmers.github.io/mirt/reference/mirt.html),
+  or a
+  [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+  or
+  [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+  result.
 
 - method:
 
@@ -34,6 +39,16 @@ gg_wright(x, method = "EAP", thresholds = TRUE, bins = 30)
 ## Value
 
 A patchwork object (a combined ggplot).
+
+## Details
+
+For automated scoring, `x` can also be a
+[`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+result, which adds a column of rater severities (human raters and the AI
+engine on the same scale), or a
+[`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+result, which shows the person distributions and item thresholds under
+human and under machine scoring.
 
 ## Examples
 

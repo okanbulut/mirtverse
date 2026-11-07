@@ -328,7 +328,8 @@ div.csl-indent {
 <li class="chapter" data-level="16.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
 <li class="chapter" data-level="16.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>16.2</b> Example 1: Training and judging an engine</a></li>
 <li class="chapter" data-level="16.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>16.3</b> Example 2: What is the engine rewarding?</a></li>
-<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.4</b> Your turn</a></li>
+<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#example-3-the-engine-on-the-wright-map"><i class="fa fa-check"></i><b>16.4</b> Example 3: The engine on the Wright map</a></li>
+<li class="chapter" data-level="16.5" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.5</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-14"><i class="fa fa-check"></i>In the lab</a></li>
 <li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
@@ -402,7 +403,10 @@ it on responses it has not seen;</li>
 weighted kappa</strong>, the <strong>standardized mean difference</strong> and <strong>PRMSE</strong>,
 overall and within groups, using <code>agreement_report()</code>;</li>
 <li>recognize <strong>construct-irrelevant</strong> features that an engine can reward,
-and choose how much of the scoring an engine should do.</li>
+and choose how much of the scoring an engine should do;</li>
+<li>place human raters and an engine on the <strong>Wright map</strong> with a many-facet
+Rasch model (<code>rater_facets()</code>), and see what machine scoring does to item
+thresholds and test scores (<code>scoring_shift()</code>).</li>
 </ul>
 </div>
 <p><strong>Key terms:</strong>
@@ -410,7 +414,8 @@ and choose how much of the scoring an engine should do.</li>
 <a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#prmse">PRMSE</a>,
 <a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#feature">feature</a>,
 <a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation">overfitting and cross-validation</a>,
-<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop">human-in-the-loop</a>.</p>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#human-in-the-loop">human-in-the-loop</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#wright-map">Wright map</a>.</p>
 <div id="the-ideas-15" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> The ideas<a href="auto-scoring.html#the-ideas-15" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Constructed responses, from a one-sentence explanation to a full essay, are
@@ -537,8 +542,8 @@ chooses the amount of shrinkage by cross-validation:</p>
 <span id="cb177-12"><a href="auto-scoring.html#cb177-12" tabindex="-1"></a><span class="co">#&gt;  1 all   fungus      0.451</span></span>
 <span id="cb177-13"><a href="auto-scoring.html#cb177-13" tabindex="-1"></a><span class="co">#&gt;  2 all   is a        0.294</span></span>
 <span id="cb177-14"><a href="auto-scoring.html#cb177-14" tabindex="-1"></a><span class="co">#&gt;  3 all   spores      0.226</span></span>
-<span id="cb177-15"><a href="auto-scoring.html#cb177-15" tabindex="-1"></a><span class="co">#&gt;  4 all   slows it    0.207</span></span>
-<span id="cb177-16"><a href="auto-scoring.html#cb177-16" tabindex="-1"></a><span class="co">#&gt;  5 all   slows       0.207</span></span>
+<span id="cb177-15"><a href="auto-scoring.html#cb177-15" tabindex="-1"></a><span class="co">#&gt;  4 all   slows       0.207</span></span>
+<span id="cb177-16"><a href="auto-scoring.html#cb177-16" tabindex="-1"></a><span class="co">#&gt;  5 all   slows it    0.207</span></span>
 <span id="cb177-17"><a href="auto-scoring.html#cb177-17" tabindex="-1"></a><span class="co">#&gt;  6 all   the         0.197</span></span>
 <span id="cb177-18"><a href="auto-scoring.html#cb177-18" tabindex="-1"></a><span class="co">#&gt;  7 all   a fungus    0.190</span></span>
 <span id="cb177-19"><a href="auto-scoring.html#cb177-19" tabindex="-1"></a><span class="co">#&gt;  8 all   of fungus   0.172</span></span>
@@ -612,8 +617,126 @@ engine was not built for. A check scorer design does the last part
 automatically: Answers on which human and machine disagree go to a second
 reader.</p>
 </div>
-<div id="your-turn-15" class="section level2 hasAnchor" number="16.4">
-<h2><span class="header-section-number">16.4</span> Your turn<a href="auto-scoring.html#your-turn-15" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="example-3-the-engine-on-the-wright-map" class="section level2 hasAnchor" number="16.4">
+<h2><span class="header-section-number">16.4</span> Example 3: The engine on the Wright map<a href="auto-scoring.html#example-3-the-engine-on-the-wright-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Agreement statistics are on the score scale of one item. A testing program
+reports on the <strong>logit scale</strong> of the whole test, where items are banked and
+students are scored, and the Wright map (Chapter <a href="scoring.html#scoring">7</a>) shows
+that scale with students and items side by side. An engine can be put on
+it too, in two ways.</p>
+<p>The first treats the engine as <strong>one more rater</strong>. A many-facet Rasch model
+<span class="citation">(<a href="#ref-linacre1989">Linacre 1989</a>)</span> adds a rater facet to the partial credit model,
+<span class="math display">\[\mathrm{logit}\, P(X_{pir} = k \mid k-1 \text{ or } k) = \theta_p - \delta_{ik} - \lambda_r,\]</span>
+so each rater <span class="math inline">\(r\)</span>, human or machine, gets a <strong>severity</strong> <span class="math inline">\(\lambda_r\)</span> on
+the same scale as the students’ <span class="math inline">\(\theta_p\)</span> and the thresholds
+<span class="math inline">\(\delta_{ik}\)</span>. <code>rater_facets()</code> fits it as an explanatory IRT model with
+the eirm package <span class="citation">(<a href="#ref-bulut2021">Bulut et al. 2021</a>)</span>. With <code>by_item = TRUE</code> each rater gets a
+severity for each item, the rater-by-item bias terms of a facets analysis.</p>
+<p>The second asks what machine scores do to the <strong>items</strong>. <code>scoring_shift()</code>
+calibrates the same students twice, once with human and once with machine
+scores, links the two calibrations through items the engine does not score,
+and compares the thresholds. It also scores every student’s machine-scored
+answers with the human calibration, which is what happens when a bank
+calibrated on human scores is used with an engine.</p>
+<p>We simulate a science test of 600 students with 10 multiple-choice items
+and three written answers scored 0 to 3. A trained rater reads every
+answer, a second rater half of them, and an engine all of them. The engine
+misses one of the ideas on Q2, but you would not know that from its average
+over the three items.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="auto-scoring.html#cb182-1" tabindex="-1"></a><span class="co"># A test with 10 multiple-choice items and three written answers (Q1 to Q3),</span></span>
+<span id="cb182-2"><a href="auto-scoring.html#cb182-2" tabindex="-1"></a><span class="co"># scored 0 to 3 by one or two raters and by an engine.</span></span>
+<span id="cb182-3"><a href="auto-scoring.html#cb182-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1617</span>)</span>
+<span id="cb182-4"><a href="auto-scoring.html#cb182-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">600</span></span>
+<span id="cb182-5"><a href="auto-scoring.html#cb182-5" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb182-6"><a href="auto-scoring.html#cb182-6" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">student =</span> <span class="fu">sprintf</span>(<span class="st">&quot;S%03d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb182-7"><a href="auto-scoring.html#cb182-7" tabindex="-1"></a>                 <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">10</span>), <span class="cf">function</span>(b)</span>
+<span id="cb182-8"><a href="auto-scoring.html#cb182-8" tabindex="-1"></a>                   <span class="fu">as.integer</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">plogis</span>(<span class="fl">1.2</span> <span class="sc">*</span> (theta <span class="sc">-</span> b)))))</span>
+<span id="cb182-9"><a href="auto-scoring.html#cb182-9" tabindex="-1"></a><span class="fu">names</span>(mc)[<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;MC%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb182-10"><a href="auto-scoring.html#cb182-10" tabindex="-1"></a>read <span class="ot">&lt;-</span> <span class="cf">function</span>(true) <span class="fu">pmin</span>(<span class="dv">3</span>, <span class="fu">pmax</span>(<span class="dv">0</span>, true <span class="sc">+</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">length</span>(true), <span class="cn">TRUE</span>)))</span>
+<span id="cb182-11"><a href="auto-scoring.html#cb182-11" tabindex="-1"></a>written <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(j) {</span>
+<span id="cb182-12"><a href="auto-scoring.html#cb182-12" tabindex="-1"></a>  true <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="dv">0</span>, <span class="fl">0.2</span>)[j],</span>
+<span id="cb182-13"><a href="auto-scoring.html#cb182-13" tabindex="-1"></a>                         <span class="cf">function</span>(b) <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">plogis</span>(<span class="fl">1.5</span> <span class="sc">*</span> (theta <span class="sc">-</span> b))))</span>
+<span id="cb182-14"><a href="auto-scoring.html#cb182-14" tabindex="-1"></a>  machine <span class="ot">&lt;-</span> <span class="fu">read</span>(true)</span>
+<span id="cb182-15"><a href="auto-scoring.html#cb182-15" tabindex="-1"></a>  <span class="cf">if</span> (j <span class="sc">==</span> <span class="dv">2</span>) {                      <span class="co"># the engine misses an idea on Q2</span></span>
+<span id="cb182-16"><a href="auto-scoring.html#cb182-16" tabindex="-1"></a>    miss <span class="ot">&lt;-</span> machine <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.35</span></span>
+<span id="cb182-17"><a href="auto-scoring.html#cb182-17" tabindex="-1"></a>    machine[miss] <span class="ot">&lt;-</span> machine[miss] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb182-18"><a href="auto-scoring.html#cb182-18" tabindex="-1"></a>  }</span>
+<span id="cb182-19"><a href="auto-scoring.html#cb182-19" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">student =</span> mc<span class="sc">$</span>student, <span class="at">item =</span> <span class="fu">paste0</span>(<span class="st">&quot;Q&quot;</span>, j), <span class="at">human1 =</span> <span class="fu">read</span>(true),</span>
+<span id="cb182-20"><a href="auto-scoring.html#cb182-20" tabindex="-1"></a>             <span class="at">human2 =</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="fu">read</span>(true), <span class="cn">NA</span>), <span class="at">machine =</span> machine)</span>
+<span id="cb182-21"><a href="auto-scoring.html#cb182-21" tabindex="-1"></a>}))</span></code></pre></div>
+<p>Each row of <code>written</code> is one answer with its three scores. Fit the facets
+model with a severity for each rater on each item:</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="auto-scoring.html#cb183-1" tabindex="-1"></a>fx <span class="ot">&lt;-</span> <span class="fu">rater_facets</span>(written, <span class="at">raters =</span> <span class="fu">c</span>(<span class="st">&quot;human1&quot;</span>, <span class="st">&quot;human2&quot;</span>, <span class="st">&quot;machine&quot;</span>), <span class="at">by_item =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb183-2"><a href="auto-scoring.html#cb183-2" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Rater 1&quot;</span>, <span class="st">&quot;Rater 2&quot;</span>, <span class="st">&quot;Engine&quot;</span>))</span>
+<span id="cb183-3"><a href="auto-scoring.html#cb183-3" tabindex="-1"></a>fx</span>
+<span id="cb183-4"><a href="auto-scoring.html#cb183-4" tabindex="-1"></a><span class="co">#&gt; Rater facets: 3 raters (AI: Engine), 600 persons, 3 items, severity by item</span></span>
+<span id="cb183-5"><a href="auto-scoring.html#cb183-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb183-6"><a href="auto-scoring.html#cb183-6" tabindex="-1"></a><span class="co">#&gt; Rater severity (logits; positive = harsher than the average rater):</span></span>
+<span id="cb183-7"><a href="auto-scoring.html#cb183-7" tabindex="-1"></a><span class="co">#&gt;    rater ai severity   se</span></span>
+<span id="cb183-8"><a href="auto-scoring.html#cb183-8" tabindex="-1"></a><span class="co">#&gt;  Rater 1       -0.02 0.04</span></span>
+<span id="cb183-9"><a href="auto-scoring.html#cb183-9" tabindex="-1"></a><span class="co">#&gt;  Rater 2       -0.07 0.04</span></span>
+<span id="cb183-10"><a href="auto-scoring.html#cb183-10" tabindex="-1"></a><span class="co">#&gt;   Engine AI    +0.09 0.04</span></span>
+<span id="cb183-11"><a href="auto-scoring.html#cb183-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb183-12"><a href="auto-scoring.html#cb183-12" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb183-13"><a href="auto-scoring.html#cb183-13" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] rater severity, Engine, Q2: +0.44 logits, SE 0.09. Engine is</span></span>
+<span id="cb183-14"><a href="auto-scoring.html#cb183-14" tabindex="-1"></a><span class="co">#&gt;     harsher than the human raters here.</span></span></code></pre></div>
+<p>Overall, the engine is only 0.1 logits harsher than the average rater, well
+within the range of the two people. Item by item it is not: On Q2 it is
+about 0.4 logits harsher than the human raters, several standard errors from
+zero. Figure <a href="auto-scoring.html#fig:auto-facets">16.2</a> draws the map. The faint points in the
+rater column are the severities by item, and Q2’s engine point sits apart.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="auto-scoring.html#cb184-1" tabindex="-1"></a><span class="fu">gg_wright</span>(fx)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:auto-facets"></span>
+<img src="mirtverse-book_files/figure-html/auto-facets-1.png" alt="Wright map with a rater facet: Students (left), the thresholds of the three written answers (middle), and the severity of the two human raters and the engine (right), all on one logit scale. The faint points are each rater's severity on each item." width="90%" />
+<p class="caption">
+Figure 16.2: Wright map with a rater facet: Students (left), the thresholds of the three written answers (middle), and the severity of the two human raters and the engine (right), all on one logit scale. The faint points are each rater’s severity on each item.
+</p>
+</div>
+<p>Now the items. Calibrate with human and with machine scores, linked through
+the multiple-choice items:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="auto-scoring.html#cb185-1" tabindex="-1"></a>sh <span class="ot">&lt;-</span> <span class="fu">scoring_shift</span>(written, <span class="at">human =</span> <span class="st">&quot;human1&quot;</span>, <span class="at">anchors =</span> mc)</span>
+<span id="cb185-2"><a href="auto-scoring.html#cb185-2" tabindex="-1"></a>sh</span>
+<span id="cb185-3"><a href="auto-scoring.html#cb185-3" tabindex="-1"></a><span class="co">#&gt; Human vs AI scoring: 3 AI-scored items, 600 persons, linked through 10 anchor items</span></span>
+<span id="cb185-4"><a href="auto-scoring.html#cb185-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb185-5"><a href="auto-scoring.html#cb185-5" tabindex="-1"></a><span class="co">#&gt; Threshold shift (machine minus human, logits):</span></span>
+<span id="cb185-6"><a href="auto-scoring.html#cb185-6" tabindex="-1"></a><span class="co">#&gt;  item a_human a_machine mean_shift max_shift</span></span>
+<span id="cb185-7"><a href="auto-scoring.html#cb185-7" tabindex="-1"></a><span class="co">#&gt;    Q1    1.62      1.59      -0.02     +0.12</span></span>
+<span id="cb185-8"><a href="auto-scoring.html#cb185-8" tabindex="-1"></a><span class="co">#&gt;    Q2    1.47      1.51      +0.46     +0.55</span></span>
+<span id="cb185-9"><a href="auto-scoring.html#cb185-9" tabindex="-1"></a><span class="co">#&gt;    Q3    1.55      1.59      -0.11     -0.23</span></span>
+<span id="cb185-10"><a href="auto-scoring.html#cb185-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb185-11"><a href="auto-scoring.html#cb185-11" tabindex="-1"></a><span class="co">#&gt; Score impact (mean theta change):</span></span>
+<span id="cb185-12"><a href="auto-scoring.html#cb185-12" tabindex="-1"></a><span class="co">#&gt;  group   n change   smd</span></span>
+<span id="cb185-13"><a href="auto-scoring.html#cb185-13" tabindex="-1"></a><span class="co">#&gt;    All 600  -0.04 -0.04</span></span>
+<span id="cb185-14"><a href="auto-scoring.html#cb185-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb185-15"><a href="auto-scoring.html#cb185-15" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb185-16"><a href="auto-scoring.html#cb185-16" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] threshold shift, Q2, threshold 1: +0.55 logits (human -1.33,</span></span>
+<span id="cb185-17"><a href="auto-scoring.html#cb185-17" tabindex="-1"></a><span class="co">#&gt;     machine -0.78). This score is harder to reach when the engine</span></span>
+<span id="cb185-18"><a href="auto-scoring.html#cb185-18" tabindex="-1"></a><span class="co">#&gt;     scores: It is harsher here than human raters.</span></span>
+<span id="cb185-19"><a href="auto-scoring.html#cb185-19" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] threshold shift, Q2, threshold 2: +0.38 logits (human 0.05,</span></span>
+<span id="cb185-20"><a href="auto-scoring.html#cb185-20" tabindex="-1"></a><span class="co">#&gt;     machine 0.43). This score is harder to reach when the engine</span></span>
+<span id="cb185-21"><a href="auto-scoring.html#cb185-21" tabindex="-1"></a><span class="co">#&gt;     scores: It is harsher here than human raters.</span></span>
+<span id="cb185-22"><a href="auto-scoring.html#cb185-22" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] threshold shift, Q2, threshold 3: +0.46 logits (human 1.20,</span></span>
+<span id="cb185-23"><a href="auto-scoring.html#cb185-23" tabindex="-1"></a><span class="co">#&gt;     machine 1.66). This score is harder to reach when the engine</span></span>
+<span id="cb185-24"><a href="auto-scoring.html#cb185-24" tabindex="-1"></a><span class="co">#&gt;     scores: It is harsher here than human raters.</span></span></code></pre></div>
+<p>All three Q2 thresholds move up by about half a logit when the engine
+scores (Figure <a href="auto-scoring.html#fig:auto-shift">16.3</a>). A bank calibrated on machine scores
+would record Q2 as a harder item than it is, and a cut score set on it would
+move with it. The students’ test scores move less, by about 0.04 SD,
+because Q2 is one item among 13. A small change in the total does not mean
+the engine is harmless: It is concentrated on one item, and in Lab 10 it is
+concentrated on one group of students.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="auto-scoring.html#cb186-1" tabindex="-1"></a><span class="fu">gg_wright</span>(sh)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:auto-shift"></span>
+<img src="mirtverse-book_files/figure-html/auto-shift-1.png" alt="Wright map of human vs AI scoring: The students' scores (left) and the thresholds of each written answer (right) from human scores (circles) and machine scores (triangles). Thick lines mark thresholds that move by more than 0.3 logits." width="90%" />
+<p class="caption">
+Figure 16.3: Wright map of human vs AI scoring: The students’ scores (left) and the thresholds of each written answer (right) from human scores (circles) and machine scores (triangles). Thick lines mark thresholds that move by more than 0.3 logits.
+</p>
+</div>
+<p>Both results can join an audit: <code>ai_audit(components = list(fx, sh))</code>
+adds their flags to the checks of Chapter <a href="ai-validity.html#ai-validity">18</a>.</p>
+</div>
+<div id="your-turn-15" class="section level2 hasAnchor" number="16.5">
+<h2><span class="header-section-number">16.5</span> Your turn<a href="auto-scoring.html#your-turn-15" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="yourturn">
 <ol style="list-style-type: decimal">
 <li>Retrain the engine in Example 1 with <code>length = TRUE</code>, which adds the
@@ -628,40 +751,56 @@ what does that tell you?</li>
 <li>Your program is offered an engine with a QWK of 0.86 against one rater
 on a vendor’s own test set. List three more pieces of evidence you would
 want before using it as the sole scorer.</li>
+<li>In Example 3, fit <code>rater_facets()</code> without <code>by_item = TRUE</code>. Is the
+engine flagged? What does that tell you about checking an engine on
+average?</li>
 </ol>
 </div>
 <details>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="auto-scoring.html#cb182-1" tabindex="-1"></a><span class="co"># 1. adding response length</span></span>
-<span id="cb182-2"><a href="auto-scoring.html#cb182-2" tabindex="-1"></a>engine_len <span class="ot">&lt;-</span> <span class="fu">train_scorer</span>(train, <span class="at">length =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb182-3"><a href="auto-scoring.html#cb182-3" tabindex="-1"></a><span class="fu">agreement_report</span>(<span class="fu">predict</span>(engine_len, test), test<span class="sc">$</span>human1, test<span class="sc">$</span>human2)[, <span class="fu">c</span>(<span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;prmse&quot;</span>)]</span>
-<span id="cb182-4"><a href="auto-scoring.html#cb182-4" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
-<span id="cb182-5"><a href="auto-scoring.html#cb182-5" tabindex="-1"></a><span class="co">#&gt;   qwk  smd prmse</span></span>
-<span id="cb182-6"><a href="auto-scoring.html#cb182-6" tabindex="-1"></a><span class="co">#&gt;  0.88 0.02  0.94</span></span>
-<span id="cb182-7"><a href="auto-scoring.html#cb182-7" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span>
-<span id="cb182-8"><a href="auto-scoring.html#cb182-8" tabindex="-1"></a><span class="fu">tidy</span>(engine_len)[<span class="fu">tidy</span>(engine_len)<span class="sc">$</span>term <span class="sc">==</span> <span class="st">&quot;(length)&quot;</span>, ]</span>
-<span id="cb182-9"><a href="auto-scoring.html#cb182-9" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
-<span id="cb182-10"><a href="auto-scoring.html#cb182-10" tabindex="-1"></a><span class="co">#&gt;   by    term     weight</span></span>
-<span id="cb182-11"><a href="auto-scoring.html#cb182-11" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
-<span id="cb182-12"><a href="auto-scoring.html#cb182-12" tabindex="-1"></a><span class="co">#&gt; 1 all   (length) 0.0781</span></span>
-<span id="cb182-13"><a href="auto-scoring.html#cb182-13" tabindex="-1"></a></span>
-<span id="cb182-14"><a href="auto-scoring.html#cb182-14" tabindex="-1"></a><span class="co"># 2. a small training set</span></span>
-<span id="cb182-15"><a href="auto-scoring.html#cb182-15" tabindex="-1"></a>engine_100 <span class="ot">&lt;-</span> <span class="fu">train_scorer</span>(bread[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, ])</span>
-<span id="cb182-16"><a href="auto-scoring.html#cb182-16" tabindex="-1"></a><span class="fu">agreement_report</span>(<span class="fu">predict</span>(engine_100, test), test<span class="sc">$</span>human1, test<span class="sc">$</span>human2)[, <span class="fu">c</span>(<span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;prmse&quot;</span>)]</span>
-<span id="cb182-17"><a href="auto-scoring.html#cb182-17" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
-<span id="cb182-18"><a href="auto-scoring.html#cb182-18" tabindex="-1"></a><span class="co">#&gt;   qwk  smd prmse</span></span>
-<span id="cb182-19"><a href="auto-scoring.html#cb182-19" tabindex="-1"></a><span class="co">#&gt;  0.78 0.05  0.79</span></span>
-<span id="cb182-20"><a href="auto-scoring.html#cb182-20" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span>
-<span id="cb182-21"><a href="auto-scoring.html#cb182-21" tabindex="-1"></a></span>
-<span id="cb182-22"><a href="auto-scoring.html#cb182-22" tabindex="-1"></a><span class="co"># 3. agreement with the second rater</span></span>
-<span id="cb182-23"><a href="auto-scoring.html#cb182-23" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(test<span class="sc">$</span>human2)</span>
-<span id="cb182-24"><a href="auto-scoring.html#cb182-24" tabindex="-1"></a><span class="fu">agreement_report</span>(test<span class="sc">$</span>machine[d], test<span class="sc">$</span>human2[d])[, <span class="fu">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;qwk&quot;</span>)]</span>
-<span id="cb182-25"><a href="auto-scoring.html#cb182-25" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
-<span id="cb182-26"><a href="auto-scoring.html#cb182-26" tabindex="-1"></a><span class="co">#&gt;    n  qwk</span></span>
-<span id="cb182-27"><a href="auto-scoring.html#cb182-27" tabindex="-1"></a><span class="co">#&gt;  162 0.88</span></span>
-<span id="cb182-28"><a href="auto-scoring.html#cb182-28" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="auto-scoring.html#cb187-1" tabindex="-1"></a><span class="co"># 1. adding response length</span></span>
+<span id="cb187-2"><a href="auto-scoring.html#cb187-2" tabindex="-1"></a>engine_len <span class="ot">&lt;-</span> <span class="fu">train_scorer</span>(train, <span class="at">length =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb187-3"><a href="auto-scoring.html#cb187-3" tabindex="-1"></a><span class="fu">agreement_report</span>(<span class="fu">predict</span>(engine_len, test), test<span class="sc">$</span>human1, test<span class="sc">$</span>human2)[, <span class="fu">c</span>(<span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;prmse&quot;</span>)]</span>
+<span id="cb187-4"><a href="auto-scoring.html#cb187-4" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
+<span id="cb187-5"><a href="auto-scoring.html#cb187-5" tabindex="-1"></a><span class="co">#&gt;   qwk  smd prmse</span></span>
+<span id="cb187-6"><a href="auto-scoring.html#cb187-6" tabindex="-1"></a><span class="co">#&gt;  0.88 0.02  0.94</span></span>
+<span id="cb187-7"><a href="auto-scoring.html#cb187-7" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span>
+<span id="cb187-8"><a href="auto-scoring.html#cb187-8" tabindex="-1"></a><span class="fu">tidy</span>(engine_len)[<span class="fu">tidy</span>(engine_len)<span class="sc">$</span>term <span class="sc">==</span> <span class="st">&quot;(length)&quot;</span>, ]</span>
+<span id="cb187-9"><a href="auto-scoring.html#cb187-9" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span id="cb187-10"><a href="auto-scoring.html#cb187-10" tabindex="-1"></a><span class="co">#&gt;   by    term     weight</span></span>
+<span id="cb187-11"><a href="auto-scoring.html#cb187-11" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
+<span id="cb187-12"><a href="auto-scoring.html#cb187-12" tabindex="-1"></a><span class="co">#&gt; 1 all   (length) 0.0781</span></span>
+<span id="cb187-13"><a href="auto-scoring.html#cb187-13" tabindex="-1"></a></span>
+<span id="cb187-14"><a href="auto-scoring.html#cb187-14" tabindex="-1"></a><span class="co"># 2. a small training set</span></span>
+<span id="cb187-15"><a href="auto-scoring.html#cb187-15" tabindex="-1"></a>engine_100 <span class="ot">&lt;-</span> <span class="fu">train_scorer</span>(bread[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, ])</span>
+<span id="cb187-16"><a href="auto-scoring.html#cb187-16" tabindex="-1"></a><span class="fu">agreement_report</span>(<span class="fu">predict</span>(engine_100, test), test<span class="sc">$</span>human1, test<span class="sc">$</span>human2)[, <span class="fu">c</span>(<span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;prmse&quot;</span>)]</span>
+<span id="cb187-17"><a href="auto-scoring.html#cb187-17" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
+<span id="cb187-18"><a href="auto-scoring.html#cb187-18" tabindex="-1"></a><span class="co">#&gt;   qwk  smd prmse</span></span>
+<span id="cb187-19"><a href="auto-scoring.html#cb187-19" tabindex="-1"></a><span class="co">#&gt;  0.78 0.05  0.79</span></span>
+<span id="cb187-20"><a href="auto-scoring.html#cb187-20" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span>
+<span id="cb187-21"><a href="auto-scoring.html#cb187-21" tabindex="-1"></a></span>
+<span id="cb187-22"><a href="auto-scoring.html#cb187-22" tabindex="-1"></a><span class="co"># 3. agreement with the second rater</span></span>
+<span id="cb187-23"><a href="auto-scoring.html#cb187-23" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(test<span class="sc">$</span>human2)</span>
+<span id="cb187-24"><a href="auto-scoring.html#cb187-24" tabindex="-1"></a><span class="fu">agreement_report</span>(test<span class="sc">$</span>machine[d], test<span class="sc">$</span>human2[d])[, <span class="fu">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;qwk&quot;</span>)]</span>
+<span id="cb187-25"><a href="auto-scoring.html#cb187-25" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
+<span id="cb187-26"><a href="auto-scoring.html#cb187-26" tabindex="-1"></a><span class="co">#&gt;    n  qwk</span></span>
+<span id="cb187-27"><a href="auto-scoring.html#cb187-27" tabindex="-1"></a><span class="co">#&gt;  162 0.88</span></span>
+<span id="cb187-28"><a href="auto-scoring.html#cb187-28" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span>
+<span id="cb187-29"><a href="auto-scoring.html#cb187-29" tabindex="-1"></a></span>
+<span id="cb187-30"><a href="auto-scoring.html#cb187-30" tabindex="-1"></a><span class="co"># 5. one severity per rater</span></span>
+<span id="cb187-31"><a href="auto-scoring.html#cb187-31" tabindex="-1"></a><span class="fu">rater_facets</span>(written, <span class="at">raters =</span> <span class="fu">c</span>(<span class="st">&quot;human1&quot;</span>, <span class="st">&quot;human2&quot;</span>, <span class="st">&quot;machine&quot;</span>),</span>
+<span id="cb187-32"><a href="auto-scoring.html#cb187-32" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Rater 1&quot;</span>, <span class="st">&quot;Rater 2&quot;</span>, <span class="st">&quot;Engine&quot;</span>))</span>
+<span id="cb187-33"><a href="auto-scoring.html#cb187-33" tabindex="-1"></a><span class="co">#&gt; Rater facets: 3 raters (AI: Engine), 600 persons, 3 items</span></span>
+<span id="cb187-34"><a href="auto-scoring.html#cb187-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb187-35"><a href="auto-scoring.html#cb187-35" tabindex="-1"></a><span class="co">#&gt; Rater severity (logits; positive = harsher than the average rater):</span></span>
+<span id="cb187-36"><a href="auto-scoring.html#cb187-36" tabindex="-1"></a><span class="co">#&gt;    rater ai severity   se</span></span>
+<span id="cb187-37"><a href="auto-scoring.html#cb187-37" tabindex="-1"></a><span class="co">#&gt;  Rater 1       -0.02 0.04</span></span>
+<span id="cb187-38"><a href="auto-scoring.html#cb187-38" tabindex="-1"></a><span class="co">#&gt;  Rater 2       -0.07 0.04</span></span>
+<span id="cb187-39"><a href="auto-scoring.html#cb187-39" tabindex="-1"></a><span class="co">#&gt;   Engine AI    +0.09 0.04</span></span>
+<span id="cb187-40"><a href="auto-scoring.html#cb187-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb187-41"><a href="auto-scoring.html#cb187-41" tabindex="-1"></a><span class="co">#&gt; No AI rater differs from the human raters by more than 0.3 logits.</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Agreement does not change, and length gets a small weight. Here the
 words already carry the key ideas, so length adds little. In real essays
@@ -681,6 +820,10 @@ takers, not the vendor’s; the SMD within groups such as English language
 learners <span class="citation">(<a href="#ref-bridgeman2012">Bridgeman et al. 2012</a>)</span>; PRMSE on double-scored responses; evidence that
 it does not reward length or key-word lists; and how unusual responses
 are routed to people.</li>
+<li>No: Averaged over the three items, the engine is about 0.1 logits harsher
+than the people, inside the 0.3-logit limit. Its Q2 problem is diluted
+by two items it scores well. Check an engine item by item, and group by
+group, as <code>by_item = TRUE</code> and <code>group</code> do.</li>
 </ol>
 </details>
 </div>
@@ -689,7 +832,10 @@ are routed to people.</li>
 <div class="lab">
 <p>Lab 7, <code>run_lab("auto-scoring")</code>, trains an engine on 1,600 science
 explanations, checks it the way a testing program would, and asks whether it
-can score on its own. The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI
+can score on its own, and places it on the Wright map next to the human
+readers. Lab 10, <code>run_lab("ai-audit")</code>, audits an engine that has been
+scoring a state test for two years and draws both Wright maps of Example 3.
+The <a href="https://www.okanbulut.com/mirtverse/articles/ai-hub.html">AI
 Hub</a> collects the
 other AI tools in mirtverse, and <code>score_open()</code> uses a trained engine, or a
 language model, inside the assessment pipeline.</p>
@@ -702,7 +848,10 @@ framework used in this chapter. Yan, Rupp and Foltz <span class="citation">(<a h
 scoring engines and their operational use in depth. Loukina et al.
 <span class="citation">(<a href="#ref-loukina2020">2020</a>)</span> explain PRMSE, and Bridgeman, Trapani and Attali
 <span class="citation">(<a href="#ref-bridgeman2012">2012</a>)</span> show how an engine can differ from human raters for some
-groups of test takers.</p>
+groups of test takers. Linacre <span class="citation">(<a href="#ref-linacre1989">1989</a>)</span> introduced the many-facet
+Rasch model for rater effects, and Bulut, Gorgun and Yildirim-Erbasli
+<span class="citation">(<a href="#ref-bulut2021">2021</a>)</span> show how to fit it and other explanatory IRT models as
+generalized linear mixed models with the eirm package.</p>
 
 </div>
 </div>
@@ -710,6 +859,12 @@ groups of test takers.</p>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bridgeman2012" class="csl-entry">
 Bridgeman, Brent, Catherine Trapani, and Yigal Attali. 2012. <span>“Comparison of Human and Machine Scoring of Essays: Differences by Gender, Ethnicity, and Country.”</span> <em>Applied Measurement in Education</em> 25 (1): 27–40. <a href="https://doi.org/10.1080/08957347.2012.635502">https://doi.org/10.1080/08957347.2012.635502</a>.
+</div>
+<div id="ref-bulut2021" class="csl-entry">
+Bulut, Okan, Guher Gorgun, and Seyma Nur Yildirim-Erbasli. 2021. <span>“Estimating Explanatory Extensions of Dichotomous and Polytomous <span>Rasch</span> Models: The Eirm Package in <span>R</span>.”</span> <em>Psych</em> 3 (3): 308–21. <a href="https://doi.org/10.3390/psych3030023">https://doi.org/10.3390/psych3030023</a>.
+</div>
+<div id="ref-linacre1989" class="csl-entry">
+Linacre, John M. 1989. <em>Many-Facet <span>Rasch</span> Measurement</em>. MESA Press.
 </div>
 <div id="ref-loukina2020" class="csl-entry">
 Loukina, Anastassia, Nitin Madnani, Aoife Cahill, et al. 2020. <span>“Using <span>PRMSE</span> to Evaluate Automated Scoring Systems in the Presence of Label Noise.”</span> <em>Proceedings of the Fifteenth Workshop on Innovative Use of NLP for Building Educational Applications</em>, 18–29. <a href="https://aclanthology.org/2020.bea-1.2">https://aclanthology.org/2020.bea-1.2</a>.

@@ -929,7 +929,10 @@ word weights</td>
 </tr>
 <tr class="even">
 <td>Judging the engine</td>
-<td>Agreement, SMD and PRMSE on the test students, then by group</td>
+<td>Agreement, SMD and PRMSE on the test students, then by group; the
+engine as a rater on the Wright map with
+<code><a href="../reference/rater_facets.html">rater_facets()</a></code>
+</td>
 <td>What PRMSE adds; is the gap for ELL students a problem?</td>
 </tr>
 <tr class="odd">
@@ -1096,8 +1099,9 @@ items 6 to 10 from items 1 to 5</td>
 <div class="section level3">
 <h3 id="lab-10-auditing-an-ai-scored-test">Lab 10: Auditing an AI-scored test<a class="anchor" aria-label="anchor" href="#lab-10-auditing-an-ai-scored-test"></a>
 </h3>
-<p><code>run_lab("ai-audit")</code>, about 75 minutes. The DIF analysis
-and the full audit take about 20 seconds each.</p>
+<p><code>run_lab("ai-audit")</code>, about 75 minutes. The DIF analysis,
+the full audit and the rater facets model take about 20 seconds
+each.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -1144,16 +1148,23 @@ and its plot</td>
 <td>Which DIF is the engine’s</td>
 </tr>
 <tr class="even">
+<td>The audit on the Wright map</td>
+<td>Raters on one logit scale with <code><a href="../reference/rater_facets.html">rater_facets()</a></code>; human vs
+machine thresholds with <code><a href="../reference/scoring_shift.html">scoring_shift()</a></code>
+</td>
+<td>What the two maps add to the audit</td>
+</tr>
+<tr class="odd">
 <td>From audit to argument</td>
 <td><code><a href="../reference/validity_argument.html">validity_argument()</a></code></td>
 <td>Evidence for the decision inference</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>The recommendation</td>
 <td>Recommendation and free-text memo to the committee</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>The reveal</td>
 <td><code>lab_truth("aiscored")</code></td>
 <td></td>
@@ -1776,6 +1787,11 @@ passes every overall check.</li>
 0.93; for ELL students SMD -0.13 (beyond ±0.10) and PRMSE 0.77. With
 <code>length = TRUE</code> the ELL SMD is about the same (-0.12).</li>
 <li>
+<strong>Wright map:</strong> Relative to the human readers, the
+engine is about +0.01 logits for fluent students and +0.17 for ELL
+students (SE 0.23): The same direction as the SMD, but 100 test students
+are too few to pin it down on the logit scale.</li>
+<li>
 <strong>Probe:</strong> The same E1 answer gets 1.54 points spelled
 correctly and 0.98 misspelled; filler changes it by about -0.1.</li>
 <li>
@@ -2042,6 +2058,13 @@ in 2026, and its QWK from 0.85 to 0.74. CR2’s SMD also moves (-0.13 to
 <li>
 <strong>DIF (2026, test as scored):</strong> CR2 (ESD about -0.32)
 and MC07 (about -0.12), both against ELL students.</li>
+<li>
+<strong>Wright maps:</strong> In the facets model (both years, by
+item and group) the engine sits among the human readers overall, and on
+CR2 it is +0.51 logits harsher for ELL students than for fluent
+students, relative to the people (SE 0.20). In the 2026 calibration,
+CR3’s thresholds move down by 0.51 logits on average under machine
+scoring; the test score impact is +0.04 SD.</li>
 <li>
 <strong>Validity argument:</strong> Scoring partly supported,
 generalization and extrapolation threatened, decision needs

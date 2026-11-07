@@ -70,9 +70,11 @@ autoplot(object, ...)
 
   optional list of results of
   [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md),
-  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
+  [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md),
+  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md),
+  [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
   or
-  [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md).
+  [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md).
 
 - rules:
 
@@ -147,7 +149,12 @@ The checks, each run when its inputs are given:
   [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md)
   for families that are not isomorphic, and results of
   [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md)
-  for verdicts that are not met.
+  for verdicts that are not met. The flags of
+  [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+  (rater severity and differential severity on the logit scale) and of
+  [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+  (item thresholds and scores under human and machine scoring) are added
+  as they are.
 
 ## References
 

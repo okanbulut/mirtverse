@@ -30,6 +30,8 @@ fig:ml-attenuation
 fig:item-text-cv
 fig:aig-families
 fig:auto-agree
+fig:auto-facets
+fig:auto-shift
 fig:ai-validity-audit
 tab:datasets
 tab:files
@@ -120,6 +122,7 @@ auto-scoring
 the-ideas-15
 example-1-training-and-judging-an-engine
 example-2-what-is-the-engine-rewarding
+example-3-the-engine-on-the-wright-map
 your-turn-15
 llms
 the-ideas-16

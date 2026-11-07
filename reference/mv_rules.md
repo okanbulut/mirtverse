@@ -79,11 +79,12 @@ A list of class `mv_rules`.
 | `qwk_drop` | 0.10 | largest acceptable drop from human-human to machine-human QWK |
 | `score_smd` | 0.15 | largest standardized mean difference between machine and human scores |
 | `subgroup_smd` | 0.10 | largest machine-human standardized mean difference within a group |
+| `rater_bias` | 0.3 | largest gap (logits) between an AI rater's severity and the human raters' in [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md) |
 | `min_confidence`, `min_words` | 0.5, 3 | machine scores below this confidence, or responses shorter than this, go to human scoring |
 | `max_se` | 1 | standard error above which a test taker's score is flagged as imprecise |
 | `preknowledge_alpha` | 0.001 | significance level of the preknowledge likelihood ratio test |
 | `leak_p`, `leak_rt` | 0.15, 0.25 | rise in proportion correct and relative fall in median time that suggest a leaked item |
-| `drift_a`, `drift_b` | 0.3, 0.3 | largest change in an item's slope and difficulty from its bank value |
+| `drift_a`, `drift_b` | 0.3, 0.3 | largest change in an item's slope and difficulty from its bank value (and between human and machine scoring in [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)) |
 | `copy_alpha` | 0.001 | family-wise significance level of the identical-incorrect-answers index |
 | `rt_resid`, `rt_share` | -3, 0.20 | log-time residual, and share of items below it, that flag aberrant timing |
 | `site_alpha` | 0.001 | significance level for a site with too many flagged test takers |
@@ -157,6 +158,7 @@ mv_rules()
 #>   qwk_drop            0.1
 #>   score_smd           0.15
 #>   subgroup_smd        0.1
+#>   rater_bias          0.3
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1
@@ -230,6 +232,7 @@ mv_rules(q3 = 0.25, reliability = 0.85)
 #>   qwk_drop            0.1
 #>   score_smd           0.15
 #>   subgroup_smd        0.1
+#>   rater_bias          0.3
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1
@@ -303,6 +306,7 @@ mv_rules(preset = "lenient")
 #>   qwk_drop            0.1
 #>   score_smd           0.15
 #>   subgroup_smd        0.1
+#>   rater_bias          0.3
 #>   min_confidence      0.5
 #>   min_words           3
 #>   max_se              1

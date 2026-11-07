@@ -315,7 +315,7 @@ few seconds.
 | The brief | Meet the board’s question and `essays` |  |
 | How good are the raters? | Human-human agreement by prompt with [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md) |  |
 | Training the engine | Split by student; train with [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md); read the word weights | Why split by student; what the engine learns |
-| Judging the engine | Agreement, SMD and PRMSE on the test students, then by group | What PRMSE adds; is the gap for ELL students a problem? |
+| Judging the engine | Agreement, SMD and PRMSE on the test students, then by group; the engine as a rater on the Wright map with [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md) | What PRMSE adds; is the gap for ELL students a problem? |
 | Where does the gap come from? | Read under-scored answers; probe the engine with misspelled and padded answers; retrain with length | What drives the gap |
 | How much should the engine do? | Share of answers a check scorer sends to a second reader | Recommendation to the board |
 | The memo | Free-text memo to the board |  |
@@ -356,8 +356,8 @@ about 5 seconds.
 
 ### Lab 10: Auditing an AI-scored test
 
-`run_lab("ai-audit")`, about 75 minutes. The DIF analysis and the full
-audit take about 20 seconds each.
+`run_lab("ai-audit")`, about 75 minutes. The DIF analysis, the full
+audit and the rater facets model take about 20 seconds each.
 
 | Section | Students do | Decision |
 |----|----|----|
@@ -366,6 +366,7 @@ audit take about 20 seconds each.
 | Is the engine fair to every group? | Agreement by group; differential scoring with [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md) | Bias or a real difference? |
 | Has the engine changed? | Add the year as `period` | What to do with the 2026 CR3 scores |
 | DIF on the test as scored | [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md) with `responses`; the whole audit and its plot | Which DIF is the engine’s |
+| The audit on the Wright map | Raters on one logit scale with [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md); human vs machine thresholds with [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md) | What the two maps add to the audit |
 | From audit to argument | [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md) | Evidence for the decision inference |
 | The recommendation | Recommendation and free-text memo to the committee |  |
 | The reveal | `lab_truth("aiscored")` |  |
@@ -714,6 +715,10 @@ The planted problems in `essays` (`lab_truth("essays")` returns them):
 - **Groups:** For fluent students SMD +0.03 and PRMSE 0.93; for ELL
   students SMD -0.13 (beyond ±0.10) and PRMSE 0.77. With `length = TRUE`
   the ELL SMD is about the same (-0.12).
+- **Wright map:** Relative to the human readers, the engine is about
+  +0.01 logits for fluent students and +0.17 for ELL students (SE 0.23):
+  The same direction as the SMD, but 100 test students are too few to
+  pin it down on the logit scale.
 - **Probe:** The same E1 answer gets 1.54 points spelled correctly and
   0.98 misspelled; filler changes it by about -0.1.
 - **Check scorer:** With a two-point rule about 2% of answers get a
@@ -853,6 +858,12 @@ them):
   within sampling error after the Bonferroni adjustment.
 - **DIF (2026, test as scored):** CR2 (ESD about -0.32) and MC07 (about
   -0.12), both against ELL students.
+- **Wright maps:** In the facets model (both years, by item and group)
+  the engine sits among the human readers overall, and on CR2 it is
+  +0.51 logits harsher for ELL students than for fluent students,
+  relative to the people (SE 0.20). In the 2026 calibration, CR3’s
+  thresholds move down by 0.51 logits on average under machine scoring;
+  the test score impact is +0.04 SD.
 - **Validity argument:** Scoring partly supported, generalization and
   extrapolation threatened, decision needs evidence.
 - **Recommendation:** Report the multiple-choice scores, CR1 and CR4;

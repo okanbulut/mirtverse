@@ -44,7 +44,7 @@ step names the question it answers, what to read and what to try in R.
 | 1\. Vocabulary | What do machine learning words mean in measurement terms? | [Translation table](https://www.okanbulut.com/mirtverse/articles/ai-translation.md); the AI section of the [glossary](https://www.okanbulut.com/mirtverse/articles/glossary.html#ai) | — |
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md); [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md) (experimental) |
-| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
+| 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md), [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md), [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
 | 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](https://www.okanbulut.com/mirtverse/book/item-text.md); [reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md), [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md); [Lab 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8) |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](https://www.okanbulut.com/mirtverse/book/aig.md); [assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md), [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md), [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md), [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md); [Lab 9](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-9) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | Book: [Validity, fairness and governance of AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md); [reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md), [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md), [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); [Lab 10](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-10) |
@@ -174,6 +174,29 @@ with `responses` it adds DIF on the test as scored, and with
 [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
 maps the results to the inferences of a validity argument and lists the
 evidence still owed, such as human oversight and appeals.
+
+### Put the engine on the Wright map
+
+``` r
+
+read <- aiscored_cr[!is.na(aiscored_cr$human1), ]
+fx <- rater_facets(read, raters = c("human1", "human2", "machine"),
+                   group = "group", by_item = TRUE)   # many-facet Rasch model via eirm
+gg_wright(fx)                                         # students, items and raters on one scale
+mc <- aiscored[aiscored$year == 2026, c("student", sprintf("MC%02d", 1:16))]
+sh <- scoring_shift(aiscored_cr[aiscored_cr$year == 2026, ], anchors = mc)
+gg_wright(sh)                                         # thresholds under human vs machine scoring
+ai_audit(components = list(fx, sh))                   # their flags in an audit
+```
+
+[`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
+treats the engine as one more rater in a many-facet Rasch model, so its
+severity sits on the same logit scale as the students and the items,
+overall and by item and group.
+[`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md)
+calibrates the AI-scored items with human and with machine scores, links
+the two through the other items, and shows how far each threshold and
+each group’s scores move.
 
 ### Simulate respondents (experimental)
 

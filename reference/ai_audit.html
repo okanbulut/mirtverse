@@ -175,7 +175,8 @@ all. Defaults to <code>"2PL"</code> for 0/1 items and <code>"graded"</code> for 
 
 <dt id="arg-components">components<a class="anchor" aria-label="anchor" href="#arg-components"></a></dt>
 <dd><p>optional list of results of <code><a href="predict_difficulty.html">predict_difficulty()</a></code>,
-<code><a href="calibrate_families.html">calibrate_families()</a></code> or <code><a href="agreement_report.html">agreement_report()</a></code>.</p></dd>
+<code><a href="calibrate_families.html">calibrate_families()</a></code>, <code><a href="agreement_report.html">agreement_report()</a></code>, <code><a href="rater_facets.html">rater_facets()</a></code> or
+<code><a href="scoring_shift.html">scoring_shift()</a></code>.</p></dd>
 
 
 <dt id="arg-rules">rules<a class="anchor" aria-label="anchor" href="#arg-rules"></a></dt>
@@ -233,7 +234,9 @@ information, as a matter for content review rather than the engine.</p></li>
 <li><p><strong>Components</strong>: Results of <code><a href="predict_difficulty.html">predict_difficulty()</a></code> are checked for leaked
 features, results of <code><a href="calibrate_families.html">calibrate_families()</a></code> for families that are not
 isomorphic, and results of <code><a href="agreement_report.html">agreement_report()</a></code> for verdicts that are
-not met.</p></li>
+not met. The flags of <code><a href="rater_facets.html">rater_facets()</a></code> (rater severity and differential
+severity on the logit scale) and of <code><a href="scoring_shift.html">scoring_shift()</a></code> (item thresholds
+and scores under human and machine scoring) are added as they are.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
