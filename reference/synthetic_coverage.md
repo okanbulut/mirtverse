@@ -19,6 +19,7 @@ synthetic_coverage(
   real = NULL,
   slices = c("score", "theta", "group", "item"),
   group = NULL,
+  within_group = FALSE,
   target = NULL,
   model = NULL,
   n_slices = 10,
@@ -58,6 +59,12 @@ synthetic_coverage(
   of a
   [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
   result).
+
+- within_group:
+
+  with `group` and `slices = "score"` or `"theta"`, compare the shares
+  within each group, so that the mix of groups does not count (see
+  Details)?
 
 - target:
 
@@ -125,7 +132,14 @@ column named by `group` (for example personas), and `slices = "item"`
 switches to item mode: One column per item for right/wrong items, or one
 column per answer category for polytomous (for example Likert) items.
 With `group` and `slices = "score"` or `"theta"`, the deciles are formed
-within each group.
+within each group. By default the shares are then taken over all
+respondents, so the mix of groups counts too: A model with too few
+respondents from one group shows red across that group's slices. With
+`within_group = TRUE` the shares are taken within each group instead, so
+only how each group's respondents spread over that group's slices
+counts, and Overlap is the mean over the groups. Use it when the number
+of synthetic respondents per group was set by design (for example the
+same number for each country) and does not need to match the real data.
 
 **Overlap** is the share of synthetic respondents (or answers) that fall
 in the same slices as real ones: The sum over slices of the smaller of

@@ -32,8 +32,11 @@
   finds the Best Blend, the mix of models whose respondents match the
   real population best; with four or more attempts it is chosen on half
   of them and reported on the other half. Large tests are split into
-  pages of at most 40 columns, worst-matching items first. polycor is a
-  new suggested package.
+  pages of at most 40 columns, worst-matching items first. With groups
+  (for example personas or countries), `within_group = TRUE` compares
+  each group’s respondents with that group’s real respondents only, so a
+  mix of groups set by design (such as the same number per country) does
+  not count. polycor is a new suggested package.
 
 - Wright maps for automated scoring:
   [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
