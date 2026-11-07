@@ -278,6 +278,43 @@ question_radio("ELL students get lower human scores too. Is the engine's lower s
 )
 ```
 
+### On the Wright map
+
+Agreement statistics live on the score scale. A many-facet Rasch model puts
+the engine on the **logit scale** instead, as one more rater next to the two
+human readers, with the students and the prompts on the same map. Fit it
+with `rater_facets()`, which uses the eirm package, and give the `group` so
+that each rater gets a severity for each group of students.
+
+```{r facets, exercise = TRUE, exercise.setup = "setup-engine", exercise.timelimit = 180}
+fx <- rater_facets(test, raters = c("human1", "human2", "machine"),
+                   item = "prompt", group = )
+fx$gaps
+gg_wright(fx)
+```
+
+```{r facets-hint}
+fx <- rater_facets(test, raters = c("human1", "human2", "machine"),
+                   item = "prompt", group = "___")
+```
+
+```{r facets-solution}
+fx <- rater_facets(test, raters = c("human1", "human2", "machine"),
+                   item = "prompt", group = "group")
+fx$gaps
+gg_wright(fx)
+```
+
+```{r facets-check}
+lab_need(exists("fx") && inherits(fx, "mv_facets"), "Keep the name `fx` and use rater_facets().")
+lab_need(!is.null(fx$group), "Give the group column: group = \"group\".")
+g <- fx$gaps
+ell <- g[g$group == "ELL", ]
+flu <- g[g$group == "Fluent", ]
+sprintf("Relative to the human readers, the engine is %+.2f logits for fluent students and %+.2f for ELL students (SE %.2f): Harsher for ELL students, as the SMD said, but with only 100 test students the interval is too wide to pin the gap down. A program would check it on a larger validity sample, as Lab 10 does.",
+        flu$gap, ell$gap, ell$se)
+```
+
 ## Where does the gap come from?
 
 ### Read the answers

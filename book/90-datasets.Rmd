@@ -43,6 +43,7 @@ them.
 | `data-ai-validity-2` | Field-test difficulties and features of 45 items from three item models | Simulated | `items` |
 | `data-auto-scoring-1` | Short answers to a science question, scored 0 to 3 by one or two raters | Simulated | `bread` |
 | `data-auto-scoring-2` | Four answers with a known correct score | Simulated | `probe` |
+| `data-auto-scoring-3` | A test with 10 multiple-choice items and three written answers scored by two raters and an engine | Simulated | `written`, `mc` |
 | `data-llms-1` | `Science` | Real | `resp` |
 | `data-llms-2` | A two-cell blueprint for a numeracy quiz | Simulated | `cells` |
 

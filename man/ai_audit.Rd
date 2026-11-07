@@ -49,7 +49,8 @@ the items in \code{scores}.}
 all. Defaults to \code{"2PL"} for 0/1 items and \code{"graded"} for the others.}
 
 \item{components}{optional list of results of \code{\link[=predict_difficulty]{predict_difficulty()}},
-\code{\link[=calibrate_families]{calibrate_families()}} or \code{\link[=agreement_report]{agreement_report()}}.}
+\code{\link[=calibrate_families]{calibrate_families()}}, \code{\link[=agreement_report]{agreement_report()}}, \code{\link[=rater_facets]{rater_facets()}} or
+\code{\link[=scoring_shift]{scoring_shift()}}.}
 
 \item{rules}{thresholds from \code{\link[=mv_rules]{mv_rules()}}.}
 
@@ -107,7 +108,9 @@ information, as a matter for content review rather than the engine.
 \item \strong{Components}: Results of \code{\link[=predict_difficulty]{predict_difficulty()}} are checked for leaked
 features, results of \code{\link[=calibrate_families]{calibrate_families()}} for families that are not
 isomorphic, and results of \code{\link[=agreement_report]{agreement_report()}} for verdicts that are
-not met.
+not met. The flags of \code{\link[=rater_facets]{rater_facets()}} (rater severity and differential
+severity on the logit scale) and of \code{\link[=scoring_shift]{scoring_shift()}} (item thresholds
+and scores under human and machine scoring) are added as they are.
 }
 }
 \examples{

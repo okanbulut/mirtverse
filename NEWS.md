@@ -1,5 +1,22 @@
 # mirtverse 0.3.0
 
+* Wright maps for automated scoring: `rater_facets()` fits a many-facet
+  Rasch model with the eirm package, so human raters and an AI scoring
+  engine get a severity on the same logit scale as the test takers and the
+  items, overall or by item and by group (a language group, or a year for
+  drift). It flags an engine that is harsher or more lenient than the human
+  raters (`rater_bias` in `mv_rules()`, new), and one that is so for one
+  group more than another. `scoring_shift()` calibrates the AI-scored items
+  with human and with machine scores, links the two calibrations through the
+  other items, and flags thresholds that move (`drift_b`) and test scores
+  that move overall or for one group. `gg_wright()` draws both: A Wright map
+  with a rater column, and one with human and machine thresholds side by
+  side. `ai_audit(components = )` takes both results, and
+  `validity_argument()` maps their checks to the scoring and extrapolation
+  inferences. Chapter 16 of the book has a new example, Lab 7 places its
+  engine on the Wright map, and Lab 10 has a new section, "The audit on the
+  Wright map". eirm and lme4 are new suggested packages.
+
 * Site navigation: The "Get started" menu item is now "Tutorial", and the
   article it opens is retitled "Tutorial: A first analysis with mirtverse",
   so it no longer sits next to "Start here" with a similar name. The

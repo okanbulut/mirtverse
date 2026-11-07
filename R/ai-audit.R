@@ -39,7 +39,9 @@
 #' * **Components**: Results of [predict_difficulty()] are checked for leaked
 #'   features, results of [calibrate_families()] for families that are not
 #'   isomorphic, and results of [agreement_report()] for verdicts that are
-#'   not met.
+#'   not met. The flags of [rater_facets()] (rater severity and differential
+#'   severity on the logit scale) and of [scoring_shift()] (item thresholds
+#'   and scores under human and machine scoring) are added as they are.
 #'
 #' @param scores a data frame with one row per scored response, or `NULL`
 #'   when only `responses` or `components` are audited.
@@ -57,7 +59,8 @@
 #' @param model item types for the DIF analysis, one per item or one for
 #'   all. Defaults to `"2PL"` for 0/1 items and `"graded"` for the others.
 #' @param components optional list of results of [predict_difficulty()],
-#'   [calibrate_families()] or [agreement_report()].
+#'   [calibrate_families()], [agreement_report()], [rater_facets()] or
+#'   [scoring_shift()].
 #' @param rules thresholds from [mv_rules()].
 #' @return An object of class `mv_audit`: A list with `checks` (one row per
 #'   check: What was tested, how many targets, how many flags, and the
@@ -218,10 +221,19 @@ ai_audit <- function(scores = NULL, machine = "machine", human1 = "human1", huma
           "DIF on an item the engine does not score: A matter for content review, not for the engine.")
   }
 
-  if (inherits(components, c("mv_difficulty", "mv_families", "mv_agreement")))
+  if (inherits(components, c("mv_difficulty", "mv_families", "mv_agreement", "mv_facets",
+                             "mv_shift")))
     components <- list(components)
   for (cmp in components) {
-    if (inherits(cmp, "mv_difficulty")) {
+    if (inherits(cmp, c("mv_facets", "mv_shift"))) {
+      ck_c <- as.data.frame(cmp$checks)
+      fl_c <- as.data.frame(cmp$flags)
+      for (i in seq_len(nrow(ck_c)))
+        add_check(ck_c$check[i], ck_c$tested[i], fl_c$target[fl_c$check == ck_c$check[i]])
+      for (i in seq_len(nrow(fl_c)))
+        add(fl_c$check[i], fl_c$target[i], fl_c$value[i], fl_c$rule[i], fl_c$level[i],
+            fl_c$advice[i])
+    } else if (inherits(cmp, "mv_difficulty")) {
       lk <- cmp$leaky
       add_check("leakage", length(cmp$features), names(lk))
       if (length(lk))
@@ -244,7 +256,7 @@ ai_audit <- function(scores = NULL, machine = "machine", human1 = "human1", huma
         add("agreement report", tg[bad], v$verdict[bad], "mv_rules()", "review",
             "See agreement_report() for the statistics.")
     } else {
-      stop("`components` must hold results of predict_difficulty(), calibrate_families() or agreement_report().",
+      stop("`components` must hold results of predict_difficulty(), calibrate_families(), agreement_report(), rater_facets() or scoring_shift().",
            call. = FALSE)
     }
   }
@@ -479,9 +491,11 @@ validity_argument <- function(audit = NULL, construct = "the construct", use = "
       "Features unrelated to the construct, such as language proficiency, lower machine scores for some groups; DIF on AI-scored items.",
       "Machine scores are used without human review where stakes are high; test takers are not told how they were scored; errors cannot be appealed."),
     stringsAsFactors = FALSE)
-  map <- list(Scoring = c("human agreement", "machine agreement", "overall bias", "agreement report"),
+  map <- list(Scoring = c("human agreement", "machine agreement", "overall bias", "agreement report",
+                          "rater severity", "threshold shift", "slope change", "score impact"),
               Generalization = c("drift", "isomorphism"),
-              Extrapolation = c("subgroup agreement", "differential scoring", "DIF", "leakage"),
+              Extrapolation = c("subgroup agreement", "differential scoring", "DIF", "leakage",
+                                "differential severity", "differential impact"),
               Decision = character(0))
   todo_none <- c(
     Scoring = "Compare machine and human scores on a double-scored validity sample with ai_audit().",
@@ -511,7 +525,10 @@ validity_argument <- function(audit = NULL, construct = "the construct", use = "
     inf$evidence[i] <- paste(ev, collapse = " ")
     inf$status[i] <- if (any(f$level == "block")) "threatened"
       else if (any(f$level == "review")) "partly supported" else "supported"
-    missing <- setdiff(map[[nm]], c(run, "agreement report", "isomorphism", "leakage"))
+    missing <- setdiff(map[[nm]], c(run, "agreement report", "isomorphism", "leakage",
+                                    "rater severity", "threshold shift", "slope change",
+                                    "score impact", "differential severity",
+                                    "differential impact"))
     todo <- if (inf$status[i] == "supported") "" else
       "Resolve the flags, then rerun the audit before the scores are used."
     if (length(missing))
