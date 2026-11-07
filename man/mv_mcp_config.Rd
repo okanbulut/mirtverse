@@ -13,7 +13,10 @@ mv_mcp_config(
 }
 \arguments{
 \item{course}{path to the course folder, or with \code{mode = "analysis"} the
-project folder that holds your data.}
+project folder that holds your data. With \code{mode = "analysis"} and
+\code{client = "claude-code"}, \code{NULL} gives a command that registers the
+server once for all your projects (it then works in whatever folder
+Claude Code is opened in).}
 
 \item{client}{one of \code{"claude-desktop"}, \code{"claude-code"}, \code{"codex"}
 (OpenAI Codex CLI and IDE extension), \code{"openai-agents"} (OpenAI Agents
@@ -38,4 +41,5 @@ settings go.
 mv_mcp_config("~/courses/edpy507", client = "claude-desktop")
 mv_mcp_config("~/courses/edpy507", client = "codex")
 mv_mcp_config("~/projects/math-test", client = "claude-desktop", mode = "analysis")
+mv_mcp_config(NULL, client = "claude-code", mode = "analysis")
 }
