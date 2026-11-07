@@ -154,19 +154,27 @@ test_that("agent_project and mv_agent_init set up a folder", {
 
   txt <- utils::capture.output(mv_mcp_config(dir, client = "claude-code", mode = "analysis"))
   expect_true(any(grepl("mv_agent_server", txt)))
+  txt <- utils::capture.output(mv_mcp_config(NULL, client = "claude-code", mode = "analysis"))
+  expect_true(any(grepl("--scope user mirtverse", txt, fixed = TRUE)))
+  expect_true(any(grepl("mv_agent_server()", txt, fixed = TRUE)))
+  expect_error(mv_mcp_config(NULL, client = "claude-desktop", mode = "analysis"), "NULL")
 })
 
 test_that("the plugin files are consistent with the server", {
   root <- testthat::test_path("..", "..")
   plugin <- file.path(root, "claude-plugin")
   skip_if_not(dir.exists(plugin))  # not in the built package
-  mcp <- jsonlite::read_json(file.path(plugin, ".mcp.json"))
-  # the directory validator only follows literal paths under the plugin root
-  expect_equal(mcp$mcpServers$mirtverse$command, "Rscript")
-  expect_equal(unlist(mcp$mcpServers$mirtverse$args), "${CLAUDE_PLUGIN_ROOT}/server/mirtverse-server.R")
-  expect_null(mcp$mcpServers$mirtverse$env)
-  script <- file.path(plugin, "server", "mirtverse-server.R")
-  expect_true(any(grepl("mirtverse::mv_agent_server()", readLines(script), fixed = TRUE)))
+  # the plugin directory only accepts Markdown, text, JSON, YAML and images,
+  # and no MCP server that runs on the user's computer: the server is
+  # connected separately (see the setup skill)
+  files <- list.files(plugin, recursive = TRUE, all.files = TRUE)
+  expect_true(all(grepl("\\.(md|json|png)$", files)), info = paste(files, collapse = ", "))
+  expect_false(file.exists(file.path(plugin, ".mcp.json")))
+  for (f in files) expect_false(startsWith(readLines(file.path(plugin, f), n = 1L, warn = FALSE)[1] %||% "", "#!"), info = f)
+  manifest0 <- jsonlite::read_json(file.path(plugin, ".claude-plugin", "plugin.json"))
+  expect_null(manifest0$mcpServers)
+  setup <- paste(readLines(file.path(plugin, "skills", "setup", "SKILL.md")), collapse = "\n")
+  expect_match(setup, "mirtverse::mv_agent_server()", fixed = TRUE)
   manifest <- jsonlite::read_json(file.path(plugin, ".claude-plugin", "plugin.json"))
   expect_equal(manifest$name, "mirtverse")
   tools <- vapply(agent_tools(), `[[`, "", "name")

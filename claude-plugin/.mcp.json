@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "mirtverse": {
-      "command": "Rscript",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/server/mirtverse-server.R"]
-    }
-  }
-}

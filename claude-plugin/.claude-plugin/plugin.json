@@ -1,8 +1,8 @@
 {
   "name": "mirtverse",
   "displayName": "mirtverse agent",
-  "version": "0.1.1",
-  "description": "Analyze test data with item response theory (IRT) through mirtverse and mirt: Model choice, item checks, DIF, scores, plots, plain-language interpretation, HTML reports and reproducible R scripts. Needs R and the mirtverse package.",
+  "version": "0.2.0",
+  "description": "Analyze test data with item response theory (IRT) through mirtverse and mirt: Model choice, item checks, DIF, scores, plots, plain-language interpretation, HTML reports and reproducible R scripts. Needs R, the mirtverse package, and a one-time connection of its MCP server (the setup skill walks you through it).",
   "author": {
     "name": "Okan Bulut",
     "email": "bulut@ualberta.ca",
@@ -11,5 +11,13 @@
   "homepage": "https://www.okanbulut.com/mirtverse/articles/mirtverse-agent.html",
   "repository": "https://github.com/okanbulut/mirtverse",
   "license": "GPL-3.0-or-later",
-  "keywords": ["psychometrics", "item response theory", "IRT", "mirt", "R", "assessment", "DIF"]
+  "keywords": [
+    "psychometrics",
+    "item response theory",
+    "IRT",
+    "mirt",
+    "R",
+    "assessment",
+    "DIF"
+  ]
 }
