@@ -317,6 +317,12 @@ generated items and an AI-scored test.
   : Simulate respondents with a language model (experimental)
 - [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md)
   : Compare simulated respondents with real ones (experimental)
+- [`synthetic_coverage()`](https://www.okanbulut.com/mirtverse/reference/synthetic_coverage.md)
+  : How well do synthetic respondents cover the real population?
+- [`blend_llms()`](https://www.okanbulut.com/mirtverse/reference/blend_llms.md)
+  : Find the best blend of language models
+- [`gg_coverage()`](https://www.okanbulut.com/mirtverse/reference/gg_coverage.md)
+  : Draw the coverage strip
 - [`itemtext`](https://www.okanbulut.com/mirtverse/reference/itemtext.md)
   : Numeracy items with their text, for the AI Hub
 - [`essays`](https://www.okanbulut.com/mirtverse/reference/essays.md) :
@@ -356,6 +362,8 @@ generated items and an AI-scored test.
 
 ## Graphics
 
+- [`gg_coverage()`](https://www.okanbulut.com/mirtverse/reference/gg_coverage.md)
+  : Draw the coverage strip
 - [`gg_dif()`](https://www.okanbulut.com/mirtverse/reference/gg_dif.md)
   : DIF effect sizes plot
 - [`gg_empirical()`](https://www.okanbulut.com/mirtverse/reference/gg_empirical.md)

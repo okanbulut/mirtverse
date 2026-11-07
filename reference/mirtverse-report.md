@@ -247,7 +247,7 @@ Session information
     [127] labeling_0.4.3       plyr_1.8.9           fs_2.1.0            
     [130] stringi_1.8.9        psych_2.6.9          viridisLite_0.4.3   
     [133] Matrix_1.7-6         patchwork_1.3.2      future_1.82.0       
-    [136] ggplot2_4.0.3        ltm_1.2-0            statmod_1.5.2       
+    [136] ggplot2_4.0.3        statmod_1.5.2        ltm_1.2-0           
     [139] shiny_1.14.0         Rfast_2.1.5.2        fontawesome_0.5.3   
     [142] clipr_0.8.1          memoise_2.0.1        RcppParallel_6.2.1  
     [145] bslib_0.12.0        

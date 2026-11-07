@@ -13,6 +13,28 @@
 
 ## mirtverse 0.3.0
 
+- Coverage strips for synthetic respondents (experimental):
+  [`synthetic_coverage()`](https://www.okanbulut.com/mirtverse/reference/synthetic_coverage.md)
+  compares synthetic respondents from one or more language models, over
+  several attempts, with real responses to the same items, and
+  [`gg_coverage()`](https://www.okanbulut.com/mirtverse/reference/gg_coverage.md)
+  draws one row per model and attempt and one column per slice of the
+  real population: Deciles of the real total score (the default) or of
+  theta, groups or personas (alone or with deciles within each), or
+  items and their answer categories (right/wrong and Likert items). Blue
+  cells hold too many synthetic respondents, red cells too few, and gaps
+  a real sample of the same size would show by chance stay pale. On the
+  right, Overlap (the share of synthetic respondents in the same slices
+  as real ones) and Structure (how closely the inter-item correlations
+  match) give the Overall, Lowest and Highest attempt. With two or more
+  models,
+  [`blend_llms()`](https://www.okanbulut.com/mirtverse/reference/blend_llms.md)
+  finds the Best Blend, the mix of models whose respondents match the
+  real population best; with four or more attempts it is chosen on half
+  of them and reported on the other half. Large tests are split into
+  pages of at most 40 columns, worst-matching items first. polycor is a
+  new suggested package.
+
 - Wright maps for automated scoring:
   [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
   fits a many-facet Rasch model with the eirm package, so human raters
