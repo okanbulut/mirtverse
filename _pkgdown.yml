@@ -208,6 +208,9 @@ reference:
   - validity_argument
   - simulate_llm_respondents
   - compare_synthetic
+  - synthetic_coverage
+  - blend_llms
+  - gg_coverage
   - itemtext
   - essays
   - aigfield
