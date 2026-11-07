@@ -229,8 +229,19 @@ JetBrains.</p></li>
 /plugin install mirtverse@mirtverse</code></pre>
 <p>(Recent versions of Claude Code also accept
 <code>/plugin install mirtverse --marketplace okanbulut/mirtverse</code>
-in one step.) Restart Claude Code, and the mirtverse tools are ready in
-every folder you open.</p>
+in one step.)</p>
+<p>Finally, connect the mirtverse server, once. The plugin brings the
+skills and the analyst agent; the tools come from the MCP server in the
+mirtverse package, which runs on your computer and is connected
+separately. In a terminal, run:</p>
+<pre><code>claude mcp add --scope user mirtverse -- Rscript -e "mirtverse::mv_agent_server()"</code></pre>
+<p>(If <code>Rscript</code> is not on your PATH, which is common on
+Windows, run
+<code>mirtverse::mv_mcp_config(NULL, client = "claude-code", mode = "analysis")</code>
+in R; it prints the same command with the full path to Rscript. You can
+also just ask Claude to “set up mirtverse”: the <code>setup</code> skill
+walks through it.) Restart Claude Code, and the mirtverse tools are
+ready in every folder you open.</p>
 </div>
 <div class="section level2">
 <h2 id="use-it">Use it<a class="anchor" aria-label="anchor" href="#use-it"></a>
@@ -362,7 +373,7 @@ into a mirtverse project for Claude Code: A <code>CLAUDE.md</code> with
 the agent’s instructions, and a <code>.mcp.json</code> that starts the
 server with the full path to <code>Rscript</code>. This is also the way
 to go on Windows when <code>Rscript</code> is not on the PATH.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">mirtverse</span><span class="fu">::</span><span class="fu"><a href="../reference/mv_agent_init.html">mv_agent_init</a></span><span class="op">(</span><span class="st">"~/projects/math-test"</span>,</span>
 <span>                         title <span class="op">=</span> <span class="st">"Grade 8 math test, spring 2026"</span><span class="op">)</span></span></code></pre></div>
 <p>Open <code>CLAUDE.md</code> and fill in the “About this project”
@@ -372,7 +383,7 @@ the folder and approve the <code>mirtverse</code> server.</p>
 <p><strong>Claude Desktop and other assistants.</strong> The same server
 works with any MCP client. <code><a href="../reference/mv_mcp_config.html">mv_mcp_config()</a></code> prints the
 settings:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mv_mcp_config.html">mv_mcp_config</a></span><span class="op">(</span><span class="st">"~/projects/math-test"</span>, client <span class="op">=</span> <span class="st">"claude-desktop"</span>, mode <span class="op">=</span> <span class="st">"analysis"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/mv_mcp_config.html">mv_mcp_config</a></span><span class="op">(</span><span class="st">"~/projects/math-test"</span>, client <span class="op">=</span> <span class="st">"codex"</span>, mode <span class="op">=</span> <span class="st">"analysis"</span><span class="op">)</span></span></code></pre></div>
 <p>The skills are written for Claude Code, but the server carries its

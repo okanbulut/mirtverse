@@ -1,5 +1,16 @@
 # Changelog
 
+## mirtverse (development version)
+
+- The mirtverse plugin for Claude Code (version 0.2.0) no longer starts
+  the analysis server itself, so it meets the Claude plugin directory’s
+  rules (only Markdown, JSON and images; no MCP server that runs on the
+  user’s computer). Connect the server once with
+  `claude mcp add --scope user mirtverse -- Rscript -e "mirtverse::mv_agent_server()"`;
+  the `setup` skill walks through it, and
+  `mv_mcp_config(NULL, client = "claude-code", mode = "analysis")`
+  prints the command with the full path to Rscript.
+
 ## mirtverse 0.3.0
 
 - Wright maps for automated scoring:

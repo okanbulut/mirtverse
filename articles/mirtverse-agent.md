@@ -73,8 +73,21 @@ Then add the plugin. In Claude Code, type:
 
 (Recent versions of Claude Code also accept
 `/plugin install mirtverse --marketplace okanbulut/mirtverse` in one
-step.) Restart Claude Code, and the mirtverse tools are ready in every
-folder you open.
+step.)
+
+Finally, connect the mirtverse server, once. The plugin brings the
+skills and the analyst agent; the tools come from the MCP server in the
+mirtverse package, which runs on your computer and is connected
+separately. In a terminal, run:
+
+    claude mcp add --scope user mirtverse -- Rscript -e "mirtverse::mv_agent_server()"
+
+(If `Rscript` is not on your PATH, which is common on Windows, run
+`mirtverse::mv_mcp_config(NULL, client = "claude-code", mode = "analysis")`
+in R; it prints the same command with the full path to Rscript. You can
+also just ask Claude to “set up mirtverse”: the `setup` skill walks
+through it.) Restart Claude Code, and the mirtverse tools are ready in
+every folder you open.
 
 ## Use it
 

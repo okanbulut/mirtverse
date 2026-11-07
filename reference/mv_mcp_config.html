@@ -124,7 +124,10 @@ settings go.</p>
 
 <dl><dt id="arg-course">course<a class="anchor" aria-label="anchor" href="#arg-course"></a></dt>
 <dd><p>path to the course folder, or with <code>mode = "analysis"</code> the
-project folder that holds your data.</p></dd>
+project folder that holds your data. With <code>mode = "analysis"</code> and
+<code>client = "claude-code"</code>, <code>NULL</code> gives a command that registers the
+server once for all your projects (it then works in whatever folder
+Claude Code is opened in).</p></dd>
 
 
 <dt id="arg-client">client<a class="anchor" aria-label="anchor" href="#arg-client"></a></dt>
@@ -187,6 +190,9 @@ over HTTP).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">mv_mcp_config</span><span class="op">(</span><span class="cn">NULL</span>, client <span class="op">=</span> <span class="st">"claude-code"</span>, mode <span class="op">=</span> <span class="st">"analysis"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Claude Code: run this once in a terminal.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> claude mcp add --scope user mirtverse -- "/opt/R/4.6.2/lib/R/bin/Rscript" -e "mirtverse::mv_agent_server()"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
