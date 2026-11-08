@@ -1,5 +1,17 @@
 # mirtverse (development version)
 
+* New datasets from a study of synthetic HEXACO respondents:
+  `hexaco_real` (17,874 real people from Canada, Great Britain and the
+  United States, 240 IPIP-HEXACO items, Open-Source Psychometrics
+  Project), `hexaco_llm` (59,611 synthetic respondents to the same items
+  from Gemma 4 26B, GPT-OSS-120B, Qwen 3.8 27B and Qwen 3.5 122B, 10
+  attempts per country) and `hexaco_items` (item text, trait, facet and
+  keying).
+
+* New article "Checking synthetic respondents: The coverage strip" shows
+  `synthetic_coverage()` and `gg_coverage()` with the HEXACO data:
+  Models, countries (`within_group = TRUE`) and items.
+
 * The mirtverse plugin for Claude Code (version 0.2.0) no longer starts
   the analysis server itself, so it meets the Claude plugin directory's
   rules (only Markdown, JSON and images; no MCP server that runs on the

@@ -131,6 +131,7 @@ articles:
     articles are also in the AI Hub menu.
   contents:
   - articles/ai-hub
+  - articles/synthetic-coverage
   - articles/ai-translation
   - articles/ai-reading
   - articles/ai-workshop
@@ -190,8 +191,10 @@ reference:
     items from item models and calibrate their families, train and check an
     automated scoring engine, audit AI components and draft a validity
     argument, simulate respondents with a language model (experimental),
-    and teaching datasets with item text, written answers, a
-    field test of generated items and an AI-scored test.
+    check where synthetic respondents land in the real population, and
+    teaching datasets with item text, written answers, a field test of
+    generated items, an AI-scored test and HEXACO answers of real people
+    and four language models.
   contents:
   - mv_llm_replay
   - item_features
@@ -211,6 +214,9 @@ reference:
   - synthetic_coverage
   - blend_llms
   - gg_coverage
+  - hexaco_real
+  - hexaco_llm
+  - hexaco_items
   - itemtext
   - essays
   - aigfield
