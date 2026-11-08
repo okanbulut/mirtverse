@@ -765,7 +765,9 @@ plot_coverage <- function(x, items, page, n_pages, before, title, subtitle) {
   }
   cells$slice <- factor(cells$slice, levels = def$table$slice)
   x_lab <- stats::setNames(def$table$label, def$table$slice)
-  if (!item_mode && !isTRUE(def$grouped)) x_lab <- gsub(" ", "\n", x_lab)
+  # many score or theta slices (for example deciles within groups) get angled labels
+  angled <- !item_mode && (isTRUE(def$grouped) || length(x_lab) > 12)
+  if (!item_mode && !angled) x_lab <- gsub(" ", "\n", x_lab)
   p <- ggplot2::ggplot(cells, ggplot2::aes(x = slice, y = attempt, fill = fill)) +
     ggplot2::geom_tile(width = 0.92, height = 0.84) +
     ggplot2::scale_fill_gradientn(colours = pal, limits = c(-1, 1), breaks = brk, labels = lab,
@@ -796,6 +798,9 @@ plot_coverage <- function(x, items, page, n_pages, before, title, subtitle) {
                    legend.position = "bottom", legend.justification = "right",
                    panel.spacing.y = ggplot2::unit(0.6, "lines"),
                    panel.spacing.x = ggplot2::unit(0.35, "lines"))
+  if (angled)
+    p <- p + ggplot2::theme(axis.text.x.top = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0,
+                                                                    size = 8))
 
   # numbers on the right
   s <- as.data.frame(x$summary)
@@ -852,7 +857,7 @@ plot_coverage <- function(x, items, page, n_pages, before, title, subtitle) {
   lines <- c(sprintf('bold("%s:")~"%s"', ov_name, coverage_plotmath(ov_def)))
   if (has_structure) lines <- c(lines, sprintf('bold("Structure:")~"%s"', coverage_plotmath(
     sprintf("How closely the correlations between items match the real ones (%s correlations; 100%% = identical).",
-            x$settings$cor))))
+            if (x$settings$cor == "pearson") "Pearson" else x$settings$cor))))
   lines <- c(lines, sprintf('"%s"', coverage_plotmath(paste0(
     if (has_structure) "In both columns, " else "",
     "Overall is the mean over the attempts; Lowest and Highest are the worst and best attempt."))))
