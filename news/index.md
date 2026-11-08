@@ -36,7 +36,9 @@
   (for example personas or countries), `within_group = TRUE` compares
   each group’s respondents with that group’s real respondents only, so a
   mix of groups set by design (such as the same number per country) does
-  not count. polycor is a new suggested package.
+  not count. Strips with many score slices (such as deciles within
+  several groups) get angled column labels. polycor is a new suggested
+  package.
 
 - Wright maps for automated scoring:
   [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md)
