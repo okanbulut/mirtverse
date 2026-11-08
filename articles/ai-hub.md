@@ -219,6 +219,16 @@ language models](https://www.okanbulut.com/mirtverse/book/llms.md) runs
 the example from the recordings, with the twelve personas in
 `examples.R`.
 
+To see where synthetic respondents land in the real population, attempt
+by attempt and model by model, use the coverage strip
+([`synthetic_coverage()`](https://www.okanbulut.com/mirtverse/reference/synthetic_coverage.md)
+and
+[`gg_coverage()`](https://www.okanbulut.com/mirtverse/reference/gg_coverage.md)).
+The article [Checking synthetic
+respondents](https://www.okanbulut.com/mirtverse/articles/synthetic-coverage.md)
+walks through it with HEXACO answers from four language models and
+17,874 real people.
+
 ### Score open-ended responses, and check the scores
 
 ``` r

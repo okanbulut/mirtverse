@@ -192,7 +192,9 @@ suggest an addition, open an issue on
   [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
   and
   [`compare_synthetic()`](https://www.okanbulut.com/mirtverse/reference/compare_synthetic.md),
-  which are experimental).
+  which are experimental). To see where synthetic respondents land in
+  the real population, use the coverage strip in [Checking synthetic
+  respondents](https://www.okanbulut.com/mirtverse/articles/synthetic-coverage.md).
 
 ## Validity, fairness and governance
 
