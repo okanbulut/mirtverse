@@ -185,6 +185,9 @@ an addition, open an issue on
   [chapter on large language models](../book/llms.html) (with
   `simulate_llm_respondents()` and `compare_synthetic()`, which are
   experimental).
+  To see where synthetic respondents land in the real population, use
+  the coverage strip in [Checking synthetic
+  respondents](synthetic-coverage.html).
 
 ## Validity, fairness and governance {#validity}
 
