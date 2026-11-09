@@ -22,7 +22,8 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 
 **A** [Ability](#ability) · [AIC, BIC and SABIC](#information-criteria)
 · [Anchor items](#anchor-items) · [Angoff method](#standard-setting) ·
-[Answer copying](#answer-copying) · [Automated item generation](#aig) ·
+[Answer copying](#answer-copying) · [Attribute
+hierarchy](#attribute-hierarchy) · [Automated item generation](#aig) ·
 [Automated scoring](#automated-scoring) · [Automated test
 assembly](#automated-test-assembly) **B** [Bookmark
 method](#standard-setting) **C** [Calibration](#calibration) · [Category
@@ -53,10 +54,11 @@ characteristic curve](#item-characteristic-curve) · [Item difficulty
 information](#item-information) · [Item model](#item-model) · [Item
 parameters](#item-parameters) · [Item response
 theory](#item-response-theory) · [Item](#item) · [Item-total
-correlation](#item-total-correlation) **K** [Kappa](#kappa) **L** [Large
-language model](#llm) · [Latent trait](#latent-trait) ·
-[Likelihood-ratio test](#likelihood-ratio-test) · [Linking](#linking) ·
-[LLTM](#lltm) · [Local dependence](#local-dependence) · [Local
+correlation](#item-total-correlation) **K** [Kappa](#kappa) · [Knowledge
+graph](#knowledge-graph) **L** [Large language model](#llm) · [Latent
+trait](#latent-trait) · [Likelihood-ratio test](#likelihood-ratio-test)
+· [Linking](#linking) · [LLTM](#lltm) · [Local
+dependence](#local-dependence) · [Local
 independence](#local-independence) · [Logit](#logit) · [Lower
 asymptote](#guessing) **M** [M2](#m2) · [Machine
 learning](#machine-learning) · [MAP](#map) · [Marginal maximum
@@ -71,10 +73,11 @@ forms](#parallel-forms) · [Parameter drift](#parameter-drift) · [Person
 fit](#person-fit) · [Person score](#person-score) · [Polytomous
 item](#polytomous-item) · [Preknowledge](#preknowledge) ·
 [PRMSE](#prmse) · [Prompt](#prompt) · [p-value (item)](#p-value) **Q**
-[Q3](#q3) · [Quadratic weighted kappa](#qwk) **R** [Rapid
-guessing](#rapid-guessing) · [Rasch model](#rasch-model) · [Reference
-group](#reference-focal-group) · [Reliability](#marginal-reliability) ·
-[Response probability](#response-probability) · [Response time
+[Q-matrix](#q-matrix) · [Q3](#q3) · [Quadratic weighted kappa](#qwk)
+**R** [Rapid guessing](#rapid-guessing) · [Rasch model](#rasch-model) ·
+[Reference group](#reference-focal-group) ·
+[Reliability](#marginal-reliability) · [Response
+probability](#response-probability) · [Response time
 effort](#response-time-effort) · [RMSEA](#rmsea) **S** [Slope-intercept
 form](#slope-intercept) · [Speed](#speed) · [SRMSR](#srmsr) · [Standard
 error (of a parameter)](#standard-error) · [Standard error of
@@ -297,6 +300,45 @@ skills, or to check whether a single trait is enough.
 **In R:** `mirt(data, 2)` for an exploratory two-factor model, or a
 [`mirt::mirt.model()`](https://philchalmers.github.io/mirt/reference/mirt.model.html)
 specification for a confirmatory structure.
+
+### Knowledge graph
+
+A map of what a test measures: The concepts (skills, attributes,
+learning objectives), the relations between them, such as one concept
+being a prerequisite of another, and the items that measure each
+concept. It makes the claims behind a test explicit, so they can be
+drawn, checked and turned into models.
+
+**In R:**
+[`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
+or
+[`as_mv_kg()`](https://www.okanbulut.com/mirtverse/reference/as_mv_kg.md),
+then
+[`mv_kg_check()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_check.md)
+and [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md).
+
+### Q-matrix
+
+A table with one row per item and one column per concept (attribute),
+with a 1 where the item needs the concept. It is the core of cognitive
+diagnosis models and of confirmatory multidimensional IRT models, where
+it says which item loads on which factor.
+
+**In R:**
+[`mv_kg_qmatrix()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_qmatrix.md);
+[`mv_kg_model()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_model.md)
+turns it into a mirt model.
+
+### Attribute hierarchy
+
+Prerequisite relations among the concepts a test measures: A student can
+master a concept only after mastering its prerequisites. A hierarchy
+rules out some mastery patterns, which makes diagnostic models smaller
+and testable.
+
+**In R:**
+[`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
+lists the patterns a knowledge graph allows.
 
 ## Item parameters and curves
 

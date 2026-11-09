@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ai-validity.html"/>
+<link rel="prev" href="knowledge-graphs.html"/>
 <link rel="next" href="adapting.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -354,6 +354,16 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#in-the-lab-15"><i class="fa fa-check"></i>In the lab</a></li>
 <li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#further-reading-17"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
+<li class="part"><span><b>II Knowledge graphs</b></span></li>
+<li class="chapter" data-level="19" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html"><i class="fa fa-check"></i><b>19</b> Knowledge graphs and IRT</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#the-ideas-18"><i class="fa fa-check"></i><b>19.1</b> The ideas</a></li>
+<li class="chapter" data-level="19.2" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-1-a-graph-for-fraction-subtraction"><i class="fa fa-check"></i><b>19.2</b> Example 1: A graph for fraction subtraction</a></li>
+<li class="chapter" data-level="19.3" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-2-from-graph-to-irt-model"><i class="fa fa-check"></i><b>19.3</b> Example 2: From graph to IRT model</a></li>
+<li class="chapter" data-level="19.4" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#your-turn-18"><i class="fa fa-check"></i><b>19.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#in-the-lab-16"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#further-reading-18"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendices</b></span></li>
 <li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
 <ul>
@@ -389,7 +399,7 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datasets" class="section level1 hasAnchor" number="19">
+<div id="datasets" class="section level1 hasAnchor" number="20">
 <h1><span class="header-section-number">A</span> Datasets used in the book<a href="datasets.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Every example loads its data in one chunk, labelled <code>data-&lt;chapter&gt;-&lt;n&gt;</code>, at
 the start of the example. The table lists what each chunk defines. <em>Real</em>
@@ -629,12 +639,19 @@ them.</p>
 <td>Simulated</td>
 <td><code>cells</code></td>
 </tr>
+<tr class="odd">
+<td><code>data-knowledge-graphs-1</code></td>
+<td><code>fraction_subtraction</code>: 536 students, 20 fraction subtraction items, with its 8-attribute Q-matrix as a knowledge graph</td>
+<td>Real</td>
+<td><code>resp</code>, <code>kg</code></td>
+</tr>
 </tbody>
 </table>
 <p>The book deliberately does not analyse the mirtverse lab datasets
 (<code>certexam</code>, <code>numeracy</code>, <code>linking</code>, <code>catbank</code> and <code>openended</code>), because the
 labs ask students to discover problems hidden in them. The same goes for the
-AI Hub datasets <code>itemtext</code> and <code>essays</code>. They are described in
+AI Hub datasets <code>itemtext</code> and <code>essays</code>, and the knowledge graph example
+<code>fractions</code>. They are described in
 the <a href="https://www.okanbulut.com/mirtverse/articles/teaching-labs.html">teaching labs
 article</a> and
 on their help pages, for example <code>?certexam</code>.</p>
@@ -662,7 +679,7 @@ models and DIF.</li>
           </div>
         </div>
       </div>
-<a href="ai-validity.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="knowledge-graphs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="adapting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 19 Knowledge graphs and IRT | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 19 Knowledge graphs and IRT | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 19 Knowledge graphs and IRT | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ai-validity.html"/>
+<link rel="next" href="datasets.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: A multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: A wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: The LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: A driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: A test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: When the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: A mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: A reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: The same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: Finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: Where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: Designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: Four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: A proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: Attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: A rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: Paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: Separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: Concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: A vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: A CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: Setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: Telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: The 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: Forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="item-text.html"><a href="item-text.html"><i class="fa fa-check"></i><b>14</b> What item text tells us</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="item-text.html"><a href="item-text.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="item-text.html"><a href="item-text.html#example-1-features-and-an-explanatory-model"><i class="fa fa-check"></i><b>14.2</b> Example 1: Features and an explanatory model</a></li>
+<li class="chapter" data-level="14.3" data-path="item-text.html"><a href="item-text.html#example-2-the-one-step-lltm-in-mirt"><i class="fa fa-check"></i><b>14.3</b> Example 2: The one-step LLTM in mirt</a></li>
+<li class="chapter" data-level="14.4" data-path="item-text.html"><a href="item-text.html#example-3-new-items-or-new-kinds-of-items"><i class="fa fa-check"></i><b>14.4</b> Example 3: New items or new kinds of items?</a></li>
+<li class="chapter" data-level="14.5" data-path="item-text.html"><a href="item-text.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="aig.html"><a href="aig.html"><i class="fa fa-check"></i><b>15</b> Generating items</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="aig.html"><a href="aig.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="aig.html"><a href="aig.html#example-1-writing-an-item-model"><i class="fa fa-check"></i><b>15.2</b> Example 1: Writing an item model</a></li>
+<li class="chapter" data-level="15.3" data-path="aig.html"><a href="aig.html#example-2-calibrating-the-families"><i class="fa fa-check"></i><b>15.3</b> Example 2: Calibrating the families</a></li>
+<li class="chapter" data-level="15.4" data-path="aig.html"><a href="aig.html#example-3-one-step-with-a-random-item-effect"><i class="fa fa-check"></i><b>15.4</b> Example 3: One step, with a random item effect</a></li>
+<li class="chapter" data-level="15.5" data-path="aig.html"><a href="aig.html#example-4-does-the-family-mean-predict-new-items"><i class="fa fa-check"></i><b>15.5</b> Example 4: Does the family mean predict new items?</a></li>
+<li class="chapter" data-level="15.6" data-path="aig.html"><a href="aig.html#your-turn-14"><i class="fa fa-check"></i><b>15.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#in-the-lab-13"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>16</b> Automated scoring</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
+<li class="chapter" data-level="16.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>16.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="16.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>16.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#example-3-the-engine-on-the-wright-map"><i class="fa fa-check"></i><b>16.4</b> Example 3: The engine on the Wright map</a></li>
+<li class="chapter" data-level="16.5" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-14"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>17</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="llms.html"><a href="llms.html#the-ideas-16"><i class="fa fa-check"></i><b>17.1</b> The ideas</a></li>
+<li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="ai-validity.html"><a href="ai-validity.html"><i class="fa fa-check"></i><b>18</b> Validity, fairness and governance of AI</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="ai-validity.html"><a href="ai-validity.html#the-ideas-17"><i class="fa fa-check"></i><b>18.1</b> The ideas</a></li>
+<li class="chapter" data-level="18.2" data-path="ai-validity.html"><a href="ai-validity.html#example-1-auditing-a-scoring-engine"><i class="fa fa-check"></i><b>18.2</b> Example 1: Auditing a scoring engine</a></li>
+<li class="chapter" data-level="18.3" data-path="ai-validity.html"><a href="ai-validity.html#example-2-other-ai-components"><i class="fa fa-check"></i><b>18.3</b> Example 2: Other AI components</a></li>
+<li class="chapter" data-level="18.4" data-path="ai-validity.html"><a href="ai-validity.html#example-3-from-audit-to-argument"><i class="fa fa-check"></i><b>18.4</b> Example 3: From audit to argument</a></li>
+<li class="chapter" data-level="18.5" data-path="ai-validity.html"><a href="ai-validity.html#governance"><i class="fa fa-check"></i><b>18.5</b> Governance</a></li>
+<li class="chapter" data-level="18.6" data-path="ai-validity.html"><a href="ai-validity.html#your-turn-17"><i class="fa fa-check"></i><b>18.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#in-the-lab-15"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#further-reading-17"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>II Knowledge graphs</b></span></li>
+<li class="chapter" data-level="19" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html"><i class="fa fa-check"></i><b>19</b> Knowledge graphs and IRT</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#the-ideas-18"><i class="fa fa-check"></i><b>19.1</b> The ideas</a></li>
+<li class="chapter" data-level="19.2" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-1-a-graph-for-fraction-subtraction"><i class="fa fa-check"></i><b>19.2</b> Example 1: A graph for fraction subtraction</a></li>
+<li class="chapter" data-level="19.3" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-2-from-graph-to-irt-model"><i class="fa fa-check"></i><b>19.3</b> Example 2: From graph to IRT model</a></li>
+<li class="chapter" data-level="19.4" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#your-turn-18"><i class="fa fa-check"></i><b>19.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#in-the-lab-16"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#further-reading-18"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="knowledge-graphs" class="section level1 hasAnchor" number="19">
+<h1><span class="header-section-number">Chapter 19</span> Knowledge graphs and IRT<a href="knowledge-graphs.html#knowledge-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>describe what a test measures as a <strong>knowledge graph</strong> of concepts,
+prerequisites and items, and build one with <code>mv_kg_build()</code> or
+<code>as_mv_kg()</code>;</li>
+<li>check a graph for problems with <code>mv_kg_check()</code> and draw it with
+<code>gg_kg()</code>;</li>
+<li>read a graph’s <strong>Q-matrix</strong> and list the mastery patterns its
+<strong>attribute hierarchy</strong> allows;</li>
+<li>turn a graph into a confirmatory multidimensional IRT model with
+<code>mv_kg_model()</code> and <code>mv_kg_irt()</code>, and test the graph’s claims against
+simpler and stricter models.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-graph">Knowledge graph</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#q-matrix">Q-matrix</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#attribute-hierarchy">attribute hierarchy</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#multidimensional-irt">multidimensional IRT</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test">likelihood-ratio test</a>.</p>
+<div id="the-ideas-18" class="section level2 hasAnchor" number="19.1">
+<h2><span class="header-section-number">19.1</span> The ideas<a href="knowledge-graphs.html#the-ideas-18" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Every test is built on claims about what it measures. A blueprint says
+which content each item covers; a curriculum says that some ideas must be
+learned before others; a teacher knows that an item about subtracting
+mixed numbers also needs borrowing. Most of these claims stay in documents
+and heads. A <strong>knowledge graph</strong> writes them down in a form a computer can
+check and a model can use. It has three kinds of parts.</p>
+<ul>
+<li><strong>Concepts</strong> (also called skills, attributes or objectives): What the
+test is meant to tell us about.</li>
+<li><strong>Relations between concepts.</strong> The most useful is <strong>prerequisite of</strong>:
+Equivalent fractions before adding fractions with unlike denominators.
+Prerequisite edges point forward in the learning order and should never
+form a cycle. A weaker relation, <strong>related to</strong>, links concepts where
+neither comes first.</li>
+<li><strong>Items</strong>, each linked to the concepts it <strong>measures</strong>. These links are
+the rows of the <strong>Q-matrix</strong> <span class="citation">(<a href="#ref-tatsuoka1984">Tatsuoka 1984</a>)</span>: One row per item, one
+column per concept, with a 1 where the item needs the concept.</li>
+</ul>
+<p>The graph connects two traditions in psychometrics. In <strong>multidimensional
+IRT</strong>, the Q-matrix is the loading pattern of a confirmatory model: Each
+concept is a factor, and an item has a slope only on the concepts it
+measures (Chapter <a href="dimensionality.html#dimensionality">4</a>). In <strong>cognitive diagnosis</strong>, the
+same Q-matrix says which skills an item needs, and prerequisite edges form
+an <strong>attribute hierarchy</strong> <span class="citation">(<a href="#ref-leighton2004">Leighton et al. 2004</a>; <a href="#ref-templin2014">Templin and Bradshaw 2014</a>)</span>: A student can
+master a concept only after mastering its prerequisites, so some mastery
+patterns are impossible. Knowledge space theory <span class="citation">(<a href="#ref-doignon1999">Doignon and Falmagne 1999</a>)</span> builds a
+whole theory of assessment on such structures.</p>
+<p>A graph is a set of claims, and each claim can be wrong. An item can be
+linked to the wrong concept, a prerequisite can be missing or reversed,
+and two concepts can be impossible to tell apart because the same items
+measure them. The work in this chapter is to make the claims explicit,
+check what can be checked without data, and then let the data speak.</p>
+</div>
+<div id="example-1-a-graph-for-fraction-subtraction" class="section level2 hasAnchor" number="19.2">
+<h2><span class="header-section-number">19.2</span> Example 1: A graph for fraction subtraction<a href="knowledge-graphs.html#example-1-a-graph-for-fraction-subtraction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Tatsuoka’s fraction subtraction data are the best-known real data in
+cognitive diagnosis: 536 middle school students answered 20 items such as
+<span class="math inline">\(4\frac{1}{3} - 2\frac{4}{3}\)</span>, and the items were coded on eight
+attributes <span class="citation">(<a href="#ref-tatsuoka2002">Tatsuoka 2002</a>; <a href="#ref-decarlo2011">DeCarlo 2011</a>; <a href="#ref-delatorre2004">Torre and Douglas 2004</a>)</span>. mirtverse
+stores the responses as <code>fraction_subtraction</code> and the Q-matrix as a
+knowledge graph, <code>fraction_subtraction_kg</code>.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="knowledge-graphs.html#cb209-1" tabindex="-1"></a>resp <span class="ot">&lt;-</span> fraction_subtraction</span>
+<span id="cb209-2"><a href="knowledge-graphs.html#cb209-2" tabindex="-1"></a>kg <span class="ot">&lt;-</span> fraction_subtraction_kg</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="knowledge-graphs.html#cb210-1" tabindex="-1"></a>kg</span>
+<span id="cb210-2"><a href="knowledge-graphs.html#cb210-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction (Tatsuoka): 8 concept(s), 20 item(s)</span></span>
+<span id="cb210-3"><a href="knowledge-graphs.html#cb210-3" tabindex="-1"></a><span class="co">#&gt; Edges: 0 prerequisite, 0 related, 56 measures</span></span>
+<span id="cb210-4"><a href="knowledge-graphs.html#cb210-4" tabindex="-1"></a><span class="fu">tidy</span>(kg)</span>
+<span id="cb210-5"><a href="knowledge-graphs.html#cb210-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 28 × 6</span></span>
+<span id="cb210-6"><a href="knowledge-graphs.html#cb210-6" tabindex="-1"></a><span class="co">#&gt;   node               kind    label                       description links depth</span></span>
+<span id="cb210-7"><a href="knowledge-graphs.html#cb210-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt;                       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb210-8"><a href="knowledge-graphs.html#cb210-8" tabindex="-1"></a><span class="co">#&gt; 1 convert_whole      concept Convert a whole number to … Attribute …     3     0</span></span>
+<span id="cb210-9"><a href="knowledge-graphs.html#cb210-9" tabindex="-1"></a><span class="co">#&gt; 2 separate_whole     concept Separate a whole number fr… Attribute …    13     0</span></span>
+<span id="cb210-10"><a href="knowledge-graphs.html#cb210-10" tabindex="-1"></a><span class="co">#&gt; 3 simplify_first     concept Simplify before subtracting Attribute …     3     0</span></span>
+<span id="cb210-11"><a href="knowledge-graphs.html#cb210-11" tabindex="-1"></a><span class="co">#&gt; 4 common_denominator concept Find a common denominator   Attribute …     5     0</span></span>
+<span id="cb210-12"><a href="knowledge-graphs.html#cb210-12" tabindex="-1"></a><span class="co">#&gt; 5 borrow_whole       concept Borrow from the whole numb… Attribute …     8     0</span></span>
+<span id="cb210-13"><a href="knowledge-graphs.html#cb210-13" tabindex="-1"></a><span class="co">#&gt; 6 column_borrow      concept Column borrow to subtract … Attribute …     2     0</span></span>
+<span id="cb210-14"><a href="knowledge-graphs.html#cb210-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 22 more rows</span></span></code></pre></div>
+<p>The graph has eight concepts and 20 items, with 56 item-to-concept links.
+No prerequisite edges were published with the Q-matrix, so the graph has
+none yet. <code>tidy()</code> counts the items linked to each concept (<code>links</code>).
+<code>subtract_numerators</code> is needed by 19 of the 20 items, while
+<code>column_borrow</code> is needed by only two. Before any data are used,
+<code>mv_kg_check()</code> looks for problems in the structure itself.</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="knowledge-graphs.html#cb211-1" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg)</span>
+<span id="cb211-2"><a href="knowledge-graphs.html#cb211-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 0 block, 1 review, 0 info</span></span>
+<span id="cb211-3"><a href="knowledge-graphs.html#cb211-3" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
+<span id="cb211-4"><a href="knowledge-graphs.html#cb211-4" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span></code></pre></div>
+<p>The check finds one thing to review: Two items are too few to estimate
+<code>column_borrow</code> as its own dimension. A concept that nearly every item
+needs, like <code>subtract_numerators</code>, has the opposite problem: It is hard to
+separate from overall proficiency. Neither is an error in the graph, but
+both limit what a model can learn about these concepts.</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="knowledge-graphs.html#cb212-1" tabindex="-1"></a><span class="fu">gg_kg</span>(kg)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kg-fs"></span>
+<img src="mirtverse-book_files/figure-html/kg-fs-1.png" alt="The fraction subtraction graph: Eight attributes on the left, each joined to the items that need it." width="90%" />
+<p class="caption">
+Figure 19.1: The fraction subtraction graph: Eight attributes on the left, each joined to the items that need it.
+</p>
+</div>
+<p>Now suppose a mathematics teacher states two prerequisites as hypotheses:
+Borrowing from the whole number needs the whole number to be separated
+from the fraction first, and column borrowing needs subtracting numerators.
+We add these edges to the same concepts and items.</p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="knowledge-graphs.html#cb213-1" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> <span class="fu">tidy</span>(kg)</span>
+<span id="cb213-2"><a href="knowledge-graphs.html#cb213-2" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> concepts[concepts<span class="sc">$</span>kind <span class="sc">==</span> <span class="st">&quot;concept&quot;</span>, ]</span>
+<span id="cb213-3"><a href="knowledge-graphs.html#cb213-3" tabindex="-1"></a>kg_h <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(</span>
+<span id="cb213-4"><a href="knowledge-graphs.html#cb213-4" tabindex="-1"></a>  <span class="at">concepts =</span> <span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
+<span id="cb213-5"><a href="knowledge-graphs.html#cb213-5" tabindex="-1"></a>  <span class="at">edges =</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>),</span>
+<span id="cb213-6"><a href="knowledge-graphs.html#cb213-6" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>)),</span>
+<span id="cb213-7"><a href="knowledge-graphs.html#cb213-7" tabindex="-1"></a>  <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg),</span>
+<span id="cb213-8"><a href="knowledge-graphs.html#cb213-8" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Fraction subtraction with two prerequisites&quot;</span>)</span>
+<span id="cb213-9"><a href="knowledge-graphs.html#cb213-9" tabindex="-1"></a>kg_h</span>
+<span id="cb213-10"><a href="knowledge-graphs.html#cb213-10" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 8 concept(s), 20 item(s)</span></span>
+<span id="cb213-11"><a href="knowledge-graphs.html#cb213-11" tabindex="-1"></a><span class="co">#&gt; Edges: 2 prerequisite, 0 related, 56 measures</span></span>
+<span id="cb213-12"><a href="knowledge-graphs.html#cb213-12" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb213-13"><a href="knowledge-graphs.html#cb213-13" tabindex="-1"></a><span class="co">#&gt;   0: convert_whole, separate_whole, simplify_first, common_denominator, subtract_numerators, reduce_answer</span></span>
+<span id="cb213-14"><a href="knowledge-graphs.html#cb213-14" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole, column_borrow</span></span></code></pre></div>
+<p>The print-out now gives a learning order. The hierarchy has a practical
+consequence: With eight concepts there are <span class="math inline">\(2^8 = 256\)</span> possible mastery
+patterns, and each prerequisite rules out the patterns where a concept is
+mastered without its prerequisite.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="knowledge-graphs.html#cb214-1" tabindex="-1"></a>patterns <span class="ot">&lt;-</span> <span class="fu">mv_kg_hierarchy</span>(kg_h)</span>
+<span id="cb214-2"><a href="knowledge-graphs.html#cb214-2" tabindex="-1"></a><span class="fu">nrow</span>(patterns)</span>
+<span id="cb214-3"><a href="knowledge-graphs.html#cb214-3" tabindex="-1"></a><span class="co">#&gt; [1] 144</span></span>
+<span id="cb214-4"><a href="knowledge-graphs.html#cb214-4" tabindex="-1"></a><span class="fu">attr</span>(patterns, <span class="st">&quot;possible&quot;</span>)</span>
+<span id="cb214-5"><a href="knowledge-graphs.html#cb214-5" tabindex="-1"></a><span class="co">#&gt; [1] 256</span></span></code></pre></div>
+<p>Two edges remove 112 of the 256 patterns. A diagnostic model that respects
+the hierarchy has fewer classes to estimate, and the hierarchy itself can
+be tested by comparing models with and without it.</p>
+</div>
+<div id="example-2-from-graph-to-irt-model" class="section level2 hasAnchor" number="19.3">
+<h2><span class="header-section-number">19.3</span> Example 2: From graph to IRT model<a href="knowledge-graphs.html#example-2-from-graph-to-irt-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>mv_kg_model()</code> writes the confirmatory mirt model a graph implies, and
+<code>mv_kg_irt()</code> fits it. Eight correlated dimensions on 536 students is a
+large model that takes many minutes to fit, so we work with a smaller
+graph: The three concepts with the clearest roles, separating the whole
+number, borrowing, and finding a common denominator. <code>mv_kg_subset()</code> keeps
+these concepts, the prerequisite between two of them, and the 16 items that
+need at least one of them.</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="knowledge-graphs.html#cb215-1" tabindex="-1"></a>kg3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_subset</span>(kg_h, <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;common_denominator&quot;</span>))</span>
+<span id="cb215-2"><a href="knowledge-graphs.html#cb215-2" tabindex="-1"></a>kg3</span>
+<span id="cb215-3"><a href="knowledge-graphs.html#cb215-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
+<span id="cb215-4"><a href="knowledge-graphs.html#cb215-4" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
+<span id="cb215-5"><a href="knowledge-graphs.html#cb215-5" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb215-6"><a href="knowledge-graphs.html#cb215-6" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
+<span id="cb215-7"><a href="knowledge-graphs.html#cb215-7" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span>
+<span id="cb215-8"><a href="knowledge-graphs.html#cb215-8" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">mv_kg_qmatrix</span>(kg3)</span>
+<span id="cb215-9"><a href="knowledge-graphs.html#cb215-9" tabindex="-1"></a>resp3 <span class="ot">&lt;-</span> resp[<span class="fu">rownames</span>(q)]</span>
+<span id="cb215-10"><a href="knowledge-graphs.html#cb215-10" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mv_kg_model</span>(kg3)</span>
+<span id="cb215-11"><a href="knowledge-graphs.html#cb215-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(spec, <span class="st">&quot;item_syntax&quot;</span>))</span>
+<span id="cb215-12"><a href="knowledge-graphs.html#cb215-12" tabindex="-1"></a><span class="co">#&gt; separate_whole = FS04, FS05, FS07, FS09, FS10, FS11, FS13, FS14, FS16, FS17, FS18, FS19, FS20</span></span>
+<span id="cb215-13"><a href="knowledge-graphs.html#cb215-13" tabindex="-1"></a><span class="co">#&gt; common_denominator = FS01, FS02, FS03, FS05, FS13</span></span>
+<span id="cb215-14"><a href="knowledge-graphs.html#cb215-14" tabindex="-1"></a><span class="co">#&gt; borrow_whole = FS04, FS10, FS11, FS13, FS17, FS18, FS19, FS20</span></span>
+<span id="cb215-15"><a href="knowledge-graphs.html#cb215-15" tabindex="-1"></a><span class="co">#&gt; COV = separate_whole*common_denominator, separate_whole*borrow_whole, common_denominator*borrow_whole</span></span></code></pre></div>
+<p>Each concept is a factor, and each item loads on the concepts its row of
+the Q-matrix names; items that need two concepts load on both. By default
+all concepts correlate. The <code>structure</code> argument changes that:
+<code>structure = "graph"</code> lets only concepts joined by an edge correlate, a
+strict reading of the graph in which concepts without an edge are
+unrelated.</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="knowledge-graphs.html#cb216-1" tabindex="-1"></a>m_uni <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp3, <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb216-2"><a href="knowledge-graphs.html#cb216-2" tabindex="-1"></a>m_graph <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3)</span>
+<span id="cb216-3"><a href="knowledge-graphs.html#cb216-3" tabindex="-1"></a>m_strict <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;graph&quot;</span>)</span>
+<span id="cb216-4"><a href="knowledge-graphs.html#cb216-4" tabindex="-1"></a><span class="fu">anova</span>(m_uni, m_graph)</span>
+<span id="cb216-5"><a href="knowledge-graphs.html#cb216-5" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik     X2 df p</span></span>
+<span id="cb216-6"><a href="knowledge-graphs.html#cb216-6" tabindex="-1"></a><span class="co">#&gt; m_uni   7739  7775 7793 7876  -3838            </span></span>
+<span id="cb216-7"><a href="knowledge-graphs.html#cb216-7" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 394.06 13 0</span></span>
+<span id="cb216-8"><a href="knowledge-graphs.html#cb216-8" tabindex="-1"></a><span class="fu">anova</span>(m_strict, m_graph)</span>
+<span id="cb216-9"><a href="knowledge-graphs.html#cb216-9" tabindex="-1"></a><span class="co">#&gt;           AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
+<span id="cb216-10"><a href="knowledge-graphs.html#cb216-10" tabindex="-1"></a><span class="co">#&gt; m_strict 7641  7689 7713 7825  -3778             </span></span>
+<span id="cb216-11"><a href="knowledge-graphs.html#cb216-11" tabindex="-1"></a><span class="co">#&gt; m_graph  7371  7421 7447 7564  -3641 273.834  2 0</span></span></code></pre></div>
+<p>Two comparisons answer two questions. Against a single dimension, the
+three-concept model fits far better: The likelihood-ratio statistic is
+about 394 on 13 degrees of freedom, and BIC drops by more than 300. The
+items measure more than one proficiency, in the way the graph describes.
+Against the strict model, the correlated model also wins clearly: Finding a
+common denominator has no edge in the graph, yet it correlates with the
+other two concepts.</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="knowledge-graphs.html#cb217-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(m_graph, <span class="at">verbose =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>fcor, <span class="dv">2</span>)</span>
+<span id="cb217-2"><a href="knowledge-graphs.html#cb217-2" tabindex="-1"></a><span class="co">#&gt;                    separate_whole common_denominator borrow_whole</span></span>
+<span id="cb217-3"><a href="knowledge-graphs.html#cb217-3" tabindex="-1"></a><span class="co">#&gt; separate_whole               1.00               0.77         0.38</span></span>
+<span id="cb217-4"><a href="knowledge-graphs.html#cb217-4" tabindex="-1"></a><span class="co">#&gt; common_denominator           0.77               1.00         0.39</span></span>
+<span id="cb217-5"><a href="knowledge-graphs.html#cb217-5" tabindex="-1"></a><span class="co">#&gt; borrow_whole                 0.38               0.39         1.00</span></span></code></pre></div>
+<p>Separating the whole number and finding a common denominator correlate at
+about 0.77, much more than the two concepts the teacher linked (about
+0.37). This is a typical finding, not a failure: A prerequisite edge says
+something about the <em>order</em> of learning, and concepts that are learned in
+the same lessons correlate whether or not one is a prerequisite of the
+other. The correlations are a reason to look again at the graph, for
+example to ask whether a related-to edge is missing.</p>
+<p>The fitted model is an ordinary mirt model, so everything from the earlier
+chapters works on it, and the graph travels with it.</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="knowledge-graphs.html#cb218-1" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">tidy</span>(m_graph)</span>
+<span id="cb218-2"><a href="knowledge-graphs.html#cb218-2" tabindex="-1"></a><span class="fu">head</span>(pars[pars<span class="sc">$</span>estimate <span class="sc">!=</span> <span class="dv">0</span>, ])</span>
+<span id="cb218-3"><a href="knowledge-graphs.html#cb218-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb218-4"><a href="knowledge-graphs.html#cb218-4" tabindex="-1"></a><span class="co">#&gt;   item  itemtype term  estimate std.error</span></span>
+<span id="cb218-5"><a href="knowledge-graphs.html#cb218-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb218-6"><a href="knowledge-graphs.html#cb218-6" tabindex="-1"></a><span class="co">#&gt; 1 FS01  2PL      a2       5.13         NA</span></span>
+<span id="cb218-7"><a href="knowledge-graphs.html#cb218-7" tabindex="-1"></a><span class="co">#&gt; 2 FS01  2PL      d        1.08         NA</span></span>
+<span id="cb218-8"><a href="knowledge-graphs.html#cb218-8" tabindex="-1"></a><span class="co">#&gt; 3 FS02  2PL      a2       7.39         NA</span></span>
+<span id="cb218-9"><a href="knowledge-graphs.html#cb218-9" tabindex="-1"></a><span class="co">#&gt; 4 FS02  2PL      d        2.31         NA</span></span>
+<span id="cb218-10"><a href="knowledge-graphs.html#cb218-10" tabindex="-1"></a><span class="co">#&gt; 5 FS03  2PL      a2      13.8          NA</span></span>
+<span id="cb218-11"><a href="knowledge-graphs.html#cb218-11" tabindex="-1"></a><span class="co">#&gt; 6 FS03  2PL      d        0.943        NA</span></span>
+<span id="cb218-12"><a href="knowledge-graphs.html#cb218-12" tabindex="-1"></a><span class="fu">attr</span>(m_graph, <span class="st">&quot;mv_kg&quot;</span>)</span>
+<span id="cb218-13"><a href="knowledge-graphs.html#cb218-13" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
+<span id="cb218-14"><a href="knowledge-graphs.html#cb218-14" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
+<span id="cb218-15"><a href="knowledge-graphs.html#cb218-15" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb218-16"><a href="knowledge-graphs.html#cb218-16" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
+<span id="cb218-17"><a href="knowledge-graphs.html#cb218-17" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span></code></pre></div>
+<p><code>as_mv_kg()</code> also goes the other way: Given any confirmatory mirt model, it
+reads the loading pattern back into a graph, which is a quick way to draw a
+model you already have.</p>
+</div>
+<div id="your-turn-18" class="section level2 hasAnchor" number="19.4">
+<h2><span class="header-section-number">19.4</span> Your turn<a href="knowledge-graphs.html#your-turn-18" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Add a third hypothesis to <code>kg_h</code>: Converting a whole number to a
+fraction (<code>convert_whole</code>) is a prerequisite of borrowing
+(<code>borrow_whole</code>). How many mastery patterns are left?</li>
+<li>Add a cycle by also making <code>borrow_whole</code> a prerequisite of
+<code>separate_whole</code>. What does <code>mv_kg_check()</code> report, and what happens to
+<code>mv_kg_hierarchy()</code>?</li>
+<li>Fit the three-concept model with <code>structure = "orthogonal"</code>. How does it
+compare with the correlated model, and what does that say about scoring
+the three concepts separately?</li>
+<li>Draw <code>kg3</code> with <code>gg_kg()</code>, highlighting <code>common_denominator</code>. Which items
+does it share with <code>separate_whole</code>?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="knowledge-graphs.html#cb219-1" tabindex="-1"></a><span class="co"># 1. a third prerequisite</span></span>
+<span id="cb219-2"><a href="knowledge-graphs.html#cb219-2" tabindex="-1"></a>edges3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>, <span class="st">&quot;convert_whole&quot;</span>),</span>
+<span id="cb219-3"><a href="knowledge-graphs.html#cb219-3" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>))</span>
+<span id="cb219-4"><a href="knowledge-graphs.html#cb219-4" tabindex="-1"></a>kg_h3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
+<span id="cb219-5"><a href="knowledge-graphs.html#cb219-5" tabindex="-1"></a>                     <span class="at">edges =</span> edges3, <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
+<span id="cb219-6"><a href="knowledge-graphs.html#cb219-6" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">mv_kg_hierarchy</span>(kg_h3))</span>
+<span id="cb219-7"><a href="knowledge-graphs.html#cb219-7" tabindex="-1"></a><span class="co">#&gt; [1] 120</span></span>
+<span id="cb219-8"><a href="knowledge-graphs.html#cb219-8" tabindex="-1"></a></span>
+<span id="cb219-9"><a href="knowledge-graphs.html#cb219-9" tabindex="-1"></a><span class="co"># 2. a cycle</span></span>
+<span id="cb219-10"><a href="knowledge-graphs.html#cb219-10" tabindex="-1"></a>kg_cyc <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node),</span>
+<span id="cb219-11"><a href="knowledge-graphs.html#cb219-11" tabindex="-1"></a>                      <span class="at">edges =</span> <span class="fu">rbind</span>(edges3, <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="st">&quot;borrow_whole&quot;</span>,</span>
+<span id="cb219-12"><a href="knowledge-graphs.html#cb219-12" tabindex="-1"></a>                                                       <span class="at">to =</span> <span class="st">&quot;separate_whole&quot;</span>)),</span>
+<span id="cb219-13"><a href="knowledge-graphs.html#cb219-13" tabindex="-1"></a>                      <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
+<span id="cb219-14"><a href="knowledge-graphs.html#cb219-14" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg_cyc)</span>
+<span id="cb219-15"><a href="knowledge-graphs.html#cb219-15" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 1 block, 1 review, 3 info</span></span>
+<span id="cb219-16"><a href="knowledge-graphs.html#cb219-16" tabindex="-1"></a><span class="co">#&gt; * [block] cycle: Prerequisite edges form a cycle through</span></span>
+<span id="cb219-17"><a href="knowledge-graphs.html#cb219-17" tabindex="-1"></a><span class="co">#&gt;   separate_whole, borrow_whole, so no learning order exists.</span></span>
+<span id="cb219-18"><a href="knowledge-graphs.html#cb219-18" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
+<span id="cb219-19"><a href="knowledge-graphs.html#cb219-19" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span>
+<span id="cb219-20"><a href="knowledge-graphs.html#cb219-20" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: simplify_first has no relations to other concepts.</span></span>
+<span id="cb219-21"><a href="knowledge-graphs.html#cb219-21" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: common_denominator has no relations to other</span></span>
+<span id="cb219-22"><a href="knowledge-graphs.html#cb219-22" tabindex="-1"></a><span class="co">#&gt;   concepts.</span></span>
+<span id="cb219-23"><a href="knowledge-graphs.html#cb219-23" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: reduce_answer has no relations to other concepts.</span></span>
+<span id="cb219-24"><a href="knowledge-graphs.html#cb219-24" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mv_kg_hierarchy</span>(kg_cyc))</span>
+<span id="cb219-25"><a href="knowledge-graphs.html#cb219-25" tabindex="-1"></a><span class="co">#&gt; Error : The prerequisite edges contain a cycle; see mv_kg_check().</span></span>
+<span id="cb219-26"><a href="knowledge-graphs.html#cb219-26" tabindex="-1"></a></span>
+<span id="cb219-27"><a href="knowledge-graphs.html#cb219-27" tabindex="-1"></a><span class="co"># 3. uncorrelated concepts</span></span>
+<span id="cb219-28"><a href="knowledge-graphs.html#cb219-28" tabindex="-1"></a>m_orth <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;orthogonal&quot;</span>)</span>
+<span id="cb219-29"><a href="knowledge-graphs.html#cb219-29" tabindex="-1"></a><span class="fu">anova</span>(m_orth, m_graph)</span>
+<span id="cb219-30"><a href="knowledge-graphs.html#cb219-30" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
+<span id="cb219-31"><a href="knowledge-graphs.html#cb219-31" tabindex="-1"></a><span class="co">#&gt; m_orth  7642  7689 7712 7822  -3779             </span></span>
+<span id="cb219-32"><a href="knowledge-graphs.html#cb219-32" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 276.773  3 0</span></span>
+<span id="cb219-33"><a href="knowledge-graphs.html#cb219-33" tabindex="-1"></a></span>
+<span id="cb219-34"><a href="knowledge-graphs.html#cb219-34" tabindex="-1"></a><span class="co"># 4. shared items</span></span>
+<span id="cb219-35"><a href="knowledge-graphs.html#cb219-35" tabindex="-1"></a><span class="fu">gg_kg</span>(kg3, <span class="at">highlight =</span> <span class="st">&quot;common_denominator&quot;</span>)</span></code></pre></div>
+<p><img src="mirtverse-book_files/figure-html/unnamed-chunk-166-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="knowledge-graphs.html#cb220-1" tabindex="-1"></a>q[q[, <span class="st">&quot;common_denominator&quot;</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> q[, <span class="st">&quot;separate_whole&quot;</span>] <span class="sc">==</span> <span class="dv">1</span>, ]</span>
+<span id="cb220-2"><a href="knowledge-graphs.html#cb220-2" tabindex="-1"></a><span class="co">#&gt;      separate_whole common_denominator borrow_whole</span></span>
+<span id="cb220-3"><a href="knowledge-graphs.html#cb220-3" tabindex="-1"></a><span class="co">#&gt; FS05              1                  1            0</span></span>
+<span id="cb220-4"><a href="knowledge-graphs.html#cb220-4" tabindex="-1"></a><span class="co">#&gt; FS13              1                  1            1</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Borrowing now needs both separating and converting, so more patterns are
+ruled out: 120 of the 256 remain.</li>
+<li>The check reports a <code>cycle</code> block flag: Separating the whole number
+would have to come both before and after borrowing, so no learning order
+exists. <code>mv_kg_hierarchy()</code> stops with an error, because a cycle allows
+no consistent set of patterns.</li>
+<li>The orthogonal model fits much worse than the correlated one (the
+likelihood-ratio statistic is about 277 on 3 degrees of freedom). The
+concepts share a lot of variance, so three separate scores would repeat
+much of the same information; reporting them separately needs care
+(Chapter <a href="reporting.html#reporting">12</a>).</li>
+<li>Two items, FS05 and FS13, need both concepts; FS13 also needs
+borrowing. The other common denominator items (FS01 to FS03) involve no
+whole numbers. Items that load on two concepts help the model separate
+the concepts from their correlation.</li>
+</ol>
+</details>
+</div>
+<div id="in-the-lab-16" class="section level2 unnumbered hasAnchor">
+<h2>In the lab<a href="knowledge-graphs.html#in-the-lab-16" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="lab">
+<p>The <code>fractions</code> and <code>fractions_kg</code> datasets hold a simulated Grade 5
+fractions test with a published graph that differs from the true graph in
+planted ways. Phase 2 of the knowledge graph tools, which checks a graph
+against data, will come with a lab on finding them.</p>
+</div>
+</div>
+<div id="further-reading-18" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="knowledge-graphs.html#further-reading-18" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Tatsuoka <span class="citation">(<a href="#ref-tatsuoka1984">1984</a>)</span> introduced the Q-matrix with the fraction
+subtraction data; DeCarlo <span class="citation">(<a href="#ref-decarlo2011">2011</a>)</span> and de la Torre and Douglas
+<span class="citation">(<a href="#ref-delatorre2004">2004</a>)</span> reanalysed them with diagnostic models. Leighton, Gierl
+and Hunka <span class="citation">(<a href="#ref-leighton2004">2004</a>)</span> describe the attribute hierarchy method, and
+Templin and Bradshaw <span class="citation">(<a href="#ref-templin2014">2014</a>)</span> show how to test hierarchies with
+diagnostic classification models. Doignon and Falmagne <span class="citation">(<a href="#ref-doignon1999">1999</a>)</span>
+develop knowledge space theory, the mathematical theory of prerequisite
+structures in assessment.</p>
+
+</div>
+</div>
+
+
+
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-decarlo2011" class="csl-entry">
+DeCarlo, Lawrence T. 2011. <span>“On the Analysis of Fraction Subtraction Data: The <span>DINA</span> Model, Classification, Latent Class Sizes, and the <span>Q</span>-Matrix.”</span> <em>Applied Psychological Measurement</em> 35 (1): 8–26.
+</div>
+<div id="ref-doignon1999" class="csl-entry">
+Doignon, Jean-Paul, and Jean-Claude Falmagne. 1999. <em>Knowledge Spaces</em>. Springer.
+</div>
+<div id="ref-leighton2004" class="csl-entry">
+Leighton, Jacqueline P., Mark J. Gierl, and Stephen M. Hunka. 2004. <span>“The Attribute Hierarchy Method for Cognitive Assessment: A Variation on <span class="nocase">Tatsuoka’s</span> Rule-Space Approach.”</span> <em>Journal of Educational Measurement</em> 41 (3): 205–37.
+</div>
+<div id="ref-tatsuoka2002" class="csl-entry">
+Tatsuoka, Curtis. 2002. <span>“Data Analytic Methods for Latent Partially Ordered Classification Models.”</span> <em>Journal of the Royal Statistical Society: Series C (Applied Statistics)</em> 51 (3): 337–50.
+</div>
+<div id="ref-tatsuoka1984" class="csl-entry">
+Tatsuoka, Kikumi K. 1984. <em>Analysis of Errors in Fraction Addition and Subtraction Problems</em>. Final Report NIE-G-81-0002. University of Illinois, Computer-based Education Research Laboratory.
+</div>
+<div id="ref-templin2014" class="csl-entry">
+Templin, Jonathan, and Laine Bradshaw. 2014. <span>“Hierarchical Diagnostic Classification Models: A Family of Models for Estimating and Testing Attribute Hierarchies.”</span> <em>Psychometrika</em> 79 (2): 317–39.
+</div>
+<div id="ref-delatorre2004" class="csl-entry">
+Torre, Jimmy de la, and Jeffrey A. Douglas. 2004. <span>“Higher-Order Latent Trait Models for Cognitive Diagnosis.”</span> <em>Psychometrika</em> 69 (3): 333–53.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ai-validity.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datasets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/19-knowledge-graphs.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

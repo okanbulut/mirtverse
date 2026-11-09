@@ -206,6 +206,8 @@ subtraction data.
   : Fit a confirmatory IRT model built from a knowledge graph
 - [`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
   : Mastery patterns allowed by the prerequisites
+- [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
+  : Keep part of a knowledge graph
 - [`fractions`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   [`fractions_kg`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   : Grade 5 fractions test with its knowledge graph

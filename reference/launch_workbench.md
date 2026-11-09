@@ -7,8 +7,11 @@ cards and graphics, score examinees, analyse response times, and
 download an HTML report. The Pipeline tab runs the data through the
 assessment pipeline's intake and calibration checks (or loads a pipeline
 saved from R), shows the stage tracker, and lets you record decisions
-about flags. Every step is written into an R script you can download, so
-the analysis is reproducible and a good way to learn the R code.
+about flags. The Knowledge graph tab draws and checks a graph of
+concepts, prerequisites and items (an example or an uploaded Q-matrix)
+and fits the confirmatory model it implies to the data. Every step is
+written into an R script you can download, so the analysis is
+reproducible and a good way to learn the R code.
 
 ## Usage
 

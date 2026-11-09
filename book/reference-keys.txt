@@ -33,6 +33,7 @@ fig:auto-agree
 fig:auto-facets
 fig:auto-shift
 fig:ai-validity-audit
+fig:kg-fs
 tab:datasets
 tab:files
 measurement
@@ -137,5 +138,10 @@ example-2-other-ai-components
 example-3-from-audit-to-argument
 governance
 your-turn-17
+knowledge-graphs
+the-ideas-18
+example-1-a-graph-for-fraction-subtraction
+example-2-from-graph-to-irt-model
+your-turn-18
 datasets
 adapting

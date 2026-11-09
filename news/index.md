@@ -35,6 +35,18 @@
   lists the mastery patterns the prerequisite edges allow (the attribute
   hierarchy), for diagnostic models such as
   [`mirt::mdirt()`](https://philchalmers.github.io/mirt/reference/mdirt.html).
+- [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
+  keeps chosen concepts of a graph, the relations among them and the
+  items that measure them.
+- The workbench has a Knowledge graph tab: It draws and checks an
+  example graph or an uploaded Q-matrix (with optional prerequisites),
+  and fits the confirmatory model for chosen concepts to the data from
+  the Data tab, with the R code. The fraction subtraction data are a new
+  example dataset.
+- The online book has a new part, Knowledge graphs, starting with the
+  chapter “Knowledge graphs and IRT” on Tatsuoka’s fraction subtraction
+  data, and the glossary has entries for knowledge graph, Q-matrix and
+  attribute hierarchy.
 - New datasets: `fractions` and `fractions_kg`, a simulated Grade 5
   fractions test with its knowledge graph and two planted differences
   from the true graph (`lab_truth("fractions")`), and
