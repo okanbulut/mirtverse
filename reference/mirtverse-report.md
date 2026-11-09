@@ -2,7 +2,7 @@
 
 # IRT analysis report
 
-November 08, 2026 \| mirt 1.48 \| mirtverse 0.3.0
+November 09, 2026 \| mirt 1.48 \| mirtverse 0.4.0
 
 **Contents**
 
@@ -199,7 +199,7 @@ Session information
     [8] base     
 
     other attached packages:
-    [1] learnr_0.11.6   mirtverse_0.3.0 mirt_1.48       lattice_0.23-1 
+    [1] learnr_0.11.6   mirtverse_0.4.0 mirt_1.48       lattice_0.23-1 
 
     loaded via a namespace (and not attached):
       [1] splines_4.6.2        later_1.4.8          eatATA_1.1.2        
