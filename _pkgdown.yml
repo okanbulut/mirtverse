@@ -227,7 +227,8 @@ reference:
   desc: >
     Describe what a test measures as a graph of concepts, their
     prerequisites and the items that measure them; check the graph for
-    problems and draw it. Examples with a simulated fractions test (with the
+    problems and draw it; turn it into a Q-matrix, a confirmatory mirt
+    model or the mastery patterns its prerequisites allow. Examples with a simulated fractions test (with the
     true graph) and Tatsuoka's fraction subtraction data.
   contents:
   - mv_kg_build
@@ -235,6 +236,10 @@ reference:
   - mv_kg_check
   - tidy_mv_kg
   - gg_kg
+  - mv_kg_qmatrix
+  - mv_kg_model
+  - mv_kg_irt
+  - mv_kg_hierarchy
   - fractions
   - fraction_subtraction
 - title: Choosing and understanding a model
