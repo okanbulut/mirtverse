@@ -584,7 +584,6 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
   }
   rel <- e[e$type == "related", , drop = FALSE]
   meas <- e[e$type == "measures", , drop = FALSE]
-  meas$xend <- meas$xend + pos(meas$to, "hw")
   concepts <- nodes[nodes$kind == "concept", , drop = FALSE]
   its <- nodes[nodes$kind == "item", , drop = FALSE]
   col_line <- function(h) ifelse(h, mv_colours[["accent"]], mv_colours[["primary"]])
@@ -622,4 +621,42 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
     theme_mirtverse() +
     ggplot2::theme(axis.text = ggplot2::element_blank(), axis.title = ggplot2::element_blank(),
                    panel.grid = ggplot2::element_blank())
+}
+
+#' Keep part of a knowledge graph
+#'
+#' Returns the part of a graph that covers chosen concepts or items: The
+#' concepts kept, the relations among them, and the items that measure at
+#' least one of them. Useful for fitting a model to a few well-measured
+#' concepts, or to the items a data set actually has.
+#'
+#' @param kg a knowledge graph from [mv_kg_build()] or [as_mv_kg()].
+#' @param concepts concepts to keep (default: All).
+#' @param items optional items to keep, as names or a data frame whose
+#'   column names are used; other columns (such as an ID) are skipped.
+#' @return An `mv_kg` object. Items left without a concept are dropped.
+#' @examples
+#' kg3 <- mv_kg_subset(fraction_subtraction_kg,
+#'                     c("separate_whole", "borrow_whole", "common_denominator"))
+#' kg3
+#' @export
+mv_kg_subset <- function(kg, concepts = NULL, items = NULL) {
+  check_kg(kg)
+  cn <- kg_concept_names(kg)
+  if (is.null(concepts)) concepts <- cn
+  bad <- setdiff(concepts, cn)
+  if (length(bad)) stop("Unknown concepts: ", paste(bad, collapse = ", "), ".", call. = FALSE)
+  keep_items <- if (is.null(items)) kg_item_names(kg) else kg_resolve_items(kg, items)
+  e <- as.data.frame(kg$edges, stringsAsFactors = FALSE)
+  rel <- e[e$type != "measures" & e$from %in% concepts & e$to %in% concepts, , drop = FALSE]
+  meas <- e[e$type == "measures" & e$to %in% concepts & e$from %in% keep_items, , drop = FALSE]
+  nodes <- as.data.frame(kg$nodes, stringsAsFactors = FALSE)
+  cnodes <- nodes[nodes$kind == "concept" & nodes$node %in% concepts, , drop = FALSE]
+  mv_kg_build(
+    concepts = data.frame(concept = cnodes$node, label = cnodes$label,
+                          description = cnodes$description, stringsAsFactors = FALSE),
+    edges = if (nrow(rel)) rel[c("from", "to", "type", "weight")],
+    items = if (nrow(meas)) data.frame(item = meas$from, concept = meas$to, weight = meas$weight,
+                                       stringsAsFactors = FALSE),
+    name = kg$name)
 }

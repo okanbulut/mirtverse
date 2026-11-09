@@ -29,6 +29,7 @@ rmd_files:
   - 16-auto-scoring.Rmd
   - 17-llms.Rmd
   - 18-ai-validity.Rmd
+  - 19-knowledge-graphs.Rmd
   - 90-datasets.Rmd
   - 91-adapting.Rmd
   - 99-references.Rmd

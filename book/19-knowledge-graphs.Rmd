@@ -1,0 +1,281 @@
+# (PART) Knowledge graphs {-}
+
+# Knowledge graphs and IRT {#knowledge-graphs}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* describe what a test measures as a **knowledge graph** of concepts,
+  prerequisites and items, and build one with `mv_kg_build()` or
+  `as_mv_kg()`;
+* check a graph for problems with `mv_kg_check()` and draw it with
+  `gg_kg()`;
+* read a graph's **Q-matrix** and list the mastery patterns its
+  **attribute hierarchy** allows;
+* turn a graph into a confirmatory multidimensional IRT model with
+  `mv_kg_model()` and `mv_kg_irt()`, and test the graph's claims against
+  simpler and stricter models.
+</div>
+
+**Key terms:**
+[Knowledge graph](https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-graph),
+[Q-matrix](https://www.okanbulut.com/mirtverse/articles/glossary.html#q-matrix),
+[attribute hierarchy](https://www.okanbulut.com/mirtverse/articles/glossary.html#attribute-hierarchy),
+[multidimensional IRT](https://www.okanbulut.com/mirtverse/articles/glossary.html#multidimensional-irt),
+[likelihood-ratio test](https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test).
+
+## The ideas
+
+Every test is built on claims about what it measures. A blueprint says
+which content each item covers; a curriculum says that some ideas must be
+learned before others; a teacher knows that an item about subtracting
+mixed numbers also needs borrowing. Most of these claims stay in documents
+and heads. A **knowledge graph** writes them down in a form a computer can
+check and a model can use. It has three kinds of parts.
+
+* **Concepts** (also called skills, attributes or objectives): What the
+  test is meant to tell us about.
+* **Relations between concepts.** The most useful is **prerequisite of**:
+  Equivalent fractions before adding fractions with unlike denominators.
+  Prerequisite edges point forward in the learning order and should never
+  form a cycle. A weaker relation, **related to**, links concepts where
+  neither comes first.
+* **Items**, each linked to the concepts it **measures**. These links are
+  the rows of the **Q-matrix** [@tatsuoka1984]: One row per item, one
+  column per concept, with a 1 where the item needs the concept.
+
+The graph connects two traditions in psychometrics. In **multidimensional
+IRT**, the Q-matrix is the loading pattern of a confirmatory model: Each
+concept is a factor, and an item has a slope only on the concepts it
+measures (Chapter \@ref(dimensionality)). In **cognitive diagnosis**, the
+same Q-matrix says which skills an item needs, and prerequisite edges form
+an **attribute hierarchy** [@leighton2004; @templin2014]: A student can
+master a concept only after mastering its prerequisites, so some mastery
+patterns are impossible. Knowledge space theory [@doignon1999] builds a
+whole theory of assessment on such structures.
+
+A graph is a set of claims, and each claim can be wrong. An item can be
+linked to the wrong concept, a prerequisite can be missing or reversed,
+and two concepts can be impossible to tell apart because the same items
+measure them. The work in this chapter is to make the claims explicit,
+check what can be checked without data, and then let the data speak.
+
+## Example 1: A graph for fraction subtraction
+
+Tatsuoka's fraction subtraction data are the best-known real data in
+cognitive diagnosis: 536 middle school students answered 20 items such as
+$4\frac{1}{3} - 2\frac{4}{3}$, and the items were coded on eight
+attributes [@tatsuoka2002; @decarlo2011; @delatorre2004]. mirtverse
+stores the responses as `fraction_subtraction` and the Q-matrix as a
+knowledge graph, `fraction_subtraction_kg`.
+
+```{r data-knowledge-graphs-1}
+resp <- fraction_subtraction
+kg <- fraction_subtraction_kg
+```
+
+```{r}
+kg
+tidy(kg)
+```
+
+The graph has eight concepts and 20 items, with 56 item-to-concept links.
+No prerequisite edges were published with the Q-matrix, so the graph has
+none yet. `tidy()` counts the items linked to each concept (`links`).
+`subtract_numerators` is needed by 19 of the 20 items, while
+`column_borrow` is needed by only two. Before any data are used,
+`mv_kg_check()` looks for problems in the structure itself.
+
+```{r}
+mv_kg_check(kg)
+```
+
+The check finds one thing to review: Two items are too few to estimate
+`column_borrow` as its own dimension. A concept that nearly every item
+needs, like `subtract_numerators`, has the opposite problem: It is hard to
+separate from overall proficiency. Neither is an error in the graph, but
+both limit what a model can learn about these concepts.
+
+```{r kg-fs, fig.height = 6, fig.cap = "The fraction subtraction graph: Eight attributes on the left, each joined to the items that need it."}
+gg_kg(kg)
+```
+
+Now suppose a mathematics teacher states two prerequisites as hypotheses:
+Borrowing from the whole number needs the whole number to be separated
+from the fraction first, and column borrowing needs subtracting numerators.
+We add these edges to the same concepts and items.
+
+```{r}
+concepts <- tidy(kg)
+concepts <- concepts[concepts$kind == "concept", ]
+kg_h <- mv_kg_build(
+  concepts = data.frame(concept = concepts$node, label = concepts$label),
+  edges = data.frame(from = c("separate_whole", "subtract_numerators"),
+                     to = c("borrow_whole", "column_borrow")),
+  items = mv_kg_qmatrix(kg),
+  name = "Fraction subtraction with two prerequisites")
+kg_h
+```
+
+The print-out now gives a learning order. The hierarchy has a practical
+consequence: With eight concepts there are $2^8 = 256$ possible mastery
+patterns, and each prerequisite rules out the patterns where a concept is
+mastered without its prerequisite.
+
+```{r}
+patterns <- mv_kg_hierarchy(kg_h)
+nrow(patterns)
+attr(patterns, "possible")
+```
+
+Two edges remove 112 of the 256 patterns. A diagnostic model that respects
+the hierarchy has fewer classes to estimate, and the hierarchy itself can
+be tested by comparing models with and without it.
+
+## Example 2: From graph to IRT model
+
+`mv_kg_model()` writes the confirmatory mirt model a graph implies, and
+`mv_kg_irt()` fits it. Eight correlated dimensions on 536 students is a
+large model that takes many minutes to fit, so we work with a smaller
+graph: The three concepts with the clearest roles, separating the whole
+number, borrowing, and finding a common denominator. `mv_kg_subset()` keeps
+these concepts, the prerequisite between two of them, and the 16 items that
+need at least one of them.
+
+```{r}
+kg3 <- mv_kg_subset(kg_h, c("separate_whole", "borrow_whole", "common_denominator"))
+kg3
+q <- mv_kg_qmatrix(kg3)
+resp3 <- resp[rownames(q)]
+spec <- mv_kg_model(kg3)
+cat(attr(spec, "item_syntax"))
+```
+
+Each concept is a factor, and each item loads on the concepts its row of
+the Q-matrix names; items that need two concepts load on both. By default
+all concepts correlate. The `structure` argument changes that:
+`structure = "graph"` lets only concepts joined by an edge correlate, a
+strict reading of the graph in which concepts without an edge are
+unrelated.
+
+```{r}
+m_uni <- mirt(resp3, 1, verbose = FALSE)
+m_graph <- mv_kg_irt(kg3, resp3)
+m_strict <- mv_kg_irt(kg3, resp3, structure = "graph")
+anova(m_uni, m_graph)
+anova(m_strict, m_graph)
+```
+
+Two comparisons answer two questions. Against a single dimension, the
+three-concept model fits far better: The likelihood-ratio statistic is
+about 394 on 13 degrees of freedom, and BIC drops by more than 300. The
+items measure more than one proficiency, in the way the graph describes.
+Against the strict model, the correlated model also wins clearly: Finding a
+common denominator has no edge in the graph, yet it correlates with the
+other two concepts.
+
+```{r}
+round(summary(m_graph, verbose = FALSE)$fcor, 2)
+```
+
+Separating the whole number and finding a common denominator correlate at
+about 0.77, much more than the two concepts the teacher linked (about
+0.37). This is a typical finding, not a failure: A prerequisite edge says
+something about the *order* of learning, and concepts that are learned in
+the same lessons correlate whether or not one is a prerequisite of the
+other. The correlations are a reason to look again at the graph, for
+example to ask whether a related-to edge is missing.
+
+The fitted model is an ordinary mirt model, so everything from the earlier
+chapters works on it, and the graph travels with it.
+
+```{r}
+pars <- tidy(m_graph)
+head(pars[pars$estimate != 0, ])
+attr(m_graph, "mv_kg")
+```
+
+`as_mv_kg()` also goes the other way: Given any confirmatory mirt model, it
+reads the loading pattern back into a graph, which is a quick way to draw a
+model you already have.
+
+## Your turn
+
+<div class="yourturn">
+1. Add a third hypothesis to `kg_h`: Converting a whole number to a
+   fraction (`convert_whole`) is a prerequisite of borrowing
+   (`borrow_whole`). How many mastery patterns are left?
+2. Add a cycle by also making `borrow_whole` a prerequisite of
+   `separate_whole`. What does `mv_kg_check()` report, and what happens to
+   `mv_kg_hierarchy()`?
+3. Fit the three-concept model with `structure = "orthogonal"`. How does it
+   compare with the correlated model, and what does that say about scoring
+   the three concepts separately?
+4. Draw `kg3` with `gg_kg()`, highlighting `common_denominator`. Which items
+   does it share with `separate_whole`?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+# 1. a third prerequisite
+edges3 <- data.frame(from = c("separate_whole", "subtract_numerators", "convert_whole"),
+                     to = c("borrow_whole", "column_borrow", "borrow_whole"))
+kg_h3 <- mv_kg_build(data.frame(concept = concepts$node, label = concepts$label),
+                     edges = edges3, items = mv_kg_qmatrix(kg))
+nrow(mv_kg_hierarchy(kg_h3))
+
+# 2. a cycle
+kg_cyc <- mv_kg_build(data.frame(concept = concepts$node),
+                      edges = rbind(edges3, data.frame(from = "borrow_whole",
+                                                       to = "separate_whole")),
+                      items = mv_kg_qmatrix(kg))
+mv_kg_check(kg_cyc)
+try(mv_kg_hierarchy(kg_cyc))
+
+# 3. uncorrelated concepts
+m_orth <- mv_kg_irt(kg3, resp3, structure = "orthogonal")
+anova(m_orth, m_graph)
+
+# 4. shared items
+gg_kg(kg3, highlight = "common_denominator")
+q[q[, "common_denominator"] == 1 & q[, "separate_whole"] == 1, ]
+```
+
+1. Borrowing now needs both separating and converting, so more patterns are
+   ruled out: 120 of the 256 remain.
+2. The check reports a `cycle` block flag: Separating the whole number
+   would have to come both before and after borrowing, so no learning order
+   exists. `mv_kg_hierarchy()` stops with an error, because a cycle allows
+   no consistent set of patterns.
+3. The orthogonal model fits much worse than the correlated one (the
+   likelihood-ratio statistic is about 277 on 3 degrees of freedom). The
+   concepts share a lot of variance, so three separate scores would repeat
+   much of the same information; reporting them separately needs care
+   (Chapter \@ref(reporting)).
+4. Two items, FS05 and FS13, need both concepts; FS13 also needs
+   borrowing. The other common denominator items (FS01 to FS03) involve no
+   whole numbers. Items that load on two concepts help the model separate
+   the concepts from their correlation.
+
+</details>
+
+## In the lab {-}
+
+<div class="lab">
+The `fractions` and `fractions_kg` datasets hold a simulated Grade 5
+fractions test with a published graph that differs from the true graph in
+planted ways. Phase 2 of the knowledge graph tools, which checks a graph
+against data, will come with a lab on finding them.
+</div>
+
+## Further reading {-}
+
+Tatsuoka [-@tatsuoka1984] introduced the Q-matrix with the fraction
+subtraction data; DeCarlo [-@decarlo2011] and de la Torre and Douglas
+[-@delatorre2004] reanalysed them with diagnostic models. Leighton, Gierl
+and Hunka [-@leighton2004] describe the attribute hierarchy method, and
+Templin and Bradshaw [-@templin2014] show how to test hierarchies with
+diagnostic classification models. Doignon and Falmagne [-@doignon1999]
+develop knowledge space theory, the mathematical theory of prerequisite
+structures in assessment.

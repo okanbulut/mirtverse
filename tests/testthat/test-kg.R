@@ -173,3 +173,20 @@ test_that("mv_kg_hierarchy() keeps only patterns that respect prerequisites", {
   expect_error(mv_kg_hierarchy(cyc), "cycle")
   expect_error(mv_kg_hierarchy(kg, concepts = "z"), "Unknown")
 })
+
+test_that("mv_kg_subset() keeps chosen concepts, their relations and items", {
+  kg <- mv_kg_build(c("a", "b", "c"),
+                    edges = data.frame(from = c("a", "b"), to = c("b", "c")),
+                    items = data.frame(item = c("Q1", "Q2", "Q3", "Q4"),
+                                       concept = c("a", "b", "c", "a")))
+  sub <- mv_kg_subset(kg, c("a", "b"))
+  expect_setequal(sub$nodes$node[sub$nodes$kind == "concept"], c("a", "b"))
+  expect_setequal(sub$nodes$node[sub$nodes$kind == "item"], c("Q1", "Q2", "Q4"))
+  expect_equal(sum(sub$edges$type == "prerequisite"), 1)
+  sub2 <- mv_kg_subset(kg, items = data.frame(id = 1, Q1 = 1, Q3 = 0))
+  expect_setequal(sub2$nodes$node[sub2$nodes$kind == "item"], c("Q1", "Q3"))
+  expect_error(mv_kg_subset(kg, "z"), "Unknown")
+  fs3 <- mv_kg_subset(fraction_subtraction_kg,
+                      c("separate_whole", "borrow_whole", "common_denominator"))
+  expect_equal(glance(fs3)$items, 16)
+})
