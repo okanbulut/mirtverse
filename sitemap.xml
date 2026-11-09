@@ -46,6 +46,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/aigfield_items.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/aiscored.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/aiscored_cr.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/as_mv_kg.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/assemble_forms.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/assemble_mst.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/augment_mirt.html</loc></url>
@@ -70,6 +71,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/export_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fit_rt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/flags.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/fraction_subtraction.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/fractions.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/generate_items.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_coverage.html</loc></url>
@@ -77,6 +80,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_empirical.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_info.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_itemfit.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kg.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_q3.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_scores.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_trace.html</loc></url>
@@ -114,6 +118,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_bank.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_build.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_check.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.html</loc></url>
@@ -149,6 +155,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/synthetic_coverage.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/theme_mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mirt.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/validity_argument.html</loc></url>
 </urlset>

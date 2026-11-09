@@ -1,5 +1,32 @@
 # Changelog
 
+## mirtverse (development version)
+
+- Knowledge graphs:
+  [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
+  describes what a test measures as a graph of concepts, the
+  prerequisite and related edges between them, and the items that
+  measure each concept.
+  [`as_mv_kg()`](https://www.okanbulut.com/mirtverse/reference/as_mv_kg.md)
+  builds one from a Q-matrix, an edge list, a fitted confirmatory mirt
+  model or an igraph object.
+  [`mv_kg_check()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_check.md)
+  flags prerequisite cycles, concepts with too few items or the same
+  items, redundant prerequisites and isolated concepts, with the block,
+  review and info levels of the assessment pipeline.
+  [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md)
+  draws the graph with concepts in columns by learning order and items
+  in a column on the right, and
+  [`tidy()`](https://generics.r-lib.org/reference/tidy.html) and
+  [`glance()`](https://generics.r-lib.org/reference/glance.html) return
+  its nodes, edges and a summary.
+- New datasets: `fractions` and `fractions_kg`, a simulated Grade 5
+  fractions test with its knowledge graph and two planted differences
+  from the true graph (`lab_truth("fractions")`), and
+  `fraction_subtraction` and `fraction_subtraction_kg`, Tatsuoka’s
+  fraction subtraction data with its 8-attribute Q-matrix, copied from
+  the CDM package.
+
 ## mirtverse 0.4.0
 
 - Coverage strips for synthetic respondents (experimental):

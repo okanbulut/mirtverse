@@ -95,7 +95,7 @@ reveal at the end of the labs."><meta property="og:image" content="https://www.o
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Answer key and true values for the lab datasets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/okanbulut/mirtverse/blob/v0.4.0/R/labs.R" class="external-link"><code>R/labs.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/okanbulut/mirtverse/blob/main/R/labs.R" class="external-link"><code>R/labs.R</code></a></small>
       <div class="d-none name"><code>lab_truth.Rd</code></div>
     </div>
 
@@ -109,7 +109,7 @@ reveal at the end of the labs.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lab_truth</span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"certexam"</span>, <span class="st">"numeracy"</span>, <span class="st">"linking"</span>, <span class="st">"catbank"</span>, <span class="st">"openended"</span>, <span class="st">"itemtext"</span>,</span>
-<span>    <span class="st">"essays"</span>, <span class="st">"aigfield"</span>, <span class="st">"aiscored"</span><span class="op">)</span></span>
+<span>    <span class="st">"essays"</span>, <span class="st">"aigfield"</span>, <span class="st">"aiscored"</span>, <span class="st">"fractions"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -121,7 +121,7 @@ reveal at the end of the labs.</p>
 <dd><p>the dataset: <code>"certexam"</code> (Labs 1 and 2), <code>"numeracy"</code>
 (Lab 3), <code>"linking"</code> (Lab 4), <code>"catbank"</code> (Lab 5), <code>"openended"</code>
 (Lab 6), or one of the AI Hub datasets, <code>"itemtext"</code>, <code>"essays"</code>,
-<code>"aigfield"</code> and <code>"aiscored"</code>.</p></dd>
+<code>"aigfield"</code> and <code>"aiscored"</code>, or <code>"fractions"</code> (the knowledge graph example).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -159,7 +159,11 @@ the <code>planted</code> problems. For <code>"aiscored"</code>, a list with each
 ability <code>theta</code>, the true constructed-response scores <code>true_cr</code>, the
 item parameters, the group <code>impact</code>, the item with real DIF
 (<code>dif_item</code>) and its size, the rates of rater and engine error, and the
-<code>planted</code> problems.</p>
+<code>planted</code> problems. For <code>"fractions"</code>, a list with the <code>planted</code>
+differences between the published <a href="fractions.html">fractions_kg</a> and the true graph,
+the true <code>graph</code>, the true item parameters (<code>items</code>: Slopes per
+concept, intercept <code>d</code> and difficulty <code>b</code>) and the students' concept
+proficiencies <code>theta</code>.</p>
     </div>
 
     <div class="section level2">

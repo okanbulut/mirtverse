@@ -101,7 +101,7 @@ afterwards and approve the mirtverse server when Claude asks."><meta property="o
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Set up a folder for the mirtverse agent in Claude Code</h1>
-      <small class="dont-index">Source: <a href="https://github.com/okanbulut/mirtverse/blob/v0.4.0/R/agent-server.R" class="external-link"><code>R/agent-server.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/okanbulut/mirtverse/blob/main/R/agent-server.R" class="external-link"><code>R/agent-server.R</code></a></small>
       <div class="d-none name"><code>mv_agent_init.Rd</code></div>
     </div>
 
@@ -155,7 +155,7 @@ results should be reported.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"math-test"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">mv_agent_init</span><span class="op">(</span><span class="va">dir</span>, title <span class="op">=</span> <span class="st">"Grade 8 math test, spring 2026"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wrote CLAUDE.md and .mcp.json in /tmp/RtmpQ1cblR/math-test.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wrote CLAUDE.md and .mcp.json in /tmp/RtmpfwYoez/math-test.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Put your data files in the folder, open it in Claude Code (`claude` in a terminal),</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> approve the mirtverse server, and ask, for example: "Analyze exam.csv".</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">dir</span>, all.files <span class="op">=</span> <span class="cn">TRUE</span>, no.. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>

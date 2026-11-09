@@ -9,7 +9,7 @@ reveal at the end of the labs.
 ``` r
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield", "aiscored")
+    "essays", "aigfield", "aiscored", "fractions")
 )
 ```
 
@@ -20,7 +20,7 @@ lab_truth(
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
   `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"` (Lab 6), or
   one of the AI Hub datasets, `"itemtext"`, `"essays"`, `"aigfield"` and
-  `"aiscored"`.
+  `"aiscored"`, or `"fractions"` (the knowledge graph example).
 
 ## Value
 
@@ -57,7 +57,12 @@ the `planted` problems. For `"aiscored"`, a list with each student's
 ability `theta`, the true constructed-response scores `true_cr`, the
 item parameters, the group `impact`, the item with real DIF (`dif_item`)
 and its size, the rates of rater and engine error, and the `planted`
-problems.
+problems. For `"fractions"`, a list with the `planted` differences
+between the published
+[fractions_kg](https://www.okanbulut.com/mirtverse/reference/fractions.md)
+and the true graph, the true `graph`, the true item parameters (`items`:
+Slopes per concept, intercept `d` and difficulty `b`) and the students'
+concept proficiencies `theta`.
 
 ## Examples
 

@@ -178,6 +178,31 @@ four language models.
 - [`aiscored_cr`](https://www.okanbulut.com/mirtverse/reference/aiscored_cr.md)
   : Machine and human scores of the AI-scored test
 
+## Knowledge graphs
+
+Describe what a test measures as a graph of concepts, their
+prerequisites and the items that measure them; check the graph for
+problems and draw it. Examples with a simulated fractions test (with the
+true graph) and Tatsuoka’s fraction subtraction data.
+
+- [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
+  : Build a knowledge graph of concepts and items
+- [`as_mv_kg()`](https://www.okanbulut.com/mirtverse/reference/as_mv_kg.md)
+  : Turn other objects into a knowledge graph
+- [`mv_kg_check()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_check.md)
+  : Check a knowledge graph for problems
+- [`tidy(`*`<mv_kg>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg.md)
+  [`glance(`*`<mv_kg>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg.md)
+  : Tidy and glance methods for knowledge graphs
+- [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md) :
+  Draw a knowledge graph
+- [`fractions`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
+  [`fractions_kg`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
+  : Grade 5 fractions test with its knowledge graph
+- [`fraction_subtraction`](https://www.okanbulut.com/mirtverse/reference/fraction_subtraction.md)
+  [`fraction_subtraction_kg`](https://www.okanbulut.com/mirtverse/reference/fraction_subtraction.md)
+  : Tatsuoka's fraction subtraction data with its Q-matrix
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
@@ -214,6 +239,8 @@ four language models.
   : Test and item information curves
 - [`gg_itemfit()`](https://www.okanbulut.com/mirtverse/reference/gg_itemfit.md)
   : Item fit plot
+- [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md) :
+  Draw a knowledge graph
 - [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md) :
   Local dependence heatmap (Yen's Q3)
 - [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md)
