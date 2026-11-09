@@ -10,6 +10,14 @@
   `gg_kg()` draws the graph with concepts in columns by learning order and
   items in a column on the right, and `tidy()` and `glance()` return its
   nodes, edges and a summary.
+* Knowledge graphs to models: `mv_kg_qmatrix()` returns the graph's
+  Q-matrix, `mv_kg_model()` writes a confirmatory `mirt.model()` with one
+  factor per concept (all concepts correlated, only neighbours in the graph
+  correlated, or none), and `mv_kg_irt()` fits it with mirt (quasi-Monte
+  Carlo EM with more than three concepts) and keeps the graph with the
+  fitted model. `mv_kg_hierarchy()` lists the mastery patterns the
+  prerequisite edges allow (the attribute hierarchy), for diagnostic
+  models such as `mirt::mdirt()`.
 * New datasets: `fractions` and `fractions_kg`, a simulated Grade 5
   fractions test with its knowledge graph and two planted differences from
   the true graph (`lab_truth("fractions")`), and `fraction_subtraction` and
