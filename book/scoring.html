@@ -510,10 +510,12 @@ often the estimates put students on the wrong side of the cut.</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="scoring.html#cb82-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp, <span class="dv">1</span>, <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb82-2"><a href="scoring.html#cb82-2" tabindex="-1"></a>eap <span class="ot">&lt;-</span> <span class="fu">fscores</span>(mod, <span class="at">method =</span> <span class="st">&quot;EAP&quot;</span>, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb82-3"><a href="scoring.html#cb82-3" tabindex="-1"></a>wle <span class="ot">&lt;-</span> <span class="fu">fscores</span>(mod, <span class="at">method =</span> <span class="st">&quot;WLE&quot;</span>, <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb82-4"><a href="scoring.html#cb82-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cor_eap =</span> <span class="fu">cor</span>(eap[, <span class="dv">1</span>], true_theta), <span class="at">cor_wle =</span> <span class="fu">cor</span>(wle[, <span class="dv">1</span>], true_theta),</span>
-<span id="cb82-5"><a href="scoring.html#cb82-5" tabindex="-1"></a>  <span class="at">sd_eap =</span> <span class="fu">sd</span>(eap[, <span class="dv">1</span>]), <span class="at">sd_wle =</span> <span class="fu">sd</span>(wle[, <span class="dv">1</span>]))</span>
-<span id="cb82-6"><a href="scoring.html#cb82-6" tabindex="-1"></a><span class="co">#&gt; cor_eap cor_wle  sd_eap  sd_wle </span></span>
-<span id="cb82-7"><a href="scoring.html#cb82-7" tabindex="-1"></a><span class="co">#&gt;   0.945   0.945   0.947   1.049</span></span></code></pre></div>
+<span id="cb82-4"><a href="scoring.html#cb82-4" tabindex="-1"></a><span class="co">#&gt; Warning: The following factor score estimates failed to converge successfully:</span></span>
+<span id="cb82-5"><a href="scoring.html#cb82-5" tabindex="-1"></a><span class="co">#&gt;     1586</span></span>
+<span id="cb82-6"><a href="scoring.html#cb82-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cor_eap =</span> <span class="fu">cor</span>(eap[, <span class="dv">1</span>], true_theta), <span class="at">cor_wle =</span> <span class="fu">cor</span>(wle[, <span class="dv">1</span>], true_theta),</span>
+<span id="cb82-7"><a href="scoring.html#cb82-7" tabindex="-1"></a>  <span class="at">sd_eap =</span> <span class="fu">sd</span>(eap[, <span class="dv">1</span>]), <span class="at">sd_wle =</span> <span class="fu">sd</span>(wle[, <span class="dv">1</span>]))</span>
+<span id="cb82-8"><a href="scoring.html#cb82-8" tabindex="-1"></a><span class="co">#&gt; cor_eap cor_wle  sd_eap  sd_wle </span></span>
+<span id="cb82-9"><a href="scoring.html#cb82-9" tabindex="-1"></a><span class="co">#&gt;   0.945   0.945   0.947   1.049</span></span></code></pre></div>
 <p>With 40 items both estimators correlate about 0.95 with the true values,
 and they rank students almost identically. The EAP scores have a smaller
 spread than the true values (whose standard deviation is 1) and the WLE
