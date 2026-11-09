@@ -39,5 +39,5 @@ utils::globalVariables(c(
   "alpha", "log_rt", "density", "series", "lo", "hi", "RMSEA.S_X2",
   "status", "best", "delta", "top", "first", "prop", "component", "speed", "residual", "flagged", "criterion", "prop_rapid", "rte",
   "esd", "group", "qwk", "qwk_human", "smd", "predicted", "b", "id", "lower", "upper", "mean_b", "family", "value", "limit", "lo", "hi", "p_real", "p_synthetic",
-  "slice", "attempt", "fill", "size", "face"
+  "slice", "attempt", "fill", "size", "face", "xend", "yend", "text"
 ))
