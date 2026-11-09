@@ -116,7 +116,7 @@ Please cite mirtverse together with mirt. Run `citation("mirtverse")` in R, or u
 
 Bulut, O. (2026). *mirtverse: Accessible, AI-ready item response theory in R with mirt* [Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/j9ya7_v1
 
-Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.3.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719384
+Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer for 'mirt'* (Version 0.4.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719384
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory package for the
 R environment. *Journal of Statistical Software, 48*(6), 1-29. <https://doi.org/10.18637/jss.v048.i06>

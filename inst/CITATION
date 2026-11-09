@@ -15,12 +15,12 @@ bibentry(
   title = "{mirtverse}: A Friendly Workflow and Reporting Layer for 'mirt'",
   author = person("Okan", "Bulut"),
   year = "2026",
-  note = "R package version 0.3.0",
+  note = "R package version 0.4.0",
   doi = "10.5281/zenodo.23719384",
   url = "https://github.com/okanbulut/mirtverse",
   textVersion = paste(
     "Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for 'mirt'",
-    "(Version 0.3.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719384")
+    "(Version 0.4.0) [R package]. Zenodo. https://doi.org/10.5281/zenodo.23719384")
 )
 
 bibentry(
