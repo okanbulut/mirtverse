@@ -62,6 +62,7 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 [Anchor items](#anchor-items) ·
 [Angoff method](#standard-setting) ·
 [Answer copying](#answer-copying) ·
+[Attribute hierarchy](#attribute-hierarchy) ·
 [Automated item generation](#aig) ·
 [Automated scoring](#automated-scoring) ·
 [Automated test assembly](#automated-test-assembly)
@@ -112,7 +113,8 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 [Item response theory](#item-response-theory) ·
 [Item](#item) ·
 [Item-total correlation](#item-total-correlation)
-**K** [Kappa](#kappa)
+**K** [Kappa](#kappa) ·
+[Knowledge graph](#knowledge-graph)
 **L** [Large language model](#llm) ·
 [Latent trait](#latent-trait) ·
 [Likelihood-ratio test](#likelihood-ratio-test) ·
@@ -144,7 +146,8 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 [PRMSE](#prmse) ·
 [Prompt](#prompt) ·
 [p-value (item)](#p-value)
-**Q** [Q3](#q3) ·
+**Q** [Q-matrix](#q-matrix) ·
+[Q3](#q3) ·
 [Quadratic weighted kappa](#qwk)
 **R** [Rapid guessing](#rapid-guessing) ·
 [Rasch model](#rasch-model) ·
@@ -354,6 +357,35 @@ check whether a single trait is enough.
 
 **In R:** `mirt(data, 2)` for an exploratory two-factor model, or a
 `mirt::mirt.model()` specification for a confirmatory structure.
+
+### Knowledge graph {#knowledge-graph}
+
+A map of what a test measures: The concepts (skills, attributes, learning
+objectives), the relations between them, such as one concept being a
+prerequisite of another, and the items that measure each concept. It makes
+the claims behind a test explicit, so they can be drawn, checked and
+turned into models.
+
+**In R:** `mv_kg_build()` or `as_mv_kg()`, then `mv_kg_check()` and
+`gg_kg()`.
+
+### Q-matrix {#q-matrix}
+
+A table with one row per item and one column per concept (attribute), with
+a 1 where the item needs the concept. It is the core of cognitive
+diagnosis models and of confirmatory multidimensional IRT models, where it
+says which item loads on which factor.
+
+**In R:** `mv_kg_qmatrix()`; `mv_kg_model()` turns it into a mirt model.
+
+### Attribute hierarchy {#attribute-hierarchy}
+
+Prerequisite relations among the concepts a test measures: A student can
+master a concept only after mastering its prerequisites. A hierarchy rules
+out some mastery patterns, which makes diagnostic models smaller and
+testable.
+
+**In R:** `mv_kg_hierarchy()` lists the patterns a knowledge graph allows.
 
 ## Item parameters and curves {#item-parameters-and-curves}
 

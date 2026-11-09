@@ -85,6 +85,11 @@ the hub does.
 
 Table: (\#tab:ai-chapters) The chapters on AI in measurement.
 
+A third part, *Knowledge graphs*, describes what a test measures as a graph
+of concepts, prerequisites and items, and turns the graph into IRT models.
+It starts with Chapter \@ref(knowledge-graphs) and grows with the knowledge
+graph tools in mirtverse.
+
 Every chapter has the same parts:
 
 * **Learning goals:** What you should be able to do after the chapter.

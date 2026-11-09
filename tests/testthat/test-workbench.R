@@ -70,3 +70,20 @@ test_that("helpers parse inputs", {
   expect_equal(mirtverse:::parse_num_list(""), numeric())
   expect_match(mirtverse:::read_code("x.xlsx"), "read_excel")
 })
+
+test_that("the knowledge graph tab draws, checks and fits a graph", {
+  skip_if_not_installed("shiny")
+  shiny::testServer(workbench_server(), {
+    session$setInputs(source = "example", example = "Fraction subtraction (20 items, N = 536)",
+                      items = names(fraction_subtraction), key = "", missing = "",
+                      kg_source = "fs", kg_show_items = TRUE, kg_structure = "correlated")
+    expect_s3_class(kg_cur(), "mv_kg")
+    expect_match(output$kg_code, "fraction_subtraction_kg")
+    session$setInputs(kg_concepts = c("separate_whole", "common_denominator"), kg_fit = 1)
+    expect_s4_class(rv$kg_fit$model, "SingleGroupClass")
+    expect_equal(mirt::extract.mirt(rv$kg_fit$model, "nfact"), 2)
+    expect_match(output$kg_code, "mv_kg_subset\\(kg, c\\(\"separate_whole\", \"common_denominator\"\\)")
+    session$setInputs(kg_source = "fr")
+    expect_equal(glance(kg_cur())$concepts, 6)
+  })
+})

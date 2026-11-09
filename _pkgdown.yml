@@ -240,6 +240,7 @@ reference:
   - mv_kg_model
   - mv_kg_irt
   - mv_kg_hierarchy
+  - mv_kg_subset
   - fractions
   - fraction_subtraction
 - title: Choosing and understanding a model

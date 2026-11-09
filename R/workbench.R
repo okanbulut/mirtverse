@@ -6,7 +6,10 @@
 #' cards and graphics, score examinees, analyse response times, and download
 #' an HTML report. The Pipeline tab runs the data through the assessment
 #' pipeline's intake and calibration checks (or loads a pipeline saved from
-#' R), shows the stage tracker, and lets you record decisions about flags. Every step is written into an R script you can download,
+#' R), shows the stage tracker, and lets you record decisions about flags.
+#' The Knowledge graph tab draws and checks a graph of concepts, prerequisites
+#' and items (an example or an uploaded Q-matrix) and fits the confirmatory
+#' model it implies to the data. Every step is written into an R script you can download,
 #' so the analysis is reproducible and a good way to learn the R code.
 #'
 #' @param data optional data frame of item responses to start with.
@@ -38,6 +41,8 @@ example_datasets <- function() {
     "SAT12 (32 multiple-choice items, scored)" = list(
       data = function() as.data.frame(mirt::key2binary(mirt::SAT12, key = sat12_key())),
       code = sprintf("data <- key2binary(SAT12, key = c(%s))", paste(sat12_key(), collapse = ","))),
+    "Fraction subtraction (20 items, N = 536)" = list(
+      data = function() mirtverse::fraction_subtraction, code = "data <- fraction_subtraction"),
     "Simulated with response times (20 items, N = 1000)" = list(
       data = function() sim_rt(N = 1000, J = 20, rapid = 0.08, seed = 2026)$responses,
       code = "sim <- sim_rt(N = 1000, J = 20, rapid = 0.08, seed = 2026)\ndata <- sim$responses",
@@ -200,6 +205,30 @@ workbench_ui <- function() {
              shiny::actionButton("pipe_drop", "Drop items"),
              shiny::actionButton("pipe_recal", "Recalibrate", class = "btn-primary"))),
       card("Pipeline code", shiny::verbatimTextOutput("pipe_code")))),
+    bslib::nav_panel("9. Knowledge graph", bslib::layout_sidebar(
+      sidebar = bslib::sidebar(width = 330,
+        shiny::helpText("Describe what the test measures as a graph of concepts, prerequisites and items, check it, and fit the confirmatory model it implies to the data from the Data tab."),
+        shiny::radioButtons("kg_source", "Graph", c(
+          "Fraction subtraction (Tatsuoka)" = "fs", "Grade 5 fractions (simulated)" = "fr",
+          "Upload a Q-matrix" = "upload")),
+        shiny::conditionalPanel("input.kg_source == 'upload'",
+          shiny::fileInput("kg_q", "Q-matrix (.csv): A column of item names, then one 0/1 column per concept",
+                           accept = c(".csv", ".tsv", ".txt", ".xlsx")),
+          shiny::fileInput("kg_pre", "Optional prerequisites (.csv): Columns from and to",
+                           accept = c(".csv", ".tsv", ".txt", ".xlsx"))),
+        shiny::checkboxInput("kg_show_items", "Show items in the plot", TRUE),
+        shiny::tags$hr(),
+        shiny::selectizeInput("kg_concepts", "Concepts to model", choices = NULL, multiple = TRUE),
+        shiny::helpText("Each concept becomes a factor. More than three concepts can take many minutes to fit."),
+        shiny::selectInput("kg_structure", "Factor correlations", c(
+          "All concepts correlate" = "correlated", "Only linked concepts correlate" = "graph",
+          "None" = "orthogonal")),
+        shiny::actionButton("kg_fit", "Fit the model", class = "btn-primary w-100")),
+      card("The graph", shiny::plotOutput("kg_plot", height = "620px")),
+      card("Checks", shiny::uiOutput("kg_summary"), DT::DTOutput("kg_check")),
+      card("Model", shiny::uiOutput("kg_fit_msg"), DT::DTOutput("kg_fit_tab"),
+           shiny::verbatimTextOutput("kg_fcor")),
+      card("Knowledge graph code", shiny::verbatimTextOutput("kg_code")))),
     bslib::nav_spacer(),
     bslib::nav_item(shiny::tags$a("mirt docs", href = "https://philchalmers.github.io/mirt/",
                                   target = "_blank"))
@@ -210,7 +239,8 @@ workbench_server <- function(init_data = NULL) {
   function(input, output, session) {
     rv <- shiny::reactiveValues(model = NULL, sel = NULL, rt = NULL, rt_data = NULL,
                                 fit_code = NULL, rt_code = NULL, error = NULL,
-                                pipe = NULL, pipe_msg = NULL, pipe_data_code = NULL)
+                                pipe = NULL, pipe_msg = NULL, pipe_data_code = NULL,
+                                kg_fit = NULL)
 
     raw <- shiny::reactive({
       if (!is.null(init_data) && input$source == "example") {
@@ -513,6 +543,100 @@ workbench_server <- function(init_data = NULL) {
         shiny::withProgress(message = "Building report...", value = 0.5,
                             suppressWarnings(pipeline_report(pipe(), file = file, open = FALSE)))
       })
+
+    # ---- knowledge graph tab ----
+    kg_src <- shiny::reactive({
+      if (identical(input$kg_source, "upload")) {
+        shiny::req(input$kg_q)
+        res <- tryCatch({
+          q <- read_any(input$kg_q$datapath, input$kg_q$name)
+          renamed <- !"item" %in% names(q) && !is.numeric(q[[1]])
+          if (renamed) names(q)[1] <- "item"
+          pre <- if (!is.null(input$kg_pre)) read_any(input$kg_pre$datapath, input$kg_pre$name)
+          kg <- as_mv_kg(q, edges = pre)
+          code <- c(code_read(input$kg_q$name, "q"),
+                    if (renamed) "names(q)[1] <- \"item\"",
+                    if (!is.null(pre)) code_read(input$kg_pre$name, "pre"),
+                    sprintf("kg <- as_mv_kg(q%s)", if (!is.null(pre)) ", edges = pre" else ""))
+          list(kg = kg, code = code)
+        }, error = function(e) list(error = conditionMessage(e)))
+        return(res)
+      }
+      if (identical(input$kg_source, "fr"))
+        return(list(kg = mirtverse::fractions_kg, code = "kg <- fractions_kg"))
+      list(kg = mirtverse::fraction_subtraction_kg, code = "kg <- fraction_subtraction_kg")
+    })
+    kg_cur <- shiny::reactive({
+      s <- kg_src()
+      shiny::validate(shiny::need(is.null(s$error), s$error))
+      s$kg
+    })
+    shiny::observeEvent(kg_cur(), {
+      cn <- kg_concept_names(kg_cur())
+      shiny::updateSelectizeInput(session, "kg_concepts", choices = cn,
+                                  selected = cn[seq_len(min(2, length(cn)))])
+      rv$kg_fit <- NULL
+    })
+    output$kg_plot <- shiny::renderPlot(gg_kg(kg_cur(), items = isTRUE(input$kg_show_items)),
+                                        res = 96)
+    output$kg_summary <- shiny::renderUI({
+      kg <- kg_cur(); g <- glance(kg)
+      pat <- if (g$acyclic && g$concepts <= 20) nrow(mv_kg_hierarchy(kg))
+      shiny::p(sprintf("%d concepts, %d items, %d prerequisite edges.%s", g$concepts, g$items,
+                       g$prerequisite,
+                       if (!is.null(pat)) sprintf(" The prerequisites allow %d of %d mastery patterns.",
+                                                  pat, 2^g$concepts) else ""))
+    })
+    output$kg_check <- DT::renderDT({
+      chk <- mv_kg_check(kg_cur())
+      if (!nrow(chk)) chk <- data.frame(check = "none", level = "", nodes = "",
+                                        message = "No problems found.")
+      wb_table(chk)
+    })
+    shiny::observeEvent(input$kg_fit, {
+      kg <- kg_cur()
+      shiny::req(length(input$kg_concepts) >= 1)
+      d <- tryCatch(resp()$data, error = function(e) NULL)
+      rv$kg_fit <- tryCatch({
+        if (is.null(d)) stop("Load data on the Data tab first.")
+        sub <- mv_kg_subset(kg, input$kg_concepts, items = d)
+        if (length(kg_item_names(sub)) < 3)
+          stop("Fewer than three items of the data measure the chosen concepts.")
+        mod <- shiny::withProgress(message = "Fitting the model", value = 0.5,
+                                   mv_kg_irt(sub, d, structure = input$kg_structure))
+        list(model = mod, concepts = input$kg_concepts)
+      }, error = function(e) list(error = conditionMessage(e)))
+    })
+    output$kg_fit_msg <- shiny::renderUI({
+      f <- rv$kg_fit
+      if (is.null(f)) return(shiny::helpText("Choose concepts and press Fit the model."))
+      if (!is.null(f$error)) return(shiny::div(class = "alert alert-danger", f$error))
+      NULL
+    })
+    output$kg_fit_tab <- DT::renderDT({
+      f <- rv$kg_fit
+      shiny::req(f, is.null(f$error))
+      wb_table(glance(f$model))
+    })
+    output$kg_fcor <- shiny::renderText({
+      f <- rv$kg_fit
+      shiny::req(f, is.null(f$error), length(f$concepts) > 1)
+      fc <- round(mirt::summary(f$model, verbose = FALSE)$fcor, 2)
+      paste(c("Factor correlations:", utils::capture.output(print(fc))), collapse = "\n")
+    })
+    output$kg_code <- shiny::renderText({
+      s <- kg_src()
+      shiny::req(is.null(s$error))
+      code <- c("library(mirtverse)", s$code, "kg", "mv_kg_check(kg)", "gg_kg(kg)")
+      f <- rv$kg_fit
+      if (!is.null(f) && is.null(f$error))
+        code <- c(code, "# the model for the chosen concepts",
+                  sprintf("sub <- mv_kg_subset(kg, c(%s), items = data)",
+                          paste(sprintf("\"%s\"", f$concepts), collapse = ", ")),
+                  sprintf("mod <- mv_kg_irt(sub, data, structure = \"%s\")", input$kg_structure),
+                  "glance(mod)")
+      paste(code, collapse = "\n")
+    })
 
     script <- shiny::reactive({
       c("# Analysis generated by the mirtverse workbench",
