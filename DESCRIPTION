@@ -10,7 +10,9 @@ Description: Extends the 'mirt' package for item response theory with tidy
     HTML reports, a point-and-click 'shiny' workbench that exports
     reproducible code, and a joint hierarchical model for responses and
     response times (van der Linden, 2007) with rapid-guessing flags, and a
-    translator that turns 'ltm', 'eRm', 'TAM' and 'irtQ' code into 'mirt' code.
+    translator that turns 'ltm', 'eRm', 'TAM' and 'irtQ' code into 'mirt' code,
+    and knowledge graphs of the concepts a test measures, their
+    prerequisites and the items that measure them.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -54,6 +56,7 @@ Suggests:
     rstudioapi,
     withr,
     haven,
+    igraph,
     httpuv,
     polycor
 Config/Needs/website: rsconnect
@@ -62,4 +65,3 @@ VignetteBuilder: knitr
 URL: https://www.okanbulut.com/mirtverse/, https://github.com/okanbulut/mirtverse
 BugReports: https://github.com/okanbulut/mirtverse/issues
 Config/roxygen2/version: 8.1.0
-RoxygenNote: 7.3.1

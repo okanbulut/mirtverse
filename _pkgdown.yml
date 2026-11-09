@@ -223,6 +223,20 @@ reference:
   - aigfield_items
   - aiscored
   - aiscored_cr
+- title: Knowledge graphs
+  desc: >
+    Describe what a test measures as a graph of concepts, their
+    prerequisites and the items that measure them; check the graph for
+    problems and draw it. Examples with a simulated fractions test (with the
+    true graph) and Tatsuoka's fraction subtraction data.
+  contents:
+  - mv_kg_build
+  - as_mv_kg
+  - mv_kg_check
+  - tidy_mv_kg
+  - gg_kg
+  - fractions
+  - fraction_subtraction
 - title: Choosing and understanding a model
   contents:
   - select_model

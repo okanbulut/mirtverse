@@ -6,14 +6,14 @@
 \usage{
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield", "aiscored")
+    "essays", "aigfield", "aiscored", "fractions")
 )
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
 (Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5), \code{"openended"}
 (Lab 6), or one of the AI Hub datasets, \code{"itemtext"}, \code{"essays"},
-\code{"aigfield"} and \code{"aiscored"}.}
+\code{"aigfield"} and \code{"aiscored"}, or \code{"fractions"} (the knowledge graph example).}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -49,7 +49,11 @@ the \code{planted} problems. For \code{"aiscored"}, a list with each student's
 ability \code{theta}, the true constructed-response scores \code{true_cr}, the
 item parameters, the group \code{impact}, the item with real DIF
 (\code{dif_item}) and its size, the rates of rater and engine error, and the
-\code{planted} problems.
+\code{planted} problems. For \code{"fractions"}, a list with the \code{planted}
+differences between the published \link{fractions_kg} and the true graph,
+the true \code{graph}, the true item parameters (\code{items}: Slopes per
+concept, intercept \code{d} and difficulty \code{b}) and the students' concept
+proficiencies \code{theta}.
 }
 \description{
 Instructor helper: Returns how a lab dataset was generated, so you can
