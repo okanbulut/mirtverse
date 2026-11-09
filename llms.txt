@@ -348,8 +348,10 @@ four language models.
 
 Describe what a test measures as a graph of concepts, their
 prerequisites and the items that measure them; check the graph for
-problems and draw it. Examples with a simulated fractions test (with the
-true graph) and Tatsuoka’s fraction subtraction data.
+problems and draw it; turn it into a Q-matrix, a confirmatory mirt model
+or the mastery patterns its prerequisites allow. Examples with a
+simulated fractions test (with the true graph) and Tatsuoka’s fraction
+subtraction data.
 
 - [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
   : Build a knowledge graph of concepts and items
@@ -362,6 +364,14 @@ true graph) and Tatsuoka’s fraction subtraction data.
   : Tidy and glance methods for knowledge graphs
 - [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md) :
   Draw a knowledge graph
+- [`mv_kg_qmatrix()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_qmatrix.md)
+  : Q-matrix from a knowledge graph
+- [`mv_kg_model()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_model.md)
+  : Write a mirt model from a knowledge graph
+- [`mv_kg_irt()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_irt.md)
+  : Fit a confirmatory IRT model built from a knowledge graph
+- [`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
+  : Mastery patterns allowed by the prerequisites
 - [`fractions`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   [`fractions_kg`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   : Grade 5 fractions test with its knowledge graph

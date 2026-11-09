@@ -20,6 +20,21 @@
   [`tidy()`](https://generics.r-lib.org/reference/tidy.html) and
   [`glance()`](https://generics.r-lib.org/reference/glance.html) return
   its nodes, edges and a summary.
+- Knowledge graphs to models:
+  [`mv_kg_qmatrix()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_qmatrix.md)
+  returns the graph’s Q-matrix,
+  [`mv_kg_model()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_model.md)
+  writes a confirmatory
+  [`mirt.model()`](https://philchalmers.github.io/mirt/reference/mirt.model.html)
+  with one factor per concept (all concepts correlated, only neighbours
+  in the graph correlated, or none), and
+  [`mv_kg_irt()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_irt.md)
+  fits it with mirt (quasi-Monte Carlo EM with more than three concepts)
+  and keeps the graph with the fitted model.
+  [`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
+  lists the mastery patterns the prerequisite edges allow (the attribute
+  hierarchy), for diagnostic models such as
+  [`mirt::mdirt()`](https://philchalmers.github.io/mirt/reference/mdirt.html).
 - New datasets: `fractions` and `fractions_kg`, a simulated Grade 5
   fractions test with its knowledge graph and two planted differences
   from the true graph (`lab_truth("fractions")`), and
