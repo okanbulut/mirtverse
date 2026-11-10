@@ -85,6 +85,12 @@ before diagnostic reports are built on it? Check its structure with
 an item linked to the wrong concept and a missing prerequisite, repair
 the graph with \code{\link[=mv_kg_refine]{mv_kg_refine()}}, and show what the repair changes for
 mastery patterns and item difficulty (\code{\link[=mv_kg_explain]{mv_kg_explain()}}).
+\item \code{"kg-draft"} (Lab 12): How good is a knowledge graph a language model
+drafts from the item text? Draft one with \code{\link[=mv_kg_extract]{mv_kg_extract()}} (from a
+recording, so no API key is needed), read its checks and reasons,
+compare it with the curriculum team's graph (\code{\link[=mv_kg_compare]{mv_kg_compare()}}), find
+the links it added with \code{\link[=mv_kg_fit]{mv_kg_fit()}}, and decide what the data cannot
+with \code{\link[=mv_kg_edit]{mv_kg_edit()}}.
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

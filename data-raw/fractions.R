@@ -64,8 +64,34 @@ true_kg <- mv_kg_build(concepts, edges = true_edges, items = true_links,
 published_edges <- true_edges[!(true_edges$from == "equivalent" & true_edges$to == "compare"), ]
 published_links <- true_links
 published_links$concept[published_links$item == "F14"] <- "compare"
+fractions_text <- c(
+  "A circle is cut into 4 equal parts and 3 parts are shaded. What fraction of the circle is shaded?",
+  "A pizza is cut into 8 equal slices. Sam eats 3 slices. What fraction of the pizza did Sam eat?",
+  "A number line from 0 to 1 is split into 5 equal parts. Which mark shows 2/5?",
+  "In the fraction 5/6, what does the 6 tell you?",
+  "Which fraction is equal to 2/3? A. 3/4  B. 4/6  C. 2/6  D. 3/2",
+  "Fill in the blank: 3/4 = ?/12",
+  "Write 6/9 in simplest form.",
+  "Are 4/10 and 2/5 equal? Explain how you know.",
+  "Write 2 3/4 as an improper fraction.",
+  "Write 17/5 as a mixed number.",
+  "How many quarters are in 3 1/4?",
+  "Which mixed number is equal to 11/3?",
+  "Which is greater, 3/8 or 5/8?",
+  "Which is larger, 3/4 or 5/6?",
+  "Order from least to greatest: 1/2, 1/3, 1/6.",
+  "Which is greater, 2/3 or 2/5?",
+  "What is the least common denominator of 1/4 and 1/6?",
+  "Rewrite 1/2 and 2/5 so they have a common denominator.",
+  "Write 3/4 and 5/6 as twelfths.",
+  "What is 1/2 + 1/3?",
+  "What is 5/6 - 1/3?",
+  "What is 3/4 + 1/6?",
+  "What is 2 1/2 + 1 3/4?",
+  "What is 7/8 - 1/6?")
 fractions_kg <- mv_kg_build(concepts, edges = published_edges, items = published_links,
-                            name = "Grade 5 fractions")
+                            name = "Grade 5 fractions",
+                            meta = data.frame(item = item_ids, text = fractions_text))
 
 # proficiencies built along the true learning order
 N <- 1200L
@@ -130,8 +156,14 @@ fs_concepts <- data.frame(
   stringsAsFactors = FALSE)
 fs_concepts$description <- paste0("Attribute alpha", 1:8, " in DeCarlo (2011).")
 colnames(fs_q) <- fs_concepts$concept
+# the problems, as listed by de la Torre and Douglas (2004)
+fs_text <- c("5/3 - 3/4", "3/4 - 3/8", "5/6 - 1/9", "3 1/2 - 2 3/2", "4 3/5 - 3 4/10",
+             "6/7 - 4/7", "3 - 2 1/5", "2/3 - 2/3", "3 7/8 - 2", "4 4/12 - 2 7/12",
+             "4 1/3 - 2 4/3", "11/8 - 1/8", "3 3/8 - 2 5/6", "3 4/5 - 3 2/5", "2 - 1/3",
+             "4 5/7 - 1 4/7", "7 3/5 - 4/5", "4 1/10 - 2 8/10", "4 - 1 4/3", "4 1/3 - 1 5/3")
 fraction_subtraction_kg <- mv_kg_build(fs_concepts, items = fs_q,
-                                       name = "Fraction subtraction (Tatsuoka)")
+                                       name = "Fraction subtraction (Tatsuoka)",
+                                       meta = data.frame(item = fs_items, text = fs_text))
 
 usethis::use_data(fractions, fractions_kg, fraction_subtraction, fraction_subtraction_kg,
                   overwrite = TRUE, compress = "xz")

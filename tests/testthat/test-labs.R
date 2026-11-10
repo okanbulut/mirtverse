@@ -33,7 +33,7 @@ run_solution <- function(chunks, label) {
 
 test_that("list_labs() finds the installed labs and run_lab() rejects unknown names", {
   labs <- list_labs()
-  expect_setequal(labs$name, c("auto-scoring", "cat-design", "decisions", "fairness", "item-text", "linking", "model-choice", "open-ended", "aig", "ai-audit", "kg-repair"))
+  expect_setequal(labs$name, c("auto-scoring", "cat-design", "decisions", "fairness", "item-text", "linking", "model-choice", "open-ended", "aig", "ai-audit", "kg-repair", "kg-draft"))
   expect_match(labs$title[labs$name == "model-choice"], "Choosing a model")
   expect_true(nchar(labs$description[labs$name == "model-choice"]) > 50)
   expect_error(run_lab("nope"), "Unknown lab")
@@ -140,9 +140,10 @@ test_that("openended has the rater and engine problems the scoring lab relies on
   expect_equal(names(which.min(agree)), truth$vague_rubric)
 })
 
-for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design", "open-ended", "auto-scoring", "item-text", "aig", "ai-audit", "kg-repair")) {
+for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design", "open-ended", "auto-scoring", "item-text", "aig", "ai-audit", "kg-repair", "kg-draft")) {
   test_that(paste("every", lab, "solution passes its own check"), {
     skip_on_cran()
+    withr::local_options(mirtverse.provider = NULL, mirtverse.replay = NULL)
     chunks <- lab_chunks(lab)
     checked <- sub("-check$", "", grep("-check$", names(chunks), value = TRUE))
     expect_gt(length(checked), 1L)
@@ -155,6 +156,7 @@ for (lab in c("model-choice", "decisions", "fairness", "linking", "cat-design", 
   test_that(paste(lab, "exercises without checks run without error"), {
     skip_on_cran()
     withr::local_pdf(NULL)
+    withr::local_options(mirtverse.provider = NULL, mirtverse.replay = NULL)
     chunks <- lab_chunks(lab)
     runnable <- names(chunks)[grepl("exercise\\s*=\\s*TRUE", vapply(chunks, `[[`, "", "options"))]
     plain <- setdiff(runnable, sub("-check$", "", grep("-check$", names(chunks), value = TRUE)))

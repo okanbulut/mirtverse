@@ -26,7 +26,8 @@ are skipped.}
 
 \item{min_gap}{how much larger (in disattenuated correlation) an item's
 best unlinked concept must be than its best linked concept before a
-\code{wrong_link} flag.}
+\code{wrong_link} flag, and how much smaller a linked concept must be than
+the item's best linked concept before a \code{weak_link} flag.}
 
 \item{min_partial}{smallest partial correlation between two concepts
 with no edge before a \code{missing_relation} flag.}
@@ -57,7 +58,13 @@ correlation), so that concepts with few items are not put at a
 disadvantage. An item that correlates clearly more with a concept it is
 not linked to than with any concept it is linked to gets a \code{wrong_link}
 flag, with a suggestion to move it (or, for an item linked to several
-concepts, to add the link).
+concepts, to add the link). An item linked to several concepts that
+correlates clearly less with one of them than with its best one gets a
+\code{weak_link} flag, with a suggestion to drop that link: Useful for graphs
+that link too much, such as drafts from \code{\link[=mv_kg_extract]{mv_kg_extract()}}. A concept that
+is part of nearly every item, such as a basic operation, can get
+\code{weak_link} flags on items that truly need it, so read these with the
+item in front of you.
 
 \strong{Relations.} The graph's correlated confirmatory model is fitted with
 \code{\link[=mv_kg_irt]{mv_kg_irt()}} (or taken from \code{model}), and the factor correlations are

@@ -18,8 +18,8 @@ An \code{mv_kg} object. Its name ends in "(refined)".
 }
 \description{
 Returns a new graph with the changes \code{\link[=mv_kg_fit]{mv_kg_fit()}} suggested: Items moved
-to (or also linked to) another concept, and missing prerequisite or
-related edges added. Flags without a suggested change, such as
+to (or also linked to) another concept, weak links dropped, and missing
+prerequisite or related edges added. Flags without a suggested change, such as
 \code{weak_relation} or \code{order}, are left for you to decide.
 }
 \examples{

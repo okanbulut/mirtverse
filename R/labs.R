@@ -62,6 +62,12 @@
 #'   an item linked to the wrong concept and a missing prerequisite, repair
 #'   the graph with [mv_kg_refine()], and show what the repair changes for
 #'   mastery patterns and item difficulty ([mv_kg_explain()]).
+#' * `"kg-draft"` (Lab 12): How good is a knowledge graph a language model
+#'   drafts from the item text? Draft one with [mv_kg_extract()] (from a
+#'   recording, so no API key is needed), read its checks and reasons,
+#'   compare it with the curriculum team's graph ([mv_kg_compare()]), find
+#'   the links it added with [mv_kg_fit()], and decide what the data cannot
+#'   with [mv_kg_edit()].
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are

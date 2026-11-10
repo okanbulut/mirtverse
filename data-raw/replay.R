@@ -15,6 +15,19 @@
 #     judge difficulty mostly by how long and wordy an item is, answer alike
 #     when their personas are alike, and play "still learning English" and
 #     "reads slowly" as a stereotype: They miss every long word problem
+#   * the knowledge graph drafts (experimental): For Tatsuoka's fraction
+#     subtraction items, the model misses column_borrow on FS01 and
+#     borrow_whole on FS04, adds reduce_answer to FS08, misspells
+#     common_denominator on FS13 (the link is dropped), links a 21st item
+#     that does not exist, proposes a concept it was told not to add, and
+#     gives prerequisites that point both ways and form a cycle. For the
+#     numeracy items it links an item that does not exist. For the Grade 5
+#     fractions items (Lab 12) it links F14 to common_denominator, as the
+#     true graph does (but keeps compare too), finds the missing
+#     equivalent -> compare edge, but adds five more links the true graph
+#     does not have, adds a wrong
+#     prerequisite compare -> common_denominator, and gives mixed and
+#     add_subtract a two-way prerequisite
 #
 # The calls are in inst/replay/examples.R. To rebuild, install the package
 # from source first, then run from the package root:
@@ -132,6 +145,169 @@ synth_answer <- function(prompt) {
   })
 }
 
+L <- function(item, concept, reason) list(item = item, concept = concept, reason = reason)
+P <- function(from, to, confidence, reason) list(from = from, to = to, confidence = confidence,
+                                                 reason = reason)
+C <- function(concept, label, description) list(concept = concept, label = label,
+                                                description = description)
+kg_answers <- list(
+  "Middle school fraction subtraction" = list(
+    concepts = list(C("subtract_whole_numbers", "Subtract whole numbers",
+                      "Subtracting the whole number parts of mixed numbers.")),
+    links = list(
+      L("FS01", "common_denominator", "Thirds and fourths need a common denominator."),
+      L("FS01", "subtract_numerators", "Subtract the numerators once the denominators match."),
+      L("FS02", "common_denominator", "Rewrite 3/4 as eighths."),
+      L("FS02", "subtract_numerators", "Subtract the numerators."),
+      L("FS03", "common_denominator", "Sixths and ninths need a common denominator."),
+      L("FS03", "subtract_numerators", "Subtract the numerators."),
+      L("FS04", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS04", "simplify_first", "3/2 is improper and can be simplified to 1 1/2 first."),
+      L("FS04", "subtract_numerators", "Subtract the fractional parts."),
+      L("FS05", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS05", "common_denominator", "Fifths and tenths need a common denominator."),
+      L("FS05", "subtract_numerators", "Subtract the numerators."),
+      L("FS05", "reduce_answer", "2/10 should be reduced to 1/5."),
+      L("FS06", "subtract_numerators", "Like denominators; subtract the numerators."),
+      L("FS07", "convert_whole", "3 has no fraction part and must be written as a fraction or mixed number."),
+      L("FS07", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS07", "subtract_numerators", "Subtract the numerators."),
+      L("FS08", "subtract_numerators", "Like denominators; subtract the numerators."),
+      L("FS08", "reduce_answer", "The answer 0/3 should be written as 0."),
+      L("FS09", "separate_whole", "Subtract the whole numbers and keep 7/8."),
+      L("FS10", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS10", "borrow_whole", "4/12 is smaller than 7/12, so borrow 1 from the 4."),
+      L("FS10", "subtract_numerators", "Subtract the numerators."),
+      L("FS10", "reduce_answer", "9/12 should be reduced to 3/4."),
+      L("FS11", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS11", "borrow_whole", "1/3 is smaller than 4/3, so borrow from the 4."),
+      L("FS11", "subtract_numerators", "Subtract the numerators."),
+      L("FS12", "subtract_numerators", "Like denominators; subtract the numerators."),
+      L("FS12", "reduce_answer", "10/8 should be reduced to 5/4."),
+      L("FS13", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS13", "find_common_denominator", "Eighths and sixths need a common denominator."),
+      L("FS13", "borrow_whole", "9/24 is smaller than 20/24, so borrow from the 3."),
+      L("FS13", "subtract_numerators", "Subtract the numerators."),
+      L("FS14", "separate_whole", "The whole numbers cancel; subtract the fractions."),
+      L("FS14", "subtract_numerators", "Like denominators; subtract the numerators."),
+      L("FS15", "convert_whole", "2 must be written as a fraction, such as 6/3."),
+      L("FS15", "subtract_numerators", "Subtract the numerators."),
+      L("FS16", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS16", "subtract_numerators", "Like denominators; subtract the numerators."),
+      L("FS17", "separate_whole", "Work with the whole number and fractions separately."),
+      L("FS17", "borrow_whole", "3/5 is smaller than 4/5, so borrow from the 7."),
+      L("FS17", "subtract_numerators", "Subtract the numerators."),
+      L("FS18", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS18", "borrow_whole", "1/10 is smaller than 8/10, so borrow from the 4."),
+      L("FS18", "column_borrow", "Borrowing turns 1/10 into 11/10 before subtracting 8/10."),
+      L("FS18", "subtract_numerators", "Subtract the numerators."),
+      L("FS19", "convert_whole", "4 has no fraction part and must be rewritten."),
+      L("FS19", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS19", "simplify_first", "4/3 is improper and can be simplified first."),
+      L("FS19", "borrow_whole", "Borrow from the 4 to subtract the fraction."),
+      L("FS19", "subtract_numerators", "Subtract the numerators."),
+      L("FS20", "separate_whole", "Work with the whole numbers and fractions separately."),
+      L("FS20", "simplify_first", "5/3 is improper and can be simplified first."),
+      L("FS20", "borrow_whole", "1/3 is smaller than 2/3, so borrow from the 4."),
+      L("FS20", "subtract_numerators", "Subtract the numerators."),
+      L("FS21", "subtract_numerators", "Subtract the numerators.")),
+    prerequisites = list(
+      P("subtract_numerators", "common_denominator", 0.8, "Subtracting like fractions comes before rewriting unlike ones."),
+      P("subtract_numerators", "borrow_whole", 0.7, "Borrowing only makes sense once like fractions can be subtracted."),
+      P("separate_whole", "borrow_whole", 0.9, "Borrowing moves 1 from the whole number part into the fraction part."),
+      P("convert_whole", "borrow_whole", 0.6, "Borrowing rewrites a whole as a fraction."),
+      P("subtract_numerators", "reduce_answer", 0.6, "An answer must exist before it can be reduced."),
+      P("borrow_whole", "column_borrow", 0.5, "Column borrowing is a step inside borrowing from the whole."),
+      P("column_borrow", "subtract_numerators", 0.3, "The numerators are subtracted after the borrow."),
+      P("simplify_first", "reduce_answer", 0.5, "Both rely on rewriting a fraction in simplest or mixed form."),
+      P("reduce_answer", "simplify_first", 0.4, "Reducing answers is practised before simplifying improper fractions."))),
+  "Grade 7 numeracy" = list(
+    concepts = list(
+      C("multiply_divide", "Multiplying and dividing", "Multiplying and dividing whole numbers and decimals in context."),
+      C("fractions_decimals", "Fractions and decimals", "Reading, comparing and operating on fractions, decimals and percents."),
+      C("proportional_reasoning", "Proportional reasoning", "Using ratios, rates and percents to compare quantities."),
+      C("measurement", "Measurement", "Measuring length, area and time, and converting between units."),
+      C("data_chance", "Data and chance", "Summarizing data and finding simple probabilities."),
+      C("linear_equations", "Linear equations", "Solving one-variable linear equations.")),
+    links = list(
+      L("N01-01", "multiply_divide", "Divide the cost by the number of pencils."),
+      L("N01-01", "proportional_reasoning", "A unit rate is the cost for one."),
+      L("N02-01", "fractions_decimals", "25% is one quarter."),
+      L("N02-01", "proportional_reasoning", "A percent is a rate per hundred."),
+      L("N03-01", "multiply_divide", "Multiply length by width."),
+      L("N03-01", "measurement", "Area of a rectangle in square centimetres."),
+      L("N04-01", "measurement", "Elapsed time in hours and minutes."),
+      L("N05-01", "multiply_divide", "Divide the sum by the number of scores."),
+      L("N05-01", "Data and chance", "The mean summarizes data."),
+      L("N06-01", "fractions_decimals", "Add fractions with like denominators."),
+      L("N07-01", "linear_equations", "Solve 5x + 7 = 47."),
+      L("N08-01", "proportional_reasoning", "Use the ratio 3:5 to split 96."),
+      L("N08-01", "multiply_divide", "Divide 96 into 8 parts."),
+      L("N09-01", "fractions_decimals", "Compare decimals by place value."),
+      L("N10-01", "measurement", "Convert metres to centimetres."),
+      L("N11-01", "data_chance", "Probability of a simple event."),
+      L("N11-01", "fractions_decimals", "A probability is written as a fraction."),
+      L("N12-01", "proportional_reasoning", "Speed is a rate."),
+      L("N12-01", "multiply_divide", "Divide the distance by the time."),
+      L("N13-01", "measurement", "Converting units.")),
+    prerequisites = list(
+      P("multiply_divide", "proportional_reasoning", 0.85, "Rates and ratios rest on multiplication and division."),
+      P("fractions_decimals", "proportional_reasoning", 0.7, "Percents and ratios are written as fractions."),
+      P("multiply_divide", "measurement", 0.6, "Area and unit conversion use multiplication."),
+      P("fractions_decimals", "data_chance", 0.6, "Probabilities are fractions."),
+      P("multiply_divide", "linear_equations", 0.6, "Solving the equation uses inverse operations."))),
+  "Grade 5 fractions" = list(
+    concepts = list(),
+    links = list(
+      L("F01", "meaning", "Names shaded equal parts of a whole."),
+      L("F02", "meaning", "Names a part of a whole."),
+      L("F03", "meaning", "Places a fraction on the number line."),
+      L("F04", "meaning", "Asks what the denominator means."),
+      L("F05", "equivalent", "Finds a fraction equal to 2/3."),
+      L("F06", "equivalent", "Completes an equivalent fraction."),
+      L("F07", "equivalent", "Simplest form is an equivalent fraction."),
+      L("F08", "equivalent", "Decides whether two fractions are equal."),
+      L("F09", "mixed", "Mixed number to improper fraction."),
+      L("F10", "mixed", "Improper fraction to mixed number."),
+      L("F11", "mixed", "Counts quarters in a mixed number."),
+      L("F11", "meaning", "A quarter is one of four equal parts."),
+      L("F12", "mixed", "Improper fraction to mixed number."),
+      L("F13", "compare", "Compares fractions with like denominators."),
+      L("F14", "compare", "Asks which of two fractions is larger."),
+      L("F14", "common_denominator", "3/4 and 5/6 are compared by rewriting them as twelfths."),
+      L("F15", "compare", "Orders three fractions."),
+      L("F15", "common_denominator", "Ordering is easiest with a common denominator."),
+      L("F16", "compare", "Compares fractions with like numerators."),
+      L("F17", "common_denominator", "Finds the least common denominator."),
+      L("F18", "common_denominator", "Rewrites with a common denominator."),
+      L("F19", "common_denominator", "Rewrites as twelfths."),
+      L("F19", "equivalent", "Twelfths equal to 3/4 and 5/6."),
+      L("F20", "add_subtract", "Adds two fractions."),
+      L("F20", "Common denominators", "Halves and thirds need a common denominator."),
+      L("F21", "add_subtract", "Subtracts two fractions."),
+      L("F21", "common_denominator", "Sixths and thirds need a common denominator."),
+      L("F22", "add_subtract", "Adds two fractions."),
+      L("F22", "common_denominator", "Fourths and sixths need a common denominator."),
+      L("F23", "add_subtract", "Adds mixed numbers."),
+      L("F23", "mixed", "Works with mixed numbers."),
+      L("F24", "add_subtract", "Subtracts two fractions."),
+      L("F24", "common_denominator", "Eighths and sixths need a common denominator.")),
+    prerequisites = list(
+      P("meaning", "equivalent", 0.9, "Equal fractions rest on what a fraction means."),
+      P("meaning", "mixed", 0.8, "Mixed numbers extend fractions beyond one whole."),
+      P("equivalent", "common_denominator", 0.9, "A common denominator is found by writing equivalent fractions."),
+      P("equivalent", "compare", 0.7, "Comparing unlike fractions uses equivalent fractions."),
+      P("compare", "common_denominator", 0.4, "Students compare fractions before rewriting them."),
+      P("common_denominator", "add_subtract", 0.9, "Unlike fractions are added after rewriting them."),
+      P("mixed", "add_subtract", 0.7, "Adding mixed numbers needs mixed numbers."),
+      P("add_subtract", "mixed", 0.3, "Adding fractions past one whole gives mixed numbers."))))
+
+kg_answer <- function(prompt) {
+  test <- sub("^Test: ([^\n]+)\n.*$", "\\1", prompt)
+  kg_answers[[test]] %||% stop("No authored knowledge graph for this test.")
+}
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
 # ---- a stand-in chat that gives the authored answers --------------------------
 
 authored_chat <- function(provider, model, system_prompt) {
@@ -145,6 +321,7 @@ authored_chat <- function(provider, model, system_prompt) {
       return(verify_answer(strsplit(prompt, "\n")[[1]][1]))
     if (startsWith(system_prompt, "You are simulating how a particular test taker"))
       return(list(answers = synth_answer(prompt)))
+    if (startsWith(system_prompt, "You draft a knowledge graph")) return(kg_answer(prompt))
     if (startsWith(system_prompt, "You are a trained rater")) {
       lines <- grep("^\\[[0-9]+\\] ", strsplit(prompt, "\n")[[1]], value = TRUE)
       return(list(scores = score_answer(sub("^\\[[0-9]+\\] ", "", lines))))
@@ -183,7 +360,9 @@ rec$source <- paste("Example responses written by the mirtverse authors to show 
                     "model returns, with deliberate mistakes for the checks to catch. Not output",
                     "from a live model. The calls are in examples.R.")
 rec$recordings <- lapply(rec$recordings, function(r) {
-  r$provider <- "authored"; r$model <- ""; r$recorded <- "2026-11-02"; r
+  r$provider <- "authored"; r$model <- ""
+  r$recorded <- if (identical(r$function_name, "mv_kg_extract")) "2026-11-10" else "2026-11-02"
+  r
 })
 writeLines(jsonlite::toJSON(rec, auto_unbox = TRUE, pretty = TRUE, null = "null", na = "null",
                             digits = NA), out, useBytes = TRUE)

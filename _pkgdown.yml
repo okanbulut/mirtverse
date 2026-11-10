@@ -246,6 +246,7 @@ reference:
   - mv_kg_fit
   - tidy_mv_kg_fit
   - mv_kg_refine
+  - mv_kg_edit
   - gg_kg_fit
   - mv_kg_explain
   - tidy_mv_kg_explain
