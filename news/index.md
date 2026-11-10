@@ -1,6 +1,6 @@
 # Changelog
 
-## mirtverse (development version)
+## mirtverse 0.5.0
 
 - Knowledge graphs:
   [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
