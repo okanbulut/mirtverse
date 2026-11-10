@@ -25,13 +25,13 @@ mirtverse ships interactive \href{https://rstudio.github.io/learnr/}{learnr}
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 10
+storyline, a certification board's 32-item exam (\link{certexam}). Labs 3 to 11
 each have their own: A provincial numeracy test (\link{numeracy}), a licensure
 exam with two forms (\link{linking}), a placement test's item bank
 (\link{catbank}), rater-scored science tasks (\link{openended}), written science
 explanations (\link{essays}), the text of numeracy items (\link{itemtext}), a
-field test of generated items (\link{aigfield}) and an AI-scored science test
-(\link{aiscored}).
+field test of generated items (\link{aigfield}), an AI-scored science test
+(\link{aiscored}) and a fractions test with its knowledge graph (\link{fractions}).
 }
 \details{
 \itemize{
@@ -79,6 +79,12 @@ Audit the engine with \code{\link[=ai_audit]{ai_audit()}}: Agreement with human 
 against English language learners, drift after an engine update and
 DIF on the test as scored; then draft a validity argument with
 \code{\link[=validity_argument]{validity_argument()}} and decide which scores to report.
+\item \code{"kg-repair"} (Lab 11): Is a curriculum team's knowledge graph right
+before diagnostic reports are built on it? Check its structure with
+\code{\link[=mv_kg_check]{mv_kg_check()}}, check it against the answers with \code{\link[=mv_kg_fit]{mv_kg_fit()}}, find
+an item linked to the wrong concept and a missing prerequisite, repair
+the graph with \code{\link[=mv_kg_refine]{mv_kg_refine()}}, and show what the repair changes for
+mastery patterns and item difficulty (\code{\link[=mv_kg_explain]{mv_kg_explain()}}).
 }
 
 \code{run_lab()} opens a lab in the browser (or the RStudio Viewer). The labs

@@ -1,0 +1,360 @@
+---
+title: "Lab 11: Repairing a knowledge graph"
+description: >
+  A district's curriculum team wrote a knowledge graph for its Grade 5
+  fractions test, and diagnostic reports will tell teachers what to teach
+  next from it. Before the reports go out, check the graph against the
+  students' answers: Find items linked to the wrong concept and missing
+  prerequisites, repair the graph, and show what the repair changes.
+  About 60 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 240, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 8, fig.height = 4.5)
+```
+
+```{r setup-fit, include = FALSE}
+# a faster fit than the one students run, for the exercises that need it
+fit <- suppressWarnings(mv_kg_fit(fractions_kg, fractions, TOL = 0.005, quadpts = 2000))
+```
+
+```{r setup-refined, include = FALSE}
+fit <- suppressWarnings(mv_kg_fit(fractions_kg, fractions, TOL = 0.005, quadpts = 2000))
+refined <- mv_kg_refine(fit)
+```
+
+## The brief
+
+### Reports that tell teachers what to teach next
+
+You work for the assessment office of a fictional school district. Its
+**Grade 5 fractions test** has 24 items, and this year 1,200 students took
+it. The curriculum team has described what the test measures as a
+**knowledge graph**: Six concepts, the prerequisite edges between them,
+and the items that measure each concept.
+
+The district wants to send teachers a diagnostic report for every student:
+Which concepts the student has mastered and which one to teach next. The
+report follows the graph, so a wrong graph gives wrong advice. The
+curriculum lead asks you:
+
+> *Is our graph right? If not, what should we change before the reports
+> go out?*
+
+The responses are in `fractions` and the team's graph is `fractions_kg`.
+
+### Meet the graph
+
+```{r look, exercise = TRUE}
+fractions_kg
+head(fractions[, 1:9], 3)
+```
+
+```{r look-check}
+"Six concepts in a learning order with four levels; 24 items scored 0/1 for 1,200 students."
+```
+
+Draw the graph with `gg_kg()`.
+
+```{r draw, exercise = TRUE, fig.height = 6}
+gg_kg(fractions_kg)
+```
+
+### Check the structure
+
+Before using any data, check the graph itself with `mv_kg_check()`.
+
+```{r check, exercise = TRUE}
+
+```
+
+```{r check-hint}
+mv_kg_check(fractions_kg)
+```
+
+```{r check-solution}
+mv_kg_check(fractions_kg)
+```
+
+```{r check-check}
+lab_need(inherits(.result, "mv_kg_check"), "Run mv_kg_check(fractions_kg).")
+"No problems: No cycles, every concept has at least three items, and no two concepts share all their items."
+```
+
+```{r q-structure}
+question_radio("The check found no problems. What does that tell you?",
+  answer("The graph is well formed: It has a learning order and enough items per concept to be estimated. Whether its claims are true is a question for the data.",
+         correct = TRUE,
+         message = "Right. mv_kg_check() reads only the graph. A wrong item link or a missing prerequisite is a perfectly well-formed graph."),
+  answer("The graph is right and the reports can go out.",
+         message = "The check looks at the structure only. It cannot know which concept an item really measures."),
+  answer("Nothing; the check is not useful.",
+         message = "It is useful: A cycle or a concept with two items would stop the analysis. It is just not enough."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Does the data agree?
+
+### Check the graph against the answers
+
+`mv_kg_fit()` collects two kinds of evidence. For items, it asks whether
+each item agrees more with another concept than with its own. For
+relations, it fits the graph's confirmatory model and asks which concepts
+are directly related once the others are held constant. Fitting six
+dimensions takes about a minute; `TOL = 0.001` stops a little earlier than
+the default to save time.
+
+```{r fit, exercise = TRUE, exercise.timelimit = 240}
+fit <- mv_kg_fit(fractions_kg, fractions, TOL = 0.001)
+fit
+```
+
+```{r fit-check}
+lab_need(exists("fit") && inherits(fit, "mv_kg_fit"), "Keep the name `fit` and use mv_kg_fit().")
+f <- tidy(fit)
+lab_need(nrow(f) >= 1, "Use the published graph, fractions_kg.")
+sprintf("%d flags: %s.", nrow(f), paste(unique(f$check), collapse = " and "))
+```
+
+### The item evidence
+
+Each item is correlated with the rest score of every concept (the mean of
+the other items linked to that concept), corrected for how reliable the
+rest score is. `gap` is how much more the item agrees with its best
+unlinked concept than with its best linked one. Sort the items by `gap`.
+
+```{r items, exercise = TRUE, exercise.setup = "setup-fit"}
+it <- tidy(fit, "items")
+it[order(-it$), ]
+```
+
+```{r items-hint}
+it[order(-it$gap), ]
+```
+
+```{r items-solution}
+it <- tidy(fit, "items")
+it[order(-it$gap), ]
+```
+
+```{r items-check}
+lab_need(is.data.frame(.result) && .result$item[1] == "F14", "Sort by gap, largest first: order(-it$gap).")
+sprintf("F14 stands out: It agrees with common_denominator at %.2f but with compare, its own concept, at only %.2f. Every other item agrees best with its own concept.",
+        .result$r_other[1], .result$r_linked[1])
+```
+
+F14 asks students to say which is larger, 3/4 or 5/6.
+
+```{r q-f14}
+question_radio("What should happen to F14?",
+  answer("Move it to common_denominator: To compare 3/4 and 5/6, a student has to rewrite both fractions with a common denominator, so the item mostly measures that skill. The data and the content agree.",
+         correct = TRUE,
+         message = "Right. A data flag becomes a change only when the content supports it, and here it does."),
+  answer("Drop F14 from the test.",
+         message = "Nothing is wrong with the item; it is just linked to the wrong concept."),
+  answer("Leave it: Comparing fractions is what the item asks.",
+         message = "The task is a comparison, but the skill it needs is finding a common denominator, and the answers show it."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### The relation evidence
+
+Look at the pairs of concepts and draw the evidence on the graph.
+
+```{r relations, exercise = TRUE, exercise.setup = "setup-fit", fig.height = 5.5}
+rel <- tidy(fit, "relations")
+rel[order(-rel$partial), c("concept_a", "concept_b", "edge", "r", "partial", "ease_a", "ease_b")]
+gg_kg_fit(fit)
+```
+
+`r` is the correlation between two concepts and `partial` the correlation
+once all other concepts are held constant. Concepts on the same learning
+path all correlate, but only direct neighbours keep a large partial
+correlation.
+
+```{r q-direction}
+question_radio("equivalent and compare have no edge but the largest partial correlation in the graph. Why does mv_kg_fit() suggest equivalent -> compare and not the reverse?",
+  answer("Students find the equivalent items easier (a higher proportion correct, ease_a) than the compare items, and a prerequisite is learned first. The content agrees: Comparing fractions such as 2/3 and 4/6 builds on knowing they can name the same amount.",
+         correct = TRUE,
+         message = "Right. The partial correlation says the concepts are directly related; the difficulty and the content say which comes first."),
+  answer("Because equivalent comes first in the alphabet.",
+         message = "The order of the names plays no part."),
+  answer("A partial correlation shows the direction of an effect.",
+         message = "A correlation has no direction. The direction comes from difficulty and content."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Repair the graph
+
+### Apply the changes and check again
+
+`mv_kg_refine()` applies the changes you accept. Item links shape the
+concept correlations, so it is good practice to fix items first and refit;
+here both flags hold up either way, so accept both. Then check the refined
+graph against the data.
+
+```{r refine, exercise = TRUE, exercise.setup = "setup-fit", exercise.timelimit = 240}
+refined <- mv_kg_refine(fit)
+fit2 <- mv_kg_fit(refined, fractions, TOL = 0.001)
+fit2
+```
+
+```{r refine-check}
+lab_need(exists("refined") && inherits(refined, "mv_kg"), "Keep the name `refined` and use mv_kg_refine(fit).")
+lab_need(exists("fit2") && inherits(fit2, "mv_kg_fit"), "Check the refined graph with mv_kg_fit() and call it fit2.")
+lab_need(!nrow(tidy(fit2)), "Use the refined graph in the second mv_kg_fit().")
+"No flags: The refined graph agrees with the data on every check."
+```
+
+```{r q-refit}
+question_radio("The refined graph has no flags. What can you tell the curriculum team?",
+  answer("The data no longer contradict the graph on the checks that were run. The changes still need the team's agreement, and a graph that passes is supported, not proven: Other graphs could fit as well.",
+         correct = TRUE,
+         message = "Right. Like any model check, passing means no evidence against the graph, which is not the same as proof."),
+  answer("The refined graph is the true graph.",
+         message = "No check can prove that. Other graphs, for example with an extra related edge, might fit the data as well."),
+  answer("The original graph was badly wrong.",
+         message = "Two changes out of 33 edges. The team's graph was mostly right."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## What the repair changes
+
+### Mastery patterns
+
+The prerequisites decide which mastery patterns are possible: A student
+cannot master a concept before its prerequisites. Count the patterns each
+graph allows with `mv_kg_hierarchy()`.
+
+```{r hierarchy, exercise = TRUE, exercise.setup = "setup-refined"}
+c(published = nrow(mv_kg_hierarchy(fractions_kg)),
+  refined = nrow(mv_kg_hierarchy()))
+```
+
+```{r hierarchy-hint}
+c(published = nrow(mv_kg_hierarchy(fractions_kg)),
+  refined = nrow(mv_kg_hierarchy(refined)))
+```
+
+```{r hierarchy-solution}
+c(published = nrow(mv_kg_hierarchy(fractions_kg)),
+  refined = nrow(mv_kg_hierarchy(refined)))
+```
+
+```{r hierarchy-check}
+lab_need(is.numeric(.result) && length(.result) == 2 && .result[2] < .result[1],
+         "Count the patterns of the refined graph: mv_kg_hierarchy(refined).")
+sprintf("%d patterns become %d. Under the published graph, a student could be reported as mastering compare without equivalent fractions, and be told to study something they do not need.",
+        .result[1], .result[2])
+```
+
+### Item difficulty
+
+The graph also makes a claim about difficulty: Concepts later in the
+learning order should be harder. `mv_kg_explain()` tests it with an
+explanatory Rasch model (fitted with the eirm package) in which each
+item's depth in the learning order predicts its difficulty. Compare the
+two graphs.
+
+```{r explain, exercise = TRUE, exercise.setup = "setup-refined"}
+e1 <- mv_kg_explain(fractions_kg, fractions, predictors = "depth")
+e2 <- mv_kg_explain(refined, fractions, predictors = "depth")
+c(published = glance(e1)$explained, refined = glance(e2)$explained)
+```
+
+```{r explain-check}
+lab_need(is.numeric(.result) && length(.result) == 2, "Compare glance(e1)$explained and glance(e2)$explained.")
+sprintf("The published graph explains %.0f%% of the item variance and the refined graph %.0f%%. Without the edge equivalent -> compare, the compare items sat at the start of the learning order although they are among the harder items.",
+        100 * .result[1], 100 * .result[2])
+```
+
+## The recommendation
+
+```{r q-recommend}
+question_radio("What do you recommend to the curriculum lead?",
+  answer("Make both changes (move F14 to common_denominator, add the prerequisite equivalent -> compare) after the team has reviewed the content of F14 and the compare lessons, then build the diagnostic reports on the refined graph and check the graph again with next year's data.",
+         correct = TRUE,
+         message = "A defensible plan: Each change has data and content behind it, the team stays in charge of the graph, and the check is repeated on new students."),
+  answer("Send the reports with the published graph; the differences are small.",
+         message = "The missing edge changes the advice: Students would be sent to comparing fractions before they know equivalent fractions."),
+  answer("Let the data decide: Use whatever graph fits best.",
+         message = "Data can flag and suggest, but a graph is a claim about learning. Content experts must agree that it makes sense."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Write to the curriculum lead
+
+Write a short note (four to six sentences): What you checked, what you
+found, what you changed and why, and what should happen next.
+
+```{r q-memo}
+question_text(
+  "Your note:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover the checks, the two findings, the changes and the next steps."))
+    correct("Submitted. Now see what was planted in the data.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the curriculum lead: ..."
+)
+```
+
+## The reveal
+
+### What was planted
+
+`fractions` was simulated from a true graph, and the published graph
+`fractions_kg` differs from it on purpose. `lab_truth("fractions")` shows
+how.
+
+```{r truth, exercise = TRUE, exercise.setup = "setup-refined"}
+truth <- lab_truth("fractions")
+truth$planted
+key <- function(kg) sort(paste(kg$edges$from, kg$edges$to, kg$edges$type))
+identical(key(refined), key(truth$graph))
+```
+
+| What was planted | What you found |
+|---|---|
+| F14 truly measures common_denominator but is listed under compare | F14 agreed with common_denominator far more than with compare; every other item agreed best with its own concept |
+| The prerequisite equivalent -> compare is missing | The largest partial correlation in the graph, between two concepts with no edge; equivalent's items are easier |
+| Each concept's proficiency builds on its prerequisites | Neighbours in the true graph keep clear partial correlations; concepts linked only through others do not |
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-structure" = "What the structure check shows",
+    "q-f14" = "F14",
+    "q-direction" = "Direction of the missing prerequisite",
+    "q-refit" = "What a clean check means",
+    "q-recommend" = "Recommendation",
+    "q-memo" = "Note to the curriculum lead"
+  ))
+})
+```
+
+You have checked a knowledge graph the way any measurement model should be
+checked: Its structure first, then its claims against data, with every
+change backed by both the evidence and the content, and with the
+consequences for students made visible.

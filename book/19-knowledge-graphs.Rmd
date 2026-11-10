@@ -14,7 +14,9 @@
   **attribute hierarchy** allows;
 * turn a graph into a confirmatory multidimensional IRT model with
   `mv_kg_model()` and `mv_kg_irt()`, and test the graph's claims against
-  simpler and stricter models.
+  simpler and stricter models;
+* check a graph against data with `mv_kg_fit()` and explain item
+  difficulty with it using `mv_kg_explain()`.
 </div>
 
 **Key terms:**
@@ -199,6 +201,68 @@ attr(m_graph, "mv_kg")
 reads the loading pattern back into a graph, which is a quick way to draw a
 model you already have.
 
+## Example 3: Checking the graph against data
+
+The comparisons above test the graph as a whole. `mv_kg_fit()` looks for
+the places where the data disagree with it. For each item, it asks whether
+the item agrees more with another concept than with its own: It correlates
+the item with the rest score of every concept, corrected for how reliable
+each rest score is. For each pair of concepts, it turns the factor
+correlations of the correlated model into **partial correlations**, the
+correlation of two concepts once the others are held constant. Concepts
+that are directly related keep a clear partial correlation; concepts
+related only through others do not. We can pass in the model we already
+have.
+
+```{r}
+check <- mv_kg_fit(kg3, resp3, model = m_graph)
+check
+tidy(check, "relations")
+```
+
+No item is flagged: Every item agrees best with a concept it is linked
+to. The relation evidence makes the earlier observation precise. Holding
+borrowing constant, separating the whole number and finding a common
+denominator still have a partial correlation of about 0.73, while the
+teacher's prerequisite (separate_whole -> borrow_whole) drops to about
+0.14. Because the two concepts' items are about equally hard, the
+suggestion is a related edge rather than a prerequisite.
+
+```{r kg-fit-fs, fig.height = 5, fig.cap = "The evidence on the three-concept graph: Partial correlations next to each pair, and the suggested related edge as a dashed line."}
+gg_kg_fit(check, items = "all")
+```
+
+`mv_kg_refine()` would add the edge. Whether to do so is a content
+question: Both skills come up when students handle mixed numbers with
+unlike denominators, so a related edge is plausible, but the data alone
+cannot say why the concepts go together.
+
+A graph also makes claims about difficulty. `mv_kg_explain()` fits an
+explanatory Rasch model with the eirm package [@bulut2021] in which
+the graph predicts each item's difficulty: One difficulty per concept (a
+linear logistic test model, with a random item effect for what the
+concepts leave unexplained), or the item's depth in the learning order.
+
+```{r}
+explain <- mv_kg_explain(kg, resp)
+explain
+```
+
+The eight attributes explain most of the differences in item difficulty.
+Borrowing from the whole number and converting a whole number to a
+fraction add the most difficulty, and subtracting numerators, which almost
+every item needs, the least. The teacher's two prerequisites, in
+contrast, say little about difficulty:
+
+```{r}
+mv_kg_explain(kg_h, resp, predictors = "depth")
+```
+
+Items that need more attributes are harder, but once that is taken into
+account, an item's depth in the teacher's learning order adds little. A
+prerequisite that does not show up as a difference in difficulty is not
+necessarily wrong, but it is a claim the data do not support yet.
+
 ## Your turn
 
 <div class="yourturn">
@@ -263,10 +327,12 @@ q[q[, "common_denominator"] == 1 & q[, "separate_whole"] == 1, ]
 ## In the lab {-}
 
 <div class="lab">
-The `fractions` and `fractions_kg` datasets hold a simulated Grade 5
-fractions test with a published graph that differs from the true graph in
-planted ways. Phase 2 of the knowledge graph tools, which checks a graph
-against data, will come with a lab on finding them.
+**Lab 11, Repairing a knowledge graph** (`run_lab("kg-repair")`): A
+district's curriculum team has written a knowledge graph for its Grade 5
+fractions test, and diagnostic reports will follow it. Check the graph
+against the students' answers with `mv_kg_fit()`, find an item linked to
+the wrong concept and a missing prerequisite, repair the graph with
+`mv_kg_refine()`, and show what the repair changes.
 </div>
 
 ## Further reading {-}
