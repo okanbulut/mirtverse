@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/okanbulut/mirtverse/blob/v0.5.0/inst/CITATION)
 
 Bulut, O. (2026). mirtverse: Accessible, AI-ready item response theory
 in R with mirt \[Preprint\]. PsyArXiv.
