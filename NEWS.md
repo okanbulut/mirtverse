@@ -1,4 +1,4 @@
-# mirtverse (development version)
+# mirtverse 0.5.0
 
 * Knowledge graphs: `mv_kg_build()` describes what a test measures as a
   graph of concepts, the prerequisite and related edges between them, and
