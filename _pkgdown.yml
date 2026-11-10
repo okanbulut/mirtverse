@@ -230,8 +230,9 @@ reference:
     problems and draw it; turn it into a Q-matrix, a confirmatory mirt
     model or the mastery patterns its prerequisites allow; check it against
     data and apply the changes the data suggest; explain item difficulty
-    with it. Examples with a simulated fractions test (with the true graph)
-    and Tatsuoka's fraction subtraction data.
+    with it, using item metadata too; draft a graph from item text with a
+    language model (experimental). Examples with a simulated fractions
+    test (with the true graph) and Tatsuoka's fraction subtraction data.
   contents:
   - mv_kg_build
   - as_mv_kg
@@ -249,6 +250,11 @@ reference:
   - mv_kg_explain
   - tidy_mv_kg_explain
   - mv_kg_subset
+  - mv_kg_annotate
+  - mv_kg_extract
+  - tidy_mv_kg_draft
+  - mv_kg_compare
+  - tidy_mv_kg_compare
   - fractions
   - fraction_subtraction
 - title: Choosing and understanding a model

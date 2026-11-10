@@ -56,11 +56,14 @@
 #'   columns, `FS01` to `FS20` (1 = correct, 0 = incorrect), in the order of
 #'   `Item1` to `Item20` in the CDM package. `fraction_subtraction_kg` is an
 #'   [mv_kg][mv_kg_build] knowledge graph with 8 concepts, 20 items and the
-#'   item-to-attribute links of the Q-matrix.
+#'   item-to-attribute links of the Q-matrix. Its item metadata (see
+#'   [mv_kg_annotate()]) has the problem each item asks, in a column `text`
+#'   (for example `"3 1/2 - 2 3/2"`), which [mv_kg_extract()] can read.
 #' @source Copied from the `fraction.subtraction.data` and
 #'   `fraction.subtraction.qmatrix` datasets of the CDM package (Robitzsch,
 #'   Kiefer, George and Uenlue; GPL). The data first appeared in Tatsuoka
-#'   (1984) and are published in Tatsuoka (2002).
+#'   (1984) and are published in Tatsuoka (2002). The item text follows the
+#'   problems as listed by de la Torre and Douglas (2004).
 #' @references
 #' DeCarlo, L. T. (2011). On the analysis of fraction subtraction data: The
 #' DINA model, classification, latent class sizes, and the Q-matrix.
@@ -79,6 +82,7 @@
 #' @examples
 #' fraction_subtraction_kg
 #' mv_kg_check(fraction_subtraction_kg)
+#' tidy(fraction_subtraction_kg, "items")
 #' gg_kg(fraction_subtraction_kg)
 #' @name fraction_subtraction
 "fraction_subtraction"

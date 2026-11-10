@@ -4,7 +4,7 @@
 \alias{mv_kg_explain}
 \title{Explain item difficulty with a knowledge graph}
 \usage{
-mv_kg_explain(kg, data, predictors = c("concepts", "depth"))
+mv_kg_explain(kg, data, predictors = c("concepts", "depth"), covariates = NULL)
 }
 \arguments{
 \item{kg}{a knowledge graph from \code{\link[=mv_kg_build]{mv_kg_build()}} or \code{\link[=as_mv_kg]{as_mv_kg()}}.}
@@ -13,6 +13,9 @@ mv_kg_explain(kg, data, predictors = c("concepts", "depth"))
 not items of the graph, such as an ID, are skipped.}
 
 \item{predictors}{\code{"concepts"} or \code{"depth"}.}
+
+\item{covariates}{optional names of item metadata columns to add as
+predictors (see \code{\link[=mv_kg_annotate]{mv_kg_annotate()}}).}
 }
 \value{
 An object of class \code{mv_kg_explain}: A list with \code{effects} (one
@@ -40,6 +43,13 @@ prerequisite depth among its concepts) and the number of concepts it
 needs. This tests the graph's claim that later concepts are harder.
 }
 
+Item metadata added with \code{\link[=mv_kg_annotate]{mv_kg_annotate()}}, such as word count or item
+format, can join either set through \code{covariates}. Numeric columns are
+centred, so the concept difficulties refer to an item of average value;
+other columns get one 0/1 indicator for each value but the first. This
+asks whether a feature of the items explains difficulty beyond what the
+graph does.
+
 A Rasch model with random items and no predictors is fitted too, and
 \code{explained} in \code{glance()} is the share of its item variance that the
 predictors account for.
@@ -51,6 +61,11 @@ if (requireNamespace("eirm", quietly = TRUE)) {
   ex
   tidy(ex)
   mv_kg_explain(fractions_kg, fractions, predictors = "depth")
+
+  # does the item format explain difficulty beyond the concepts?
+  kg <- mv_kg_annotate(fractions_kg, data.frame(
+    item = sprintf("F\%02d", 1:24), format = rep(c("choice", "open"), 12)))
+  mv_kg_explain(kg, fractions, covariates = "format")
 }
 }
 }

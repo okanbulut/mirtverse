@@ -6,16 +6,18 @@
 \alias{glance.mv_kg}
 \title{Tidy and glance methods for knowledge graphs}
 \usage{
-\method{tidy}{mv_kg}(x, what = c("nodes", "edges"), ...)
+\method{tidy}{mv_kg}(x, what = c("nodes", "edges", "items"), ...)
 
 \method{glance}{mv_kg}(x, ...)
 }
 \arguments{
 \item{x}{a knowledge graph from \code{\link[=mv_kg_build]{mv_kg_build()}} or \code{\link[=as_mv_kg]{as_mv_kg()}}.}
 
-\item{what}{\code{"nodes"} or \code{"edges"} for \code{tidy()}. Nodes get the number of
-items (for concepts) or concepts (for items) they are linked to and,
-for concepts, their prerequisite \code{depth}.}
+\item{what}{\code{"nodes"}, \code{"edges"} or \code{"items"} for \code{tidy()}. Nodes get the
+number of items (for concepts) or concepts (for items) they are linked
+to and, for concepts, their prerequisite \code{depth}. Items get one row
+each, with the concepts they measure and any item metadata added with
+\code{\link[=mv_kg_annotate]{mv_kg_annotate()}}.}
 
 \item{...}{unused.}
 }
@@ -23,11 +25,12 @@ for concepts, their prerequisite \code{depth}.}
 A tibble.
 }
 \description{
-\code{tidy()} returns the nodes or edges of a knowledge graph as a tibble;
-\code{glance()} returns a one-row summary.
+\code{tidy()} returns the nodes, edges or items of a knowledge graph as a
+tibble; \code{glance()} returns a one-row summary.
 }
 \examples{
 tidy(fractions_kg)
 tidy(fractions_kg, "edges")
+tidy(fraction_subtraction_kg, "items")
 glance(fractions_kg)
 }

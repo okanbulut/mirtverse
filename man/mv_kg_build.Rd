@@ -4,7 +4,7 @@
 \alias{mv_kg_build}
 \title{Build a knowledge graph of concepts and items}
 \usage{
-mv_kg_build(concepts, edges = NULL, items = NULL, name = NULL)
+mv_kg_build(concepts, edges = NULL, items = NULL, name = NULL, meta = NULL)
 }
 \arguments{
 \item{concepts}{the concepts: A character vector of names, or a data frame
@@ -22,11 +22,16 @@ item and one column per concept; item names come from the row names or a
 column \code{item}).}
 
 \item{name}{optional name of the graph, shown when it is printed.}
+
+\item{meta}{optional item metadata: A data frame with one row per item,
+an id column \code{item} (or \code{id}) and any other columns, such as item text,
+format or word count. See \code{\link[=mv_kg_annotate]{mv_kg_annotate()}}.}
 }
 \value{
 An object of class \code{mv_kg}: A list with \code{nodes} (a tibble with
 \code{node}, \code{kind} (\code{"concept"} or \code{"item"}), \code{label} and \code{description}),
-\code{edges} (a tibble with \code{from}, \code{to}, \code{type} and \code{weight}) and \code{name}.
+\code{edges} (a tibble with \code{from}, \code{to}, \code{type} and \code{weight}), \code{name}, and,
+when metadata is given, \code{meta} (a tibble with one row per item).
 }
 \description{
 A knowledge graph describes what a test measures as a network: Concepts

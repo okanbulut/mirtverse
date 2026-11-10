@@ -10,15 +10,18 @@
 columns, \code{FS01} to \code{FS20} (1 = correct, 0 = incorrect), in the order of
 \code{Item1} to \code{Item20} in the CDM package. \code{fraction_subtraction_kg} is an
 \link[=mv_kg_build]{mv_kg} knowledge graph with 8 concepts, 20 items and the
-item-to-attribute links of the Q-matrix.
+item-to-attribute links of the Q-matrix. Its item metadata (see
+\code{\link[=mv_kg_annotate]{mv_kg_annotate()}}) has the problem each item asks, in a column \code{text}
+(for example \code{"3 1/2 - 2 3/2"}), which \code{\link[=mv_kg_extract]{mv_kg_extract()}} can read.
 
-An object of class \code{mv_kg} of length 3.
+An object of class \code{mv_kg} of length 4.
 }
 \source{
 Copied from the \code{fraction.subtraction.data} and
 \code{fraction.subtraction.qmatrix} datasets of the CDM package (Robitzsch,
 Kiefer, George and Uenlue; GPL). The data first appeared in Tatsuoka
-(1984) and are published in Tatsuoka (2002).
+(1984) and are published in Tatsuoka (2002). The item text follows the
+problems as listed by de la Torre and Douglas (2004).
 }
 \usage{
 fraction_subtraction
@@ -47,6 +50,7 @@ published with the Q-matrix, so the graph has none; add your own with
 \examples{
 fraction_subtraction_kg
 mv_kg_check(fraction_subtraction_kg)
+tidy(fraction_subtraction_kg, "items")
 gg_kg(fraction_subtraction_kg)
 }
 \references{
