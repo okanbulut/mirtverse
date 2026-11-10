@@ -349,9 +349,10 @@ four language models.
 Describe what a test measures as a graph of concepts, their
 prerequisites and the items that measure them; check the graph for
 problems and draw it; turn it into a Q-matrix, a confirmatory mirt model
-or the mastery patterns its prerequisites allow. Examples with a
-simulated fractions test (with the true graph) and Tatsuoka’s fraction
-subtraction data.
+or the mastery patterns its prerequisites allow; check it against data
+and apply the changes the data suggest; explain item difficulty with it.
+Examples with a simulated fractions test (with the true graph) and
+Tatsuoka’s fraction subtraction data.
 
 - [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
   : Build a knowledge graph of concepts and items
@@ -372,6 +373,20 @@ subtraction data.
   : Fit a confirmatory IRT model built from a knowledge graph
 - [`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
   : Mastery patterns allowed by the prerequisites
+- [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md)
+  : Check a knowledge graph against response data
+- [`tidy(`*`<mv_kg_fit>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.md)
+  [`glance(`*`<mv_kg_fit>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.md)
+  : Tidy and glance methods for knowledge graph checks
+- [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
+  : Apply suggested changes to a knowledge graph
+- [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
+  : Draw the data's evidence on a knowledge graph
+- [`mv_kg_explain()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.md)
+  : Explain item difficulty with a knowledge graph
+- [`tidy(`*`<mv_kg_explain>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.md)
+  [`glance(`*`<mv_kg_explain>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.md)
+  : Tidy and glance methods for explained item difficulty
 - [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
   : Keep part of a knowledge graph
 - [`fractions`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
@@ -419,6 +434,8 @@ subtraction data.
   : Item fit plot
 - [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md) :
   Draw a knowledge graph
+- [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
+  : Draw the data's evidence on a knowledge graph
 - [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md) :
   Local dependence heatmap (Yen's Q3)
 - [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md)

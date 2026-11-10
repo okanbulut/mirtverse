@@ -81,6 +81,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_info.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_itemfit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kg.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_q3.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_scores.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_trace.html</loc></url>
@@ -120,10 +121,13 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_build.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_check.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_irt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_model.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_qmatrix.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.html</loc></url>
@@ -161,6 +165,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/theme_mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/validity_argument.html</loc></url>
 </urlset>

@@ -35,6 +35,24 @@
   lists the mastery patterns the prerequisite edges allow (the attribute
   hierarchy), for diagnostic models such as
   [`mirt::mdirt()`](https://philchalmers.github.io/mirt/reference/mdirt.html).
+- Checking a knowledge graph against data:
+  [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md)
+  finds items that agree more with another concept than with the ones
+  they are linked to (disattenuated rest-score correlations), concept
+  pairs with a large partial correlation but no edge, edges the data
+  barely support, and prerequisites whose items are harder than those of
+  the concept they lead to. Each flag comes with a suggested change,
+  [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
+  applies the ones you accept, and
+  [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
+  draws the evidence on the graph. On the simulated `fractions` data it
+  finds both planted errors, and the refined graph is the true one.
+- [`mv_kg_explain()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.md)
+  explains item difficulty with the graph in an explanatory Rasch model
+  fitted with eirm: One difficulty per concept (a linear logistic test
+  model with a random item effect), or the item’s depth in the learning
+  order. It reports how much of the item variance the graph explains and
+  which items it predicts poorly.
 - [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
   keeps chosen concepts of a graph, the relations among them and the
   items that measure them.

@@ -568,13 +568,13 @@ unrelated.</p>
 <span id="cb216-2"><a href="knowledge-graphs.html#cb216-2" tabindex="-1"></a>m_graph <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3)</span>
 <span id="cb216-3"><a href="knowledge-graphs.html#cb216-3" tabindex="-1"></a>m_strict <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;graph&quot;</span>)</span>
 <span id="cb216-4"><a href="knowledge-graphs.html#cb216-4" tabindex="-1"></a><span class="fu">anova</span>(m_uni, m_graph)</span>
-<span id="cb216-5"><a href="knowledge-graphs.html#cb216-5" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik     X2 df p</span></span>
-<span id="cb216-6"><a href="knowledge-graphs.html#cb216-6" tabindex="-1"></a><span class="co">#&gt; m_uni   7739  7775 7793 7876  -3838            </span></span>
-<span id="cb216-7"><a href="knowledge-graphs.html#cb216-7" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 394.06 13 0</span></span>
+<span id="cb216-5"><a href="knowledge-graphs.html#cb216-5" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
+<span id="cb216-6"><a href="knowledge-graphs.html#cb216-6" tabindex="-1"></a><span class="co">#&gt; m_uni   7739  7775 7793 7876  -3838             </span></span>
+<span id="cb216-7"><a href="knowledge-graphs.html#cb216-7" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 394.115 13 0</span></span>
 <span id="cb216-8"><a href="knowledge-graphs.html#cb216-8" tabindex="-1"></a><span class="fu">anova</span>(m_strict, m_graph)</span>
 <span id="cb216-9"><a href="knowledge-graphs.html#cb216-9" tabindex="-1"></a><span class="co">#&gt;           AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
 <span id="cb216-10"><a href="knowledge-graphs.html#cb216-10" tabindex="-1"></a><span class="co">#&gt; m_strict 7641  7689 7713 7825  -3778             </span></span>
-<span id="cb216-11"><a href="knowledge-graphs.html#cb216-11" tabindex="-1"></a><span class="co">#&gt; m_graph  7371  7421 7447 7564  -3641 273.834  2 0</span></span></code></pre></div>
+<span id="cb216-11"><a href="knowledge-graphs.html#cb216-11" tabindex="-1"></a><span class="co">#&gt; m_graph  7371  7421 7447 7564  -3641 273.888  2 0</span></span></code></pre></div>
 <p>Two comparisons answer two questions. Against a single dimension, the
 three-concept model fits far better: The likelihood-ratio statistic is
 about 394 on 13 degrees of freedom, and BIC drops by more than 300. The
@@ -584,9 +584,9 @@ common denominator has no edge in the graph, yet it correlates with the
 other two concepts.</p>
 <div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="knowledge-graphs.html#cb217-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(m_graph, <span class="at">verbose =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>fcor, <span class="dv">2</span>)</span>
 <span id="cb217-2"><a href="knowledge-graphs.html#cb217-2" tabindex="-1"></a><span class="co">#&gt;                    separate_whole common_denominator borrow_whole</span></span>
-<span id="cb217-3"><a href="knowledge-graphs.html#cb217-3" tabindex="-1"></a><span class="co">#&gt; separate_whole               1.00               0.77         0.38</span></span>
-<span id="cb217-4"><a href="knowledge-graphs.html#cb217-4" tabindex="-1"></a><span class="co">#&gt; common_denominator           0.77               1.00         0.39</span></span>
-<span id="cb217-5"><a href="knowledge-graphs.html#cb217-5" tabindex="-1"></a><span class="co">#&gt; borrow_whole                 0.38               0.39         1.00</span></span></code></pre></div>
+<span id="cb217-3"><a href="knowledge-graphs.html#cb217-3" tabindex="-1"></a><span class="co">#&gt; separate_whole               1.00               0.77         0.37</span></span>
+<span id="cb217-4"><a href="knowledge-graphs.html#cb217-4" tabindex="-1"></a><span class="co">#&gt; common_denominator           0.77               1.00         0.38</span></span>
+<span id="cb217-5"><a href="knowledge-graphs.html#cb217-5" tabindex="-1"></a><span class="co">#&gt; borrow_whole                 0.37               0.38         1.00</span></span></code></pre></div>
 <p>Separating the whole number and finding a common denominator correlate at
 about 0.77, much more than the two concepts the teacher linked (about
 0.37). This is a typical finding, not a failure: A prerequisite edge says
@@ -601,10 +601,10 @@ chapters works on it, and the graph travels with it.</p>
 <span id="cb218-3"><a href="knowledge-graphs.html#cb218-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
 <span id="cb218-4"><a href="knowledge-graphs.html#cb218-4" tabindex="-1"></a><span class="co">#&gt;   item  itemtype term  estimate std.error</span></span>
 <span id="cb218-5"><a href="knowledge-graphs.html#cb218-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb218-6"><a href="knowledge-graphs.html#cb218-6" tabindex="-1"></a><span class="co">#&gt; 1 FS01  2PL      a2       5.13         NA</span></span>
+<span id="cb218-6"><a href="knowledge-graphs.html#cb218-6" tabindex="-1"></a><span class="co">#&gt; 1 FS01  2PL      a2       5.14         NA</span></span>
 <span id="cb218-7"><a href="knowledge-graphs.html#cb218-7" tabindex="-1"></a><span class="co">#&gt; 2 FS01  2PL      d        1.08         NA</span></span>
 <span id="cb218-8"><a href="knowledge-graphs.html#cb218-8" tabindex="-1"></a><span class="co">#&gt; 3 FS02  2PL      a2       7.39         NA</span></span>
-<span id="cb218-9"><a href="knowledge-graphs.html#cb218-9" tabindex="-1"></a><span class="co">#&gt; 4 FS02  2PL      d        2.31         NA</span></span>
+<span id="cb218-9"><a href="knowledge-graphs.html#cb218-9" tabindex="-1"></a><span class="co">#&gt; 4 FS02  2PL      d        2.30         NA</span></span>
 <span id="cb218-10"><a href="knowledge-graphs.html#cb218-10" tabindex="-1"></a><span class="co">#&gt; 5 FS03  2PL      a2      13.8          NA</span></span>
 <span id="cb218-11"><a href="knowledge-graphs.html#cb218-11" tabindex="-1"></a><span class="co">#&gt; 6 FS03  2PL      d        0.943        NA</span></span>
 <span id="cb218-12"><a href="knowledge-graphs.html#cb218-12" tabindex="-1"></a><span class="fu">attr</span>(m_graph, <span class="st">&quot;mv_kg&quot;</span>)</span>
@@ -669,7 +669,7 @@ Solutions
 <span id="cb219-29"><a href="knowledge-graphs.html#cb219-29" tabindex="-1"></a><span class="fu">anova</span>(m_orth, m_graph)</span>
 <span id="cb219-30"><a href="knowledge-graphs.html#cb219-30" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
 <span id="cb219-31"><a href="knowledge-graphs.html#cb219-31" tabindex="-1"></a><span class="co">#&gt; m_orth  7642  7689 7712 7822  -3779             </span></span>
-<span id="cb219-32"><a href="knowledge-graphs.html#cb219-32" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 276.773  3 0</span></span>
+<span id="cb219-32"><a href="knowledge-graphs.html#cb219-32" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 276.827  3 0</span></span>
 <span id="cb219-33"><a href="knowledge-graphs.html#cb219-33" tabindex="-1"></a></span>
 <span id="cb219-34"><a href="knowledge-graphs.html#cb219-34" tabindex="-1"></a><span class="co"># 4. shared items</span></span>
 <span id="cb219-35"><a href="knowledge-graphs.html#cb219-35" tabindex="-1"></a><span class="fu">gg_kg</span>(kg3, <span class="at">highlight =</span> <span class="st">&quot;common_denominator&quot;</span>)</span></code></pre></div>
