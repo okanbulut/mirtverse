@@ -119,6 +119,6 @@ if (requireNamespace("ellmer", quietly = TRUE)) {
   compare_synthetic(syn, stats::setNames(items$p_field, items$id))
   options(old)
 }
-#> Language model calls now answer from examples.json (25 recorded requests).
+#> Language model calls now answer from examples.json (26 recorded requests).
 # }
 ```

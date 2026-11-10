@@ -22,9 +22,10 @@ fractions_kg
 `fractions_kg` is an
 [mv_kg](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
 knowledge graph with 6 concepts, 24 items, 5 prerequisite edges and 27
-item-to-concept links.
+item-to-concept links. Its item metadata has the text of each item
+(`tidy(fractions_kg, "items")`).
 
-An object of class `mv_kg` of length 3.
+An object of class `mv_kg` of length 4.
 
 ## Source
 
@@ -54,6 +55,7 @@ and [`gg_kg()`](https://www.okanbulut.com/mirtverse/reference/gg_kg.md).
 fractions_kg
 #> <mv_kg> Grade 5 fractions: 6 concept(s), 24 item(s)
 #> Edges: 5 prerequisite, 0 related, 27 measures
+#> Item metadata: text
 #> Learning order (by prerequisite depth):
 #>   0: meaning, compare
 #>   1: equivalent, mixed

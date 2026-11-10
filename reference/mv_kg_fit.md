@@ -41,7 +41,8 @@ mv_kg_fit(
 
   how much larger (in disattenuated correlation) an item's best unlinked
   concept must be than its best linked concept before a `wrong_link`
-  flag.
+  flag, and how much smaller a linked concept must be than the item's
+  best linked concept before a `weak_link` flag.
 
 - min_partial:
 
@@ -82,7 +83,14 @@ correlation), so that concepts with few items are not put at a
 disadvantage. An item that correlates clearly more with a concept it is
 not linked to than with any concept it is linked to gets a `wrong_link`
 flag, with a suggestion to move it (or, for an item linked to several
-concepts, to add the link).
+concepts, to add the link). An item linked to several concepts that
+correlates clearly less with one of them than with its best one gets a
+`weak_link` flag, with a suggestion to drop that link: Useful for graphs
+that link too much, such as drafts from
+[`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md).
+A concept that is part of nearly every item, such as a basic operation,
+can get `weak_link` flags on items that truly need it, so read these
+with the item in front of you.
 
 **Relations.** The graph's correlated confirmatory model is fitted with
 [`mv_kg_irt()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_irt.md)
@@ -153,7 +161,7 @@ fit2 <- mv_kg_fit(kg2, fractions, TOL = 0.01)
 #>   Final log-likelihood values were: 
 #>   -5210.991, -5210.101, -5209.399
 tidy(fit2, "items")
-#> # A tibble: 8 × 8
+#> # A tibble: 8 × 10
 #>   item  linked     n_linked best_linked r_linked best_other r_other     gap
 #>   <chr> <chr>         <int> <chr>          <dbl> <chr>        <dbl>   <dbl>
 #> 1 F01   meaning           1 meaning        0.517 equivalent   0.384 -0.133 
@@ -164,4 +172,5 @@ tidy(fit2, "items")
 #> 6 F06   equivalent        1 equivalent     0.539 meaning      0.416 -0.123 
 #> 7 F07   equivalent        1 equivalent     0.431 meaning      0.369 -0.0621
 #> 8 F08   equivalent        1 equivalent     0.653 meaning      0.440 -0.212 
+#> # ℹ 2 more variables: weakest_linked <chr>, r_weakest <dbl>
 ```

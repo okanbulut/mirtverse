@@ -510,6 +510,42 @@ mastery patterns and the item difficulty the two graphs explain</td>
 explanatory IRT; Chapter <a href="../book/knowledge-graphs.html">Knowledge graphs and IRT</a> of the
 book is the reading that goes with it.</p>
 </div>
+<div class="section level3">
+<h3 id="lab-12">Lab 12: Reviewing an AI-drafted graph<a class="anchor" aria-label="anchor" href="#lab-12"></a>
+</h3>
+<p>The district wants to map a dozen more tests, and a colleague
+suggests letting a language model draft each graph from the item text.
+Students try it on the same fractions test: They draft the graph with
+<code><a href="../reference/mv_kg_extract.html">mv_kg_extract()</a></code> (from a recording, so no API key is
+needed), compare it with the curriculum team’s graph with
+<code><a href="../reference/mv_kg_compare.html">mv_kg_compare()</a></code>, check it against the answers, and decide
+what the data cannot with <code><a href="../reference/mv_kg_edit.html">mv_kg_edit()</a></code>.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Lab</th>
+<th>Run it with</th>
+<th>You will</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>
+<strong>12. Reviewing an AI-drafted graph</strong> (about 60
+minutes)</td>
+<td><code>run_lab("kg-draft")</code></td>
+<td>Read the model’s own checks and reasons, compare the draft with the
+experts’ graph, find the links the model added with
+<code><a href="../reference/mv_kg_fit.html">mv_kg_fit()</a></code>, decide the links the data cannot settle with
+the team’s graph, and compare the team’s graph, the draft and the
+reviewed graph with the truth</td>
+</tr></tbody>
+</table>
+<p>Lab 12 follows Lab 11, and the two together close a unit on knowledge
+graphs or an AI unit.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="what-it-looks-like">What it looks like<a class="anchor" aria-label="anchor" href="#what-it-looks-like"></a>
@@ -1272,6 +1308,71 @@ difficulty by learning-order depth with
 </table>
 </div>
 <div class="section level3">
+<h3 id="lab-12-reviewing-an-ai-drafted-graph">Lab 12: Reviewing an AI-drafted graph<a class="anchor" aria-label="anchor" href="#lab-12-reviewing-an-ai-drafted-graph"></a>
+</h3>
+<p><code>run_lab("kg-draft")</code>, about 60 minutes. The model answers
+from the package’s recordings. Checking the draft against the data uses
+a faster setting (<code>TOL = 0.005</code>, <code>quadpts = 2000</code>)
+and takes about half a minute; so does the check of the refined
+draft.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Section</th>
+<th>Students do</th>
+<th>Decision</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The brief</td>
+<td>Meet the director’s question; the item text with
+<code>tidy(fractions_kg, "items")</code>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The draft</td>
+<td>
+<code><a href="../reference/mv_kg_extract.html">mv_kg_extract()</a></code> and its flags; the reasons for F14 and
+F21; <code><a href="../reference/mv_kg_compare.html">mv_kg_compare()</a></code> with the team’s graph</td>
+<td>What the draft’s checks show; whether the draft or the team is
+right</td>
+</tr>
+<tr class="odd">
+<td>Check the draft against the answers</td>
+<td>
+<code><a href="../reference/mv_kg_fit.html">mv_kg_fit()</a></code> and <code><a href="../reference/gg_kg_fit.html">gg_kg_fit()</a></code>;
+<code>mv_kg_refine(fit, "items")</code> and a second fit</td>
+<td>Why F20 has a weak link to common_denominator</td>
+</tr>
+<tr class="even">
+<td>Decide what the data cannot</td>
+<td>F21’s evidence and the reasons for the prerequisites;
+<code><a href="../reference/mv_kg_edit.html">mv_kg_edit()</a></code>; mastery patterns with
+<code><a href="../reference/mv_kg_hierarchy.html">mv_kg_hierarchy()</a></code>
+</td>
+<td>F21; the prerequisite compare -&gt; common_denominator</td>
+</tr>
+<tr class="odd">
+<td>The recommendation</td>
+<td>Recommendation and free-text note to the director</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>The reveal</td>
+<td>The team’s graph, the draft and the reviewed graph against
+<code>lab_truth("fractions")$graph</code>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="tips-for-running-the-labs">Tips for running the labs<a class="anchor" aria-label="anchor" href="#tips-for-running-the-labs"></a>
 </h3>
 <ul>
@@ -1288,7 +1389,7 @@ unit on polytomous models or performance assessment. Lab 7 follows Lab 6
 in a unit on automated scoring or AI in measurement, and Lab 8 fits a
 unit on item development, explanatory IRT or AI in measurement. Lab 9
 follows Lab 8, and Lab 10 closes an AI unit. Lab 11 fits a unit on
-multidimensional IRT or cognitive diagnosis.</li>
+multidimensional IRT or cognitive diagnosis, and Lab 12 follows it.</li>
 <li>
 <strong>Speed:</strong> Most exercises run in under about 15 seconds
 on a laptop; the two-factor model uses fewer quadrature points so it
@@ -2265,7 +2366,98 @@ would you act on it, and what would you look at first?</li>
 per concept would you want, and how would <code><a href="../reference/mv_kg_check.html">mv_kg_check()</a></code> and
 <code><a href="../reference/mv_kg_fit.html">mv_kg_fit()</a></code> help you plan the next form?</li>
 <li>A language model drafted the graph from the curriculum documents.
-Which checks in this lab would you run before trusting it?</li>
+Which checks in this lab would you run before trusting it? (Lab 12 tries
+it.)</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lab-12-1">Lab 12<a class="anchor" aria-label="anchor" href="#lab-12-1"></a>
+</h3>
+<p>The model’s draft (recorded, from the concepts of
+<code>fractions_kg</code> and the text of its 24 items) and what the
+evidence says about each difference from the true graph:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>What the model did</th>
+<th>What a good analyst does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Linked F14 to common_denominator, its true concept, but kept compare
+too</td>
+<td>Accepts the data’s weak link: F14 agrees with compare at 0.32 and
+with common_denominator at 0.46, so the link to compare goes</td>
+</tr>
+<tr class="even">
+<td>Added the prerequisite equivalent -&gt; compare, which the team’s
+graph is missing</td>
+<td>Keeps it: It is in the truth, and Lab 11 found it in the data</td>
+</tr>
+<tr class="odd">
+<td>Added a second concept to F11 (meaning), F15, F19, F20 and F21
+(common_denominator; equivalent for F19)</td>
+<td>Drops the four the data flag as weak links (F11, F15, F19, F20); for
+F21, which the data cannot see, follows the team’s graph</td>
+</tr>
+<tr class="even">
+<td>Added the prerequisite compare -&gt; common_denominator with its
+lowest confidence (0.4)</td>
+<td>Drops it: No direct link in the data (partial correlation 0.02 after
+the item changes) and none in the team’s graph</td>
+</tr>
+<tr class="odd">
+<td>Gave mixed -&gt; add_subtract and add_subtract -&gt; mixed</td>
+<td>Nothing: The model’s checks kept the direction with the higher
+confidence</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Draft vs team:</strong> 18 of 24 items agree; all 27 of the
+team’s links are in the draft (33 links, precision 0.82); the draft has
+every one of the team’s prerequisites and two more.</li>
+<li>
+<strong>Data check of the draft:</strong> Five weak links, F11 (0.36
+vs 0.59), F14 (0.32 vs 0.46), F15 (0.28 vs 0.46), F19 (0.41 vs 0.53) and
+F20 (0.44 vs 0.57), and an info flag on compare -&gt;
+common_denominator. F21 agrees with its two concepts at 0.36 and 0.41,
+below the 0.1 gap that raises a flag.</li>
+<li>
+<strong>Refined draft:</strong> No item flags; the info flag on
+compare -&gt; common_denominator remains (partial 0.02).</li>
+<li>
+<strong>Reviewed graph:</strong> Equal to the true graph: 24 of 24
+items, 27 of 27 links, 6 of 6 prerequisites. The team’s graph has 23 of
+24 items and 5 of 6 prerequisites; the draft 18 of 24 items and all 6
+prerequisites plus one that is not true.</li>
+<li>
+<strong>What changes:</strong> The team’s graph allows 16 mastery
+patterns, the draft 10 and the reviewed graph 13. The draft’s extra
+prerequisite rules out 3 patterns of the true graph.</li>
+<li>
+<strong>Recommendation:</strong> Draft the next graphs with the
+model, check each draft against field-test data, and have the curriculum
+team decide what the data cannot, with the decisions written down.</li>
+</ul>
+<div class="section level4">
+<h4 id="discussion-prompts-11">Discussion prompts<a class="anchor" aria-label="anchor" href="#discussion-prompts-11"></a>
+</h4>
+<ul>
+<li>The model added links whenever a skill appears in a problem. How
+would you change the prompt, or the concept descriptions, to get fewer
+extra links?</li>
+<li>F21’s extra link could not be seen in the data. What kind of data,
+or what kind of item, would let you test it?</li>
+<li>The district has no field-test data for a new test yet. Which parts
+of this review can it still do, and which must wait?</li>
+<li>Would you tell teachers that a language model drafted the graph
+behind their reports? What would you tell them about the review?</li>
 </ul>
 </div>
 </div>

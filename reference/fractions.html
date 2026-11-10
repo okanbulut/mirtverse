@@ -126,8 +126,9 @@ concepts each item measures; three items measure two concepts.</p>
     <p><code>fractions</code> is a data frame with 1,200 rows and 25 columns: <code>id</code>
 (student ID) and <code>F01</code> to <code>F24</code> (1 = correct, 0 = incorrect).
 <code>fractions_kg</code> is an <a href="mv_kg_build.html">mv_kg</a> knowledge graph with 6
-concepts, 24 items, 5 prerequisite edges and 27 item-to-concept links.</p>
-<p>An object of class <code>mv_kg</code> of length 3.</p>
+concepts, 24 items, 5 prerequisite edges and 27 item-to-concept links.
+Its item metadata has the text of each item (<code>tidy(fractions_kg, "items")</code>).</p>
+<p>An object of class <code>mv_kg</code> of length 4.</p>
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
@@ -155,6 +156,7 @@ returns the true graph and parameters.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fractions_kg</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;mv_kg&gt; Grade 5 fractions: 6 concept(s), 24 item(s)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Edges: 5 prerequisite, 0 related, 27 measures</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Item metadata: text</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Learning order (by prerequisite depth):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   0: meaning, compare</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1: equivalent, mixed</span>

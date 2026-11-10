@@ -144,6 +144,7 @@ the-ideas-18
 example-1-a-graph-for-fraction-subtraction
 example-2-from-graph-to-irt-model
 example-3-checking-the-graph-against-data
+example-4-drafting-a-graph-from-item-text
 your-turn-18
 datasets
 adapting

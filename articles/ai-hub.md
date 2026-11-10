@@ -45,7 +45,7 @@ step names the question it answers, what to read and what to try in R.
 | 2\. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](https://www.okanbulut.com/mirtverse/book/ml-lens.md) | — |
 | 3\. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](https://www.okanbulut.com/mirtverse/articles/mv-ask-guide.md); book: [Large language models as a colleague](https://www.okanbulut.com/mirtverse/book/llms.md) | [`mv_ask()`](https://www.okanbulut.com/mirtverse/reference/mv_ask.md), [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md); [`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md) (experimental) |
 | 4\. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](https://www.okanbulut.com/mirtverse/book/auto-scoring.md); [reading list: Automated scoring](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#automated-scoring) | [`train_scorer()`](https://www.okanbulut.com/mirtverse/reference/train_scorer.md), [`agreement_report()`](https://www.okanbulut.com/mirtverse/reference/agreement_report.md), [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md), [`rater_facets()`](https://www.okanbulut.com/mirtverse/reference/rater_facets.md), [`scoring_shift()`](https://www.okanbulut.com/mirtverse/reference/scoring_shift.md); [Lab 7](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-7) |
-| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](https://www.okanbulut.com/mirtverse/book/item-text.md); [reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md), [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md); [Lab 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8) |
+| 5\. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](https://www.okanbulut.com/mirtverse/book/item-text.md); [reading list: Item text](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#item-text) | [`item_features()`](https://www.okanbulut.com/mirtverse/reference/item_features.md), [`predict_difficulty()`](https://www.okanbulut.com/mirtverse/reference/predict_difficulty.md), [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md) (experimental); [Lab 8](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-8), [Lab 12](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-12) |
 | 6\. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](https://www.okanbulut.com/mirtverse/book/aig.md); [assessment pipeline](https://www.okanbulut.com/mirtverse/articles/assessment-pipeline.md); [reading list: AIG](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#aig) | [`item_model()`](https://www.okanbulut.com/mirtverse/reference/item_model.md), [`generate_isomorphs()`](https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.md), [`calibrate_families()`](https://www.okanbulut.com/mirtverse/reference/calibrate_families.md), [`generate_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md), [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md); [Lab 9](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-9) |
 | 7\. Validity and fairness | What evidence does an AI component need before it is used? | Book: [Validity, fairness and governance of AI](https://www.okanbulut.com/mirtverse/book/ai-validity.md); [reading list: Validity](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#validity) | [`ai_audit()`](https://www.okanbulut.com/mirtverse/reference/ai_audit.md), [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md), [`dif()`](https://www.okanbulut.com/mirtverse/reference/dif.md); [Lab 10](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-10) |
 
@@ -229,6 +229,35 @@ respondents](https://www.okanbulut.com/mirtverse/articles/synthetic-coverage.md)
 walks through it with HEXACO answers from four language models and
 17,874 real people.
 
+### Draft a knowledge graph from item text (experimental)
+
+``` r
+
+old <- mv_llm_replay()
+draft <- mv_kg_extract(fraction_subtraction_kg, subject = "Middle school fraction subtraction")
+mv_kg_compare(draft, fraction_subtraction_kg)   # against the expert Q-matrix
+check <- mv_kg_fit(draft, fraction_subtraction) # against the answers
+options(old)
+```
+
+[`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
+asks a language model which concepts each item measures and which
+concepts come before which, with a reason for every link. The answer is
+checked before a graph is built (unknown items and concepts, two-way and
+cyclic prerequisites).
+[`mv_kg_compare()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_compare.md)
+measures agreement with an expert graph,
+[`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md)
+flags links the answers do not support, and
+[`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md)
+makes the changes a reviewer decides on. Models tend to add a link
+whenever a skill appears in a problem, so a draft is a start for
+experts, not a replacement. The book’s [chapter on knowledge
+graphs](https://www.okanbulut.com/mirtverse/book/knowledge-graphs.md)
+works through Tatsuoka’s fraction subtraction items, and [Lab
+12](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-12)
+has students review a draft.
+
 ### Score open-ended responses, and check the scores
 
 ``` r
@@ -303,9 +332,14 @@ and why, and decide when a family mean can stand in for a field test. In
 10](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-10)
 they audit an AI-scored test before its scores are released, and turn
 the audit into a validity argument for a technical advisory committee.
-The [online book](https://www.okanbulut.com/mirtverse/book/index.md) has
-a part on AI in measurement whose chapters work offline, so they can be
-assigned as readings. The [course
+[Lab
+12](https://www.okanbulut.com/mirtverse/articles/teaching-labs.html#lab-12)
+has them review a knowledge graph a language model drafted from the item
+text, and decide which links to keep with the experts’ graph and the
+data. The [online
+book](https://www.okanbulut.com/mirtverse/book/index.md) has a part on
+AI in measurement whose chapters work offline, so they can be assigned
+as readings. The [course
 map](https://www.okanbulut.com/mirtverse/articles/course-map.html#ai-module)
 puts the chapters and labs together as a four-week module or a one-day
 workshop, and the [workshop

@@ -29,6 +29,29 @@
   expert Q-matrix, matching concepts by their items when the names
   differ. Both run offline from the example recordings with
   [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+- [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md)
+  has a new item check, `weak_link`: An item linked to more than one
+  concept that agrees much less with one of them than with another.
+  [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
+  drops the weak link (`accept = "items"` includes it), and
+  [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
+  draws it as a dotted line. It catches the extra links a drafted graph
+  tends to have.
+- [`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md)
+  adds or drops item links, prerequisites and related edges by hand, for
+  the changes a reviewer decides on.
+- `fractions_kg` now has the text of its 24 items.
+- Lab 12, “Reviewing an AI-drafted graph” (`run_lab("kg-draft")`):
+  Students draft the fractions graph with
+  [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
+  from a recording, compare it with the curriculum team’s graph, find
+  the links the model added with
+  [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md),
+  decide the rest with the team’s graph and
+  [`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md),
+  and compare all three graphs with the truth.
+- The book’s knowledge graph chapter has two new parts: Item metadata as
+  an explanation of difficulty, and drafting a graph from item text.
 
 ## mirtverse 0.5.0
 

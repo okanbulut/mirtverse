@@ -75,7 +75,7 @@ to use a live model.
 ``` r
 # answer from the example recordings that come with mirtverse
 old <- mv_llm_replay()
-#> Language model calls now answer from examples.json (25 recorded requests).
+#> Language model calls now answer from examples.json (26 recorded requests).
 head(mv_llm_recordings()[, c("function_name", "prompt_start")])
 #> # A tibble: 6 × 2
 #>   function_name  prompt_start                                                  

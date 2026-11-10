@@ -79,7 +79,7 @@ if (requireNamespace("ellmer", quietly = TRUE)) {
   print(mv_kg_compare(draft, fraction_subtraction_kg))
   options(old)
 }
-#> Language model calls now answer from examples.json (25 recorded requests).
+#> Language model calls now answer from examples.json (26 recorded requests).
 #> <mv_kg_compare> Fraction subtraction (Tatsuoka) (drafted) vs Fraction subtraction (Tatsuoka)
 #> Item links: 53 of the 56 reference links are in the graph (recall
 #>   0.95), and 53 of the graph's 54 links are in the reference (precision

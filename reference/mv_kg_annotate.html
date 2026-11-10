@@ -163,19 +163,19 @@ argument.</p></div>
 <span class="r-in"><span>  item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"F%02d"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"multiple choice"</span>, <span class="st">"constructed response"</span><span class="op">)</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">kg</span>, <span class="st">"items"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    item  concepts   n_concepts format              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F01   meaning             1 multiple choice     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> F02   meaning             1 constructed response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> F03   meaning             1 multiple choice     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F04   meaning             1 constructed response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F05   equivalent          1 multiple choice     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> F06   equivalent          1 constructed response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> F07   equivalent          1 multiple choice     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> F08   equivalent          1 constructed response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> F09   mixed               1 multiple choice     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> F10   mixed               1 constructed response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    item  concepts   n_concepts text                                       format</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F01   meaning             1 A circle is cut into 4 equal parts and 3 … multi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> F02   meaning             1 A pizza is cut into 8 equal slices. Sam e… const…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> F03   meaning             1 A number line from 0 to 1 is split into 5… multi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F04   meaning             1 In the fraction 5/6, what does the 6 tell… const…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F05   equivalent          1 Which fraction is equal to 2/3? A. 3/4  B… multi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> F06   equivalent          1 Fill in the blank: 3/4 = ?/12              const…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> F07   equivalent          1 Write 6/9 in simplest form.                multi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> F08   equivalent          1 Are 4/10 and 2/5 equal? Explain how you k… const…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> F09   mixed               1 Write 2 3/4 as an improper fraction.       multi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> F10   mixed               1 Write 17/5 as a mixed number.              const…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more rows</span></span>
 <span class="r-in"><span><span class="fu"><a href="gg_kg.html">gg_kg</a></span><span class="op">(</span><span class="va">kg</span>, colour <span class="op">=</span> <span class="st">"format"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="mv_kg_annotate-1.png" alt="" width="700" height="433"></span>

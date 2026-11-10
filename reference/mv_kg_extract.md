@@ -145,7 +145,7 @@ if (requireNamespace("ellmer", quietly = TRUE)) {
 
   options(old)
 }
-#> Language model calls now answer from examples.json (25 recorded requests).
+#> Language model calls now answer from examples.json (26 recorded requests).
 #> <mv_kg_draft> (EXPERIMENTAL) Drafted by recorded responses from the concepts given
 #> <mv_kg> Fraction subtraction (Tatsuoka) (drafted): 8 concept(s), 20 item(s)
 #> Edges: 7 prerequisite, 0 related, 54 measures

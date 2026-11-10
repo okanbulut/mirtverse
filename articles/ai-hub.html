@@ -240,7 +240,8 @@ it?</td>
 <a href="ai-reading.html#item-text">reading list: Item text</a>
 </td>
 <td>
-<code><a href="../reference/item_features.html">item_features()</a></code>, <code><a href="../reference/predict_difficulty.html">predict_difficulty()</a></code>; <a href="teaching-labs.html#lab-8">Lab 8</a>
+<code><a href="../reference/item_features.html">item_features()</a></code>, <code><a href="../reference/predict_difficulty.html">predict_difficulty()</a></code>,
+<code><a href="../reference/mv_kg_extract.html">mv_kg_extract()</a></code> (experimental); <a href="teaching-labs.html#lab-8">Lab 8</a>, <a href="teaching-labs.html#lab-12">Lab 12</a>
 </td>
 </tr>
 <tr class="even">
@@ -420,9 +421,30 @@ respondents</a> walks through it with HEXACO answers from four language
 models and 17,874 real people.</p>
 </div>
 <div class="section level3">
-<h3 id="score-open-ended-responses-and-check-the-scores">Score open-ended responses, and check the scores<a class="anchor" aria-label="anchor" href="#score-open-ended-responses-and-check-the-scores"></a>
+<h3 id="draft-a-knowledge-graph-from-item-text-experimental">Draft a knowledge graph from item text (experimental)<a class="anchor" aria-label="anchor" href="#draft-a-knowledge-graph-from-item-text-experimental"></a>
 </h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mv_llm_replay.html">mv_llm_replay</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">draft</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mv_kg_extract.html">mv_kg_extract</a></span><span class="op">(</span><span class="va">fraction_subtraction_kg</span>, subject <span class="op">=</span> <span class="st">"Middle school fraction subtraction"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mv_kg_compare.html">mv_kg_compare</a></span><span class="op">(</span><span class="va">draft</span>, <span class="va">fraction_subtraction_kg</span><span class="op">)</span>   <span class="co"># against the expert Q-matrix</span></span>
+<span><span class="va">check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mv_kg_fit.html">mv_kg_fit</a></span><span class="op">(</span><span class="va">draft</span>, <span class="va">fraction_subtraction</span><span class="op">)</span> <span class="co"># against the answers</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/mv_kg_extract.html">mv_kg_extract()</a></code> asks a language model which concepts
+each item measures and which concepts come before which, with a reason
+for every link. The answer is checked before a graph is built (unknown
+items and concepts, two-way and cyclic prerequisites).
+<code><a href="../reference/mv_kg_compare.html">mv_kg_compare()</a></code> measures agreement with an expert graph,
+<code><a href="../reference/mv_kg_fit.html">mv_kg_fit()</a></code> flags links the answers do not support, and
+<code><a href="../reference/mv_kg_edit.html">mv_kg_edit()</a></code> makes the changes a reviewer decides on.
+Models tend to add a link whenever a skill appears in a problem, so a
+draft is a start for experts, not a replacement. The book’s <a href="../book/knowledge-graphs.html">chapter on knowledge graphs</a>
+works through Tatsuoka’s fraction subtraction items, and <a href="teaching-labs.html#lab-12">Lab 12</a> has students review a
+draft.</p>
+</div>
+<div class="section level3">
+<h3 id="score-open-ended-responses-and-check-the-scores">Score open-ended responses, and check the scores<a class="anchor" aria-label="anchor" href="#score-open-ended-responses-and-check-the-scores"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_open.html">score_open</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">responses</span>, scorer <span class="op">=</span> <span class="st">"llm"</span><span class="op">)</span>   <span class="co"># or a trained model</span></span>
 <span><span class="va">q</span><span class="op">$</span><span class="va">agreement</span>                                     <span class="co"># machine-human agreement</span></span>
 <span><span class="fu"><a href="../reference/flags.html">flags</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>                                        <span class="co"># agreement and fairness gates</span></span></code></pre></div>
@@ -432,7 +454,7 @@ the <code>essays</code> data against a four-point rubric.</p>
 <code><a href="../reference/train_scorer.html">train_scorer()</a></code>. It learns from human-scored answers, runs
 offline, and works with <code><a href="../reference/score_open.html">score_open()</a></code> like any other trained
 model:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="va">essays</span><span class="op">[</span><span class="va">essays</span><span class="op">$</span><span class="va">prompt</span> <span class="op">==</span> <span class="st">"E1"</span>, <span class="op">]</span></span>
 <span><span class="va">engine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/train_scorer.html">train_scorer</a></span><span class="op">(</span><span class="va">e1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">300</span>, <span class="op">]</span><span class="op">)</span>                 <span class="co"># words and phrases -&gt; human score</span></span>
 <span><span class="va">test</span> <span class="op">&lt;-</span> <span class="va">e1</span><span class="op">[</span><span class="fl">301</span><span class="op">:</span><span class="fl">400</span>, <span class="op">]</span></span>
@@ -489,7 +511,9 @@ test of generated items, find the two families that are not isomorphic
 and why, and decide when a family mean can stand in for a field test. In
 <a href="teaching-labs.html#lab-10">Lab 10</a> they audit an AI-scored
 test before its scores are released, and turn the audit into a validity
-argument for a technical advisory committee. The <a href="../book/index.html">online book</a> has a part on AI in
+argument for a technical advisory committee. <a href="teaching-labs.html#lab-12">Lab 12</a> has them review a knowledge
+graph a language model drafted from the item text, and decide which
+links to keep with the experts’ graph and the data. The <a href="../book/index.html">online book</a> has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. The <a href="course-map.html#ai-module">course map</a> puts
 the chapters and labs together as a four-week module or a one-day

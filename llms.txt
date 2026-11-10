@@ -381,6 +381,8 @@ true graph) and Tatsuoka’s fraction subtraction data.
   : Tidy and glance methods for knowledge graph checks
 - [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
   : Apply suggested changes to a knowledge graph
+- [`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md)
+  : Add or drop edges of a knowledge graph by hand
 - [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
   : Draw the data's evidence on a knowledge graph
 - [`mv_kg_explain()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.md)

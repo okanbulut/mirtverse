@@ -137,7 +137,8 @@ are skipped.</p></dd>
 <dt id="arg-min-gap">min_gap<a class="anchor" aria-label="anchor" href="#arg-min-gap"></a></dt>
 <dd><p>how much larger (in disattenuated correlation) an item's
 best unlinked concept must be than its best linked concept before a
-<code>wrong_link</code> flag.</p></dd>
+<code>wrong_link</code> flag, and how much smaller a linked concept must be than
+the item's best linked concept before a <code>weak_link</code> flag.</p></dd>
 
 
 <dt id="arg-min-partial">min_partial<a class="anchor" aria-label="anchor" href="#arg-min-partial"></a></dt>
@@ -173,7 +174,13 @@ correlation), so that concepts with few items are not put at a
 disadvantage. An item that correlates clearly more with a concept it is
 not linked to than with any concept it is linked to gets a <code>wrong_link</code>
 flag, with a suggestion to move it (or, for an item linked to several
-concepts, to add the link).</p>
+concepts, to add the link). An item linked to several concepts that
+correlates clearly less with one of them than with its best one gets a
+<code>weak_link</code> flag, with a suggestion to drop that link: Useful for graphs
+that link too much, such as drafts from <code><a href="mv_kg_extract.html">mv_kg_extract()</a></code>. A concept that
+is part of nearly every item, such as a basic operation, can get
+<code>weak_link</code> flags on items that truly need it, so read these with the
+item in front of you.</p>
 <p><strong>Relations.</strong> The graph's correlated confirmatory model is fitted with
 <code><a href="mv_kg_irt.html">mv_kg_irt()</a></code> (or taken from <code>model</code>), and the factor correlations are
 turned into partial correlations: The correlation of two concepts once
@@ -235,7 +242,7 @@ item response theory models. <em>Multivariate Behavioral Research, 53</em>(1),
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   Final log-likelihood values were: </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   -5210.991, -5210.101, -5209.399</span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit2</span>, <span class="st">"items"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   item  linked     n_linked best_linked r_linked best_other r_other     gap</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> F01   meaning           1 meaning        0.517 equivalent   0.384 -<span style="color: #BB0000;">0.133</span> </span>
@@ -246,6 +253,7 @@ item response theory models. <em>Multivariate Behavioral Research, 53</em>(1),
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> F06   equivalent        1 equivalent     0.539 meaning      0.416 -<span style="color: #BB0000;">0.123</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> F07   equivalent        1 equivalent     0.431 meaning      0.369 -<span style="color: #BB0000;">0.062</span><span style="color: #BB0000; text-decoration: underline;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> F08   equivalent        1 equivalent     0.653 meaning      0.440 -<span style="color: #BB0000;">0.212</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: weakest_linked &lt;chr&gt;, r_weakest &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
