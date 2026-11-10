@@ -172,6 +172,25 @@ unit, after Lab 7; Chapter [Validity, fairness and governance of
 AI](../book/ai-validity.html) of the book is the reading that goes with
 it.
 
+### Lab 11: Repairing a knowledge graph {#lab-11}
+
+A fictional school district's curriculum team has described its **Grade 5
+fractions test** as a knowledge graph: Six concepts, the prerequisites
+between them and the items that measure each one (`fractions`,
+`fractions_kg`). Diagnostic reports that tell teachers what to teach next
+will follow the graph. Students check the graph against the answers with
+`mv_kg_fit()`, repair it with `mv_kg_refine()` and show what the repair
+changes.
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **11. Repairing a knowledge graph** (about 60 minutes) | `run_lab("kg-repair")` | Check the graph's structure, find an item linked to the wrong concept and a missing prerequisite in the data, decide each change with the item content, repair the graph and check it again, and compare the mastery patterns and the item difficulty the two graphs explain |
+
+Lab 11 fits a unit on multidimensional IRT, cognitive diagnosis or
+explanatory IRT; Chapter [Knowledge graphs and
+IRT](../book/knowledge-graphs.html) of the book is the reading that goes
+with it.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -355,6 +374,21 @@ audit and the rater facets model take about 20 seconds each.
 | The recommendation | Recommendation and free-text memo to the committee | |
 | The reveal | `lab_truth("aiscored")` | |
 
+### Lab 11: Repairing a knowledge graph
+
+`run_lab("kg-repair")`, about 60 minutes. Checking the graph against the
+data fits a six-dimensional model and takes about a minute; so does the
+check of the repaired graph.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the curriculum lead's question, `fractions` and `fractions_kg`; draw the graph; `mv_kg_check()` | What a clean structure check shows |
+| Does the data agree? | `mv_kg_fit()`; sort the item evidence; read the relation evidence and `gg_kg_fit()` | What to do with F14; the direction of the missing prerequisite |
+| Repair the graph | `mv_kg_refine()` and a second `mv_kg_fit()` | What a clean data check means |
+| What the repair changes | Mastery patterns with `mv_kg_hierarchy()`; item difficulty by learning-order depth with `mv_kg_explain()` | |
+| The recommendation | Recommendation and free-text note to the curriculum lead | |
+| The reveal | `lab_truth("fractions")` | |
+
 ### Tips for running the labs
 
 * **Before class:** Ask students to install mirtverse and learnr and run
@@ -366,7 +400,8 @@ audit and the rater facets model take about 20 seconds each.
   performance assessment. Lab 7 follows Lab 6 in a unit on automated
   scoring or AI in measurement, and Lab 8 fits a unit on item development,
   explanatory IRT or AI in measurement. Lab 9 follows Lab 8, and Lab 10
-  closes an AI unit.
+  closes an AI unit. Lab 11 fits a unit on multidimensional IRT or
+  cognitive diagnosis.
 * **Speed:** Most exercises run in under about 15 seconds on a laptop; the
   two-factor model uses fewer quadrature points so it stays quick. The full
   DIF analyses in Labs 2 and 3 take up to a minute.
@@ -835,3 +870,46 @@ The planted problems in `aiscored` (`lab_truth("aiscored")` returns them):
   still check, and what should the contract require next time?
 * Which parts of the decision inference would you put in the score report
   that schools and parents see?
+
+### Lab 11
+
+The planted problems in `fractions` (`lab_truth("fractions")` returns
+them and the true graph):
+
+| Planted problem | What a good analyst does |
+|---|---|
+| F14 (which is larger, 3/4 or 5/6?) truly measures common_denominator but is listed under compare | Finds that F14 agrees with common_denominator far more than with compare, checks the item content, and moves it |
+| The prerequisite equivalent -> compare is missing | Finds the large partial correlation between two concepts with no edge, takes the direction from difficulty and content, and adds the edge |
+
+* **Structure:** `mv_kg_check()` finds no problems in the published graph.
+* **Items (`TOL = 0.001`):** F14's disattenuated rest-score correlation is
+  0.48 with common_denominator and 0.32 with compare (gap 0.16). Every
+  other item agrees best with its own concept (largest other gap -0.06).
+* **Relations:** equivalent and compare have the largest partial
+  correlation in the graph (0.60) and no edge; equivalent's items are
+  easier (proportion correct 0.59 against 0.49). The next largest
+  partial correlation without an edge is compare with common_denominator
+  (0.35, below the 0.4 threshold), which comes from F14's wrong link.
+* **Repaired graph:** No flags. The five largest partial correlations are
+  all edges of the graph (0.57 for equivalent -> compare, 0.28 to 0.51 for
+  the others); the largest without an edge is 0.22. The repaired graph is
+  the true graph.
+* **What changes:** The prerequisites allow 16 mastery patterns in the
+  published graph and 13 in the repaired one. Learning-order depth
+  explains 50% of the item variance under the published graph and 89%
+  under the repaired one.
+* **Recommendation:** Make both changes after the curriculum team has
+  reviewed F14 and the compare lessons, build the reports on the repaired
+  graph, and check the graph again with next year's students.
+
+#### Discussion prompts
+
+* The data suggested equivalent -> compare. What would make you add a
+  related edge instead, or no edge at all?
+* A concept pair has a partial correlation of 0.35 and no edge. When would
+  you act on it, and what would you look at first?
+* The district wants to report mastery of each concept. How many items per
+  concept would you want, and how would `mv_kg_check()` and `mv_kg_fit()`
+  help you plan the next form?
+* A language model drafted the graph from the curriculum documents. Which
+  checks in this lab would you run before trusting it?

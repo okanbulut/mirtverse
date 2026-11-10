@@ -4,13 +4,13 @@
 #' tutorials for measurement courses. Students work through a realistic
 #' testing scenario with live R exercises and make the decisions an analyst
 #' would make, getting feedback on each one. Labs 1 and 2 share one
-#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 10
+#' storyline, a certification board's 32-item exam ([certexam]). Labs 3 to 11
 #' each have their own: A provincial numeracy test ([numeracy]), a licensure
 #' exam with two forms ([linking]), a placement test's item bank
 #' ([catbank]), rater-scored science tasks ([openended]), written science
 #' explanations ([essays]), the text of numeracy items ([itemtext]), a
-#' field test of generated items ([aigfield]) and an AI-scored science test
-#' ([aiscored]).
+#' field test of generated items ([aigfield]), an AI-scored science test
+#' ([aiscored]) and a fractions test with its knowledge graph ([fractions]).
 #'
 #' * `"model-choice"` (Lab 1): Score the responses, screen the items, check
 #'   dimensionality, compare the Rasch, 2PL and 3PL models, check item fit and
@@ -56,6 +56,12 @@
 #'   against English language learners, drift after an engine update and
 #'   DIF on the test as scored; then draft a validity argument with
 #'   [validity_argument()] and decide which scores to report.
+#' * `"kg-repair"` (Lab 11): Is a curriculum team's knowledge graph right
+#'   before diagnostic reports are built on it? Check its structure with
+#'   [mv_kg_check()], check it against the answers with [mv_kg_fit()], find
+#'   an item linked to the wrong concept and a missing prerequisite, repair
+#'   the graph with [mv_kg_refine()], and show what the repair changes for
+#'   mastery patterns and item difficulty ([mv_kg_explain()]).
 #'
 #' `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 #' also appear in RStudio's Tutorial pane once mirtverse and learnr are
