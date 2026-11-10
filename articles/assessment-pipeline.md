@@ -279,12 +279,12 @@ p$forms$info
 #> # A tibble: 6 × 4
 #>    form theta information   sem
 #>   <int> <dbl>       <dbl> <dbl>
-#> 1     1    -1        2.62 0.617
-#> 2     1     0        2.67 0.612
-#> 3     1     1        1.86 0.734
-#> 4     2    -1        2.76 0.602
-#> 5     2     0        2.58 0.623
-#> 6     2     1        1.82 0.742
+#> 1     1    -1        2.76 0.602
+#> 2     1     0        2.58 0.623
+#> 3     1     1        1.82 0.742
+#> 4     2    -1        2.62 0.617
+#> 5     2     0        2.67 0.612
+#> 6     2     1        1.86 0.734
 ```
 
 The two forms meet the blueprint, keep Q21 and Q22 apart and are
@@ -297,12 +297,12 @@ flags(p, stage = "forms")[, c("check", "target", "value", "rule")]
 #> # A tibble: 6 × 4
 #>   check          target               value      rule       
 #>   <chr>          <chr>                <chr>      <chr>      
-#> 1 form_precision form 1 at theta = -1 SEM = 0.62 SEM <= 0.35
-#> 2 form_precision form 1 at theta = 0  SEM = 0.61 SEM <= 0.35
-#> 3 form_precision form 1 at theta = 1  SEM = 0.73 SEM <= 0.35
-#> 4 form_precision form 2 at theta = -1 SEM = 0.60 SEM <= 0.35
-#> 5 form_precision form 2 at theta = 0  SEM = 0.62 SEM <= 0.35
-#> 6 form_precision form 2 at theta = 1  SEM = 0.74 SEM <= 0.35
+#> 1 form_precision form 1 at theta = -1 SEM = 0.60 SEM <= 0.35
+#> 2 form_precision form 1 at theta = 0  SEM = 0.62 SEM <= 0.35
+#> 3 form_precision form 1 at theta = 1  SEM = 0.74 SEM <= 0.35
+#> 4 form_precision form 2 at theta = -1 SEM = 0.62 SEM <= 0.35
+#> 5 form_precision form 2 at theta = 0  SEM = 0.61 SEM <= 0.35
+#> 6 form_precision form 2 at theta = 1  SEM = 0.73 SEM <= 0.35
 ```
 
 Twelve items cannot reach a standard error of 0.35. For a pass/fail

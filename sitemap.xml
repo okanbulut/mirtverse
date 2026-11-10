@@ -119,9 +119,12 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_ask_setup.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_bank.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_dashboard.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_build.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_check.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_compare.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_irt.html</loc></url>
@@ -165,6 +168,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/theme_mirtverse.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mirt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_compare.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_draft.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>

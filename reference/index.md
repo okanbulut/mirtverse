@@ -184,9 +184,10 @@ Describe what a test measures as a graph of concepts, their
 prerequisites and the items that measure them; check the graph for
 problems and draw it; turn it into a Q-matrix, a confirmatory mirt model
 or the mastery patterns its prerequisites allow; check it against data
-and apply the changes the data suggest; explain item difficulty with it.
-Examples with a simulated fractions test (with the true graph) and
-Tatsuoka’s fraction subtraction data.
+and apply the changes the data suggest; explain item difficulty with it,
+using item metadata too; draft a graph from item text with a language
+model (experimental). Examples with a simulated fractions test (with the
+true graph) and Tatsuoka’s fraction subtraction data.
 
 - [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md)
   : Build a knowledge graph of concepts and items
@@ -223,6 +224,17 @@ Tatsuoka’s fraction subtraction data.
   : Tidy and glance methods for explained item difficulty
 - [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
   : Keep part of a knowledge graph
+- [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md)
+  : Add item metadata to a knowledge graph
+- [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
+  : Draft a knowledge graph from item text with a language model
+- [`tidy(`*`<mv_kg_draft>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_draft.md)
+  : Tidy methods for drafted knowledge graphs
+- [`mv_kg_compare()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_compare.md)
+  : Compare a knowledge graph with a reference graph
+- [`tidy(`*`<mv_kg_compare>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_compare.md)
+  [`glance(`*`<mv_kg_compare>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_compare.md)
+  : Tidy and glance methods for graph comparisons
 - [`fractions`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   [`fractions_kg`](https://www.okanbulut.com/mirtverse/reference/fractions.md)
   : Grade 5 fractions test with its knowledge graph

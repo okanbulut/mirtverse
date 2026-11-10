@@ -11,7 +11,7 @@ so no graph package is needed.
 ## Usage
 
 ``` r
-mv_kg_build(concepts, edges = NULL, items = NULL, name = NULL)
+mv_kg_build(concepts, edges = NULL, items = NULL, name = NULL, meta = NULL)
 ```
 
 ## Arguments
@@ -40,11 +40,19 @@ mv_kg_build(concepts, edges = NULL, items = NULL, name = NULL)
 
   optional name of the graph, shown when it is printed.
 
+- meta:
+
+  optional item metadata: A data frame with one row per item, an id
+  column `item` (or `id`) and any other columns, such as item text,
+  format or word count. See
+  [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md).
+
 ## Value
 
 An object of class `mv_kg`: A list with `nodes` (a tibble with `node`,
 `kind` (`"concept"` or `"item"`), `label` and `description`), `edges` (a
-tibble with `from`, `to`, `type` and `weight`) and `name`.
+tibble with `from`, `to`, `type` and `weight`), `name`, and, when
+metadata is given, `meta` (a tibble with one row per item).
 
 ## Details
 

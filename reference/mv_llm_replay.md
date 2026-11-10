@@ -7,8 +7,10 @@ model
 [`verify_items()`](https://www.okanbulut.com/mirtverse/reference/generate_items.md),
 [`score_open()`](https://www.okanbulut.com/mirtverse/reference/score_open.md),
 [`review_packet()`](https://www.okanbulut.com/mirtverse/reference/review_packet.md)
-with `ai_screen = TRUE`, and
-[`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md))
+with `ai_screen = TRUE`,
+[`simulate_llm_respondents()`](https://www.okanbulut.com/mirtverse/reference/simulate_llm_respondents.md)
+and
+[`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md))
 answer from a file of recorded responses instead of a live model.
 Nothing is sent anywhere, no API key is needed, and the same request
 always gets the same answer, so examples, labs and lessons run offline
@@ -73,7 +75,7 @@ to use a live model.
 ``` r
 # answer from the example recordings that come with mirtverse
 old <- mv_llm_replay()
-#> Language model calls now answer from examples.json (23 recorded requests).
+#> Language model calls now answer from examples.json (25 recorded requests).
 head(mv_llm_recordings()[, c("function_name", "prompt_start")])
 #> # A tibble: 6 × 2
 #>   function_name  prompt_start                                                  

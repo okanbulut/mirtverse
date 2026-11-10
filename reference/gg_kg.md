@@ -9,7 +9,13 @@ measure.
 ## Usage
 
 ``` r
-gg_kg(kg, items = NULL, labels = c("label", "node"), highlight = NULL)
+gg_kg(
+  kg,
+  items = NULL,
+  labels = c("label", "node"),
+  highlight = NULL,
+  colour = NULL
+)
 ```
 
 ## Arguments
@@ -36,6 +42,12 @@ gg_kg(kg, items = NULL, labels = c("label", "node"), highlight = NULL)
   optional concepts or items to draw in the accent colour, for example
   the concepts flagged by
   [`mv_kg_check()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_check.md).
+
+- colour:
+
+  optional name of an item metadata column (see
+  [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md))
+  to colour the items by, such as their format or word count.
 
 ## Value
 

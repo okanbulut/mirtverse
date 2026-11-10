@@ -31,7 +31,8 @@ mv_kg_subset(kg, concepts = NULL, items = NULL)
 
 ## Value
 
-An `mv_kg` object. Items left without a concept are dropped.
+An `mv_kg` object. Items left without a concept are dropped; the item
+metadata of the items kept is kept.
 
 ## Examples
 
@@ -41,4 +42,5 @@ kg3 <- mv_kg_subset(fraction_subtraction_kg,
 kg3
 #> <mv_kg> Fraction subtraction (Tatsuoka): 3 concept(s), 16 item(s)
 #> Edges: 0 prerequisite, 0 related, 26 measures
+#> Item metadata: text
 ```

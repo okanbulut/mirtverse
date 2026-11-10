@@ -1,5 +1,35 @@
 # Changelog
 
+## mirtverse (development version)
+
+- Item metadata on knowledge graphs:
+  [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md)
+  (or the new `meta` argument of
+  [`mv_kg_build()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_build.md))
+  attaches item-level information, such as item text, format, cognitive
+  level, word count or whether a person or a language model wrote the
+  item. `tidy(kg, "items")` returns it, `gg_kg(colour = )` colours items
+  by it, `mv_kg_explain(covariates = )` uses it to explain item
+  difficulty next to the concepts, and
+  [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
+  and
+  [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
+  keep it. `fraction_subtraction_kg` now has the text of its 20
+  problems.
+- [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
+  (experimental) drafts a knowledge graph from item text with a language
+  model: It links items to concepts you give, or proposes the concepts
+  too, and suggests prerequisite edges with a confidence and a reason.
+  The model’s answer is checked before the graph is built: Links to
+  unknown items or concepts are dropped, two-way and cyclic
+  prerequisites are resolved by confidence, and each problem is listed
+  in `tidy(draft, "flags")`.
+  [`mv_kg_compare()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_compare.md)
+  measures how far a draft agrees with a reference graph, such as an
+  expert Q-matrix, matching concepts by their items when the names
+  differ. Both run offline from the example recordings with
+  [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+
 ## mirtverse 0.5.0
 
 - Knowledge graphs:
