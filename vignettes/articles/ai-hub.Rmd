@@ -59,7 +59,7 @@ names the question it answers, what to read and what to try in R.
 | 2. ML through an IRT lens | How do prediction models differ from measurement models? | Book: [Machine learning through an IRT lens](../book/ml-lens.html) | — |
 | 3. LLMs in your workflow | How do I use a language model safely for analysis and writing? | [Scripts from plain language](mv-ask-guide.html); book: [Large language models as a colleague](../book/llms.html) | `mv_ask()`, `mv_llm_replay()`; `simulate_llm_respondents()` (experimental) |
 | 4. Automated scoring | Can a machine score constructed responses as well as raters? | Book: [Automated scoring](../book/auto-scoring.html); [reading list: Automated scoring](ai-reading.html#automated-scoring) | `train_scorer()`, `agreement_report()`, `score_open()`, `rater_facets()`, `scoring_shift()`; [Lab 7](teaching-labs.html#lab-7) |
-| 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`; [Lab 8](teaching-labs.html#lab-8) |
+| 5. Item text and difficulty | What does the wording of an item tell us before anyone answers it? | Book: [What item text tells us](../book/item-text.html); [reading list: Item text](ai-reading.html#item-text) | `item_features()`, `predict_difficulty()`, `mv_kg_extract()` (experimental); [Lab 8](teaching-labs.html#lab-8), [Lab 12](teaching-labs.html#lab-12) |
 | 6. Automatic item generation | How do I generate items and know which ones to keep? | Book: [Generating items](../book/aig.html); [assessment pipeline](assessment-pipeline.html); [reading list: AIG](ai-reading.html#aig) | `item_model()`, `generate_isomorphs()`, `calibrate_families()`, `generate_items()`, `verify_items()`; [Lab 9](teaching-labs.html#lab-9) |
 | 7. Validity and fairness | What evidence does an AI component need before it is used? | Book: [Validity, fairness and governance of AI](../book/ai-validity.html); [reading list: Validity](ai-reading.html#validity) | `ai_audit()`, `validity_argument()`, `dif()`; [Lab 10](teaching-labs.html#lab-10) |
 
@@ -218,6 +218,28 @@ by attempt and model by model, use the coverage strip
 synthetic respondents](synthetic-coverage.html) walks through it with HEXACO
 answers from four language models and 17,874 real people.
 
+### Draft a knowledge graph from item text (experimental)
+
+```{r}
+old <- mv_llm_replay()
+draft <- mv_kg_extract(fraction_subtraction_kg, subject = "Middle school fraction subtraction")
+mv_kg_compare(draft, fraction_subtraction_kg)   # against the expert Q-matrix
+check <- mv_kg_fit(draft, fraction_subtraction) # against the answers
+options(old)
+```
+
+`mv_kg_extract()` asks a language model which concepts each item measures
+and which concepts come before which, with a reason for every link. The
+answer is checked before a graph is built (unknown items and concepts,
+two-way and cyclic prerequisites). `mv_kg_compare()` measures agreement
+with an expert graph, `mv_kg_fit()` flags links the answers do not
+support, and `mv_kg_edit()` makes the changes a reviewer decides on.
+Models tend to add a link whenever a skill appears in a problem, so a
+draft is a start for experts, not a replacement. The book's [chapter on
+knowledge graphs](../book/knowledge-graphs.html) works through Tatsuoka's
+fraction subtraction items, and [Lab 12](teaching-labs.html#lab-12) has
+students review a draft.
+
 ### Score open-ended responses, and check the scores
 
 ```{r}
@@ -280,6 +302,9 @@ families that are not isomorphic and why, and decide when a family mean
 can stand in for a field test. In [Lab 10](teaching-labs.html#lab-10)
 they audit an AI-scored test before its scores are released, and turn the
 audit into a validity argument for a technical advisory committee.
+[Lab 12](teaching-labs.html#lab-12) has them review a knowledge graph a
+language model drafted from the item text, and decide which links to keep
+with the experts' graph and the data.
 The [online book](../book/index.html) has a part on AI in
 measurement whose chapters work offline, so they can be assigned as
 readings. The [course map](course-map.html#ai-module) puts the chapters and

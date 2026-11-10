@@ -91,3 +91,21 @@ test_that("mv_kg_explain() checks its input", {
   flat <- mv_kg_subset(fractions_kg, c("meaning", "compare"))
   expect_error(mv_kg_explain(flat, fractions, "depth"), "same depth")
 })
+
+test_that("mv_kg_fit() flags a weak extra link and mv_kg_refine() drops it", {
+  kg <- mv_kg_subset(fractions_kg, c("meaning", "equivalent", "mixed"))
+  kgx <- mv_kg_edit(kg, add = data.frame(from = "F01", to = "equivalent"))
+  fit <- suppressWarnings(mv_kg_fit(kgx, fractions, TOL = 0.01))
+  f <- tidy(fit)
+  expect_true("weak_link" %in% f$check)
+  w <- f[f$check == "weak_link", ]
+  expect_equal(c(w$from, w$to, w$action), c("F01", "equivalent", "drop_link"))
+  it <- tidy(fit, "items")
+  expect_equal(it$weakest_linked[it$item == "F01"], "equivalent")
+  expect_equal(glance(fit)$weak_link, 1)
+  expect_output(print(fit), "weak_link: F01")
+  expect_s3_class(gg_kg_fit(fit), "ggplot")
+  refined <- mv_kg_refine(fit, "items")
+  q <- mv_kg_qmatrix(refined)
+  expect_equal(unname(q["F01", c("meaning", "equivalent")]), c(1, 0))
+})

@@ -54,7 +54,9 @@ test_that("mv_kg_extract() can propose the concepts", {
 })
 
 test_that("mv_kg_extract() checks its input", {
-  expect_error(mv_kg_extract(fractions_kg), "no item metadata")
+  bare <- fractions_kg
+  bare$meta <- NULL
+  expect_error(mv_kg_extract(bare), "no item metadata")
   expect_error(mv_kg_extract(data.frame(x = 1)), "id column")
   expect_error(mv_kg_extract(data.frame(id = "a", y = 1)), "text column")
   expect_error(mv_kg_extract(data.frame(id = c("a", "a"), text = "x")), "unique")
@@ -84,4 +86,24 @@ test_that("the answer checks handle odd model output", {
   expect_equal(d2$concepts$concept, c("unit_rate", "c_3d"))
   expect_equal(d2$links$concept, "unit_rate")
   expect_equal(d2$flags$check, "duplicate_concept")
+})
+
+test_that("the recorded Lab 12 draft has the mistakes the lab relies on", {
+  withr::local_options(mirtverse.provider = NULL, mirtverse.replay = NULL)
+  suppressMessages(mv_llm_replay())
+  draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+  expect_equal(tidy(draft, "flags")$check, "two_way")
+  truth <- lab_truth("fractions")$graph
+  cmp <- mv_kg_compare(draft, truth)
+  expect_equal(glance(cmp)$link_recall, 1)
+  expect_equal(glance(cmp)$prerequisite_recall, 1)
+  it <- tidy(cmp, "items")
+  expect_equal(it$item[!it$agree], c("F11", "F14", "F15", "F19", "F20", "F21"))
+  expect_equal(sum(draft$edges$type == "prerequisite"), 7)
+  final <- mv_kg_edit(draft,
+    drop = data.frame(from = c("F11", "F14", "F15", "F19", "F20", "F21", "compare"),
+                      to = c("meaning", "compare", "common_denominator", "equivalent",
+                             "common_denominator", "common_denominator", "common_denominator")))
+  expect_equal(glance(mv_kg_compare(final, truth))$items_agree, 24)
+  expect_equal(c(nrow(mv_kg_hierarchy(draft)), nrow(mv_kg_hierarchy(final))), c(10, 13))
 })

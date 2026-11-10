@@ -191,6 +191,22 @@ explanatory IRT; Chapter [Knowledge graphs and
 IRT](../book/knowledge-graphs.html) of the book is the reading that goes
 with it.
 
+### Lab 12: Reviewing an AI-drafted graph {#lab-12}
+
+The district wants to map a dozen more tests, and a colleague suggests
+letting a language model draft each graph from the item text. Students
+try it on the same fractions test: They draft the graph with
+`mv_kg_extract()` (from a recording, so no API key is needed), compare it
+with the curriculum team's graph with `mv_kg_compare()`, check it against
+the answers, and decide what the data cannot with `mv_kg_edit()`.
+
+| Lab | Run it with | You will |
+|---|---|---|
+| **12. Reviewing an AI-drafted graph** (about 60 minutes) | `run_lab("kg-draft")` | Read the model's own checks and reasons, compare the draft with the experts' graph, find the links the model added with `mv_kg_fit()`, decide the links the data cannot settle with the team's graph, and compare the team's graph, the draft and the reviewed graph with the truth |
+
+Lab 12 follows Lab 11, and the two together close a unit on knowledge
+graphs or an AI unit.
+
 ## What it looks like
 
 Each section mixes short explanations, code exercises with hints and
@@ -389,6 +405,22 @@ check of the repaired graph.
 | The recommendation | Recommendation and free-text note to the curriculum lead | |
 | The reveal | `lab_truth("fractions")` | |
 
+### Lab 12: Reviewing an AI-drafted graph
+
+`run_lab("kg-draft")`, about 60 minutes. The model answers from the
+package's recordings. Checking the draft against the data uses a faster
+setting (`TOL = 0.005`, `quadpts = 2000`) and takes about half a minute;
+so does the check of the refined draft.
+
+| Section | Students do | Decision |
+|---|---|---|
+| The brief | Meet the director's question; the item text with `tidy(fractions_kg, "items")` | |
+| The draft | `mv_kg_extract()` and its flags; the reasons for F14 and F21; `mv_kg_compare()` with the team's graph | What the draft's checks show; whether the draft or the team is right |
+| Check the draft against the answers | `mv_kg_fit()` and `gg_kg_fit()`; `mv_kg_refine(fit, "items")` and a second fit | Why F20 has a weak link to common_denominator |
+| Decide what the data cannot | F21's evidence and the reasons for the prerequisites; `mv_kg_edit()`; mastery patterns with `mv_kg_hierarchy()` | F21; the prerequisite compare -> common_denominator |
+| The recommendation | Recommendation and free-text note to the director | |
+| The reveal | The team's graph, the draft and the reviewed graph against `lab_truth("fractions")$graph` | |
+
 ### Tips for running the labs
 
 * **Before class:** Ask students to install mirtverse and learnr and run
@@ -401,7 +433,7 @@ check of the repaired graph.
   scoring or AI in measurement, and Lab 8 fits a unit on item development,
   explanatory IRT or AI in measurement. Lab 9 follows Lab 8, and Lab 10
   closes an AI unit. Lab 11 fits a unit on multidimensional IRT or
-  cognitive diagnosis.
+  cognitive diagnosis, and Lab 12 follows it.
 * **Speed:** Most exercises run in under about 15 seconds on a laptop; the
   two-factor model uses fewer quadrature points so it stays quick. The full
   DIF analyses in Labs 2 and 3 take up to a minute.
@@ -912,4 +944,51 @@ them and the true graph):
   concept would you want, and how would `mv_kg_check()` and `mv_kg_fit()`
   help you plan the next form?
 * A language model drafted the graph from the curriculum documents. Which
-  checks in this lab would you run before trusting it?
+  checks in this lab would you run before trusting it? (Lab 12 tries it.)
+
+### Lab 12
+
+The model's draft (recorded, from the concepts of `fractions_kg` and the
+text of its 24 items) and what the evidence says about each difference
+from the true graph:
+
+| What the model did | What a good analyst does |
+|---|---|
+| Linked F14 to common_denominator, its true concept, but kept compare too | Accepts the data's weak link: F14 agrees with compare at 0.32 and with common_denominator at 0.46, so the link to compare goes |
+| Added the prerequisite equivalent -> compare, which the team's graph is missing | Keeps it: It is in the truth, and Lab 11 found it in the data |
+| Added a second concept to F11 (meaning), F15, F19, F20 and F21 (common_denominator; equivalent for F19) | Drops the four the data flag as weak links (F11, F15, F19, F20); for F21, which the data cannot see, follows the team's graph |
+| Added the prerequisite compare -> common_denominator with its lowest confidence (0.4) | Drops it: No direct link in the data (partial correlation 0.02 after the item changes) and none in the team's graph |
+| Gave mixed -> add_subtract and add_subtract -> mixed | Nothing: The model's checks kept the direction with the higher confidence |
+
+* **Draft vs team:** 18 of 24 items agree; all 27 of the team's links are
+  in the draft (33 links, precision 0.82); the draft has every one of the
+  team's prerequisites and two more.
+* **Data check of the draft:** Five weak links, F11 (0.36 vs 0.59), F14
+  (0.32 vs 0.46), F15 (0.28 vs 0.46), F19 (0.41 vs 0.53) and F20 (0.44 vs
+  0.57), and an info flag on compare -> common_denominator. F21 agrees
+  with its two concepts at 0.36 and 0.41, below the 0.1 gap that raises a
+  flag.
+* **Refined draft:** No item flags; the info flag on compare ->
+  common_denominator remains (partial 0.02).
+* **Reviewed graph:** Equal to the true graph: 24 of 24 items, 27 of 27
+  links, 6 of 6 prerequisites. The team's graph has 23 of 24 items and 5
+  of 6 prerequisites; the draft 18 of 24 items and all 6 prerequisites
+  plus one that is not true.
+* **What changes:** The team's graph allows 16 mastery patterns, the
+  draft 10 and the reviewed graph 13. The draft's extra prerequisite rules
+  out 3 patterns of the true graph.
+* **Recommendation:** Draft the next graphs with the model, check each
+  draft against field-test data, and have the curriculum team decide what
+  the data cannot, with the decisions written down.
+
+#### Discussion prompts
+
+* The model added links whenever a skill appears in a problem. How would
+  you change the prompt, or the concept descriptions, to get fewer extra
+  links?
+* F21's extra link could not be seen in the data. What kind of data, or
+  what kind of item, would let you test it?
+* The district has no field-test data for a new test yet. Which parts of
+  this review can it still do, and which must wait?
+* Would you tell teachers that a language model drafted the graph behind
+  their reports? What would you tell them about the review?

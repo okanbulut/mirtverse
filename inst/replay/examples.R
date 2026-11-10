@@ -84,3 +84,7 @@ items <- itemtext[endsWith(itemtext$id, "-01"), c("id", "domain", "stem")]
 draft2 <- mv_kg_extract(items, subject = "Grade 7 numeracy")
 draft2
 gg_kg(draft2, colour = "domain")
+
+# Lab 12: A draft of the Grade 5 fractions graph, from the text of its items
+lab_draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+lab_draft

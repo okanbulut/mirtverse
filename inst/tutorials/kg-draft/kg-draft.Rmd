@@ -1,0 +1,412 @@
+---
+title: "Lab 12: Reviewing an AI-drafted graph"
+description: >
+  A language model has drafted the item links and prerequisites of the
+  Grade 5 fractions graph from the text of the items. Before the district
+  uses it, review the draft: Read the model's own checks and reasons,
+  compare it with the curriculum team's graph, check it against the
+  students' answers, and decide which links to keep. About 60 minutes.
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(mirtverse)
+tutorial_options(exercise.checker = mirtverse::lab_checker,
+                 exercise.timelimit = 240, exercise.lines = 6)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 8, fig.height = 4.5)
+# the language model answers from a recording, so no API key is needed and
+# every student sees the same draft
+invisible(suppressMessages(mv_llm_replay()))
+```
+
+```{r setup-draft, include = FALSE}
+draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+```
+
+```{r setup-fit, include = FALSE}
+draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+fit <- suppressWarnings(mv_kg_fit(draft, fractions, TOL = 0.005, quadpts = 2000))
+```
+
+```{r setup-refined, include = FALSE}
+draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+fit <- suppressWarnings(mv_kg_fit(draft, fractions, TOL = 0.005, quadpts = 2000))
+refined <- mv_kg_refine(fit, "items")
+```
+
+```{r setup-final, include = FALSE}
+draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+fit <- suppressWarnings(mv_kg_fit(draft, fractions, TOL = 0.005, quadpts = 2000))
+refined <- mv_kg_refine(fit, "items")
+final <- mv_kg_edit(refined,
+  drop = data.frame(from = c("F21", "compare"), to = c("common_denominator", "common_denominator")),
+  name = "Grade 5 fractions (reviewed)")
+```
+
+## The brief
+
+### A graph in minutes instead of weeks
+
+You work for the assessment office of a fictional school district. Its
+**Grade 5 fractions test** has 24 items, and this year 1,200 students took
+it. Writing the knowledge graph for the test (which concepts each item
+measures, and which concepts are learned before which) took the
+curriculum team several weeks of meetings.
+
+The district now has a dozen more tests to map, and a colleague suggests
+letting a language model draft each graph from the item text, with the
+team only reviewing the draft. Before anyone agrees, the assessment
+director wants a trial on the fractions test:
+
+> *Give the model the concepts and the items. How good is its draft, how
+> would we catch its mistakes, and what does the review cost us?*
+
+The responses are in `fractions`, the team's graph is `fractions_kg`, and
+the item text travels with the graph as item metadata.
+
+### What the model gets to read
+
+`tidy(kg, "items")` returns one row per item: Its concepts and every
+metadata column, here the text of the item.
+
+```{r look, exercise = TRUE}
+items <- tidy(fractions_kg, "items")
+items[c(11, 14, 15, 19:21), c("item", "concepts", "text")]
+```
+
+```{r look-check}
+lab_need(is.data.frame(.result) && "text" %in% names(.result), "Show the text column of tidy(fractions_kg, \"items\").")
+"The model sees the same text a teacher would: Six concepts with short descriptions, and the 24 problems."
+```
+
+## The draft
+
+### Ask the model
+
+`mv_kg_extract()` sends the concepts and the item text to a language model
+and asks for the item links, the prerequisite edges and a reason for each
+one. In this lab the model answers from a recording, so no API key is
+needed and everyone sees the same draft. Draft the graph and look at the
+model's own checks.
+
+```{r draft, exercise = TRUE}
+draft <- mv_kg_extract(fractions_kg, subject = "Grade 5 fractions")
+draft
+tidy(draft, "flags")
+```
+
+```{r draft-check}
+lab_need(exists("draft") && inherits(draft, "mv_kg_draft"), "Keep the name `draft` and use mv_kg_extract(fractions_kg, ...).")
+"One flag: The model gave the prerequisite both ways between mixed and add_subtract, and the higher-confidence direction was kept."
+```
+
+```{r q-flags}
+question_radio("The draft passed every check but one. What does that tell you?",
+  answer("The model's answer is well formed: Known items, known concepts, no cycles, one two-way edge resolved. Whether its links are right is still open.",
+         correct = TRUE,
+         message = "Right. Like mv_kg_check() in Lab 11, these checks read the answer, not the world."),
+  answer("The draft is ready to use.",
+         message = "The checks cannot know which concept an item really measures."),
+  answer("The model made one mistake.",
+         message = "The two-way edge is the only mistake the checks can see; there may be others they cannot."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Read the reasons
+
+Every link comes with a reason. Find the reasons the model gave for F14
+("Which is larger, 3/4 or 5/6?") and F21 ("What is 5/6 - 1/3?").
+
+```{r reasons, exercise = TRUE, exercise.setup = "setup-draft"}
+reasons <- tidy(draft, "reasons")
+reasons[reasons$from %in% c(), c("from", "to", "reason")]
+```
+
+```{r reasons-hint}
+reasons[reasons$from %in% c("F14", "F21"), c("from", "to", "reason")]
+```
+
+```{r reasons-solution}
+reasons <- tidy(draft, "reasons")
+reasons[reasons$from %in% c("F14", "F21"), c("from", "to", "reason")]
+```
+
+```{r reasons-check}
+lab_need(is.data.frame(.result) && setequal(unique(.result$from), c("F14", "F21")),
+         "Keep the rows for F14 and F21.")
+"Both items got two links, each with a reason a teacher could accept. The reasons make a draft easy to review, but a fluent reason is not evidence."
+```
+
+### Compare with the curriculum team
+
+`mv_kg_compare()` lines the draft up against another graph, here the
+team's.
+
+```{r compare, exercise = TRUE, exercise.setup = "setup-draft"}
+mv_kg_compare(draft, fractions_kg)
+```
+
+```{r compare-check}
+lab_need(inherits(.result, "mv_kg_compare"), "Use mv_kg_compare(draft, fractions_kg).")
+"The draft has every link the team made, plus six extra links (one for each item that differs) and two extra prerequisites."
+```
+
+```{r q-compare}
+question_radio("The draft and the team disagree on six items. Who is right?",
+  answer("The comparison cannot say. Both graphs are claims about what the items measure; the students' answers are the evidence that can weigh them.",
+         correct = TRUE,
+         message = "Right. Agreement with experts is useful, but in Lab 11 the experts' graph was wrong about F14."),
+  answer("The team: Its graph is the standard.",
+         message = "The team's graph is a claim too. Recall what the data said about F14 in Lab 11."),
+  answer("The model: It read every item carefully.",
+         message = "The model adds a link whenever a skill appears in a problem, which is not the same as the item measuring it."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+## Check the draft against the answers
+
+### Fit the draft
+
+`mv_kg_fit()` checks a graph against the answers. For an item with more
+than one link, it also asks whether the item agrees much less with one of
+its concepts than with another (a `weak_link`). `TOL = 0.005` and
+`quadpts = 2000` stop the six-dimension fit earlier than the defaults to
+save time; the flags are the same. It takes about half a minute,
+and a warning that the log-likelihood may still be increasing comes
+from the early stop.
+
+```{r fit, exercise = TRUE, exercise.setup = "setup-draft", exercise.timelimit = 240}
+fit <- mv_kg_fit(draft, fractions, TOL = 0.005, quadpts = 2000)
+fit
+```
+
+```{r fit-check}
+lab_need(exists("fit") && inherits(fit, "mv_kg_fit"), "Keep the name `fit` and use mv_kg_fit(draft, fractions, ...).")
+f <- tidy(fit)
+lab_need(any(f$check == "weak_link"), "Fit the draft, not the team's graph.")
+sprintf("%d weak links (%s) and one weak relation.", sum(f$check == "weak_link"),
+        paste(sub(" .*", "", f$message[f$check == "weak_link"]), collapse = ", "))
+```
+
+```{r draw, exercise = TRUE, exercise.setup = "setup-fit", fig.height = 6}
+gg_kg_fit(fit, items = "all")
+```
+
+The dotted lines are the links the data suggest dropping.
+
+```{r q-weak}
+question_radio("F20 is \"What is 1/2 + 1/3?\" Solving it needs a common denominator, yet the data suggest dropping its link to common_denominator. How can that be?",
+  answer("A link says the item separates students who have the concept from those who do not. Every student who can add fractions here can already find a common denominator, so F20's answers depend on add_subtract; the common denominator step is carried by the prerequisite common_denominator -> add_subtract.",
+         correct = TRUE,
+         message = "Right. Needing a skill and measuring it are different things. The prerequisite already says the step comes first."),
+  answer("The data are wrong: F20 obviously needs a common denominator.",
+         message = "The data say nothing against the step; they say the item does not tell students apart on it."),
+  answer("F20 should be dropped from the test.",
+         message = "The item works well; only one of its two links is in question."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Accept the item changes and fit again
+
+Item links shape the concept correlations, so fix the items first and
+refit before acting on relation flags. `mv_kg_refine(fit, "items")`
+accepts the item changes only.
+
+```{r refine, exercise = TRUE, exercise.setup = "setup-fit", exercise.timelimit = 240}
+refined <- mv_kg_refine(fit, "items")
+fit2 <- mv_kg_fit(refined, fractions, TOL = 0.005, quadpts = 2000)
+fit2
+```
+
+```{r refine-check}
+lab_need(exists("refined") && inherits(refined, "mv_kg"), "Keep the name `refined` and use mv_kg_refine(fit, \"items\").")
+lab_need(exists("fit2") && inherits(fit2, "mv_kg_fit"), "Check the refined graph with mv_kg_fit() and call it fit2.")
+f <- tidy(fit2)
+lab_need(!any(f$check == "weak_link"), "Use the refined graph in the second mv_kg_fit().")
+"No item flags are left. One info flag remains: The prerequisite compare -> common_denominator has almost no direct link in the data."
+```
+
+## Decide what the data cannot
+
+### The links the data leave alone
+
+Two of the model's additions are not settled by the refit. One is the
+prerequisite compare -> common_denominator. The other is F21's link to
+common_denominator, which raised no flag: F21 agrees with both of its
+concepts about equally.
+
+```{r f21, exercise = TRUE, exercise.setup = "setup-refined"}
+it <- tidy(fit, "items")
+it[it$item == "F21", c("item", "linked", "r_linked", "weakest_linked", "r_weakest")]
+reasons <- tidy(draft, "reasons")
+reasons[reasons$from == "compare", c("from", "to", "confidence", "reason")]
+```
+
+```{r q-f21}
+question_radio("What should happen to F21's link to common_denominator?",
+  answer("The data cannot decide it, so it is a content question for the curriculum team. The team linked F21 to add_subtract only; with 3 dividing 6, rewriting 1/3 as 2/6 is a small step. Follow the team and write the decision down.",
+         correct = TRUE,
+         message = "Right. When the evidence is silent, the people who own the graph decide, and the decision is recorded."),
+  answer("Keep it: The model gave a good reason.",
+         message = "A reason makes a link plausible, not right, and the team that owns the graph decided otherwise."),
+  answer("Keep it: The data raised no flag.",
+         message = "No flag means no evidence against the link, which is not evidence for it."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+```{r q-relation}
+question_radio("What should happen to the prerequisite compare -> common_denominator?",
+  answer("Drop it: The model gave it its lowest confidence, the data show no direct link once the other concepts are held constant, and the team's graph has no such edge.",
+         correct = TRUE,
+         message = "Right. Three kinds of evidence point the same way."),
+  answer("Keep it: An extra prerequisite does no harm.",
+         message = "A prerequisite rules out mastery patterns. Students who can find a common denominator but not yet compare fractions would be reported as impossible."),
+  answer("Reverse it.",
+         message = "The data show no direct link in either direction."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Make the changes
+
+`mv_kg_edit()` makes the changes a reviewer decides on. Drop both edges
+from the refined graph.
+
+```{r edit, exercise = TRUE, exercise.setup = "setup-refined"}
+final <- mv_kg_edit(refined,
+  drop = data.frame(from = c("F21", ), to = c("common_denominator", )),
+  name = "Grade 5 fractions (reviewed)")
+final
+```
+
+```{r edit-hint}
+final <- mv_kg_edit(refined,
+  drop = data.frame(from = c("F21", "compare"), to = c("common_denominator", "common_denominator")),
+  name = "Grade 5 fractions (reviewed)")
+```
+
+```{r edit-solution}
+final <- mv_kg_edit(refined,
+  drop = data.frame(from = c("F21", "compare"), to = c("common_denominator", "common_denominator")),
+  name = "Grade 5 fractions (reviewed)")
+final
+```
+
+```{r edit-check}
+lab_need(exists("final") && inherits(final, "mv_kg"), "Keep the name `final` and use mv_kg_edit(refined, drop = ...).")
+lab_need(sum(final$edges$type == "measures") == 27, "Drop F21's link to common_denominator.")
+lab_need(sum(final$edges$type == "prerequisite") == 6, "Drop the prerequisite compare -> common_denominator.")
+"The reviewed graph has 27 item links and 6 prerequisites."
+```
+
+### What the review changed
+
+The prerequisites decide which mastery patterns a diagnostic report can
+give. Count the patterns each graph allows with `mv_kg_hierarchy()`.
+
+```{r hierarchy, exercise = TRUE, exercise.setup = "setup-final"}
+c(team = nrow(mv_kg_hierarchy(fractions_kg)),
+  draft = nrow(mv_kg_hierarchy(draft)),
+  reviewed = nrow(mv_kg_hierarchy(final)))
+```
+
+```{r hierarchy-check}
+lab_need(is.numeric(.result) && length(.result) == 3, "Count the patterns of all three graphs.")
+sprintf("The team's graph allows %d patterns, the draft %d and the reviewed graph %d. The draft's extra prerequisite would have ruled out %d patterns the true graph allows.",
+        .result[1], .result[2], .result[3], .result[3] - .result[2])
+```
+
+## The recommendation
+
+```{r q-recommend}
+question_radio("What do you tell the assessment director?",
+  answer("A drafted graph is a useful start: It found every link the team made and the prerequisite the team missed. But it added too many links, and only data and content review caught them. Draft the next tests with the model, then check each draft against field-test data and have the team decide what the data cannot.",
+         correct = TRUE,
+         message = "A defensible plan: The model saves the writing, the data and the team do the deciding."),
+  answer("Use the drafts as they are; they found everything the team found.",
+         message = "They also added seven edges that are not in the true graph, and an extra prerequisite changes what the reports can say."),
+  answer("Do not use the model; the team's graph was better.",
+         message = "The team's graph had a wrong link and a missing prerequisite. The draft had neither, once reviewed."),
+  allow_retry = TRUE, random_answer_order = TRUE
+)
+```
+
+### Write to the director
+
+Write a short note (four to six sentences): How good the draft was, how
+its mistakes were caught, what the team still had to decide, and what you
+recommend for the next tests.
+
+```{r q-memo}
+question_text(
+  "Your note:",
+  answer_fn(function(value) {
+    if (nchar(trimws(value)) < 120)
+      return(incorrect("Write a bit more: Cover the draft, the checks, the decisions left to the team and the plan."))
+    correct("Submitted. Now see how the three graphs compare with the truth.")
+  }),
+  correct = "Submitted.", allow_retry = TRUE, rows = 8,
+  placeholder = "To the assessment director: ..."
+)
+```
+
+## The reveal
+
+### Three graphs against the truth
+
+`fractions` was simulated from a true graph, `lab_truth("fractions")$graph`.
+Compare each graph with it.
+
+```{r truth, exercise = TRUE, exercise.setup = "setup-final"}
+truth <- lab_truth("fractions")$graph
+scores <- rbind(team = glance(mv_kg_compare(fractions_kg, truth)),
+                draft = glance(mv_kg_compare(draft, truth)),
+                reviewed = glance(mv_kg_compare(final, truth)))
+scores[, c("items_agree", "link_precision", "link_recall", "prerequisite_recall")]
+```
+
+```{r truth-check}
+lab_need(is.data.frame(.result) && nrow(.result) == 3, "Compare all three graphs with the truth.")
+sprintf("The team's graph got %d of 24 items right, the draft %d and the reviewed graph all %d.",
+        .result$items_agree[1], .result$items_agree[2], .result$items_agree[3])
+```
+
+| What happened | What caught it |
+|---|---|
+| The model found F14's true concept, common_denominator, and the missing prerequisite equivalent -> compare | Comparing the draft with the team's graph, and the data |
+| The model added a second concept to six items | Five were flagged by the data as weak links; F21 the data could not see, and the team's graph decided it |
+| The model added the prerequisite compare -> common_denominator | Its low confidence, the data (no direct link) and the team's graph |
+| The model gave a prerequisite both ways | The model's own checks |
+
+### Your decisions
+
+```{r decision-log-ui}
+tableOutput("decision_log")
+```
+
+```{r decision-log-server, context = "server"}
+output$decision_log <- renderTable({
+  mirtverse::lab_decisions(learnr::get_tutorial_state(), c(
+    "q-flags" = "What the draft's checks show",
+    "q-compare" = "Draft or team",
+    "q-weak" = "F20's weak link",
+    "q-f21" = "F21",
+    "q-relation" = "compare -> common_denominator",
+    "q-recommend" = "Recommendation",
+    "q-memo" = "Note to the director"
+  ))
+})
+```
+
+You have reviewed an AI-drafted graph the way any draft should be
+reviewed: Its own checks first, then against the experts and the data,
+with the people who own the graph deciding what the evidence cannot.

@@ -19,6 +19,7 @@
 #'   (student ID) and `F01` to `F24` (1 = correct, 0 = incorrect).
 #'   `fractions_kg` is an [mv_kg][mv_kg_build] knowledge graph with 6
 #'   concepts, 24 items, 5 prerequisite edges and 27 item-to-concept links.
+#'   Its item metadata has the text of each item (`tidy(fractions_kg, "items")`).
 #' @source Simulated; the script is `data-raw/fractions.R` in the package's
 #'   GitHub repository.
 #' @seealso [fraction_subtraction] for real data with a Q-matrix;

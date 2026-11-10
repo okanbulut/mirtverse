@@ -16,7 +16,11 @@
   `mv_kg_model()` and `mv_kg_irt()`, and test the graph's claims against
   simpler and stricter models;
 * check a graph against data with `mv_kg_fit()` and explain item
-  difficulty with it using `mv_kg_explain()`.
+  difficulty with it using `mv_kg_explain()`, with item metadata as extra
+  predictors;
+* draft a graph from item text with a language model using
+  `mv_kg_extract()`, and review the draft against an expert graph with
+  `mv_kg_compare()`.
 </div>
 
 **Key terms:**
@@ -220,19 +224,30 @@ check
 tidy(check, "relations")
 ```
 
-No item is flagged: Every item agrees best with a concept it is linked
-to. The relation evidence makes the earlier observation precise. Holding
+Every item agrees best with a concept it is linked to, so there is no
+`wrong_link` flag. One item gets a `weak_link` flag instead: FS13
+(3 3/8 - 2 5/6) is linked to three concepts but agrees much less with
+finding a common denominator than with separating the whole number. Look
+at the item before acting on that: Eighths and sixths do need a common
+denominator, so the link is right on content. Nearly every item with a
+whole number part also needs separating and borrowing, which share most
+of their items, so those concepts' rest scores track FS13 more closely.
+This is a flag to reject, and a reminder that the checks are screening
+heuristics.
+
+The relation evidence makes the earlier observation precise. Holding
 borrowing constant, separating the whole number and finding a common
 denominator still have a partial correlation of about 0.73, while the
 teacher's prerequisite (separate_whole -> borrow_whole) drops to about
 0.14. Because the two concepts' items are about equally hard, the
 suggestion is a related edge rather than a prerequisite.
 
-```{r kg-fit-fs, fig.height = 5, fig.cap = "The evidence on the three-concept graph: Partial correlations next to each pair, and the suggested related edge as a dashed line."}
+```{r kg-fit-fs, fig.height = 5, fig.cap = "The evidence on the three-concept graph: Partial correlations next to each pair, the suggested related edge as a dashed line, and the weak link of FS13 as a dotted line."}
 gg_kg_fit(check, items = "all")
 ```
 
-`mv_kg_refine()` would add the edge. Whether to do so is a content
+`mv_kg_refine(check, "relations")` would add the edge and leave the
+item links alone. Whether to do so is a content
 question: Both skills come up when students handle mixed numbers with
 unlike denominators, so a related edge is plausible, but the data alone
 cannot say why the concepts go together.
@@ -262,6 +277,102 @@ Items that need more attributes are harder, but once that is taken into
 account, an item's depth in the teacher's learning order adds little. A
 prerequisite that does not show up as a difference in difficulty is not
 necessarily wrong, but it is a claim the data do not support yet.
+
+Other things known about the items can join the concepts. A graph carries
+**item metadata**: `fraction_subtraction_kg` has the text of each problem,
+and `mv_kg_annotate()` adds more columns. Teachers often say that larger
+denominators make a problem harder. Take the largest denominator in each
+problem from its text and add it to the model:
+
+```{r}
+denominator <- vapply(regmatches(kg$meta$text, gregexpr("/[0-9]+", kg$meta$text)),
+                      function(d) max(as.numeric(sub("/", "", d))), numeric(1))
+kg_m <- mv_kg_annotate(kg, data.frame(item = kg$meta$item, denominator = denominator))
+tidy(kg_m, "items")[1:5, ]
+mv_kg_explain(kg_m, resp, covariates = "denominator")
+```
+
+Once the attributes are in the model, the size of the denominator adds
+nothing: Its effect is close to zero and the share of item variance
+explained stays at 88%. What makes these items hard is the steps they
+need, not the numbers in them. The same check works for any item
+feature, such as word count, format, or whether a person or a language
+model wrote the item.
+
+## Example 4: Drafting a graph from item text
+
+Writing a Q-matrix is slow, expert work: Someone has to read every item
+and decide which skills it needs. A language model can read items too, so
+it can draft the graph, and the expert's job becomes reviewing the draft.
+`mv_kg_extract()` sends the item text to a model (Chapter \@ref(llms))
+and asks for the item links and the prerequisites between concepts. Give
+it the concepts, as here, and it only links items to them; leave them out
+and it proposes the concepts too. The function is **experimental**.
+
+We run it from the example recordings that come with mirtverse, so no
+model or API key is needed. Those responses were written by the package
+authors, with mistakes planted for the checks to catch; they are not the
+output of a live model. With `mv_ask_setup()` the same call goes to Claude,
+an OpenAI model or a local model.
+
+```{r}
+old <- mv_llm_replay()
+draft <- mv_kg_extract(kg, subject = "Middle school fraction subtraction")
+draft
+```
+
+Before the graph is built, the model's answer is checked. Some problems
+are simply errors and are fixed on the spot: A link to an item FS21 that
+does not exist, and a concept the model was told not to add. Others are
+fixed in a stated way: Where the model gave a prerequisite both ways, the
+direction with higher confidence is kept, and the edge that closed a cycle
+(the one with the lowest confidence) is removed. One fix costs
+information: FS13 was linked to `find_common_denominator`, a misspelling,
+so that link was dropped. Every model link comes with a reason:
+
+```{r}
+reasons <- tidy(draft, "reasons")
+reasons[reasons$from %in% c("FS04", "FS08"), c("from", "to", "reason")]
+```
+
+Now compare the draft with the expert Q-matrix:
+
+```{r}
+mv_kg_compare(draft, kg)
+options(old)
+```
+
+The model and the expert agree on 16 of the 20 items, and on 53 of the
+56 expert links. The four differences are the places to look, and they
+are not all the model's mistakes:
+
+* **FS13** is the misspelled link. The checks caught it, and the expert is
+  right: Eighths and sixths need a common denominator.
+* **FS01** (5/3 - 3/4): The expert codes column borrowing and the model
+  does not. This attribute is the hardest to apply from the text alone,
+  and the coding is the expert's call.
+* **FS04** (3 1/2 - 2 3/2): The model leaves out borrowing. Its reason is
+  that 2 3/2 can be simplified to 3 1/2 first, after which there is
+  nothing to borrow; the expert codes the usual procedure, which borrows.
+  Both readings are defensible, and they describe different solution
+  strategies.
+* **FS08** (2/3 - 2/3): The model adds reducing the answer, because 0/3
+  has to be written as 0. Again defensible, and a question for the item
+  writers: Is that step part of what the item is meant to measure?
+
+The draft's prerequisites have nothing to compare with, because none were
+published with the Q-matrix. They are hypotheses, and Example 3 showed how
+to check such claims with data: Partial correlations with `mv_kg_fit()`
+and depth with `mv_kg_explain()`.
+
+The lesson is the one that runs through this part of the book: A model's
+output is a draft to be checked. Here three kinds of checks work together.
+The **answer checks** catch errors in what the model returned, the
+**comparison** with an expert graph shows where two readings of the items
+differ, and the **data** (Example 3) say which links and edges the
+students' answers support. A draft that agrees with the expert on most
+items, with its disagreements listed, is a useful second opinion; it is
+not a replacement for the expert.
 
 ## Your turn
 
@@ -333,6 +444,12 @@ fractions test, and diagnostic reports will follow it. Check the graph
 against the students' answers with `mv_kg_fit()`, find an item linked to
 the wrong concept and a missing prerequisite, repair the graph with
 `mv_kg_refine()`, and show what the repair changes.
+
+**Lab 12, Reviewing an AI-drafted graph** (`run_lab("kg-draft")`): The
+same district asks a language model to draft the graph from the item
+text. Review the draft: Read the checks on the model's answer, compare it
+with the curriculum team's graph, test both against the students'
+answers, and decide what to keep.
 </div>
 
 ## Further reading {-}

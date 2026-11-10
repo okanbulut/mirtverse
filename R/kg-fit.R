@@ -11,7 +11,13 @@
 #' disadvantage. An item that correlates clearly more with a concept it is
 #' not linked to than with any concept it is linked to gets a `wrong_link`
 #' flag, with a suggestion to move it (or, for an item linked to several
-#' concepts, to add the link).
+#' concepts, to add the link). An item linked to several concepts that
+#' correlates clearly less with one of them than with its best one gets a
+#' `weak_link` flag, with a suggestion to drop that link: Useful for graphs
+#' that link too much, such as drafts from [mv_kg_extract()]. A concept that
+#' is part of nearly every item, such as a basic operation, can get
+#' `weak_link` flags on items that truly need it, so read these with the
+#' item in front of you.
 #'
 #' **Relations.** The graph's correlated confirmatory model is fitted with
 #' [mv_kg_irt()] (or taken from `model`), and the factor correlations are
@@ -42,7 +48,8 @@
 #'   `structure = "correlated"`, to save fitting it again.
 #' @param min_gap how much larger (in disattenuated correlation) an item's
 #'   best unlinked concept must be than its best linked concept before a
-#'   `wrong_link` flag.
+#'   `wrong_link` flag, and how much smaller a linked concept must be than
+#'   the item's best linked concept before a `weak_link` flag.
 #' @param min_partial smallest partial correlation between two concepts
 #'   with no edge before a `missing_relation` flag.
 #' @param weak_partial partial correlation below which an existing edge
@@ -142,14 +149,17 @@ kg_item_evidence <- function(q, X) {
     other <- setdiff(cn, linked)
     rl <- r[linked]; ro <- r[other]
     bl <- if (any(!is.na(rl))) names(rl)[which.max(rl)] else NA_character_
+    wl <- if (sum(!is.na(rl)) > 1) names(rl)[which.min(rl)] else NA_character_
     bo <- if (any(!is.na(ro))) names(ro)[which.max(ro)] else NA_character_
     data.frame(item = i, linked = paste(linked, collapse = ", "), n_linked = length(linked),
                best_linked = bl, r_linked = if (is.na(bl)) NA_real_ else unname(r[bl]),
                best_other = bo, r_other = if (is.na(bo)) NA_real_ else unname(r[bo]),
+               weakest_linked = wl, r_weakest = if (is.na(wl)) NA_real_ else unname(r[wl]),
                stringsAsFactors = FALSE)
   })
   out <- do.call(rbind, out)
   out$gap <- out$r_other - out$r_linked
+  out <- out[c(setdiff(names(out), c("weakest_linked", "r_weakest")), "weakest_linked", "r_weakest")]
   out
 }
 
@@ -196,6 +206,12 @@ kg_fit_flags <- function(items, rel, min_gap, min_partial, weak_partial) {
             "add_link", it$item, it$best_other)
       }
     }
+    if (it$n_linked > 1 && !is.na(it$r_weakest) && it$r_linked - it$r_weakest >= min_gap)
+      add("weak_link", "review", c(it$item, it$weakest_linked),
+          sprintf("%s is linked to %s but agrees much less with %s than with %s (r = %.2f vs %.2f); drop the link to %s?",
+                  it$item, it$linked, it$weakest_linked, it$best_linked, it$r_weakest,
+                  it$r_linked, it$weakest_linked),
+          "drop_link", it$item, it$weakest_linked)
   }
   if (!is.null(rel)) {
     for (j in seq_len(nrow(rel))) {
@@ -253,7 +269,8 @@ print.mv_kg_fit <- function(x, ...) {
   for (i in seq_len(nrow(f)))
     cat(strwrap(sprintf("[%s] %s: %s", f$level[i], f$check[i], f$message[i]),
                 initial = "* ", prefix = "  "), sep = "\n")
-  if (any(f$check == "wrong_link") && any(f$check != "wrong_link"))
+  if (any(f$check %in% c("wrong_link", "weak_link")) &&
+      any(!f$check %in% c("wrong_link", "weak_link")))
     cat(strwrap(paste("Item links shape the concept correlations: Fix item flags first and",
                       "refit before acting on relation flags.")), sep = "\n")
   invisible(x)
@@ -279,7 +296,7 @@ glance.mv_kg_fit <- function(x, ...) {
   f <- x$flags
   as_tbl(data.frame(
     concepts = length(x$settings$ease), items = nrow(x$items), n = x$settings$n,
-    wrong_link = sum(f$check == "wrong_link"),
+    wrong_link = sum(f$check == "wrong_link"), weak_link = sum(f$check == "weak_link"),
     missing_relation = sum(f$check == "missing_relation"),
     weak_relation = sum(f$check == "weak_relation"), order = sum(f$check == "order"),
     stringsAsFactors = FALSE))
@@ -288,8 +305,8 @@ glance.mv_kg_fit <- function(x, ...) {
 #' Apply suggested changes to a knowledge graph
 #'
 #' Returns a new graph with the changes [mv_kg_fit()] suggested: Items moved
-#' to (or also linked to) another concept, and missing prerequisite or
-#' related edges added. Flags without a suggested change, such as
+#' to (or also linked to) another concept, weak links dropped, and missing
+#' prerequisite or related edges added. Flags without a suggested change, such as
 #' `weak_relation` or `order`, are left for you to decide.
 #'
 #' @param fit a result of [mv_kg_fit()].
@@ -314,7 +331,7 @@ mv_kg_refine <- function(fit, accept = "all") {
   } else {
     accept <- match.arg(accept, c("all", "items", "relations"))
     keep <- switch(accept, all = f$action != "none",
-                   items = f$action %in% c("relink", "add_link"),
+                   items = f$action %in% c("relink", "add_link", "drop_link"),
                    relations = f$action %in% c("add_prerequisite", "add_related"))
     which(keep)
   }
@@ -324,6 +341,11 @@ mv_kg_refine <- function(fit, accept = "all") {
   for (i in rows) {
     a <- f$action[i]; fr <- f$from[i]; to <- f$to[i]
     if (a == "relink") e <- e[!(e$type == "measures" & e$from == fr), , drop = FALSE]
+    if (a == "drop_link") {
+      if (sum(e$type == "measures" & e$from == fr) > 1)
+        e <- e[!(e$type == "measures" & e$from == fr & e$to == to), , drop = FALSE]
+      next
+    }
     type <- switch(a, relink = , add_link = "measures", add_prerequisite = "prerequisite",
                    add_related = "related")
     e <- rbind(e, data.frame(from = fr, to = to, type = type, weight = 1,
@@ -366,7 +388,7 @@ gg_kg_fit <- function(fit, items = c("flagged", "all", "none"), labels = c("labe
   labels <- match.arg(labels)
   f <- fit$flags
   kg <- fit$kg
-  flagged_items <- unique(f$from[f$action %in% c("relink", "add_link")])
+  flagged_items <- unique(f$from[f$action %in% c("relink", "add_link", "drop_link")])
   keep_items <- switch(items, all = fit$items$item, flagged = flagged_items, none = character())
   cn <- kg_concept_names(kg)
   shown <- mv_kg_subset(kg, cn, items = if (length(keep_items)) keep_items else NULL)
@@ -376,7 +398,8 @@ gg_kg_fit <- function(fit, items = c("flagged", "all", "none"), labels = c("labe
   shown$name <- kg$name
   hl <- unique(unlist(strsplit(f$nodes[f$level != "info"], ", ")))
   # place nodes as if the suggestions were applied, so new edges run forward
-  sug <- f[f$action != "none", , drop = FALSE]
+  drops <- f[f$action == "drop_link", , drop = FALSE]
+  sug <- f[!f$action %in% c("none", "drop_link"), , drop = FALSE]
   union <- shown
   add <- sug[sug$from %in% shown$nodes$node, , drop = FALSE]
   if (nrow(add)) {
@@ -392,6 +415,14 @@ gg_kg_fit <- function(fit, items = c("flagged", "all", "none"), labels = c("labe
   p <- drawn$plot
   nodes <- drawn$nodes
   pos <- function(n, col) nodes[[col]][match(n, nodes$node)]
+  drops <- drops[drops$from %in% nodes$node & drops$to %in% nodes$node, , drop = FALSE]
+  if (nrow(drops)) {
+    drops$x <- pos(drops$from, "x"); drops$y <- pos(drops$from, "y")
+    drops$xend <- pos(drops$to, "x"); drops$yend <- pos(drops$to, "y")
+    p <- p + ggplot2::geom_segment(
+      data = drops, ggplot2::aes(x = xend, y = yend, xend = x, yend = y),
+      colour = mv_colours[["accent"]], linetype = "dotted", linewidth = 0.8)
+  }
   sug <- sug[sug$from %in% nodes$node & sug$to %in% nodes$node, , drop = FALSE]
   if (nrow(sug)) {
     sug$x <- pos(sug$from, "x"); sug$y <- pos(sug$from, "y")
@@ -428,5 +459,6 @@ gg_kg_fit <- function(fit, items = c("flagged", "all", "none"), labels = c("labe
     }
   }
   p + ggplot2::labs(subtitle = paste("Numbers: Partial correlations between concepts.",
-                                     "Dashed accent lines: Changes the data suggest."))
+                                     "Dashed accent lines: Links or edges the data suggest adding;",
+                                     "dotted: Links they suggest dropping."))
 }

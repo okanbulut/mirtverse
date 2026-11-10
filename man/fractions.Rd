@@ -10,8 +10,9 @@
 (student ID) and \code{F01} to \code{F24} (1 = correct, 0 = incorrect).
 \code{fractions_kg} is an \link[=mv_kg_build]{mv_kg} knowledge graph with 6
 concepts, 24 items, 5 prerequisite edges and 27 item-to-concept links.
+Its item metadata has the text of each item (\code{tidy(fractions_kg, "items")}).
 
-An object of class \code{mv_kg} of length 3.
+An object of class \code{mv_kg} of length 4.
 }
 \source{
 Simulated; the script is \code{data-raw/fractions.R} in the package's

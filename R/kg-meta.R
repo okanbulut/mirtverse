@@ -132,3 +132,87 @@ kg_meta_covariates <- function(kg, fields, items) {
   out <- as.data.frame(cols, check.names = FALSE, stringsAsFactors = FALSE)
   list(data = out, labels = labs)
 }
+
+#' Add or drop edges of a knowledge graph by hand
+#'
+#' Makes the changes a reviewer decides on: Add or drop item links,
+#' prerequisite edges or related edges. Use it after [mv_kg_fit()] or
+#' [mv_kg_compare()] for the changes that [mv_kg_refine()] does not make
+#' on its own, such as dropping a prerequisite edge the data do not
+#' support.
+#'
+#' @param kg a knowledge graph from [mv_kg_build()] or [as_mv_kg()].
+#' @param add,drop optional edges: Data frames with columns `from` and `to`
+#'   and an optional `type`. An edge from an item is an item link
+#'   (`"measures"`); other edges are `"prerequisite"` unless `type` says
+#'   `"related"`. Edges are dropped before they are added.
+#' @param name optional new name; by default the name is kept.
+#' @return An `mv_kg` object, with the item metadata kept. An item whose
+#'   last link is dropped leaves the graph, with a warning.
+#' @examples
+#' # the two changes the data suggest for the published fractions graph
+#' kg <- mv_kg_edit(fractions_kg,
+#'   add = data.frame(from = c("equivalent", "F14"), to = c("compare", "common_denominator")),
+#'   drop = data.frame(from = "F14", to = "compare"))
+#' mv_kg_compare(kg, lab_truth("fractions")$graph)
+#' @export
+mv_kg_edit <- function(kg, add = NULL, drop = NULL, name = NULL) {
+  check_kg(kg)
+  items <- kg_item_names(kg)
+  cn <- kg_concept_names(kg)
+  norm <- function(x, arg) {
+    if (is.null(x) || !NROW(x)) return(NULL)
+    x <- as.data.frame(x, stringsAsFactors = FALSE)
+    if (!all(c("from", "to") %in% names(x)))
+      stop(sprintf("`%s` needs columns `from` and `to`.", arg), call. = FALSE)
+    from <- as.character(x$from); to <- as.character(x$to)
+    type <- if ("type" %in% names(x)) as.character(x$type) else rep(NA_character_, nrow(x))
+    is_item <- !from %in% cn
+    type[is.na(type)] <- ifelse(is_item[is.na(type)], "measures", "prerequisite")
+    bad <- setdiff(type, c("measures", "prerequisite", "related"))
+    if (length(bad)) stop(sprintf("Unknown edge type in `%s`: %s.", arg, paste(bad, collapse = ", ")),
+                          call. = FALSE)
+    unknown <- unique(c(to[!to %in% cn], from[type != "measures" & !from %in% cn]))
+    if (length(unknown))
+      stop(sprintf("`%s` names concepts that are not in the graph: %s.", arg,
+                   paste(unknown, collapse = ", ")), call. = FALSE)
+    data.frame(from = from, to = to, type = type, stringsAsFactors = FALSE)
+  }
+  add <- norm(add, "add"); drop <- norm(drop, "drop")
+  e <- as.data.frame(kg$edges, stringsAsFactors = FALSE)
+  if (!is.null(drop)) {
+    for (i in seq_len(nrow(drop))) {
+      hit <- e$type == drop$type[i] &
+        ((e$from == drop$from[i] & e$to == drop$to[i]) |
+           (drop$type[i] == "related" & e$from == drop$to[i] & e$to == drop$from[i]))
+      if (!any(hit))
+        stop(sprintf("There is no %s edge %s -> %s to drop.", drop$type[i], drop$from[i],
+                     drop$to[i]), call. = FALSE)
+      e <- e[!hit, , drop = FALSE]
+    }
+  }
+  if (!is.null(add)) {
+    key <- paste(e$from, e$to, e$type)
+    add <- add[!paste(add$from, add$to, add$type) %in% key, , drop = FALSE]
+    e <- rbind(e, data.frame(from = add$from, to = add$to, type = add$type,
+                             weight = rep(1, nrow(add)), stringsAsFactors = FALSE))
+  }
+  meas <- e[e$type == "measures", , drop = FALSE]
+  ord <- match(meas$from, unique(c(items, meas$from)))
+  meas <- meas[order(ord, match(meas$to, cn)), , drop = FALSE]
+  gone <- setdiff(items, meas$from)
+  if (length(gone))
+    warning(sprintf("%s no longer measure%s any concept and left the graph.",
+                    paste(gone, collapse = ", "), if (length(gone) == 1) "s" else ""), call. = FALSE)
+  nodes <- as.data.frame(kg$nodes, stringsAsFactors = FALSE)
+  cnodes <- nodes[nodes$kind == "concept", , drop = FALSE]
+  rel <- e[e$type != "measures", , drop = FALSE]
+  out <- mv_kg_build(
+    concepts = data.frame(concept = cnodes$node, label = cnodes$label,
+                          description = cnodes$description, stringsAsFactors = FALSE),
+    edges = if (nrow(rel)) rel[c("from", "to", "type", "weight")],
+    items = if (nrow(meas)) data.frame(item = meas$from, concept = meas$to, weight = meas$weight,
+                                       stringsAsFactors = FALSE),
+    name = name %||% kg$name)
+  kg_carry_meta(out, kg$meta)
+}
