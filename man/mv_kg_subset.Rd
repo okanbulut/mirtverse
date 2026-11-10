@@ -15,7 +15,8 @@ mv_kg_subset(kg, concepts = NULL, items = NULL)
 column names are used; other columns (such as an ID) are skipped.}
 }
 \value{
-An \code{mv_kg} object. Items left without a concept are dropped.
+An \code{mv_kg} object. Items left without a concept are dropped;
+the item metadata of the items kept is kept.
 }
 \description{
 Returns the part of a graph that covers chosen concepts or items: The

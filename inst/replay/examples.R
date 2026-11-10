@@ -71,3 +71,16 @@ personas <- c(
 syn <- simulate_llm_respondents(items, personas)
 syn
 compare_synthetic(syn, stats::setNames(items$p_field, items$id))
+
+# ---- 5. Draft a knowledge graph from item text (experimental) -----------------
+
+# concepts given: A second opinion on Tatsuoka's Q-matrix
+draft <- mv_kg_extract(fraction_subtraction_kg, subject = "Middle school fraction subtraction")
+draft
+mv_kg_compare(draft, fraction_subtraction_kg)
+
+# concepts proposed by the model
+items <- itemtext[endsWith(itemtext$id, "-01"), c("id", "domain", "stem")]
+draft2 <- mv_kg_extract(items, subject = "Grade 7 numeracy")
+draft2
+gg_kg(draft2, colour = "domain")

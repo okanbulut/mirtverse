@@ -13,6 +13,13 @@
 #'   prerequisite depth among its concepts) and the number of concepts it
 #'   needs. This tests the graph's claim that later concepts are harder.
 #'
+#' Item metadata added with [mv_kg_annotate()], such as word count or item
+#' format, can join either set through `covariates`. Numeric columns are
+#' centred, so the concept difficulties refer to an item of average value;
+#' other columns get one 0/1 indicator for each value but the first. This
+#' asks whether a feature of the items explains difficulty beyond what the
+#' graph does.
+#'
 #' A Rasch model with random items and no predictors is fitted too, and
 #' `explained` in `glance()` is the share of its item variance that the
 #' predictors account for.
@@ -21,6 +28,8 @@
 #' @param data a data frame or matrix of 0/1 item scores; columns that are
 #'   not items of the graph, such as an ID, are skipped.
 #' @param predictors `"concepts"` or `"depth"`.
+#' @param covariates optional names of item metadata columns to add as
+#'   predictors (see [mv_kg_annotate()]).
 #' @return An object of class `mv_kg_explain`: A list with `effects` (one
 #'   row per predictor, with its `difficulty`, standard error and p
 #'   value), `items` (each item's difficulty in the Rasch model, the
@@ -46,10 +55,15 @@
 #'   ex
 #'   tidy(ex)
 #'   mv_kg_explain(fractions_kg, fractions, predictors = "depth")
+#'
+#'   # does the item format explain difficulty beyond the concepts?
+#'   kg <- mv_kg_annotate(fractions_kg, data.frame(
+#'     item = sprintf("F%02d", 1:24), format = rep(c("choice", "open"), 12)))
+#'   mv_kg_explain(kg, fractions, covariates = "format")
 #' }
 #' }
 #' @export
-mv_kg_explain <- function(kg, data, predictors = c("concepts", "depth")) {
+mv_kg_explain <- function(kg, data, predictors = c("concepts", "depth"), covariates = NULL) {
   check_kg(kg)
   predictors <- match.arg(predictors)
   if (!requireNamespace("eirm", quietly = TRUE) || !requireNamespace("lme4", quietly = TRUE))
@@ -81,6 +95,15 @@ mv_kg_explain <- function(kg, data, predictors = c("concepts", "depth")) {
            call. = FALSE)
     lab <- c(depth = "Learning-order depth", n_concepts = "Number of concepts")[terms]
     rhs <- paste("1 +", paste(terms, collapse = " + "))
+  }
+  if (length(covariates)) {
+    mc <- kg_meta_covariates(kg, covariates, rownames(q))
+    nm <- make.names(c(terms, names(mc$data)), unique = TRUE)[-seq_along(terms)]
+    names(mc$data) <- nm
+    lab <- c(lab, stats::setNames(unname(mc$labels), nm))
+    cov <- cbind(cov, mc$data)
+    terms <- c(terms, nm)
+    rhs <- paste(rhs, "+", paste(nm, collapse = " + "))
   }
   rownames(cov) <- rownames(q)
   long <- data.frame(
@@ -130,6 +153,7 @@ mv_kg_explain <- function(kg, data, predictors = c("concepts", "depth")) {
     stringsAsFactors = FALSE)
   structure(list(effects = as_tbl(effects), items = as_tbl(items), fit = as_tbl(fitstats),
                  explained = max(0, 1 - v1 / v0), predictors = predictors,
+                 covariates = as.character(covariates),
                  model = fit, base = base, kg = kg, n = nrow(X)),
             class = "mv_kg_explain")
 }
@@ -138,7 +162,8 @@ mv_kg_explain <- function(kg, data, predictors = c("concepts", "depth")) {
 print.mv_kg_explain <- function(x, ...) {
   cat(sprintf("<mv_kg_explain> %s: Item difficulty explained by %s\n",
               if (!is.na(x$kg$name)) x$kg$name else "Knowledge graph",
-              if (x$predictors == "concepts") "concepts" else "learning-order depth"))
+              paste0(if (x$predictors == "concepts") "concepts" else "learning-order depth",
+                     if (length(x$covariates)) " and item metadata" else "")))
   cat(sprintf("%d items, N = %d. The graph explains %.0f%% of the item variance.\n",
               nrow(x$items), x$n, 100 * x$explained))
   e <- as.data.frame(x$effects)
@@ -170,7 +195,8 @@ tidy.mv_kg_explain <- function(x, what = c("effects", "items"), ...) {
 #' @export
 glance.mv_kg_explain <- function(x, ...) {
   f <- x$fit
-  as_tbl(data.frame(predictors = x$predictors, items = nrow(x$items), n = x$n,
+  as_tbl(data.frame(predictors = paste(c(x$predictors, x$covariates), collapse = " + "),
+                    items = nrow(x$items), n = x$n,
                     explained = x$explained, item_var = f$item_var[2],
                     item_var_rasch = f$item_var[1], AIC = f$AIC[2], BIC = f$BIC[2],
                     BIC_rasch = f$BIC[1], stringsAsFactors = FALSE))

@@ -29,8 +29,8 @@ per recorded request.
 \description{
 \code{mv_llm_replay()} makes every mirtverse function that calls a language
 model (\code{\link[=mv_ask]{mv_ask()}}, \code{\link[=generate_items]{generate_items()}}, \code{\link[=verify_items]{verify_items()}}, \code{\link[=score_open]{score_open()}},
-\code{\link[=review_packet]{review_packet()}} with \code{ai_screen = TRUE}, and
-\code{\link[=simulate_llm_respondents]{simulate_llm_respondents()}}) answer from a file of recorded responses
+\code{\link[=review_packet]{review_packet()}} with \code{ai_screen = TRUE}, \code{\link[=simulate_llm_respondents]{simulate_llm_respondents()}}
+and \code{\link[=mv_kg_extract]{mv_kg_extract()}}) answer from a file of recorded responses
 instead of a live model. Nothing is sent anywhere, no
 API key is needed, and the same request always gets the same answer, so
 examples, labs and lessons run offline and give the same results for

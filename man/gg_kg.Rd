@@ -4,7 +4,13 @@
 \alias{gg_kg}
 \title{Draw a knowledge graph}
 \usage{
-gg_kg(kg, items = NULL, labels = c("label", "node"), highlight = NULL)
+gg_kg(
+  kg,
+  items = NULL,
+  labels = c("label", "node"),
+  highlight = NULL,
+  colour = NULL
+)
 }
 \arguments{
 \item{kg}{a knowledge graph from \code{\link[=mv_kg_build]{mv_kg_build()}} or \code{\link[=as_mv_kg]{as_mv_kg()}}.}
@@ -17,6 +23,10 @@ concept names.}
 
 \item{highlight}{optional concepts or items to draw in the accent colour,
 for example the concepts flagged by \code{\link[=mv_kg_check]{mv_kg_check()}}.}
+
+\item{colour}{optional name of an item metadata column (see
+\code{\link[=mv_kg_annotate]{mv_kg_annotate()}}) to colour the items by, such as their format or
+word count.}
 }
 \value{
 A ggplot object.

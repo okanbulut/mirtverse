@@ -30,9 +30,13 @@
 #'   item and one column per concept; item names come from the row names or a
 #'   column `item`).
 #' @param name optional name of the graph, shown when it is printed.
+#' @param meta optional item metadata: A data frame with one row per item,
+#'   an id column `item` (or `id`) and any other columns, such as item text,
+#'   format or word count. See [mv_kg_annotate()].
 #' @return An object of class `mv_kg`: A list with `nodes` (a tibble with
 #'   `node`, `kind` (`"concept"` or `"item"`), `label` and `description`),
-#'   `edges` (a tibble with `from`, `to`, `type` and `weight`) and `name`.
+#'   `edges` (a tibble with `from`, `to`, `type` and `weight`), `name`, and,
+#'   when metadata is given, `meta` (a tibble with one row per item).
 #' @seealso [as_mv_kg()] to build a graph from a Q-matrix, an edge list, a
 #'   fitted confirmatory mirt model or an igraph object; [mv_kg_check()] and
 #'   [gg_kg()]; the [fractions_kg] and [fraction_subtraction_kg] examples.
@@ -47,7 +51,7 @@
 #' tidy(kg, "edges")
 #' gg_kg(kg)
 #' @export
-mv_kg_build <- function(concepts, edges = NULL, items = NULL, name = NULL) {
+mv_kg_build <- function(concepts, edges = NULL, items = NULL, name = NULL, meta = NULL) {
   concepts <- kg_concepts(concepts)
   links <- kg_item_links(items)
   rel <- kg_relations(edges)
@@ -72,9 +76,11 @@ mv_kg_build <- function(concepts, edges = NULL, items = NULL, name = NULL) {
                          type = rep("measures", nrow(links)), weight = links$weight,
                          stringsAsFactors = FALSE)
   all_edges <- rbind(rel, measures)
-  structure(list(nodes = as_tbl(nodes), edges = as_tbl(all_edges),
-                 name = if (is.null(name)) NA_character_ else as.character(name)),
-            class = "mv_kg")
+  kg <- structure(list(nodes = as_tbl(nodes), edges = as_tbl(all_edges),
+                       name = if (is.null(name)) NA_character_ else as.character(name)),
+                  class = "mv_kg")
+  if (!is.null(meta)) kg <- mv_kg_annotate(kg, meta)
+  kg
 }
 
 kg_concepts <- function(concepts) {
@@ -427,6 +433,9 @@ print.mv_kg <- function(x, ...) {
   cat(sprintf("<mv_kg>%s %d concept(s), %d item(s)\n", title, g$concepts, g$items))
   cat(sprintf("Edges: %d prerequisite, %d related, %d measures\n",
               g$prerequisite, g$related, g$measures))
+  f <- kg_meta_fields(x)
+  if (length(f)) cat(strwrap(sprintf("Item metadata: %s", paste(f, collapse = ", ")),
+                             exdent = 2), sep = "\n")
   if (!g$acyclic) {
     cat("Prerequisite edges contain a cycle; see mv_kg_check().\n")
   } else if (g$prerequisite) {
@@ -440,24 +449,28 @@ print.mv_kg <- function(x, ...) {
 
 #' Tidy and glance methods for knowledge graphs
 #'
-#' `tidy()` returns the nodes or edges of a knowledge graph as a tibble;
-#' `glance()` returns a one-row summary.
+#' `tidy()` returns the nodes, edges or items of a knowledge graph as a
+#' tibble; `glance()` returns a one-row summary.
 #'
 #' @param x a knowledge graph from [mv_kg_build()] or [as_mv_kg()].
-#' @param what `"nodes"` or `"edges"` for `tidy()`. Nodes get the number of
-#'   items (for concepts) or concepts (for items) they are linked to and,
-#'   for concepts, their prerequisite `depth`.
+#' @param what `"nodes"`, `"edges"` or `"items"` for `tidy()`. Nodes get the
+#'   number of items (for concepts) or concepts (for items) they are linked
+#'   to and, for concepts, their prerequisite `depth`. Items get one row
+#'   each, with the concepts they measure and any item metadata added with
+#'   [mv_kg_annotate()].
 #' @param ... unused.
 #' @return A tibble.
 #' @examples
 #' tidy(fractions_kg)
 #' tidy(fractions_kg, "edges")
+#' tidy(fraction_subtraction_kg, "items")
 #' glance(fractions_kg)
 #' @name tidy_mv_kg
 #' @export
-tidy.mv_kg <- function(x, what = c("nodes", "edges"), ...) {
+tidy.mv_kg <- function(x, what = c("nodes", "edges", "items"), ...) {
   what <- match.arg(what)
   if (what == "edges") return(x$edges)
+  if (what == "items") return(kg_item_table(x))
   n <- as.data.frame(x$nodes, stringsAsFactors = FALSE)
   meas <- x$edges[x$edges$type == "measures", , drop = FALSE]
   n$links <- vapply(seq_len(nrow(n)), function(i)
@@ -547,23 +560,35 @@ kg_layout <- function(kg, items = TRUE) {
 #'   concept names.
 #' @param highlight optional concepts or items to draw in the accent colour,
 #'   for example the concepts flagged by [mv_kg_check()].
+#' @param colour optional name of an item metadata column (see
+#'   [mv_kg_annotate()]) to colour the items by, such as their format or
+#'   word count.
 #' @return A ggplot object.
 #' @examples
 #' gg_kg(fractions_kg)
 #' gg_kg(fractions_kg, items = FALSE, highlight = "common_denominator")
 #' gg_kg(fraction_subtraction_kg, labels = "node")
 #' @export
-gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NULL) {
+gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NULL,
+                  colour = NULL) {
   check_kg(kg)
   labels <- match.arg(labels)
-  if (is.null(items)) items <- length(kg_item_names(kg)) <= 40
-  kg_plot(kg, items, labels, highlight)$plot
+  if (is.null(items)) items <- length(kg_item_names(kg)) <= 40 || !is.null(colour)
+  if (!is.null(colour)) {
+    if (length(colour) != 1 || !colour %in% kg_meta_fields(kg))
+      stop("`colour` must name an item metadata column; ",
+           if (length(kg_meta_fields(kg))) paste0("available: ", paste(kg_meta_fields(kg), collapse = ", "), ".")
+           else "this graph has none (see mv_kg_annotate()).", call. = FALSE)
+    if (!items) stop("`colour` needs the items drawn (`items = TRUE`).", call. = FALSE)
+  }
+  kg_plot(kg, items, labels, highlight, colour = colour)$plot
 }
 
 # Draws a graph; `lay` can give node positions from another graph (used by
 # gg_kg_fit() to place suggested edges), and `hl_edges` colours the edges
 # of highlighted nodes. Returns the plot and the node table.
-kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = TRUE) {
+kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = TRUE,
+                    colour = NULL) {
   if (is.null(lay)) lay <- kg_layout(kg, items = items)
   lay <- lay[lay$node %in% kg$nodes$node & (items | lay$kind == "concept"), , drop = FALSE]
   nodes <- merge(lay, as.data.frame(kg$nodes)[c("node", "label")], by = "node", sort = FALSE)
@@ -609,7 +634,21 @@ kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = 
       data = pre, ggplot2::aes(x = x, y = y, xend = xend, yend = yend),
       colour = col_line(pre$hl), linewidth = 0.7,
       arrow = grid::arrow(length = grid::unit(2.2, "mm"), type = "closed"))
-  if (nrow(its))
+  if (nrow(its) && !is.null(colour)) {
+    m <- as.data.frame(kg$meta, stringsAsFactors = FALSE)
+    its$value <- m[[colour]][match(its$node, m$item)]
+    p <- p + ggplot2::geom_point(data = its, ggplot2::aes(x = x, y = y, colour = value), size = 2.4)
+    p <- p + if (is.numeric(its$value))
+      ggplot2::scale_colour_gradient(low = "#C9D7E4", high = mv_colours[["primary"]], name = colour) else {
+        lv <- unique(stats::na.omit(as.character(its$value)))
+        pal <- rep(unname(mv_colours[c("primary", "accent", "good", "warn", "grey")]),
+                   length.out = length(lv))
+        ggplot2::scale_colour_manual(values = stats::setNames(pal, lv), name = colour,
+                                     na.value = "grey85")
+      }
+    p <- p + ggplot2::geom_text(data = its, ggplot2::aes(x = x + 0.05, y = y, label = text),
+                                hjust = 0, size = 2.6, colour = "grey30")
+  } else if (nrow(its))
     p <- p + ggplot2::geom_point(data = its, ggplot2::aes(x = x, y = y),
                                  colour = ifelse(its$hl, mv_colours[["accent"]], mv_colours[["grey"]]),
                                  size = 1.6) +
@@ -643,7 +682,8 @@ kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = 
 #' @param concepts concepts to keep (default: All).
 #' @param items optional items to keep, as names or a data frame whose
 #'   column names are used; other columns (such as an ID) are skipped.
-#' @return An `mv_kg` object. Items left without a concept are dropped.
+#' @return An `mv_kg` object. Items left without a concept are dropped;
+#'   the item metadata of the items kept is kept.
 #' @examples
 #' kg3 <- mv_kg_subset(fraction_subtraction_kg,
 #'                     c("separate_whole", "borrow_whole", "common_denominator"))
@@ -661,11 +701,12 @@ mv_kg_subset <- function(kg, concepts = NULL, items = NULL) {
   meas <- e[e$type == "measures" & e$to %in% concepts & e$from %in% keep_items, , drop = FALSE]
   nodes <- as.data.frame(kg$nodes, stringsAsFactors = FALSE)
   cnodes <- nodes[nodes$kind == "concept" & nodes$node %in% concepts, , drop = FALSE]
-  mv_kg_build(
+  out <- mv_kg_build(
     concepts = data.frame(concept = cnodes$node, label = cnodes$label,
                           description = cnodes$description, stringsAsFactors = FALSE),
     edges = if (nrow(rel)) rel[c("from", "to", "type", "weight")],
     items = if (nrow(meas)) data.frame(item = meas$from, concept = meas$to, weight = meas$weight,
                                        stringsAsFactors = FALSE),
     name = kg$name)
+  kg_carry_meta(out, kg$meta)
 }

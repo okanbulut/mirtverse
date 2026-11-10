@@ -334,13 +334,14 @@ mv_kg_refine <- function(fit, accept = "all") {
   rel <- e[e$type != "measures", , drop = FALSE]
   meas <- e[e$type == "measures", , drop = FALSE]
   base <- if (!is.na(kg$name)) sub(" \\(refined\\)$", "", kg$name) else "Knowledge graph"
-  mv_kg_build(
+  out <- mv_kg_build(
     concepts = data.frame(concept = cnodes$node, label = cnodes$label,
                           description = cnodes$description, stringsAsFactors = FALSE),
     edges = if (nrow(rel)) rel[c("from", "to", "type", "weight")],
     items = if (nrow(meas)) data.frame(item = meas$from, concept = meas$to, weight = meas$weight,
                                        stringsAsFactors = FALSE),
     name = paste(base, "(refined)"))
+  kg_carry_meta(out, kg$meta)
 }
 
 #' Draw the data's evidence on a knowledge graph

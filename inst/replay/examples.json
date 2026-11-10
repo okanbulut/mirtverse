@@ -1327,6 +1327,541 @@
           }
         ]
       }
+    },
+    {
+      "key": "3511cd2ee51167804e48e5af4e101ee6",
+      "function_name": "mv_kg_extract",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-10",
+      "structured": true,
+      "system": "You draft a knowledge graph for an educational test from the text of its items.\nA knowledge graph lists the concepts (skills or attributes) the test measures, which items measure which concepts, and which concepts are prerequisites of others.\nDo not answer the items.\n\nRules:\n- concepts: Use only the concepts listed, by their exact id. Do not add concepts; return an empty concepts list.\n- links: For every item, list each concept a student needs to answer it correctly, one link per item and concept. An item can need several concepts. Use the item ids exactly as given, and give a short reason.\n- prerequisites: An edge from A to B means a student must learn A before B can be learned. List only direct prerequisites, each with a confidence between 0 and 1 and a short reason.\n- The prerequisite edges must not form a cycle.",
+      "prompt": "Test: Middle school fraction subtraction\n\nConcepts:\n- convert_whole: Convert a whole number to a fraction. Attribute alpha1 in DeCarlo (2011).\n- separate_whole: Separate a whole number from a fraction. Attribute alpha2 in DeCarlo (2011).\n- simplify_first: Simplify before subtracting. Attribute alpha3 in DeCarlo (2011).\n- common_denominator: Find a common denominator. Attribute alpha4 in DeCarlo (2011).\n- borrow_whole: Borrow from the whole number part. Attribute alpha5 in DeCarlo (2011).\n- column_borrow: Column borrow to subtract the numerators. Attribute alpha6 in DeCarlo (2011).\n- subtract_numerators: Subtract numerators. Attribute alpha7 in DeCarlo (2011).\n- reduce_answer: Reduce answers to simplest form. Attribute alpha8 in DeCarlo (2011).\n\nItems:\n[FS01] 5/3 - 3/4\n[FS02] 3/4 - 3/8\n[FS03] 5/6 - 1/9\n[FS04] 3 1/2 - 2 3/2\n[FS05] 4 3/5 - 3 4/10\n[FS06] 6/7 - 4/7\n[FS07] 3 - 2 1/5\n[FS08] 2/3 - 2/3\n[FS09] 3 7/8 - 2\n[FS10] 4 4/12 - 2 7/12\n[FS11] 4 1/3 - 2 4/3\n[FS12] 11/8 - 1/8\n[FS13] 3 3/8 - 2 5/6\n[FS14] 3 4/5 - 3 2/5\n[FS15] 2 - 1/3\n[FS16] 4 5/7 - 1 4/7\n[FS17] 7 3/5 - 4/5\n[FS18] 4 1/10 - 2 8/10\n[FS19] 4 - 1 4/3\n[FS20] 4 1/3 - 1 5/3",
+      "response": {
+        "concepts": [
+          {
+            "concept": "subtract_whole_numbers",
+            "label": "Subtract whole numbers",
+            "description": "Subtracting the whole number parts of mixed numbers."
+          }
+        ],
+        "links": [
+          {
+            "item": "FS01",
+            "concept": "common_denominator",
+            "reason": "Thirds and fourths need a common denominator."
+          },
+          {
+            "item": "FS01",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators once the denominators match."
+          },
+          {
+            "item": "FS02",
+            "concept": "common_denominator",
+            "reason": "Rewrite 3/4 as eighths."
+          },
+          {
+            "item": "FS02",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS03",
+            "concept": "common_denominator",
+            "reason": "Sixths and ninths need a common denominator."
+          },
+          {
+            "item": "FS03",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS04",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS04",
+            "concept": "simplify_first",
+            "reason": "3/2 is improper and can be simplified to 1 1/2 first."
+          },
+          {
+            "item": "FS04",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the fractional parts."
+          },
+          {
+            "item": "FS05",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS05",
+            "concept": "common_denominator",
+            "reason": "Fifths and tenths need a common denominator."
+          },
+          {
+            "item": "FS05",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS05",
+            "concept": "reduce_answer",
+            "reason": "2/10 should be reduced to 1/5."
+          },
+          {
+            "item": "FS06",
+            "concept": "subtract_numerators",
+            "reason": "Like denominators; subtract the numerators."
+          },
+          {
+            "item": "FS07",
+            "concept": "convert_whole",
+            "reason": "3 has no fraction part and must be written as a fraction or mixed number."
+          },
+          {
+            "item": "FS07",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS07",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS08",
+            "concept": "subtract_numerators",
+            "reason": "Like denominators; subtract the numerators."
+          },
+          {
+            "item": "FS08",
+            "concept": "reduce_answer",
+            "reason": "The answer 0/3 should be written as 0."
+          },
+          {
+            "item": "FS09",
+            "concept": "separate_whole",
+            "reason": "Subtract the whole numbers and keep 7/8."
+          },
+          {
+            "item": "FS10",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS10",
+            "concept": "borrow_whole",
+            "reason": "4/12 is smaller than 7/12, so borrow 1 from the 4."
+          },
+          {
+            "item": "FS10",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS10",
+            "concept": "reduce_answer",
+            "reason": "9/12 should be reduced to 3/4."
+          },
+          {
+            "item": "FS11",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS11",
+            "concept": "borrow_whole",
+            "reason": "1/3 is smaller than 4/3, so borrow from the 4."
+          },
+          {
+            "item": "FS11",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS12",
+            "concept": "subtract_numerators",
+            "reason": "Like denominators; subtract the numerators."
+          },
+          {
+            "item": "FS12",
+            "concept": "reduce_answer",
+            "reason": "10/8 should be reduced to 5/4."
+          },
+          {
+            "item": "FS13",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS13",
+            "concept": "find_common_denominator",
+            "reason": "Eighths and sixths need a common denominator."
+          },
+          {
+            "item": "FS13",
+            "concept": "borrow_whole",
+            "reason": "9/24 is smaller than 20/24, so borrow from the 3."
+          },
+          {
+            "item": "FS13",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS14",
+            "concept": "separate_whole",
+            "reason": "The whole numbers cancel; subtract the fractions."
+          },
+          {
+            "item": "FS14",
+            "concept": "subtract_numerators",
+            "reason": "Like denominators; subtract the numerators."
+          },
+          {
+            "item": "FS15",
+            "concept": "convert_whole",
+            "reason": "2 must be written as a fraction, such as 6/3."
+          },
+          {
+            "item": "FS15",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS16",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS16",
+            "concept": "subtract_numerators",
+            "reason": "Like denominators; subtract the numerators."
+          },
+          {
+            "item": "FS17",
+            "concept": "separate_whole",
+            "reason": "Work with the whole number and fractions separately."
+          },
+          {
+            "item": "FS17",
+            "concept": "borrow_whole",
+            "reason": "3/5 is smaller than 4/5, so borrow from the 7."
+          },
+          {
+            "item": "FS17",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS18",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS18",
+            "concept": "borrow_whole",
+            "reason": "1/10 is smaller than 8/10, so borrow from the 4."
+          },
+          {
+            "item": "FS18",
+            "concept": "column_borrow",
+            "reason": "Borrowing turns 1/10 into 11/10 before subtracting 8/10."
+          },
+          {
+            "item": "FS18",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS19",
+            "concept": "convert_whole",
+            "reason": "4 has no fraction part and must be rewritten."
+          },
+          {
+            "item": "FS19",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS19",
+            "concept": "simplify_first",
+            "reason": "4/3 is improper and can be simplified first."
+          },
+          {
+            "item": "FS19",
+            "concept": "borrow_whole",
+            "reason": "Borrow from the 4 to subtract the fraction."
+          },
+          {
+            "item": "FS19",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS20",
+            "concept": "separate_whole",
+            "reason": "Work with the whole numbers and fractions separately."
+          },
+          {
+            "item": "FS20",
+            "concept": "simplify_first",
+            "reason": "5/3 is improper and can be simplified first."
+          },
+          {
+            "item": "FS20",
+            "concept": "borrow_whole",
+            "reason": "1/3 is smaller than 2/3, so borrow from the 4."
+          },
+          {
+            "item": "FS20",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          },
+          {
+            "item": "FS21",
+            "concept": "subtract_numerators",
+            "reason": "Subtract the numerators."
+          }
+        ],
+        "prerequisites": [
+          {
+            "from": "subtract_numerators",
+            "to": "common_denominator",
+            "confidence": 0.8,
+            "reason": "Subtracting like fractions comes before rewriting unlike ones."
+          },
+          {
+            "from": "subtract_numerators",
+            "to": "borrow_whole",
+            "confidence": 0.7,
+            "reason": "Borrowing only makes sense once like fractions can be subtracted."
+          },
+          {
+            "from": "separate_whole",
+            "to": "borrow_whole",
+            "confidence": 0.9,
+            "reason": "Borrowing moves 1 from the whole number part into the fraction part."
+          },
+          {
+            "from": "convert_whole",
+            "to": "borrow_whole",
+            "confidence": 0.6,
+            "reason": "Borrowing rewrites a whole as a fraction."
+          },
+          {
+            "from": "subtract_numerators",
+            "to": "reduce_answer",
+            "confidence": 0.6,
+            "reason": "An answer must exist before it can be reduced."
+          },
+          {
+            "from": "borrow_whole",
+            "to": "column_borrow",
+            "confidence": 0.5,
+            "reason": "Column borrowing is a step inside borrowing from the whole."
+          },
+          {
+            "from": "column_borrow",
+            "to": "subtract_numerators",
+            "confidence": 0.3,
+            "reason": "The numerators are subtracted after the borrow."
+          },
+          {
+            "from": "simplify_first",
+            "to": "reduce_answer",
+            "confidence": 0.5,
+            "reason": "Both rely on rewriting a fraction in simplest or mixed form."
+          },
+          {
+            "from": "reduce_answer",
+            "to": "simplify_first",
+            "confidence": 0.4,
+            "reason": "Reducing answers is practised before simplifying improper fractions."
+          }
+        ]
+      }
+    },
+    {
+      "key": "8e9658f480e84268a5fdd9bf7e23f604",
+      "function_name": "mv_kg_extract",
+      "provider": "authored",
+      "model": "",
+      "recorded": "2026-11-10",
+      "structured": true,
+      "system": "You draft a knowledge graph for an educational test from the text of its items.\nA knowledge graph lists the concepts (skills or attributes) the test measures, which items measure which concepts, and which concepts are prerequisites of others.\nDo not answer the items.\n\nRules:\n- concepts: Propose the concepts the items measure. Give each a short lowercase id with underscores (for example unit_rate), a label of a few words and a one-sentence description.\n- Aim for between 3 and 8 concepts, each measured by at least 3 items where the items allow it.\n- links: For every item, list each concept a student needs to answer it correctly, one link per item and concept. An item can need several concepts. Use the item ids exactly as given, and give a short reason.\n- prerequisites: An edge from A to B means a student must learn A before B can be learned. List only direct prerequisites, each with a confidence between 0 and 1 and a short reason.\n- The prerequisite edges must not form a cycle.",
+      "prompt": "Test: Grade 7 numeracy\n\nItems:\n[N01-01] A pack of 6 pencils costs $30.00. How much does one pencil cost?\n[N02-01] What is 25% of 40?\n[N03-01] A rectangle is 14 cm long and 2 cm wide. What is its area?\n[N04-01] A movie starts at 6:00 p.m. and lasts 145 minutes. At what time does it end?\n[N05-01] Priya's quiz scores were 17, 10, 13, 12. What is the mean score?\n[N06-01] What is 8/11 + 1/11?\n[N07-01] If 5x + 7 = 47, what is the value of x?\n[N08-01] In a club, the ratio of boys to girls is 3:5. There are 96 students in the club. How many are girls?\n[N09-01] Which number is the greatest?\n[N10-01] How many centimetres are in 4 metres?\n[N11-01] A bag has 2 red and 5 blue marbles. Mateo picks one marble without looking. What is the probability that it is red?\n[N12-01] A car travels 210 km in 3 hours. What is its average speed?",
+      "response": {
+        "concepts": [
+          {
+            "concept": "multiply_divide",
+            "label": "Multiplying and dividing",
+            "description": "Multiplying and dividing whole numbers and decimals in context."
+          },
+          {
+            "concept": "fractions_decimals",
+            "label": "Fractions and decimals",
+            "description": "Reading, comparing and operating on fractions, decimals and percents."
+          },
+          {
+            "concept": "proportional_reasoning",
+            "label": "Proportional reasoning",
+            "description": "Using ratios, rates and percents to compare quantities."
+          },
+          {
+            "concept": "measurement",
+            "label": "Measurement",
+            "description": "Measuring length, area and time, and converting between units."
+          },
+          {
+            "concept": "data_chance",
+            "label": "Data and chance",
+            "description": "Summarizing data and finding simple probabilities."
+          },
+          {
+            "concept": "linear_equations",
+            "label": "Linear equations",
+            "description": "Solving one-variable linear equations."
+          }
+        ],
+        "links": [
+          {
+            "item": "N01-01",
+            "concept": "multiply_divide",
+            "reason": "Divide the cost by the number of pencils."
+          },
+          {
+            "item": "N01-01",
+            "concept": "proportional_reasoning",
+            "reason": "A unit rate is the cost for one."
+          },
+          {
+            "item": "N02-01",
+            "concept": "fractions_decimals",
+            "reason": "25% is one quarter."
+          },
+          {
+            "item": "N02-01",
+            "concept": "proportional_reasoning",
+            "reason": "A percent is a rate per hundred."
+          },
+          {
+            "item": "N03-01",
+            "concept": "multiply_divide",
+            "reason": "Multiply length by width."
+          },
+          {
+            "item": "N03-01",
+            "concept": "measurement",
+            "reason": "Area of a rectangle in square centimetres."
+          },
+          {
+            "item": "N04-01",
+            "concept": "measurement",
+            "reason": "Elapsed time in hours and minutes."
+          },
+          {
+            "item": "N05-01",
+            "concept": "multiply_divide",
+            "reason": "Divide the sum by the number of scores."
+          },
+          {
+            "item": "N05-01",
+            "concept": "Data and chance",
+            "reason": "The mean summarizes data."
+          },
+          {
+            "item": "N06-01",
+            "concept": "fractions_decimals",
+            "reason": "Add fractions with like denominators."
+          },
+          {
+            "item": "N07-01",
+            "concept": "linear_equations",
+            "reason": "Solve 5x + 7 = 47."
+          },
+          {
+            "item": "N08-01",
+            "concept": "proportional_reasoning",
+            "reason": "Use the ratio 3:5 to split 96."
+          },
+          {
+            "item": "N08-01",
+            "concept": "multiply_divide",
+            "reason": "Divide 96 into 8 parts."
+          },
+          {
+            "item": "N09-01",
+            "concept": "fractions_decimals",
+            "reason": "Compare decimals by place value."
+          },
+          {
+            "item": "N10-01",
+            "concept": "measurement",
+            "reason": "Convert metres to centimetres."
+          },
+          {
+            "item": "N11-01",
+            "concept": "data_chance",
+            "reason": "Probability of a simple event."
+          },
+          {
+            "item": "N11-01",
+            "concept": "fractions_decimals",
+            "reason": "A probability is written as a fraction."
+          },
+          {
+            "item": "N12-01",
+            "concept": "proportional_reasoning",
+            "reason": "Speed is a rate."
+          },
+          {
+            "item": "N12-01",
+            "concept": "multiply_divide",
+            "reason": "Divide the distance by the time."
+          },
+          {
+            "item": "N13-01",
+            "concept": "measurement",
+            "reason": "Converting units."
+          }
+        ],
+        "prerequisites": [
+          {
+            "from": "multiply_divide",
+            "to": "proportional_reasoning",
+            "confidence": 0.85,
+            "reason": "Rates and ratios rest on multiplication and division."
+          },
+          {
+            "from": "fractions_decimals",
+            "to": "proportional_reasoning",
+            "confidence": 0.7,
+            "reason": "Percents and ratios are written as fractions."
+          },
+          {
+            "from": "multiply_divide",
+            "to": "measurement",
+            "confidence": 0.6,
+            "reason": "Area and unit conversion use multiplication."
+          },
+          {
+            "from": "fractions_decimals",
+            "to": "data_chance",
+            "confidence": 0.6,
+            "reason": "Probabilities are fractions."
+          },
+          {
+            "from": "multiply_divide",
+            "to": "linear_equations",
+            "confidence": 0.6,
+            "reason": "Solving the equation uses inverse operations."
+          }
+        ]
+      }
     }
   ]
 }
