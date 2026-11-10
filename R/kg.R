@@ -557,7 +557,15 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
   check_kg(kg)
   labels <- match.arg(labels)
   if (is.null(items)) items <- length(kg_item_names(kg)) <= 40
-  lay <- kg_layout(kg, items = items)
+  kg_plot(kg, items, labels, highlight)$plot
+}
+
+# Draws a graph; `lay` can give node positions from another graph (used by
+# gg_kg_fit() to place suggested edges), and `hl_edges` colours the edges
+# of highlighted nodes. Returns the plot and the node table.
+kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = TRUE) {
+  if (is.null(lay)) lay <- kg_layout(kg, items = items)
+  lay <- lay[lay$node %in% kg$nodes$node & (items | lay$kind == "concept"), , drop = FALSE]
   nodes <- merge(lay, as.data.frame(kg$nodes)[c("node", "label")], by = "node", sort = FALSE)
   nodes$text <- if (labels == "label") nodes$label else nodes$node
   is_c <- nodes$kind == "concept"
@@ -572,7 +580,7 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
   e <- e[e$from %in% nodes$node & e$to %in% nodes$node, , drop = FALSE]
   e$x <- pos(e$from, "x"); e$y <- pos(e$from, "y")
   e$xend <- pos(e$to, "x"); e$yend <- pos(e$to, "y")
-  e$hl <- e$from %in% highlight | e$to %in% highlight
+  e$hl <- hl_edges & (e$from %in% highlight | e$to %in% highlight)
   # prerequisite arrows run from the right edge of one label to the left edge of the next
   pre <- e[e$type == "prerequisite", , drop = FALSE]
   if (nrow(pre)) {
@@ -613,7 +621,7 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
     colour = ifelse(concepts$hl, mv_colours[["accent"]], mv_colours[["primary"]]),
     size = 3.2, lineheight = 0.95, label.padding = grid::unit(0.3, "lines"))
   xmax <- max(nodes$x) + if (nrow(its)) 0.35 else 0.5
-  p + ggplot2::scale_x_continuous(expand = ggplot2::expansion(add = 0.5),
+  p <- p + ggplot2::scale_x_continuous(expand = ggplot2::expansion(add = 0.5),
                                   limits = c(min(nodes$x) - 0.5, xmax)) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(add = 0.5)) +
     ggplot2::labs(title = if (!is.na(kg$name)) kg$name else NULL,
@@ -621,6 +629,7 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
     theme_mirtverse() +
     ggplot2::theme(axis.text = ggplot2::element_blank(), axis.title = ggplot2::element_blank(),
                    panel.grid = ggplot2::element_blank())
+  list(plot = p, nodes = nodes)
 }
 
 #' Keep part of a knowledge graph
