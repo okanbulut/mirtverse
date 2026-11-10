@@ -6,7 +6,7 @@ testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
 storyline, a certification board's 32-item exam
 ([certexam](https://www.okanbulut.com/mirtverse/reference/certexam.md)).
-Labs 3 to 10 each have their own: A provincial numeracy test
+Labs 3 to 11 each have their own: A provincial numeracy test
 ([numeracy](https://www.okanbulut.com/mirtverse/reference/numeracy.md)),
 a licensure exam with two forms
 ([linking](https://www.okanbulut.com/mirtverse/reference/linking.md)), a
@@ -19,9 +19,11 @@ written science explanations
 text of numeracy items
 ([itemtext](https://www.okanbulut.com/mirtverse/reference/itemtext.md)),
 a field test of generated items
-([aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md))
-and an AI-scored science test
-([aiscored](https://www.okanbulut.com/mirtverse/reference/aiscored.md)).
+([aigfield](https://www.okanbulut.com/mirtverse/reference/aigfield.md)),
+an AI-scored science test
+([aiscored](https://www.okanbulut.com/mirtverse/reference/aiscored.md))
+and a fractions test with its knowledge graph
+([fractions](https://www.okanbulut.com/mirtverse/reference/fractions.md)).
 
 ## Usage
 
@@ -114,6 +116,18 @@ and `description`. `run_lab()` runs the lab and returns nothing useful.
   [`validity_argument()`](https://www.okanbulut.com/mirtverse/reference/validity_argument.md)
   and decide which scores to report.
 
+- `"kg-repair"` (Lab 11): Is a curriculum team's knowledge graph right
+  before diagnostic reports are built on it? Check its structure with
+  [`mv_kg_check()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_check.md),
+  check it against the answers with
+  [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md),
+  find an item linked to the wrong concept and a missing prerequisite,
+  repair the graph with
+  [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md),
+  and show what the repair changes for mastery patterns and item
+  difficulty
+  ([`mv_kg_explain()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_explain.md)).
+
 `run_lab()` opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and
@@ -123,7 +137,7 @@ come back later.
 
 ``` r
 list_labs()
-#> # A tibble: 10 × 3
+#> # A tibble: 11 × 3
 #>    name         title                                             description   
 #>    <chr>        <chr>                                             <chr>         
 #>  1 ai-audit     Lab 10: Auditing an AI-scored test                A state scien…
@@ -133,8 +147,9 @@ list_labs()
 #>  5 decisions    Lab 2: From parameters to decisions               The certifica…
 #>  6 fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy g…
 #>  7 item-text    Lab 8: Predicting difficulty before field testing A numeracy pr…
-#>  8 linking      Lab 4: Linking two forms                          A licensure e…
-#>  9 model-choice Lab 1: Choosing a model the board can defend      You are the n…
-#> 10 open-ended   Lab 6: Scoring open-ended responses               A science ass…
+#>  8 kg-repair    Lab 11: Repairing a knowledge graph               A district's …
+#>  9 linking      Lab 4: Linking two forms                          A licensure e…
+#> 10 model-choice Lab 1: Choosing a model the board can defend      You are the n…
+#> 11 open-ended   Lab 6: Scoring open-ended responses               A science ass…
 if (interactive()) run_lab("model-choice")
 ```

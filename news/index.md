@@ -53,6 +53,13 @@
   model with a random item effect), or the item’s depth in the learning
   order. It reports how much of the item variance the graph explains and
   which items it predicts poorly.
+- Lab 11, “Repairing a knowledge graph” (`run_lab("kg-repair")`):
+  Students check a curriculum team’s graph for a Grade 5 fractions test
+  against the answers, find an item linked to the wrong concept and a
+  missing prerequisite, repair the graph and show what the repair
+  changes. The book chapter “Knowledge graphs and IRT” has a new section
+  on checking a graph against data and explaining item difficulty with
+  it.
 - [`mv_kg_subset()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.md)
   keeps chosen concepts of a graph, the relations among them and the
   items that measure them.

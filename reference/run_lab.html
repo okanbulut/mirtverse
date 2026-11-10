@@ -3,23 +3,23 @@
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam). Labs 3 to 10
+storyline, a certification board's 32-item exam (certexam). Labs 3 to 11
 each have their own: A provincial numeracy test (numeracy), a licensure
 exam with two forms (linking), a placement test's item bank
 (catbank), rater-scored science tasks (openended), written science
 explanations (essays), the text of numeracy items (itemtext), a
-field test of generated items (aigfield) and an AI-scored science test
-(aiscored)."><meta property="og:description" content="mirtverse ships interactive learnr
+field test of generated items (aigfield), an AI-scored science test
+(aiscored) and a fractions test with its knowledge graph (fractions)."><meta property="og:description" content="mirtverse ships interactive learnr
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (certexam). Labs 3 to 10
+storyline, a certification board's 32-item exam (certexam). Labs 3 to 11
 each have their own: A provincial numeracy test (numeracy), a licensure
 exam with two forms (linking), a placement test's item bank
 (catbank), rater-scored science tasks (openended), written science
 explanations (essays), the text of numeracy items (itemtext), a
-field test of generated items (aigfield) and an AI-scored science test
-(aiscored)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/reference/figures/card.png"><meta property="og:image:alt" content="mirtverse: From item responses to defensible decisions, with or without writing R code"></head><body>
+field test of generated items (aigfield), an AI-scored science test
+(aiscored) and a fractions test with its knowledge graph (fractions)."><meta property="og:image" content="https://www.okanbulut.com/mirtverse/reference/figures/card.png"><meta property="og:image:alt" content="mirtverse: From item responses to defensible decisions, with or without writing R code"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -120,13 +120,13 @@ field test of generated items (aigfield) and an AI-scored science test
 tutorials for measurement courses. Students work through a realistic
 testing scenario with live R exercises and make the decisions an analyst
 would make, getting feedback on each one. Labs 1 and 2 share one
-storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>). Labs 3 to 10
+storyline, a certification board's 32-item exam (<a href="certexam.html">certexam</a>). Labs 3 to 11
 each have their own: A provincial numeracy test (<a href="numeracy.html">numeracy</a>), a licensure
 exam with two forms (<a href="linking.html">linking</a>), a placement test's item bank
 (<a href="catbank.html">catbank</a>), rater-scored science tasks (<a href="openended.html">openended</a>), written science
 explanations (<a href="essays.html">essays</a>), the text of numeracy items (<a href="itemtext.html">itemtext</a>), a
-field test of generated items (<a href="aigfield.html">aigfield</a>) and an AI-scored science test
-(<a href="aiscored.html">aiscored</a>).</p>
+field test of generated items (<a href="aigfield.html">aigfield</a>), an AI-scored science test
+(<a href="aiscored.html">aiscored</a>) and a fractions test with its knowledge graph (<a href="fractions.html">fractions</a>).</p>
     </div>
 
     <div class="section level2">
@@ -202,6 +202,12 @@ Audit the engine with <code><a href="ai_audit.html">ai_audit()</a></code>: Agree
 against English language learners, drift after an engine update and
 DIF on the test as scored; then draft a validity argument with
 <code><a href="validity_argument.html">validity_argument()</a></code> and decide which scores to report.</p></li>
+<li><p><code>"kg-repair"</code> (Lab 11): Is a curriculum team's knowledge graph right
+before diagnostic reports are built on it? Check its structure with
+<code><a href="mv_kg_check.html">mv_kg_check()</a></code>, check it against the answers with <code><a href="mv_kg_fit.html">mv_kg_fit()</a></code>, find
+an item linked to the wrong concept and a missing prerequisite, repair
+the graph with <code><a href="mv_kg_refine.html">mv_kg_refine()</a></code>, and show what the repair changes for
+mastery patterns and item difficulty (<code><a href="mv_kg_explain.html">mv_kg_explain()</a></code>).</p></li>
 </ul><p><code>run_lab()</code> opens a lab in the browser (or the RStudio Viewer). The labs
 also appear in RStudio's Tutorial pane once mirtverse and learnr are
 installed. Progress is saved in the browser, so students can stop and come
@@ -211,7 +217,7 @@ back later.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">list_labs</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name         title                                             description   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ai-audit     Lab 10: Auditing an AI-scored test                A state scien…</span>
@@ -221,9 +227,10 @@ back later.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> decisions    Lab 2: From parameters to decisions               The certifica…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> fairness     Lab 3: Is the test fair? Detecting DIF            An advocacy g…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> item-text    Lab 8: Predicting difficulty before field testing A numeracy pr…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> linking      Lab 4: Linking two forms                          A licensure e…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> model-choice Lab 1: Choosing a model the board can defend      You are the n…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> open-ended   Lab 6: Scoring open-ended responses               A science ass…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> kg-repair    Lab 11: Repairing a knowledge graph               A district's …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> linking      Lab 4: Linking two forms                          A licensure e…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> model-choice Lab 1: Choosing a model the board can defend      You are the n…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> open-ended   Lab 6: Scoring open-ended responses               A science ass…</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">run_lab</span><span class="op">(</span><span class="st">"model-choice"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
