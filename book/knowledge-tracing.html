@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 20 Knowledge tracing | Item Response Theory with mirt and mirtverse</title>
+  <meta name="description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 20 Knowledge tracing | Item Response Theory with mirt and mirtverse" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+  <meta property="og:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="github-repo" content="okanbulut/mirtverse" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 20 Knowledge tracing | Item Response Theory with mirt and mirtverse" />
+  
+  <meta name="twitter:description" content="Extended course notes on item response theory with worked R examples in mirt and mirtverse, one chapter per week of a 12-week course, with exercises and links to the mirtverse teaching labs." />
+  <meta name="twitter:image" content="https://www.okanbulut.com/mirtverse/book/cover/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="knowledge-graphs.html"/>
+<link rel="next" href="datasets.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">IRT with mirt and mirtverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-the-book-is-organised"><i class="fa fa-check"></i>How the book is organised</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#before-you-start"><i class="fa fa-check"></i>Before you start</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-teaching-materials"><i class="fa fa-check"></i>Other teaching materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-and-adapting-the-book"><i class="fa fa-check"></i>Using and adapting the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-cite-this-book"><i class="fa fa-check"></i>How to cite this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="1" data-path="measurement.html"><a href="measurement.html"><i class="fa fa-check"></i><b>1</b> Measurement, scoring and classical item analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="measurement.html"><a href="measurement.html#the-ideas"><i class="fa fa-check"></i><b>1.1</b> The ideas</a></li>
+<li class="chapter" data-level="1.2" data-path="measurement.html"><a href="measurement.html#example-1-a-multiple-choice-science-test"><i class="fa fa-check"></i><b>1.2</b> Example 1: A multiple-choice science test</a></li>
+<li class="chapter" data-level="1.3" data-path="measurement.html"><a href="measurement.html#example-2-a-wellbeing-questionnaire"><i class="fa fa-check"></i><b>1.3</b> Example 2: A wellbeing questionnaire</a></li>
+<li class="chapter" data-level="1.4" data-path="measurement.html"><a href="measurement.html#a-first-look-with-mirtverse"><i class="fa fa-check"></i><b>1.4</b> A first look with mirtverse</a></li>
+<li class="chapter" data-level="1.5" data-path="measurement.html"><a href="measurement.html#your-turn"><i class="fa fa-check"></i><b>1.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#in-the-lab"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="measurement.html"><a href="measurement.html#further-reading"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="irt-models.html"><a href="irt-models.html"><i class="fa fa-check"></i><b>2</b> The Rasch, 2PL and 3PL models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="irt-models.html"><a href="irt-models.html#the-ideas-1"><i class="fa fa-check"></i><b>2.1</b> The ideas</a></li>
+<li class="chapter" data-level="2.2" data-path="irt-models.html"><a href="irt-models.html#example-1-the-lsat-section-7-items"><i class="fa fa-check"></i><b>2.2</b> Example 1: The LSAT section 7 items</a></li>
+<li class="chapter" data-level="2.3" data-path="irt-models.html"><a href="irt-models.html#example-2-a-driving-theory-test-with-guessing"><i class="fa fa-check"></i><b>2.3</b> Example 2: A driving theory test with guessing</a></li>
+<li class="chapter" data-level="2.4" data-path="irt-models.html"><a href="irt-models.html#your-turn-1"><i class="fa fa-check"></i><b>2.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#in-the-lab-1"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="irt-models.html"><a href="irt-models.html#further-reading-1"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>3</b> Estimation and comparing models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="estimation.html"><a href="estimation.html#the-ideas-2"><i class="fa fa-check"></i><b>3.1</b> The ideas</a></li>
+<li class="chapter" data-level="3.2" data-path="estimation.html"><a href="estimation.html#example-1-a-test-the-rasch-model-fits"><i class="fa fa-check"></i><b>3.2</b> Example 1: A test the Rasch model fits</a></li>
+<li class="chapter" data-level="3.3" data-path="estimation.html"><a href="estimation.html#example-2-when-the-criteria-disagree"><i class="fa fa-check"></i><b>3.3</b> Example 2: When the criteria disagree</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="estimation.html"><a href="estimation.html#small-samples-and-convergence"><i class="fa fa-check"></i><b>3.3.1</b> Small samples and convergence</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="estimation.html"><a href="estimation.html#your-turn-2"><i class="fa fa-check"></i><b>3.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#in-the-lab-2"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="estimation.html"><a href="estimation.html#further-reading-2"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality.html"><a href="dimensionality.html"><i class="fa fa-check"></i><b>4</b> Dimensionality and local independence</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dimensionality.html"><a href="dimensionality.html#the-ideas-3"><i class="fa fa-check"></i><b>4.1</b> The ideas</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality.html"><a href="dimensionality.html#example-1-a-mathematics-test-with-a-reading-dimension"><i class="fa fa-check"></i><b>4.2</b> Example 1: A mathematics test with a reading dimension</a></li>
+<li class="chapter" data-level="4.3" data-path="dimensionality.html"><a href="dimensionality.html#example-2-a-reading-passage-that-ties-four-items-together"><i class="fa fa-check"></i><b>4.3</b> Example 2: A reading passage that ties four items together</a></li>
+<li class="chapter" data-level="4.4" data-path="dimensionality.html"><a href="dimensionality.html#your-turn-3"><i class="fa fa-check"></i><b>4.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#in-the-lab-3"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dimensionality.html"><a href="dimensionality.html#further-reading-3"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fit.html"><a href="fit.html"><i class="fa fa-check"></i><b>5</b> Item fit, person fit and item quality</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fit.html"><a href="fit.html#the-ideas-4"><i class="fa fa-check"></i><b>5.1</b> The ideas</a></li>
+<li class="chapter" data-level="5.2" data-path="fit.html"><a href="fit.html#example-1-the-same-items-under-two-models"><i class="fa fa-check"></i><b>5.2</b> Example 1: The same items under two models</a></li>
+<li class="chapter" data-level="5.3" data-path="fit.html"><a href="fit.html#example-2-finding-aberrant-response-patterns"><i class="fa fa-check"></i><b>5.3</b> Example 2: Finding aberrant response patterns</a></li>
+<li class="chapter" data-level="5.4" data-path="fit.html"><a href="fit.html#your-turn-4"><i class="fa fa-check"></i><b>5.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#in-the-lab-4"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="fit.html"><a href="fit.html#further-reading-4"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="information.html"><a href="information.html"><i class="fa fa-check"></i><b>6</b> Information, precision and reliability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="information.html"><a href="information.html#the-ideas-5"><i class="fa fa-check"></i><b>6.1</b> The ideas</a></li>
+<li class="chapter" data-level="6.2" data-path="information.html"><a href="information.html#example-1-where-does-the-science-test-measure-well"><i class="fa fa-check"></i><b>6.2</b> Example 1: Where does the science test measure well?</a></li>
+<li class="chapter" data-level="6.3" data-path="information.html"><a href="information.html#example-2-designing-a-test-for-a-decision"><i class="fa fa-check"></i><b>6.3</b> Example 2: Designing a test for a decision</a></li>
+<li class="chapter" data-level="6.4" data-path="information.html"><a href="information.html#your-turn-5"><i class="fa fa-check"></i><b>6.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#in-the-lab-5"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="information.html"><a href="information.html#further-reading-5"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="scoring.html"><a href="scoring.html"><i class="fa fa-check"></i><b>7</b> Scoring people</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scoring.html"><a href="scoring.html#the-ideas-6"><i class="fa fa-check"></i><b>7.1</b> The ideas</a></li>
+<li class="chapter" data-level="7.2" data-path="scoring.html"><a href="scoring.html#example-1-four-estimators-one-short-test"><i class="fa fa-check"></i><b>7.2</b> Example 1: Four estimators, one short test</a></li>
+<li class="chapter" data-level="7.3" data-path="scoring.html"><a href="scoring.html#example-2-a-proficiency-cut-on-a-mathematics-test"><i class="fa fa-check"></i><b>7.3</b> Example 2: A proficiency cut on a mathematics test</a></li>
+<li class="chapter" data-level="7.4" data-path="scoring.html"><a href="scoring.html#your-turn-6"><i class="fa fa-check"></i><b>7.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#in-the-lab-6"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="scoring.html"><a href="scoring.html#further-reading-6"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="polytomous.html"><a href="polytomous.html"><i class="fa fa-check"></i><b>8</b> Polytomous items and open-ended responses</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="polytomous.html"><a href="polytomous.html#the-ideas-7"><i class="fa fa-check"></i><b>8.1</b> The ideas</a></li>
+<li class="chapter" data-level="8.2" data-path="polytomous.html"><a href="polytomous.html#example-1-attitudes-to-science"><i class="fa fa-check"></i><b>8.2</b> Example 1: Attitudes to science</a></li>
+<li class="chapter" data-level="8.3" data-path="polytomous.html"><a href="polytomous.html#example-2-a-rating-category-nobody-uses"><i class="fa fa-check"></i><b>8.3</b> Example 2: A rating category nobody uses</a></li>
+<li class="chapter" data-level="8.4" data-path="polytomous.html"><a href="polytomous.html#open-ended-responses-and-raters"><i class="fa fa-check"></i><b>8.4</b> Open-ended responses and raters</a></li>
+<li class="chapter" data-level="8.5" data-path="polytomous.html"><a href="polytomous.html#your-turn-7"><i class="fa fa-check"></i><b>8.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#in-the-lab-7"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="polytomous.html"><a href="polytomous.html#further-reading-7"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dif.html"><a href="dif.html"><i class="fa fa-check"></i><b>9</b> Differential item functioning and fairness</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dif.html"><a href="dif.html#the-ideas-8"><i class="fa fa-check"></i><b>9.1</b> The ideas</a></li>
+<li class="chapter" data-level="9.2" data-path="dif.html"><a href="dif.html#example-1-paper-versus-tablet"><i class="fa fa-check"></i><b>9.2</b> Example 1: Paper versus tablet</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="dif.html"><a href="dif.html#choosing-anchors"><i class="fa fa-check"></i><b>9.2.1</b> Choosing anchors</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="dif.html"><a href="dif.html#example-2-mantel-haenszel-on-a-chemistry-quiz"><i class="fa fa-check"></i><b>9.3</b> Example 2: Mantel-Haenszel on a chemistry quiz</a></li>
+<li class="chapter" data-level="9.4" data-path="dif.html"><a href="dif.html#your-turn-8"><i class="fa fa-check"></i><b>9.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#in-the-lab-8"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="dif.html"><a href="dif.html#further-reading-8"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linking.html"><a href="linking.html"><i class="fa fa-check"></i><b>10</b> Linking and equating</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linking.html"><a href="linking.html#the-ideas-9"><i class="fa fa-check"></i><b>10.1</b> The ideas</a></li>
+<li class="chapter" data-level="10.2" data-path="linking.html"><a href="linking.html#example-1-separate-calibration-and-linking"><i class="fa fa-check"></i><b>10.2</b> Example 1: Separate calibration and linking</a></li>
+<li class="chapter" data-level="10.3" data-path="linking.html"><a href="linking.html#example-2-concurrent-calibration-and-equating-a-pass-mark"><i class="fa fa-check"></i><b>10.3</b> Example 2: Concurrent calibration and equating a pass mark</a></li>
+<li class="chapter" data-level="10.4" data-path="linking.html"><a href="linking.html#your-turn-9"><i class="fa fa-check"></i><b>10.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#in-the-lab-9"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="linking.html"><a href="linking.html#further-reading-9"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="banks-cat.html"><a href="banks-cat.html"><i class="fa fa-check"></i><b>11</b> Item banks, test assembly and adaptive testing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="banks-cat.html"><a href="banks-cat.html#the-ideas-10"><i class="fa fa-check"></i><b>11.1</b> The ideas</a></li>
+<li class="chapter" data-level="11.2" data-path="banks-cat.html"><a href="banks-cat.html#example-1-a-vocabulary-bank-and-a-fixed-form"><i class="fa fa-check"></i><b>11.2</b> Example 1: A vocabulary bank and a fixed form</a></li>
+<li class="chapter" data-level="11.3" data-path="banks-cat.html"><a href="banks-cat.html#example-2-a-cat-from-scratch"><i class="fa fa-check"></i><b>11.3</b> Example 2: A CAT from scratch</a></li>
+<li class="chapter" data-level="11.4" data-path="banks-cat.html"><a href="banks-cat.html#your-turn-10"><i class="fa fa-check"></i><b>11.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#in-the-lab-10"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="banks-cat.html"><a href="banks-cat.html#further-reading-10"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reporting.html"><a href="reporting.html"><i class="fa fa-check"></i><b>12</b> Cut scores, reporting and communicating results</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="reporting.html"><a href="reporting.html#the-ideas-11"><i class="fa fa-check"></i><b>12.1</b> The ideas</a></li>
+<li class="chapter" data-level="12.2" data-path="reporting.html"><a href="reporting.html#example-1-setting-a-proficiency-standard"><i class="fa fa-check"></i><b>12.2</b> Example 1: Setting a proficiency standard</a></li>
+<li class="chapter" data-level="12.3" data-path="reporting.html"><a href="reporting.html#example-2-telling-the-story"><i class="fa fa-check"></i><b>12.3</b> Example 2: Telling the story</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="reporting.html"><a href="reporting.html#a-one-page-memo"><i class="fa fa-check"></i><b>12.3.1</b> A one-page memo</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="reporting.html"><a href="reporting.html#your-turn-11"><i class="fa fa-check"></i><b>12.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#in-the-lab-11"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="reporting.html"><a href="reporting.html#further-reading-11"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>I AI in measurement</b></span></li>
+<li class="chapter" data-level="13" data-path="ml-lens.html"><a href="ml-lens.html"><i class="fa fa-check"></i><b>13</b> Machine learning through an IRT lens</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ml-lens.html"><a href="ml-lens.html#the-ideas-12"><i class="fa fa-check"></i><b>13.1</b> The ideas</a></li>
+<li class="chapter" data-level="13.2" data-path="ml-lens.html"><a href="ml-lens.html#example-1-the-2pl-is-a-logistic-regression-on-theta"><i class="fa fa-check"></i><b>13.2</b> Example 1: The 2PL is a logistic regression on theta</a></li>
+<li class="chapter" data-level="13.3" data-path="ml-lens.html"><a href="ml-lens.html#example-2-forty-items-or-one-score"><i class="fa fa-check"></i><b>13.3</b> Example 2: Forty items or one score?</a></li>
+<li class="chapter" data-level="13.4" data-path="ml-lens.html"><a href="ml-lens.html#your-turn-12"><i class="fa fa-check"></i><b>13.4</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#in-the-ai-hub"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="ml-lens.html"><a href="ml-lens.html#further-reading-12"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="item-text.html"><a href="item-text.html"><i class="fa fa-check"></i><b>14</b> What item text tells us</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="item-text.html"><a href="item-text.html#the-ideas-13"><i class="fa fa-check"></i><b>14.1</b> The ideas</a></li>
+<li class="chapter" data-level="14.2" data-path="item-text.html"><a href="item-text.html#example-1-features-and-an-explanatory-model"><i class="fa fa-check"></i><b>14.2</b> Example 1: Features and an explanatory model</a></li>
+<li class="chapter" data-level="14.3" data-path="item-text.html"><a href="item-text.html#example-2-the-one-step-lltm-in-mirt"><i class="fa fa-check"></i><b>14.3</b> Example 2: The one-step LLTM in mirt</a></li>
+<li class="chapter" data-level="14.4" data-path="item-text.html"><a href="item-text.html#example-3-new-items-or-new-kinds-of-items"><i class="fa fa-check"></i><b>14.4</b> Example 3: New items or new kinds of items?</a></li>
+<li class="chapter" data-level="14.5" data-path="item-text.html"><a href="item-text.html#your-turn-13"><i class="fa fa-check"></i><b>14.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#in-the-lab-12"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="item-text.html"><a href="item-text.html#further-reading-13"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="aig.html"><a href="aig.html"><i class="fa fa-check"></i><b>15</b> Generating items</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="aig.html"><a href="aig.html#the-ideas-14"><i class="fa fa-check"></i><b>15.1</b> The ideas</a></li>
+<li class="chapter" data-level="15.2" data-path="aig.html"><a href="aig.html#example-1-writing-an-item-model"><i class="fa fa-check"></i><b>15.2</b> Example 1: Writing an item model</a></li>
+<li class="chapter" data-level="15.3" data-path="aig.html"><a href="aig.html#example-2-calibrating-the-families"><i class="fa fa-check"></i><b>15.3</b> Example 2: Calibrating the families</a></li>
+<li class="chapter" data-level="15.4" data-path="aig.html"><a href="aig.html#example-3-one-step-with-a-random-item-effect"><i class="fa fa-check"></i><b>15.4</b> Example 3: One step, with a random item effect</a></li>
+<li class="chapter" data-level="15.5" data-path="aig.html"><a href="aig.html#example-4-does-the-family-mean-predict-new-items"><i class="fa fa-check"></i><b>15.5</b> Example 4: Does the family mean predict new items?</a></li>
+<li class="chapter" data-level="15.6" data-path="aig.html"><a href="aig.html#your-turn-14"><i class="fa fa-check"></i><b>15.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#in-the-lab-13"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="aig.html"><a href="aig.html#further-reading-14"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="auto-scoring.html"><a href="auto-scoring.html"><i class="fa fa-check"></i><b>16</b> Automated scoring</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="auto-scoring.html"><a href="auto-scoring.html#the-ideas-15"><i class="fa fa-check"></i><b>16.1</b> The ideas</a></li>
+<li class="chapter" data-level="16.2" data-path="auto-scoring.html"><a href="auto-scoring.html#example-1-training-and-judging-an-engine"><i class="fa fa-check"></i><b>16.2</b> Example 1: Training and judging an engine</a></li>
+<li class="chapter" data-level="16.3" data-path="auto-scoring.html"><a href="auto-scoring.html#example-2-what-is-the-engine-rewarding"><i class="fa fa-check"></i><b>16.3</b> Example 2: What is the engine rewarding?</a></li>
+<li class="chapter" data-level="16.4" data-path="auto-scoring.html"><a href="auto-scoring.html#example-3-the-engine-on-the-wright-map"><i class="fa fa-check"></i><b>16.4</b> Example 3: The engine on the Wright map</a></li>
+<li class="chapter" data-level="16.5" data-path="auto-scoring.html"><a href="auto-scoring.html#your-turn-15"><i class="fa fa-check"></i><b>16.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#in-the-lab-14"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="auto-scoring.html"><a href="auto-scoring.html#further-reading-15"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="llms.html"><a href="llms.html"><i class="fa fa-check"></i><b>17</b> Large language models as a colleague</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="llms.html"><a href="llms.html#the-ideas-16"><i class="fa fa-check"></i><b>17.1</b> The ideas</a></li>
+<li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
+<li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
+<li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#llms-coverage"><i class="fa fa-check"></i><b>17.5</b> Where do synthetic respondents land?</a></li>
+<li class="chapter" data-level="17.6" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
+<li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="ai-validity.html"><a href="ai-validity.html"><i class="fa fa-check"></i><b>18</b> Validity, fairness and governance of AI</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="ai-validity.html"><a href="ai-validity.html#the-ideas-17"><i class="fa fa-check"></i><b>18.1</b> The ideas</a></li>
+<li class="chapter" data-level="18.2" data-path="ai-validity.html"><a href="ai-validity.html#example-1-auditing-a-scoring-engine"><i class="fa fa-check"></i><b>18.2</b> Example 1: Auditing a scoring engine</a></li>
+<li class="chapter" data-level="18.3" data-path="ai-validity.html"><a href="ai-validity.html#example-2-other-ai-components"><i class="fa fa-check"></i><b>18.3</b> Example 2: Other AI components</a></li>
+<li class="chapter" data-level="18.4" data-path="ai-validity.html"><a href="ai-validity.html#example-3-from-audit-to-argument"><i class="fa fa-check"></i><b>18.4</b> Example 3: From audit to argument</a></li>
+<li class="chapter" data-level="18.5" data-path="ai-validity.html"><a href="ai-validity.html#governance"><i class="fa fa-check"></i><b>18.5</b> Governance</a></li>
+<li class="chapter" data-level="18.6" data-path="ai-validity.html"><a href="ai-validity.html#your-turn-17"><i class="fa fa-check"></i><b>18.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#in-the-lab-15"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="ai-validity.html"><a href="ai-validity.html#further-reading-17"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="part"><span><b>II Knowledge graphs</b></span></li>
+<li class="chapter" data-level="19" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html"><i class="fa fa-check"></i><b>19</b> Knowledge graphs and IRT</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#the-ideas-18"><i class="fa fa-check"></i><b>19.1</b> The ideas</a></li>
+<li class="chapter" data-level="19.2" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-1-a-graph-for-fraction-subtraction"><i class="fa fa-check"></i><b>19.2</b> Example 1: A graph for fraction subtraction</a></li>
+<li class="chapter" data-level="19.3" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-2-from-graph-to-irt-model"><i class="fa fa-check"></i><b>19.3</b> Example 2: From graph to IRT model</a></li>
+<li class="chapter" data-level="19.4" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-3-checking-the-graph-against-data"><i class="fa fa-check"></i><b>19.4</b> Example 3: Checking the graph against data</a></li>
+<li class="chapter" data-level="19.5" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#example-4-drafting-a-graph-from-item-text"><i class="fa fa-check"></i><b>19.5</b> Example 4: Drafting a graph from item text</a></li>
+<li class="chapter" data-level="19.6" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#your-turn-18"><i class="fa fa-check"></i><b>19.6</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#in-the-lab-16"><i class="fa fa-check"></i>In the lab</a></li>
+<li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#further-reading-18"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html"><i class="fa fa-check"></i><b>20</b> Knowledge tracing</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#the-ideas-19"><i class="fa fa-check"></i><b>20.1</b> The ideas</a></li>
+<li class="chapter" data-level="20.2" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-1-plotting-skills-in-a-cognitive-tutor"><i class="fa fa-check"></i><b>20.2</b> Example 1: Plotting skills in a Cognitive Tutor</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#variants"><i class="fa fa-check"></i><b>20.2.1</b> Variants</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-2-knowledge-tracing-and-irt"><i class="fa fa-check"></i><b>20.3</b> Example 2: Knowledge tracing and IRT</a></li>
+<li class="chapter" data-level="20.4" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-3-practice-on-a-knowledge-graph"><i class="fa fa-check"></i><b>20.4</b> Example 3: Practice on a knowledge graph</a>
+<ul>
+<li class="chapter" data-level="20.4.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#checking-prerequisites-against-the-logs"><i class="fa fa-check"></i><b>20.4.1</b> Checking prerequisites against the logs</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#your-turn-19"><i class="fa fa-check"></i><b>20.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#further-reading-19"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
+<ul>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html#other-datasets-for-practice"><i class="fa fa-check"></i>Other datasets for practice</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="adapting.html"><a href="adapting.html"><i class="fa fa-check"></i><b>B</b> Adapting the book for your course</a>
+<ul>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#the-files"><i class="fa fa-check"></i>The files</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#every-chapter-has-the-same-shape"><i class="fa fa-check"></i>Every chapter has the same shape</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#swapping-in-your-own-data"><i class="fa fa-check"></i>Swapping in your own data</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#building-the-book"><i class="fa fa-check"></i>Building the book</a></li>
+<li class="chapter" data-level="" data-path="adapting.html"><a href="adapting.html#suggesting-changes"><i class="fa fa-check"></i>Suggesting changes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.okanbulut.com/mirtverse/">mirtverse website</a></li>
+<li><a href="https://github.com/okanbulut/mirtverse">Source on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Item Response Theory with mirt and mirtverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="knowledge-tracing" class="section level1 hasAnchor" number="20">
+<h1><span class="header-section-number">Chapter 20</span> Knowledge tracing<a href="knowledge-tracing.html#knowledge-tracing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="goals">
+<p><strong>Learning goals.</strong> After this chapter you can</p>
+<ul>
+<li>explain how <strong>Bayesian knowledge tracing</strong> (BKT) follows a student’s
+mastery of a skill from one practice attempt to the next, and what its
+four parameters mean;</li>
+<li>fit BKT to practice logs with <code>mv_kt_fit()</code>, including the variants
+with forgetting and with a guess and a slip per item, and judge the
+models by cross-validation with <code>mv_kt_cv()</code>;</li>
+<li>compare BKT with a Rasch model on the same logs with <code>mv_kt_irt()</code>, and
+relate BKT’s guess parameters to IRT item difficulty;</li>
+<li>draw mastery over time and on a knowledge graph with <code>gg_kt()</code>, and
+check a graph’s prerequisites against practice logs with
+<code>mv_kt_prereq()</code>.</li>
+</ul>
+</div>
+<p><strong>Key terms:</strong>
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-tracing">Knowledge tracing</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-graph">knowledge graph</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#attribute-hierarchy">attribute hierarchy</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation">cross-validation</a>,
+<a href="https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test">likelihood-ratio test</a>.</p>
+<p>The functions in this chapter are experimental: Their arguments and
+output may still change.</p>
+<div id="the-ideas-19" class="section level2 hasAnchor" number="20.1">
+<h2><span class="header-section-number">20.1</span> The ideas<a href="knowledge-tracing.html#the-ideas-19" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>IRT assumes that a student’s ability stays the same while they answer the
+test. That is reasonable for a one-hour exam, but not for an online tutor,
+where students practise a skill until they get it. In practice logs, the
+interesting question is not how able a student is, but whether they have
+learned the skill yet, and when.</p>
+<p><strong>Bayesian knowledge tracing</strong> <span class="citation">(<a href="#ref-corbett1995">Corbett and Anderson 1995</a>)</span> answers it with a hidden
+Markov model. Each skill is either <strong>known</strong> or <strong>not known</strong>. Four
+probabilities describe each skill:</p>
+<ul>
+<li><code>prior</code>: The probability that a student knows the skill before the
+first attempt;</li>
+<li><code>learn</code>: The probability that a student who does not know the skill
+learns it after an attempt (with feedback);</li>
+<li><code>guess</code>: The probability of a correct answer without knowing the skill;</li>
+<li><code>slip</code>: The probability of a wrong answer while knowing it.</li>
+</ul>
+<p>After every answer, Bayes’ rule updates the probability that the student
+knows the skill. A correct answer raises it, a wrong one lowers it, and
+then the chance of learning moves it up before the next attempt:</p>
+<p><span class="math display">\[
+P(L_t \mid \text{correct}) = \frac{P(L_t)(1 - S)}{P(L_t)(1 - S) + (1 - P(L_t))G}, \qquad
+P(L_{t+1}) = P(L_t \mid \text{answer}) + (1 - P(L_t \mid \text{answer}))\,T,
+\]</span></p>
+<p>where <span class="math inline">\(S\)</span> is the slip, <span class="math inline">\(G\)</span> the guess and <span class="math inline">\(T\)</span> the learn rate. The
+parameters are estimated by expectation-maximization, skill by skill, as
+the pyBKT library does <span class="citation">(<a href="#ref-badrinath2021">Badrinath et al. 2021</a>)</span>. Bulut et al.
+<span class="citation">(<a href="#ref-bulut2023bkt">2023</a>)</span> introduce BKT with pyBKT for psychometricians; this
+chapter follows their examples in R.</p>
+<p>BKT and IRT are close relatives <span class="citation">(<a href="#ref-deonovic2018">Deonovic et al. 2018</a>)</span>. The guess parameter of a
+skill, or of an item when each item has its own (the item difficulty
+effect model, KT-IDEM; <span class="citation">Pardos and Heffernan (<a href="#ref-pardos2011">2011</a>)</span>), plays the role of item difficulty:
+Items that are easy to answer without knowing the skill are easy items.
+What BKT adds is learning: The latent state changes during the logs.</p>
+</div>
+<div id="example-1-plotting-skills-in-a-cognitive-tutor" class="section level2 hasAnchor" number="20.2">
+<h2><span class="header-section-number">20.2</span> Example 1: Plotting skills in a Cognitive Tutor<a href="knowledge-tracing.html#example-1-plotting-skills-in-a-cognitive-tutor" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="knowledge-tracing.html#cb231-1" tabindex="-1"></a>logs <span class="ot">&lt;-</span> cognitive_tutor</span></code></pre></div>
+<p><code>cognitive_tutor</code> holds the practice logs used in the pyBKT examples
+<span class="citation">(<a href="#ref-stamper2010">Stamper et al. 2010</a>)</span>: 587 students’ first attempts at 16,857 problem steps in a
+mathematics tutor, each tagged with one of 12 skills. Following Bulut et
+al. <span class="citation">(<a href="#ref-bulut2023bkt">2023</a>)</span>, we start with the six skills about plotting numbers
+on a number line.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="knowledge-tracing.html#cb232-1" tabindex="-1"></a><span class="fu">head</span>(logs)</span>
+<span id="cb232-2"><a href="knowledge-tracing.html#cb232-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
+<span id="cb232-3"><a href="knowledge-tracing.html#cb232-3" tabindex="-1"></a><span class="co">#&gt;   student problem    step          skill correct opportunity time               </span></span>
+<span id="cb232-4"><a href="knowledge-tracing.html#cb232-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;   &lt;int&gt;       &lt;int&gt; &lt;dttm&gt;             </span></span>
+<span id="cb232-5"><a href="knowledge-tracing.html#cb232-5" tabindex="-1"></a><span class="co">#&gt; 1 745Yh   RATIO2-001 SimplifiedNu… Calc…       1           1 2006-11-14 10:18:05</span></span>
+<span id="cb232-6"><a href="knowledge-tracing.html#cb232-6" tabindex="-1"></a><span class="co">#&gt; 2 745Yh   RATIO2-001 SimplifiedNu… Calc…       0           2 2006-11-14 10:18:17</span></span>
+<span id="cb232-7"><a href="knowledge-tracing.html#cb232-7" tabindex="-1"></a><span class="co">#&gt; 3 745Yh   RATIO2-012 SimplifiedNu… Calc…       0           3 2006-11-14 10:50:57</span></span>
+<span id="cb232-8"><a href="knowledge-tracing.html#cb232-8" tabindex="-1"></a><span class="co">#&gt; 4 745Yh   RATIO2-012 SimplifiedNu… Calc…       1           4 2006-11-14 10:51:14</span></span>
+<span id="cb232-9"><a href="knowledge-tracing.html#cb232-9" tabindex="-1"></a><span class="co">#&gt; 5 745Yh   RATIO2-054 SimplifiedNu… Calc…       0           5 2006-11-28 09:53:47</span></span>
+<span id="cb232-10"><a href="knowledge-tracing.html#cb232-10" tabindex="-1"></a><span class="co">#&gt; 6 745Yh   RATIO2-054 SimplifiedNu… Calc…       1           6 2006-11-28 09:54:14</span></span>
+<span id="cb232-11"><a href="knowledge-tracing.html#cb232-11" tabindex="-1"></a>plot_skills <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;^Plot&quot;</span>, <span class="fu">unique</span>(logs<span class="sc">$</span>skill), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb232-12"><a href="knowledge-tracing.html#cb232-12" tabindex="-1"></a>kt <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(logs, <span class="at">skills =</span> plot_skills, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb232-13"><a href="knowledge-tracing.html#cb232-13" tabindex="-1"></a>kt</span>
+<span id="cb232-14"><a href="knowledge-tracing.html#cb232-14" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt&gt; (EXPERIMENTAL) Bayesian knowledge tracing</span></span>
+<span id="cb232-15"><a href="knowledge-tracing.html#cb232-15" tabindex="-1"></a><span class="co">#&gt; 6 skill(s), 258 student(s), 4336 attempt(s)</span></span>
+<span id="cb232-16"><a href="knowledge-tracing.html#cb232-16" tabindex="-1"></a><span class="co">#&gt;                                   skill prior learn guess  slip</span></span>
+<span id="cb232-17"><a href="knowledge-tracing.html#cb232-17" tabindex="-1"></a><span class="co">#&gt;                       Plot whole number 0.930 0.449 0.500 0.071</span></span>
+<span id="cb232-18"><a href="knowledge-tracing.html#cb232-18" tabindex="-1"></a><span class="co">#&gt;        Plot terminating proper fraction 0.574 0.027 0.318 0.328</span></span>
+<span id="cb232-19"><a href="knowledge-tracing.html#cb232-19" tabindex="-1"></a><span class="co">#&gt;                  Plot imperfect radical 0.282 0.134 0.080 0.289</span></span>
+<span id="cb232-20"><a href="knowledge-tracing.html#cb232-20" tabindex="-1"></a><span class="co">#&gt;  Plot non-terminating improper fraction 0.728 0.231 0.000 0.309</span></span>
+<span id="cb232-21"><a href="knowledge-tracing.html#cb232-21" tabindex="-1"></a><span class="co">#&gt;                                 Plot pi 0.676 0.624 0.051 0.108</span></span>
+<span id="cb232-22"><a href="knowledge-tracing.html#cb232-22" tabindex="-1"></a><span class="co">#&gt;              Plot decimal - thousandths 0.139 0.397 0.203 0.338</span></span>
+<span id="cb232-23"><a href="knowledge-tracing.html#cb232-23" tabindex="-1"></a><span class="co">#&gt; Fit on the same logs: RMSE 0.450, accuracy 0.674, AUC 0.745</span></span></code></pre></div>
+<p>The parameters tell a story about each skill. Plotting whole numbers is
+known by almost everyone from the start (<code>prior</code> 0.93), so the model has
+little to learn from these logs; its guess reaches the upper bound of 0.5
+that keeps known and not-known students apart. Plotting pi is learned
+quickly (<code>learn</code> 0.62), and plotting terminating proper fractions slowly
+(0.03), with a high slip: Students who probably know it still make many
+mistakes. A skill with a guess of 0 and a slip of 0.31, such as plotting
+non-terminating improper fractions, says that a correct answer is strong
+evidence of knowing the skill but a wrong one is weak evidence of not
+knowing it.</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="knowledge-tracing.html#cb233-1" tabindex="-1"></a><span class="fu">gg_kt</span>(kt, <span class="at">max_attempts =</span> <span class="dv">15</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kt-curves"></span>
+<img src="mirtverse-book_files/figure-html/kt-curves-1.png" alt="Learning curves for the plotting skills: The mean probability of knowing each skill before each attempt (lines) and the proportion of correct answers (points)." width="90%" />
+<p class="caption">
+Figure 20.1: Learning curves for the plotting skills: The mean probability of knowing each skill before each attempt (lines) and the proportion of correct answers (points).
+</p>
+</div>
+<p>One student’s record shows the updating at work.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="knowledge-tracing.html#cb234-1" tabindex="-1"></a>student <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(logs<span class="sc">$</span>student[logs<span class="sc">$</span>skill <span class="sc">%in%</span> plot_skills])))</span>
+<span id="cb234-2"><a href="knowledge-tracing.html#cb234-2" tabindex="-1"></a><span class="fu">gg_kt</span>(kt, <span class="at">student =</span> student)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kt-student"></span>
+<img src="mirtverse-book_files/figure-html/kt-student-1.png" alt="One student's probability of knowing each plotting skill after every attempt: Filled points are correct answers." width="90%" />
+<p class="caption">
+Figure 20.2: One student’s probability of knowing each plotting skill after every attempt: Filled points are correct answers.
+</p>
+</div>
+<div id="variants" class="section level3 hasAnchor" number="20.2.1">
+<h3><span class="header-section-number">20.2.1</span> Variants<a href="knowledge-tracing.html#variants" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>pyBKT’s two most used variants are available as arguments: <code>forgets = TRUE</code> lets a known skill be forgotten, and <code>multigs = TRUE</code> gives each item
+(here each problem) its own guess and slip.</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="knowledge-tracing.html#cb235-1" tabindex="-1"></a>kt_f <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(logs, <span class="at">skills =</span> plot_skills, <span class="at">forgets =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb235-2"><a href="knowledge-tracing.html#cb235-2" tabindex="-1"></a>kt_g <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(logs, <span class="at">item =</span> <span class="st">&quot;problem&quot;</span>, <span class="at">skills =</span> plot_skills, <span class="at">multigs =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb235-3"><a href="knowledge-tracing.html#cb235-3" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">standard =</span> <span class="fu">glance</span>(kt), <span class="at">forgets =</span> <span class="fu">glance</span>(kt_f), <span class="at">multigs =</span> <span class="fu">glance</span>(kt_g))</span>
+<span id="cb235-4"><a href="knowledge-tracing.html#cb235-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 9</span></span>
+<span id="cb235-5"><a href="knowledge-tracing.html#cb235-5" tabindex="-1"></a><span class="co">#&gt;   n_skills n_students n_attempts loglik   AIC   BIC  rmse accuracy   auc</span></span>
+<span id="cb235-6"><a href="knowledge-tracing.html#cb235-6" tabindex="-1"></a><span class="co">#&gt; *    &lt;int&gt;      &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb235-7"><a href="knowledge-tracing.html#cb235-7" tabindex="-1"></a><span class="co">#&gt; 1        6        258       4336 -2552. 5163. 5354. 0.450    0.674 0.745</span></span>
+<span id="cb235-8"><a href="knowledge-tracing.html#cb235-8" tabindex="-1"></a><span class="co">#&gt; 2        6        258       4336 -2551. 5174. 5404. 0.450    0.674 0.745</span></span>
+<span id="cb235-9"><a href="knowledge-tracing.html#cb235-9" tabindex="-1"></a><span class="co">#&gt; 3        6        258       4336 -2313. 5054. 6418. 0.424    0.726 0.805</span></span></code></pre></div>
+<p>Forgetting adds nothing here: The log-likelihood barely moves and AIC goes
+up. Item guess and slip fit much better (AIC drops by more than 100 and
+the AUC rises from 0.75 to 0.81), but they add 184 parameters, and BIC
+prefers the standard model. Fit on the same logs always flatters the
+bigger model, so the fair test is new students.</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="knowledge-tracing.html#cb236-1" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="fu">mv_kt_cv</span>(logs, <span class="at">skills =</span> plot_skills, <span class="at">folds =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb236-2"><a href="knowledge-tracing.html#cb236-2" tabindex="-1"></a>cv_g <span class="ot">&lt;-</span> <span class="fu">mv_kt_cv</span>(logs, <span class="at">item =</span> <span class="st">&quot;problem&quot;</span>, <span class="at">skills =</span> plot_skills, <span class="at">multigs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb236-3"><a href="knowledge-tracing.html#cb236-3" tabindex="-1"></a>                 <span class="at">folds =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb236-4"><a href="knowledge-tracing.html#cb236-4" tabindex="-1"></a><span class="fu">merge</span>(cv[cv<span class="sc">$</span>fold <span class="sc">==</span> <span class="st">&quot;mean&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;skill&quot;</span>, <span class="st">&quot;rmse&quot;</span>, <span class="st">&quot;auc&quot;</span>)],</span>
+<span id="cb236-5"><a href="knowledge-tracing.html#cb236-5" tabindex="-1"></a>      cv_g[cv_g<span class="sc">$</span>fold <span class="sc">==</span> <span class="st">&quot;mean&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;skill&quot;</span>, <span class="st">&quot;rmse&quot;</span>, <span class="st">&quot;auc&quot;</span>)],</span>
+<span id="cb236-6"><a href="knowledge-tracing.html#cb236-6" tabindex="-1"></a>      <span class="at">by =</span> <span class="st">&quot;skill&quot;</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">&quot;_standard&quot;</span>, <span class="st">&quot;_multigs&quot;</span>))</span>
+<span id="cb236-7"><a href="knowledge-tracing.html#cb236-7" tabindex="-1"></a><span class="co">#&gt;                                    skill rmse_standard auc_standard</span></span>
+<span id="cb236-8"><a href="knowledge-tracing.html#cb236-8" tabindex="-1"></a><span class="co">#&gt; 1             Plot decimal - thousandths         0.472        0.622</span></span>
+<span id="cb236-9"><a href="knowledge-tracing.html#cb236-9" tabindex="-1"></a><span class="co">#&gt; 2                 Plot imperfect radical         0.437        0.643</span></span>
+<span id="cb236-10"><a href="knowledge-tracing.html#cb236-10" tabindex="-1"></a><span class="co">#&gt; 3 Plot non-terminating improper fraction         0.482        0.651</span></span>
+<span id="cb236-11"><a href="knowledge-tracing.html#cb236-11" tabindex="-1"></a><span class="co">#&gt; 4                                Plot pi         0.462        0.581</span></span>
+<span id="cb236-12"><a href="knowledge-tracing.html#cb236-12" tabindex="-1"></a><span class="co">#&gt; 5       Plot terminating proper fraction         0.498        0.569</span></span>
+<span id="cb236-13"><a href="knowledge-tracing.html#cb236-13" tabindex="-1"></a><span class="co">#&gt; 6                      Plot whole number         0.292        0.514</span></span>
+<span id="cb236-14"><a href="knowledge-tracing.html#cb236-14" tabindex="-1"></a><span class="co">#&gt;   rmse_multigs auc_multigs</span></span>
+<span id="cb236-15"><a href="knowledge-tracing.html#cb236-15" tabindex="-1"></a><span class="co">#&gt; 1        0.454       0.705</span></span>
+<span id="cb236-16"><a href="knowledge-tracing.html#cb236-16" tabindex="-1"></a><span class="co">#&gt; 2        0.440       0.657</span></span>
+<span id="cb236-17"><a href="knowledge-tracing.html#cb236-17" tabindex="-1"></a><span class="co">#&gt; 3        0.492       0.629</span></span>
+<span id="cb236-18"><a href="knowledge-tracing.html#cb236-18" tabindex="-1"></a><span class="co">#&gt; 4        0.453       0.667</span></span>
+<span id="cb236-19"><a href="knowledge-tracing.html#cb236-19" tabindex="-1"></a><span class="co">#&gt; 5        0.471       0.704</span></span>
+<span id="cb236-20"><a href="knowledge-tracing.html#cb236-20" tabindex="-1"></a><span class="co">#&gt; 6        0.284       0.696</span></span></code></pre></div>
+<p>On held-out students the item model still predicts better for most skills,
+especially the ones with many problems, such as plotting terminating
+proper fractions. The cross-validated RMSE of the standard model (0.29 for
+plotting whole numbers, 0.46 for plotting pi) is close to what Bulut et
+al. <span class="citation">(<a href="#ref-bulut2023bkt">2023</a>)</span> report from pyBKT.</p>
+</div>
+</div>
+<div id="example-2-knowledge-tracing-and-irt" class="section level2 hasAnchor" number="20.3">
+<h2><span class="header-section-number">20.3</span> Example 2: Knowledge tracing and IRT<a href="knowledge-tracing.html#example-2-knowledge-tracing-and-irt" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>How does BKT compare with an IRT model on the same logs? <code>mv_kt_irt()</code>
+holds out the last 30% of each student’s attempts on each skill, fits both
+models to the rest, and forecasts the held-out answers. The IRT model is a
+Rasch model with crossed random effects for students and items, fitted
+with lme4.</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="knowledge-tracing.html#cb237-1" tabindex="-1"></a>cmp <span class="ot">&lt;-</span> <span class="fu">mv_kt_irt</span>(logs, <span class="at">item =</span> <span class="st">&quot;problem&quot;</span>, <span class="at">skills =</span> plot_skills, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb237-2"><a href="knowledge-tracing.html#cb237-2" tabindex="-1"></a>cmp</span>
+<span id="cb237-3"><a href="knowledge-tracing.html#cb237-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt_irt&gt; (EXPERIMENTAL) Knowledge tracing vs IRT on the same logs</span></span>
+<span id="cb237-4"><a href="knowledge-tracing.html#cb237-4" tabindex="-1"></a><span class="co">#&gt; Forecasts of the last 30% of each student&#39;s attempts (6 skill(s)):</span></span>
+<span id="cb237-5"><a href="knowledge-tracing.html#cb237-5" tabindex="-1"></a><span class="co">#&gt;   BKT:       RMSE 0.451, accuracy 0.584, AUC 0.759</span></span>
+<span id="cb237-6"><a href="knowledge-tracing.html#cb237-6" tabindex="-1"></a><span class="co">#&gt;   IRT (1PL): RMSE 0.445, accuracy 0.633, AUC 0.723</span></span>
+<span id="cb237-7"><a href="knowledge-tracing.html#cb237-7" tabindex="-1"></a><span class="co">#&gt; (means over skills)</span></span>
+<span id="cb237-8"><a href="knowledge-tracing.html#cb237-8" tabindex="-1"></a><span class="co">#&gt; IRT item difficulty vs log BKT guess: Median correlation -0.89 over 6 skill(s)</span></span>
+<span id="cb237-9"><a href="knowledge-tracing.html#cb237-9" tabindex="-1"></a><span class="fu">tidy</span>(cmp)</span>
+<span id="cb237-10"><a href="knowledge-tracing.html#cb237-10" tabindex="-1"></a><span class="co">#&gt; # A tibble: 12 × 6</span></span>
+<span id="cb237-11"><a href="knowledge-tracing.html#cb237-11" tabindex="-1"></a><span class="co">#&gt;    skill                                  model     n_test  rmse accuracy    auc</span></span>
+<span id="cb237-12"><a href="knowledge-tracing.html#cb237-12" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;                                  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb237-13"><a href="knowledge-tracing.html#cb237-13" tabindex="-1"></a><span class="co">#&gt;  1 Plot whole number                      BKT           66 0.156    1     NA    </span></span>
+<span id="cb237-14"><a href="knowledge-tracing.html#cb237-14" tabindex="-1"></a><span class="co">#&gt;  2 Plot whole number                      IRT (1PL)     66 0.147    1     NA    </span></span>
+<span id="cb237-15"><a href="knowledge-tracing.html#cb237-15" tabindex="-1"></a><span class="co">#&gt;  3 Plot terminating proper fraction       BKT          253 0.541    0.356  0.750</span></span>
+<span id="cb237-16"><a href="knowledge-tracing.html#cb237-16" tabindex="-1"></a><span class="co">#&gt;  4 Plot terminating proper fraction       IRT (1PL)    253 0.497    0.601  0.752</span></span>
+<span id="cb237-17"><a href="knowledge-tracing.html#cb237-17" tabindex="-1"></a><span class="co">#&gt;  5 Plot imperfect radical                 BKT          206 0.551    0.578  0.725</span></span>
+<span id="cb237-18"><a href="knowledge-tracing.html#cb237-18" tabindex="-1"></a><span class="co">#&gt;  6 Plot imperfect radical                 IRT (1PL)    206 0.517    0.578  0.745</span></span>
+<span id="cb237-19"><a href="knowledge-tracing.html#cb237-19" tabindex="-1"></a><span class="co">#&gt;  7 Plot non-terminating improper fraction BKT          150 0.550    0.38   0.753</span></span>
+<span id="cb237-20"><a href="knowledge-tracing.html#cb237-20" tabindex="-1"></a><span class="co">#&gt;  8 Plot non-terminating improper fraction IRT (1PL)    150 0.515    0.48   0.721</span></span>
+<span id="cb237-21"><a href="knowledge-tracing.html#cb237-21" tabindex="-1"></a><span class="co">#&gt;  9 Plot pi                                BKT           21 0.371    0.905  0.842</span></span>
+<span id="cb237-22"><a href="knowledge-tracing.html#cb237-22" tabindex="-1"></a><span class="co">#&gt; 10 Plot pi                                IRT (1PL)     21 0.420    0.762  0.816</span></span>
+<span id="cb237-23"><a href="knowledge-tracing.html#cb237-23" tabindex="-1"></a><span class="co">#&gt; 11 Plot decimal - thousandths             BKT           74 0.540    0.284  0.724</span></span>
+<span id="cb237-24"><a href="knowledge-tracing.html#cb237-24" tabindex="-1"></a><span class="co">#&gt; 12 Plot decimal - thousandths             IRT (1PL)     74 0.573    0.378  0.583</span></span></code></pre></div>
+<p>The two models forecast about equally well. BKT ranks the answers a
+little better on average (a mean AUC of 0.76 against 0.72), because it
+updates after every answer, while IRT keeps each student’s ability fixed.
+IRT has the lower RMSE and the higher accuracy for three of the skills, because its item
+difficulties capture differences between problems that the standard BKT
+model ignores. Neither model is right: Students learn and items differ,
+and each model captures one of the two.</p>
+<p>The second half of the output connects the parameters.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="knowledge-tracing.html#cb238-1" tabindex="-1"></a><span class="fu">tidy</span>(cmp, <span class="st">&quot;items&quot;</span>)</span>
+<span id="cb238-2"><a href="knowledge-tracing.html#cb238-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb238-3"><a href="knowledge-tracing.html#cb238-3" tabindex="-1"></a><span class="co">#&gt;   skill                                  n_items correlation</span></span>
+<span id="cb238-4"><a href="knowledge-tracing.html#cb238-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                                    &lt;int&gt;       &lt;dbl&gt;</span></span>
+<span id="cb238-5"><a href="knowledge-tracing.html#cb238-5" tabindex="-1"></a><span class="co">#&gt; 1 Plot whole number                            9      -0.897</span></span>
+<span id="cb238-6"><a href="knowledge-tracing.html#cb238-6" tabindex="-1"></a><span class="co">#&gt; 2 Plot terminating proper fraction            31      -0.867</span></span>
+<span id="cb238-7"><a href="knowledge-tracing.html#cb238-7" tabindex="-1"></a><span class="co">#&gt; 3 Plot imperfect radical                      21      -0.888</span></span>
+<span id="cb238-8"><a href="knowledge-tracing.html#cb238-8" tabindex="-1"></a><span class="co">#&gt; 4 Plot non-terminating improper fraction      13      -0.602</span></span>
+<span id="cb238-9"><a href="knowledge-tracing.html#cb238-9" tabindex="-1"></a><span class="co">#&gt; 5 Plot pi                                     10      -0.910</span></span>
+<span id="cb238-10"><a href="knowledge-tracing.html#cb238-10" tabindex="-1"></a><span class="co">#&gt; 6 Plot decimal - thousandths                  14      -0.944</span></span></code></pre></div>
+<p>For every skill, the IRT difficulty of a problem is strongly correlated
+with the log of its BKT guess, with a median of about -0.89: The easier
+the problem, the more often students who do not know the skill still get
+it right. Bulut et al. <span class="citation">(<a href="#ref-bulut2023bkt">2023</a>)</span> report correlations between 0.55
+and 0.94 (in absolute value) for the same skills. When item guess and
+slip are estimated, BKT’s guess parameter is an item difficulty in
+disguise.</p>
+</div>
+<div id="example-3-practice-on-a-knowledge-graph" class="section level2 hasAnchor" number="20.4">
+<h2><span class="header-section-number">20.4</span> Example 3: Practice on a knowledge graph<a href="knowledge-tracing.html#example-3-practice-on-a-knowledge-graph" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Chapter <a href="knowledge-graphs.html#knowledge-graphs">19</a> described the Grade 5 fractions test as a
+knowledge graph. <code>fractions_logs</code> holds simulated practice logs on the same
+items: 400 students practise the six concepts in blocks, mostly in the
+curriculum order, until they answer three in a row correctly.</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="knowledge-tracing.html#cb239-1" tabindex="-1"></a>practice <span class="ot">&lt;-</span> fractions_logs</span>
+<span id="cb239-2"><a href="knowledge-tracing.html#cb239-2" tabindex="-1"></a>kg <span class="ot">&lt;-</span> fractions_kg</span></code></pre></div>
+<p>The logs have no skill column. With <code>kg</code>, <code>mv_kt_fit()</code> maps each item to
+the concepts it measures in the graph.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="knowledge-tracing.html#cb240-1" tabindex="-1"></a><span class="fu">head</span>(practice)</span>
+<span id="cb240-2"><a href="knowledge-tracing.html#cb240-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb240-3"><a href="knowledge-tracing.html#cb240-3" tabindex="-1"></a><span class="co">#&gt;   student attempt item  correct</span></span>
+<span id="cb240-4"><a href="knowledge-tracing.html#cb240-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;   &lt;int&gt;</span></span>
+<span id="cb240-5"><a href="knowledge-tracing.html#cb240-5" tabindex="-1"></a><span class="co">#&gt; 1 P001          1 F01         0</span></span>
+<span id="cb240-6"><a href="knowledge-tracing.html#cb240-6" tabindex="-1"></a><span class="co">#&gt; 2 P001          2 F02         1</span></span>
+<span id="cb240-7"><a href="knowledge-tracing.html#cb240-7" tabindex="-1"></a><span class="co">#&gt; 3 P001          3 F04         1</span></span>
+<span id="cb240-8"><a href="knowledge-tracing.html#cb240-8" tabindex="-1"></a><span class="co">#&gt; 4 P001          4 F02         1</span></span>
+<span id="cb240-9"><a href="knowledge-tracing.html#cb240-9" tabindex="-1"></a><span class="co">#&gt; 5 P001          5 F11         0</span></span>
+<span id="cb240-10"><a href="knowledge-tracing.html#cb240-10" tabindex="-1"></a><span class="co">#&gt; 6 P001          6 F10         1</span></span>
+<span id="cb240-11"><a href="knowledge-tracing.html#cb240-11" tabindex="-1"></a>kt_fr <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(practice, <span class="at">kg =</span> kg, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb240-12"><a href="knowledge-tracing.html#cb240-12" tabindex="-1"></a>kt_fr</span>
+<span id="cb240-13"><a href="knowledge-tracing.html#cb240-13" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt&gt; (EXPERIMENTAL) Bayesian knowledge tracing</span></span>
+<span id="cb240-14"><a href="knowledge-tracing.html#cb240-14" tabindex="-1"></a><span class="co">#&gt; 6 skill(s), 400 student(s), 20338 attempt(s)</span></span>
+<span id="cb240-15"><a href="knowledge-tracing.html#cb240-15" tabindex="-1"></a><span class="co">#&gt;               skill prior learn guess  slip</span></span>
+<span id="cb240-16"><a href="knowledge-tracing.html#cb240-16" tabindex="-1"></a><span class="co">#&gt;             meaning 0.473 0.314 0.213 0.105</span></span>
+<span id="cb240-17"><a href="knowledge-tracing.html#cb240-17" tabindex="-1"></a><span class="co">#&gt;          equivalent 0.128 0.136 0.173 0.116</span></span>
+<span id="cb240-18"><a href="knowledge-tracing.html#cb240-18" tabindex="-1"></a><span class="co">#&gt;               mixed 0.072 0.174 0.176 0.101</span></span>
+<span id="cb240-19"><a href="knowledge-tracing.html#cb240-19" tabindex="-1"></a><span class="co">#&gt;             compare 0.027 0.116 0.193 0.033</span></span>
+<span id="cb240-20"><a href="knowledge-tracing.html#cb240-20" tabindex="-1"></a><span class="co">#&gt;  common_denominator 0.015 0.118 0.241 0.080</span></span>
+<span id="cb240-21"><a href="knowledge-tracing.html#cb240-21" tabindex="-1"></a><span class="co">#&gt;        add_subtract 0.001 0.072 0.198 0.114</span></span>
+<span id="cb240-22"><a href="knowledge-tracing.html#cb240-22" tabindex="-1"></a><span class="co">#&gt; Fit on the same logs: RMSE 0.452, accuracy 0.695, AUC 0.718</span></span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="knowledge-tracing.html#cb241-1" tabindex="-1"></a><span class="fu">gg_kt</span>(kt_fr, <span class="at">type =</span> <span class="st">&quot;graph&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kt-graph"></span>
+<img src="mirtverse-book_files/figure-html/kt-graph-1.png" alt="The fractions graph shaded by the mean probability of knowing each concept after the last practice attempt." width="90%" />
+<p class="caption">
+Figure 20.3: The fractions graph shaded by the mean probability of knowing each concept after the last practice attempt.
+</p>
+</div>
+<p>The graph view shows where the class stands: Nearly everyone has fraction
+meaning, and adding and subtracting is the least secure. For one student,
+<code>gg_kt(kt_fr, student = "P001", type = "graph")</code> gives the same picture, a
+diagnostic report that follows the graph.</p>
+<div id="checking-prerequisites-against-the-logs" class="section level3 hasAnchor" number="20.4.1">
+<h3><span class="header-section-number">20.4.1</span> Checking prerequisites against the logs<a href="knowledge-tracing.html#checking-prerequisites-against-the-logs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A prerequisite is a claim about learning: A student who does not know
+equivalent fractions should struggle to learn to add fractions with
+unlike denominators. Practice logs can test that claim directly.
+<code>mv_kt_prereq()</code> estimates, for every pair of concepts A and B, the learn
+rate of B on the attempts made while A was probably known and on those
+made while it was not, and tests the difference with a likelihood ratio
+test. Each test uses only the attempts where B’s other prerequisites in the
+graph are already known, so an indirect prerequisite adds little.</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="knowledge-tracing.html#cb242-1" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">mv_kt_prereq</span>(kt_fr)</span>
+<span id="cb242-2"><a href="knowledge-tracing.html#cb242-2" tabindex="-1"></a>check</span>
+<span id="cb242-3"><a href="knowledge-tracing.html#cb242-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt_prereq&gt; (EXPERIMENTAL) Prerequisites checked against practice logs</span></span>
+<span id="cb242-4"><a href="knowledge-tracing.html#cb242-4" tabindex="-1"></a><span class="co">#&gt; Graph: Grade 5 fractions; 5 prerequisite edge(s), 5 supported by the logs</span></span>
+<span id="cb242-5"><a href="knowledge-tracing.html#cb242-5" tabindex="-1"></a><span class="co">#&gt; 1 flag(s)</span></span>
+<span id="cb242-6"><a href="knowledge-tracing.html#cb242-6" tabindex="-1"></a><span class="co">#&gt; * [missing_prerequisite] compare is learned 10.1 times as fast once</span></span>
+<span id="cb242-7"><a href="knowledge-tracing.html#cb242-7" tabindex="-1"></a><span class="co">#&gt;   equivalent is known (learn 0.17 vs 0.02, LR = 155.6); add the</span></span>
+<span id="cb242-8"><a href="knowledge-tracing.html#cb242-8" tabindex="-1"></a><span class="co">#&gt;   prerequisite equivalent -&gt; compare?</span></span>
+<span id="cb242-9"><a href="knowledge-tracing.html#cb242-9" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">tidy</span>(check)[, <span class="fu">c</span>(<span class="st">&quot;from&quot;</span>, <span class="st">&quot;to&quot;</span>, <span class="st">&quot;edge&quot;</span>, <span class="st">&quot;learn_without&quot;</span>, <span class="st">&quot;learn_with&quot;</span>, <span class="st">&quot;ratio&quot;</span>, <span class="st">&quot;lr&quot;</span>, <span class="st">&quot;verdict&quot;</span>)], <span class="dv">8</span>)</span>
+<span id="cb242-10"><a href="knowledge-tracing.html#cb242-10" tabindex="-1"></a><span class="co">#&gt; # A tibble: 8 × 8</span></span>
+<span id="cb242-11"><a href="knowledge-tracing.html#cb242-11" tabindex="-1"></a><span class="co">#&gt;   from               to      edge  learn_without learn_with ratio     lr verdict</span></span>
+<span id="cb242-12"><a href="knowledge-tracing.html#cb242-12" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;   &lt;lgl&gt;         &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span id="cb242-13"><a href="knowledge-tracing.html#cb242-13" tabindex="-1"></a><span class="co">#&gt; 1 equivalent         compare FALSE        0.0173      0.175 10.1  156.   &quot;missi…</span></span>
+<span id="cb242-14"><a href="knowledge-tracing.html#cb242-14" tabindex="-1"></a><span class="co">#&gt; 2 common_denominator add_su… TRUE         0.0263      0.127  4.82  96.6  &quot;suppo…</span></span>
+<span id="cb242-15"><a href="knowledge-tracing.html#cb242-15" tabindex="-1"></a><span class="co">#&gt; 3 meaning            equiva… TRUE         0.0620      0.211  3.39  89.4  &quot;suppo…</span></span>
+<span id="cb242-16"><a href="knowledge-tracing.html#cb242-16" tabindex="-1"></a><span class="co">#&gt; 4 equivalent         common… TRUE         0.0186      0.153  8.22  88.4  &quot;suppo…</span></span>
+<span id="cb242-17"><a href="knowledge-tracing.html#cb242-17" tabindex="-1"></a><span class="co">#&gt; 5 meaning            mixed   TRUE         0.0594      0.202  3.40  44.0  &quot;suppo…</span></span>
+<span id="cb242-18"><a href="knowledge-tracing.html#cb242-18" tabindex="-1"></a><span class="co">#&gt; 6 mixed              add_su… TRUE         0.0196      0.127  6.46  23.9  &quot;suppo…</span></span>
+<span id="cb242-19"><a href="knowledge-tracing.html#cb242-19" tabindex="-1"></a><span class="co">#&gt; 7 common_denominator mixed   FALSE        0.195       0.430  2.20  11.1  &quot;&quot;     </span></span>
+<span id="cb242-20"><a href="knowledge-tracing.html#cb242-20" tabindex="-1"></a><span class="co">#&gt; 8 equivalent         add_su… FALSE        0.0393      0.133  3.40   9.69 &quot;&quot;</span></span></code></pre></div>
+<p>All five prerequisites of the graph are supported: Each concept is learned
+three to eight times as fast once its prerequisite is known. The
+strongest effect in the logs, though, is not in the graph: Comparing
+fractions is learned ten times as fast once equivalent fractions are
+known. This is the edge the published graph misses, the same one that
+<code>mv_kg_fit()</code> found in the test answers in Chapter
+<a href="knowledge-graphs.html#knowledge-graphs">19</a>. Two independent kinds of evidence, a test taken
+once and practice over time, point to the same repair.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="knowledge-tracing.html#cb243-1" tabindex="-1"></a>kg2 <span class="ot">&lt;-</span> <span class="fu">mv_kg_edit</span>(kg, <span class="at">add =</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="st">&quot;equivalent&quot;</span>, <span class="at">to =</span> <span class="st">&quot;compare&quot;</span>))</span>
+<span id="cb243-2"><a href="knowledge-tracing.html#cb243-2" tabindex="-1"></a><span class="fu">mv_kt_prereq</span>(kt_fr, <span class="at">kg =</span> kg2)</span>
+<span id="cb243-3"><a href="knowledge-tracing.html#cb243-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt_prereq&gt; (EXPERIMENTAL) Prerequisites checked against practice logs</span></span>
+<span id="cb243-4"><a href="knowledge-tracing.html#cb243-4" tabindex="-1"></a><span class="co">#&gt; Graph: Grade 5 fractions; 6 prerequisite edge(s), 6 supported by the logs</span></span>
+<span id="cb243-5"><a href="knowledge-tracing.html#cb243-5" tabindex="-1"></a><span class="co">#&gt; No flags: The logs agree with the graph&#39;s prerequisites.</span></span></code></pre></div>
+<p>With the edge added, the logs agree with the graph. Practice logs have one
+more advantage over a test: The direction of a prerequisite is in the
+data. Equivalent fractions speed up learning to compare, and not the other
+way round, so no assumption about which concept is easier is needed.</p>
+<p>The learn rates of the first model also make sense now. They are lower
+than the rates the logs were simulated with (for example 0.12 against 0.20
+for comparing fractions), because some students practised a concept before
+its prerequisites and learned it slowly. A single learn rate per skill
+averages over both groups; the graph explains why learning is uneven.</p>
+</div>
+</div>
+<div id="your-turn-19" class="section level2 hasAnchor" number="20.5">
+<h2><span class="header-section-number">20.5</span> Your turn<a href="knowledge-tracing.html#your-turn-19" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<ol style="list-style-type: decimal">
+<li>Fit the standard model to all 12 skills of <code>cognitive_tutor</code>. Which
+skill has the lowest learn rate, and what would you tell the tutor’s
+designers about it?</li>
+<li>Refit the plotting skills with both <code>forgets = TRUE</code> and <code>multigs = TRUE</code>. Does forgetting help once items have their own guess and slip?</li>
+<li>Run <code>mv_kt_irt()</code> on the three “Finding the intersection” skills. Which
+model forecasts better, and why might that be?</li>
+<li>Add a wrong prerequisite, <code>mixed -&gt; compare</code>, to the fractions graph
+(together with <code>equivalent -&gt; compare</code>) and run <code>mv_kt_prereq()</code>. What
+does it report?</li>
+</ol>
+</div>
+<details>
+<summary>
+Solutions
+</summary>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="knowledge-tracing.html#cb244-1" tabindex="-1"></a><span class="co"># 1. all skills</span></span>
+<span id="cb244-2"><a href="knowledge-tracing.html#cb244-2" tabindex="-1"></a>kt_all <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(logs, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb244-3"><a href="knowledge-tracing.html#cb244-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">tidy</span>(kt_all)</span>
+<span id="cb244-4"><a href="knowledge-tracing.html#cb244-4" tabindex="-1"></a>p[<span class="fu">order</span>(p<span class="sc">$</span>learn), <span class="fu">c</span>(<span class="st">&quot;skill&quot;</span>, <span class="st">&quot;prior&quot;</span>, <span class="st">&quot;learn&quot;</span>, <span class="st">&quot;guess&quot;</span>, <span class="st">&quot;slip&quot;</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]</span>
+<span id="cb244-5"><a href="knowledge-tracing.html#cb244-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb244-6"><a href="knowledge-tracing.html#cb244-6" tabindex="-1"></a><span class="co">#&gt;   skill                            prior  learn guess   slip</span></span>
+<span id="cb244-7"><a href="knowledge-tracing.html#cb244-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                            &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb244-8"><a href="knowledge-tracing.html#cb244-8" tabindex="-1"></a><span class="co">#&gt; 1 Plot terminating proper fraction 0.574 0.0266 0.318 0.328 </span></span>
+<span id="cb244-9"><a href="knowledge-tracing.html#cb244-9" tabindex="-1"></a><span class="co">#&gt; 2 Finding the intersection, Mixed  0.430 0.0503 0.338 0.324 </span></span>
+<span id="cb244-10"><a href="knowledge-tracing.html#cb244-10" tabindex="-1"></a><span class="co">#&gt; 3 Finding the intersection, GLF    0.128 0.0543 0.466 0.0103</span></span>
+<span id="cb244-11"><a href="knowledge-tracing.html#cb244-11" tabindex="-1"></a></span>
+<span id="cb244-12"><a href="knowledge-tracing.html#cb244-12" tabindex="-1"></a><span class="co"># 2. both variants</span></span>
+<span id="cb244-13"><a href="knowledge-tracing.html#cb244-13" tabindex="-1"></a>kt_fg <span class="ot">&lt;-</span> <span class="fu">mv_kt_fit</span>(logs, <span class="at">item =</span> <span class="st">&quot;problem&quot;</span>, <span class="at">skills =</span> plot_skills, <span class="at">multigs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb244-14"><a href="knowledge-tracing.html#cb244-14" tabindex="-1"></a>                   <span class="at">forgets =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb244-15"><a href="knowledge-tracing.html#cb244-15" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">multigs =</span> <span class="fu">glance</span>(kt_g), <span class="at">both =</span> <span class="fu">glance</span>(kt_fg))</span>
+<span id="cb244-16"><a href="knowledge-tracing.html#cb244-16" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 9</span></span>
+<span id="cb244-17"><a href="knowledge-tracing.html#cb244-17" tabindex="-1"></a><span class="co">#&gt;   n_skills n_students n_attempts loglik   AIC   BIC  rmse accuracy   auc</span></span>
+<span id="cb244-18"><a href="knowledge-tracing.html#cb244-18" tabindex="-1"></a><span class="co">#&gt; *    &lt;int&gt;      &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb244-19"><a href="knowledge-tracing.html#cb244-19" tabindex="-1"></a><span class="co">#&gt; 1        6        258       4336 -2313. 5054. 6418. 0.424    0.726 0.805</span></span>
+<span id="cb244-20"><a href="knowledge-tracing.html#cb244-20" tabindex="-1"></a><span class="co">#&gt; 2        6        258       4336 -2313. 5066. 6469. 0.424    0.726 0.805</span></span>
+<span id="cb244-21"><a href="knowledge-tracing.html#cb244-21" tabindex="-1"></a></span>
+<span id="cb244-22"><a href="knowledge-tracing.html#cb244-22" tabindex="-1"></a><span class="co"># 3. intersection skills</span></span>
+<span id="cb244-23"><a href="knowledge-tracing.html#cb244-23" tabindex="-1"></a>inter <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;^Finding&quot;</span>, <span class="fu">unique</span>(logs<span class="sc">$</span>skill), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb244-24"><a href="knowledge-tracing.html#cb244-24" tabindex="-1"></a><span class="fu">mv_kt_irt</span>(logs, <span class="at">item =</span> <span class="st">&quot;problem&quot;</span>, <span class="at">skills =</span> inter, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb244-25"><a href="knowledge-tracing.html#cb244-25" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt_irt&gt; (EXPERIMENTAL) Knowledge tracing vs IRT on the same logs</span></span>
+<span id="cb244-26"><a href="knowledge-tracing.html#cb244-26" tabindex="-1"></a><span class="co">#&gt; Forecasts of the last 30% of each student&#39;s attempts (3 skill(s)):</span></span>
+<span id="cb244-27"><a href="knowledge-tracing.html#cb244-27" tabindex="-1"></a><span class="co">#&gt;   BKT:       RMSE 0.493, accuracy 0.573, AUC 0.585</span></span>
+<span id="cb244-28"><a href="knowledge-tracing.html#cb244-28" tabindex="-1"></a><span class="co">#&gt;   IRT (1PL): RMSE 0.440, accuracy 0.715, AUC 0.765</span></span>
+<span id="cb244-29"><a href="knowledge-tracing.html#cb244-29" tabindex="-1"></a><span class="co">#&gt; (means over skills)</span></span>
+<span id="cb244-30"><a href="knowledge-tracing.html#cb244-30" tabindex="-1"></a><span class="co">#&gt; IRT item difficulty vs log BKT guess: Median correlation -0.89 over 3 skill(s)</span></span>
+<span id="cb244-31"><a href="knowledge-tracing.html#cb244-31" tabindex="-1"></a></span>
+<span id="cb244-32"><a href="knowledge-tracing.html#cb244-32" tabindex="-1"></a><span class="co"># 4. a wrong prerequisite</span></span>
+<span id="cb244-33"><a href="knowledge-tracing.html#cb244-33" tabindex="-1"></a>kg3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_edit</span>(kg, <span class="at">add =</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;equivalent&quot;</span>, <span class="st">&quot;mixed&quot;</span>),</span>
+<span id="cb244-34"><a href="knowledge-tracing.html#cb244-34" tabindex="-1"></a>                                       <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;compare&quot;</span>, <span class="st">&quot;compare&quot;</span>)))</span>
+<span id="cb244-35"><a href="knowledge-tracing.html#cb244-35" tabindex="-1"></a><span class="fu">mv_kt_prereq</span>(kt_fr, <span class="at">kg =</span> kg3)</span>
+<span id="cb244-36"><a href="knowledge-tracing.html#cb244-36" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kt_prereq&gt; (EXPERIMENTAL) Prerequisites checked against practice logs</span></span>
+<span id="cb244-37"><a href="knowledge-tracing.html#cb244-37" tabindex="-1"></a><span class="co">#&gt; Graph: Grade 5 fractions; 7 prerequisite edge(s), 6 supported by the logs</span></span>
+<span id="cb244-38"><a href="knowledge-tracing.html#cb244-38" tabindex="-1"></a><span class="co">#&gt; 1 flag(s)</span></span>
+<span id="cb244-39"><a href="knowledge-tracing.html#cb244-39" tabindex="-1"></a><span class="co">#&gt; * [weak_prerequisite] The logs show little effect of mixed on learning</span></span>
+<span id="cb244-40"><a href="knowledge-tracing.html#cb244-40" tabindex="-1"></a><span class="co">#&gt;   compare (learn 0.17 vs 0.17, p = 0.90); is mixed -&gt; compare a</span></span>
+<span id="cb244-41"><a href="knowledge-tracing.html#cb244-41" tabindex="-1"></a><span class="co">#&gt;   prerequisite?</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Plotting terminating proper fractions has the lowest learn rate (about
+0.03): Students barely improve with practice. The designers should look
+at the feedback and hints for this skill, or split it into smaller
+skills; it may also be two skills tagged as one, which BKT would see as
+slow learning with many slips.</li>
+<li>No: The log-likelihood is the same and AIC rises. Wrong answers by
+students who seemed to know a skill are explained by item slips, not by
+forgetting.</li>
+<li>IRT forecasts better for these skills. Each has few students (about 70)
+and items that differ a lot in difficulty, which the Rasch model
+captures and the standard BKT model does not; with sparse sequences
+there is also little learning for BKT to track.</li>
+<li>It flags <code>mixed -&gt; compare</code> as a weak prerequisite: Comparing fractions
+is learned just as fast whether or not a student knows mixed numbers.
+The check works in both directions, finding missing edges and
+questioning ones that are there.</li>
+</ol>
+</details>
+</div>
+<div id="further-reading-19" class="section level2 unnumbered hasAnchor">
+<h2>Further reading<a href="knowledge-tracing.html#further-reading-19" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Corbett and Anderson <span class="citation">(<a href="#ref-corbett1995">1995</a>)</span> introduced knowledge tracing in the
+ACT Programming Tutor. Badrinath, Wang and Pardos <span class="citation">(<a href="#ref-badrinath2021">2021</a>)</span>
+describe pyBKT and its variants, and Bulut et al. <span class="citation">(<a href="#ref-bulut2023bkt">2023</a>)</span>
+introduce BKT for readers who know IRT, with the examples this chapter
+follows. Pardos and Heffernan <span class="citation">(<a href="#ref-pardos2011">2011</a>)</span> add item difficulty to
+knowledge tracing, and Deonovic et al. <span class="citation">(<a href="#ref-deonovic2018">2018</a>)</span> work out the
+formal relation between BKT and IRT. Deep knowledge tracing <span class="citation">(<a href="#ref-piech2015">Piech et al. 2015</a>)</span>
+replaces the hidden Markov model with a recurrent neural network; it
+needs much larger logs, and its predictions are harder to interpret.</p>
+
+</div>
+</div>
+
+
+
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-badrinath2021" class="csl-entry">
+Badrinath, Anirudhan, Frederic Wang, and Zachary A. Pardos. 2021. <span>“<span class="nocase">pyBKT</span>: An Accessible <span>Python</span> Library of <span>Bayesian</span> Knowledge Tracing Models.”</span> <em>Proceedings of the 14th International Conference on Educational Data Mining</em>, 468–74.
+</div>
+<div id="ref-bulut2023bkt" class="csl-entry">
+Bulut, Okan, Jinnie Shin, Seyma N. Yildirim-Erbasli, Guher Gorgun, and Zachary A. Pardos. 2023. <span>“An Introduction to <span>Bayesian</span> Knowledge Tracing with <span class="nocase">pyBKT</span>.”</span> <em>Psych</em> 5 (3): 770–86. <a href="https://doi.org/10.3390/psych5030050">https://doi.org/10.3390/psych5030050</a>.
+</div>
+<div id="ref-corbett1995" class="csl-entry">
+Corbett, Albert T., and John R. Anderson. 1995. <span>“Knowledge Tracing: Modeling the Acquisition of Procedural Knowledge.”</span> <em>User Modeling and User-Adapted Interaction</em> 4 (4): 253–78. <a href="https://doi.org/10.1007/BF01099821">https://doi.org/10.1007/BF01099821</a>.
+</div>
+<div id="ref-deonovic2018" class="csl-entry">
+Deonovic, Benjamin, Michael Yudelson, Maria Bolsinova, Meirav Attali, and Gunter Maris. 2018. <span>“Learning Meets Assessment: On the Relation Between Item Response Theory and <span>Bayesian</span> Knowledge Tracing.”</span> <em>Behaviormetrika</em> 45 (2): 457–74. <a href="https://doi.org/10.1007/s41237-018-0070-z">https://doi.org/10.1007/s41237-018-0070-z</a>.
+</div>
+<div id="ref-pardos2011" class="csl-entry">
+Pardos, Zachary A., and Neil T. Heffernan. 2011. <span>“<span>KT-IDEM</span>: Introducing Item Difficulty to the Knowledge Tracing Model.”</span> <em>User Modeling, Adaption and Personalization</em>, 243–54. <a href="https://doi.org/10.1007/978-3-642-22362-4_21">https://doi.org/10.1007/978-3-642-22362-4_21</a>.
+</div>
+<div id="ref-piech2015" class="csl-entry">
+Piech, Chris, Jonathan Bassen, Jonathan Huang, et al. 2015. <span>“Deep Knowledge Tracing.”</span> <em>Advances in Neural Information Processing Systems</em> 28.
+</div>
+<div id="ref-stamper2010" class="csl-entry">
+Stamper, John, Alexandru Niculescu-Mizil, Steven Ritter, Geoffrey J. Gordon, and Kenneth R. Koedinger. 2010. <em>Challenge Data Sets from <span>KDD Cup</span> 2010</em>. PSLC DataShop. <a href="https://pslcdatashop.web.cmu.edu/KDDCup/">https://pslcdatashop.web.cmu.edu/KDDCup/</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="knowledge-graphs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datasets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/okanbulut/mirtverse/edit/main/book/20-knowledge-tracing.Rmd",
+    "text": "Suggest an edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["mirtverse-book.pdf", "mirtverse-book.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

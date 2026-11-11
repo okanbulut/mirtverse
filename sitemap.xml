@@ -138,6 +138,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_cv.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_fit.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_irt.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_prereq.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.html</loc></url>
@@ -180,6 +182,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_irt.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_prereq.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/validity_argument.html</loc></url>
 </urlset>

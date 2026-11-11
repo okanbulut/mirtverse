@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="knowledge-graphs.html"/>
+<link rel="prev" href="knowledge-tracing.html"/>
 <link rel="next" href="adapting.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -367,6 +367,21 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#in-the-lab-16"><i class="fa fa-check"></i>In the lab</a></li>
 <li class="chapter" data-level="" data-path="knowledge-graphs.html"><a href="knowledge-graphs.html#further-reading-18"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
+<li class="chapter" data-level="20" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html"><i class="fa fa-check"></i><b>20</b> Knowledge tracing</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#the-ideas-19"><i class="fa fa-check"></i><b>20.1</b> The ideas</a></li>
+<li class="chapter" data-level="20.2" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-1-plotting-skills-in-a-cognitive-tutor"><i class="fa fa-check"></i><b>20.2</b> Example 1: Plotting skills in a Cognitive Tutor</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#variants"><i class="fa fa-check"></i><b>20.2.1</b> Variants</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-2-knowledge-tracing-and-irt"><i class="fa fa-check"></i><b>20.3</b> Example 2: Knowledge tracing and IRT</a></li>
+<li class="chapter" data-level="20.4" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#example-3-practice-on-a-knowledge-graph"><i class="fa fa-check"></i><b>20.4</b> Example 3: Practice on a knowledge graph</a>
+<ul>
+<li class="chapter" data-level="20.4.1" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#checking-prerequisites-against-the-logs"><i class="fa fa-check"></i><b>20.4.1</b> Checking prerequisites against the logs</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#your-turn-19"><i class="fa fa-check"></i><b>20.5</b> Your turn</a></li>
+<li class="chapter" data-level="" data-path="knowledge-tracing.html"><a href="knowledge-tracing.html#further-reading-19"><i class="fa fa-check"></i>Further reading</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendices</b></span></li>
 <li class="chapter" data-level="A" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i><b>A</b> Datasets used in the book</a>
 <ul>
@@ -402,7 +417,7 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datasets" class="section level1 hasAnchor" number="20">
+<div id="datasets" class="section level1 hasAnchor" number="21">
 <h1><span class="header-section-number">A</span> Datasets used in the book<a href="datasets.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Every example loads its data in one chunk, labelled <code>data-&lt;chapter&gt;-&lt;n&gt;</code>, at
 the start of the example. The table lists what each chunk defines. <em>Real</em>
@@ -654,6 +669,18 @@ them.</p>
 <td>Real</td>
 <td><code>resp</code>, <code>kg</code></td>
 </tr>
+<tr class="odd">
+<td><code>data-knowledge-tracing-1</code></td>
+<td><code>cognitive_tutor</code>: Cognitive Tutor practice logs, 587 students, 16,857 attempts on 12 skills</td>
+<td>Real</td>
+<td><code>logs</code></td>
+</tr>
+<tr class="even">
+<td><code>data-knowledge-tracing-2</code></td>
+<td><code>fractions_logs</code> and <code>fractions_kg</code>: Practice logs of 400 students on the fractions graph</td>
+<td>Simulated</td>
+<td><code>practice</code>, <code>kg</code></td>
+</tr>
 </tbody>
 </table>
 <p>The book deliberately does not analyse the mirtverse lab datasets
@@ -688,7 +715,7 @@ models and DIF.</li>
           </div>
         </div>
       </div>
-<a href="knowledge-graphs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="knowledge-tracing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="adapting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

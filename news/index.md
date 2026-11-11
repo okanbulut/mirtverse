@@ -23,6 +23,21 @@
   on the fractions graph, with the truth in
   `lab_truth("fractions_logs")`).
 
+- [`mv_kt_prereq()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_prereq.md)
+  (experimental) checks a knowledge graph’s prerequisites against
+  practice logs: Is a concept learned faster once its prerequisite is
+  known? It flags weak prerequisites and suggests missing ones; on
+  `fractions_logs` it finds the edge equivalent -\> compare that
+  `fractions_kg` misses.
+  [`mv_kt_irt()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_irt.md)
+  (experimental) compares knowledge tracing with a Rasch model on the
+  same logs, as in Bulut et al. (2023): Forecasts of each student’s
+  later attempts, and the correlation between IRT item difficulty and
+  the BKT guess parameters.
+
+- Book: New Chapter 20, “Knowledge tracing”, with the Cognitive Tutor
+  logs, BKT vs IRT, and practice on the fractions knowledge graph.
+
 - Item metadata on knowledge graphs:
   [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md)
   (or the new `meta` argument of

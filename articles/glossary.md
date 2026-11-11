@@ -55,10 +55,10 @@ information](#item-information) · [Item model](#item-model) · [Item
 parameters](#item-parameters) · [Item response
 theory](#item-response-theory) · [Item](#item) · [Item-total
 correlation](#item-total-correlation) **K** [Kappa](#kappa) · [Knowledge
-graph](#knowledge-graph) **L** [Large language model](#llm) · [Latent
-trait](#latent-trait) · [Likelihood-ratio test](#likelihood-ratio-test)
-· [Linking](#linking) · [LLTM](#lltm) · [Local
-dependence](#local-dependence) · [Local
+graph](#knowledge-graph) · [Knowledge tracing](#knowledge-tracing) **L**
+[Large language model](#llm) · [Latent trait](#latent-trait) ·
+[Likelihood-ratio test](#likelihood-ratio-test) · [Linking](#linking) ·
+[LLTM](#lltm) · [Local dependence](#local-dependence) · [Local
 independence](#local-independence) · [Logit](#logit) · [Lower
 asymptote](#guessing) **M** [M2](#m2) · [Machine
 learning](#machine-learning) · [MAP](#map) · [Marginal maximum
@@ -339,6 +339,23 @@ and testable.
 **In R:**
 [`mv_kg_hierarchy()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_hierarchy.md)
 lists the patterns a knowledge graph allows.
+
+### Knowledge tracing
+
+Following a student’s mastery of each skill from one practice attempt to
+the next. In Bayesian knowledge tracing, each skill is either known or
+not known; four probabilities per skill (knowing it at the start,
+learning it after an attempt, guessing without knowing it and slipping
+while knowing it) turn a sequence of answers into a probability of
+mastery after every attempt. Where IRT measures ability at one point in
+time, knowledge tracing models learning.
+
+**In R:**
+[`mv_kt_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_fit.md);
+[`gg_kt()`](https://www.okanbulut.com/mirtverse/reference/gg_kt.md)
+draws mastery over time or on a knowledge graph, and
+[`mv_kt_prereq()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_prereq.md)
+checks a graph’s prerequisites against practice logs.
 
 ## Item parameters and curves
 

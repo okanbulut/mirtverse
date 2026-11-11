@@ -36,6 +36,9 @@ fig:llms-coverage
 fig:ai-validity-audit
 fig:kg-fs
 fig:kg-fit-fs
+fig:kt-curves
+fig:kt-student
+fig:kt-graph
 tab:datasets
 tab:files
 measurement
@@ -148,5 +151,13 @@ example-2-from-graph-to-irt-model
 example-3-checking-the-graph-against-data
 example-4-drafting-a-graph-from-item-text
 your-turn-18
+knowledge-tracing
+the-ideas-19
+example-1-plotting-skills-in-a-cognitive-tutor
+variants
+example-2-knowledge-tracing-and-irt
+example-3-practice-on-a-knowledge-graph
+checking-prerequisites-against-the-logs
+your-turn-19
 datasets
 adapting

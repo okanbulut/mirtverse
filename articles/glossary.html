@@ -158,7 +158,7 @@ algorithm</a> · <a href="#embedding">Embedding</a> · <a href="#empirical-item-
 score</a> · <a href="#exposure">Exposure</a> <strong>F</strong> <a href="#person-score">Factor score</a> · <a href="#feature">Feature</a> ·
 <a href="#automated-test-assembly">Fixed form</a> · <a href="#reference-focal-group">Focal group</a> <strong>G</strong> <a href="#gpcm">Generalized partial credit model</a> · <a href="#graded-response-model">Graded response model</a> · <a href="#guessing">Guessing</a> <strong>H</strong> <a href="#characteristic-curve-linking">Haebara method</a> · <a href="#hallucination">Hallucination</a> · <a href="#human-in-the-loop">Human-in-the-loop</a> <strong>I</strong> <a href="#information-criteria">Information criteria</a> · <a href="#item-bank">Item bank</a> · <a href="#item-characteristic-curve">Item characteristic curve</a> · <a href="#p-value">Item difficulty (classical)</a> · <a href="#item-fit">Item fit</a> · <a href="#item-information">Item
 information</a> · <a href="#item-model">Item model</a> · <a href="#item-parameters">Item parameters</a> · <a href="#item-response-theory">Item response theory</a> · <a href="#item">Item</a> · <a href="#item-total-correlation">Item-total
-correlation</a> <strong>K</strong> <a href="#kappa">Kappa</a> · <a href="#knowledge-graph">Knowledge graph</a> <strong>L</strong> <a href="#llm">Large language model</a> · <a href="#latent-trait">Latent
+correlation</a> <strong>K</strong> <a href="#kappa">Kappa</a> · <a href="#knowledge-graph">Knowledge graph</a> · <a href="#knowledge-tracing">Knowledge tracing</a> <strong>L</strong> <a href="#llm">Large language model</a> · <a href="#latent-trait">Latent
 trait</a> · <a href="#likelihood-ratio-test">Likelihood-ratio test</a> ·
 <a href="#linking">Linking</a> · <a href="#lltm">LLTM</a> · <a href="#local-dependence">Local dependence</a> · <a href="#local-independence">Local independence</a> · <a href="#logit">Logit</a> · <a href="#guessing">Lower asymptote</a>
 <strong>M</strong> <a href="#m2">M2</a> · <a href="#machine-learning">Machine learning</a> · <a href="#map">MAP</a> ·
@@ -402,6 +402,21 @@ rules out some mastery patterns, which makes diagnostic models smaller
 and testable.</p>
 <p><strong>In R:</strong> <code><a href="../reference/mv_kg_hierarchy.html">mv_kg_hierarchy()</a></code> lists the
 patterns a knowledge graph allows.</p>
+</div>
+<div class="section level3">
+<h3 id="knowledge-tracing">Knowledge tracing<a class="anchor" aria-label="anchor" href="#knowledge-tracing"></a>
+</h3>
+<p>Following a student’s mastery of each skill from one practice attempt
+to the next. In Bayesian knowledge tracing, each skill is either known
+or not known; four probabilities per skill (knowing it at the start,
+learning it after an attempt, guessing without knowing it and slipping
+while knowing it) turn a sequence of answers into a probability of
+mastery after every attempt. Where IRT measures ability at one point in
+time, knowledge tracing models learning.</p>
+<p><strong>In R:</strong> <code><a href="../reference/mv_kt_fit.html">mv_kt_fit()</a></code>; <code><a href="../reference/gg_kt.html">gg_kt()</a></code>
+draws mastery over time or on a knowledge graph, and
+<code><a href="../reference/mv_kt_prereq.html">mv_kt_prereq()</a></code> checks a graph’s prerequisites against
+practice logs.</p>
 </div>
 </div>
 <div class="section level2">

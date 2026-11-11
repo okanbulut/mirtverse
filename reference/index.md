@@ -261,6 +261,16 @@ a knowledge graph.
   : Cross-validate a knowledge tracing model
 - [`gg_kt()`](https://www.okanbulut.com/mirtverse/reference/gg_kt.md) :
   Plot knowledge tracing results
+- [`mv_kt_prereq()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_prereq.md)
+  : Check prerequisites against practice logs
+- [`tidy(`*`<mv_kt_prereq>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_prereq.md)
+  [`glance(`*`<mv_kt_prereq>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_prereq.md)
+  : Tidy a prerequisite check
+- [`mv_kt_irt()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_irt.md)
+  : Compare knowledge tracing with IRT
+- [`tidy(`*`<mv_kt_irt>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_irt.md)
+  [`glance(`*`<mv_kt_irt>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt_irt.md)
+  : Tidy a comparison of knowledge tracing and IRT
 - [`cognitive_tutor`](https://www.okanbulut.com/mirtverse/reference/cognitive_tutor.md)
   : Cognitive Tutor practice logs
 - [`fractions_logs`](https://www.okanbulut.com/mirtverse/reference/fractions_logs.md)
