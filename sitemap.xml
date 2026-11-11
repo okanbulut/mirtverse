@@ -60,6 +60,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/check_material.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/check_security.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/cite_methods.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/cognitive_tutor.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/compare_synthetic.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/copy_chapter.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/copy_lab.html</loc></url>
@@ -73,6 +74,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/flags.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fraction_subtraction.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/fractions.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/fractions_logs.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/generate_isomorphs.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/generate_items.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_coverage.html</loc></url>
@@ -82,6 +84,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_itemfit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kg.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/gg_kt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_q3.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_scores.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/gg_trace.html</loc></url>
@@ -133,6 +136,8 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_qmatrix.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kg_subset.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_cv.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/mv_kt_fit.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_config.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/mv_mcp_server.html</loc></url>
@@ -145,6 +150,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/numeracy.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/openended.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/pipeline_report.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/predict.mv_kt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/predict.mv_scorer.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/predict_difficulty.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/preview_lab.html</loc></url>
@@ -173,6 +179,7 @@
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_draft.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_explain.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kg_fit.html</loc></url>
+<url><loc>https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/train_scorer.html</loc></url>
 <url><loc>https://www.okanbulut.com/mirtverse/reference/validity_argument.html</loc></url>
 </urlset>

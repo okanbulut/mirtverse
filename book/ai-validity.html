@@ -339,7 +339,8 @@ div.csl-indent {
 <li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
 <li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
 <li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
-<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#llms-coverage"><i class="fa fa-check"></i><b>17.5</b> Where do synthetic respondents land?</a></li>
+<li class="chapter" data-level="17.6" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.6</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
@@ -478,93 +479,93 @@ second person. We simulate the scores. The engine rewards length, and
 answers typed on a phone are shorter, so on W2 it gives some phone answers
 a point less than their true score. A stricter engine version was installed
 for the fall window, and it marks down some W1 answers.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ai-validity.html#cb197-1" tabindex="-1"></a><span class="co"># Simulated machine and human scores of two writing prompts, 2,400 test takers.</span></span>
-<span id="cb197-2"><a href="ai-validity.html#cb197-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1818</span>)</span>
-<span id="cb197-3"><a href="ai-validity.html#cb197-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2400</span></span>
-<span id="cb197-4"><a href="ai-validity.html#cb197-4" tabindex="-1"></a>writing <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb197-5"><a href="ai-validity.html#cb197-5" tabindex="-1"></a>  <span class="at">person =</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">&quot;P%04d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n), <span class="at">each =</span> <span class="dv">2</span>),</span>
-<span id="cb197-6"><a href="ai-validity.html#cb197-6" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>), <span class="at">each =</span> n <span class="sc">/</span> <span class="dv">2</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
-<span id="cb197-7"><a href="ai-validity.html#cb197-7" tabindex="-1"></a>  <span class="at">device =</span> <span class="fu">rep</span>(<span class="fu">ifelse</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="st">&quot;Phone&quot;</span>, <span class="st">&quot;Laptop&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
-<span id="cb197-8"><a href="ai-validity.html#cb197-8" tabindex="-1"></a>  <span class="at">prompt =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;W1&quot;</span>, <span class="st">&quot;W2&quot;</span>), n))</span>
-<span id="cb197-9"><a href="ai-validity.html#cb197-9" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(n), <span class="at">each =</span> <span class="dv">2</span>)</span>
-<span id="cb197-10"><a href="ai-validity.html#cb197-10" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(<span class="fu">round</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="fl">1.1</span> <span class="sc">*</span> theta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">2</span> <span class="sc">*</span> n, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="dv">0</span>), <span class="dv">4</span>)</span>
-<span id="cb197-11"><a href="ai-validity.html#cb197-11" tabindex="-1"></a>noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p)        <span class="co"># off by one point with probability p</span></span>
-<span id="cb197-12"><a href="ai-validity.html#cb197-12" tabindex="-1"></a>  <span class="fu">pmin</span>(<span class="fu">pmax</span>(x <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="fu">length</span>(x)) <span class="sc">&lt;</span> p, <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">length</span>(x), <span class="cn">TRUE</span>), <span class="dv">0</span>), <span class="dv">0</span>), <span class="dv">4</span>)</span>
-<span id="cb197-13"><a href="ai-validity.html#cb197-13" tabindex="-1"></a>writing<span class="sc">$</span>machine <span class="ot">&lt;-</span> <span class="fu">noisy</span>(true, <span class="fl">0.25</span>)</span>
-<span id="cb197-14"><a href="ai-validity.html#cb197-14" tabindex="-1"></a>short <span class="ot">&lt;-</span> writing<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.35</span></span>
-<span id="cb197-15"><a href="ai-validity.html#cb197-15" tabindex="-1"></a>writing<span class="sc">$</span>machine[short] <span class="ot">&lt;-</span> true[short] <span class="sc">-</span> <span class="dv">1</span>          <span class="co"># shorter answers marked down</span></span>
-<span id="cb197-16"><a href="ai-validity.html#cb197-16" tabindex="-1"></a>strict <span class="ot">&lt;-</span> writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Fall&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W1&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.30</span></span>
-<span id="cb197-17"><a href="ai-validity.html#cb197-17" tabindex="-1"></a>writing<span class="sc">$</span>machine[strict] <span class="ot">&lt;-</span> true[strict] <span class="sc">-</span> <span class="dv">1</span>        <span class="co"># the fall engine version</span></span>
-<span id="cb197-18"><a href="ai-validity.html#cb197-18" tabindex="-1"></a>read <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
-<span id="cb197-19"><a href="ai-validity.html#cb197-19" tabindex="-1"></a>twice <span class="ot">&lt;-</span> read <span class="sc">&amp;</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
-<span id="cb197-20"><a href="ai-validity.html#cb197-20" tabindex="-1"></a>writing<span class="sc">$</span>human1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(read, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
-<span id="cb197-21"><a href="ai-validity.html#cb197-21" tabindex="-1"></a>writing<span class="sc">$</span>human2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(twice, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
-<span id="cb197-22"><a href="ai-validity.html#cb197-22" tabindex="-1"></a>writing<span class="sc">$</span>device <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>device, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Laptop&quot;</span>, <span class="st">&quot;Phone&quot;</span>))</span>
-<span id="cb197-23"><a href="ai-validity.html#cb197-23" tabindex="-1"></a>writing<span class="sc">$</span>window <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>window, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ai-validity.html#cb199-1" tabindex="-1"></a><span class="co"># Simulated machine and human scores of two writing prompts, 2,400 test takers.</span></span>
+<span id="cb199-2"><a href="ai-validity.html#cb199-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1818</span>)</span>
+<span id="cb199-3"><a href="ai-validity.html#cb199-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2400</span></span>
+<span id="cb199-4"><a href="ai-validity.html#cb199-4" tabindex="-1"></a>writing <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb199-5"><a href="ai-validity.html#cb199-5" tabindex="-1"></a>  <span class="at">person =</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">&quot;P%04d&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb199-6"><a href="ai-validity.html#cb199-6" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>), <span class="at">each =</span> n <span class="sc">/</span> <span class="dv">2</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb199-7"><a href="ai-validity.html#cb199-7" tabindex="-1"></a>  <span class="at">device =</span> <span class="fu">rep</span>(<span class="fu">ifelse</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="st">&quot;Phone&quot;</span>, <span class="st">&quot;Laptop&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb199-8"><a href="ai-validity.html#cb199-8" tabindex="-1"></a>  <span class="at">prompt =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;W1&quot;</span>, <span class="st">&quot;W2&quot;</span>), n))</span>
+<span id="cb199-9"><a href="ai-validity.html#cb199-9" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(n), <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb199-10"><a href="ai-validity.html#cb199-10" tabindex="-1"></a>true <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(<span class="fu">round</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="fl">1.1</span> <span class="sc">*</span> theta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">2</span> <span class="sc">*</span> n, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="dv">0</span>), <span class="dv">4</span>)</span>
+<span id="cb199-11"><a href="ai-validity.html#cb199-11" tabindex="-1"></a>noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p)        <span class="co"># off by one point with probability p</span></span>
+<span id="cb199-12"><a href="ai-validity.html#cb199-12" tabindex="-1"></a>  <span class="fu">pmin</span>(<span class="fu">pmax</span>(x <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="fu">length</span>(x)) <span class="sc">&lt;</span> p, <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">length</span>(x), <span class="cn">TRUE</span>), <span class="dv">0</span>), <span class="dv">0</span>), <span class="dv">4</span>)</span>
+<span id="cb199-13"><a href="ai-validity.html#cb199-13" tabindex="-1"></a>writing<span class="sc">$</span>machine <span class="ot">&lt;-</span> <span class="fu">noisy</span>(true, <span class="fl">0.25</span>)</span>
+<span id="cb199-14"><a href="ai-validity.html#cb199-14" tabindex="-1"></a>short <span class="ot">&lt;-</span> writing<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.35</span></span>
+<span id="cb199-15"><a href="ai-validity.html#cb199-15" tabindex="-1"></a>writing<span class="sc">$</span>machine[short] <span class="ot">&lt;-</span> true[short] <span class="sc">-</span> <span class="dv">1</span>          <span class="co"># shorter answers marked down</span></span>
+<span id="cb199-16"><a href="ai-validity.html#cb199-16" tabindex="-1"></a>strict <span class="ot">&lt;-</span> writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Fall&quot;</span> <span class="sc">&amp;</span> writing<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W1&quot;</span> <span class="sc">&amp;</span> true <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(<span class="dv">2</span> <span class="sc">*</span> n) <span class="sc">&lt;</span> <span class="fl">0.30</span></span>
+<span id="cb199-17"><a href="ai-validity.html#cb199-17" tabindex="-1"></a>writing<span class="sc">$</span>machine[strict] <span class="ot">&lt;-</span> true[strict] <span class="sc">-</span> <span class="dv">1</span>        <span class="co"># the fall engine version</span></span>
+<span id="cb199-18"><a href="ai-validity.html#cb199-18" tabindex="-1"></a>read <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.3</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb199-19"><a href="ai-validity.html#cb199-19" tabindex="-1"></a>twice <span class="ot">&lt;-</span> read <span class="sc">&amp;</span> <span class="fu">rep</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="at">each =</span> <span class="dv">2</span>)</span>
+<span id="cb199-20"><a href="ai-validity.html#cb199-20" tabindex="-1"></a>writing<span class="sc">$</span>human1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(read, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
+<span id="cb199-21"><a href="ai-validity.html#cb199-21" tabindex="-1"></a>writing<span class="sc">$</span>human2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(twice, <span class="fu">noisy</span>(true, <span class="fl">0.25</span>), <span class="cn">NA</span>)</span>
+<span id="cb199-22"><a href="ai-validity.html#cb199-22" tabindex="-1"></a>writing<span class="sc">$</span>device <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>device, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Laptop&quot;</span>, <span class="st">&quot;Phone&quot;</span>))</span>
+<span id="cb199-23"><a href="ai-validity.html#cb199-23" tabindex="-1"></a>writing<span class="sc">$</span>window <span class="ot">&lt;-</span> <span class="fu">factor</span>(writing<span class="sc">$</span>window, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>))</span></code></pre></div>
 <p>The usual first check is agreement with human raters, which
 <code>agreement_report()</code> gives (Chapter <a href="auto-scoring.html#auto-scoring">16</a>):</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ai-validity.html#cb198-1" tabindex="-1"></a>r <span class="ot">&lt;-</span> writing[<span class="sc">!</span><span class="fu">is.na</span>(writing<span class="sc">$</span>human1), ]</span>
-<span id="cb198-2"><a href="ai-validity.html#cb198-2" tabindex="-1"></a><span class="fu">agreement_report</span>(r<span class="sc">$</span>machine, r<span class="sc">$</span>human1, r<span class="sc">$</span>human2, <span class="at">by =</span> r<span class="sc">$</span>prompt)</span>
-<span id="cb198-3"><a href="ai-validity.html#cb198-3" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
-<span id="cb198-4"><a href="ai-validity.html#cb198-4" tabindex="-1"></a><span class="co">#&gt;  by group   n n_double mean_human mean_machine exact adjacent  qwk qwk_human</span></span>
-<span id="cb198-5"><a href="ai-validity.html#cb198-5" tabindex="-1"></a><span class="co">#&gt;  W1   All 747      369       1.95         1.82  0.60     0.97 0.83      0.86</span></span>
-<span id="cb198-6"><a href="ai-validity.html#cb198-6" tabindex="-1"></a><span class="co">#&gt;  W2   All 747      369       1.98         1.94  0.61     0.98 0.84      0.85</span></span>
-<span id="cb198-7"><a href="ai-validity.html#cb198-7" tabindex="-1"></a><span class="co">#&gt;  corr   smd prmse verdict</span></span>
-<span id="cb198-8"><a href="ai-validity.html#cb198-8" tabindex="-1"></a><span class="co">#&gt;  0.83 -0.11  0.78   meets</span></span>
-<span id="cb198-9"><a href="ai-validity.html#cb198-9" tabindex="-1"></a><span class="co">#&gt;  0.85 -0.04  0.80   meets</span></span>
-<span id="cb198-10"><a href="ai-validity.html#cb198-10" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ai-validity.html#cb200-1" tabindex="-1"></a>r <span class="ot">&lt;-</span> writing[<span class="sc">!</span><span class="fu">is.na</span>(writing<span class="sc">$</span>human1), ]</span>
+<span id="cb200-2"><a href="ai-validity.html#cb200-2" tabindex="-1"></a><span class="fu">agreement_report</span>(r<span class="sc">$</span>machine, r<span class="sc">$</span>human1, r<span class="sc">$</span>human2, <span class="at">by =</span> r<span class="sc">$</span>prompt)</span>
+<span id="cb200-3"><a href="ai-validity.html#cb200-3" tabindex="-1"></a><span class="co">#&gt; Machine-human agreement</span></span>
+<span id="cb200-4"><a href="ai-validity.html#cb200-4" tabindex="-1"></a><span class="co">#&gt;  by group   n n_double mean_human mean_machine exact adjacent  qwk qwk_human</span></span>
+<span id="cb200-5"><a href="ai-validity.html#cb200-5" tabindex="-1"></a><span class="co">#&gt;  W1   All 747      369       1.95         1.82  0.60     0.97 0.83      0.86</span></span>
+<span id="cb200-6"><a href="ai-validity.html#cb200-6" tabindex="-1"></a><span class="co">#&gt;  W2   All 747      369       1.98         1.94  0.61     0.98 0.84      0.85</span></span>
+<span id="cb200-7"><a href="ai-validity.html#cb200-7" tabindex="-1"></a><span class="co">#&gt;  corr   smd prmse verdict</span></span>
+<span id="cb200-8"><a href="ai-validity.html#cb200-8" tabindex="-1"></a><span class="co">#&gt;  0.83 -0.11  0.78   meets</span></span>
+<span id="cb200-9"><a href="ai-validity.html#cb200-9" tabindex="-1"></a><span class="co">#&gt;  0.85 -0.04  0.80   meets</span></span>
+<span id="cb200-10"><a href="ai-validity.html#cb200-10" tabindex="-1"></a><span class="co">#&gt; Meets: QWK &gt;= 0.7 and within 0.1 of human-human QWK; |SMD| &lt;= 0.15 overall and &lt;= 0.1 within groups (mv_rules()).</span></span></code></pre></div>
 <p>Both prompts meet the rules. <code>ai_audit()</code> runs this check and the others in
 one call. The first group of <code>device</code> (Laptop) is the reference group, and
 the first <code>window</code> (Spring) is the baseline for drift:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ai-validity.html#cb199-1" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
-<span id="cb199-2"><a href="ai-validity.html#cb199-2" tabindex="-1"></a>                  <span class="at">period =</span> <span class="st">&quot;window&quot;</span>)</span>
-<span id="cb199-3"><a href="ai-validity.html#cb199-3" tabindex="-1"></a>audit</span>
-<span id="cb199-4"><a href="ai-validity.html#cb199-4" tabindex="-1"></a><span class="co">#&gt; AI audit: 6 checks, 2 flags (2 block, 0 review)</span></span>
-<span id="cb199-5"><a href="ai-validity.html#cb199-5" tabindex="-1"></a><span class="co">#&gt;                 check tested flagged status</span></span>
-<span id="cb199-6"><a href="ai-validity.html#cb199-6" tabindex="-1"></a><span class="co">#&gt;       human agreement      2       0     ok</span></span>
-<span id="cb199-7"><a href="ai-validity.html#cb199-7" tabindex="-1"></a><span class="co">#&gt;     machine agreement      2       0     ok</span></span>
-<span id="cb199-8"><a href="ai-validity.html#cb199-8" tabindex="-1"></a><span class="co">#&gt;          overall bias      2       0     ok</span></span>
-<span id="cb199-9"><a href="ai-validity.html#cb199-9" tabindex="-1"></a><span class="co">#&gt;    subgroup agreement      4       0     ok</span></span>
-<span id="cb199-10"><a href="ai-validity.html#cb199-10" tabindex="-1"></a><span class="co">#&gt;  differential scoring      2       1  BLOCK</span></span>
-<span id="cb199-11"><a href="ai-validity.html#cb199-11" tabindex="-1"></a><span class="co">#&gt;                 drift      2       1  BLOCK</span></span>
-<span id="cb199-12"><a href="ai-validity.html#cb199-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb199-13"><a href="ai-validity.html#cb199-13" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
-<span id="cb199-14"><a href="ai-validity.html#cb199-14" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] differential scoring, W2, Phone: gap -0.19 SD, SE 0.04. For</span></span>
-<span id="cb199-15"><a href="ai-validity.html#cb199-15" tabindex="-1"></a><span class="co">#&gt;     responses human raters scored the same, the engine scores Phone</span></span>
-<span id="cb199-16"><a href="ai-validity.html#cb199-16" tabindex="-1"></a><span class="co">#&gt;     students lower than Laptop students.</span></span>
-<span id="cb199-17"><a href="ai-validity.html#cb199-17" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] drift, W1, Fall: SMD -0.20 against -0.04, QWK 0.79 against</span></span>
-<span id="cb199-18"><a href="ai-validity.html#cb199-18" tabindex="-1"></a><span class="co">#&gt;     0.86. The engine&#39;s scores have changed since the first period:</span></span>
-<span id="cb199-19"><a href="ai-validity.html#cb199-19" tabindex="-1"></a><span class="co">#&gt;     Check what changed (engine version, prompts, population) and</span></span>
-<span id="cb199-20"><a href="ai-validity.html#cb199-20" tabindex="-1"></a><span class="co">#&gt;     rescore if needed.</span></span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ai-validity.html#cb201-1" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
+<span id="cb201-2"><a href="ai-validity.html#cb201-2" tabindex="-1"></a>                  <span class="at">period =</span> <span class="st">&quot;window&quot;</span>)</span>
+<span id="cb201-3"><a href="ai-validity.html#cb201-3" tabindex="-1"></a>audit</span>
+<span id="cb201-4"><a href="ai-validity.html#cb201-4" tabindex="-1"></a><span class="co">#&gt; AI audit: 6 checks, 2 flags (2 block, 0 review)</span></span>
+<span id="cb201-5"><a href="ai-validity.html#cb201-5" tabindex="-1"></a><span class="co">#&gt;                 check tested flagged status</span></span>
+<span id="cb201-6"><a href="ai-validity.html#cb201-6" tabindex="-1"></a><span class="co">#&gt;       human agreement      2       0     ok</span></span>
+<span id="cb201-7"><a href="ai-validity.html#cb201-7" tabindex="-1"></a><span class="co">#&gt;     machine agreement      2       0     ok</span></span>
+<span id="cb201-8"><a href="ai-validity.html#cb201-8" tabindex="-1"></a><span class="co">#&gt;          overall bias      2       0     ok</span></span>
+<span id="cb201-9"><a href="ai-validity.html#cb201-9" tabindex="-1"></a><span class="co">#&gt;    subgroup agreement      4       0     ok</span></span>
+<span id="cb201-10"><a href="ai-validity.html#cb201-10" tabindex="-1"></a><span class="co">#&gt;  differential scoring      2       1  BLOCK</span></span>
+<span id="cb201-11"><a href="ai-validity.html#cb201-11" tabindex="-1"></a><span class="co">#&gt;                 drift      2       1  BLOCK</span></span>
+<span id="cb201-12"><a href="ai-validity.html#cb201-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb201-13"><a href="ai-validity.html#cb201-13" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb201-14"><a href="ai-validity.html#cb201-14" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] differential scoring, W2, Phone: gap -0.19 SD, SE 0.04. For</span></span>
+<span id="cb201-15"><a href="ai-validity.html#cb201-15" tabindex="-1"></a><span class="co">#&gt;     responses human raters scored the same, the engine scores Phone</span></span>
+<span id="cb201-16"><a href="ai-validity.html#cb201-16" tabindex="-1"></a><span class="co">#&gt;     students lower than Laptop students.</span></span>
+<span id="cb201-17"><a href="ai-validity.html#cb201-17" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] drift, W1, Fall: SMD -0.20 against -0.04, QWK 0.79 against</span></span>
+<span id="cb201-18"><a href="ai-validity.html#cb201-18" tabindex="-1"></a><span class="co">#&gt;     0.86. The engine&#39;s scores have changed since the first period:</span></span>
+<span id="cb201-19"><a href="ai-validity.html#cb201-19" tabindex="-1"></a><span class="co">#&gt;     Check what changed (engine version, prompts, population) and</span></span>
+<span id="cb201-20"><a href="ai-validity.html#cb201-20" tabindex="-1"></a><span class="co">#&gt;     rescore if needed.</span></span></code></pre></div>
 <p>Agreement passes overall and within groups, but two checks block. The
 differential scoring check compares the machine-minus-human difference of
 phone and laptop answers that people scored the same:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ai-validity.html#cb200-1" tabindex="-1"></a>audit<span class="sc">$</span>differential</span>
-<span id="cb200-2"><a href="ai-validity.html#cb200-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
-<span id="cb200-3"><a href="ai-validity.html#cb200-3" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap     se</span></span>
-<span id="cb200-4"><a href="ai-validity.html#cb200-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span id="cb200-5"><a href="ai-validity.html#cb200-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220 0.0439</span></span>
-<span id="cb200-6"><a href="ai-validity.html#cb200-6" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop      217 -0.195   0.0441</span></span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ai-validity.html#cb202-1" tabindex="-1"></a>audit<span class="sc">$</span>differential</span>
+<span id="cb202-2"><a href="ai-validity.html#cb202-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb202-3"><a href="ai-validity.html#cb202-3" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap     se</span></span>
+<span id="cb202-4"><a href="ai-validity.html#cb202-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb202-5"><a href="ai-validity.html#cb202-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220 0.0439</span></span>
+<span id="cb202-6"><a href="ai-validity.html#cb202-6" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop      217 -0.195   0.0441</span></span></code></pre></div>
 <p>On W2, the engine scores phone answers about 0.2 SD lower than laptop
 answers that people scored the same, four to five standard errors from
 zero. This is what agreement within groups can miss: Phone users may also
 score lower in truth (here they do not), so a lower mean alone proves
 nothing, while a gap at the same human score is the engine’s. The drift
 check compares each window with the first:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ai-validity.html#cb201-1" tabindex="-1"></a>audit<span class="sc">$</span>drift[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;period&quot;</span>, <span class="st">&quot;n&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd_change&quot;</span>, <span class="st">&quot;p_change&quot;</span>, <span class="st">&quot;drift&quot;</span>)]</span>
-<span id="cb201-2"><a href="ai-validity.html#cb201-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 8</span></span>
-<span id="cb201-3"><a href="ai-validity.html#cb201-3" tabindex="-1"></a><span class="co">#&gt;   item  period     n     smd   qwk smd_change  p_change drift</span></span>
-<span id="cb201-4"><a href="ai-validity.html#cb201-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;</span></span>
-<span id="cb201-5"><a href="ai-validity.html#cb201-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Spring   400 -0.0418 0.863    NA      NA        FALSE</span></span>
-<span id="cb201-6"><a href="ai-validity.html#cb201-6" tabindex="-1"></a><span class="co">#&gt; 2 W1    Fall     347 -0.200  0.788    -0.159   0.000391 TRUE </span></span>
-<span id="cb201-7"><a href="ai-validity.html#cb201-7" tabindex="-1"></a><span class="co">#&gt; 3 W2    Spring   400 -0.0451 0.859    NA      NA        FALSE</span></span>
-<span id="cb201-8"><a href="ai-validity.html#cb201-8" tabindex="-1"></a><span class="co">#&gt; 4 W2    Fall     347 -0.0349 0.825     0.0102  1        FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ai-validity.html#cb203-1" tabindex="-1"></a>audit<span class="sc">$</span>drift[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;period&quot;</span>, <span class="st">&quot;n&quot;</span>, <span class="st">&quot;smd&quot;</span>, <span class="st">&quot;qwk&quot;</span>, <span class="st">&quot;smd_change&quot;</span>, <span class="st">&quot;p_change&quot;</span>, <span class="st">&quot;drift&quot;</span>)]</span>
+<span id="cb203-2"><a href="ai-validity.html#cb203-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 8</span></span>
+<span id="cb203-3"><a href="ai-validity.html#cb203-3" tabindex="-1"></a><span class="co">#&gt;   item  period     n     smd   qwk smd_change  p_change drift</span></span>
+<span id="cb203-4"><a href="ai-validity.html#cb203-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;</span></span>
+<span id="cb203-5"><a href="ai-validity.html#cb203-5" tabindex="-1"></a><span class="co">#&gt; 1 W1    Spring   400 -0.0418 0.863    NA      NA        FALSE</span></span>
+<span id="cb203-6"><a href="ai-validity.html#cb203-6" tabindex="-1"></a><span class="co">#&gt; 2 W1    Fall     347 -0.200  0.788    -0.159   0.000391 TRUE </span></span>
+<span id="cb203-7"><a href="ai-validity.html#cb203-7" tabindex="-1"></a><span class="co">#&gt; 3 W2    Spring   400 -0.0451 0.859    NA      NA        FALSE</span></span>
+<span id="cb203-8"><a href="ai-validity.html#cb203-8" tabindex="-1"></a><span class="co">#&gt; 4 W2    Fall     347 -0.0349 0.825     0.0102  1        FALSE</span></span></code></pre></div>
 <p>In the fall, W1’s machine scores fell to 0.2 SD below the human scores, and
 agreement dropped. A drift flag needs both a change larger than the rule
 and a change beyond sampling error; <code>p_change</code> is Bonferroni-adjusted across
 the items and windows tested. Figure <a href="ai-validity.html#fig:ai-validity-audit">18.1</a> shows the
 three score checks.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ai-validity.html#cb202-1" tabindex="-1"></a><span class="fu">autoplot</span>(audit)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ai-validity.html#cb204-1" tabindex="-1"></a><span class="fu">autoplot</span>(audit)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ai-validity-audit"></span>
 <img src="mirtverse-book_files/figure-html/ai-validity-audit-1.png" alt="The score checks of the audit. Dashed lines are the default limits; bars are 95% confidence intervals." width="90%" />
 <p class="caption">
@@ -582,29 +583,29 @@ content review, not to the engine. Lab 10 does this.</p>
 Here a difficulty model was trained with the proportion correct of the
 field test among its features, and one of three item families is not
 isomorphic:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ai-validity.html#cb203-1" tabindex="-1"></a><span class="co"># Simulated field-test results of 45 items from three item models.</span></span>
-<span id="cb203-2"><a href="ai-validity.html#cb203-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">181</span>)</span>
-<span id="cb203-3"><a href="ai-validity.html#cb203-3" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ratios&quot;</span>, <span class="st">&quot;Fractions&quot;</span>, <span class="st">&quot;Equations&quot;</span>), <span class="at">each =</span> <span class="dv">15</span>)</span>
-<span id="cb203-4"><a href="ai-validity.html#cb203-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Ratios =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">Fractions =</span> <span class="dv">0</span>, <span class="at">Equations =</span> <span class="fl">0.9</span>)[fam] <span class="sc">+</span></span>
-<span id="cb203-5"><a href="ai-validity.html#cb203-5" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), <span class="at">each =</span> <span class="dv">15</span>))</span>
-<span id="cb203-6"><a href="ai-validity.html#cb203-6" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">&quot;I%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">45</span>), <span class="at">family =</span> fam, <span class="at">b =</span> b, <span class="at">b_se =</span> <span class="fl">0.08</span>,</span>
-<span id="cb203-7"><a href="ai-validity.html#cb203-7" tabindex="-1"></a>                    <span class="at">words =</span> <span class="fu">round</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="dv">6</span>)),</span>
-<span id="cb203-8"><a href="ai-validity.html#cb203-8" tabindex="-1"></a>                    <span class="at">p_field =</span> <span class="fu">round</span>(<span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">1.2</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fl">0.05</span>)), <span class="dv">3</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ai-validity.html#cb204-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;family&quot;</span>, <span class="st">&quot;words&quot;</span>, <span class="st">&quot;p_field&quot;</span>), <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>,</span>
-<span id="cb204-2"><a href="ai-validity.html#cb204-2" tabindex="-1"></a>                            <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
-<span id="cb204-3"><a href="ai-validity.html#cb204-3" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
-<span id="cb204-4"><a href="ai-validity.html#cb204-4" tabindex="-1"></a><span class="fu">ai_audit</span>(<span class="at">components =</span> <span class="fu">list</span>(model, families))</span>
-<span id="cb204-5"><a href="ai-validity.html#cb204-5" tabindex="-1"></a><span class="co">#&gt; AI audit: 2 checks, 2 flags (1 block, 1 review)</span></span>
-<span id="cb204-6"><a href="ai-validity.html#cb204-6" tabindex="-1"></a><span class="co">#&gt;        check tested flagged status</span></span>
-<span id="cb204-7"><a href="ai-validity.html#cb204-7" tabindex="-1"></a><span class="co">#&gt;      leakage      3       1  BLOCK</span></span>
-<span id="cb204-8"><a href="ai-validity.html#cb204-8" tabindex="-1"></a><span class="co">#&gt;  isomorphism      3       1 REVIEW</span></span>
-<span id="cb204-9"><a href="ai-validity.html#cb204-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb204-10"><a href="ai-validity.html#cb204-10" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
-<span id="cb204-11"><a href="ai-validity.html#cb204-11" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] leakage, p_field: rank correlation with b -0.99. A feature</span></span>
-<span id="cb204-12"><a href="ai-validity.html#cb204-12" tabindex="-1"></a><span class="co">#&gt;     this close to the label is probably computed from the same</span></span>
-<span id="cb204-13"><a href="ai-validity.html#cb204-13" tabindex="-1"></a><span class="co">#&gt;     responses: Leave it out.</span></span>
-<span id="cb204-14"><a href="ai-validity.html#cb204-14" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] isomorphism, Equations: SD within 0.46. The family mean is</span></span>
-<span id="cb204-15"><a href="ai-validity.html#cb204-15" tabindex="-1"></a><span class="co">#&gt;     not a good estimate for new items from this item model.</span></span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ai-validity.html#cb205-1" tabindex="-1"></a><span class="co"># Simulated field-test results of 45 items from three item models.</span></span>
+<span id="cb205-2"><a href="ai-validity.html#cb205-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">181</span>)</span>
+<span id="cb205-3"><a href="ai-validity.html#cb205-3" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ratios&quot;</span>, <span class="st">&quot;Fractions&quot;</span>, <span class="st">&quot;Equations&quot;</span>), <span class="at">each =</span> <span class="dv">15</span>)</span>
+<span id="cb205-4"><a href="ai-validity.html#cb205-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Ratios =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">Fractions =</span> <span class="dv">0</span>, <span class="at">Equations =</span> <span class="fl">0.9</span>)[fam] <span class="sc">+</span></span>
+<span id="cb205-5"><a href="ai-validity.html#cb205-5" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), <span class="at">each =</span> <span class="dv">15</span>))</span>
+<span id="cb205-6"><a href="ai-validity.html#cb205-6" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">&quot;I%02d&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">45</span>), <span class="at">family =</span> fam, <span class="at">b =</span> b, <span class="at">b_se =</span> <span class="fl">0.08</span>,</span>
+<span id="cb205-7"><a href="ai-validity.html#cb205-7" tabindex="-1"></a>                    <span class="at">words =</span> <span class="fu">round</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="dv">6</span>)),</span>
+<span id="cb205-8"><a href="ai-validity.html#cb205-8" tabindex="-1"></a>                    <span class="at">p_field =</span> <span class="fu">round</span>(<span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">1.2</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">45</span>, <span class="dv">0</span>, <span class="fl">0.05</span>)), <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ai-validity.html#cb206-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">predict_difficulty</span>(items, <span class="fu">c</span>(<span class="st">&quot;family&quot;</span>, <span class="st">&quot;words&quot;</span>, <span class="st">&quot;p_field&quot;</span>), <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>,</span>
+<span id="cb206-2"><a href="ai-validity.html#cb206-2" tabindex="-1"></a>                            <span class="at">methods =</span> <span class="st">&quot;lltm&quot;</span>)</span>
+<span id="cb206-3"><a href="ai-validity.html#cb206-3" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">calibrate_families</span>(items, <span class="at">family =</span> <span class="st">&quot;family&quot;</span>, <span class="at">se =</span> <span class="st">&quot;b_se&quot;</span>)</span>
+<span id="cb206-4"><a href="ai-validity.html#cb206-4" tabindex="-1"></a><span class="fu">ai_audit</span>(<span class="at">components =</span> <span class="fu">list</span>(model, families))</span>
+<span id="cb206-5"><a href="ai-validity.html#cb206-5" tabindex="-1"></a><span class="co">#&gt; AI audit: 2 checks, 2 flags (1 block, 1 review)</span></span>
+<span id="cb206-6"><a href="ai-validity.html#cb206-6" tabindex="-1"></a><span class="co">#&gt;        check tested flagged status</span></span>
+<span id="cb206-7"><a href="ai-validity.html#cb206-7" tabindex="-1"></a><span class="co">#&gt;      leakage      3       1  BLOCK</span></span>
+<span id="cb206-8"><a href="ai-validity.html#cb206-8" tabindex="-1"></a><span class="co">#&gt;  isomorphism      3       1 REVIEW</span></span>
+<span id="cb206-9"><a href="ai-validity.html#cb206-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb206-10"><a href="ai-validity.html#cb206-10" tabindex="-1"></a><span class="co">#&gt; Flags:</span></span>
+<span id="cb206-11"><a href="ai-validity.html#cb206-11" tabindex="-1"></a><span class="co">#&gt;   [BLOCK] leakage, p_field: rank correlation with b -0.99. A feature</span></span>
+<span id="cb206-12"><a href="ai-validity.html#cb206-12" tabindex="-1"></a><span class="co">#&gt;     this close to the label is probably computed from the same</span></span>
+<span id="cb206-13"><a href="ai-validity.html#cb206-13" tabindex="-1"></a><span class="co">#&gt;     responses: Leave it out.</span></span>
+<span id="cb206-14"><a href="ai-validity.html#cb206-14" tabindex="-1"></a><span class="co">#&gt;   [REVIEW] isomorphism, Equations: SD within 0.46. The family mean is</span></span>
+<span id="cb206-15"><a href="ai-validity.html#cb206-15" tabindex="-1"></a><span class="co">#&gt;     not a good estimate for new items from this item model.</span></span></code></pre></div>
 <p>The leaked feature blocks: Its predictions would vanish for new items that
 have no field test (Chapter <a href="item-text.html#item-text">14</a>). The family that is not
 isomorphic is flagged for review: Its mean is a poor stand-in for new
@@ -615,46 +616,46 @@ items’ difficulties (Chapter <a href="aig.html#aig">15</a>).</p>
 <p><code>validity_argument()</code> turns the audit into a draft argument. Each inference
 gets its claim, the threats an AI component adds, the evidence from the
 audit and a status:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ai-validity.html#cb205-1" tabindex="-1"></a>va <span class="ot">&lt;-</span> <span class="fu">validity_argument</span>(audit, <span class="at">construct =</span> <span class="st">&quot;academic writing in English&quot;</span>,</span>
-<span id="cb205-2"><a href="ai-validity.html#cb205-2" tabindex="-1"></a>                        <span class="at">use =</span> <span class="st">&quot;placement into first-year writing courses&quot;</span>,</span>
-<span id="cb205-3"><a href="ai-validity.html#cb205-3" tabindex="-1"></a>                        <span class="at">population =</span> <span class="st">&quot;incoming students&quot;</span>)</span>
-<span id="cb205-4"><a href="ai-validity.html#cb205-4" tabindex="-1"></a>va[, <span class="fu">c</span>(<span class="st">&quot;inference&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span>
-<span id="cb205-5"><a href="ai-validity.html#cb205-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
-<span id="cb205-6"><a href="ai-validity.html#cb205-6" tabindex="-1"></a><span class="co">#&gt;   inference      status        </span></span>
-<span id="cb205-7"><a href="ai-validity.html#cb205-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;         </span></span>
-<span id="cb205-8"><a href="ai-validity.html#cb205-8" tabindex="-1"></a><span class="co">#&gt; 1 Scoring        supported     </span></span>
-<span id="cb205-9"><a href="ai-validity.html#cb205-9" tabindex="-1"></a><span class="co">#&gt; 2 Generalization threatened    </span></span>
-<span id="cb205-10"><a href="ai-validity.html#cb205-10" tabindex="-1"></a><span class="co">#&gt; 3 Extrapolation  threatened    </span></span>
-<span id="cb205-11"><a href="ai-validity.html#cb205-11" tabindex="-1"></a><span class="co">#&gt; 4 Decision       needs evidence</span></span></code></pre></div>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ai-validity.html#cb206-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">format</span>(va, <span class="st">&quot;markdown&quot;</span>))</span>
-<span id="cb206-2"><a href="ai-validity.html#cb206-2" tabindex="-1"></a><span class="co">#&gt; The argument for using academic writing in English scores for placement into first-year writing courses, with automated scoring of constructed responses, by the four inferences of the argument-based approach (Kane, 2013).</span></span>
-<span id="cb206-3"><a href="ai-validity.html#cb206-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-4"><a href="ai-validity.html#cb206-4" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Scoring (supported)</span></span>
-<span id="cb206-5"><a href="ai-validity.html#cb206-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-6"><a href="ai-validity.html#cb206-6" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores from automated scoring of constructed responses follow the scoring rubric as trained human raters apply it.</span></span>
-<span id="cb206-7"><a href="ai-validity.html#cb206-7" tabindex="-1"></a><span class="co">#&gt; - **Threats:** The engine rewards surface features (length, vocabulary, spelling) rather than the ideas in the rubric; human scores used to train or check it are unreliable.</span></span>
-<span id="cb206-8"><a href="ai-validity.html#cb206-8" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Human agreement: 2 tested, no flags. Machine agreement: 2 tested, no flags. Overall bias: 2 tested, no flags.</span></span>
-<span id="cb206-9"><a href="ai-validity.html#cb206-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-10"><a href="ai-validity.html#cb206-10" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Generalization (threatened)</span></span>
-<span id="cb206-11"><a href="ai-validity.html#cb206-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-12"><a href="ai-validity.html#cb206-12" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores would be the same on another occasion, form, rater or engine version, so they mean the same across administrations.</span></span>
-<span id="cb206-13"><a href="ai-validity.html#cb206-13" tabindex="-1"></a><span class="co">#&gt; - **Threats:** An engine update, a new prompt or a change in the population shifts machine scores; agreement holds in one year only.</span></span>
-<span id="cb206-14"><a href="ai-validity.html#cb206-14" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Drift: 2 tested, flagged W1, Fall [SMD -0.20 against -0.04, QWK 0.79 against 0.86].</span></span>
-<span id="cb206-15"><a href="ai-validity.html#cb206-15" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used.</span></span>
-<span id="cb206-16"><a href="ai-validity.html#cb206-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-17"><a href="ai-validity.html#cb206-17" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Extrapolation (threatened)</span></span>
-<span id="cb206-18"><a href="ai-validity.html#cb206-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-19"><a href="ai-validity.html#cb206-19" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores reflect academic writing in English, and do so equally for all groups of incoming students.</span></span>
-<span id="cb206-20"><a href="ai-validity.html#cb206-20" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Features unrelated to the construct, such as language proficiency, lower machine scores for some groups; DIF on AI-scored items.</span></span>
-<span id="cb206-21"><a href="ai-validity.html#cb206-21" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Subgroup agreement: 4 tested, no flags. Differential scoring: 2 tested, flagged W2, Phone [gap -0.19 SD, SE 0.04].</span></span>
-<span id="cb206-22"><a href="ai-validity.html#cb206-22" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used. Not checked yet: DIF.</span></span>
-<span id="cb206-23"><a href="ai-validity.html#cb206-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-24"><a href="ai-validity.html#cb206-24" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Decision (needs evidence)</span></span>
-<span id="cb206-25"><a href="ai-validity.html#cb206-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb206-26"><a href="ai-validity.html#cb206-26" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Using the scores for placement into first-year writing courses is appropriate, with the human oversight, disclosure and appeals the use requires.</span></span>
-<span id="cb206-27"><a href="ai-validity.html#cb206-27" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Machine scores are used without human review where stakes are high; test takers are not told how they were scored; errors cannot be appealed.</span></span>
-<span id="cb206-28"><a href="ai-validity.html#cb206-28" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** None yet.</span></span>
-<span id="cb206-29"><a href="ai-validity.html#cb206-29" tabindex="-1"></a><span class="co">#&gt; - **To do:** Document human review of flagged and low-confidence responses, disclosure to test takers, and an appeals process. No audit can supply this evidence.</span></span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ai-validity.html#cb207-1" tabindex="-1"></a>va <span class="ot">&lt;-</span> <span class="fu">validity_argument</span>(audit, <span class="at">construct =</span> <span class="st">&quot;academic writing in English&quot;</span>,</span>
+<span id="cb207-2"><a href="ai-validity.html#cb207-2" tabindex="-1"></a>                        <span class="at">use =</span> <span class="st">&quot;placement into first-year writing courses&quot;</span>,</span>
+<span id="cb207-3"><a href="ai-validity.html#cb207-3" tabindex="-1"></a>                        <span class="at">population =</span> <span class="st">&quot;incoming students&quot;</span>)</span>
+<span id="cb207-4"><a href="ai-validity.html#cb207-4" tabindex="-1"></a>va[, <span class="fu">c</span>(<span class="st">&quot;inference&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span>
+<span id="cb207-5"><a href="ai-validity.html#cb207-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb207-6"><a href="ai-validity.html#cb207-6" tabindex="-1"></a><span class="co">#&gt;   inference      status        </span></span>
+<span id="cb207-7"><a href="ai-validity.html#cb207-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;         </span></span>
+<span id="cb207-8"><a href="ai-validity.html#cb207-8" tabindex="-1"></a><span class="co">#&gt; 1 Scoring        supported     </span></span>
+<span id="cb207-9"><a href="ai-validity.html#cb207-9" tabindex="-1"></a><span class="co">#&gt; 2 Generalization threatened    </span></span>
+<span id="cb207-10"><a href="ai-validity.html#cb207-10" tabindex="-1"></a><span class="co">#&gt; 3 Extrapolation  threatened    </span></span>
+<span id="cb207-11"><a href="ai-validity.html#cb207-11" tabindex="-1"></a><span class="co">#&gt; 4 Decision       needs evidence</span></span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ai-validity.html#cb208-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">format</span>(va, <span class="st">&quot;markdown&quot;</span>))</span>
+<span id="cb208-2"><a href="ai-validity.html#cb208-2" tabindex="-1"></a><span class="co">#&gt; The argument for using academic writing in English scores for placement into first-year writing courses, with automated scoring of constructed responses, by the four inferences of the argument-based approach (Kane, 2013).</span></span>
+<span id="cb208-3"><a href="ai-validity.html#cb208-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-4"><a href="ai-validity.html#cb208-4" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Scoring (supported)</span></span>
+<span id="cb208-5"><a href="ai-validity.html#cb208-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-6"><a href="ai-validity.html#cb208-6" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores from automated scoring of constructed responses follow the scoring rubric as trained human raters apply it.</span></span>
+<span id="cb208-7"><a href="ai-validity.html#cb208-7" tabindex="-1"></a><span class="co">#&gt; - **Threats:** The engine rewards surface features (length, vocabulary, spelling) rather than the ideas in the rubric; human scores used to train or check it are unreliable.</span></span>
+<span id="cb208-8"><a href="ai-validity.html#cb208-8" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Human agreement: 2 tested, no flags. Machine agreement: 2 tested, no flags. Overall bias: 2 tested, no flags.</span></span>
+<span id="cb208-9"><a href="ai-validity.html#cb208-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-10"><a href="ai-validity.html#cb208-10" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Generalization (threatened)</span></span>
+<span id="cb208-11"><a href="ai-validity.html#cb208-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-12"><a href="ai-validity.html#cb208-12" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores would be the same on another occasion, form, rater or engine version, so they mean the same across administrations.</span></span>
+<span id="cb208-13"><a href="ai-validity.html#cb208-13" tabindex="-1"></a><span class="co">#&gt; - **Threats:** An engine update, a new prompt or a change in the population shifts machine scores; agreement holds in one year only.</span></span>
+<span id="cb208-14"><a href="ai-validity.html#cb208-14" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Drift: 2 tested, flagged W1, Fall [SMD -0.20 against -0.04, QWK 0.79 against 0.86].</span></span>
+<span id="cb208-15"><a href="ai-validity.html#cb208-15" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used.</span></span>
+<span id="cb208-16"><a href="ai-validity.html#cb208-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-17"><a href="ai-validity.html#cb208-17" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Extrapolation (threatened)</span></span>
+<span id="cb208-18"><a href="ai-validity.html#cb208-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-19"><a href="ai-validity.html#cb208-19" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Scores reflect academic writing in English, and do so equally for all groups of incoming students.</span></span>
+<span id="cb208-20"><a href="ai-validity.html#cb208-20" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Features unrelated to the construct, such as language proficiency, lower machine scores for some groups; DIF on AI-scored items.</span></span>
+<span id="cb208-21"><a href="ai-validity.html#cb208-21" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** Subgroup agreement: 4 tested, no flags. Differential scoring: 2 tested, flagged W2, Phone [gap -0.19 SD, SE 0.04].</span></span>
+<span id="cb208-22"><a href="ai-validity.html#cb208-22" tabindex="-1"></a><span class="co">#&gt; - **To do:** Resolve the flags, then rerun the audit before the scores are used. Not checked yet: DIF.</span></span>
+<span id="cb208-23"><a href="ai-validity.html#cb208-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-24"><a href="ai-validity.html#cb208-24" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">###</span><span class="co"> Decision (needs evidence)</span></span>
+<span id="cb208-25"><a href="ai-validity.html#cb208-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb208-26"><a href="ai-validity.html#cb208-26" tabindex="-1"></a><span class="co">#&gt; - **Claim:** Using the scores for placement into first-year writing courses is appropriate, with the human oversight, disclosure and appeals the use requires.</span></span>
+<span id="cb208-27"><a href="ai-validity.html#cb208-27" tabindex="-1"></a><span class="co">#&gt; - **Threats:** Machine scores are used without human review where stakes are high; test takers are not told how they were scored; errors cannot be appealed.</span></span>
+<span id="cb208-28"><a href="ai-validity.html#cb208-28" tabindex="-1"></a><span class="co">#&gt; - **Evidence:** None yet.</span></span>
+<span id="cb208-29"><a href="ai-validity.html#cb208-29" tabindex="-1"></a><span class="co">#&gt; - **To do:** Document human review of flagged and low-confidence responses, disclosure to test takers, and an appeals process. No audit can supply this evidence.</span></span></code></pre></div>
 <p>The scoring inference is supported: The engine agrees with people as well
 as they agree with each other. Generalization and extrapolation are
 threatened by the fall engine version and by the phone gap. The decision
@@ -664,8 +665,8 @@ and all fall W1 answers until the engine is fixed), disclosure to test
 takers that their writing is scored by a machine, and a way to appeal.</p>
 <p>The argument can go into the HTML report of the calibrated test with
 <code>mv_report()</code>, as one more section:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ai-validity.html#cb207-1" tabindex="-1"></a><span class="fu">mv_report</span>(fit, <span class="at">file =</span> <span class="st">&quot;writing-report.html&quot;</span>,</span>
-<span id="cb207-2"><a href="ai-validity.html#cb207-2" tabindex="-1"></a>          <span class="at">extra =</span> <span class="fu">list</span>(<span class="st">&quot;Validity argument&quot;</span> <span class="ot">=</span> va))</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="ai-validity.html#cb209-1" tabindex="-1"></a><span class="fu">mv_report</span>(fit, <span class="at">file =</span> <span class="st">&quot;writing-report.html&quot;</span>,</span>
+<span id="cb209-2"><a href="ai-validity.html#cb209-2" tabindex="-1"></a>          <span class="at">extra =</span> <span class="fu">list</span>(<span class="st">&quot;Validity argument&quot;</span> <span class="ot">=</span> va))</span></code></pre></div>
 </div>
 <div id="governance" class="section level2 hasAnchor" number="18.5">
 <h2><span class="header-section-number">18.5</span> Governance<a href="ai-validity.html#governance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -715,42 +716,42 @@ college tell students, and how would a student appeal?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ai-validity.html#cb208-1" tabindex="-1"></a><span class="co"># 1. a looser rule</span></span>
-<span id="cb208-2"><a href="ai-validity.html#cb208-2" tabindex="-1"></a><span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
-<span id="cb208-3"><a href="ai-validity.html#cb208-3" tabindex="-1"></a>         <span class="at">period =</span> <span class="st">&quot;window&quot;</span>, <span class="at">rules =</span> <span class="fu">mv_rules</span>(<span class="at">subgroup_smd =</span> <span class="fl">0.25</span>))<span class="sc">$</span>checks</span>
-<span id="cb208-4"><a href="ai-validity.html#cb208-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
-<span id="cb208-5"><a href="ai-validity.html#cb208-5" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
-<span id="cb208-6"><a href="ai-validity.html#cb208-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
-<span id="cb208-7"><a href="ai-validity.html#cb208-7" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
-<span id="cb208-8"><a href="ai-validity.html#cb208-8" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
-<span id="cb208-9"><a href="ai-validity.html#cb208-9" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
-<span id="cb208-10"><a href="ai-validity.html#cb208-10" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
-<span id="cb208-11"><a href="ai-validity.html#cb208-11" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       0 pass  </span></span>
-<span id="cb208-12"><a href="ai-validity.html#cb208-12" tabindex="-1"></a><span class="co">#&gt; 6 drift                     2       0 pass</span></span>
-<span id="cb208-13"><a href="ai-validity.html#cb208-13" tabindex="-1"></a></span>
-<span id="cb208-14"><a href="ai-validity.html#cb208-14" tabindex="-1"></a><span class="co"># 2. the spring window alone</span></span>
-<span id="cb208-15"><a href="ai-validity.html#cb208-15" tabindex="-1"></a><span class="fu">ai_audit</span>(writing[writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Spring&quot;</span>, ], <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>,</span>
-<span id="cb208-16"><a href="ai-validity.html#cb208-16" tabindex="-1"></a>         <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>checks</span>
-<span id="cb208-17"><a href="ai-validity.html#cb208-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
-<span id="cb208-18"><a href="ai-validity.html#cb208-18" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
-<span id="cb208-19"><a href="ai-validity.html#cb208-19" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
-<span id="cb208-20"><a href="ai-validity.html#cb208-20" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
-<span id="cb208-21"><a href="ai-validity.html#cb208-21" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
-<span id="cb208-22"><a href="ai-validity.html#cb208-22" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
-<span id="cb208-23"><a href="ai-validity.html#cb208-23" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
-<span id="cb208-24"><a href="ai-validity.html#cb208-24" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       1 block</span></span>
-<span id="cb208-25"><a href="ai-validity.html#cb208-25" tabindex="-1"></a></span>
-<span id="cb208-26"><a href="ai-validity.html#cb208-26" tabindex="-1"></a><span class="co"># 3. without the phone answers to W2 in the validity sample</span></span>
-<span id="cb208-27"><a href="ai-validity.html#cb208-27" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> writing</span>
-<span id="cb208-28"><a href="ai-validity.html#cb208-28" tabindex="-1"></a>drop <span class="ot">&lt;-</span> w3<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> w3<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span></span>
-<span id="cb208-29"><a href="ai-validity.html#cb208-29" tabindex="-1"></a>w3<span class="sc">$</span>human1[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb208-30"><a href="ai-validity.html#cb208-30" tabindex="-1"></a>w3<span class="sc">$</span>human2[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb208-31"><a href="ai-validity.html#cb208-31" tabindex="-1"></a><span class="fu">ai_audit</span>(w3, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>differential</span>
-<span id="cb208-32"><a href="ai-validity.html#cb208-32" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
-<span id="cb208-33"><a href="ai-validity.html#cb208-33" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap      se</span></span>
-<span id="cb208-34"><a href="ai-validity.html#cb208-34" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span id="cb208-35"><a href="ai-validity.html#cb208-35" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220  0.0439</span></span>
-<span id="cb208-36"><a href="ai-validity.html#cb208-36" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop        0 NA       NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="ai-validity.html#cb210-1" tabindex="-1"></a><span class="co"># 1. a looser rule</span></span>
+<span id="cb210-2"><a href="ai-validity.html#cb210-2" tabindex="-1"></a><span class="fu">ai_audit</span>(writing, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>,</span>
+<span id="cb210-3"><a href="ai-validity.html#cb210-3" tabindex="-1"></a>         <span class="at">period =</span> <span class="st">&quot;window&quot;</span>, <span class="at">rules =</span> <span class="fu">mv_rules</span>(<span class="at">subgroup_smd =</span> <span class="fl">0.25</span>))<span class="sc">$</span>checks</span>
+<span id="cb210-4"><a href="ai-validity.html#cb210-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb210-5"><a href="ai-validity.html#cb210-5" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
+<span id="cb210-6"><a href="ai-validity.html#cb210-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
+<span id="cb210-7"><a href="ai-validity.html#cb210-7" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
+<span id="cb210-8"><a href="ai-validity.html#cb210-8" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
+<span id="cb210-9"><a href="ai-validity.html#cb210-9" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
+<span id="cb210-10"><a href="ai-validity.html#cb210-10" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
+<span id="cb210-11"><a href="ai-validity.html#cb210-11" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       0 pass  </span></span>
+<span id="cb210-12"><a href="ai-validity.html#cb210-12" tabindex="-1"></a><span class="co">#&gt; 6 drift                     2       0 pass</span></span>
+<span id="cb210-13"><a href="ai-validity.html#cb210-13" tabindex="-1"></a></span>
+<span id="cb210-14"><a href="ai-validity.html#cb210-14" tabindex="-1"></a><span class="co"># 2. the spring window alone</span></span>
+<span id="cb210-15"><a href="ai-validity.html#cb210-15" tabindex="-1"></a><span class="fu">ai_audit</span>(writing[writing<span class="sc">$</span>window <span class="sc">==</span> <span class="st">&quot;Spring&quot;</span>, ], <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>,</span>
+<span id="cb210-16"><a href="ai-validity.html#cb210-16" tabindex="-1"></a>         <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>checks</span>
+<span id="cb210-17"><a href="ai-validity.html#cb210-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span id="cb210-18"><a href="ai-validity.html#cb210-18" tabindex="-1"></a><span class="co">#&gt;   check                tested flagged status</span></span>
+<span id="cb210-19"><a href="ai-validity.html#cb210-19" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;   &lt;int&gt; &lt;chr&gt; </span></span>
+<span id="cb210-20"><a href="ai-validity.html#cb210-20" tabindex="-1"></a><span class="co">#&gt; 1 human agreement           2       0 pass  </span></span>
+<span id="cb210-21"><a href="ai-validity.html#cb210-21" tabindex="-1"></a><span class="co">#&gt; 2 machine agreement         2       0 pass  </span></span>
+<span id="cb210-22"><a href="ai-validity.html#cb210-22" tabindex="-1"></a><span class="co">#&gt; 3 overall bias              2       0 pass  </span></span>
+<span id="cb210-23"><a href="ai-validity.html#cb210-23" tabindex="-1"></a><span class="co">#&gt; 4 subgroup agreement        4       0 pass  </span></span>
+<span id="cb210-24"><a href="ai-validity.html#cb210-24" tabindex="-1"></a><span class="co">#&gt; 5 differential scoring      2       1 block</span></span>
+<span id="cb210-25"><a href="ai-validity.html#cb210-25" tabindex="-1"></a></span>
+<span id="cb210-26"><a href="ai-validity.html#cb210-26" tabindex="-1"></a><span class="co"># 3. without the phone answers to W2 in the validity sample</span></span>
+<span id="cb210-27"><a href="ai-validity.html#cb210-27" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> writing</span>
+<span id="cb210-28"><a href="ai-validity.html#cb210-28" tabindex="-1"></a>drop <span class="ot">&lt;-</span> w3<span class="sc">$</span>device <span class="sc">==</span> <span class="st">&quot;Phone&quot;</span> <span class="sc">&amp;</span> w3<span class="sc">$</span>prompt <span class="sc">==</span> <span class="st">&quot;W2&quot;</span></span>
+<span id="cb210-29"><a href="ai-validity.html#cb210-29" tabindex="-1"></a>w3<span class="sc">$</span>human1[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb210-30"><a href="ai-validity.html#cb210-30" tabindex="-1"></a>w3<span class="sc">$</span>human2[drop] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb210-31"><a href="ai-validity.html#cb210-31" tabindex="-1"></a><span class="fu">ai_audit</span>(w3, <span class="at">human2 =</span> <span class="st">&quot;human2&quot;</span>, <span class="at">group =</span> <span class="st">&quot;device&quot;</span>, <span class="at">item =</span> <span class="st">&quot;prompt&quot;</span>)<span class="sc">$</span>differential</span>
+<span id="cb210-32"><a href="ai-validity.html#cb210-32" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb210-33"><a href="ai-validity.html#cb210-33" tabindex="-1"></a><span class="co">#&gt;   item  group reference     n      gap      se</span></span>
+<span id="cb210-34"><a href="ai-validity.html#cb210-34" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb210-35"><a href="ai-validity.html#cb210-35" tabindex="-1"></a><span class="co">#&gt; 1 W1    Phone Laptop      217 -0.00220  0.0439</span></span>
+<span id="cb210-36"><a href="ai-validity.html#cb210-36" tabindex="-1"></a><span class="co">#&gt; 2 W2    Phone Laptop        0 NA       NA</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Both flags disappear: The phone gap (0.19 SD) and the fall drift (0.16
 SD) are below 0.25. The college would place phone users lower than

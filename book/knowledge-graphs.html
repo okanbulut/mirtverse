@@ -339,7 +339,8 @@ div.csl-indent {
 <li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
 <li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
 <li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
-<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#llms-coverage"><i class="fa fa-check"></i><b>17.5</b> Where do synthetic respondents land?</a></li>
+<li class="chapter" data-level="17.6" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.6</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
@@ -473,39 +474,39 @@ cognitive diagnosis: 536 middle school students answered 20 items such as
 attributes <span class="citation">(<a href="#ref-tatsuoka2002">Tatsuoka 2002</a>; <a href="#ref-decarlo2011">DeCarlo 2011</a>; <a href="#ref-delatorre2004">Torre and Douglas 2004</a>)</span>. mirtverse
 stores the responses as <code>fraction_subtraction</code> and the Q-matrix as a
 knowledge graph, <code>fraction_subtraction_kg</code>.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="knowledge-graphs.html#cb209-1" tabindex="-1"></a>resp <span class="ot">&lt;-</span> fraction_subtraction</span>
-<span id="cb209-2"><a href="knowledge-graphs.html#cb209-2" tabindex="-1"></a>kg <span class="ot">&lt;-</span> fraction_subtraction_kg</span></code></pre></div>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="knowledge-graphs.html#cb210-1" tabindex="-1"></a>kg</span>
-<span id="cb210-2"><a href="knowledge-graphs.html#cb210-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction (Tatsuoka): 8 concept(s), 20 item(s)</span></span>
-<span id="cb210-3"><a href="knowledge-graphs.html#cb210-3" tabindex="-1"></a><span class="co">#&gt; Edges: 0 prerequisite, 0 related, 56 measures</span></span>
-<span id="cb210-4"><a href="knowledge-graphs.html#cb210-4" tabindex="-1"></a><span class="co">#&gt; Item metadata: text</span></span>
-<span id="cb210-5"><a href="knowledge-graphs.html#cb210-5" tabindex="-1"></a><span class="fu">tidy</span>(kg)</span>
-<span id="cb210-6"><a href="knowledge-graphs.html#cb210-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 28 × 6</span></span>
-<span id="cb210-7"><a href="knowledge-graphs.html#cb210-7" tabindex="-1"></a><span class="co">#&gt;   node               kind    label                       description links depth</span></span>
-<span id="cb210-8"><a href="knowledge-graphs.html#cb210-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt;                       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb210-9"><a href="knowledge-graphs.html#cb210-9" tabindex="-1"></a><span class="co">#&gt; 1 convert_whole      concept Convert a whole number to … Attribute …     3     0</span></span>
-<span id="cb210-10"><a href="knowledge-graphs.html#cb210-10" tabindex="-1"></a><span class="co">#&gt; 2 separate_whole     concept Separate a whole number fr… Attribute …    13     0</span></span>
-<span id="cb210-11"><a href="knowledge-graphs.html#cb210-11" tabindex="-1"></a><span class="co">#&gt; 3 simplify_first     concept Simplify before subtracting Attribute …     3     0</span></span>
-<span id="cb210-12"><a href="knowledge-graphs.html#cb210-12" tabindex="-1"></a><span class="co">#&gt; 4 common_denominator concept Find a common denominator   Attribute …     5     0</span></span>
-<span id="cb210-13"><a href="knowledge-graphs.html#cb210-13" tabindex="-1"></a><span class="co">#&gt; 5 borrow_whole       concept Borrow from the whole numb… Attribute …     8     0</span></span>
-<span id="cb210-14"><a href="knowledge-graphs.html#cb210-14" tabindex="-1"></a><span class="co">#&gt; 6 column_borrow      concept Column borrow to subtract … Attribute …     2     0</span></span>
-<span id="cb210-15"><a href="knowledge-graphs.html#cb210-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 22 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="knowledge-graphs.html#cb211-1" tabindex="-1"></a>resp <span class="ot">&lt;-</span> fraction_subtraction</span>
+<span id="cb211-2"><a href="knowledge-graphs.html#cb211-2" tabindex="-1"></a>kg <span class="ot">&lt;-</span> fraction_subtraction_kg</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="knowledge-graphs.html#cb212-1" tabindex="-1"></a>kg</span>
+<span id="cb212-2"><a href="knowledge-graphs.html#cb212-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction (Tatsuoka): 8 concept(s), 20 item(s)</span></span>
+<span id="cb212-3"><a href="knowledge-graphs.html#cb212-3" tabindex="-1"></a><span class="co">#&gt; Edges: 0 prerequisite, 0 related, 56 measures</span></span>
+<span id="cb212-4"><a href="knowledge-graphs.html#cb212-4" tabindex="-1"></a><span class="co">#&gt; Item metadata: text</span></span>
+<span id="cb212-5"><a href="knowledge-graphs.html#cb212-5" tabindex="-1"></a><span class="fu">tidy</span>(kg)</span>
+<span id="cb212-6"><a href="knowledge-graphs.html#cb212-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 28 × 6</span></span>
+<span id="cb212-7"><a href="knowledge-graphs.html#cb212-7" tabindex="-1"></a><span class="co">#&gt;   node               kind    label                       description links depth</span></span>
+<span id="cb212-8"><a href="knowledge-graphs.html#cb212-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt;                       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb212-9"><a href="knowledge-graphs.html#cb212-9" tabindex="-1"></a><span class="co">#&gt; 1 convert_whole      concept Convert a whole number to … Attribute …     3     0</span></span>
+<span id="cb212-10"><a href="knowledge-graphs.html#cb212-10" tabindex="-1"></a><span class="co">#&gt; 2 separate_whole     concept Separate a whole number fr… Attribute …    13     0</span></span>
+<span id="cb212-11"><a href="knowledge-graphs.html#cb212-11" tabindex="-1"></a><span class="co">#&gt; 3 simplify_first     concept Simplify before subtracting Attribute …     3     0</span></span>
+<span id="cb212-12"><a href="knowledge-graphs.html#cb212-12" tabindex="-1"></a><span class="co">#&gt; 4 common_denominator concept Find a common denominator   Attribute …     5     0</span></span>
+<span id="cb212-13"><a href="knowledge-graphs.html#cb212-13" tabindex="-1"></a><span class="co">#&gt; 5 borrow_whole       concept Borrow from the whole numb… Attribute …     8     0</span></span>
+<span id="cb212-14"><a href="knowledge-graphs.html#cb212-14" tabindex="-1"></a><span class="co">#&gt; 6 column_borrow      concept Column borrow to subtract … Attribute …     2     0</span></span>
+<span id="cb212-15"><a href="knowledge-graphs.html#cb212-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 22 more rows</span></span></code></pre></div>
 <p>The graph has eight concepts and 20 items, with 56 item-to-concept links.
 No prerequisite edges were published with the Q-matrix, so the graph has
 none yet. <code>tidy()</code> counts the items linked to each concept (<code>links</code>).
 <code>subtract_numerators</code> is needed by 19 of the 20 items, while
 <code>column_borrow</code> is needed by only two. Before any data are used,
 <code>mv_kg_check()</code> looks for problems in the structure itself.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="knowledge-graphs.html#cb211-1" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg)</span>
-<span id="cb211-2"><a href="knowledge-graphs.html#cb211-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 0 block, 1 review, 0 info</span></span>
-<span id="cb211-3"><a href="knowledge-graphs.html#cb211-3" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
-<span id="cb211-4"><a href="knowledge-graphs.html#cb211-4" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="knowledge-graphs.html#cb213-1" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg)</span>
+<span id="cb213-2"><a href="knowledge-graphs.html#cb213-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 0 block, 1 review, 0 info</span></span>
+<span id="cb213-3"><a href="knowledge-graphs.html#cb213-3" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
+<span id="cb213-4"><a href="knowledge-graphs.html#cb213-4" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span></code></pre></div>
 <p>The check finds one thing to review: Two items are too few to estimate
 <code>column_borrow</code> as its own dimension. A concept that nearly every item
 needs, like <code>subtract_numerators</code>, has the opposite problem: It is hard to
 separate from overall proficiency. Neither is an error in the graph, but
 both limit what a model can learn about these concepts.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="knowledge-graphs.html#cb212-1" tabindex="-1"></a><span class="fu">gg_kg</span>(kg)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="knowledge-graphs.html#cb214-1" tabindex="-1"></a><span class="fu">gg_kg</span>(kg)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:kg-fs"></span>
 <img src="mirtverse-book_files/figure-html/kg-fs-1.png" alt="The fraction subtraction graph: Eight attributes on the left, each joined to the items that need it." width="90%" />
 <p class="caption">
@@ -516,29 +517,29 @@ Figure 19.1: The fraction subtraction graph: Eight attributes on the left, each 
 Borrowing from the whole number needs the whole number to be separated
 from the fraction first, and column borrowing needs subtracting numerators.
 We add these edges to the same concepts and items.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="knowledge-graphs.html#cb213-1" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> <span class="fu">tidy</span>(kg)</span>
-<span id="cb213-2"><a href="knowledge-graphs.html#cb213-2" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> concepts[concepts<span class="sc">$</span>kind <span class="sc">==</span> <span class="st">&quot;concept&quot;</span>, ]</span>
-<span id="cb213-3"><a href="knowledge-graphs.html#cb213-3" tabindex="-1"></a>kg_h <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(</span>
-<span id="cb213-4"><a href="knowledge-graphs.html#cb213-4" tabindex="-1"></a>  <span class="at">concepts =</span> <span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
-<span id="cb213-5"><a href="knowledge-graphs.html#cb213-5" tabindex="-1"></a>  <span class="at">edges =</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>),</span>
-<span id="cb213-6"><a href="knowledge-graphs.html#cb213-6" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>)),</span>
-<span id="cb213-7"><a href="knowledge-graphs.html#cb213-7" tabindex="-1"></a>  <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg),</span>
-<span id="cb213-8"><a href="knowledge-graphs.html#cb213-8" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Fraction subtraction with two prerequisites&quot;</span>)</span>
-<span id="cb213-9"><a href="knowledge-graphs.html#cb213-9" tabindex="-1"></a>kg_h</span>
-<span id="cb213-10"><a href="knowledge-graphs.html#cb213-10" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 8 concept(s), 20 item(s)</span></span>
-<span id="cb213-11"><a href="knowledge-graphs.html#cb213-11" tabindex="-1"></a><span class="co">#&gt; Edges: 2 prerequisite, 0 related, 56 measures</span></span>
-<span id="cb213-12"><a href="knowledge-graphs.html#cb213-12" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
-<span id="cb213-13"><a href="knowledge-graphs.html#cb213-13" tabindex="-1"></a><span class="co">#&gt;   0: convert_whole, separate_whole, simplify_first, common_denominator, subtract_numerators, reduce_answer</span></span>
-<span id="cb213-14"><a href="knowledge-graphs.html#cb213-14" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole, column_borrow</span></span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="knowledge-graphs.html#cb215-1" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> <span class="fu">tidy</span>(kg)</span>
+<span id="cb215-2"><a href="knowledge-graphs.html#cb215-2" tabindex="-1"></a>concepts <span class="ot">&lt;-</span> concepts[concepts<span class="sc">$</span>kind <span class="sc">==</span> <span class="st">&quot;concept&quot;</span>, ]</span>
+<span id="cb215-3"><a href="knowledge-graphs.html#cb215-3" tabindex="-1"></a>kg_h <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(</span>
+<span id="cb215-4"><a href="knowledge-graphs.html#cb215-4" tabindex="-1"></a>  <span class="at">concepts =</span> <span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
+<span id="cb215-5"><a href="knowledge-graphs.html#cb215-5" tabindex="-1"></a>  <span class="at">edges =</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>),</span>
+<span id="cb215-6"><a href="knowledge-graphs.html#cb215-6" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>)),</span>
+<span id="cb215-7"><a href="knowledge-graphs.html#cb215-7" tabindex="-1"></a>  <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg),</span>
+<span id="cb215-8"><a href="knowledge-graphs.html#cb215-8" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Fraction subtraction with two prerequisites&quot;</span>)</span>
+<span id="cb215-9"><a href="knowledge-graphs.html#cb215-9" tabindex="-1"></a>kg_h</span>
+<span id="cb215-10"><a href="knowledge-graphs.html#cb215-10" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 8 concept(s), 20 item(s)</span></span>
+<span id="cb215-11"><a href="knowledge-graphs.html#cb215-11" tabindex="-1"></a><span class="co">#&gt; Edges: 2 prerequisite, 0 related, 56 measures</span></span>
+<span id="cb215-12"><a href="knowledge-graphs.html#cb215-12" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb215-13"><a href="knowledge-graphs.html#cb215-13" tabindex="-1"></a><span class="co">#&gt;   0: convert_whole, separate_whole, simplify_first, common_denominator, subtract_numerators, reduce_answer</span></span>
+<span id="cb215-14"><a href="knowledge-graphs.html#cb215-14" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole, column_borrow</span></span></code></pre></div>
 <p>The print-out now gives a learning order. The hierarchy has a practical
 consequence: With eight concepts there are <span class="math inline">\(2^8 = 256\)</span> possible mastery
 patterns, and each prerequisite rules out the patterns where a concept is
 mastered without its prerequisite.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="knowledge-graphs.html#cb214-1" tabindex="-1"></a>patterns <span class="ot">&lt;-</span> <span class="fu">mv_kg_hierarchy</span>(kg_h)</span>
-<span id="cb214-2"><a href="knowledge-graphs.html#cb214-2" tabindex="-1"></a><span class="fu">nrow</span>(patterns)</span>
-<span id="cb214-3"><a href="knowledge-graphs.html#cb214-3" tabindex="-1"></a><span class="co">#&gt; [1] 144</span></span>
-<span id="cb214-4"><a href="knowledge-graphs.html#cb214-4" tabindex="-1"></a><span class="fu">attr</span>(patterns, <span class="st">&quot;possible&quot;</span>)</span>
-<span id="cb214-5"><a href="knowledge-graphs.html#cb214-5" tabindex="-1"></a><span class="co">#&gt; [1] 256</span></span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="knowledge-graphs.html#cb216-1" tabindex="-1"></a>patterns <span class="ot">&lt;-</span> <span class="fu">mv_kg_hierarchy</span>(kg_h)</span>
+<span id="cb216-2"><a href="knowledge-graphs.html#cb216-2" tabindex="-1"></a><span class="fu">nrow</span>(patterns)</span>
+<span id="cb216-3"><a href="knowledge-graphs.html#cb216-3" tabindex="-1"></a><span class="co">#&gt; [1] 144</span></span>
+<span id="cb216-4"><a href="knowledge-graphs.html#cb216-4" tabindex="-1"></a><span class="fu">attr</span>(patterns, <span class="st">&quot;possible&quot;</span>)</span>
+<span id="cb216-5"><a href="knowledge-graphs.html#cb216-5" tabindex="-1"></a><span class="co">#&gt; [1] 256</span></span></code></pre></div>
 <p>Two edges remove 112 of the 256 patterns. A diagnostic model that respects
 the hierarchy has fewer classes to estimate, and the hierarchy itself can
 be tested by comparing models with and without it.</p>
@@ -552,38 +553,38 @@ graph: The three concepts with the clearest roles, separating the whole
 number, borrowing, and finding a common denominator. <code>mv_kg_subset()</code> keeps
 these concepts, the prerequisite between two of them, and the 16 items that
 need at least one of them.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="knowledge-graphs.html#cb215-1" tabindex="-1"></a>kg3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_subset</span>(kg_h, <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;common_denominator&quot;</span>))</span>
-<span id="cb215-2"><a href="knowledge-graphs.html#cb215-2" tabindex="-1"></a>kg3</span>
-<span id="cb215-3"><a href="knowledge-graphs.html#cb215-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
-<span id="cb215-4"><a href="knowledge-graphs.html#cb215-4" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
-<span id="cb215-5"><a href="knowledge-graphs.html#cb215-5" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
-<span id="cb215-6"><a href="knowledge-graphs.html#cb215-6" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
-<span id="cb215-7"><a href="knowledge-graphs.html#cb215-7" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span>
-<span id="cb215-8"><a href="knowledge-graphs.html#cb215-8" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">mv_kg_qmatrix</span>(kg3)</span>
-<span id="cb215-9"><a href="knowledge-graphs.html#cb215-9" tabindex="-1"></a>resp3 <span class="ot">&lt;-</span> resp[<span class="fu">rownames</span>(q)]</span>
-<span id="cb215-10"><a href="knowledge-graphs.html#cb215-10" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mv_kg_model</span>(kg3)</span>
-<span id="cb215-11"><a href="knowledge-graphs.html#cb215-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(spec, <span class="st">&quot;item_syntax&quot;</span>))</span>
-<span id="cb215-12"><a href="knowledge-graphs.html#cb215-12" tabindex="-1"></a><span class="co">#&gt; separate_whole = FS04, FS05, FS07, FS09, FS10, FS11, FS13, FS14, FS16, FS17, FS18, FS19, FS20</span></span>
-<span id="cb215-13"><a href="knowledge-graphs.html#cb215-13" tabindex="-1"></a><span class="co">#&gt; common_denominator = FS01, FS02, FS03, FS05, FS13</span></span>
-<span id="cb215-14"><a href="knowledge-graphs.html#cb215-14" tabindex="-1"></a><span class="co">#&gt; borrow_whole = FS04, FS10, FS11, FS13, FS17, FS18, FS19, FS20</span></span>
-<span id="cb215-15"><a href="knowledge-graphs.html#cb215-15" tabindex="-1"></a><span class="co">#&gt; COV = separate_whole*common_denominator, separate_whole*borrow_whole, common_denominator*borrow_whole</span></span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="knowledge-graphs.html#cb217-1" tabindex="-1"></a>kg3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_subset</span>(kg_h, <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;common_denominator&quot;</span>))</span>
+<span id="cb217-2"><a href="knowledge-graphs.html#cb217-2" tabindex="-1"></a>kg3</span>
+<span id="cb217-3"><a href="knowledge-graphs.html#cb217-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
+<span id="cb217-4"><a href="knowledge-graphs.html#cb217-4" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
+<span id="cb217-5"><a href="knowledge-graphs.html#cb217-5" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb217-6"><a href="knowledge-graphs.html#cb217-6" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
+<span id="cb217-7"><a href="knowledge-graphs.html#cb217-7" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span>
+<span id="cb217-8"><a href="knowledge-graphs.html#cb217-8" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">mv_kg_qmatrix</span>(kg3)</span>
+<span id="cb217-9"><a href="knowledge-graphs.html#cb217-9" tabindex="-1"></a>resp3 <span class="ot">&lt;-</span> resp[<span class="fu">rownames</span>(q)]</span>
+<span id="cb217-10"><a href="knowledge-graphs.html#cb217-10" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">mv_kg_model</span>(kg3)</span>
+<span id="cb217-11"><a href="knowledge-graphs.html#cb217-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(spec, <span class="st">&quot;item_syntax&quot;</span>))</span>
+<span id="cb217-12"><a href="knowledge-graphs.html#cb217-12" tabindex="-1"></a><span class="co">#&gt; separate_whole = FS04, FS05, FS07, FS09, FS10, FS11, FS13, FS14, FS16, FS17, FS18, FS19, FS20</span></span>
+<span id="cb217-13"><a href="knowledge-graphs.html#cb217-13" tabindex="-1"></a><span class="co">#&gt; common_denominator = FS01, FS02, FS03, FS05, FS13</span></span>
+<span id="cb217-14"><a href="knowledge-graphs.html#cb217-14" tabindex="-1"></a><span class="co">#&gt; borrow_whole = FS04, FS10, FS11, FS13, FS17, FS18, FS19, FS20</span></span>
+<span id="cb217-15"><a href="knowledge-graphs.html#cb217-15" tabindex="-1"></a><span class="co">#&gt; COV = separate_whole*common_denominator, separate_whole*borrow_whole, common_denominator*borrow_whole</span></span></code></pre></div>
 <p>Each concept is a factor, and each item loads on the concepts its row of
 the Q-matrix names; items that need two concepts load on both. By default
 all concepts correlate. The <code>structure</code> argument changes that:
 <code>structure = "graph"</code> lets only concepts joined by an edge correlate, a
 strict reading of the graph in which concepts without an edge are
 unrelated.</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="knowledge-graphs.html#cb216-1" tabindex="-1"></a>m_uni <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp3, <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb216-2"><a href="knowledge-graphs.html#cb216-2" tabindex="-1"></a>m_graph <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3)</span>
-<span id="cb216-3"><a href="knowledge-graphs.html#cb216-3" tabindex="-1"></a>m_strict <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;graph&quot;</span>)</span>
-<span id="cb216-4"><a href="knowledge-graphs.html#cb216-4" tabindex="-1"></a><span class="fu">anova</span>(m_uni, m_graph)</span>
-<span id="cb216-5"><a href="knowledge-graphs.html#cb216-5" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik     X2 df p</span></span>
-<span id="cb216-6"><a href="knowledge-graphs.html#cb216-6" tabindex="-1"></a><span class="co">#&gt; m_uni   7739  7775 7793 7876  -3838            </span></span>
-<span id="cb216-7"><a href="knowledge-graphs.html#cb216-7" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 394.06 13 0</span></span>
-<span id="cb216-8"><a href="knowledge-graphs.html#cb216-8" tabindex="-1"></a><span class="fu">anova</span>(m_strict, m_graph)</span>
-<span id="cb216-9"><a href="knowledge-graphs.html#cb216-9" tabindex="-1"></a><span class="co">#&gt;           AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
-<span id="cb216-10"><a href="knowledge-graphs.html#cb216-10" tabindex="-1"></a><span class="co">#&gt; m_strict 7641  7689 7713 7825  -3778             </span></span>
-<span id="cb216-11"><a href="knowledge-graphs.html#cb216-11" tabindex="-1"></a><span class="co">#&gt; m_graph  7371  7421 7447 7564  -3641 273.834  2 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="knowledge-graphs.html#cb218-1" tabindex="-1"></a>m_uni <span class="ot">&lt;-</span> <span class="fu">mirt</span>(resp3, <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb218-2"><a href="knowledge-graphs.html#cb218-2" tabindex="-1"></a>m_graph <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3)</span>
+<span id="cb218-3"><a href="knowledge-graphs.html#cb218-3" tabindex="-1"></a>m_strict <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;graph&quot;</span>)</span>
+<span id="cb218-4"><a href="knowledge-graphs.html#cb218-4" tabindex="-1"></a><span class="fu">anova</span>(m_uni, m_graph)</span>
+<span id="cb218-5"><a href="knowledge-graphs.html#cb218-5" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik     X2 df p</span></span>
+<span id="cb218-6"><a href="knowledge-graphs.html#cb218-6" tabindex="-1"></a><span class="co">#&gt; m_uni   7739  7775 7793 7876  -3838            </span></span>
+<span id="cb218-7"><a href="knowledge-graphs.html#cb218-7" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 394.06 13 0</span></span>
+<span id="cb218-8"><a href="knowledge-graphs.html#cb218-8" tabindex="-1"></a><span class="fu">anova</span>(m_strict, m_graph)</span>
+<span id="cb218-9"><a href="knowledge-graphs.html#cb218-9" tabindex="-1"></a><span class="co">#&gt;           AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
+<span id="cb218-10"><a href="knowledge-graphs.html#cb218-10" tabindex="-1"></a><span class="co">#&gt; m_strict 7641  7689 7713 7825  -3778             </span></span>
+<span id="cb218-11"><a href="knowledge-graphs.html#cb218-11" tabindex="-1"></a><span class="co">#&gt; m_graph  7371  7421 7447 7564  -3641 273.834  2 0</span></span></code></pre></div>
 <p>Two comparisons answer two questions. Against a single dimension, the
 three-concept model fits far better: The likelihood-ratio statistic is
 about 394 on 13 degrees of freedom, and BIC drops by more than 300. The
@@ -591,11 +592,11 @@ items measure more than one proficiency, in the way the graph describes.
 Against the strict model, the correlated model also wins clearly: Finding a
 common denominator has no edge in the graph, yet it correlates with the
 other two concepts.</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="knowledge-graphs.html#cb217-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(m_graph, <span class="at">verbose =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>fcor, <span class="dv">2</span>)</span>
-<span id="cb217-2"><a href="knowledge-graphs.html#cb217-2" tabindex="-1"></a><span class="co">#&gt;                    separate_whole common_denominator borrow_whole</span></span>
-<span id="cb217-3"><a href="knowledge-graphs.html#cb217-3" tabindex="-1"></a><span class="co">#&gt; separate_whole               1.00               0.77         0.38</span></span>
-<span id="cb217-4"><a href="knowledge-graphs.html#cb217-4" tabindex="-1"></a><span class="co">#&gt; common_denominator           0.77               1.00         0.39</span></span>
-<span id="cb217-5"><a href="knowledge-graphs.html#cb217-5" tabindex="-1"></a><span class="co">#&gt; borrow_whole                 0.38               0.39         1.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="knowledge-graphs.html#cb219-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(m_graph, <span class="at">verbose =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>fcor, <span class="dv">2</span>)</span>
+<span id="cb219-2"><a href="knowledge-graphs.html#cb219-2" tabindex="-1"></a><span class="co">#&gt;                    separate_whole common_denominator borrow_whole</span></span>
+<span id="cb219-3"><a href="knowledge-graphs.html#cb219-3" tabindex="-1"></a><span class="co">#&gt; separate_whole               1.00               0.77         0.38</span></span>
+<span id="cb219-4"><a href="knowledge-graphs.html#cb219-4" tabindex="-1"></a><span class="co">#&gt; common_denominator           0.77               1.00         0.39</span></span>
+<span id="cb219-5"><a href="knowledge-graphs.html#cb219-5" tabindex="-1"></a><span class="co">#&gt; borrow_whole                 0.38               0.39         1.00</span></span></code></pre></div>
 <p>Separating the whole number and finding a common denominator correlate at
 about 0.77, much more than the two concepts the teacher linked (about
 0.37). This is a typical finding, not a failure: A prerequisite edge says
@@ -605,23 +606,23 @@ other. The correlations are a reason to look again at the graph, for
 example to ask whether a related-to edge is missing.</p>
 <p>The fitted model is an ordinary mirt model, so everything from the earlier
 chapters works on it, and the graph travels with it.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="knowledge-graphs.html#cb218-1" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">tidy</span>(m_graph)</span>
-<span id="cb218-2"><a href="knowledge-graphs.html#cb218-2" tabindex="-1"></a><span class="fu">head</span>(pars[pars<span class="sc">$</span>estimate <span class="sc">!=</span> <span class="dv">0</span>, ])</span>
-<span id="cb218-3"><a href="knowledge-graphs.html#cb218-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
-<span id="cb218-4"><a href="knowledge-graphs.html#cb218-4" tabindex="-1"></a><span class="co">#&gt;   item  itemtype term  estimate std.error</span></span>
-<span id="cb218-5"><a href="knowledge-graphs.html#cb218-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb218-6"><a href="knowledge-graphs.html#cb218-6" tabindex="-1"></a><span class="co">#&gt; 1 FS01  2PL      a2       5.13         NA</span></span>
-<span id="cb218-7"><a href="knowledge-graphs.html#cb218-7" tabindex="-1"></a><span class="co">#&gt; 2 FS01  2PL      d        1.08         NA</span></span>
-<span id="cb218-8"><a href="knowledge-graphs.html#cb218-8" tabindex="-1"></a><span class="co">#&gt; 3 FS02  2PL      a2       7.39         NA</span></span>
-<span id="cb218-9"><a href="knowledge-graphs.html#cb218-9" tabindex="-1"></a><span class="co">#&gt; 4 FS02  2PL      d        2.31         NA</span></span>
-<span id="cb218-10"><a href="knowledge-graphs.html#cb218-10" tabindex="-1"></a><span class="co">#&gt; 5 FS03  2PL      a2      13.8          NA</span></span>
-<span id="cb218-11"><a href="knowledge-graphs.html#cb218-11" tabindex="-1"></a><span class="co">#&gt; 6 FS03  2PL      d        0.943        NA</span></span>
-<span id="cb218-12"><a href="knowledge-graphs.html#cb218-12" tabindex="-1"></a><span class="fu">attr</span>(m_graph, <span class="st">&quot;mv_kg&quot;</span>)</span>
-<span id="cb218-13"><a href="knowledge-graphs.html#cb218-13" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
-<span id="cb218-14"><a href="knowledge-graphs.html#cb218-14" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
-<span id="cb218-15"><a href="knowledge-graphs.html#cb218-15" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
-<span id="cb218-16"><a href="knowledge-graphs.html#cb218-16" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
-<span id="cb218-17"><a href="knowledge-graphs.html#cb218-17" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="knowledge-graphs.html#cb220-1" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">tidy</span>(m_graph)</span>
+<span id="cb220-2"><a href="knowledge-graphs.html#cb220-2" tabindex="-1"></a><span class="fu">head</span>(pars[pars<span class="sc">$</span>estimate <span class="sc">!=</span> <span class="dv">0</span>, ])</span>
+<span id="cb220-3"><a href="knowledge-graphs.html#cb220-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb220-4"><a href="knowledge-graphs.html#cb220-4" tabindex="-1"></a><span class="co">#&gt;   item  itemtype term  estimate std.error</span></span>
+<span id="cb220-5"><a href="knowledge-graphs.html#cb220-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb220-6"><a href="knowledge-graphs.html#cb220-6" tabindex="-1"></a><span class="co">#&gt; 1 FS01  2PL      a2       5.13         NA</span></span>
+<span id="cb220-7"><a href="knowledge-graphs.html#cb220-7" tabindex="-1"></a><span class="co">#&gt; 2 FS01  2PL      d        1.08         NA</span></span>
+<span id="cb220-8"><a href="knowledge-graphs.html#cb220-8" tabindex="-1"></a><span class="co">#&gt; 3 FS02  2PL      a2       7.39         NA</span></span>
+<span id="cb220-9"><a href="knowledge-graphs.html#cb220-9" tabindex="-1"></a><span class="co">#&gt; 4 FS02  2PL      d        2.31         NA</span></span>
+<span id="cb220-10"><a href="knowledge-graphs.html#cb220-10" tabindex="-1"></a><span class="co">#&gt; 5 FS03  2PL      a2      13.8          NA</span></span>
+<span id="cb220-11"><a href="knowledge-graphs.html#cb220-11" tabindex="-1"></a><span class="co">#&gt; 6 FS03  2PL      d        0.943        NA</span></span>
+<span id="cb220-12"><a href="knowledge-graphs.html#cb220-12" tabindex="-1"></a><span class="fu">attr</span>(m_graph, <span class="st">&quot;mv_kg&quot;</span>)</span>
+<span id="cb220-13"><a href="knowledge-graphs.html#cb220-13" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s)</span></span>
+<span id="cb220-14"><a href="knowledge-graphs.html#cb220-14" tabindex="-1"></a><span class="co">#&gt; Edges: 1 prerequisite, 0 related, 26 measures</span></span>
+<span id="cb220-15"><a href="knowledge-graphs.html#cb220-15" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb220-16"><a href="knowledge-graphs.html#cb220-16" tabindex="-1"></a><span class="co">#&gt;   0: separate_whole, common_denominator</span></span>
+<span id="cb220-17"><a href="knowledge-graphs.html#cb220-17" tabindex="-1"></a><span class="co">#&gt;   1: borrow_whole</span></span></code></pre></div>
 <p><code>as_mv_kg()</code> also goes the other way: Given any confirmatory mirt model, it
 reads the loading pattern back into a graph, which is a quick way to draw a
 model you already have.</p>
@@ -638,26 +639,26 @@ correlation of two concepts once the others are held constant. Concepts
 that are directly related keep a clear partial correlation; concepts
 related only through others do not. We can pass in the model we already
 have.</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="knowledge-graphs.html#cb219-1" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">mv_kg_fit</span>(kg3, resp3, <span class="at">model =</span> m_graph)</span>
-<span id="cb219-2"><a href="knowledge-graphs.html#cb219-2" tabindex="-1"></a>check</span>
-<span id="cb219-3"><a href="knowledge-graphs.html#cb219-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_fit&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s), N = 536</span></span>
-<span id="cb219-4"><a href="knowledge-graphs.html#cb219-4" tabindex="-1"></a><span class="co">#&gt; 2 review, 0 info</span></span>
-<span id="cb219-5"><a href="knowledge-graphs.html#cb219-5" tabindex="-1"></a><span class="co">#&gt; * [review] weak_link: FS13 is linked to separate_whole,</span></span>
-<span id="cb219-6"><a href="knowledge-graphs.html#cb219-6" tabindex="-1"></a><span class="co">#&gt;   common_denominator, borrow_whole but agrees much less with</span></span>
-<span id="cb219-7"><a href="knowledge-graphs.html#cb219-7" tabindex="-1"></a><span class="co">#&gt;   common_denominator than with separate_whole (r = 0.57 vs 0.70); drop</span></span>
-<span id="cb219-8"><a href="knowledge-graphs.html#cb219-8" tabindex="-1"></a><span class="co">#&gt;   the link to common_denominator?</span></span>
-<span id="cb219-9"><a href="knowledge-graphs.html#cb219-9" tabindex="-1"></a><span class="co">#&gt; * [review] missing_relation: separate_whole and common_denominator have</span></span>
-<span id="cb219-10"><a href="knowledge-graphs.html#cb219-10" tabindex="-1"></a><span class="co">#&gt;   no edge but a partial correlation of 0.73, and their items are about</span></span>
-<span id="cb219-11"><a href="knowledge-graphs.html#cb219-11" tabindex="-1"></a><span class="co">#&gt;   equally hard; add a related edge?</span></span>
-<span id="cb219-12"><a href="knowledge-graphs.html#cb219-12" tabindex="-1"></a><span class="co">#&gt; Item links shape the concept correlations: Fix item flags first and</span></span>
-<span id="cb219-13"><a href="knowledge-graphs.html#cb219-13" tabindex="-1"></a><span class="co">#&gt; refit before acting on relation flags.</span></span>
-<span id="cb219-14"><a href="knowledge-graphs.html#cb219-14" tabindex="-1"></a><span class="fu">tidy</span>(check, <span class="st">&quot;relations&quot;</span>)</span>
-<span id="cb219-15"><a href="knowledge-graphs.html#cb219-15" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 10</span></span>
-<span id="cb219-16"><a href="knowledge-graphs.html#cb219-16" tabindex="-1"></a><span class="co">#&gt;   concept_a        concept_b edge  from  to    type      r partial ease_a ease_b</span></span>
-<span id="cb219-17"><a href="knowledge-graphs.html#cb219-17" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span id="cb219-18"><a href="knowledge-graphs.html#cb219-18" tabindex="-1"></a><span class="co">#&gt; 1 separate_whole   common_d… none  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  0.771   0.731  0.487  0.500</span></span>
-<span id="cb219-19"><a href="knowledge-graphs.html#cb219-19" tabindex="-1"></a><span class="co">#&gt; 2 separate_whole   borrow_w… sepa… sepa… borr… prer… 0.382   0.137  0.487  0.410</span></span>
-<span id="cb219-20"><a href="knowledge-graphs.html#cb219-20" tabindex="-1"></a><span class="co">#&gt; 3 common_denomina… borrow_w… none  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  0.391   0.164  0.500  0.410</span></span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="knowledge-graphs.html#cb221-1" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">mv_kg_fit</span>(kg3, resp3, <span class="at">model =</span> m_graph)</span>
+<span id="cb221-2"><a href="knowledge-graphs.html#cb221-2" tabindex="-1"></a>check</span>
+<span id="cb221-3"><a href="knowledge-graphs.html#cb221-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_fit&gt; Fraction subtraction with two prerequisites: 3 concept(s), 16 item(s), N = 536</span></span>
+<span id="cb221-4"><a href="knowledge-graphs.html#cb221-4" tabindex="-1"></a><span class="co">#&gt; 2 review, 0 info</span></span>
+<span id="cb221-5"><a href="knowledge-graphs.html#cb221-5" tabindex="-1"></a><span class="co">#&gt; * [review] weak_link: FS13 is linked to separate_whole,</span></span>
+<span id="cb221-6"><a href="knowledge-graphs.html#cb221-6" tabindex="-1"></a><span class="co">#&gt;   common_denominator, borrow_whole but agrees much less with</span></span>
+<span id="cb221-7"><a href="knowledge-graphs.html#cb221-7" tabindex="-1"></a><span class="co">#&gt;   common_denominator than with separate_whole (r = 0.57 vs 0.70); drop</span></span>
+<span id="cb221-8"><a href="knowledge-graphs.html#cb221-8" tabindex="-1"></a><span class="co">#&gt;   the link to common_denominator?</span></span>
+<span id="cb221-9"><a href="knowledge-graphs.html#cb221-9" tabindex="-1"></a><span class="co">#&gt; * [review] missing_relation: separate_whole and common_denominator have</span></span>
+<span id="cb221-10"><a href="knowledge-graphs.html#cb221-10" tabindex="-1"></a><span class="co">#&gt;   no edge but a partial correlation of 0.73, and their items are about</span></span>
+<span id="cb221-11"><a href="knowledge-graphs.html#cb221-11" tabindex="-1"></a><span class="co">#&gt;   equally hard; add a related edge?</span></span>
+<span id="cb221-12"><a href="knowledge-graphs.html#cb221-12" tabindex="-1"></a><span class="co">#&gt; Item links shape the concept correlations: Fix item flags first and</span></span>
+<span id="cb221-13"><a href="knowledge-graphs.html#cb221-13" tabindex="-1"></a><span class="co">#&gt; refit before acting on relation flags.</span></span>
+<span id="cb221-14"><a href="knowledge-graphs.html#cb221-14" tabindex="-1"></a><span class="fu">tidy</span>(check, <span class="st">&quot;relations&quot;</span>)</span>
+<span id="cb221-15"><a href="knowledge-graphs.html#cb221-15" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 10</span></span>
+<span id="cb221-16"><a href="knowledge-graphs.html#cb221-16" tabindex="-1"></a><span class="co">#&gt;   concept_a        concept_b edge  from  to    type      r partial ease_a ease_b</span></span>
+<span id="cb221-17"><a href="knowledge-graphs.html#cb221-17" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb221-18"><a href="knowledge-graphs.html#cb221-18" tabindex="-1"></a><span class="co">#&gt; 1 separate_whole   common_d… none  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  0.771   0.731  0.487  0.500</span></span>
+<span id="cb221-19"><a href="knowledge-graphs.html#cb221-19" tabindex="-1"></a><span class="co">#&gt; 2 separate_whole   borrow_w… sepa… sepa… borr… prer… 0.382   0.137  0.487  0.410</span></span>
+<span id="cb221-20"><a href="knowledge-graphs.html#cb221-20" tabindex="-1"></a><span class="co">#&gt; 3 common_denomina… borrow_w… none  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  0.391   0.164  0.500  0.410</span></span></code></pre></div>
 <p>Every item agrees best with a concept it is linked to, so there is no
 <code>wrong_link</code> flag. One item gets a <code>weak_link</code> flag instead: FS13
 (3 3/8 - 2 5/6) is linked to three concepts but agrees much less with
@@ -674,7 +675,7 @@ denominator still have a partial correlation of about 0.73, while the
 teacher’s prerequisite (separate_whole -&gt; borrow_whole) drops to about
 0.14. Because the two concepts’ items are about equally hard, the
 suggestion is a related edge rather than a prerequisite.</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="knowledge-graphs.html#cb220-1" tabindex="-1"></a><span class="fu">gg_kg_fit</span>(check, <span class="at">items =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="knowledge-graphs.html#cb222-1" tabindex="-1"></a><span class="fu">gg_kg_fit</span>(check, <span class="at">items =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:kg-fit-fs"></span>
 <img src="mirtverse-book_files/figure-html/kg-fit-fs-1.png" alt="The evidence on the three-concept graph: Partial correlations next to each pair, the suggested related edge as a dashed line, and the weak link of FS13 as a dotted line." width="90%" />
 <p class="caption">
@@ -691,31 +692,31 @@ explanatory Rasch model with the eirm package <span class="citation">(<a href="#
 the graph predicts each item’s difficulty: One difficulty per concept (a
 linear logistic test model, with a random item effect for what the
 concepts leave unexplained), or the item’s depth in the learning order.</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="knowledge-graphs.html#cb221-1" tabindex="-1"></a>explain <span class="ot">&lt;-</span> <span class="fu">mv_kg_explain</span>(kg, resp)</span>
-<span id="cb221-2"><a href="knowledge-graphs.html#cb221-2" tabindex="-1"></a>explain</span>
-<span id="cb221-3"><a href="knowledge-graphs.html#cb221-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction (Tatsuoka): Item difficulty explained by concepts</span></span>
-<span id="cb221-4"><a href="knowledge-graphs.html#cb221-4" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 88% of the item variance.</span></span>
-<span id="cb221-5"><a href="knowledge-graphs.html#cb221-5" tabindex="-1"></a><span class="co">#&gt;                label difficulty   se p.value</span></span>
-<span id="cb221-6"><a href="knowledge-graphs.html#cb221-6" tabindex="-1"></a><span class="co">#&gt;        convert_whole       2.10 0.29  &lt;0.001</span></span>
-<span id="cb221-7"><a href="knowledge-graphs.html#cb221-7" tabindex="-1"></a><span class="co">#&gt;       separate_whole      -0.18 0.23    0.42</span></span>
-<span id="cb221-8"><a href="knowledge-graphs.html#cb221-8" tabindex="-1"></a><span class="co">#&gt;       simplify_first      -0.40 0.33    0.22</span></span>
-<span id="cb221-9"><a href="knowledge-graphs.html#cb221-9" tabindex="-1"></a><span class="co">#&gt;   common_denominator       1.32 0.24  &lt;0.001</span></span>
-<span id="cb221-10"><a href="knowledge-graphs.html#cb221-10" tabindex="-1"></a><span class="co">#&gt;         borrow_whole       2.33 0.29  &lt;0.001</span></span>
-<span id="cb221-11"><a href="knowledge-graphs.html#cb221-11" tabindex="-1"></a><span class="co">#&gt;        column_borrow      -0.01 0.33    0.98</span></span>
-<span id="cb221-12"><a href="knowledge-graphs.html#cb221-12" tabindex="-1"></a><span class="co">#&gt;  subtract_numerators      -1.69 0.22  &lt;0.001</span></span>
-<span id="cb221-13"><a href="knowledge-graphs.html#cb221-13" tabindex="-1"></a><span class="co">#&gt;        reduce_answer       0.11 0.28    0.69</span></span>
-<span id="cb221-14"><a href="knowledge-graphs.html#cb221-14" tabindex="-1"></a><span class="co">#&gt; Items the graph predicts poorly: FS09 (-0.91).</span></span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="knowledge-graphs.html#cb223-1" tabindex="-1"></a>explain <span class="ot">&lt;-</span> <span class="fu">mv_kg_explain</span>(kg, resp)</span>
+<span id="cb223-2"><a href="knowledge-graphs.html#cb223-2" tabindex="-1"></a>explain</span>
+<span id="cb223-3"><a href="knowledge-graphs.html#cb223-3" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction (Tatsuoka): Item difficulty explained by concepts</span></span>
+<span id="cb223-4"><a href="knowledge-graphs.html#cb223-4" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 88% of the item variance.</span></span>
+<span id="cb223-5"><a href="knowledge-graphs.html#cb223-5" tabindex="-1"></a><span class="co">#&gt;                label difficulty   se p.value</span></span>
+<span id="cb223-6"><a href="knowledge-graphs.html#cb223-6" tabindex="-1"></a><span class="co">#&gt;        convert_whole       2.10 0.29  &lt;0.001</span></span>
+<span id="cb223-7"><a href="knowledge-graphs.html#cb223-7" tabindex="-1"></a><span class="co">#&gt;       separate_whole      -0.18 0.23    0.42</span></span>
+<span id="cb223-8"><a href="knowledge-graphs.html#cb223-8" tabindex="-1"></a><span class="co">#&gt;       simplify_first      -0.40 0.33    0.22</span></span>
+<span id="cb223-9"><a href="knowledge-graphs.html#cb223-9" tabindex="-1"></a><span class="co">#&gt;   common_denominator       1.32 0.24  &lt;0.001</span></span>
+<span id="cb223-10"><a href="knowledge-graphs.html#cb223-10" tabindex="-1"></a><span class="co">#&gt;         borrow_whole       2.33 0.29  &lt;0.001</span></span>
+<span id="cb223-11"><a href="knowledge-graphs.html#cb223-11" tabindex="-1"></a><span class="co">#&gt;        column_borrow      -0.01 0.33    0.98</span></span>
+<span id="cb223-12"><a href="knowledge-graphs.html#cb223-12" tabindex="-1"></a><span class="co">#&gt;  subtract_numerators      -1.69 0.22  &lt;0.001</span></span>
+<span id="cb223-13"><a href="knowledge-graphs.html#cb223-13" tabindex="-1"></a><span class="co">#&gt;        reduce_answer       0.11 0.28    0.70</span></span>
+<span id="cb223-14"><a href="knowledge-graphs.html#cb223-14" tabindex="-1"></a><span class="co">#&gt; Items the graph predicts poorly: FS09 (-0.91).</span></span></code></pre></div>
 <p>The eight attributes explain most of the differences in item difficulty.
 Borrowing from the whole number and converting a whole number to a
 fraction add the most difficulty, and subtracting numerators, which almost
 every item needs, the least. The teacher’s two prerequisites, in
 contrast, say little about difficulty:</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="knowledge-graphs.html#cb222-1" tabindex="-1"></a><span class="fu">mv_kg_explain</span>(kg_h, resp, <span class="at">predictors =</span> <span class="st">&quot;depth&quot;</span>)</span>
-<span id="cb222-2"><a href="knowledge-graphs.html#cb222-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction with two prerequisites: Item difficulty explained by learning-order depth</span></span>
-<span id="cb222-3"><a href="knowledge-graphs.html#cb222-3" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 64% of the item variance.</span></span>
-<span id="cb222-4"><a href="knowledge-graphs.html#cb222-4" tabindex="-1"></a><span class="co">#&gt;                 label difficulty   se p.value</span></span>
-<span id="cb222-5"><a href="knowledge-graphs.html#cb222-5" tabindex="-1"></a><span class="co">#&gt;  Learning-order depth       0.47 0.49  0.3354</span></span>
-<span id="cb222-6"><a href="knowledge-graphs.html#cb222-6" tabindex="-1"></a><span class="co">#&gt;    Number of concepts       0.63 0.21  0.0024</span></span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="knowledge-graphs.html#cb224-1" tabindex="-1"></a><span class="fu">mv_kg_explain</span>(kg_h, resp, <span class="at">predictors =</span> <span class="st">&quot;depth&quot;</span>)</span>
+<span id="cb224-2"><a href="knowledge-graphs.html#cb224-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction with two prerequisites: Item difficulty explained by learning-order depth</span></span>
+<span id="cb224-3"><a href="knowledge-graphs.html#cb224-3" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 64% of the item variance.</span></span>
+<span id="cb224-4"><a href="knowledge-graphs.html#cb224-4" tabindex="-1"></a><span class="co">#&gt;                 label difficulty   se p.value</span></span>
+<span id="cb224-5"><a href="knowledge-graphs.html#cb224-5" tabindex="-1"></a><span class="co">#&gt;  Learning-order depth       0.47 0.49  0.3354</span></span>
+<span id="cb224-6"><a href="knowledge-graphs.html#cb224-6" tabindex="-1"></a><span class="co">#&gt;    Number of concepts       0.63 0.21  0.0024</span></span></code></pre></div>
 <p>Items that need more attributes are harder, but once that is taken into
 account, an item’s depth in the teacher’s learning order adds little. A
 prerequisite that does not show up as a difference in difficulty is not
@@ -725,32 +726,32 @@ necessarily wrong, but it is a claim the data do not support yet.</p>
 and <code>mv_kg_annotate()</code> adds more columns. Teachers often say that larger
 denominators make a problem harder. Take the largest denominator in each
 problem from its text and add it to the model:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="knowledge-graphs.html#cb223-1" tabindex="-1"></a>denominator <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="fu">regmatches</span>(kg<span class="sc">$</span>meta<span class="sc">$</span>text, <span class="fu">gregexpr</span>(<span class="st">&quot;/[0-9]+&quot;</span>, kg<span class="sc">$</span>meta<span class="sc">$</span>text)),</span>
-<span id="cb223-2"><a href="knowledge-graphs.html#cb223-2" tabindex="-1"></a>                      <span class="cf">function</span>(d) <span class="fu">max</span>(<span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot;&quot;</span>, d))), <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
-<span id="cb223-3"><a href="knowledge-graphs.html#cb223-3" tabindex="-1"></a>kg_m <span class="ot">&lt;-</span> <span class="fu">mv_kg_annotate</span>(kg, <span class="fu">data.frame</span>(<span class="at">item =</span> kg<span class="sc">$</span>meta<span class="sc">$</span>item, <span class="at">denominator =</span> denominator))</span>
-<span id="cb223-4"><a href="knowledge-graphs.html#cb223-4" tabindex="-1"></a><span class="fu">tidy</span>(kg_m, <span class="st">&quot;items&quot;</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
-<span id="cb223-5"><a href="knowledge-graphs.html#cb223-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 5</span></span>
-<span id="cb223-6"><a href="knowledge-graphs.html#cb223-6" tabindex="-1"></a><span class="co">#&gt;   item  concepts                                    n_concepts text  denominator</span></span>
-<span id="cb223-7"><a href="knowledge-graphs.html#cb223-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                            &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
-<span id="cb223-8"><a href="knowledge-graphs.html#cb223-8" tabindex="-1"></a><span class="co">#&gt; 1 FS01  common_denominator, column_borrow, subtrac…          3 5/3 …           4</span></span>
-<span id="cb223-9"><a href="knowledge-graphs.html#cb223-9" tabindex="-1"></a><span class="co">#&gt; 2 FS02  common_denominator, subtract_numerators              2 3/4 …           8</span></span>
-<span id="cb223-10"><a href="knowledge-graphs.html#cb223-10" tabindex="-1"></a><span class="co">#&gt; 3 FS03  common_denominator, subtract_numerators              2 5/6 …           9</span></span>
-<span id="cb223-11"><a href="knowledge-graphs.html#cb223-11" tabindex="-1"></a><span class="co">#&gt; 4 FS04  separate_whole, simplify_first, borrow_who…          4 3 1/…           2</span></span>
-<span id="cb223-12"><a href="knowledge-graphs.html#cb223-12" tabindex="-1"></a><span class="co">#&gt; 5 FS05  separate_whole, common_denominator, subtra…          4 4 3/…          10</span></span>
-<span id="cb223-13"><a href="knowledge-graphs.html#cb223-13" tabindex="-1"></a><span class="fu">mv_kg_explain</span>(kg_m, resp, <span class="at">covariates =</span> <span class="st">&quot;denominator&quot;</span>)</span>
-<span id="cb223-14"><a href="knowledge-graphs.html#cb223-14" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction (Tatsuoka): Item difficulty explained by concepts and item metadata</span></span>
-<span id="cb223-15"><a href="knowledge-graphs.html#cb223-15" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 88% of the item variance.</span></span>
-<span id="cb223-16"><a href="knowledge-graphs.html#cb223-16" tabindex="-1"></a><span class="co">#&gt;                label difficulty   se p.value</span></span>
-<span id="cb223-17"><a href="knowledge-graphs.html#cb223-17" tabindex="-1"></a><span class="co">#&gt;        convert_whole       2.09 0.30  &lt;0.001</span></span>
-<span id="cb223-18"><a href="knowledge-graphs.html#cb223-18" tabindex="-1"></a><span class="co">#&gt;       separate_whole      -0.17 0.24    0.47</span></span>
-<span id="cb223-19"><a href="knowledge-graphs.html#cb223-19" tabindex="-1"></a><span class="co">#&gt;       simplify_first      -0.44 0.38    0.24</span></span>
-<span id="cb223-20"><a href="knowledge-graphs.html#cb223-20" tabindex="-1"></a><span class="co">#&gt;   common_denominator       1.34 0.26  &lt;0.001</span></span>
-<span id="cb223-21"><a href="knowledge-graphs.html#cb223-21" tabindex="-1"></a><span class="co">#&gt;         borrow_whole       2.34 0.29  &lt;0.001</span></span>
-<span id="cb223-22"><a href="knowledge-graphs.html#cb223-22" tabindex="-1"></a><span class="co">#&gt;        column_borrow       0.00 0.34    1.00</span></span>
-<span id="cb223-23"><a href="knowledge-graphs.html#cb223-23" tabindex="-1"></a><span class="co">#&gt;  subtract_numerators      -1.70 0.24  &lt;0.001</span></span>
-<span id="cb223-24"><a href="knowledge-graphs.html#cb223-24" tabindex="-1"></a><span class="co">#&gt;        reduce_answer       0.15 0.35    0.66</span></span>
-<span id="cb223-25"><a href="knowledge-graphs.html#cb223-25" tabindex="-1"></a><span class="co">#&gt;          denominator      -0.01 0.05    0.83</span></span>
-<span id="cb223-26"><a href="knowledge-graphs.html#cb223-26" tabindex="-1"></a><span class="co">#&gt; Items the graph predicts poorly: FS09 (-0.90).</span></span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="knowledge-graphs.html#cb225-1" tabindex="-1"></a>denominator <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="fu">regmatches</span>(kg<span class="sc">$</span>meta<span class="sc">$</span>text, <span class="fu">gregexpr</span>(<span class="st">&quot;/[0-9]+&quot;</span>, kg<span class="sc">$</span>meta<span class="sc">$</span>text)),</span>
+<span id="cb225-2"><a href="knowledge-graphs.html#cb225-2" tabindex="-1"></a>                      <span class="cf">function</span>(d) <span class="fu">max</span>(<span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot;&quot;</span>, d))), <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb225-3"><a href="knowledge-graphs.html#cb225-3" tabindex="-1"></a>kg_m <span class="ot">&lt;-</span> <span class="fu">mv_kg_annotate</span>(kg, <span class="fu">data.frame</span>(<span class="at">item =</span> kg<span class="sc">$</span>meta<span class="sc">$</span>item, <span class="at">denominator =</span> denominator))</span>
+<span id="cb225-4"><a href="knowledge-graphs.html#cb225-4" tabindex="-1"></a><span class="fu">tidy</span>(kg_m, <span class="st">&quot;items&quot;</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb225-5"><a href="knowledge-graphs.html#cb225-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 5</span></span>
+<span id="cb225-6"><a href="knowledge-graphs.html#cb225-6" tabindex="-1"></a><span class="co">#&gt;   item  concepts                                    n_concepts text  denominator</span></span>
+<span id="cb225-7"><a href="knowledge-graphs.html#cb225-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                            &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
+<span id="cb225-8"><a href="knowledge-graphs.html#cb225-8" tabindex="-1"></a><span class="co">#&gt; 1 FS01  common_denominator, column_borrow, subtrac…          3 5/3 …           4</span></span>
+<span id="cb225-9"><a href="knowledge-graphs.html#cb225-9" tabindex="-1"></a><span class="co">#&gt; 2 FS02  common_denominator, subtract_numerators              2 3/4 …           8</span></span>
+<span id="cb225-10"><a href="knowledge-graphs.html#cb225-10" tabindex="-1"></a><span class="co">#&gt; 3 FS03  common_denominator, subtract_numerators              2 5/6 …           9</span></span>
+<span id="cb225-11"><a href="knowledge-graphs.html#cb225-11" tabindex="-1"></a><span class="co">#&gt; 4 FS04  separate_whole, simplify_first, borrow_who…          4 3 1/…           2</span></span>
+<span id="cb225-12"><a href="knowledge-graphs.html#cb225-12" tabindex="-1"></a><span class="co">#&gt; 5 FS05  separate_whole, common_denominator, subtra…          4 4 3/…          10</span></span>
+<span id="cb225-13"><a href="knowledge-graphs.html#cb225-13" tabindex="-1"></a><span class="fu">mv_kg_explain</span>(kg_m, resp, <span class="at">covariates =</span> <span class="st">&quot;denominator&quot;</span>)</span>
+<span id="cb225-14"><a href="knowledge-graphs.html#cb225-14" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_explain&gt; Fraction subtraction (Tatsuoka): Item difficulty explained by concepts and item metadata</span></span>
+<span id="cb225-15"><a href="knowledge-graphs.html#cb225-15" tabindex="-1"></a><span class="co">#&gt; 20 items, N = 536. The graph explains 88% of the item variance.</span></span>
+<span id="cb225-16"><a href="knowledge-graphs.html#cb225-16" tabindex="-1"></a><span class="co">#&gt;                label difficulty   se p.value</span></span>
+<span id="cb225-17"><a href="knowledge-graphs.html#cb225-17" tabindex="-1"></a><span class="co">#&gt;        convert_whole       2.09 0.30  &lt;0.001</span></span>
+<span id="cb225-18"><a href="knowledge-graphs.html#cb225-18" tabindex="-1"></a><span class="co">#&gt;       separate_whole      -0.17 0.24    0.47</span></span>
+<span id="cb225-19"><a href="knowledge-graphs.html#cb225-19" tabindex="-1"></a><span class="co">#&gt;       simplify_first      -0.44 0.38    0.24</span></span>
+<span id="cb225-20"><a href="knowledge-graphs.html#cb225-20" tabindex="-1"></a><span class="co">#&gt;   common_denominator       1.34 0.26  &lt;0.001</span></span>
+<span id="cb225-21"><a href="knowledge-graphs.html#cb225-21" tabindex="-1"></a><span class="co">#&gt;         borrow_whole       2.34 0.29  &lt;0.001</span></span>
+<span id="cb225-22"><a href="knowledge-graphs.html#cb225-22" tabindex="-1"></a><span class="co">#&gt;        column_borrow       0.00 0.34    1.00</span></span>
+<span id="cb225-23"><a href="knowledge-graphs.html#cb225-23" tabindex="-1"></a><span class="co">#&gt;  subtract_numerators      -1.70 0.24  &lt;0.001</span></span>
+<span id="cb225-24"><a href="knowledge-graphs.html#cb225-24" tabindex="-1"></a><span class="co">#&gt;        reduce_answer       0.15 0.35    0.66</span></span>
+<span id="cb225-25"><a href="knowledge-graphs.html#cb225-25" tabindex="-1"></a><span class="co">#&gt;          denominator      -0.01 0.05    0.83</span></span>
+<span id="cb225-26"><a href="knowledge-graphs.html#cb225-26" tabindex="-1"></a><span class="co">#&gt; Items the graph predicts poorly: FS09 (-0.90).</span></span></code></pre></div>
 <p>Once the attributes are in the model, the size of the denominator adds
 nothing: Its effect is close to zero and the share of item variance
 explained stays at 88%. What makes these items hard is the steps they
@@ -772,32 +773,32 @@ model or API key is needed. Those responses were written by the package
 authors, with mistakes planted for the checks to catch; they are not the
 output of a live model. With <code>mv_ask_setup()</code> the same call goes to Claude,
 an OpenAI model or a local model.</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="knowledge-graphs.html#cb224-1" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">mv_llm_replay</span>()</span>
-<span id="cb224-2"><a href="knowledge-graphs.html#cb224-2" tabindex="-1"></a>draft <span class="ot">&lt;-</span> <span class="fu">mv_kg_extract</span>(kg, <span class="at">subject =</span> <span class="st">&quot;Middle school fraction subtraction&quot;</span>)</span>
-<span id="cb224-3"><a href="knowledge-graphs.html#cb224-3" tabindex="-1"></a>draft</span>
-<span id="cb224-4"><a href="knowledge-graphs.html#cb224-4" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_draft&gt; (EXPERIMENTAL) Drafted by recorded responses from the concepts given</span></span>
-<span id="cb224-5"><a href="knowledge-graphs.html#cb224-5" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction (Tatsuoka) (drafted): 8 concept(s), 20 item(s)</span></span>
-<span id="cb224-6"><a href="knowledge-graphs.html#cb224-6" tabindex="-1"></a><span class="co">#&gt; Edges: 7 prerequisite, 0 related, 54 measures</span></span>
-<span id="cb224-7"><a href="knowledge-graphs.html#cb224-7" tabindex="-1"></a><span class="co">#&gt; Item metadata: text</span></span>
-<span id="cb224-8"><a href="knowledge-graphs.html#cb224-8" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
-<span id="cb224-9"><a href="knowledge-graphs.html#cb224-9" tabindex="-1"></a><span class="co">#&gt;   0: convert_whole, separate_whole, simplify_first, subtract_numerators</span></span>
-<span id="cb224-10"><a href="knowledge-graphs.html#cb224-10" tabindex="-1"></a><span class="co">#&gt;   1: common_denominator, borrow_whole, reduce_answer</span></span>
-<span id="cb224-11"><a href="knowledge-graphs.html#cb224-11" tabindex="-1"></a><span class="co">#&gt;   2: column_borrow</span></span>
-<span id="cb224-12"><a href="knowledge-graphs.html#cb224-12" tabindex="-1"></a><span class="co">#&gt; Checks on the model&#39;s answer: 5 flag(s)</span></span>
-<span id="cb224-13"><a href="knowledge-graphs.html#cb224-13" tabindex="-1"></a><span class="co">#&gt; * [review] unknown_item: The model linked FS21, which is not one of the</span></span>
-<span id="cb224-14"><a href="knowledge-graphs.html#cb224-14" tabindex="-1"></a><span class="co">#&gt;   items; the link was dropped.</span></span>
-<span id="cb224-15"><a href="knowledge-graphs.html#cb224-15" tabindex="-1"></a><span class="co">#&gt; * [review] unknown_concept: FS13 was linked to find_common_denominator,</span></span>
-<span id="cb224-16"><a href="knowledge-graphs.html#cb224-16" tabindex="-1"></a><span class="co">#&gt;   which is not a concept; the link was dropped.</span></span>
-<span id="cb224-17"><a href="knowledge-graphs.html#cb224-17" tabindex="-1"></a><span class="co">#&gt; * [review] two_way: The model gave the prerequisite both ways between</span></span>
-<span id="cb224-18"><a href="knowledge-graphs.html#cb224-18" tabindex="-1"></a><span class="co">#&gt;   simplify_first and reduce_answer; simplify_first -&gt; reduce_answer was</span></span>
-<span id="cb224-19"><a href="knowledge-graphs.html#cb224-19" tabindex="-1"></a><span class="co">#&gt;   kept (higher confidence).</span></span>
-<span id="cb224-20"><a href="knowledge-graphs.html#cb224-20" tabindex="-1"></a><span class="co">#&gt; * [review] cycle: The prerequisites formed a cycle through</span></span>
-<span id="cb224-21"><a href="knowledge-graphs.html#cb224-21" tabindex="-1"></a><span class="co">#&gt;   subtract_numerators, borrow_whole, column_borrow; column_borrow -&gt;</span></span>
-<span id="cb224-22"><a href="knowledge-graphs.html#cb224-22" tabindex="-1"></a><span class="co">#&gt;   subtract_numerators (confidence 0.3) was removed.</span></span>
-<span id="cb224-23"><a href="knowledge-graphs.html#cb224-23" tabindex="-1"></a><span class="co">#&gt; * [info] new_concept: The model proposed a new concept,</span></span>
-<span id="cb224-24"><a href="knowledge-graphs.html#cb224-24" tabindex="-1"></a><span class="co">#&gt;   subtract_whole_numbers; it was left out because the concepts were</span></span>
-<span id="cb224-25"><a href="knowledge-graphs.html#cb224-25" tabindex="-1"></a><span class="co">#&gt;   given.</span></span>
-<span id="cb224-26"><a href="knowledge-graphs.html#cb224-26" tabindex="-1"></a><span class="co">#&gt; Review the draft with mv_kg_check() and check it against data with mv_kg_fit().</span></span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="knowledge-graphs.html#cb226-1" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">mv_llm_replay</span>()</span>
+<span id="cb226-2"><a href="knowledge-graphs.html#cb226-2" tabindex="-1"></a>draft <span class="ot">&lt;-</span> <span class="fu">mv_kg_extract</span>(kg, <span class="at">subject =</span> <span class="st">&quot;Middle school fraction subtraction&quot;</span>)</span>
+<span id="cb226-3"><a href="knowledge-graphs.html#cb226-3" tabindex="-1"></a>draft</span>
+<span id="cb226-4"><a href="knowledge-graphs.html#cb226-4" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_draft&gt; (EXPERIMENTAL) Drafted by recorded responses from the concepts given</span></span>
+<span id="cb226-5"><a href="knowledge-graphs.html#cb226-5" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg&gt; Fraction subtraction (Tatsuoka) (drafted): 8 concept(s), 20 item(s)</span></span>
+<span id="cb226-6"><a href="knowledge-graphs.html#cb226-6" tabindex="-1"></a><span class="co">#&gt; Edges: 7 prerequisite, 0 related, 54 measures</span></span>
+<span id="cb226-7"><a href="knowledge-graphs.html#cb226-7" tabindex="-1"></a><span class="co">#&gt; Item metadata: text</span></span>
+<span id="cb226-8"><a href="knowledge-graphs.html#cb226-8" tabindex="-1"></a><span class="co">#&gt; Learning order (by prerequisite depth):</span></span>
+<span id="cb226-9"><a href="knowledge-graphs.html#cb226-9" tabindex="-1"></a><span class="co">#&gt;   0: convert_whole, separate_whole, simplify_first, subtract_numerators</span></span>
+<span id="cb226-10"><a href="knowledge-graphs.html#cb226-10" tabindex="-1"></a><span class="co">#&gt;   1: common_denominator, borrow_whole, reduce_answer</span></span>
+<span id="cb226-11"><a href="knowledge-graphs.html#cb226-11" tabindex="-1"></a><span class="co">#&gt;   2: column_borrow</span></span>
+<span id="cb226-12"><a href="knowledge-graphs.html#cb226-12" tabindex="-1"></a><span class="co">#&gt; Checks on the model&#39;s answer: 5 flag(s)</span></span>
+<span id="cb226-13"><a href="knowledge-graphs.html#cb226-13" tabindex="-1"></a><span class="co">#&gt; * [review] unknown_item: The model linked FS21, which is not one of the</span></span>
+<span id="cb226-14"><a href="knowledge-graphs.html#cb226-14" tabindex="-1"></a><span class="co">#&gt;   items; the link was dropped.</span></span>
+<span id="cb226-15"><a href="knowledge-graphs.html#cb226-15" tabindex="-1"></a><span class="co">#&gt; * [review] unknown_concept: FS13 was linked to find_common_denominator,</span></span>
+<span id="cb226-16"><a href="knowledge-graphs.html#cb226-16" tabindex="-1"></a><span class="co">#&gt;   which is not a concept; the link was dropped.</span></span>
+<span id="cb226-17"><a href="knowledge-graphs.html#cb226-17" tabindex="-1"></a><span class="co">#&gt; * [review] two_way: The model gave the prerequisite both ways between</span></span>
+<span id="cb226-18"><a href="knowledge-graphs.html#cb226-18" tabindex="-1"></a><span class="co">#&gt;   simplify_first and reduce_answer; simplify_first -&gt; reduce_answer was</span></span>
+<span id="cb226-19"><a href="knowledge-graphs.html#cb226-19" tabindex="-1"></a><span class="co">#&gt;   kept (higher confidence).</span></span>
+<span id="cb226-20"><a href="knowledge-graphs.html#cb226-20" tabindex="-1"></a><span class="co">#&gt; * [review] cycle: The prerequisites formed a cycle through</span></span>
+<span id="cb226-21"><a href="knowledge-graphs.html#cb226-21" tabindex="-1"></a><span class="co">#&gt;   subtract_numerators, borrow_whole, column_borrow; column_borrow -&gt;</span></span>
+<span id="cb226-22"><a href="knowledge-graphs.html#cb226-22" tabindex="-1"></a><span class="co">#&gt;   subtract_numerators (confidence 0.3) was removed.</span></span>
+<span id="cb226-23"><a href="knowledge-graphs.html#cb226-23" tabindex="-1"></a><span class="co">#&gt; * [info] new_concept: The model proposed a new concept,</span></span>
+<span id="cb226-24"><a href="knowledge-graphs.html#cb226-24" tabindex="-1"></a><span class="co">#&gt;   subtract_whole_numbers; it was left out because the concepts were</span></span>
+<span id="cb226-25"><a href="knowledge-graphs.html#cb226-25" tabindex="-1"></a><span class="co">#&gt;   given.</span></span>
+<span id="cb226-26"><a href="knowledge-graphs.html#cb226-26" tabindex="-1"></a><span class="co">#&gt; Review the draft with mv_kg_check() and check it against data with mv_kg_fit().</span></span></code></pre></div>
 <p>Before the graph is built, the model’s answer is checked. Some problems
 are simply errors and are fixed on the spot: A link to an item FS21 that
 does not exist, and a concept the model was told not to add. Others are
@@ -806,28 +807,28 @@ direction with higher confidence is kept, and the edge that closed a cycle
 (the one with the lowest confidence) is removed. One fix costs
 information: FS13 was linked to <code>find_common_denominator</code>, a misspelling,
 so that link was dropped. Every model link comes with a reason:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="knowledge-graphs.html#cb225-1" tabindex="-1"></a>reasons <span class="ot">&lt;-</span> <span class="fu">tidy</span>(draft, <span class="st">&quot;reasons&quot;</span>)</span>
-<span id="cb225-2"><a href="knowledge-graphs.html#cb225-2" tabindex="-1"></a>reasons[reasons<span class="sc">$</span>from <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;FS04&quot;</span>, <span class="st">&quot;FS08&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;from&quot;</span>, <span class="st">&quot;to&quot;</span>, <span class="st">&quot;reason&quot;</span>)]</span>
-<span id="cb225-3"><a href="knowledge-graphs.html#cb225-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 3</span></span>
-<span id="cb225-4"><a href="knowledge-graphs.html#cb225-4" tabindex="-1"></a><span class="co">#&gt;   from  to                  reason                                              </span></span>
-<span id="cb225-5"><a href="knowledge-graphs.html#cb225-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;                                               </span></span>
-<span id="cb225-6"><a href="knowledge-graphs.html#cb225-6" tabindex="-1"></a><span class="co">#&gt; 1 FS04  separate_whole      Work with the whole numbers and fractions separatel…</span></span>
-<span id="cb225-7"><a href="knowledge-graphs.html#cb225-7" tabindex="-1"></a><span class="co">#&gt; 2 FS04  simplify_first      3/2 is improper and can be simplified to 1 1/2 firs…</span></span>
-<span id="cb225-8"><a href="knowledge-graphs.html#cb225-8" tabindex="-1"></a><span class="co">#&gt; 3 FS04  subtract_numerators Subtract the fractional parts.                      </span></span>
-<span id="cb225-9"><a href="knowledge-graphs.html#cb225-9" tabindex="-1"></a><span class="co">#&gt; 4 FS08  subtract_numerators Like denominators; subtract the numerators.         </span></span>
-<span id="cb225-10"><a href="knowledge-graphs.html#cb225-10" tabindex="-1"></a><span class="co">#&gt; 5 FS08  reduce_answer       The answer 0/3 should be written as 0.</span></span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="knowledge-graphs.html#cb227-1" tabindex="-1"></a>reasons <span class="ot">&lt;-</span> <span class="fu">tidy</span>(draft, <span class="st">&quot;reasons&quot;</span>)</span>
+<span id="cb227-2"><a href="knowledge-graphs.html#cb227-2" tabindex="-1"></a>reasons[reasons<span class="sc">$</span>from <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;FS04&quot;</span>, <span class="st">&quot;FS08&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;from&quot;</span>, <span class="st">&quot;to&quot;</span>, <span class="st">&quot;reason&quot;</span>)]</span>
+<span id="cb227-3"><a href="knowledge-graphs.html#cb227-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 3</span></span>
+<span id="cb227-4"><a href="knowledge-graphs.html#cb227-4" tabindex="-1"></a><span class="co">#&gt;   from  to                  reason                                              </span></span>
+<span id="cb227-5"><a href="knowledge-graphs.html#cb227-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;                                               </span></span>
+<span id="cb227-6"><a href="knowledge-graphs.html#cb227-6" tabindex="-1"></a><span class="co">#&gt; 1 FS04  separate_whole      Work with the whole numbers and fractions separatel…</span></span>
+<span id="cb227-7"><a href="knowledge-graphs.html#cb227-7" tabindex="-1"></a><span class="co">#&gt; 2 FS04  simplify_first      3/2 is improper and can be simplified to 1 1/2 firs…</span></span>
+<span id="cb227-8"><a href="knowledge-graphs.html#cb227-8" tabindex="-1"></a><span class="co">#&gt; 3 FS04  subtract_numerators Subtract the fractional parts.                      </span></span>
+<span id="cb227-9"><a href="knowledge-graphs.html#cb227-9" tabindex="-1"></a><span class="co">#&gt; 4 FS08  subtract_numerators Like denominators; subtract the numerators.         </span></span>
+<span id="cb227-10"><a href="knowledge-graphs.html#cb227-10" tabindex="-1"></a><span class="co">#&gt; 5 FS08  reduce_answer       The answer 0/3 should be written as 0.</span></span></code></pre></div>
 <p>Now compare the draft with the expert Q-matrix:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="knowledge-graphs.html#cb226-1" tabindex="-1"></a><span class="fu">mv_kg_compare</span>(draft, kg)</span>
-<span id="cb226-2"><a href="knowledge-graphs.html#cb226-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_compare&gt; Fraction subtraction (Tatsuoka) (drafted) vs Fraction subtraction (Tatsuoka)</span></span>
-<span id="cb226-3"><a href="knowledge-graphs.html#cb226-3" tabindex="-1"></a><span class="co">#&gt; Item links: 53 of the 56 reference links are in the graph (recall</span></span>
-<span id="cb226-4"><a href="knowledge-graphs.html#cb226-4" tabindex="-1"></a><span class="co">#&gt;   0.95), and 53 of the graph&#39;s 54 links are in the reference (precision</span></span>
-<span id="cb226-5"><a href="knowledge-graphs.html#cb226-5" tabindex="-1"></a><span class="co">#&gt;   0.98).</span></span>
-<span id="cb226-6"><a href="knowledge-graphs.html#cb226-6" tabindex="-1"></a><span class="co">#&gt; 16 of 20 items are linked to exactly the same concepts.</span></span>
-<span id="cb226-7"><a href="knowledge-graphs.html#cb226-7" tabindex="-1"></a><span class="co">#&gt; Items that differ: FS01 (missing column_borrow), FS04 (missing</span></span>
-<span id="cb226-8"><a href="knowledge-graphs.html#cb226-8" tabindex="-1"></a><span class="co">#&gt;   borrow_whole), FS08 (extra reduce_answer), FS13 (missing</span></span>
-<span id="cb226-9"><a href="knowledge-graphs.html#cb226-9" tabindex="-1"></a><span class="co">#&gt;   common_denominator).</span></span>
-<span id="cb226-10"><a href="knowledge-graphs.html#cb226-10" tabindex="-1"></a><span class="co">#&gt; Prerequisites: The graph has 7; the reference has none to compare with.</span></span>
-<span id="cb226-11"><a href="knowledge-graphs.html#cb226-11" tabindex="-1"></a><span class="fu">options</span>(old)</span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="knowledge-graphs.html#cb228-1" tabindex="-1"></a><span class="fu">mv_kg_compare</span>(draft, kg)</span>
+<span id="cb228-2"><a href="knowledge-graphs.html#cb228-2" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_compare&gt; Fraction subtraction (Tatsuoka) (drafted) vs Fraction subtraction (Tatsuoka)</span></span>
+<span id="cb228-3"><a href="knowledge-graphs.html#cb228-3" tabindex="-1"></a><span class="co">#&gt; Item links: 53 of the 56 reference links are in the graph (recall</span></span>
+<span id="cb228-4"><a href="knowledge-graphs.html#cb228-4" tabindex="-1"></a><span class="co">#&gt;   0.95), and 53 of the graph&#39;s 54 links are in the reference (precision</span></span>
+<span id="cb228-5"><a href="knowledge-graphs.html#cb228-5" tabindex="-1"></a><span class="co">#&gt;   0.98).</span></span>
+<span id="cb228-6"><a href="knowledge-graphs.html#cb228-6" tabindex="-1"></a><span class="co">#&gt; 16 of 20 items are linked to exactly the same concepts.</span></span>
+<span id="cb228-7"><a href="knowledge-graphs.html#cb228-7" tabindex="-1"></a><span class="co">#&gt; Items that differ: FS01 (missing column_borrow), FS04 (missing</span></span>
+<span id="cb228-8"><a href="knowledge-graphs.html#cb228-8" tabindex="-1"></a><span class="co">#&gt;   borrow_whole), FS08 (extra reduce_answer), FS13 (missing</span></span>
+<span id="cb228-9"><a href="knowledge-graphs.html#cb228-9" tabindex="-1"></a><span class="co">#&gt;   common_denominator).</span></span>
+<span id="cb228-10"><a href="knowledge-graphs.html#cb228-10" tabindex="-1"></a><span class="co">#&gt; Prerequisites: The graph has 7; the reference has none to compare with.</span></span>
+<span id="cb228-11"><a href="knowledge-graphs.html#cb228-11" tabindex="-1"></a><span class="fu">options</span>(old)</span></code></pre></div>
 <p>The model and the expert agree on 16 of the 20 items, and on 53 of the
 56 expert links. The four differences are the places to look, and they
 are not all the model’s mistakes:</p>
@@ -880,46 +881,46 @@ does it share with <code>separate_whole</code>?</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="knowledge-graphs.html#cb227-1" tabindex="-1"></a><span class="co"># 1. a third prerequisite</span></span>
-<span id="cb227-2"><a href="knowledge-graphs.html#cb227-2" tabindex="-1"></a>edges3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>, <span class="st">&quot;convert_whole&quot;</span>),</span>
-<span id="cb227-3"><a href="knowledge-graphs.html#cb227-3" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>))</span>
-<span id="cb227-4"><a href="knowledge-graphs.html#cb227-4" tabindex="-1"></a>kg_h3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
-<span id="cb227-5"><a href="knowledge-graphs.html#cb227-5" tabindex="-1"></a>                     <span class="at">edges =</span> edges3, <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
-<span id="cb227-6"><a href="knowledge-graphs.html#cb227-6" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">mv_kg_hierarchy</span>(kg_h3))</span>
-<span id="cb227-7"><a href="knowledge-graphs.html#cb227-7" tabindex="-1"></a><span class="co">#&gt; [1] 120</span></span>
-<span id="cb227-8"><a href="knowledge-graphs.html#cb227-8" tabindex="-1"></a></span>
-<span id="cb227-9"><a href="knowledge-graphs.html#cb227-9" tabindex="-1"></a><span class="co"># 2. a cycle</span></span>
-<span id="cb227-10"><a href="knowledge-graphs.html#cb227-10" tabindex="-1"></a>kg_cyc <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node),</span>
-<span id="cb227-11"><a href="knowledge-graphs.html#cb227-11" tabindex="-1"></a>                      <span class="at">edges =</span> <span class="fu">rbind</span>(edges3, <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="st">&quot;borrow_whole&quot;</span>,</span>
-<span id="cb227-12"><a href="knowledge-graphs.html#cb227-12" tabindex="-1"></a>                                                       <span class="at">to =</span> <span class="st">&quot;separate_whole&quot;</span>)),</span>
-<span id="cb227-13"><a href="knowledge-graphs.html#cb227-13" tabindex="-1"></a>                      <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
-<span id="cb227-14"><a href="knowledge-graphs.html#cb227-14" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg_cyc)</span>
-<span id="cb227-15"><a href="knowledge-graphs.html#cb227-15" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 1 block, 1 review, 3 info</span></span>
-<span id="cb227-16"><a href="knowledge-graphs.html#cb227-16" tabindex="-1"></a><span class="co">#&gt; * [block] cycle: Prerequisite edges form a cycle through</span></span>
-<span id="cb227-17"><a href="knowledge-graphs.html#cb227-17" tabindex="-1"></a><span class="co">#&gt;   separate_whole, borrow_whole, so no learning order exists.</span></span>
-<span id="cb227-18"><a href="knowledge-graphs.html#cb227-18" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
-<span id="cb227-19"><a href="knowledge-graphs.html#cb227-19" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span>
-<span id="cb227-20"><a href="knowledge-graphs.html#cb227-20" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: simplify_first has no relations to other concepts.</span></span>
-<span id="cb227-21"><a href="knowledge-graphs.html#cb227-21" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: common_denominator has no relations to other</span></span>
-<span id="cb227-22"><a href="knowledge-graphs.html#cb227-22" tabindex="-1"></a><span class="co">#&gt;   concepts.</span></span>
-<span id="cb227-23"><a href="knowledge-graphs.html#cb227-23" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: reduce_answer has no relations to other concepts.</span></span>
-<span id="cb227-24"><a href="knowledge-graphs.html#cb227-24" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mv_kg_hierarchy</span>(kg_cyc))</span>
-<span id="cb227-25"><a href="knowledge-graphs.html#cb227-25" tabindex="-1"></a><span class="co">#&gt; Error : The prerequisite edges contain a cycle; see mv_kg_check().</span></span>
-<span id="cb227-26"><a href="knowledge-graphs.html#cb227-26" tabindex="-1"></a></span>
-<span id="cb227-27"><a href="knowledge-graphs.html#cb227-27" tabindex="-1"></a><span class="co"># 3. uncorrelated concepts</span></span>
-<span id="cb227-28"><a href="knowledge-graphs.html#cb227-28" tabindex="-1"></a>m_orth <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;orthogonal&quot;</span>)</span>
-<span id="cb227-29"><a href="knowledge-graphs.html#cb227-29" tabindex="-1"></a><span class="fu">anova</span>(m_orth, m_graph)</span>
-<span id="cb227-30"><a href="knowledge-graphs.html#cb227-30" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
-<span id="cb227-31"><a href="knowledge-graphs.html#cb227-31" tabindex="-1"></a><span class="co">#&gt; m_orth  7642  7689 7712 7822  -3779             </span></span>
-<span id="cb227-32"><a href="knowledge-graphs.html#cb227-32" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 276.773  3 0</span></span>
-<span id="cb227-33"><a href="knowledge-graphs.html#cb227-33" tabindex="-1"></a></span>
-<span id="cb227-34"><a href="knowledge-graphs.html#cb227-34" tabindex="-1"></a><span class="co"># 4. shared items</span></span>
-<span id="cb227-35"><a href="knowledge-graphs.html#cb227-35" tabindex="-1"></a><span class="fu">gg_kg</span>(kg3, <span class="at">highlight =</span> <span class="st">&quot;common_denominator&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="knowledge-graphs.html#cb229-1" tabindex="-1"></a><span class="co"># 1. a third prerequisite</span></span>
+<span id="cb229-2"><a href="knowledge-graphs.html#cb229-2" tabindex="-1"></a>edges3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;separate_whole&quot;</span>, <span class="st">&quot;subtract_numerators&quot;</span>, <span class="st">&quot;convert_whole&quot;</span>),</span>
+<span id="cb229-3"><a href="knowledge-graphs.html#cb229-3" tabindex="-1"></a>                     <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;borrow_whole&quot;</span>, <span class="st">&quot;column_borrow&quot;</span>, <span class="st">&quot;borrow_whole&quot;</span>))</span>
+<span id="cb229-4"><a href="knowledge-graphs.html#cb229-4" tabindex="-1"></a>kg_h3 <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node, <span class="at">label =</span> concepts<span class="sc">$</span>label),</span>
+<span id="cb229-5"><a href="knowledge-graphs.html#cb229-5" tabindex="-1"></a>                     <span class="at">edges =</span> edges3, <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
+<span id="cb229-6"><a href="knowledge-graphs.html#cb229-6" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">mv_kg_hierarchy</span>(kg_h3))</span>
+<span id="cb229-7"><a href="knowledge-graphs.html#cb229-7" tabindex="-1"></a><span class="co">#&gt; [1] 120</span></span>
+<span id="cb229-8"><a href="knowledge-graphs.html#cb229-8" tabindex="-1"></a></span>
+<span id="cb229-9"><a href="knowledge-graphs.html#cb229-9" tabindex="-1"></a><span class="co"># 2. a cycle</span></span>
+<span id="cb229-10"><a href="knowledge-graphs.html#cb229-10" tabindex="-1"></a>kg_cyc <span class="ot">&lt;-</span> <span class="fu">mv_kg_build</span>(<span class="fu">data.frame</span>(<span class="at">concept =</span> concepts<span class="sc">$</span>node),</span>
+<span id="cb229-11"><a href="knowledge-graphs.html#cb229-11" tabindex="-1"></a>                      <span class="at">edges =</span> <span class="fu">rbind</span>(edges3, <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="st">&quot;borrow_whole&quot;</span>,</span>
+<span id="cb229-12"><a href="knowledge-graphs.html#cb229-12" tabindex="-1"></a>                                                       <span class="at">to =</span> <span class="st">&quot;separate_whole&quot;</span>)),</span>
+<span id="cb229-13"><a href="knowledge-graphs.html#cb229-13" tabindex="-1"></a>                      <span class="at">items =</span> <span class="fu">mv_kg_qmatrix</span>(kg))</span>
+<span id="cb229-14"><a href="knowledge-graphs.html#cb229-14" tabindex="-1"></a><span class="fu">mv_kg_check</span>(kg_cyc)</span>
+<span id="cb229-15"><a href="knowledge-graphs.html#cb229-15" tabindex="-1"></a><span class="co">#&gt; &lt;mv_kg_check&gt; 1 block, 1 review, 3 info</span></span>
+<span id="cb229-16"><a href="knowledge-graphs.html#cb229-16" tabindex="-1"></a><span class="co">#&gt; * [block] cycle: Prerequisite edges form a cycle through</span></span>
+<span id="cb229-17"><a href="knowledge-graphs.html#cb229-17" tabindex="-1"></a><span class="co">#&gt;   separate_whole, borrow_whole, so no learning order exists.</span></span>
+<span id="cb229-18"><a href="knowledge-graphs.html#cb229-18" tabindex="-1"></a><span class="co">#&gt; * [review] few_items: column_borrow is measured by 2 item(s); at least</span></span>
+<span id="cb229-19"><a href="knowledge-graphs.html#cb229-19" tabindex="-1"></a><span class="co">#&gt;   3 are needed to estimate it as its own dimension.</span></span>
+<span id="cb229-20"><a href="knowledge-graphs.html#cb229-20" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: simplify_first has no relations to other concepts.</span></span>
+<span id="cb229-21"><a href="knowledge-graphs.html#cb229-21" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: common_denominator has no relations to other</span></span>
+<span id="cb229-22"><a href="knowledge-graphs.html#cb229-22" tabindex="-1"></a><span class="co">#&gt;   concepts.</span></span>
+<span id="cb229-23"><a href="knowledge-graphs.html#cb229-23" tabindex="-1"></a><span class="co">#&gt; * [info] isolated: reduce_answer has no relations to other concepts.</span></span>
+<span id="cb229-24"><a href="knowledge-graphs.html#cb229-24" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mv_kg_hierarchy</span>(kg_cyc))</span>
+<span id="cb229-25"><a href="knowledge-graphs.html#cb229-25" tabindex="-1"></a><span class="co">#&gt; Error : The prerequisite edges contain a cycle; see mv_kg_check().</span></span>
+<span id="cb229-26"><a href="knowledge-graphs.html#cb229-26" tabindex="-1"></a></span>
+<span id="cb229-27"><a href="knowledge-graphs.html#cb229-27" tabindex="-1"></a><span class="co"># 3. uncorrelated concepts</span></span>
+<span id="cb229-28"><a href="knowledge-graphs.html#cb229-28" tabindex="-1"></a>m_orth <span class="ot">&lt;-</span> <span class="fu">mv_kg_irt</span>(kg3, resp3, <span class="at">structure =</span> <span class="st">&quot;orthogonal&quot;</span>)</span>
+<span id="cb229-29"><a href="knowledge-graphs.html#cb229-29" tabindex="-1"></a><span class="fu">anova</span>(m_orth, m_graph)</span>
+<span id="cb229-30"><a href="knowledge-graphs.html#cb229-30" tabindex="-1"></a><span class="co">#&gt;          AIC SABIC   HQ  BIC logLik      X2 df p</span></span>
+<span id="cb229-31"><a href="knowledge-graphs.html#cb229-31" tabindex="-1"></a><span class="co">#&gt; m_orth  7642  7689 7712 7822  -3779             </span></span>
+<span id="cb229-32"><a href="knowledge-graphs.html#cb229-32" tabindex="-1"></a><span class="co">#&gt; m_graph 7371  7421 7447 7564  -3641 276.773  3 0</span></span>
+<span id="cb229-33"><a href="knowledge-graphs.html#cb229-33" tabindex="-1"></a></span>
+<span id="cb229-34"><a href="knowledge-graphs.html#cb229-34" tabindex="-1"></a><span class="co"># 4. shared items</span></span>
+<span id="cb229-35"><a href="knowledge-graphs.html#cb229-35" tabindex="-1"></a><span class="fu">gg_kg</span>(kg3, <span class="at">highlight =</span> <span class="st">&quot;common_denominator&quot;</span>)</span></code></pre></div>
 <p><img src="mirtverse-book_files/figure-html/unnamed-chunk-173-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="knowledge-graphs.html#cb228-1" tabindex="-1"></a>q[q[, <span class="st">&quot;common_denominator&quot;</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> q[, <span class="st">&quot;separate_whole&quot;</span>] <span class="sc">==</span> <span class="dv">1</span>, ]</span>
-<span id="cb228-2"><a href="knowledge-graphs.html#cb228-2" tabindex="-1"></a><span class="co">#&gt;      separate_whole common_denominator borrow_whole</span></span>
-<span id="cb228-3"><a href="knowledge-graphs.html#cb228-3" tabindex="-1"></a><span class="co">#&gt; FS05              1                  1            0</span></span>
-<span id="cb228-4"><a href="knowledge-graphs.html#cb228-4" tabindex="-1"></a><span class="co">#&gt; FS13              1                  1            1</span></span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="knowledge-graphs.html#cb230-1" tabindex="-1"></a>q[q[, <span class="st">&quot;common_denominator&quot;</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> q[, <span class="st">&quot;separate_whole&quot;</span>] <span class="sc">==</span> <span class="dv">1</span>, ]</span>
+<span id="cb230-2"><a href="knowledge-graphs.html#cb230-2" tabindex="-1"></a><span class="co">#&gt;      separate_whole common_denominator borrow_whole</span></span>
+<span id="cb230-3"><a href="knowledge-graphs.html#cb230-3" tabindex="-1"></a><span class="co">#&gt; FS05              1                  1            0</span></span>
+<span id="cb230-4"><a href="knowledge-graphs.html#cb230-4" tabindex="-1"></a><span class="co">#&gt; FS13              1                  1            1</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Borrowing now needs both separating and converting, so more patterns are
 ruled out: 120 of the 256 remain.</li>

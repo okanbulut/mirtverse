@@ -9,7 +9,7 @@ reveal at the end of the labs.
 ``` r
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield", "aiscored", "fractions")
+    "essays", "aigfield", "aiscored", "fractions", "fractions_logs")
 )
 ```
 
@@ -20,7 +20,8 @@ lab_truth(
   the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"` (Lab 3),
   `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"` (Lab 6), or
   one of the AI Hub datasets, `"itemtext"`, `"essays"`, `"aigfield"` and
-  `"aiscored"`, or `"fractions"` (the knowledge graph example).
+  `"aiscored"`, or `"fractions"` (the knowledge graph example) and
+  `"fractions_logs"` (its practice logs, for knowledge tracing).
 
 ## Value
 
@@ -62,7 +63,12 @@ between the published
 [fractions_kg](https://www.okanbulut.com/mirtverse/reference/fractions.md)
 and the true graph, the true `graph`, the true item parameters (`items`:
 Slopes per concept, intercept `d` and difficulty `b`) and the students'
-concept proficiencies `theta`.
+concept proficiencies `theta`. For `"fractions_logs"`, the true BKT
+values of
+[fractions_logs](https://www.okanbulut.com/mirtverse/reference/fractions_logs.md):
+Each concept's `prior` and `learn` rate, each item's `guess` and `slip`,
+the `gate` (the share of the learn rate left when a prerequisite is not
+yet known) and each student's true state at every attempt (`known`).
 
 ## Examples
 

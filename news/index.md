@@ -2,6 +2,27 @@
 
 ## mirtverse (development version)
 
+- Book: Chapter 17 (Large language models) has a new section, “Where do
+  synthetic respondents land?”, with a coverage strip of the HEXACO data
+  and how to read Overlap and Structure.
+
+- Knowledge tracing (experimental):
+  [`mv_kt_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_fit.md)
+  fits Bayesian knowledge tracing to practice logs, skill by skill, by
+  expectation-maximization in base R, with the pyBKT variants `forgets`
+  (a known skill can be forgotten) and `multigs` (a guess and a slip per
+  item). Items can be mapped to skills through a knowledge graph.
+  [`predict()`](https://rdrr.io/r/stats/predict.html) gives
+  one-step-ahead predictions for new students,
+  [`mv_kt_cv()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_cv.md)
+  cross-validates by student, and
+  [`gg_kt()`](https://www.okanbulut.com/mirtverse/reference/gg_kt.md)
+  draws learning curves, one student’s mastery over time, or mastery on
+  the knowledge graph. New data: `cognitive_tutor` (the Cognitive Tutor
+  logs of the pyBKT examples) and `fractions_logs` (simulated practice
+  on the fractions graph, with the truth in
+  `lab_truth("fractions_logs")`).
+
 - Item metadata on knowledge graphs:
   [`mv_kg_annotate()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_annotate.md)
   (or the new `meta` argument of
@@ -16,6 +37,7 @@
   [`mv_kg_refine()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_refine.md)
   keep it. `fraction_subtraction_kg` now has the text of its 20
   problems.
+
 - [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
   (experimental) drafts a knowledge graph from item text with a language
   model: It links items to concepts you give, or proposes the concepts
@@ -29,6 +51,7 @@
   expert Q-matrix, matching concepts by their items when the names
   differ. Both run offline from the example recordings with
   [`mv_llm_replay()`](https://www.okanbulut.com/mirtverse/reference/mv_llm_replay.md).
+
 - [`mv_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_fit.md)
   has a new item check, `weak_link`: An item linked to more than one
   concept that agrees much less with one of them than with another.
@@ -37,10 +60,13 @@
   [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
   draws it as a dotted line. It catches the extra links a drafted graph
   tends to have.
+
 - [`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md)
   adds or drops item links, prerequisites and related edges by hand, for
   the changes a reviewer decides on.
+
 - `fractions_kg` now has the text of its 24 items.
+
 - Lab 12, “Reviewing an AI-drafted graph” (`run_lab("kg-draft")`):
   Students draft the fractions graph with
   [`mv_kg_extract()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_extract.md)
@@ -50,6 +76,7 @@
   decide the rest with the team’s graph and
   [`mv_kg_edit()`](https://www.okanbulut.com/mirtverse/reference/mv_kg_edit.md),
   and compare all three graphs with the truth.
+
 - The book’s knowledge graph chapter has two new parts: Item metadata as
   an explanation of difficulty, and drafting a graph from item text.
 

@@ -339,7 +339,8 @@ div.csl-indent {
 <li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
 <li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
 <li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
-<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#llms-coverage"><i class="fa fa-check"></i><b>17.5</b> Where do synthetic respondents land?</a></li>
+<li class="chapter" data-level="17.6" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.6</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
@@ -630,8 +631,70 @@ check fairness or replace a field test, and mirtverse labels them
 experimental for that reason.</p>
 </div>
 </div>
-<div id="your-turn-16" class="section level2 hasAnchor" number="17.5">
-<h2><span class="header-section-number">17.5</span> Your turn<a href="llms.html#your-turn-16" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="llms-coverage" class="section level2 hasAnchor" number="17.5">
+<h2><span class="header-section-number">17.5</span> Where do synthetic respondents land?<a href="llms.html#llms-coverage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>compare_synthetic()</code> compares summaries, such as proportions correct.
+Summaries can look acceptable while most of the real population is
+missing from the synthetic sample. The coverage strip shows where
+synthetic respondents land. <code>synthetic_coverage()</code> cuts the real score
+distribution into ten slices of equal size (deciles) and counts how many
+synthetic respondents fall into each, and <code>gg_coverage()</code> draws one row
+per attempt, so you can see whether a pattern repeats.</p>
+<p>mirtverse includes the data of a study of synthetic personality data:
+<code>hexaco_real</code> holds the answers of 17,874 real people from Canada, Great
+Britain and the United States to the 240 IPIP-HEXACO items
+<span class="citation">(<a href="#ref-ashton2007ipip">Ashton et al. 2007</a>)</span>, and <code>hexaco_llm</code> holds 59,611 synthetic respondents
+from four open-weight language models, generated for the same countries in
+ten attempts each. To keep the example small, we use the 40
+Honesty-Humility items, Canada only, and the first four attempts. Answers
+are stored as given, so the reverse-keyed items are reversed first:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="llms.html#cb196-1" tabindex="-1"></a>h <span class="ot">&lt;-</span> hexaco_items<span class="sc">$</span>item[hexaco_items<span class="sc">$</span>trait <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]       <span class="co"># 40 items</span></span>
+<span id="cb196-2"><a href="llms.html#cb196-2" tabindex="-1"></a>rev_items <span class="ot">&lt;-</span> <span class="fu">intersect</span>(h, hexaco_items<span class="sc">$</span>item[hexaco_items<span class="sc">$</span>reverse])</span>
+<span id="cb196-3"><a href="llms.html#cb196-3" tabindex="-1"></a>keyed <span class="ot">&lt;-</span> <span class="cf">function</span>(d) {</span>
+<span id="cb196-4"><a href="llms.html#cb196-4" tabindex="-1"></a>  d <span class="ot">&lt;-</span> d[h]</span>
+<span id="cb196-5"><a href="llms.html#cb196-5" tabindex="-1"></a>  d[rev_items] <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="sc">-</span> d[rev_items]</span>
+<span id="cb196-6"><a href="llms.html#cb196-6" tabindex="-1"></a>  d</span>
+<span id="cb196-7"><a href="llms.html#cb196-7" tabindex="-1"></a>}</span>
+<span id="cb196-8"><a href="llms.html#cb196-8" tabindex="-1"></a>real <span class="ot">&lt;-</span> <span class="fu">keyed</span>(hexaco_real[hexaco_real<span class="sc">$</span>country <span class="sc">==</span> <span class="st">&quot;Canada&quot;</span>, ])</span>
+<span id="cb196-9"><a href="llms.html#cb196-9" tabindex="-1"></a>ca <span class="ot">&lt;-</span> hexaco_llm[hexaco_llm<span class="sc">$</span>country <span class="sc">==</span> <span class="st">&quot;Canada&quot;</span> <span class="sc">&amp;</span> hexaco_llm<span class="sc">$</span>attempt <span class="sc">&lt;=</span> <span class="dv">4</span>, ]</span>
+<span id="cb196-10"><a href="llms.html#cb196-10" tabindex="-1"></a><span class="co"># One list per model, with one data frame per attempt</span></span>
+<span id="cb196-11"><a href="llms.html#cb196-11" tabindex="-1"></a>synthetic <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">split</span>(ca, ca<span class="sc">$</span>model),</span>
+<span id="cb196-12"><a href="llms.html#cb196-12" tabindex="-1"></a>                    <span class="cf">function</span>(m) <span class="fu">lapply</span>(<span class="fu">split</span>(m, m<span class="sc">$</span>attempt), keyed))</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="llms.html#cb197-1" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">synthetic_coverage</span>(synthetic, real, <span class="at">cor =</span> <span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb197-2"><a href="llms.html#cb197-2" tabindex="-1"></a><span class="fu">gg_coverage</span>(cov)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:llms-coverage"></span>
+<img src="mirtverse-book_files/figure-html/llms-coverage-1.png" alt="Coverage strip for Honesty-Humility in Canada: Four language models, four attempts each." width="100%" />
+<p class="caption">
+Figure 17.1: Coverage strip for Honesty-Humility in Canada: Four language models, four attempts each.
+</p>
+</div>
+<p>Columns are deciles of the real Honesty-Humility score, from the lowest
+10% on the left to the highest 10% on the right. Blue cells hold too many
+synthetic respondents, red cells too few, and pale cells are within what a
+real sample of the same size would show by chance. The two numbers on the
+right summarize each model:</p>
+<ul>
+<li><strong>Overlap</strong> is the share of synthetic respondents who land in the same
+deciles as real respondents. 100% means the same mix as the real
+population; a sample that puts everyone into one decile scores about 10%.</li>
+<li><strong>Structure</strong> is how closely the correlations between items match the
+real ones (100% means identical).</li>
+</ul>
+<p>Every model puts far too many synthetic Canadians in the top decile and
+too few in most other deciles: The synthetic people are more honest and
+modest than real people, and more alike. The rows within each model look
+the same, so this is how the models behave, not one unlucky run. Note also
+that the model with the best Structure has the worst Overlap. A model can
+know which items go together and still put its respondents in the wrong
+place, which is why checks based only on correlations, such as
+reliability or factor structure, are not enough. The article <a href="https://www.okanbulut.com/mirtverse/articles/synthetic-coverage.html">Checking
+synthetic respondents</a> shows the
+other options of the strip: Groups such as countries, single items and
+their answer categories, and the Best Blend, a mix of models chosen on
+some attempts and checked on others.</p>
+</div>
+<div id="your-turn-16" class="section level2 hasAnchor" number="17.6">
+<h2><span class="header-section-number">17.6</span> Your turn<a href="llms.html#your-turn-16" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="yourturn">
 <ol style="list-style-type: decimal">
 <li>Run <code>mv_ask(request, data = Science, dry_run = TRUE, anonymize = TRUE)</code>.
@@ -650,28 +713,28 @@ count, and one group of test takers you would check separately.</li>
 <summary>
 Solutions
 </summary>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="llms.html#cb196-1" tabindex="-1"></a><span class="fu">mv_ask</span>(request, <span class="at">data =</span> Science, <span class="at">dry_run =</span> <span class="cn">TRUE</span>, <span class="at">anonymize =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb196-2"><a href="llms.html#cb196-2" tabindex="-1"></a><span class="co">#&gt; This would be sent to recorded responses:</span></span>
-<span id="cb196-3"><a href="llms.html#cb196-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb196-4"><a href="llms.html#cb196-4" tabindex="-1"></a><span class="co">#&gt; Request: Fit a graded response model to these attitude items, check the fit and explain the results.</span></span>
-<span id="cb196-5"><a href="llms.html#cb196-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb196-6"><a href="llms.html#cb196-6" tabindex="-1"></a><span class="co">#&gt; Data: 392 rows, 4 columns.</span></span>
-<span id="cb196-7"><a href="llms.html#cb196-7" tabindex="-1"></a><span class="co">#&gt; Columns (name | type | distinct values | min | max | share missing | guessed role | categories):</span></span>
-<span id="cb196-8"><a href="llms.html#cb196-8" tabindex="-1"></a><span class="co">#&gt; - V1 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
-<span id="cb196-9"><a href="llms.html#cb196-9" tabindex="-1"></a><span class="co">#&gt; - V2 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
-<span id="cb196-10"><a href="llms.html#cb196-10" tabindex="-1"></a><span class="co">#&gt; - V3 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
-<span id="cb196-11"><a href="llms.html#cb196-11" tabindex="-1"></a><span class="co">#&gt; - V4 | integer | 4 | 1 | 4 | 0.00 | item |</span></span>
-<span id="cb196-12"><a href="llms.html#cb196-12" tabindex="-1"></a><span class="fu">mv_llm_recordings</span>()[, <span class="fu">c</span>(<span class="st">&quot;function_name&quot;</span>, <span class="st">&quot;prompt_start&quot;</span>)]</span>
-<span id="cb196-13"><a href="llms.html#cb196-13" tabindex="-1"></a><span class="co">#&gt; # A tibble: 26 × 2</span></span>
-<span id="cb196-14"><a href="llms.html#cb196-14" tabindex="-1"></a><span class="co">#&gt;   function_name  prompt_start                                                  </span></span>
-<span id="cb196-15"><a href="llms.html#cb196-15" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;                                                         </span></span>
-<span id="cb196-16"><a href="llms.html#cb196-16" tabindex="-1"></a><span class="co">#&gt; 1 mv_ask         &quot;Request: Fit a graded response model to these attitude items&quot;</span></span>
-<span id="cb196-17"><a href="llms.html#cb196-17" tabindex="-1"></a><span class="co">#&gt; 2 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
-<span id="cb196-18"><a href="llms.html#cb196-18" tabindex="-1"></a><span class="co">#&gt; 3 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
-<span id="cb196-19"><a href="llms.html#cb196-19" tabindex="-1"></a><span class="co">#&gt; 4 verify_items   &quot;A recipe uses 3 cups of flour for every 2 cups of milk. How &quot;</span></span>
-<span id="cb196-20"><a href="llms.html#cb196-20" tabindex="-1"></a><span class="co">#&gt; 5 verify_items   &quot;A cyclist rides 45 km in 3 hours at a steady speed. How far &quot;</span></span>
-<span id="cb196-21"><a href="llms.html#cb196-21" tabindex="-1"></a><span class="co">#&gt; 6 verify_items   &quot;A garden is 12 m long and 7 m wide. How many metres of fenci&quot;</span></span>
-<span id="cb196-22"><a href="llms.html#cb196-22" tabindex="-1"></a><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="llms.html#cb198-1" tabindex="-1"></a><span class="fu">mv_ask</span>(request, <span class="at">data =</span> Science, <span class="at">dry_run =</span> <span class="cn">TRUE</span>, <span class="at">anonymize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb198-2"><a href="llms.html#cb198-2" tabindex="-1"></a><span class="co">#&gt; This would be sent to recorded responses:</span></span>
+<span id="cb198-3"><a href="llms.html#cb198-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb198-4"><a href="llms.html#cb198-4" tabindex="-1"></a><span class="co">#&gt; Request: Fit a graded response model to these attitude items, check the fit and explain the results.</span></span>
+<span id="cb198-5"><a href="llms.html#cb198-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb198-6"><a href="llms.html#cb198-6" tabindex="-1"></a><span class="co">#&gt; Data: 392 rows, 4 columns.</span></span>
+<span id="cb198-7"><a href="llms.html#cb198-7" tabindex="-1"></a><span class="co">#&gt; Columns (name | type | distinct values | min | max | share missing | guessed role | categories):</span></span>
+<span id="cb198-8"><a href="llms.html#cb198-8" tabindex="-1"></a><span class="co">#&gt; - V1 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb198-9"><a href="llms.html#cb198-9" tabindex="-1"></a><span class="co">#&gt; - V2 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb198-10"><a href="llms.html#cb198-10" tabindex="-1"></a><span class="co">#&gt; - V3 | integer | 4 | 1 | 4 | 0.00 | item | </span></span>
+<span id="cb198-11"><a href="llms.html#cb198-11" tabindex="-1"></a><span class="co">#&gt; - V4 | integer | 4 | 1 | 4 | 0.00 | item |</span></span>
+<span id="cb198-12"><a href="llms.html#cb198-12" tabindex="-1"></a><span class="fu">mv_llm_recordings</span>()[, <span class="fu">c</span>(<span class="st">&quot;function_name&quot;</span>, <span class="st">&quot;prompt_start&quot;</span>)]</span>
+<span id="cb198-13"><a href="llms.html#cb198-13" tabindex="-1"></a><span class="co">#&gt; # A tibble: 26 × 2</span></span>
+<span id="cb198-14"><a href="llms.html#cb198-14" tabindex="-1"></a><span class="co">#&gt;   function_name  prompt_start                                                  </span></span>
+<span id="cb198-15"><a href="llms.html#cb198-15" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;                                                         </span></span>
+<span id="cb198-16"><a href="llms.html#cb198-16" tabindex="-1"></a><span class="co">#&gt; 1 mv_ask         &quot;Request: Fit a graded response model to these attitude items&quot;</span></span>
+<span id="cb198-17"><a href="llms.html#cb198-17" tabindex="-1"></a><span class="co">#&gt; 2 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
+<span id="cb198-18"><a href="llms.html#cb198-18" tabindex="-1"></a><span class="co">#&gt; 3 generate_items &quot;Construct: Grade 7 numeracy Test takers: Grade 7 students Sc&quot;</span></span>
+<span id="cb198-19"><a href="llms.html#cb198-19" tabindex="-1"></a><span class="co">#&gt; 4 verify_items   &quot;A recipe uses 3 cups of flour for every 2 cups of milk. How &quot;</span></span>
+<span id="cb198-20"><a href="llms.html#cb198-20" tabindex="-1"></a><span class="co">#&gt; 5 verify_items   &quot;A cyclist rides 45 km in 3 hours at a steady speed. How far &quot;</span></span>
+<span id="cb198-21"><a href="llms.html#cb198-21" tabindex="-1"></a><span class="co">#&gt; 6 verify_items   &quot;A garden is 12 m long and 7 m wide. How many metres of fenci&quot;</span></span>
+<span id="cb198-22"><a href="llms.html#cb198-22" tabindex="-1"></a><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>The request (with column names coded), the number of rows and the
 summary of each column (type, distinct values, range, share missing,
@@ -727,6 +790,9 @@ evaluating automated scores.</p>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-argyle2023" class="csl-entry">
 Argyle, Lisa P., Ethan C. Busby, Nancy Fulda, Joshua R. Gubler, Christopher Rytting, and David Wingate. 2023. <span>“Out of One, Many: Using Language Models to Simulate Human Samples.”</span> <em>Political Analysis</em> 31 (3): 337–51. <a href="https://doi.org/10.1017/pan.2023.2">https://doi.org/10.1017/pan.2023.2</a>.
+</div>
+<div id="ref-ashton2007ipip" class="csl-entry">
+Ashton, Michael C., Kibeom Lee, and Lewis R. Goldberg. 2007. <span>“The <span>IPIP–HEXACO</span> Scales: An Alternative, Public-Domain Measure of the Personality Constructs in the <span>HEXACO</span> Model.”</span> <em>Personality and Individual Differences</em> 42 (8): 1515–26. <a href="https://doi.org/10.1016/j.paid.2006.10.027">https://doi.org/10.1016/j.paid.2006.10.027</a>.
 </div>
 <div id="ref-bulut2024" class="csl-entry">
 Bulut, Okan, Maggie Beiting-Parrish, Jodi M. Casabianca, et al. 2024. <span>“The Rise of Artificial Intelligence in Educational Measurement: Opportunities and Ethical Challenges.”</span> <em>Chinese/English Journal of Educational Measurement and Evaluation</em>, ahead of print. <a href="https://doi.org/10.59863/MIQL7785">https://doi.org/10.59863/MIQL7785</a>.

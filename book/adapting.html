@@ -339,7 +339,8 @@ div.csl-indent {
 <li class="chapter" data-level="17.2" data-path="llms.html"><a href="llms.html#example-1-from-a-sentence-to-a-tested-script"><i class="fa fa-check"></i><b>17.2</b> Example 1: From a sentence to a tested script</a></li>
 <li class="chapter" data-level="17.3" data-path="llms.html"><a href="llms.html#example-2-writing-items-and-catching-the-mistakes"><i class="fa fa-check"></i><b>17.3</b> Example 2: Writing items, and catching the mistakes</a></li>
 <li class="chapter" data-level="17.4" data-path="llms.html"><a href="llms.html#example-3-is-a-recording-reproducible"><i class="fa fa-check"></i><b>17.4</b> Example 3: Is a recording reproducible?</a></li>
-<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.5</b> Your turn</a></li>
+<li class="chapter" data-level="17.5" data-path="llms.html"><a href="llms.html#llms-coverage"><i class="fa fa-check"></i><b>17.5</b> Where do synthetic respondents land?</a></li>
+<li class="chapter" data-level="17.6" data-path="llms.html"><a href="llms.html#your-turn-16"><i class="fa fa-check"></i><b>17.6</b> Your turn</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#in-the-ai-hub-1"><i class="fa fa-check"></i>In the AI Hub</a></li>
 <li class="chapter" data-level="" data-path="llms.html"><a href="llms.html#further-reading-16"><i class="fa fa-check"></i>Further reading</a></li>
 </ul></li>
@@ -494,10 +495,10 @@ to look.</p>
 keep the label and the object names listed in Appendix <a href="datasets.html#datasets">A</a>. For
 example, to run Example 1 of Chapter <a href="irt-models.html#irt-models">2</a> on your own
 dichotomous test:</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb229-1"><a href="adapting.html#cb229-1" tabindex="-1"></a><span class="in">```{r data-irt-models-1}</span></span>
-<span id="cb229-2"><a href="adapting.html#cb229-2" tabindex="-1"></a><span class="in"># Our midterm: 40 multiple-choice items, scored 0/1.</span></span>
-<span id="cb229-3"><a href="adapting.html#cb229-3" tabindex="-1"></a><span class="in">resp &lt;- read.csv(&quot;midterm-scored.csv&quot;)[, -1]   # drop the ID column</span></span>
-<span id="cb229-4"><a href="adapting.html#cb229-4" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb231-1"><a href="adapting.html#cb231-1" tabindex="-1"></a><span class="in">```{r data-irt-models-1}</span></span>
+<span id="cb231-2"><a href="adapting.html#cb231-2" tabindex="-1"></a><span class="in"># Our midterm: 40 multiple-choice items, scored 0/1.</span></span>
+<span id="cb231-3"><a href="adapting.html#cb231-3" tabindex="-1"></a><span class="in">resp &lt;- read.csv(&quot;midterm-scored.csv&quot;)[, -1]   # drop the ID column</span></span>
+<span id="cb231-4"><a href="adapting.html#cb231-4" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>The rest of the example then runs on your data. Two caveats:</p>
 <ul>
 <li>Examples built on <strong>simulated</strong> data compare estimates with the true
@@ -515,9 +516,9 @@ guide</a>.</p>
 <div id="building-the-book" class="section level2 unnumbered hasAnchor">
 <h2>Building the book<a href="adapting.html#building-the-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Install bookdown once, then build from the <code>book/</code> folder:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="adapting.html#cb230-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span>
-<span id="cb230-2"><a href="adapting.html#cb230-2" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>)           <span class="co"># the whole book, into _book/</span></span>
-<span id="cb230-3"><a href="adapting.html#cb230-3" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">preview_chapter</span>(<span class="st">&quot;05-fit.Rmd&quot;</span>)      <span class="co"># one chapter, faster</span></span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="adapting.html#cb232-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span>
+<span id="cb232-2"><a href="adapting.html#cb232-2" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>)           <span class="co"># the whole book, into _book/</span></span>
+<span id="cb232-3"><a href="adapting.html#cb232-3" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">preview_chapter</span>(<span class="st">&quot;05-fit.Rmd&quot;</span>)      <span class="co"># one chapter, faster</span></span></code></pre></div>
 <p>Open <code>_book/index.html</code> in a browser to read the result. The whole book
 builds in a few minutes on a laptop. To publish your own version, put the
 <code>_book/</code> folder on any web server, or use GitHub Pages as the mirtverse

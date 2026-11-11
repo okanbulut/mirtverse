@@ -2,7 +2,7 @@
 
 # IRT analysis report
 
-November 10, 2026 \| mirt 1.48 \| mirtverse 0.5.0
+November 11, 2026 \| mirt 1.48 \| mirtverse 0.5.0
 
 **Contents**
 

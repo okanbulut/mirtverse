@@ -243,3 +243,7 @@ cov$blend$recipe
 - The [reading
   list](https://www.okanbulut.com/mirtverse/articles/ai-reading.html#synthetic-respondents)
   collects papers on language models as respondents.
+- The book’s [chapter on large language
+  models](https://www.okanbulut.com/mirtverse/book/llms.html#llms-coverage)
+  shows the coverage strip next to the other checks of synthetic
+  respondents.

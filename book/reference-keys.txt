@@ -32,6 +32,7 @@ fig:aig-families
 fig:auto-agree
 fig:auto-facets
 fig:auto-shift
+fig:llms-coverage
 fig:ai-validity-audit
 fig:kg-fs
 fig:kg-fit-fs
@@ -131,6 +132,7 @@ the-ideas-16
 example-1-from-a-sentence-to-a-tested-script
 example-2-writing-items-and-catching-the-mistakes
 example-3-is-a-recording-reproducible
+llms-coverage
 your-turn-16
 ai-validity
 the-ideas-17

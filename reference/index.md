@@ -244,6 +244,28 @@ true graph) and Tatsuoka’s fraction subtraction data.
   [`fraction_subtraction_kg`](https://www.okanbulut.com/mirtverse/reference/fraction_subtraction.md)
   : Tatsuoka's fraction subtraction data with its Q-matrix
 
+## Knowledge tracing
+
+Follow each student’s mastery of each skill from one practice attempt to
+the next with Bayesian knowledge tracing (experimental), and draw it on
+a knowledge graph.
+
+- [`mv_kt_fit()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_fit.md)
+  : Bayesian knowledge tracing
+- [`tidy(`*`<mv_kt>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt.md)
+  [`glance(`*`<mv_kt>`*`)`](https://www.okanbulut.com/mirtverse/reference/tidy_mv_kt.md)
+  : Tidy a knowledge tracing model
+- [`predict(`*`<mv_kt>`*`)`](https://www.okanbulut.com/mirtverse/reference/predict.mv_kt.md)
+  : Predict answers with a knowledge tracing model
+- [`mv_kt_cv()`](https://www.okanbulut.com/mirtverse/reference/mv_kt_cv.md)
+  : Cross-validate a knowledge tracing model
+- [`gg_kt()`](https://www.okanbulut.com/mirtverse/reference/gg_kt.md) :
+  Plot knowledge tracing results
+- [`cognitive_tutor`](https://www.okanbulut.com/mirtverse/reference/cognitive_tutor.md)
+  : Cognitive Tutor practice logs
+- [`fractions_logs`](https://www.okanbulut.com/mirtverse/reference/fractions_logs.md)
+  : Practice logs for the fractions knowledge graph
+
 ## Choosing and understanding a model
 
 - [`select_model()`](https://www.okanbulut.com/mirtverse/reference/select_model.md)
@@ -284,6 +306,8 @@ true graph) and Tatsuoka’s fraction subtraction data.
   Draw a knowledge graph
 - [`gg_kg_fit()`](https://www.okanbulut.com/mirtverse/reference/gg_kg_fit.md)
   : Draw the data's evidence on a knowledge graph
+- [`gg_kt()`](https://www.okanbulut.com/mirtverse/reference/gg_kt.md) :
+  Plot knowledge tracing results
 - [`gg_q3()`](https://www.okanbulut.com/mirtverse/reference/gg_q3.md) :
   Local dependence heatmap (Yen's Q3)
 - [`gg_scores()`](https://www.okanbulut.com/mirtverse/reference/gg_scores.md)
