@@ -15,6 +15,16 @@
   (the Cognitive Tutor logs of the pyBKT examples) and `fractions_logs`
   (simulated practice on the fractions graph, with the truth in
   `lab_truth("fractions_logs")`).
+* `mv_kt_prereq()` (experimental) checks a knowledge graph's prerequisites
+  against practice logs: Is a concept learned faster once its prerequisite
+  is known? It flags weak prerequisites and suggests missing ones; on
+  `fractions_logs` it finds the edge equivalent -> compare that
+  `fractions_kg` misses. `mv_kt_irt()` (experimental) compares knowledge
+  tracing with a Rasch model on the same logs, as in Bulut et al. (2023):
+  Forecasts of each student's later attempts, and the correlation between
+  IRT item difficulty and the BKT guess parameters.
+* Book: New Chapter 20, "Knowledge tracing", with the Cognitive Tutor
+  logs, BKT vs IRT, and practice on the fractions knowledge graph.
 * Item metadata on knowledge graphs: `mv_kg_annotate()` (or the new `meta`
   argument of `mv_kg_build()`) attaches item-level information, such as
   item text, format, cognitive level, word count or whether a person or a

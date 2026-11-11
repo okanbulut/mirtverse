@@ -114,7 +114,8 @@ mod <- mirt(expand.table(LSAT7), 1)   # five 0/1 items, 2PL model
 [Item](#item) ·
 [Item-total correlation](#item-total-correlation)
 **K** [Kappa](#kappa) ·
-[Knowledge graph](#knowledge-graph)
+[Knowledge graph](#knowledge-graph) ·
+[Knowledge tracing](#knowledge-tracing)
 **L** [Large language model](#llm) ·
 [Latent trait](#latent-trait) ·
 [Likelihood-ratio test](#likelihood-ratio-test) ·
@@ -386,6 +387,20 @@ out some mastery patterns, which makes diagnostic models smaller and
 testable.
 
 **In R:** `mv_kg_hierarchy()` lists the patterns a knowledge graph allows.
+
+### Knowledge tracing {#knowledge-tracing}
+
+Following a student's mastery of each skill from one practice attempt to
+the next. In Bayesian knowledge tracing, each skill is either known or not
+known; four probabilities per skill (knowing it at the start, learning it
+after an attempt, guessing without knowing it and slipping while knowing
+it) turn a sequence of answers into a probability of mastery after every
+attempt. Where IRT measures ability at one point in time, knowledge tracing
+models learning.
+
+**In R:** `mv_kt_fit()`; `gg_kt()` draws mastery over time or on a
+knowledge graph, and `mv_kt_prereq()` checks a graph's prerequisites
+against practice logs.
 
 ## Item parameters and curves {#item-parameters-and-curves}
 

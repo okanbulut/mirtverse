@@ -269,6 +269,10 @@ reference:
   - predict.mv_kt
   - mv_kt_cv
   - gg_kt
+  - mv_kt_prereq
+  - tidy_mv_kt_prereq
+  - mv_kt_irt
+  - tidy_mv_kt_irt
   - cognitive_tutor
   - fractions_logs
 - title: Choosing and understanding a model
