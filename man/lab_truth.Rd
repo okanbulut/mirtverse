@@ -6,14 +6,15 @@
 \usage{
 lab_truth(
   data = c("certexam", "numeracy", "linking", "catbank", "openended", "itemtext",
-    "essays", "aigfield", "aiscored", "fractions")
+    "essays", "aigfield", "aiscored", "fractions", "fractions_logs")
 )
 }
 \arguments{
 \item{data}{the dataset: \code{"certexam"} (Labs 1 and 2), \code{"numeracy"}
 (Lab 3), \code{"linking"} (Lab 4), \code{"catbank"} (Lab 5), \code{"openended"}
 (Lab 6), or one of the AI Hub datasets, \code{"itemtext"}, \code{"essays"},
-\code{"aigfield"} and \code{"aiscored"}, or \code{"fractions"} (the knowledge graph example).}
+\code{"aigfield"} and \code{"aiscored"}, or \code{"fractions"} (the knowledge graph example)
+and \code{"fractions_logs"} (its practice logs, for knowledge tracing).}
 }
 \value{
 For \code{"certexam"}, a list with the true \code{model}, the correct \code{key},
@@ -53,7 +54,11 @@ item parameters, the group \code{impact}, the item with real DIF
 differences between the published \link{fractions_kg} and the true graph,
 the true \code{graph}, the true item parameters (\code{items}: Slopes per
 concept, intercept \code{d} and difficulty \code{b}) and the students' concept
-proficiencies \code{theta}.
+proficiencies \code{theta}. For \code{"fractions_logs"}, the true BKT values of
+\link{fractions_logs}: Each concept's \code{prior} and \code{learn} rate, each item's
+\code{guess} and \code{slip}, the \code{gate} (the share of the learn rate left when a
+prerequisite is not yet known) and each student's true state at every
+attempt (\code{known}).
 }
 \description{
 Instructor helper: Returns how a lab dataset was generated, so you can

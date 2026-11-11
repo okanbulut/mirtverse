@@ -31,7 +31,7 @@ generics::glance
 #' @export
 generics::augment
 
-utils::globalVariables(c(
+utils::globalVariables(c("step", "skill", "p_known_before", "correct", "p_known",
   "theta", "prob", "category", "item", "info", "se", "value", "estimate",
   "type", "x", "y", "count", "difficulty", "statistic", "flag", "p.value",
   "item1", "item2", "Q3", "model", "BIC", "score", "level", "observed",

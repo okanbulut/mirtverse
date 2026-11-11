@@ -1,5 +1,16 @@
 # mirtverse (development version)
 
+* Knowledge tracing (experimental): `mv_kt_fit()` fits Bayesian knowledge
+  tracing to practice logs, skill by skill, by expectation-maximization in
+  base R, with the pyBKT variants `forgets` (a known skill can be
+  forgotten) and `multigs` (a guess and a slip per item). Items can be
+  mapped to skills through a knowledge graph. `predict()` gives
+  one-step-ahead predictions for new students, `mv_kt_cv()` cross-validates
+  by student, and `gg_kt()` draws learning curves, one student's mastery
+  over time, or mastery on the knowledge graph. New data: `cognitive_tutor`
+  (the Cognitive Tutor logs of the pyBKT examples) and `fractions_logs`
+  (simulated practice on the fractions graph, with the truth in
+  `lab_truth("fractions_logs")`).
 * Item metadata on knowledge graphs: `mv_kg_annotate()` (or the new `meta`
   argument of `mv_kg_build()`) attaches item-level information, such as
   item text, format, cognitive level, word count or whether a person or a
