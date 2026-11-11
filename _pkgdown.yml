@@ -258,6 +258,19 @@ reference:
   - tidy_mv_kg_compare
   - fractions
   - fraction_subtraction
+- title: Knowledge tracing
+  desc: >
+    Follow each student's mastery of each skill from one practice attempt
+    to the next with Bayesian knowledge tracing (experimental), and draw it
+    on a knowledge graph.
+  contents:
+  - mv_kt_fit
+  - tidy_mv_kt
+  - predict.mv_kt
+  - mv_kt_cv
+  - gg_kt
+  - cognitive_tutor
+  - fractions_logs
 - title: Choosing and understanding a model
   contents:
   - select_model
