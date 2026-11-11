@@ -46,6 +46,7 @@ them.
 | `data-auto-scoring-3` | A test with 10 multiple-choice items and three written answers scored by two raters and an engine | Simulated | `written`, `mc` |
 | `data-llms-1` | `Science` | Real | `resp` |
 | `data-llms-2` | A two-cell blueprint for a numeracy quiz | Simulated | `cells` |
+| `data-llms-3` | `hexaco_real` and `hexaco_llm`: 40 Honesty-Humility items, real Canadian respondents and four language models (4 attempts each) | Real and generated | `real`, `synthetic` |
 | `data-knowledge-graphs-1` | `fraction_subtraction`: 536 students, 20 fraction subtraction items, with its 8-attribute Q-matrix as a knowledge graph | Real | `resp`, `kg` |
 
 Table: (\#tab:datasets) Data chunks in the book and the objects each defines.

@@ -186,3 +186,6 @@ cov$blend$recipe
   own items.
 - The [reading list](ai-reading.html#synthetic-respondents) collects papers
   on language models as respondents.
+- The book's [chapter on large language models](../book/llms.html#llms-coverage)
+  shows the coverage strip next to the other checks of synthetic
+  respondents.

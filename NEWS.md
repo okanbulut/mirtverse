@@ -1,5 +1,9 @@
 # mirtverse (development version)
 
+* Book: Chapter 17 (Large language models) has a new section, "Where do
+  synthetic respondents land?", with a coverage strip of the HEXACO data
+  and how to read Overlap and Structure.
+
 * Knowledge tracing (experimental): `mv_kt_fit()` fits Bayesian knowledge
   tracing to practice logs, skill by skill, by expectation-maximization in
   base R, with the pyBKT variants `forgets` (a known skill can be
