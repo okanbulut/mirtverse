@@ -588,7 +588,7 @@ gg_kg <- function(kg, items = NULL, labels = c("label", "node"), highlight = NUL
 # gg_kg_fit() to place suggested edges), and `hl_edges` colours the edges
 # of highlighted nodes. Returns the plot and the node table.
 kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = TRUE,
-                    colour = NULL) {
+                    colour = NULL, concept_value = NULL) {
   if (is.null(lay)) lay <- kg_layout(kg, items = items)
   lay <- lay[lay$node %in% kg$nodes$node & (items | lay$kind == "concept"), , drop = FALSE]
   nodes <- merge(lay, as.data.frame(kg$nodes)[c("node", "label")], by = "node", sort = FALSE)
@@ -654,9 +654,18 @@ kg_plot <- function(kg, items, labels, highlight = NULL, lay = NULL, hl_edges = 
                                  size = 1.6) +
       ggplot2::geom_text(data = its, ggplot2::aes(x = x + 0.05, y = y, label = text),
                          hjust = 0, size = 2.6, colour = "grey30")
+  fill <- ifelse(concepts$hl, "#F8E1E4", "white")
+  if (!is.null(concept_value)) {
+    # shade concepts by a value between 0 and 1 (gg_kt(): Probability of knowing it)
+    v <- concept_value[concepts$node]
+    ramp <- grDevices::colorRamp(c("white", "#D5EEDD", "#8FCDA8"))
+    has <- !is.na(v)
+    fill[has] <- grDevices::rgb(ramp(pmin(pmax(v[has], 0), 1)), maxColorValue = 255)
+    concepts$text[has] <- paste0(concepts$text[has], "\n", sprintf("%.2f", v[has]))
+  }
   p <- p + ggplot2::geom_label(
     data = concepts, ggplot2::aes(x = x, y = y, label = text),
-    fill = ifelse(concepts$hl, "#F8E1E4", "white"),
+    fill = fill,
     colour = ifelse(concepts$hl, mv_colours[["accent"]], mv_colours[["primary"]]),
     size = 3.2, lineheight = 0.95, label.padding = grid::unit(0.3, "lines"))
   xmax <- max(nodes$x) + if (nrow(its)) 0.35 else 0.5

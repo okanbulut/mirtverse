@@ -214,7 +214,8 @@ lab_decisions <- function(state, labels) {
 #' @param data the dataset: `"certexam"` (Labs 1 and 2), `"numeracy"`
 #'   (Lab 3), `"linking"` (Lab 4), `"catbank"` (Lab 5), `"openended"`
 #'   (Lab 6), or one of the AI Hub datasets, `"itemtext"`, `"essays"`,
-#'   `"aigfield"` and `"aiscored"`, or `"fractions"` (the knowledge graph example).
+#'   `"aigfield"` and `"aiscored"`, or `"fractions"` (the knowledge graph example)
+#'   and `"fractions_logs"` (its practice logs, for knowledge tracing).
 #' @return For `"certexam"`, a list with the true `model`, the correct `key`,
 #'   the `miskeyed` item, the `testlet` items, the `dif` items and their type,
 #'   the group `impact` (mean ability difference in SD units), the generating
@@ -252,17 +253,23 @@ lab_decisions <- function(state, labels) {
 #'   differences between the published [fractions_kg] and the true graph,
 #'   the true `graph`, the true item parameters (`items`: Slopes per
 #'   concept, intercept `d` and difficulty `b`) and the students' concept
-#'   proficiencies `theta`.
+#'   proficiencies `theta`. For `"fractions_logs"`, the true BKT values of
+#'   [fractions_logs]: Each concept's `prior` and `learn` rate, each item's
+#'   `guess` and `slip`, the `gate` (the share of the learn rate left when a
+#'   prerequisite is not yet known) and each student's true state at every
+#'   attempt (`known`).
 #' @examples
 #' lab_truth()$dif
 #' lab_truth("numeracy")$dif
 #' @export
 lab_truth <- function(data = c("certexam", "numeracy", "linking", "catbank", "openended",
-                               "itemtext", "essays", "aigfield", "aiscored", "fractions")) {
+                               "itemtext", "essays", "aigfield", "aiscored", "fractions",
+                               "fractions_logs")) {
   switch(match.arg(data), certexam = certexam_truth, numeracy = numeracy_truth,
          linking = linking_truth, catbank = catbank_truth, openended = openended_truth,
          itemtext = itemtext_truth, essays = essays_truth, aigfield = aigfield_truth,
-         aiscored = aiscored_truth, fractions = fractions_truth)
+         aiscored = aiscored_truth, fractions = fractions_truth,
+         fractions_logs = fractions_logs_truth)
 }
 
 #' Certification exam data for the teaching labs
