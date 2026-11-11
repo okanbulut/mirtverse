@@ -65,7 +65,7 @@ resp <- key2binary(SAT12, key)
 
 ```{r info-sat12, fig.cap = "Test information (left) and standard error of measurement (right) for the SAT12 science test under the 2PL."}
 mod <- mirt(resp, 1, itemtype = "2PL", verbose = FALSE)
-gg_info(mod) + gg_info(mod, type = "se")
+gg_info(mod) + gg_info(mod, type = "se") + ggplot2::labs(title = "Standard error")
 ```
 
 The test is most informative a little below average ability and loses

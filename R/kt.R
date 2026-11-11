@@ -535,7 +535,8 @@ gg_kt <- function(kt, student = NULL, skills = NULL, type = c("curve", "graph"),
       ggplot2::scale_y_continuous(limits = c(0, 1)) +
       ggplot2::labs(x = "Attempt on the skill", y = "Probability",
                     title = "Learning curves",
-                    subtitle = "Lines: Mean probability of knowing the skill before the attempt; points: Proportion correct") +
+                    subtitle = paste0("Lines: Mean probability of knowing the skill before the attempt\n",
+                                      "Points: Proportion correct")) +
       theme_mirtverse()
   } else {
     ggplot2::ggplot(tr, ggplot2::aes(x = step, y = p_known, colour = skill)) +
@@ -549,6 +550,10 @@ gg_kt <- function(kt, student = NULL, skills = NULL, type = c("curve", "graph"),
       ggplot2::labs(x = "Attempt on the skill", y = "Probability of knowing the skill",
                     title = sprintf("Student %s", student),
                     subtitle = "After each attempt; the dotted line marks 0.95, a common mastery cut") +
+      # Several skill names do not fit on one legend row: Two columns of
+      # skills, with the answer key in its own column.
+      ggplot2::guides(colour = ggplot2::guide_legend(ncol = 2, order = 1),
+                      shape = ggplot2::guide_legend(ncol = 1, order = 2)) +
       theme_mirtverse()
   }
 }

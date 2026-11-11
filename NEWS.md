@@ -1,3 +1,14 @@
+# mirtverse (development version)
+
+* Book: Long R code and output now wrap inside the page in the PDF edition,
+  and display equations scroll sideways on narrow screens instead of running
+  off the page. The knowledge tracing update rule (Chapter 20) is split over
+  three lines and now shows the update after a wrong answer too.
+* Plot titles and legends that were cut off at the default figure width now
+  fit: `autoplot()` of an AI audit wraps long panel titles, and the
+  subtitles of `gg_kg_fit()` and `gg_kt()` and the legend of
+  `gg_kt(student = )` are spread over several lines.
+
 # mirtverse 0.6.0
 
 * Book: Chapter 17 (Large language models) has a new section, "Where do

@@ -458,7 +458,7 @@ gg_kg_fit <- function(fit, items = c("flagged", "all", "none"), labels = c("labe
         fill = "white", label.size = 0, label.padding = grid::unit(0.12, "lines"))
     }
   }
-  p + ggplot2::labs(subtitle = paste("Numbers: Partial correlations between concepts.",
-                                     "Dashed accent lines: Links or edges the data suggest adding;",
-                                     "dotted: Links they suggest dropping."))
+  p + ggplot2::labs(subtitle = paste0("Numbers: Partial correlations between concepts.\n",
+                                      "Dashed accent lines: Links or edges the data suggest adding.\n",
+                                      "Dotted lines: Links they suggest dropping."))
 }
