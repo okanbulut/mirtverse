@@ -1,5 +1,9 @@
 # mirtverse (development version)
 
+* Book: Chapter 17 (Large language models) has a new section, "Where do
+  synthetic respondents land?", with a coverage strip of the HEXACO data
+  and how to read Overlap and Structure.
+
 * Item metadata on knowledge graphs: `mv_kg_annotate()` (or the new `meta`
   argument of `mv_kg_build()`) attaches item-level information, such as
   item text, format, cognitive level, word count or whether a person or a

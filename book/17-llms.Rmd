@@ -212,6 +212,70 @@ check fairness or replace a field test, and mirtverse labels them
 experimental for that reason.
 </div>
 
+## Where do synthetic respondents land? {#llms-coverage}
+
+`compare_synthetic()` compares summaries, such as proportions correct.
+Summaries can look acceptable while most of the real population is
+missing from the synthetic sample. The coverage strip shows where
+synthetic respondents land. `synthetic_coverage()` cuts the real score
+distribution into ten slices of equal size (deciles) and counts how many
+synthetic respondents fall into each, and `gg_coverage()` draws one row
+per attempt, so you can see whether a pattern repeats.
+
+mirtverse includes the data of a study of synthetic personality data:
+`hexaco_real` holds the answers of 17,874 real people from Canada, Great
+Britain and the United States to the 240 IPIP-HEXACO items
+[@ashton2007ipip], and `hexaco_llm` holds 59,611 synthetic respondents
+from four open-weight language models, generated for the same countries in
+ten attempts each. To keep the example small, we use the 40
+Honesty-Humility items, Canada only, and the first four attempts. Answers
+are stored as given, so the reverse-keyed items are reversed first:
+
+```{r data-llms-3}
+h <- hexaco_items$item[hexaco_items$trait == "H"]       # 40 items
+rev_items <- intersect(h, hexaco_items$item[hexaco_items$reverse])
+keyed <- function(d) {
+  d <- d[h]
+  d[rev_items] <- 8 - d[rev_items]
+  d
+}
+real <- keyed(hexaco_real[hexaco_real$country == "Canada", ])
+ca <- hexaco_llm[hexaco_llm$country == "Canada" & hexaco_llm$attempt <= 4, ]
+# One list per model, with one data frame per attempt
+synthetic <- lapply(split(ca, ca$model),
+                    function(m) lapply(split(m, m$attempt), keyed))
+```
+
+```{r llms-coverage, fig.width = 11, fig.height = 7, out.width = "100%", dev = "png", dpi = 150, fig.cap = "Coverage strip for Honesty-Humility in Canada: Four language models, four attempts each."}
+cov <- synthetic_coverage(synthetic, real, cor = "pearson")
+gg_coverage(cov)
+```
+
+Columns are deciles of the real Honesty-Humility score, from the lowest
+10% on the left to the highest 10% on the right. Blue cells hold too many
+synthetic respondents, red cells too few, and pale cells are within what a
+real sample of the same size would show by chance. The two numbers on the
+right summarize each model:
+
+- **Overlap** is the share of synthetic respondents who land in the same
+  deciles as real respondents. 100% means the same mix as the real
+  population; a sample that puts everyone into one decile scores about 10%.
+- **Structure** is how closely the correlations between items match the
+  real ones (100% means identical).
+
+Every model puts far too many synthetic Canadians in the top decile and
+too few in most other deciles: The synthetic people are more honest and
+modest than real people, and more alike. The rows within each model look
+the same, so this is how the models behave, not one unlucky run. Note also
+that the model with the best Structure has the worst Overlap. A model can
+know which items go together and still put its respondents in the wrong
+place, which is why checks based only on correlations, such as
+reliability or factor structure, are not enough. The article [Checking
+synthetic respondents](https://www.okanbulut.com/mirtverse/articles/synthetic-coverage.html) shows the
+other options of the strip: Groups such as countries, single items and
+their answer categories, and the Best Blend, a mix of models chosen on
+some attempts and checked on others.
+
 ## Your turn
 
 <div class="yourturn">
