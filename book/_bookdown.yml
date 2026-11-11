@@ -30,6 +30,7 @@ rmd_files:
   - 17-llms.Rmd
   - 18-ai-validity.Rmd
   - 19-knowledge-graphs.Rmd
+  - 20-knowledge-tracing.Rmd
   - 90-datasets.Rmd
   - 91-adapting.Rmd
   - 99-references.Rmd

@@ -47,6 +47,8 @@ them.
 | `data-llms-1` | `Science` | Real | `resp` |
 | `data-llms-2` | A two-cell blueprint for a numeracy quiz | Simulated | `cells` |
 | `data-knowledge-graphs-1` | `fraction_subtraction`: 536 students, 20 fraction subtraction items, with its 8-attribute Q-matrix as a knowledge graph | Real | `resp`, `kg` |
+| `data-knowledge-tracing-1` | `cognitive_tutor`: Cognitive Tutor practice logs, 587 students, 16,857 attempts on 12 skills | Real | `logs` |
+| `data-knowledge-tracing-2` | `fractions_logs` and `fractions_kg`: Practice logs of 400 students on the fractions graph | Simulated | `practice`, `kg` |
 
 Table: (\#tab:datasets) Data chunks in the book and the objects each defines.
 

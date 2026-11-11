@@ -1,0 +1,318 @@
+# Knowledge tracing {#knowledge-tracing}
+
+<div class="goals">
+**Learning goals.** After this chapter you can
+
+* explain how **Bayesian knowledge tracing** (BKT) follows a student's
+  mastery of a skill from one practice attempt to the next, and what its
+  four parameters mean;
+* fit BKT to practice logs with `mv_kt_fit()`, including the variants
+  with forgetting and with a guess and a slip per item, and judge the
+  models by cross-validation with `mv_kt_cv()`;
+* compare BKT with a Rasch model on the same logs with `mv_kt_irt()`, and
+  relate BKT's guess parameters to IRT item difficulty;
+* draw mastery over time and on a knowledge graph with `gg_kt()`, and
+  check a graph's prerequisites against practice logs with
+  `mv_kt_prereq()`.
+</div>
+
+**Key terms:**
+[Knowledge tracing](https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-tracing),
+[knowledge graph](https://www.okanbulut.com/mirtverse/articles/glossary.html#knowledge-graph),
+[attribute hierarchy](https://www.okanbulut.com/mirtverse/articles/glossary.html#attribute-hierarchy),
+[cross-validation](https://www.okanbulut.com/mirtverse/articles/glossary.html#cross-validation),
+[likelihood-ratio test](https://www.okanbulut.com/mirtverse/articles/glossary.html#likelihood-ratio-test).
+
+The functions in this chapter are experimental: Their arguments and
+output may still change.
+
+## The ideas
+
+IRT assumes that a student's ability stays the same while they answer the
+test. That is reasonable for a one-hour exam, but not for an online tutor,
+where students practise a skill until they get it. In practice logs, the
+interesting question is not how able a student is, but whether they have
+learned the skill yet, and when.
+
+**Bayesian knowledge tracing** [@corbett1995] answers it with a hidden
+Markov model. Each skill is either **known** or **not known**. Four
+probabilities describe each skill:
+
+* `prior`: The probability that a student knows the skill before the
+  first attempt;
+* `learn`: The probability that a student who does not know the skill
+  learns it after an attempt (with feedback);
+* `guess`: The probability of a correct answer without knowing the skill;
+* `slip`: The probability of a wrong answer while knowing it.
+
+After every answer, Bayes' rule updates the probability that the student
+knows the skill. A correct answer raises it, a wrong one lowers it, and
+then the chance of learning moves it up before the next attempt:
+
+$$
+P(L_t \mid \text{correct}) = \frac{P(L_t)(1 - S)}{P(L_t)(1 - S) + (1 - P(L_t))G}, \qquad
+P(L_{t+1}) = P(L_t \mid \text{answer}) + (1 - P(L_t \mid \text{answer}))\,T,
+$$
+
+where $S$ is the slip, $G$ the guess and $T$ the learn rate. The
+parameters are estimated by expectation-maximization, skill by skill, as
+the pyBKT library does [@badrinath2021]. Bulut et al.
+[-@bulut2023bkt] introduce BKT with pyBKT for psychometricians; this
+chapter follows their examples in R.
+
+BKT and IRT are close relatives [@deonovic2018]. The guess parameter of a
+skill, or of an item when each item has its own (the item difficulty
+effect model, KT-IDEM; @pardos2011), plays the role of item difficulty:
+Items that are easy to answer without knowing the skill are easy items.
+What BKT adds is learning: The latent state changes during the logs.
+
+## Example 1: Plotting skills in a Cognitive Tutor
+
+```{r data-knowledge-tracing-1}
+logs <- cognitive_tutor
+```
+
+`cognitive_tutor` holds the practice logs used in the pyBKT examples
+[@stamper2010]: 587 students' first attempts at 16,857 problem steps in a
+mathematics tutor, each tagged with one of 12 skills. Following Bulut et
+al. [-@bulut2023bkt], we start with the six skills about plotting numbers
+on a number line.
+
+```{r}
+head(logs)
+plot_skills <- grep("^Plot", unique(logs$skill), value = TRUE)
+kt <- mv_kt_fit(logs, skills = plot_skills, seed = 1)
+kt
+```
+
+The parameters tell a story about each skill. Plotting whole numbers is
+known by almost everyone from the start (`prior` 0.93), so the model has
+little to learn from these logs; its guess reaches the upper bound of 0.5
+that keeps known and not-known students apart. Plotting pi is learned
+quickly (`learn` 0.62), and plotting terminating proper fractions slowly
+(0.03), with a high slip: Students who probably know it still make many
+mistakes. A skill with a guess of 0 and a slip of 0.31, such as plotting
+non-terminating improper fractions, says that a correct answer is strong
+evidence of knowing the skill but a wrong one is weak evidence of not
+knowing it.
+
+```{r kt-curves, fig.height = 4.5, fig.cap = "Learning curves for the plotting skills: The mean probability of knowing each skill before each attempt (lines) and the proportion of correct answers (points)."}
+gg_kt(kt, max_attempts = 15)
+```
+
+One student's record shows the updating at work.
+
+```{r kt-student, fig.height = 4.5, fig.cap = "One student's probability of knowing each plotting skill after every attempt: Filled points are correct answers."}
+student <- names(which.max(table(logs$student[logs$skill %in% plot_skills])))
+gg_kt(kt, student = student)
+```
+
+### Variants
+
+pyBKT's two most used variants are available as arguments: `forgets =
+TRUE` lets a known skill be forgotten, and `multigs = TRUE` gives each item
+(here each problem) its own guess and slip.
+
+```{r}
+kt_f <- mv_kt_fit(logs, skills = plot_skills, forgets = TRUE, seed = 1)
+kt_g <- mv_kt_fit(logs, item = "problem", skills = plot_skills, multigs = TRUE, seed = 1)
+rbind(standard = glance(kt), forgets = glance(kt_f), multigs = glance(kt_g))
+```
+
+Forgetting adds nothing here: The log-likelihood barely moves and AIC goes
+up. Item guess and slip fit much better (AIC drops by more than 100 and
+the AUC rises from 0.75 to 0.81), but they add 184 parameters, and BIC
+prefers the standard model. Fit on the same logs always flatters the
+bigger model, so the fair test is new students.
+
+```{r}
+cv <- mv_kt_cv(logs, skills = plot_skills, folds = 3, seed = 1)
+cv_g <- mv_kt_cv(logs, item = "problem", skills = plot_skills, multigs = TRUE,
+                 folds = 3, seed = 1)
+merge(cv[cv$fold == "mean", c("skill", "rmse", "auc")],
+      cv_g[cv_g$fold == "mean", c("skill", "rmse", "auc")],
+      by = "skill", suffixes = c("_standard", "_multigs"))
+```
+
+On held-out students the item model still predicts better for most skills,
+especially the ones with many problems, such as plotting terminating
+proper fractions. The cross-validated RMSE of the standard model (0.29 for
+plotting whole numbers, 0.46 for plotting pi) is close to what Bulut et
+al. [-@bulut2023bkt] report from pyBKT.
+
+## Example 2: Knowledge tracing and IRT
+
+How does BKT compare with an IRT model on the same logs? `mv_kt_irt()`
+holds out the last 30% of each student's attempts on each skill, fits both
+models to the rest, and forecasts the held-out answers. The IRT model is a
+Rasch model with crossed random effects for students and items, fitted
+with lme4.
+
+```{r}
+cmp <- mv_kt_irt(logs, item = "problem", skills = plot_skills, seed = 1)
+cmp
+tidy(cmp)
+```
+
+The two models forecast about equally well. BKT ranks the answers a
+little better on average (a mean AUC of 0.76 against 0.72), because it
+updates after every answer, while IRT keeps each student's ability fixed.
+IRT has the lower RMSE and the higher accuracy for three of the skills, because its item
+difficulties capture differences between problems that the standard BKT
+model ignores. Neither model is right: Students learn and items differ,
+and each model captures one of the two.
+
+The second half of the output connects the parameters.
+
+```{r}
+tidy(cmp, "items")
+```
+
+For every skill, the IRT difficulty of a problem is strongly correlated
+with the log of its BKT guess, with a median of about -0.89: The easier
+the problem, the more often students who do not know the skill still get
+it right. Bulut et al. [-@bulut2023bkt] report correlations between 0.55
+and 0.94 (in absolute value) for the same skills. When item guess and
+slip are estimated, BKT's guess parameter is an item difficulty in
+disguise.
+
+## Example 3: Practice on a knowledge graph
+
+Chapter \@ref(knowledge-graphs) described the Grade 5 fractions test as a
+knowledge graph. `fractions_logs` holds simulated practice logs on the same
+items: 400 students practise the six concepts in blocks, mostly in the
+curriculum order, until they answer three in a row correctly.
+
+```{r data-knowledge-tracing-2}
+practice <- fractions_logs
+kg <- fractions_kg
+```
+
+The logs have no skill column. With `kg`, `mv_kt_fit()` maps each item to
+the concepts it measures in the graph.
+
+```{r}
+head(practice)
+kt_fr <- mv_kt_fit(practice, kg = kg, seed = 1)
+kt_fr
+```
+
+```{r kt-graph, fig.height = 4.5, fig.cap = "The fractions graph shaded by the mean probability of knowing each concept after the last practice attempt."}
+gg_kt(kt_fr, type = "graph")
+```
+
+The graph view shows where the class stands: Nearly everyone has fraction
+meaning, and adding and subtracting is the least secure. For one student,
+`gg_kt(kt_fr, student = "P001", type = "graph")` gives the same picture, a
+diagnostic report that follows the graph.
+
+### Checking prerequisites against the logs
+
+A prerequisite is a claim about learning: A student who does not know
+equivalent fractions should struggle to learn to add fractions with
+unlike denominators. Practice logs can test that claim directly.
+`mv_kt_prereq()` estimates, for every pair of concepts A and B, the learn
+rate of B on the attempts made while A was probably known and on those
+made while it was not, and tests the difference with a likelihood ratio
+test. Each test uses only the attempts where B's other prerequisites in the
+graph are already known, so an indirect prerequisite adds little.
+
+```{r}
+check <- mv_kt_prereq(kt_fr)
+check
+head(tidy(check)[, c("from", "to", "edge", "learn_without", "learn_with", "ratio", "lr", "verdict")], 8)
+```
+
+All five prerequisites of the graph are supported: Each concept is learned
+three to eight times as fast once its prerequisite is known. The
+strongest effect in the logs, though, is not in the graph: Comparing
+fractions is learned ten times as fast once equivalent fractions are
+known. This is the edge the published graph misses, the same one that
+`mv_kg_fit()` found in the test answers in Chapter
+\@ref(knowledge-graphs). Two independent kinds of evidence, a test taken
+once and practice over time, point to the same repair.
+
+```{r}
+kg2 <- mv_kg_edit(kg, add = data.frame(from = "equivalent", to = "compare"))
+mv_kt_prereq(kt_fr, kg = kg2)
+```
+
+With the edge added, the logs agree with the graph. Practice logs have one
+more advantage over a test: The direction of a prerequisite is in the
+data. Equivalent fractions speed up learning to compare, and not the other
+way round, so no assumption about which concept is easier is needed.
+
+The learn rates of the first model also make sense now. They are lower
+than the rates the logs were simulated with (for example 0.12 against 0.20
+for comparing fractions), because some students practised a concept before
+its prerequisites and learned it slowly. A single learn rate per skill
+averages over both groups; the graph explains why learning is uneven.
+
+## Your turn
+
+<div class="yourturn">
+1. Fit the standard model to all 12 skills of `cognitive_tutor`. Which
+   skill has the lowest learn rate, and what would you tell the tutor's
+   designers about it?
+2. Refit the plotting skills with both `forgets = TRUE` and `multigs =
+   TRUE`. Does forgetting help once items have their own guess and slip?
+3. Run `mv_kt_irt()` on the three "Finding the intersection" skills. Which
+   model forecasts better, and why might that be?
+4. Add a wrong prerequisite, `mixed -> compare`, to the fractions graph
+   (together with `equivalent -> compare`) and run `mv_kt_prereq()`. What
+   does it report?
+</div>
+
+<details><summary>Solutions</summary>
+
+```{r}
+# 1. all skills
+kt_all <- mv_kt_fit(logs, seed = 1)
+p <- tidy(kt_all)
+p[order(p$learn), c("skill", "prior", "learn", "guess", "slip")][1:3, ]
+
+# 2. both variants
+kt_fg <- mv_kt_fit(logs, item = "problem", skills = plot_skills, multigs = TRUE,
+                   forgets = TRUE, seed = 1)
+rbind(multigs = glance(kt_g), both = glance(kt_fg))
+
+# 3. intersection skills
+inter <- grep("^Finding", unique(logs$skill), value = TRUE)
+mv_kt_irt(logs, item = "problem", skills = inter, seed = 1)
+
+# 4. a wrong prerequisite
+kg3 <- mv_kg_edit(kg, add = data.frame(from = c("equivalent", "mixed"),
+                                       to = c("compare", "compare")))
+mv_kt_prereq(kt_fr, kg = kg3)
+```
+
+1. Plotting terminating proper fractions has the lowest learn rate (about
+   0.03): Students barely improve with practice. The designers should look
+   at the feedback and hints for this skill, or split it into smaller
+   skills; it may also be two skills tagged as one, which BKT would see as
+   slow learning with many slips.
+2. No: The log-likelihood is the same and AIC rises. Wrong answers by
+   students who seemed to know a skill are explained by item slips, not by
+   forgetting.
+3. IRT forecasts better for these skills. Each has few students (about 70)
+   and items that differ a lot in difficulty, which the Rasch model
+   captures and the standard BKT model does not; with sparse sequences
+   there is also little learning for BKT to track.
+4. It flags `mixed -> compare` as a weak prerequisite: Comparing fractions
+   is learned just as fast whether or not a student knows mixed numbers.
+   The check works in both directions, finding missing edges and
+   questioning ones that are there.
+
+</details>
+
+## Further reading {-}
+
+Corbett and Anderson [-@corbett1995] introduced knowledge tracing in the
+ACT Programming Tutor. Badrinath, Wang and Pardos [-@badrinath2021]
+describe pyBKT and its variants, and Bulut et al. [-@bulut2023bkt]
+introduce BKT for readers who know IRT, with the examples this chapter
+follows. Pardos and Heffernan [-@pardos2011] add item difficulty to
+knowledge tracing, and Deonovic et al. [-@deonovic2018] work out the
+formal relation between BKT and IRT. Deep knowledge tracing [@piech2015]
+replaces the hidden Markov model with a recurrent neural network; it
+needs much larger logs, and its predictions are harder to interpret.

@@ -87,8 +87,9 @@ Table: (\#tab:ai-chapters) The chapters on AI in measurement.
 
 A third part, *Knowledge graphs*, describes what a test measures as a graph
 of concepts, prerequisites and items, and turns the graph into IRT models.
-It starts with Chapter \@ref(knowledge-graphs) and grows with the knowledge
-graph tools in mirtverse.
+Chapter \@ref(knowledge-graphs) builds and checks the graphs, and Chapter
+\@ref(knowledge-tracing) follows students' mastery of the concepts over
+time with knowledge tracing.
 
 Every chapter has the same parts:
 

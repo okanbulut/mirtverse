@@ -303,7 +303,8 @@ kt_filter <- function(kt, logs) {
                .row = d$.row, stringsAsFactors = FALSE)
   })
   out <- do.call(rbind, out)
-  out <- out[order(match(out$student, unique(logs$student)), out$.row), , drop = FALSE]
+  # back to the order of the logs (each student's attempts in time order)
+  out <- out[order(match(out$.row, logs$.row)), , drop = FALSE]
   out$.row <- NULL
   as_tbl(out)
 }
