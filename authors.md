@@ -22,14 +22,14 @@ https://doi.org/10.31234/osf.io/j9ya7_v1
     }
 
 Bulut, O. (2026). mirtverse: A friendly workflow and reporting layer for
-'mirt' (Version 0.5.0) \[R package\]. Zenodo.
+'mirt' (Version 0.6.0) \[R package\]. Zenodo.
 https://doi.org/10.5281/zenodo.23719384
 
     @Manual{,
       title = {{mirtverse}: A Friendly Workflow and Reporting Layer for 'mirt'},
       author = {Okan Bulut},
       year = {2026},
-      note = {R package version 0.5.0},
+      note = {R package version 0.6.0},
       doi = {10.5281/zenodo.23719384},
       url = {https://github.com/okanbulut/mirtverse},
     }

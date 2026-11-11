@@ -151,7 +151,7 @@ in R with mirt* \[Preprint\]. PsyArXiv.
 <https://doi.org/10.31234/osf.io/j9ya7_v1>
 
 Bulut, O. (2026). *mirtverse: A friendly workflow and reporting layer
-for ‘mirt’* (Version 0.5.0) \[R package\]. Zenodo.
+for ‘mirt’* (Version 0.6.0) \[R package\]. Zenodo.
 <https://doi.org/10.5281/zenodo.23719384>
 
 Chalmers, R. P. (2012). mirt: A multidimensional item response theory

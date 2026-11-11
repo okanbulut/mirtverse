@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mirtverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="mirtverse-development-version">mirtverse (development version)<a class="anchor" aria-label="anchor" href="#mirtverse-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.6.0" id="mirtverse-060">mirtverse 0.6.0<a class="anchor" aria-label="anchor" href="#mirtverse-060"></a></h2>
 <ul><li><p>Book: Chapter 17 (Large language models) has a new section, “Where do synthetic respondents land?”, with a coverage strip of the HEXACO data and how to read Overlap and Structure.</p></li>
 <li><p>Knowledge tracing (experimental): <code><a href="../reference/mv_kt_fit.html">mv_kt_fit()</a></code> fits Bayesian knowledge tracing to practice logs, skill by skill, by expectation-maximization in base R, with the pyBKT variants <code>forgets</code> (a known skill can be forgotten) and <code>multigs</code> (a guess and a slip per item). Items can be mapped to skills through a knowledge graph. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> gives one-step-ahead predictions for new students, <code><a href="../reference/mv_kt_cv.html">mv_kt_cv()</a></code> cross-validates by student, and <code><a href="../reference/gg_kt.html">gg_kt()</a></code> draws learning curves, one student’s mastery over time, or mastery on the knowledge graph. New data: <code>cognitive_tutor</code> (the Cognitive Tutor logs of the pyBKT examples) and <code>fractions_logs</code> (simulated practice on the fractions graph, with the truth in <code>lab_truth("fractions_logs")</code>).</p></li>
 <li><p><code><a href="../reference/mv_kt_prereq.html">mv_kt_prereq()</a></code> (experimental) checks a knowledge graph’s prerequisites against practice logs: Is a concept learned faster once its prerequisite is known? It flags weak prerequisites and suggests missing ones; on <code>fractions_logs</code> it finds the edge equivalent -&gt; compare that <code>fractions_kg</code> misses. <code><a href="../reference/mv_kt_irt.html">mv_kt_irt()</a></code> (experimental) compares knowledge tracing with a Rasch model on the same logs, as in Bulut et al. (2023): Forecasts of each student’s later attempts, and the correlation between IRT item difficulty and the BKT guess parameters.</p></li>

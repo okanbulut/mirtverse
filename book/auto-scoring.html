@@ -565,18 +565,18 @@ chooses the amount of shrinkage by cross-validation:</p>
 <span id="cb177-7"><a href="auto-scoring.html#cb177-7" tabindex="-1"></a><span class="co">#&gt; Check it with agreement_report(); use it with predict() or score_open().</span></span>
 <span id="cb177-8"><a href="auto-scoring.html#cb177-8" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">tidy</span>(engine), <span class="dv">10</span>)</span>
 <span id="cb177-9"><a href="auto-scoring.html#cb177-9" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 3</span></span>
-<span id="cb177-10"><a href="auto-scoring.html#cb177-10" tabindex="-1"></a><span class="co">#&gt;    by    term       weight</span></span>
-<span id="cb177-11"><a href="auto-scoring.html#cb177-11" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
-<span id="cb177-12"><a href="auto-scoring.html#cb177-12" tabindex="-1"></a><span class="co">#&gt;  1 all   fungus      0.451</span></span>
-<span id="cb177-13"><a href="auto-scoring.html#cb177-13" tabindex="-1"></a><span class="co">#&gt;  2 all   is a        0.294</span></span>
-<span id="cb177-14"><a href="auto-scoring.html#cb177-14" tabindex="-1"></a><span class="co">#&gt;  3 all   spores      0.226</span></span>
-<span id="cb177-15"><a href="auto-scoring.html#cb177-15" tabindex="-1"></a><span class="co">#&gt;  4 all   slows       0.207</span></span>
-<span id="cb177-16"><a href="auto-scoring.html#cb177-16" tabindex="-1"></a><span class="co">#&gt;  5 all   slows it    0.207</span></span>
-<span id="cb177-17"><a href="auto-scoring.html#cb177-17" tabindex="-1"></a><span class="co">#&gt;  6 all   the         0.197</span></span>
-<span id="cb177-18"><a href="auto-scoring.html#cb177-18" tabindex="-1"></a><span class="co">#&gt;  7 all   a fungus    0.190</span></span>
-<span id="cb177-19"><a href="auto-scoring.html#cb177-19" tabindex="-1"></a><span class="co">#&gt;  8 all   of fungus   0.172</span></span>
-<span id="cb177-20"><a href="auto-scoring.html#cb177-20" tabindex="-1"></a><span class="co">#&gt;  9 all   a           0.169</span></span>
-<span id="cb177-21"><a href="auto-scoring.html#cb177-21" tabindex="-1"></a><span class="co">#&gt; 10 all   cold slows  0.144</span></span></code></pre></div>
+<span id="cb177-10"><a href="auto-scoring.html#cb177-10" tabindex="-1"></a><span class="co">#&gt;    by    term      weight</span></span>
+<span id="cb177-11"><a href="auto-scoring.html#cb177-11" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;</span></span>
+<span id="cb177-12"><a href="auto-scoring.html#cb177-12" tabindex="-1"></a><span class="co">#&gt;  1 all   fungus     0.451</span></span>
+<span id="cb177-13"><a href="auto-scoring.html#cb177-13" tabindex="-1"></a><span class="co">#&gt;  2 all   is a       0.294</span></span>
+<span id="cb177-14"><a href="auto-scoring.html#cb177-14" tabindex="-1"></a><span class="co">#&gt;  3 all   spores     0.226</span></span>
+<span id="cb177-15"><a href="auto-scoring.html#cb177-15" tabindex="-1"></a><span class="co">#&gt;  4 all   slows      0.207</span></span>
+<span id="cb177-16"><a href="auto-scoring.html#cb177-16" tabindex="-1"></a><span class="co">#&gt;  5 all   slows it   0.207</span></span>
+<span id="cb177-17"><a href="auto-scoring.html#cb177-17" tabindex="-1"></a><span class="co">#&gt;  6 all   the        0.197</span></span>
+<span id="cb177-18"><a href="auto-scoring.html#cb177-18" tabindex="-1"></a><span class="co">#&gt;  7 all   a fungus   0.190</span></span>
+<span id="cb177-19"><a href="auto-scoring.html#cb177-19" tabindex="-1"></a><span class="co">#&gt;  8 all   of fungus  0.172</span></span>
+<span id="cb177-20"><a href="auto-scoring.html#cb177-20" tabindex="-1"></a><span class="co">#&gt;  9 all   a          0.169</span></span>
+<span id="cb177-21"><a href="auto-scoring.html#cb177-21" tabindex="-1"></a><span class="co">#&gt; 10 all   while      0.144</span></span></code></pre></div>
 <p>Among the words with the largest weights are the ones the rubric cares
 about, <em>fungus</em>, <em>spores</em> and <em>slows</em>. Nothing told the engine so; it learned
 them because raters gave points to answers that used them. But <em>is a</em> and
