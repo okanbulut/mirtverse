@@ -444,7 +444,7 @@ mv_kt_cv <- function(data, ..., folds = 5, seed = NULL) {
   for (k in seq_len(folds)) {
     test <- fold_of[as.character(data[[student]])] == k
     fit <- do.call(mv_kt_fit, c(list(data = data[!test, , drop = FALSE]), args))
-    pr <- tryCatch(predict(fit, data[test, , drop = FALSE]), error = function(e) NULL)
+    pr <- tryCatch(stats::predict(fit, data[test, , drop = FALSE]), error = function(e) NULL)
     if (is.null(pr)) next
     for (s in unique(pr$skill)) {
       m <- kt_metrics(pr$correct[pr$skill == s], pr$p_correct[pr$skill == s])
