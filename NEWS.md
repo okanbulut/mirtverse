@@ -1,4 +1,4 @@
-# mirtverse (development version)
+# mirtverse 0.6.0
 
 * Book: Chapter 17 (Large language models) has a new section, "Where do
   synthetic respondents land?", with a coverage strip of the HEXACO data
