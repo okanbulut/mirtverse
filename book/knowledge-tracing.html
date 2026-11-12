@@ -465,8 +465,11 @@ learns it after an attempt (with feedback);</li>
 knows the skill. A correct answer raises it, a wrong one lowers it, and
 then the chance of learning moves it up before the next attempt:</p>
 <p><span class="math display">\[
-P(L_t \mid \text{correct}) = \frac{P(L_t)(1 - S)}{P(L_t)(1 - S) + (1 - P(L_t))G}, \qquad
-P(L_{t+1}) = P(L_t \mid \text{answer}) + (1 - P(L_t \mid \text{answer}))\,T,
+\begin{aligned}
+P(L_t \mid \text{correct}) &amp;= \frac{P(L_t)\,(1 - S)}{P(L_t)\,(1 - S) + [1 - P(L_t)]\,G},\\[4pt]
+P(L_t \mid \text{wrong}) &amp;= \frac{P(L_t)\,S}{P(L_t)\,S + [1 - P(L_t)]\,(1 - G)},\\[4pt]
+P(L_{t+1}) &amp;= P(L_t \mid \text{answer}) + [1 - P(L_t \mid \text{answer})]\,T,
+\end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(S\)</span> is the slip, <span class="math inline">\(G\)</span> the guess and <span class="math inline">\(T\)</span> the learn rate. The
 parameters are estimated by expectation-maximization, skill by skill, as

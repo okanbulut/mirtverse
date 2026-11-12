@@ -44,10 +44,10 @@ tidy(bank)
 #> # A tibble: 5 × 9
 #>   item   itemtype  ncat     a      b     g source      added      status 
 #>   <chr>  <chr>    <int> <dbl>  <dbl> <dbl> <chr>       <chr>      <chr>  
-#> 1 Item.1 2PL          2 0.988 -1.88      0 calibration 2026-11-11 retired
-#> 2 Item.2 2PL          2 1.08  -0.748     0 calibration 2026-11-11 active 
-#> 3 Item.3 2PL          2 1.71  -1.06      0 calibration 2026-11-11 active 
-#> 4 Item.4 2PL          2 0.765 -0.635     0 calibration 2026-11-11 active 
-#> 5 Item.5 2PL          2 0.736 -2.52      0 calibration 2026-11-11 active 
+#> 1 Item.1 2PL          2 0.988 -1.88      0 calibration 2026-11-12 retired
+#> 2 Item.2 2PL          2 1.08  -0.748     0 calibration 2026-11-12 active 
+#> 3 Item.3 2PL          2 1.71  -1.06      0 calibration 2026-11-12 active 
+#> 4 Item.4 2PL          2 0.765 -0.635     0 calibration 2026-11-12 active 
+#> 5 Item.5 2PL          2 0.736 -2.52      0 calibration 2026-11-12 active 
 # }
 ```
