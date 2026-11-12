@@ -48,7 +48,7 @@ results should be reported.
 ``` r
 dir <- file.path(tempdir(), "math-test")
 mv_agent_init(dir, title = "Grade 8 math test, spring 2026")
-#> Wrote CLAUDE.md and .mcp.json in /tmp/Rtmp4MSTO1/math-test.
+#> Wrote CLAUDE.md and .mcp.json in /tmp/Rtmpoe7eL5/math-test.
 #> Put your data files in the folder, open it in Claude Code (`claude` in a terminal),
 #> approve the mirtverse server, and ask, for example: "Analyze exam.csv".
 list.files(dir, all.files = TRUE, no.. = TRUE)
