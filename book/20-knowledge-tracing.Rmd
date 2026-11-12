@@ -50,8 +50,11 @@ knows the skill. A correct answer raises it, a wrong one lowers it, and
 then the chance of learning moves it up before the next attempt:
 
 $$
-P(L_t \mid \text{correct}) = \frac{P(L_t)(1 - S)}{P(L_t)(1 - S) + (1 - P(L_t))G}, \qquad
-P(L_{t+1}) = P(L_t \mid \text{answer}) + (1 - P(L_t \mid \text{answer}))\,T,
+\begin{aligned}
+P(L_t \mid \text{correct}) &= \frac{P(L_t)\,(1 - S)}{P(L_t)\,(1 - S) + [1 - P(L_t)]\,G},\\[4pt]
+P(L_t \mid \text{wrong}) &= \frac{P(L_t)\,S}{P(L_t)\,S + [1 - P(L_t)]\,(1 - G)},\\[4pt]
+P(L_{t+1}) &= P(L_t \mid \text{answer}) + [1 - P(L_t \mid \text{answer})]\,T,
+\end{aligned}
 $$
 
 where $S$ is the slip, $G$ the guess and $T$ the learn rate. The

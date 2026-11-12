@@ -188,8 +188,9 @@ refer to the exact text you read (version 1.0 is
 }
 ```
 
-Please also cite the software you use: mirt [@chalmers2012] and mirtverse
-(`citation("mirtverse")` gives the reference with its DOI).
+Please also cite the software you use: mirt [@chalmers2012] and mirtverse.
+Running `citation("mirtverse")` in R gives the mirtverse reference with its
+DOI.
 
 ## Licence {-}
 

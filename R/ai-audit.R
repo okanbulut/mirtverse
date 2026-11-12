@@ -418,11 +418,12 @@ autoplot.mv_audit <- function(object, ...) {
     ggplot2::geom_errorbar(ggplot2::aes(xmin = lo, xmax = hi), width = 0.2, orientation = "y",
                            na.rm = TRUE) +
     ggplot2::geom_point(size = 2.5) +
-    ggplot2::facet_wrap(~panel, scales = "free_y") +
+    ggplot2::facet_wrap(~panel, scales = "free_y", labeller = ggplot2::label_wrap_gen(24)) +
     ggplot2::scale_colour_manual(values = c(Flagged = "#d95f02", `Not flagged` = "#2c7fb8"),
                                  name = NULL) +
     ggplot2::labs(x = NULL, y = NULL, title = "AI audit",
-                  subtitle = "Dashed lines: The limits of mv_rules(). Flags also require the difference to be beyond sampling error.") +
+                  subtitle = paste0("Dashed lines: The limits of mv_rules().\n",
+                                    "Flags also require the difference to be beyond sampling error.")) +
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "bottom")
 }

@@ -24,3 +24,7 @@ img[alt="Portrait of Okan Bulut"] {
 .caption .math { font-size: 1em; }
 
 .experimental { border-left-color: #8A4F9E; background: #F7F1F9; }
+
+/* Display equations: Long ones are split over lines in the source; on narrow
+   screens the rest scroll sideways instead of running off the page. */
+.math.display { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; }

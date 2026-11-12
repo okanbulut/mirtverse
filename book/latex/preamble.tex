@@ -37,3 +37,13 @@
 \let\maketitle\relax
 \AtBeginDocument{\hypersetup{pdfauthor = {Okan Bulut},
   pdftitle = {Item Response Theory with mirt and mirtverse}}}
+
+% Keep wide content inside the text block.
+% Long code lines and R output wrap instead of running into the margin
+% (Highlighting is the environment pandoc uses for code chunks).
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,
+  commandchars = \\\{\}}
+% Give the line breaker room before it lets a long word or inline code stick
+% out of the paragraph.
+\setlength{\emergencystretch}{3em}
