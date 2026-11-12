@@ -1,4 +1,7 @@
 % Cover, title page and copyright page of the PDF edition.
+% The edition number: Bump it here and in index.Rmd (date and "How to cite")
+% for each new version deposited on Zenodo.
+\newcommand{\bookversion}{1.1}
 \thispagestyle{empty}
 \AddToShipoutPictureBG*{\AtPageLowerLeft{%
   \includegraphics[width = \paperwidth, height = \paperheight]{cover/cover.png}}}
@@ -15,6 +18,8 @@
 {\color{mvamber}\rule{0.35\textwidth}{1.5pt}\par}
 \vspace{1.2em}
 {\Large\itshape Notes for teaching and learning\par}
+\vspace{0.8em}
+{\large\sffamily\color{mvnavy} Version \bookversion\par}
 \vfill
 {\sffamily\bfseries\Large Okan Bulut\par}
 \vspace{0.6em}
@@ -40,6 +45,7 @@ are licensed under a Creative Commons Attribution-NonCommercial-ShareAlike
 The R code is licensed under GPL-3.
 
 \bigskip
+Version \bookversion\\
 DOI: \href{https://doi.org/10.5281/zenodo.23885605}{10.5281/zenodo.23885605}\\
 Online edition: \url{https://www.okanbulut.com/mirtverse/book/}\\
 Source: \url{https://github.com/okanbulut/mirtverse/tree/main/book}
