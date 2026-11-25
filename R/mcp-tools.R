@@ -261,6 +261,15 @@ mcp_state_dir <- ".mirtverse-mcp"
 folder_label <- function(ctx)
   if (identical(ctx$mode, "analysis")) "project folder" else "course folder"
 
+mcp_outside_message <- function(ctx) {
+  msg <- paste0("The server can only use files inside the ", folder_label(ctx), " (", ctx$root, ").")
+  if (!identical(ctx$mode, "analysis")) return(msg)
+  paste0(msg, " To analyze a file elsewhere: Open the folder that holds the data in Claude ",
+         "(or copy the file into ", ctx$root, "), then start a new session. ",
+         "To pin a folder for good, run mirtverse::mv_agent_init(\"path/to/your/folder\") in R ",
+         "and open that folder.")
+}
+
 mcp_path <- function(ctx, path, must_exist = TRUE) {
   if (!is.character(path) || length(path) != 1L || !nzchar(path))
     stop("`path` must be a path relative to the ", folder_label(ctx), ".", call. = FALSE)
@@ -278,8 +287,7 @@ mcp_path <- function(ctx, path, must_exist = TRUE) {
   norm <- normalizePath(base, winslash = "/", mustWork = TRUE)
   norm <- if (length(rest)) paste(c(norm, rest), collapse = "/") else norm
   if (!(identical(norm, ctx$root) || startsWith(norm, paste0(ctx$root, "/"))))
-    stop("The server can only use files inside the ", folder_label(ctx), " (", ctx$root, ").",
-         call. = FALSE)
+    stop(mcp_outside_message(ctx), call. = FALSE)
   rel <- if (identical(norm, ctx$root)) "." else substring(norm, nchar(ctx$root) + 2L)
   if (identical(strsplit(rel, "/")[[1]][1], mcp_state_dir))
     stop("The ", mcp_state_dir, " folder holds the server's backups and cannot be used.",

@@ -95,7 +95,11 @@ claude mcp add --scope user mirtverse -- Rscript -e "mirtverse::mv_agent_server(
 in R; it prints the same command with the full path to Rscript. You can
 also just ask Claude to "set up mirtverse": the `setup` skill walks
 through it.) Restart Claude Code, and the mirtverse tools are ready in
-every folder you open.
+every folder you open. The server asks Claude which folder is open and
+works on the files there, in the terminal and in the Claude desktop app
+alike. If Claude reports that the server can only use files inside its
+project folder, open the folder that holds your data and start a new
+session, or pin the folder with `mv_agent_init()` (below).
 
 ## Use it
 
@@ -178,7 +182,8 @@ mirtverse::mv_agent_init("~/projects/math-test",
 Open `CLAUDE.md` and fill in the "About this project" section (what the
 test measures, who took it, what the results are for); Claude reads it at
 the start of every session. Then start Claude Code in the folder and approve
-the `mirtverse` server.
+the `mirtverse` server. The folder in `.mcp.json` always wins over the folder
+that is open in Claude, so use this when you want one server per project.
 
 **Claude Desktop and other assistants.** The same server works with any MCP
 client. `mv_mcp_config()` prints the settings:
