@@ -133,12 +133,82 @@ test_that("run_r is off when allow_run is FALSE and paths stay in the project", 
   expect_match(agent_text(agent_call(ctx, "describe_dataset", source = "nope.csv")), "project folder")
 })
 
+test_that("a file outside the project says how to reach it", {
+  ctx <- mcp_context(agent_project_dir(), mode = "analysis")
+  res <- agent_call(ctx, "describe_dataset", source = file.path(tempdir(), "elsewhere.csv"))
+  expect_true(res$isError)
+  expect_match(agent_text(res), "Open the folder that holds the data")
+  expect_match(agent_text(res), "mv_agent_init", fixed = TRUE)
+})
+
+agent_roots_session <- function(ctx, roots, caps = list(roots = list(listChanged = TRUE))) {
+  init <- list(jsonrpc = "2.0", id = 1, method = "initialize",
+               params = list(protocolVersion = "2025-06-18", capabilities = caps))
+  lines <- c(mcp_to_json(init), '{"jsonrpc":"2.0","method":"notifications/initialized"}')
+  if (!is.null(roots))
+    lines <- c(lines, mcp_to_json(list(jsonrpc = "2.0", id = "mirtverse-roots-1",
+                                       result = list(roots = roots))))
+  lines <- c(lines, '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"project_overview","arguments":{}}}')
+  out <- character()
+  output <- textConnection("out", "w", local = TRUE)
+  mcp_serve_stdio(ctx, input = textConnection(lines), output = output)
+  close(output)
+  lapply(out, jsonlite::fromJSON, simplifyVector = FALSE)
+}
+
+test_that("the server uses the folder the client has open (MCP roots)", {
+  scratch <- withr::local_tempdir()
+  data_dir <- agent_project_dir()
+  uri <- paste0("file://", if (.Platform$OS.type == "windows") "/" else "",
+                utils::URLencode(normalizePath(data_dir, winslash = "/")))
+  ctx <- mcp_context(scratch, mode = "analysis", follow_roots = TRUE)
+  res <- agent_roots_session(ctx, list(list(uri = uri, name = "data")))
+  # initialize reply, then the server's roots/list request, then the tool reply
+  expect_length(res, 3L)
+  expect_equal(res[[2]]$method, "roots/list")
+  expect_equal(res[[2]]$id, "mirtverse-roots-1")
+  expect_equal(ctx$root, normalizePath(data_dir, winslash = "/"))
+  txt <- res[[3]]$result$content[[1]]$text
+  expect_match(txt, "folder open in the client", fixed = TRUE)
+  expect_match(txt, "exam.csv", fixed = TRUE)
+
+  # no roots capability: no request, the folder stays
+  ctx <- mcp_context(scratch, mode = "analysis", follow_roots = TRUE)
+  res <- agent_roots_session(ctx, NULL, caps = structure(list(), names = character()))
+  expect_length(res, 2L)
+  expect_equal(ctx$root, normalizePath(scratch, winslash = "/"))
+
+  # a folder set by the argument or MIRTVERSE_PROJECT wins over roots
+  ctx <- mcp_context(scratch, mode = "analysis", follow_roots = FALSE)
+  res <- agent_roots_session(ctx, NULL)
+  expect_length(res, 2L)
+  expect_equal(ctx$root, normalizePath(scratch, winslash = "/"))
+
+  # roots that are not local folders are skipped; an error keeps the folder
+  ctx <- mcp_context(scratch, mode = "analysis", follow_roots = TRUE)
+  expect_false(mcp_set_roots(ctx, list(list(uri = "https://example.org/x"),
+                                       list(uri = "file:///no/such/folder"))))
+  ctx$client_roots <- TRUE
+  mcp_ask_roots(ctx)
+  expect_length(mcp_take_outbox(ctx), 1L)
+  expect_null(mcp_dispatch(list(jsonrpc = "2.0", id = "mirtverse-roots-1",
+                                error = list(code = -1, message = "no")), ctx))
+  expect_equal(ctx$root, normalizePath(scratch, winslash = "/"))
+
+  expect_equal(mcp_uri_path("file:///C:/Users/me/My%20Data"), "C:/Users/me/My Data")
+  expect_equal(mcp_uri_path("file://localhost/home/me"), "/home/me")
+  expect_null(mcp_uri_path("https://example.org"))
+})
+
 test_that("agent_project and mv_agent_init set up a folder", {
   withr::local_envvar(MIRTVERSE_PROJECT = "${CLAUDE_PROJECT_DIR}")
-  expect_equal(agent_project(), getwd())
+  expect_equal(as.vector(agent_project()), getwd())
+  expect_equal(attr(agent_project(), "source"), "cwd")
   withr::local_envvar(MIRTVERSE_PROJECT = "/some/where")
-  expect_equal(agent_project(), "/some/where")
-  expect_equal(agent_project("x"), "x")
+  expect_equal(as.vector(agent_project()), "/some/where")
+  expect_equal(attr(agent_project(), "source"), "env")
+  expect_equal(as.vector(agent_project("x")), "x")
+  expect_equal(attr(agent_project("x"), "source"), "argument")
 
   dir <- file.path(withr::local_tempdir(), "proj")
   expect_message(files <- mv_agent_init(dir, title = "Math test"), "CLAUDE.md")

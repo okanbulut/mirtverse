@@ -17,8 +17,11 @@ mv_agent_server(
 \arguments{
 \item{project}{path to the project folder that holds the data. By default
 the \code{MIRTVERSE_PROJECT} environment variable when it is set (the
-\code{.mcp.json} written by \code{\link[=mv_agent_init]{mv_agent_init()}} sets it), otherwise the working
-directory, which for the plugin is the folder Claude Code was opened in.}
+\code{.mcp.json} written by \code{\link[=mv_agent_init]{mv_agent_init()}} sets it). Otherwise the server
+asks the client which folder is open (the MCP "roots" of the session)
+and uses the first one, so a server added once with \verb{claude mcp add}
+works in whatever folder you open in Claude Code or the Claude desktop
+app. If the client names no folder, the working directory is used.}
 
 \item{transport}{\code{"stdio"} (the client starts the server) or \code{"http"}
 (a URL the client connects to).}

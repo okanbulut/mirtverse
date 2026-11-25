@@ -21,8 +21,11 @@
 #'
 #' @param project path to the project folder that holds the data. By default
 #'   the `MIRTVERSE_PROJECT` environment variable when it is set (the
-#'   `.mcp.json` written by [mv_agent_init()] sets it), otherwise the working
-#'   directory, which for the plugin is the folder Claude Code was opened in.
+#'   `.mcp.json` written by [mv_agent_init()] sets it). Otherwise the server
+#'   asks the client which folder is open (the MCP "roots" of the session)
+#'   and uses the first one, so a server added once with `claude mcp add`
+#'   works in whatever folder you open in Claude Code or the Claude desktop
+#'   app. If the client names no folder, the working directory is used.
 #' @param transport `"stdio"` (the client starts the server) or `"http"`
 #'   (a URL the client connects to).
 #' @param allow_run logical; allow the `run_r` tool, which runs R code the
@@ -46,20 +49,24 @@ mv_agent_server <- function(project = NULL, transport = c("stdio", "http"),
                             token = NULL, timeout = 600) {
   transport <- match.arg(transport)
   if (is.null(allow_run)) allow_run <- identical(transport, "stdio")
-  ctx <- mcp_context(agent_project(project), allow_run = allow_run, timeout = timeout,
-                     mode = "analysis")
+  root <- agent_project(project)
+  ctx <- mcp_context(root, allow_run = allow_run, timeout = timeout, mode = "analysis",
+                     follow_roots = identical(attr(root, "source"), "cwd"))
   if (identical(transport, "stdio")) mcp_serve_stdio(ctx) else
     mcp_serve_http(ctx, host = host, port = port, token = token)
   invisible(NULL)
 }
 
 # The project folder: the argument, then MIRTVERSE_PROJECT (unless the client
-# left the ${...} placeholder unexpanded), then the working directory.
+# left the ${...} placeholder unexpanded), then the working directory. The
+# "source" attribute says which; only a working directory may later be
+# replaced by the folder the client names in roots/list (see mcp_set_roots()).
 agent_project <- function(project = NULL) {
-  if (!is.null(project) && nzchar(project)) return(project)
+  src <- function(x, s) structure(x, source = s)
+  if (!is.null(project) && nzchar(project)) return(src(project, "argument"))
   env <- Sys.getenv("MIRTVERSE_PROJECT", "")
-  if (nzchar(env) && !grepl("${", env, fixed = TRUE)) return(env)
-  getwd()
+  if (nzchar(env) && !grepl("${", env, fixed = TRUE)) return(src(env, "env"))
+  src(getwd(), "cwd")
 }
 
 #' Set up a folder for the mirtverse agent in Claude Code

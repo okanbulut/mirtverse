@@ -155,14 +155,21 @@ mv_mcp_config <- function(course = ".", client = c("claude-desktop", "claude-cod
 
 mcp_protocol_versions <- c("2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05")
 
-mcp_context <- function(course, allow_run = TRUE, timeout = 600, mode = "course") {
-  course <- path.expand(course)
+mcp_context <- function(course, allow_run = TRUE, timeout = 600, mode = "course",
+                        follow_roots = FALSE) {
+  course <- path.expand(as.character(course))
   if (!dir.exists(course)) dir.create(course, recursive = TRUE)
   ctx <- new.env(parent = emptyenv())
   ctx$root <- normalizePath(course, winslash = "/", mustWork = TRUE)
   ctx$allow_run <- isTRUE(allow_run)
   ctx$timeout <- timeout
   ctx$mode <- mode
+  # follow_roots: switch to the folder the client names in roots/list
+  ctx$follow_roots <- isTRUE(follow_roots)
+  ctx$client_roots <- FALSE
+  ctx$outbox <- list()
+  ctx$request_seq <- 0L
+  ctx$pending <- list()
   if (identical(mode, "analysis")) agent_init_context(ctx)
   ctx
 }
@@ -189,6 +196,11 @@ mcp_dispatch <- function(msg, ctx) {
   method <- msg$method %||% ""
   params <- msg$params %||% list()
   is_notification <- is.null(id)
+  # a response to a request the server sent (roots/list)
+  if (!nzchar(method) && !is_notification && (!is.null(msg$result) || !is.null(msg$error))) {
+    mcp_handle_response(msg, ctx)
+    return(NULL)
+  }
   if (!is.character(method) || !nzchar(method)) {
     if (is_notification) return(NULL)
     return(mcp_error(id, -32600, "Invalid request"))
@@ -204,6 +216,8 @@ mcp_dispatch <- function(msg, ctx) {
     "resources/templates/list" = list(resourceTemplates = list()),
     "resources/read" = mcp_read_resource(params, ctx),
     "logging/setLevel" = structure(list(), names = character()),
+    "notifications/initialized" = mcp_ask_roots(ctx),
+    "notifications/roots/list_changed" = mcp_ask_roots(ctx),
     if (startsWith(method, "notifications/")) NULL else
       structure(list(code = -32601, message = paste("Method not found:", method)),
                 class = "mcp_rpc_error")),
@@ -222,6 +236,7 @@ mcp_error <- function(id, code, message) {
 }
 
 mcp_initialize <- function(params, ctx = NULL) {
+  if (is.environment(ctx)) ctx$client_roots <- !is.null(params$capabilities$roots)
   asked <- params$protocolVersion %||% mcp_protocol_versions[1]
   version <- if (asked %in% mcp_protocol_versions) asked else mcp_protocol_versions[1]
   list(protocolVersion = version,
@@ -234,6 +249,72 @@ mcp_initialize <- function(params, ctx = NULL) {
                            "mirtverse analysis agent" else "mirtverse instructor assistant",
                          version = as.character(utils::packageVersion("mirtverse"))),
        instructions = mcp_server_instructions(ctx))
+}
+
+# ---------------------------------------------------------------------------
+# Roots: Ask the client which folder is open
+
+# Queue a roots/list request when the server follows the client's folder and
+# the client says it can answer. The stdio transport sends queued requests;
+# the JSON-only HTTP transport cannot, so there the server keeps its folder.
+mcp_ask_roots <- function(ctx) {
+  if (!is.environment(ctx) || !isTRUE(ctx$follow_roots) || !isTRUE(ctx$client_roots))
+    return(NULL)
+  ctx$request_seq <- ctx$request_seq + 1L
+  id <- paste0("mirtverse-roots-", ctx$request_seq)
+  ctx$pending[[id]] <- "roots/list"
+  ctx$outbox <- c(ctx$outbox, list(list(jsonrpc = "2.0", id = id, method = "roots/list")))
+  NULL
+}
+
+mcp_handle_response <- function(msg, ctx) {
+  if (!is.environment(ctx)) return(invisible(NULL))
+  id <- as.character(msg$id)
+  what <- ctx$pending[[id]]
+  if (is.null(what)) return(invisible(NULL))
+  ctx$pending[[id]] <- NULL
+  if (!is.null(msg$error)) {
+    mcp_log("the client did not list its folders (", msg$error$message %||% "error",
+            "); staying in ", ctx$root)
+    return(invisible(NULL))
+  }
+  if (identical(what, "roots/list")) mcp_set_roots(ctx, msg$result$roots)
+  invisible(NULL)
+}
+
+# Turn a file:// URI into a local path (NULL for other schemes).
+mcp_uri_path <- function(uri) {
+  if (!is.character(uri) || length(uri) != 1L || !grepl("^file://", uri, ignore.case = TRUE))
+    return(NULL)
+  p <- utils::URLdecode(sub("^file://(localhost)?", "", uri, ignore.case = TRUE))
+  if (grepl("^/[A-Za-z]:", p)) p <- substring(p, 2L)  # file:///C:/Users/...
+  p
+}
+
+# Use the first root that is an existing folder as the project folder.
+mcp_set_roots <- function(ctx, roots) {
+  paths <- unlist(lapply(roots, function(r) mcp_uri_path(r$uri)))
+  paths <- paths[dir.exists(paths)]
+  if (!length(paths)) {
+    mcp_log("the client named no local folder; staying in ", ctx$root)
+    return(invisible(FALSE))
+  }
+  root <- normalizePath(paths[1], winslash = "/", mustWork = TRUE)
+  if (!identical(root, ctx$root)) {
+    ctx$root <- root
+    # models and the script belong to the old folder
+    if (identical(ctx$mode, "analysis")) agent_init_context(ctx)
+    mcp_log("using the folder open in the client: ", root)
+  }
+  ctx$root_source <- "roots"
+  invisible(TRUE)
+}
+
+mcp_take_outbox <- function(ctx) {
+  if (!is.environment(ctx) || !length(ctx$outbox)) return(list())
+  out <- ctx$outbox
+  ctx$outbox <- list()
+  out
 }
 
 mcp_handle_text <- function(line, ctx) {
@@ -273,8 +354,8 @@ mcp_serve_stdio <- function(ctx, input = NULL, output = stdout()) {
     # protocol stream, so it goes to stderr
     printed <- utils::capture.output(resp <- mcp_handle_text(line, ctx), type = "output")
     if (length(printed)) mcp_log(paste(printed, collapse = "\n"))
-    if (!is.null(resp)) {
-      cat(enc2utf8(mcp_to_json(resp)), "\n", sep = "", file = output)
+    for (msg in c(if (!is.null(resp)) list(resp), mcp_take_outbox(ctx))) {
+      cat(enc2utf8(mcp_to_json(msg)), "\n", sep = "", file = output)
       flush(output)
     }
   }
@@ -311,6 +392,7 @@ mcp_http_call <- function(req, ctx, path) {
   body <- rawToChar(req$rook.input$read())
   Encoding(body) <- "UTF-8"
   resp <- utils::capture.output(out <- mcp_handle_text(body, ctx), type = "output")
+  mcp_take_outbox(ctx)  # server-to-client requests need streaming, so none are sent
   if (length(resp)) mcp_log(paste(resp, collapse = "\n"))
   if (is.null(out)) return(reply(202L))
   reply(200L, enc2utf8(mcp_to_json(out)))

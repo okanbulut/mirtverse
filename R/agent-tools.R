@@ -237,7 +237,8 @@ tool_project_overview <- function(args, ctx) {
   })) else NULL
   out_tab <- if (any(is_out)) data.frame(file = rel[is_out], size = size(files[is_out])) else NULL
   paste0(
-    "Project folder: ", ctx$root, "\n\n",
+    "Project folder: ", ctx$root,
+    if (identical(ctx$root_source, "roots")) " (the folder open in the client)" else "", "\n\n",
     "Data files:\n", if (is.null(data_tab)) "(none; datasets from mirtverse or mirt such as SAT12 or LSAT7 can be used by name)\n" else md_table(data_tab), "\n",
     "Models:\n", if (is.null(model_tab)) "(none yet)\n" else md_table(model_tab), "\n",
     "Output files (", agent_output_dir, "):\n", if (is.null(out_tab)) "(none yet)\n" else md_table(out_tab),
