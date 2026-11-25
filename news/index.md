@@ -2,6 +2,18 @@
 
 ## mirtverse (development version)
 
+- [`mv_agent_server()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_server.md)
+  now works in the folder you open in Claude: It asks the client which
+  folder is open (the MCP “roots” of the session) and uses the first one
+  as the project folder. A server added once with
+  `claude mcp add --scope user` used to stay in the folder it was
+  started in, which in the Claude desktop app is a scratch folder, so it
+  refused the data files in your folder. The `project` argument and
+  `MIRTVERSE_PROJECT` still come first, and the working directory is
+  still used when the client names no folder. When a file is outside the
+  project folder, the error now says what to do: Open the folder that
+  holds the data, or pin a folder with
+  [`mv_agent_init()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_init.md).
 - Book: Long R code and output now wrap inside the page in the PDF
   edition, and display equations scroll sideways on narrow screens
   instead of running off the page. The knowledge tracing update rule

@@ -31,8 +31,11 @@ mv_agent_server(
   `MIRTVERSE_PROJECT` environment variable when it is set (the
   `.mcp.json` written by
   [`mv_agent_init()`](https://www.okanbulut.com/mirtverse/reference/mv_agent_init.md)
-  sets it), otherwise the working directory, which for the plugin is the
-  folder Claude Code was opened in.
+  sets it). Otherwise the server asks the client which folder is open
+  (the MCP "roots" of the session) and uses the first one, so a server
+  added once with `claude mcp add` works in whatever folder you open in
+  Claude Code or the Claude desktop app. If the client names no folder,
+  the working directory is used.
 
 - transport:
 

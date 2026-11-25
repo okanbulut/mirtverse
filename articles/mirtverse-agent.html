@@ -240,7 +240,12 @@ Windows, run
 in R; it prints the same command with the full path to Rscript. You can
 also just ask Claude to “set up mirtverse”: the <code>setup</code> skill
 walks through it.) Restart Claude Code, and the mirtverse tools are
-ready in every folder you open.</p>
+ready in every folder you open. The server asks Claude which folder is
+open and works on the files there, in the terminal and in the Claude
+desktop app alike. If Claude reports that the server can only use files
+inside its project folder, open the folder that holds your data and
+start a new session, or pin the folder with <code><a href="../reference/mv_agent_init.html">mv_agent_init()</a></code>
+(below).</p>
 </div>
 <div class="section level2">
 <h2 id="use-it">Use it<a class="anchor" aria-label="anchor" href="#use-it"></a>
@@ -378,7 +383,9 @@ to go on Windows when <code>Rscript</code> is not on the PATH.</p>
 <p>Open <code>CLAUDE.md</code> and fill in the “About this project”
 section (what the test measures, who took it, what the results are for);
 Claude reads it at the start of every session. Then start Claude Code in
-the folder and approve the <code>mirtverse</code> server.</p>
+the folder and approve the <code>mirtverse</code> server. The folder in
+<code>.mcp.json</code> always wins over the folder that is open in
+Claude, so use this when you want one server per project.</p>
 <p><strong>Claude Desktop and other assistants.</strong> The same server
 works with any MCP client. <code><a href="../reference/mv_mcp_config.html">mv_mcp_config()</a></code> prints the
 settings:</p>
